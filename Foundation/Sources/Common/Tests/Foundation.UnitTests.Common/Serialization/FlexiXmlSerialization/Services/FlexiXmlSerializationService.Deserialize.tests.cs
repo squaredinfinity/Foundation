@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Serialization.FlexiXmlSerialization.Services.FlexiXmlSerializationServiceTests
+namespace SquaredInfinity.Foundation.Serialization.FlexiXmlSerialization.Services
 {
     [TestClass]
-    public class DeserializeTests
+    public class FlixiXmlSerializationService__DeserializeTests
     {
         [TestMethod]
         public void AutomaticallyDeserializesPropertiesOfSimpleTypes()

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Serialization.FlexiXmlSerialization.Services.FlexiXmlSerializationServiceTests.TestEntities
+namespace SquaredInfinity.Foundation.Serialization.FlexiXmlSerialization.Services.TestEntities
 {
     public class Entity
     {
