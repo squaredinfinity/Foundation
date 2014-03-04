@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SquaredInfinity.Foundation</RootNamespace>
     <AssemblyName>SquaredInfinity.Foundation.Common</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,12 +47,21 @@
     <Compile Include="FrameworkExtensions\System\String.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\Type.extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serialization\FlexiXmlSerialization\Entities\PropertySerializationStrategy.cs" />
+    <Compile Include="Serialization\FlexiXmlSerialization\Delegates.cs" />
+    <Compile Include="Serialization\FlexiXmlSerialization\Entities\MemberDiscovertyMode.cs" />
+    <Compile Include="Serialization\FlexiXmlSerialization\Entities\MemberMappingRule.cs" />
+    <Compile Include="Serialization\FlexiXmlSerialization\Entities\ParticipationMode.cs" />
+    <Compile Include="Serialization\FlexiXmlSerialization\Entities\SerializationContext.cs" />
     <Compile Include="Serialization\FlexiXmlSerialization\Entities\SerializationStrategy.cs" />
-    <Compile Include="Serialization\FlexiXmlSerialization\Entities\TypeSerializationStrategy.cs" />
+    <Compile Include="Serialization\FlexiXmlSerialization\Entities\TypeMappingRule.cs" />
     <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService_.ConvertStringToPropertyValueEventArgs.cs" />
     <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService.cs" />
     <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService_.ResolveElementReferenceEventArgs.cs" />
+    <Compile Include="TypeMapping\ITypeMapper.cs" />
+    <Compile Include="TypeMapping\TypeMapper.cs" />
+    <Compile Include="TypeReflecting\ITypeReflector.cs" />
+    <Compile Include="TypeReflecting\delegates.cs" />
+    <Compile Include="TypeReflecting\ReflectionTypeReflector.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXmlSerialization.Entities
 {
-    public class MemberSerializationStrategy
+    public class SerializationContext
     {
+        public object Root { get; internal set; }
     }
 }
