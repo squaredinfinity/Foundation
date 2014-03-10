@@ -59,9 +59,10 @@
     <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService_.ResolveElementReferenceEventArgs.cs" />
     <Compile Include="TypeMapping\ITypeMapper.cs" />
     <Compile Include="TypeMapping\TypeMapper.cs" />
-    <Compile Include="TypeReflecting\ITypeReflector.cs" />
-    <Compile Include="TypeReflecting\delegates.cs" />
-    <Compile Include="TypeReflecting\ReflectionTypeReflector.cs" />
+    <Compile Include="TypeInformation\ITypeInformationProvider.cs" />
+    <Compile Include="TypeInformation\delegates.cs" />
+    <Compile Include="TypeInformation\TypeMemberInformation.cs" />
+    <Compile Include="TypeInformation\Reflection\ReflectionTypeInformationProvider.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
