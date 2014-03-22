@@ -37,9 +37,15 @@ namespace SquaredInfinity.Foundation.TypeMapping
             // what is the mapping strategy?
             // default -> map properties with same names and types
 
-            //var commonProperties =
-            //    (from fp in fromReflector
-            //         where toReflector.)
+            var fromProperties = fromReflector.GetProperties();
+            var toProperties = toReflector.GetProperties();
+
+            var commonProperties =
+                (from fp in fromProperties
+                 where toProperties.Contains(fp)
+                 select fp);
+
+
         }
 
 
