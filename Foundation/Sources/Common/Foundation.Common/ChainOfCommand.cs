@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,17 +51,6 @@ namespace SquaredInfinity.Foundation
     }
 }
 
-
-
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-
-namespace ConsoleApplication1
-{
     class Program
     {
         static void Main(string[] args)
@@ -264,6 +254,69 @@ namespace ConsoleApplication1
         string TypeName { get; set; }
     }
 
+    public class TypeMemberDescription : ITypeDescription
+    {
+        string _assemblyQualifiedName;
+        public string AssemblyQualifiedName
+        {
+	        get { return _assemblyQualifiedName; }
+            set { _assemblyQualifiedName = value; }
+        }
+
+        string _fullName;
+        public string FullName
+        {
+	        get { return _fullName; }
+            set { _fullName = value; }
+        }
+
+        string _name;
+        public string Name
+        {
+	        get { return _name; }
+            set { _name = value; }
+        }
+
+        string _namespace;
+        public string Namespace
+        {
+	        get { return _namespace; }
+            set { _namespace = value; }
+        }
+
+        readonly List<ITypeMemberDescription> _members = new List<ITypeMemberDescription>();
+
+        public IList<ITypeMemberDescription> Members
+        {
+	        get { return _members; }
+        }
+    }
+
+    public class ReflectionBasedTypeMemberDescription : TypeMemberDescription
+    {
+
+    }
+
+    public interface ITypeMembersDiscoverer
+    {
+        IList<ITypeMemberDescription> DiscoverMembers(Type type);
+    }
+
+    public class ReflectionBasedTypeMembersDiscoverer : ITypeMembersDiscoverer
+    {
+        public IList<ITypeMemberDescription> DiscoverMembers(Type type)
+        {
+     	    var ps = type.GetProperties();
+
+            for(int i = 0; i < ps.Length; i++)
+            {
+                
+            }
+
+            return null;
+        }
+    }
+
     // default conventions:
     //  flatten hierarchy
     //  match property names exactly
@@ -290,6 +343,9 @@ namespace ConsoleApplication1
         //}
     }
 
+    /// <summary>
+    /// Provides an interface for accessing (get, set) members of a type.
+    /// </summary>
     public interface IMemberAccessor
     {
         string SanitizedName { get; }
@@ -300,6 +356,9 @@ namespace ConsoleApplication1
         object TryGetValue();
     }
 
+    /// <summary>
+    /// e.g. GetXXX(), SetXXX()
+    /// </summary>
     public class MethodDrivenAccessor : IMemberAccessor
     {
         public string SanitizedName { get; set; }
@@ -317,6 +376,9 @@ namespace ConsoleApplication1
         }
     }
 
+    /// <summary>
+    /// e.g. XXX { get; set; }
+    /// </summary>
     public class PropertyAccessor : IMemberAccessor
     {
         public string SanitizedName { get; set; }
@@ -333,17 +395,7 @@ namespace ConsoleApplication1
             throw new NotImplementedException();
         }
     }
-
-    public class ReflectionMethodDrivenAccessor : MethodDrivenAccessor
-    {
-        // todo, implement using reflection
-    }
-
-    public class ReflectionPropertyAccessor : PropertyAccessor
-    {
-        // todo, implement using reflection
-    }
-
+    
     /// <summary>
     /// Defines details of how one type should be mapped to another type.
     /// </summary>
@@ -388,4 +440,3 @@ namespace ConsoleApplication1
         public HandlesReferencesOfClonedObjects GrandParent { get; set; }
     }
 }
-
