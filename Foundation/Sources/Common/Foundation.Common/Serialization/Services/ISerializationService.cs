@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.TypeMapping
+namespace SquaredInfinity.Foundation.Serialization.Services
 {
-    public interface ITypeMapper
+    public interface ISerializationService
     {
-        void Map<TFrom, TTo>(TFrom from, TTo to);
     }
 }

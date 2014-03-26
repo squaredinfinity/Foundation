@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,14 +52,6 @@ namespace SquaredInfinity.Foundation
     }
 }
 
-
-
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 
 namespace ConsoleApplication1
 {
@@ -236,23 +230,23 @@ namespace ConsoleApplication1
         /// <summary>
         /// 
         /// </summary>
-        public string AssemblyQualifiedName { get; }
+        string AssemblyQualifiedName { get; }
 
         /// <summary>
         /// Namespace + Type Name
         /// </summary>
-        public string FullName { get; }
+        string FullName { get; }
 
         /// <summary>
         /// Type Name (without namespace)
         /// </summary>
-        public string Name { get; }
+        string Name { get; }
 
         /// <summary>
         /// Namespace (without type name)
         /// </summary>
-        public string Namespace { get; }
-        public IList<ITypeMemberDescription> Members { get; }
+        string Namespace { get; }
+        IList<ITypeMemberDescription> Members { get; }
     }
 
     public interface ITypeMemberDescription
@@ -288,6 +282,10 @@ namespace ConsoleApplication1
         //{
             
         //}
+        public IMemberAccessor MapMember(string sanitizedMemberName)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public interface IMemberAccessor

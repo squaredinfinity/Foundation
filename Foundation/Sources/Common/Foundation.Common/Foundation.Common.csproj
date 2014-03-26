@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChainOfCommand.cs" />
+    <Compile Include="CommandHandlerEventArgs.cs" />
+    <Compile Include="CommandHandlerEventArgs_T.cs" />
     <Compile Include="FrameworkExtensions\System.Xml.Linq\XElement.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Xml.Linq\XObject.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\Object.extensions.cs" />
@@ -57,20 +59,9 @@
     <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService_.ConvertStringToPropertyValueEventArgs.cs" />
     <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService.cs" />
     <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService_.ResolveElementReferenceEventArgs.cs" />
-    <Compile Include="TypeMapping\ITypeMapper.cs" />
-    <Compile Include="TypeMapping\TypeMapper.cs" />
-    <Compile Include="TypeInformation\ITypeInformationProvider.cs" />
-    <Compile Include="TypeInformation\delegates.cs" />
-    <Compile Include="TypeInformation\TypeMemberInformation.cs" />
-    <Compile Include="TypeInformation\Reflection\ReflectionTypeInformationProvider.cs" />
+    <Compile Include="Serialization\Services\ISerializationService.cs" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\Foundation.Infrastructure.Common\Foundation.Infrastructure.Common.csproj">
-      <Project>{2244065F-4A71-4E7C-899E-5CB6507411D0}</Project>
-      <Name>Foundation.Infrastructure.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

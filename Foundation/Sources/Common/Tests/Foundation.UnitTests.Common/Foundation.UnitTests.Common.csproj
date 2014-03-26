@@ -76,10 +76,6 @@
       <Project>{DFEAB4E6-D02D-448B-8649-2D12BE137191}</Project>
       <Name>Foundation.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Foundation.Infrastructure.Common\Foundation.Infrastructure.Common.csproj">
-      <Project>{2244065F-4A71-4E7C-899E-5CB6507411D0}</Project>
-      <Name>Foundation.Infrastructure.Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
