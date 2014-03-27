@@ -67,6 +67,15 @@
     <Compile Include="Types\Description\Reflection\ReflectionBasedTypeDescriptor.cs" />
     <Compile Include="Types\Description\TypeDescription.cs" />
     <Compile Include="Types\Description\TypeMemberDescription.cs" />
+    <Compile Include="Types\Mapping\ITypeMapper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Types\Mapping\MappingContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Types\Mapping\TypeMapper.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
