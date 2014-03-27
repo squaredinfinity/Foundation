@@ -60,6 +60,13 @@
     <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService.cs" />
     <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService_.ResolveElementReferenceEventArgs.cs" />
     <Compile Include="Serialization\Services\ISerializationService.cs" />
+    <Compile Include="Types\Description\IMemberAccessor.cs" />
+    <Compile Include="Types\Description\ITypeDescription.cs" />
+    <Compile Include="Types\Description\ITypeDescriptor.cs" />
+    <Compile Include="Types\Description\ITypeMemberDescription.cs" />
+    <Compile Include="Types\Description\Reflection\ReflectionBasedTypeDescriptor.cs" />
+    <Compile Include="Types\Description\TypeDescription.cs" />
+    <Compile Include="Types\Description\TypeMemberDescription.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

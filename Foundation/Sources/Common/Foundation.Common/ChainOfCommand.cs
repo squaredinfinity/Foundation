@@ -1,5 +1,7 @@
-﻿using System;
+﻿using SquaredInfinity.Foundation.Types.Description;
+using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -90,6 +92,7 @@ namespace SquaredInfinity.Foundation
 
     public class TypeMapper
     {
+
         public T DeepClone<T>(T source)
             where T : class, new()
         {
@@ -167,6 +170,20 @@ namespace SquaredInfinity.Foundation
                 Map(source as IList, target as IList, cx);
             }
 
+            ITypeDescriptor td = new SquaredInfinity.Foundation.Types.Description.Reflection.ReflectionBasedTypeDescriptor();
+
+            var sourceDescription = td.DescribeType(sourceType);
+
+            for(var i = 0; i < sourceDescription.Members.Count; i++)
+            {
+                var member = sourceDescription.Members[i];
+
+                //if (!member.Accessor.CanGetValue || !member.Accessor.CanSetValue)
+                //    continue;
+
+                // get value etc
+            }
+
             var properties =
                 (from p in sourceType.GetProperties()
                  where p.GetSetMethod() != null
@@ -220,103 +237,19 @@ namespace SquaredInfinity.Foundation
                 target.Add(targetItem);
             }
         }
-    }
 
-    public interface ITypeDescription
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        string AssemblyQualifiedName { get; }
-
-        /// <summary>
-        /// Namespace + Type Name
-        /// </summary>
-        string FullName { get; }
-
-        /// <summary>
-        /// Type Name (without namespace)
-        /// </summary>
-        string Name { get; }
-
-        /// <summary>
-        /// Namespace (without type name)
-        /// </summary>
-        string Namespace { get; }
-        IList<ITypeMemberDescription> Members { get; }
-    }
-
-    public interface ITypeMemberDescription
-    {
-        string SanitizedName { get; }
-
-        string AssemblyQualifiedTypeName { get; set; }
-        string FullTypeName { get; set; }
-        string TypeName { get; set; }
-    }
-
-    public class TypeMemberDescription : ITypeDescription
-    {
-        string _assemblyQualifiedName;
-        public string AssemblyQualifiedName
+        ITypeDescription DescribeType(string assemblyQualifiedTypeName)
         {
-	        get { return _assemblyQualifiedName; }
-            set { _assemblyQualifiedName = value; }
-        }
+            // todo
+            ITypeDescriptor descriptor = new ReflectionBasedTypeDescriptor();
 
-        string _fullName;
-        public string FullName
-        {
-	        get { return _fullName; }
-            set { _fullName = value; }
-        }
-
-        string _name;
-        public string Name
-        {
-	        get { return _name; }
-            set { _name = value; }
-        }
-
-        string _namespace;
-        public string Namespace
-        {
-	        get { return _namespace; }
-            set { _namespace = value; }
-        }
-
-        readonly List<ITypeMemberDescription> _members = new List<ITypeMemberDescription>();
-
-        public IList<ITypeMemberDescription> Members
-        {
-	        get { return _members; }
-        }
-    }
-
-    public class ReflectionBasedTypeMemberDescription : TypeMemberDescription
-    {
-
-    }
-
-    public interface ITypeMembersDiscoverer
-    {
-        IList<ITypeMemberDescription> DiscoverMembers(Type type);
-    }
-
-    public class ReflectionBasedTypeMembersDiscoverer : ITypeMembersDiscoverer
-    {
-        public IList<ITypeMemberDescription> DiscoverMembers(Type type)
-        {
-     	    var ps = type.GetProperties();
-
-            for(int i = 0; i < ps.Length; i++)
-            {
-                
-            }
 
             return null;
         }
     }
+
+
+ 
 
     // default conventions:
     //  flatten hierarchy
@@ -346,19 +279,6 @@ namespace SquaredInfinity.Foundation
         {
             throw new NotImplementedException();
         }
-    }
-
-    /// <summary>
-    /// Provides an interface for accessing (get, set) members of a type.
-    /// </summary>
-    public interface IMemberAccessor
-    {
-        string SanitizedName { get; }
-        bool CanGetValue { get; }
-        bool CanSetValue { get; }
-
-        void TrySetValue(object newValue);
-        object TryGetValue();
     }
 
     /// <summary>
@@ -424,24 +344,23 @@ namespace SquaredInfinity.Foundation
 
 
 
-    class MappingContext
-    {
-        public readonly Dictionary<object, object> Objects_MappedFromTo = new Dictionary<object, object>();
-    }
+    //class MappingContext
+    //{
+    //    public readonly Dictionary<object, object> Objects_MappedFromTo = new Dictionary<object, object>();
+    //}
 
-    [DebuggerDisplay("{DebuggerDisplay}")]
-    public class HandlesReferencesOfClonedObjects
-    {
-        public string DebuggerDisplay
-        {
-            get
-            {
-                return string.Format("{0}, {1}", Id, GetHashCode());
-            }
-        }
+    //[DebuggerDisplay("{DebuggerDisplay}")]
+    //public class HandlesReferencesOfClonedObjects
+    //{
+    //    public string DebuggerDisplay
+    //    {
+    //        get
+    //        {
+    //            return string.Format("{0}, {1}", Id, GetHashCode());
+    //        }
+    //    }
 
-        public int Id { get; set; }
-        public HandlesReferencesOfClonedObjects Child { get; set; }
-        public HandlesReferencesOfClonedObjects GrandParent { get; set; }
-    }
-}
+    //    public int Id { get; set; }
+    //    public HandlesReferencesOfClonedObjects Child { get; set; }
+    //    public HandlesReferencesOfClonedObjects GrandParent { get; set; }
+    //}

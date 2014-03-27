@@ -70,7 +70,9 @@
     <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService.Serialize.tests.cs" />
     <Compile Include="Serialization\FlexiXmlSerialization\Services\TestEntities\Entity.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Types\Mapping\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Foundation.Common\Foundation.Common.csproj">
       <Project>{DFEAB4E6-D02D-448B-8649-2D12BE137191}</Project>
