@@ -56,18 +56,34 @@
     <Compile Include="FrameworkExtensions\System.Xml.Linq\XElement\GetAttributeValue.tests.cs" />
     <Compile Include="FrameworkExtensions\System.Xml.Linq\XObject\GetNameAndLocationForDebugging.tests.cs" />
     <Compile Include="FrameworkExtensions\System\Object\IsIn.tests.cs" />
-    <Compile Include="FrameworkExtensions\System\String\ExpandTabs.tests.cs" />
-    <Compile Include="FrameworkExtensions\System\String\FormatWith.tests.cs" />
-    <Compile Include="FrameworkExtensions\System\String\GetLengthWithExpandedTabs.tests.cs" />
-    <Compile Include="FrameworkExtensions\System\String\GetLines.tests.cs" />
-    <Compile Include="FrameworkExtensions\System\String\IsMultiline.tests.cs" />
-    <Compile Include="FrameworkExtensions\System\String\IsNullOrEmpty.tests.cs" />
-    <Compile Include="FrameworkExtensions\System\String\PrefixEachLine.tests.cs" />
+    <Compile Include="FrameworkExtensions\System\String\ExpandTabs.tests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FrameworkExtensions\System\String\FormatWith.tests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FrameworkExtensions\System\String\GetLengthWithExpandedTabs.tests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FrameworkExtensions\System\String\GetLines.tests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FrameworkExtensions\System\String\IsMultiline.tests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FrameworkExtensions\System\String\IsNullOrEmpty.tests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FrameworkExtensions\System\String\PrefixEachLine.tests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="FrameworkExtensions\System\Type\ImplementsInterface.tests.cs" />
     <Compile Include="FrameworkExtensions\System\Type\IsEqualTo.tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService.Deserialize.tests.cs" />
-    <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService.Serialize.tests.cs" />
+    <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService.Serialize.tests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Serialization\FlexiXmlSerialization\Services\TestEntities\Entity.cs" />
   </ItemGroup>
   <ItemGroup>
