@@ -9,13 +9,34 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 {
     public class TypeMapper : ITypeMapper
     {
-        public T DeepClone<T>(T source)
-            where T : class, new()
+        public MappingStrategy MappingStrategy { get; private set; }
+
+        public TypeMapper()
+            : this(DefaultMappingStrategy)
+        {}
+
+        public TypeMapper(MappingStrategy mappingStrategy)
+        {
+            this.MappingStrategy = mappingStrategy;
+        }
+
+        static MappingStrategy DefaultMappingStrategy { get; set; }
+        
+        static TypeMapper()
+        {
+            DefaultMappingStrategy = new MappingStrategy
+            {
+                CopyListElements = true
+            };
+        }
+
+        public TTarget DeepClone<TTarget>(TTarget source)
+            where TTarget : class, new()
         {
             if (source == null)
                 return null;
 
-            return (T)DeepCloneInternal(source, typeof(T), new MappingContext());
+            return (TTarget)DeepCloneInternal(source, typeof(TTarget), new MappingContext());
         }
 
         public object DeepClone(object source)
@@ -28,7 +49,15 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             return DeepCloneInternal(source, sourceType, new MappingContext());
         }
 
-        object DeepCloneInternal(object source, Type sourceType, MappingContext cx)
+        public object DeepClone(object source, Type sourceType)
+        {
+            if (source == null)
+                return null;
+
+            return DeepCloneInternal(source, sourceType, new MappingContext());
+        }
+
+        object DeepCloneInternal(object source, Type targetType, MappingContext cx)
         {
             if (IsBuiltInSimpleValueType(source))
                 return source;
@@ -41,18 +70,18 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 (_) => 
                     {
                         isCloneNew = true;
-                        return CreateClonePrototype(source, sourceType, cx);
+                        return CreateClonePrototype(targetType);
                     });
 
             if(isCloneNew)
-                Map(source, clone, sourceType, sourceType, cx);
+                DeepCloneInternal(source, clone, targetType, targetType, cx);
 
             return clone;
         }
 
-        object CreateClonePrototype(object source, Type sourceType, MappingContext cx)
+        object CreateClonePrototype(Type type)
         {
-            var clone = Activator.CreateInstance(sourceType);
+            var clone = Activator.CreateInstance(type);
             
             return clone;
         }
@@ -74,37 +103,48 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 || obj is Enum;
         }
 
-        //public void Map<TSource, TTarget>(TSource source, TTarget target)// + strategy (e.g. map same properties only)
-        //{
-        //    Map(source, target, typeof(TSource), typeof(TTarget));
-        //}
-
-        //void Map(object source, object target, Type sourceType, Type targetType)
-        //{
-        //    var cx = new MappingContext();
-
-        //    cx.Objects_MappedFromTo.Add(source, target);
-
-        //    Map(source, target, sourceType, targetType, cx);
-        //}
-
-        void Map(object source, object target, Type sourceType, Type targetType, MappingContext cx)
+        public void Map<TTarget>(object source, TTarget target) where TTarget : class, new()
         {
-            if (source is IList && target is IList)
+            if (source == null)
+                throw new ArgumentNullException("source");
+
+            DeepCloneInternal(source, target, source.GetType(), typeof(TTarget), new MappingContext());
+        }
+
+        public void Map(object source, object target, Type targetType)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+
+            DeepCloneInternal(source, target, source.GetType(), targetType, new MappingContext());
+        }
+
+        void DeepCloneInternal(object source, object target, Type sourceType, Type targetType, MappingContext cx)
+        {
+            // todo: anything needed here for IReadOnlyList support in 4.5?
+            if (MappingStrategy.CopyListElements && source is IList && target is IList)
             {
-                Map(source as IList, target as IList, cx);
+                DeepCloneListElements(source as IList, target as IList, cx);
             }
 
-            //ITypeDescriptor td = new SquaredInfinity.Foundation.Types.Description.Reflection.ReflectionBasedTypeDescriptor();
+            var mappings = MappingStrategy.GetMemberMappings(sourceType, targetType);
 
-            //var sourceDescription = td.DescribeType(sourceType);
+            for(int i = 0; i < mappings.Count; i++)
+            {
+                var m = mappings[i];
+            }
 
-            //for (var i = 0; i < sourceDescription.Members.Count; i++)
+            //var publicMembers =
+            //    (from m in sourceDescription.Members
+            //     where m.Visibility == MemberVisibility.Public
+            //     select m).ToArray();
+
+            //for (var i = 0; i < publicMembers.Length; i++)
             //{
-            //    var member = sourceDescription.Members[i];
+            //    var member = publicMembers[i];
 
-            //    //if (!member.Accessor.CanGetValue || !member.Accessor.CanSetValue)
-            //    //    continue;
+            //    if (!member.CanGetValue || !member.CanSetValue)
+            //        continue;
 
             //    // get value etc
             //}
@@ -141,7 +181,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             }
         }
 
-        void Map(IList source, IList target, MappingContext cx)
+        void DeepCloneListElements(IList source, IList target, MappingContext cx)
         {
             for (int i = 0; i < source.Count; i++)
             {
@@ -153,13 +193,23 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             }
         }
 
-        //ITypeDescription DescribeType(string assemblyQualifiedTypeName)
-        //{
-        //    // todo
-        //    ITypeDescriptor descriptor = new ReflectionBasedTypeDescriptor();
 
+        public TTarget Map<TTarget>(object source) where TTarget : class, new()
+        {
+            var target = (TTarget) CreateClonePrototype(typeof(TTarget));
 
-        //    return null;
-        //}
+            Map(source, target);
+
+            return target;
+        }
+
+        public object Map(object source, Type targetType)
+        {
+            var target = CreateClonePrototype(targetType);
+
+            Map(source, target, targetType);
+
+            return target;
+        }
     }
 }

@@ -64,6 +64,9 @@
     <Compile Include="Types\Description\ITypeDescription.cs" />
     <Compile Include="Types\Description\ITypeDescriptor.cs" />
     <Compile Include="Types\Description\ITypeMemberDescription.cs" />
+    <Compile Include="Types\Description\MemberVisibility.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Types\Description\Reflection\ReflectionBasedTypeDescriptor.cs" />
     <Compile Include="Types\Description\TypeDescription.cs" />
     <Compile Include="Types\Description\TypeMemberDescription.cs" />
@@ -73,9 +76,18 @@
     <Compile Include="Types\Mapping\MappingContext.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Types\Mapping\MappingStrategy.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Types\Mapping\TypeMapper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Types\Mapping\_MemberMapping\ExactNameMatchMemberMappingStrategy.cs" />
+    <Compile Include="Types\Mapping\_MemberMapping\IMemberMapping.cs" />
+    <Compile Include="Types\Mapping\_MemberMapping\IMemberMappingStrategy.cs" />
+    <Compile Include="Types\Mapping\_MemberMapping\MemberMapping.cs" />
+    <Compile Include="Types\Mapping\_MemberMapping\MemberMappingCollection.cs" />
+    <Compile Include="Types\Mapping\_MemberMapping\PrefixedNameMatchMemberMappingStrategy.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

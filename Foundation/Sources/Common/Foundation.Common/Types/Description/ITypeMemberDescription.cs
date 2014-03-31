@@ -12,9 +12,14 @@ namespace SquaredInfinity.Foundation.Types.Description
         /// </summary>
         string RawName { get; }
         string SanitizedName { get; }
-
         string AssemblyQualifiedMemberTypeName { get; }
         string FullMemberTypeName { get; }
         string MemberTypeName { get; }
+        MemberVisibility Visibility { get; }
+
+        ITypeDescription DeclaringType { get; }
+
+        bool CanSetValue { get; }
+        bool CanGetValue { get; }
     }
 }

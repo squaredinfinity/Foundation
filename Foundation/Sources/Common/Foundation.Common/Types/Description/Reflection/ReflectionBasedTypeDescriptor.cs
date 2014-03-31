@@ -2,12 +2,22 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace SquaredInfinity.Foundation.Types.Description.Reflection
 {
     public class ReflectionBasedTypeDescriptor : ITypeDescriptor
     {
+        static readonly Type TYPE_RuntimeMemberInfo;
+        static readonly PropertyInfo PROPERTY_BindingFlags;
+
+        static ReflectionBasedTypeDescriptor()
+        {
+            TYPE_RuntimeMemberInfo = typeof(PropertyInfo).Assembly.GetType("System.Reflection.RuntimePropertyInfo");
+            PROPERTY_BindingFlags = TYPE_RuntimeMemberInfo.GetProperty("BindingFlags", BindingFlags.NonPublic | BindingFlags.Instance);
+        }
+
         readonly ConcurrentDictionary<string, ITypeDescription> TypeDescriptionCache = new ConcurrentDictionary<string, ITypeDescription>();
 
         public ITypeDescription DescribeType(Type type)
@@ -29,19 +39,43 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 
                 var member_type = p.PropertyType;
 
-                var typeDescription = TypeDescriptionCache.GetOrAdd(member_type.AssemblyQualifiedName, (_) => DescribeType(member_type));
+                var memberTypeDescription = (ITypeDescription) null;
 
-                md.AssemblyQualifiedMemberTypeName = typeDescription.AssemblyQualifiedName;
-                md.FullMemberTypeName = typeDescription.FullName;
-                md.MemberTypeName = typeDescription.Name;
+                if (member_type == type)
+                {
+                    memberTypeDescription = td;
+                }
+                else
+                {
+                    memberTypeDescription = TypeDescriptionCache.GetOrAdd(member_type.AssemblyQualifiedName, (_) => DescribeType(member_type));
+                }
+
+                md.AssemblyQualifiedMemberTypeName = memberTypeDescription.AssemblyQualifiedName;
+                md.FullMemberTypeName = memberTypeDescription.FullName;
+                md.MemberTypeName = memberTypeDescription.Name;
 
                 md.RawName = member_type.Name;
                 md.SanitizedName = member_type.Name;
+
+                md.CanGetValue = p.CanRead;
+                md.CanSetValue = p.CanWrite;
+
+                md.Visibility = GetMemberVisibility(p);
+
+                md.DeclaringType = td;
 
                 td.Members.Add(md);
             }
 
             return td;
+        }
+
+        MemberVisibility GetMemberVisibility(PropertyInfo pi)
+        {
+            if ((BindingFlags)PROPERTY_BindingFlags.GetValue(pi, null) == BindingFlags.Public)
+                return MemberVisibility.Public;
+
+            return MemberVisibility.NonPublic;
         }
     }
 }

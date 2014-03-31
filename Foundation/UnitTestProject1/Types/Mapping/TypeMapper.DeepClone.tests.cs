@@ -52,6 +52,26 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
 
         [TestMethod]
+        public void CanCloneToDifferentType()
+        {
+            var st = new SimpleType();
+            st.EnumProperty = DayOfWeek.Friday;
+            st.IntegerProperty = 13;
+            st.StringProperty = "some string";
+
+            var tm = new TypeMapper();
+
+            SimpleType_ st2 = new SimpleType_();
+
+            tm.Map<SimpleType_>(st, st2);
+
+            Assert.AreEqual(st.EnumProperty, st2.EnumProperty);
+            Assert.AreEqual(st.IntegerProperty, st2.IntegerProperty);
+            Assert.AreEqual(st.StringProperty, st2.StringProperty);
+        }
+
+
+        [TestMethod]
         public void HandlesCircularReferences__ObjectReferencesSelfDirectly()
         {
             var n = new LinkedListNode { Id = 13 };
@@ -60,7 +80,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             var tm = new TypeMapper();
 
-            var clone = tm.DeepClone(n);
+            var clone = tm.DeepClone<LinkedListNode>(n);
 
             Assert.AreEqual(13, clone.Id);
             Assert.AreSame(n, n.Next);
@@ -88,7 +108,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             var tm = new TypeMapper();
 
-            var clone = tm.DeepClone(n3);
+            var clone = tm.DeepClone<LinkedListNode>(n3);
 
             Assert.AreEqual(3, clone.Id);
 

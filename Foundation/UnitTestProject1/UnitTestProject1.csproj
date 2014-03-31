@@ -56,6 +56,7 @@
     <Compile Include="Types\Mapping\TestEntities\SimpleType2.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Types\Mapping\TestEntities\SimpleType_.cs" />
     <Compile Include="Types\Mapping\TypeMapper.DeepClone.tests.cs" />
   </ItemGroup>
   <ItemGroup>

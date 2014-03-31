@@ -41,5 +41,33 @@ namespace SquaredInfinity.Foundation.Types.Description
             get { return _memberTypeName; }
             set { _memberTypeName = value; }
         }
+
+        bool _canSetValue;
+        public bool CanSetValue
+        {
+            get { return _canSetValue; }
+            set { _canSetValue = value; }
+        }
+
+        bool _canGetValue;
+        public bool CanGetValue
+        {
+            get { return _canGetValue; }
+            set { _canGetValue = value; }
+        }
+
+        MemberVisibility _visibility;
+        public MemberVisibility Visibility
+        {
+            get { return _visibility; }
+            set { _visibility = value; }
+        }
+
+        ITypeDescription _declaringType;
+        public ITypeDescription DeclaringType
+        {
+            get { return _declaringType; }
+            set { _declaringType = value; }
+        }
     }
 }
