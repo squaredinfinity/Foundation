@@ -68,6 +68,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Types\Description\Reflection\ReflectionBasedTypeDescriptor.cs" />
+    <Compile Include="Types\Description\Reflection\ReflectionBasedTypeMemberDescription.cs" />
     <Compile Include="Types\Description\TypeDescription.cs" />
     <Compile Include="Types\Description\TypeMemberDescription.cs" />
     <Compile Include="Types\Mapping\ITypeMapper.cs">
@@ -76,6 +77,7 @@
     <Compile Include="Types\Mapping\MappingContext.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Types\Mapping\MappingStrategy.static.cs" />
     <Compile Include="Types\Mapping\MappingStrategy.cs">
       <SubType>Code</SubType>
     </Compile>

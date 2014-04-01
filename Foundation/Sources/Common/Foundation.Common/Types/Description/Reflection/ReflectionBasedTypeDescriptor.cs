@@ -35,7 +35,7 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
             {
                 var p = ps[i];
 
-                var md = new TypeMemberDescription();
+                var md = new ReflectionBasedTypeMemberDescription(p);
 
                 var member_type = p.PropertyType;
 
@@ -54,8 +54,8 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
                 md.FullMemberTypeName = memberTypeDescription.FullName;
                 md.MemberTypeName = memberTypeDescription.Name;
 
-                md.RawName = member_type.Name;
-                md.SanitizedName = member_type.Name;
+                md.RawName = p.Name;
+                md.SanitizedName = p.Name;
 
                 md.CanGetValue = p.CanRead;
                 md.CanSetValue = p.CanWrite;

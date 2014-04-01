@@ -10,7 +10,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
     {
         bool TryMapMembers(
             ITypeMemberDescription source,
-            IList<ITypeMemberDescription> targetCandidates,
+            IList<ITypeMemberDescription> targetCandidates, // todo: make it readonly list in 4.5
             out ITypeMemberDescription target);
     }
 }

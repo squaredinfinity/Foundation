@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SquaredInfinity.Foundation.Types.Mapping
 {
-    public class MappingStrategy
+    public partial class MappingStrategy
     {
         public bool CopyListElements { get; set; }
 
@@ -37,8 +37,10 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 targetDescription = TypeDescriptor.DescribeType(targetType);
 
             // list of source members
-            var sourceMembers = 
-                (from sourceDescription.Members.ToList();
+            var sourceMembers =
+                (from m in sourceDescription.Members
+                 where m.CanGetValue
+                 select m).ToList();
 
             for (int i_member = 0; i_member < targetDescription.Members.Count; i_member++)
             {
@@ -62,6 +64,8 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                             From = sourceMember,
                             To = targetMember
                         };
+
+                        result.Add(mapping);
 
                         break;
                     }

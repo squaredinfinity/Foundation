@@ -20,14 +20,11 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             this.MappingStrategy = mappingStrategy;
         }
 
-        static MappingStrategy DefaultMappingStrategy { get; set; }
+        readonly static MappingStrategy DefaultMappingStrategy;
         
         static TypeMapper()
         {
-            DefaultMappingStrategy = new MappingStrategy
-            {
-                CopyListElements = true
-            };
+            DefaultMappingStrategy = MappingStrategy.Default;
         }
 
         public TTarget DeepClone<TTarget>(TTarget source)
@@ -132,50 +129,27 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             for(int i = 0; i < mappings.Count; i++)
             {
                 var m = mappings[i];
-            }
 
-            //var publicMembers =
-            //    (from m in sourceDescription.Members
-            //     where m.Visibility == MemberVisibility.Public
-            //     select m).ToArray();
-
-            //for (var i = 0; i < publicMembers.Length; i++)
-            //{
-            //    var member = publicMembers[i];
-
-            //    if (!member.CanGetValue || !member.CanSetValue)
-            //        continue;
-
-            //    // get value etc
-            //}
-
-            var properties =
-                (from p in sourceType.GetProperties()
-                 where p.GetSetMethod() != null
-                 && p.GetIndexParameters().Length == 0
-                 select p).ToArray();
-
-            foreach (var p in properties)
-            {
-                var val = p.GetValue(source, null);
+                var val = m.From.GetValue(source);
 
                 if (val == null)
                 {
-                    p.SetValue(target, null, null);
+                    m.To.SetValue(target, null);
                 }
                 else
                 {
                     if (IsBuiltInSimpleValueType(val))
                     {
-                        p.SetValue(target, val, null);
+                        m.To.SetValue(target, val);
                     }
                     else
                     {
                         // value is not null and is reference type
                         // create a clone and assign to target
-                        var clone = DeepCloneInternal(val, p.PropertyType, cx);
+                        var memberType = Type.GetType(m.To.AssemblyQualifiedMemberTypeName);
+                        var clone = DeepCloneInternal(val, memberType, cx);
 
-                        p.SetValue(target, clone, null);
+                        m.To.SetValue(target, clone);
                     }
                 }
             }

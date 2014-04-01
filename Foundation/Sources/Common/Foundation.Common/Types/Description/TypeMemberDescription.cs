@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SquaredInfinity.Foundation.Types.Description
 {
-    public class TypeMemberDescription : ITypeMemberDescription
+    public abstract class TypeMemberDescription : ITypeMemberDescription
     {
         string _rawName;
         public string RawName
@@ -69,5 +69,8 @@ namespace SquaredInfinity.Foundation.Types.Description
             get { return _declaringType; }
             set { _declaringType = value; }
         }
+
+        public abstract object GetValue(object obj);
+        public abstract void SetValue(object obj, object value);
     }
 }
