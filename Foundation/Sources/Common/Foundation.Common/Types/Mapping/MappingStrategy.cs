@@ -15,10 +15,13 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         public ITypeDescriptor TypeDescriptor { get; private set; }
 
         public MappingStrategy()
-        {
-            this.MemberMappingStrategies = new List<IMemberMappingStrategy>();
+            : this(new Description.Reflection.ReflectionBasedTypeDescriptor(), new List<IMemberMappingStrategy>())
+        { }
 
-            this.TypeDescriptor = new Description.Reflection.ReflectionBasedTypeDescriptor();
+        public MappingStrategy(ITypeDescriptor typeDescriptor, IList<IMemberMappingStrategy> memberMappingStrategies)
+        {
+            this.TypeDescriptor = typeDescriptor;
+            this.MemberMappingStrategies = memberMappingStrategies;
         }
 
         public MemberMappingCollection GetMemberMappings(Type sourceType, Type targetType)

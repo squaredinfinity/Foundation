@@ -12,19 +12,12 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         public MappingStrategy MappingStrategy { get; private set; }
 
         public TypeMapper()
-            : this(DefaultMappingStrategy)
+            : this(MappingStrategy.Default)
         {}
 
         public TypeMapper(MappingStrategy mappingStrategy)
         {
             this.MappingStrategy = mappingStrategy;
-        }
-
-        readonly static MappingStrategy DefaultMappingStrategy;
-        
-        static TypeMapper()
-        {
-            DefaultMappingStrategy = MappingStrategy.Default;
         }
 
         public TTarget DeepClone<TTarget>(TTarget source)
