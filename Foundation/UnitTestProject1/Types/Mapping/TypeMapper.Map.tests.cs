@@ -9,10 +9,10 @@ using UnitTestProject1.Types.Mapping.TestEntities;
 namespace SquaredInfinity.Foundation.Types.Mapping
 {
     [TestClass]
-    public class TypeMapper__DeepClone
+    public class TypeMapper__Map
     {
         [TestMethod]
-        public void CanCloneAnObject()
+        public void CanMapAnObject()
         {
             var st = new SimpleType();
             st.EnumProperty = DayOfWeek.Friday;
@@ -21,7 +21,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             var tm = new TypeMapper();
 
-            var clone = tm.DeepClone<SimpleType>(st);
+            var clone = tm.Map<SimpleType_>(st);
 
             Assert.AreEqual(st.EnumProperty, clone.EnumProperty);
             Assert.AreEqual(st.IntegerProperty, clone.IntegerProperty);
@@ -29,7 +29,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         }
 
         [TestMethod]
-        public void CanCloneToSubType()
+        public void CanMapToSubType()
         {
             var st = new SimpleType2();
             st.EnumProperty = DayOfWeek.Friday;
@@ -40,7 +40,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             var tm = new TypeMapper();
 
             // clone SimpleType2 to its subtype SimpleType
-            var clone = tm.DeepClone<SimpleType>(st);
+            var clone = tm.Map<SimpleType>(st);
 
             Assert.AreEqual(st.EnumProperty, clone.EnumProperty);
             Assert.AreEqual(st.IntegerProperty, clone.IntegerProperty);
@@ -49,6 +49,27 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             Assert.IsFalse(clone is SimpleType2);
             Assert.IsTrue(clone is SimpleType);        
         }
+
+
+        [TestMethod]
+        public void CanMapToDifferentType()
+        {
+            var st = new SimpleType();
+            st.EnumProperty = DayOfWeek.Friday;
+            st.IntegerProperty = 13;
+            st.StringProperty = "some string";
+
+            var tm = new TypeMapper();
+
+            SimpleType_ st2 = new SimpleType_();
+
+            tm.Map<SimpleType_>(st, st2);
+
+            Assert.AreEqual(st.EnumProperty, st2.EnumProperty);
+            Assert.AreEqual(st.IntegerProperty, st2.IntegerProperty);
+            Assert.AreEqual(st.StringProperty, st2.StringProperty);
+        }
+
 
         [TestMethod]
         public void HandlesCircularReferences__ObjectReferencesSelfDirectly()
@@ -59,7 +80,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             var tm = new TypeMapper();
 
-            var clone = tm.DeepClone<LinkedListNode>(n);
+            var clone = tm.Map<LinkedListNode>(n);
 
             Assert.AreEqual(13, clone.Id);
             Assert.AreSame(n, n.Next);
@@ -87,7 +108,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             var tm = new TypeMapper();
 
-            var clone = tm.DeepClone<LinkedListNode>(n3);
+            var clone = tm.Map<LinkedListNode>(n3);
 
             Assert.AreEqual(3, clone.Id);
 

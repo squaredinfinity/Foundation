@@ -13,7 +13,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         static MappingStrategy()
         {
             Default = new MappingStrategy();
-            Default.CopyListElements = true;
+            Default.CloneListElements = true;
             Default.MemberMappingStrategies.Add(new ExactNameMatchMemberMappingStrategy());
         }
     }

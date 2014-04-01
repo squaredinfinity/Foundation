@@ -8,7 +8,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 {
     public partial class MappingStrategy
     {
-        public bool CopyListElements { get; set; }
+        public bool CloneListElements { get; set; }
 
         public IList<IMemberMappingStrategy> MemberMappingStrategies { get; private set; }
 
