@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Types.Mapping
+namespace SquaredInfinity.Foundation.Types.MemberMatching
 {
-    public class MemberMapping : IMemberMapping
+    public class MemberMatch : IMemberMatch
     {
         public ITypeMemberDescription From { get; set; }
         public ITypeMemberDescription To { get; set; }

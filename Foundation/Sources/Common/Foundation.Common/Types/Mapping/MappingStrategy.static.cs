@@ -1,4 +1,5 @@
 ﻿using SquaredInfinity.Foundation.Types.Description;
+using SquaredInfinity.Foundation.Types.MemberMatching;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         {
             Default = new MappingStrategy();
             Default.CloneListElements = true;
-            Default.MemberMappingStrategies.Add(new ExactNameMatchMemberMappingStrategy());
+            Default.MemberMatchingStrategies.Add(new ExactNameMatchMemberMatchingStrategy());
         }
     }
 }

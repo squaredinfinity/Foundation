@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Types.Mapping
+namespace SquaredInfinity.Foundation.Types.MemberMatching
 {
-    public class ExactNameMatchMemberMappingStrategy : IMemberMappingStrategy
+    public class ExactNameMatchMemberMatchingStrategy : IMemberMatchingStrategy
     {
         public bool IsCaseSensitive { get; set; }
 

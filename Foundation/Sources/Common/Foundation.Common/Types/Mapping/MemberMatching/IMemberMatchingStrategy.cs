@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Types.Mapping
+namespace SquaredInfinity.Foundation.Types.MemberMatching
 {
-    public interface IMemberMappingStrategy
+    public interface IMemberMatchingStrategy
     {
         bool TryMapMembers(
             ITypeMemberDescription source,

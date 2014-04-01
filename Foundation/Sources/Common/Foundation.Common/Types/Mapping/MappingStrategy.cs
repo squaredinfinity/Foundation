@@ -1,4 +1,5 @@
 ﻿using SquaredInfinity.Foundation.Types.Description;
+using SquaredInfinity.Foundation.Types.MemberMatching;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,27 +7,27 @@ using System.Text;
 
 namespace SquaredInfinity.Foundation.Types.Mapping
 {
-    public partial class MappingStrategy
+    public partial class MappingStrategy : IMappingStrategy
     {
         public bool CloneListElements { get; set; }
 
-        public IList<IMemberMappingStrategy> MemberMappingStrategies { get; private set; }
+        IList<IMemberMatchingStrategy> MemberMatchingStrategies { get; set; }
 
-        public ITypeDescriptor TypeDescriptor { get; private set; }
+        ITypeDescriptor TypeDescriptor { get; set; }
 
         public MappingStrategy()
-            : this(new Description.Reflection.ReflectionBasedTypeDescriptor(), new List<IMemberMappingStrategy>())
+            : this(new Description.Reflection.ReflectionBasedTypeDescriptor(), new List<IMemberMatchingStrategy>())
         { }
 
-        public MappingStrategy(ITypeDescriptor typeDescriptor, IList<IMemberMappingStrategy> memberMappingStrategies)
+        public MappingStrategy(ITypeDescriptor typeDescriptor, IList<IMemberMatchingStrategy> memberMappingStrategies)
         {
             this.TypeDescriptor = typeDescriptor;
-            this.MemberMappingStrategies = memberMappingStrategies;
+            this.MemberMatchingStrategies = memberMappingStrategies;
         }
 
-        public MemberMappingCollection GetMemberMappings(Type sourceType, Type targetType)
+        public MemberMatchCollection GetMemberMappings(Type sourceType, Type targetType)
         {
-            var result = new MemberMappingCollection();
+            var result = new MemberMatchCollection();
 
             //# Describe both source and target types
 
@@ -52,9 +53,9 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 if (!targetMember.CanSetValue)
                     continue;
 
-                for (int i = 0; i < MemberMappingStrategies.Count; i++)
+                for (int i = 0; i < MemberMatchingStrategies.Count; i++)
                 {
-                    var ms = MemberMappingStrategies[i];
+                    var ms = MemberMatchingStrategies[i];
 
                     var sourceMember = (ITypeMemberDescription) null;
 
@@ -62,7 +63,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                     {
                         sourceMembers.Remove(sourceMember);
 
-                        var mapping = new MemberMapping
+                        var mapping = new MemberMatch
                         {
                             From = sourceMember,
                             To = targetMember

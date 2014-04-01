@@ -37,7 +37,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
         /// <summary>
         /// Maps *source* to *target*.
-        /// Only members of *TTarget* type will be cloned.
+        /// Only members of *TTarget* type will be mapped.
         /// </summary>
         /// <typeparam name="TTarget"></typeparam>
         /// <param name="source"></param>
@@ -46,7 +46,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
         /// <summary>
         /// Clones *source* into *target*.
-        /// Only members of *targetType* will be cloned.
+        /// Only members of *targetType* will be mapped.
         /// </summary>
         /// <param name="source"></param>
         /// <param name="target"></param>

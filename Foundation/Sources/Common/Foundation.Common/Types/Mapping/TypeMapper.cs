@@ -9,13 +9,13 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 {
     public class TypeMapper : ITypeMapper
     {
-        public MappingStrategy MappingStrategy { get; private set; }
+        public IMappingStrategy MappingStrategy { get; private set; }
 
         public TypeMapper()
-            : this(MappingStrategy.Default)
+            : this(Mapping.MappingStrategy.Default)
         {}
 
-        public TypeMapper(MappingStrategy mappingStrategy)
+        public TypeMapper(IMappingStrategy mappingStrategy)
         {
             this.MappingStrategy = mappingStrategy;
         }
@@ -47,7 +47,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             return MapInternal(source, sourceType, new MappingContext());
         }
 
-        object CreateClonePrototype(Type type)
+        protected virtual object CreateClonePrototype(Type type)
         {
             var clone = Activator.CreateInstance(type);
             
@@ -125,6 +125,8 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             {
                 var m = mappings[i];
 
+                // todo: this should resolve value
+                // custom resolvers may be applied to convert / modify the value
                 var val = m.From.GetValue(source);
 
                 if (val == null)
