@@ -49,48 +49,6 @@ namespace SquaredInfinity.Foundation.Serialization.Mapping
             memberMatchingRules,
             valueResolvers)
         { }
-
-        protected override IValueResolver GetDefaultValueResolver(IMemberMatch match)
-        {
-            return new FlexiValueResolver(match);
-        }
-    }
-
-    class FlexiValueResolver : IValueResolver
-    {
-        readonly IMemberMatch Match;
-
-        public FlexiValueResolver(IMemberMatch match)
-        {
-            this.Match = match;
-        }
-
-        public object ResolveValue(object source)
-        {
-            var val = Match.From.GetValue(source);
-
-            if (val is XElement)
-            {
-                return new FlexiXElementToCDATA(source as XElement);
-            }
-
-            return val;
-        }
-    }
-
-    class FlexiXElementToCDATA
-    {
-        public XElement Original { get; private set; }
-
-        public FlexiXElementToCDATA(XElement original)
-        {
-            this.Original = original;
-        }
-
-        public static implicit operator XElement(FlexiXElementToCDATA value)
-        {
-            return value.Original;
-        }
     }
 
     class FlexiTypeMappingStrategy : ITypeMappingStrategy
@@ -134,7 +92,7 @@ namespace SquaredInfinity.Foundation.Serialization.Mapping
 
         public ITypeDescription DescribeType(Type type)
         {
-            return new FlexiTypeDescription(Internal);            
+            return new FlexiTypeDescription(Internal);
         }
     }
 
@@ -195,7 +153,7 @@ namespace SquaredInfinity.Foundation.Serialization.Mapping
         {
             var fmi = obj as FlexiMappedInstance;
 
-            fmi.Value = value;
+            fmi.OriginalValue = value;
         }
     }
 

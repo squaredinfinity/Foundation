@@ -9,7 +9,8 @@ namespace SquaredInfinity.Foundation.Serialization.Mapping
     {
         public Type MappedType { get; private set; }
 
-        public object Value { get; set; }
+        public object OriginalValue { get; set; }
+        public object FinalValue { get; set; }
 
         public FlexiMappedInstance(Type mappedType)
         {
@@ -17,3 +18,16 @@ namespace SquaredInfinity.Foundation.Serialization.Mapping
         }
     }
 }
+
+//SerializationService
+//.Serialize(obj, ss)
+
+
+//map obj -> flexi_obj
+//            .original_value
+//            .final_value
+
+//if(fv is XNode && fv == ov)
+//    write cdata in element
+//else
+//    el.add(node)

@@ -63,14 +63,9 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 MemberNameToValueResolverMappings
                     .AddOrUpdate(
                     m.To.Name,
-                    _key => GetDefaultValueResolver(m),
-                    (_key, _old) => GetDefaultValueResolver(m));
+                    _key => new MatchedMemberValueResolver(m),
+                    (_key, _old) => new MatchedMemberValueResolver(m));
             }
-        }
-
-        protected virtual IValueResolver GetDefaultValueResolver(IMemberMatch match)
-        {
-            return new MatchedMemberValueResolver(match);
         }
 
         static MemberMatchCollection GetMemberMatches(
