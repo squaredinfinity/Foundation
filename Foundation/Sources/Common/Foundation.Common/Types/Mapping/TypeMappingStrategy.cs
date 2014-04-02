@@ -54,7 +54,6 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             this.SourceTypeDescription = TypeDescriptor.DescribeType(sourceType);
             this.TargetTypeDescription = TypeDescriptor.DescribeType(targetType);
 
-            // todo: this should be delayed to first use of mapping strategy, so that it can be configured outside of the constructor (? or not?)
             var memberMatches = GetMemberMatches(SourceTypeDescription, TargetTypeDescription, MemberMatchingRules);
 
             for(int i = 0; i < memberMatches.Count; i++)
@@ -64,9 +63,14 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 MemberNameToValueResolverMappings
                     .AddOrUpdate(
                     m.To.Name,
-                    _key => new MatchedMemberValueResolver(m),
-                    (_key, _old) => new MatchedMemberValueResolver(m));
+                    _key => GetDefaultValueResolver(m),
+                    (_key, _old) => GetDefaultValueResolver(m));
             }
+        }
+
+        protected virtual IValueResolver GetDefaultValueResolver(IMemberMatch match)
+        {
+            return new MatchedMemberValueResolver(match);
         }
 
         static MemberMatchCollection GetMemberMatches(

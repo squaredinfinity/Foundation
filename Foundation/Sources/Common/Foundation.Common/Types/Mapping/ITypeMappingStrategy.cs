@@ -10,7 +10,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         ITypeDescription TargetTypeDescription { get; }
 
         bool CloneListElements { get; }
-
+        
         bool TryGetValueResolverForMember(string memberName, out IValueResolver valueResolver);
     }
 }

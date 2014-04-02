@@ -1,9 +1,13 @@
 ﻿using SquaredInfinity.Foundation.Types.Description;
+using SquaredInfinity.Foundation.Types.Description.Reflection;
 using SquaredInfinity.Foundation.Types.Mapping;
+using SquaredInfinity.Foundation.Types.Mapping.MemberMatching;
+using SquaredInfinity.Foundation.Types.Mapping.ValueResolving;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 
 namespace SquaredInfinity.Foundation.Serialization.Mapping
 {
@@ -17,38 +21,105 @@ namespace SquaredInfinity.Foundation.Serialization.Mapping
 
         protected override ITypeMappingStrategy CreateDefaultTypeMappingStrategy(Type sourceType, Type targetType)
         {
-            return base.CreateDefaultTypeMappingStrategy(sourceType, targetType);
+            var impl = 
+                new FlexiTypeMappingStrategy_Implementation(
+                    sourceType,
+                    targetType,
+                    new ReflectionBasedTypeDescriptor(),
+                    new MemberMatchingRuleCollection() { new ExactNameMatchMemberMatchingRule() },
+                    valueResolvers: null);
+
+            return new FlexiTypeMappingStrategy(impl);
         }
     }
 
-    public class FlexiTypeMappingStrategy : ITypeMappingStrategy
+    class FlexiTypeMappingStrategy_Implementation : TypeMappingStrategy
     {
-        readonly ITypeMappingStrategy InternalStrategy;
+        public FlexiTypeMappingStrategy_Implementation(
+            Type sourceType,
+            Type targetType,
+            ITypeDescriptor typeDescriptor,
+            MemberMatchingRuleCollection memberMatchingRules,
+            ValueResolverCollection valueResolvers)
+            : 
+            base(
+            sourceType,
+            targetType,
+            typeDescriptor,
+            memberMatchingRules,
+            valueResolvers)
+        { }
+
+        protected override IValueResolver GetDefaultValueResolver(IMemberMatch match)
+        {
+            return new FlexiValueResolver(match);
+        }
+    }
+
+    class FlexiValueResolver : IValueResolver
+    {
+        readonly IMemberMatch Match;
+
+        public FlexiValueResolver(IMemberMatch match)
+        {
+            this.Match = match;
+        }
+
+        public object ResolveValue(object source)
+        {
+            var val = Match.From.GetValue(source);
+
+            if (val is XElement)
+            {
+                return new FlexiXElementToCDATA(source as XElement);
+            }
+
+            return val;
+        }
+    }
+
+    class FlexiXElementToCDATA
+    {
+        public XElement Original { get; private set; }
+
+        public FlexiXElementToCDATA(XElement original)
+        {
+            this.Original = original;
+        }
+
+        public static implicit operator XElement(FlexiXElementToCDATA value)
+        {
+            return value.Original;
+        }
+    }
+
+    class FlexiTypeMappingStrategy : ITypeMappingStrategy
+    {
+        readonly ITypeMappingStrategy Internal;
 
         public FlexiTypeMappingStrategy(ITypeMappingStrategy strategy)
         {
-            this.InternalStrategy = strategy;
+            this.Internal = strategy;
         }
 
         public ITypeDescription SourceTypeDescription
         {
-            get { return InternalStrategy.SourceTypeDescription; }
+            get { return Internal.SourceTypeDescription; }
         }
 
         public ITypeDescription TargetTypeDescription
         {
-            // todo: this should be a custom implementation of ITypeDescriptor just for Flexi Serializer
-            get { return InternalStrategy.SourceTypeDescription; }
+            get { return new FlexiTypeDescription(Internal.SourceTypeDescription); }
         }
 
         public bool CloneListElements
         {
-            get { return InternalStrategy.CloneListElements; }
+            get { return Internal.CloneListElements; }
         }
 
         public bool TryGetValueResolverForMember(string memberName, out Types.Mapping.ValueResolving.IValueResolver valueResolver)
         {
-            return InternalStrategy.TryGetValueResolverForMember(memberName, out valueResolver);
+            return Internal.TryGetValueResolverForMember(memberName, out valueResolver);
         }
     }
 
@@ -122,7 +193,9 @@ namespace SquaredInfinity.Foundation.Serialization.Mapping
 
         public void SetValue(object obj, object value)
         {
-            throw new NotImplementedException();
+            var fmi = obj as FlexiMappedInstance;
+
+            fmi.Value = value;
         }
     }
 

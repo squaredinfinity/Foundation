@@ -9,10 +9,11 @@ namespace SquaredInfinity.Foundation.Serialization.Mapping
     {
         public Type MappedType { get; private set; }
 
+        public object Value { get; set; }
+
         public FlexiMappedInstance(Type mappedType)
         {
             this.MappedType = mappedType;
         }
-
     }
 }
