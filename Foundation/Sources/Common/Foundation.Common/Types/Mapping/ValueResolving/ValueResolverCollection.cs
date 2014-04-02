@@ -5,8 +5,8 @@ using System.Text;
 
 namespace SquaredInfinity.Foundation.Types.Mapping.ValueResolving
 {
-    public interface IValueResolver
+    public class ValueResolverCollection : List<IValueResolver>
     {
-        object ResolveValue(object source);
+        
     }
 }

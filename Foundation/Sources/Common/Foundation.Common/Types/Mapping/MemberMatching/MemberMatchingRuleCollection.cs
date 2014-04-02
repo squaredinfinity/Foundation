@@ -5,5 +5,7 @@ using System.Text;
 
 namespace SquaredInfinity.Foundation.Types.Mapping.MemberMatching
 {
-    public class MemberMatchCollection : List<IMemberMatch> { }
+    public class MemberMatchingRuleCollection : List<IMemberMatchingRule>
+    {
+    }
 }

@@ -8,7 +8,7 @@ namespace SquaredInfinity.Foundation.Types.Description
     public abstract class TypeMemberDescription : ITypeMemberDescription
     {
         string _rawName;
-        public string RawName
+        public string Name
         {
             get { return _rawName; }
             set { _rawName = value; }

@@ -54,7 +54,7 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
                 md.FullMemberTypeName = memberTypeDescription.FullName;
                 md.MemberTypeName = memberTypeDescription.Name;
 
-                md.RawName = p.Name;
+                md.Name = p.Name;
                 md.SanitizedName = p.Name;
 
                 md.CanGetValue = p.CanRead;

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Types.MemberMatching
+namespace SquaredInfinity.Foundation.Types.Mapping.MemberMatching
 {
-    public class ExactNameMatchMemberMatchingStrategy : IMemberMatchingStrategy
+    public class ExactNameMatchMemberMatchingRule : IMemberMatchingRule
     {
         public bool IsCaseSensitive { get; set; }
 
@@ -23,7 +23,7 @@ namespace SquaredInfinity.Foundation.Types.MemberMatching
             {
                 var t = targetCandidates[i];
 
-                if(string.Equals(source.RawName, t.RawName, strComp))
+                if(string.Equals(source.Name, t.Name, strComp))
                 {
                     target = t;
                     return true;

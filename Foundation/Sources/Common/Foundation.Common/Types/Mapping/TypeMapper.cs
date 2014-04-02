@@ -1,23 +1,47 @@
 ﻿using SquaredInfinity.Foundation.Types.Description;
+using SquaredInfinity.Foundation.Types.Mapping.ValueResolving;
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace SquaredInfinity.Foundation.Types.Mapping
 {
-    public class TypeMapper : ITypeMapper
+    class TypeMappingStrategiesConcurrentDictionary
+        : ConcurrentDictionary<TypeMappingStrategiesKey, ITypeMappingStrategy> { }
+
+    struct TypeMappingStrategiesKey : IEquatable<TypeMappingStrategiesKey>
     {
-        public IMappingStrategy MappingStrategy { get; private set; }
+        public Type SourceType;
+        public Type TargetType;
 
-        public TypeMapper()
-            : this(Mapping.MappingStrategy.Default)
-        {}
-
-        public TypeMapper(IMappingStrategy mappingStrategy)
+        public TypeMappingStrategiesKey(Type source, Type target)
         {
-            this.MappingStrategy = mappingStrategy;
+            this.SourceType = source;
+            this.TargetType = target;
+        }
+
+        public bool Equals(TypeMappingStrategiesKey other)
+        {
+            return
+                SourceType == other.SourceType
+                && TargetType == other.TargetType;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as TypeMappingStrategy);
+        }
+    }
+
+    public class TypeMapper : ITypeMapper
+    {   
+        TypeMappingStrategiesConcurrentDictionary TypeMappingStrategies = new TypeMappingStrategiesConcurrentDictionary();
+        
+        public TypeMapper()
+        {
         }
 
         public TTarget DeepClone<TTarget>(TTarget source)
@@ -92,6 +116,9 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             if (IsBuiltInSimpleValueType(source))
                 return source;
 
+            
+           //var clone = CloneOrReuseExistingInstance(source, targetType, cx);
+
             bool isCloneNew = false;
 
             var clone =
@@ -113,41 +140,45 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
         void MapInternal(object source, object target, Type sourceType, Type targetType, MappingContext cx)
         {
+            var key = new TypeMappingStrategiesKey(sourceType, targetType);
+
+            var ms = TypeMappingStrategies.GetOrAdd(key, _key => TypeMappingStrategy.CreateTypeMappingStrategy(sourceType, targetType));
+
             // todo: anything needed here for IReadOnlyList support in 4.5?
-            if (MappingStrategy.CloneListElements && source is IList && target is IList)
+            if (ms.CloneListElements && source is IList && target is IList)
             {
                 DeepCloneListElements(source as IList, target as IList, cx);
             }
 
-            var mappings = MappingStrategy.GetMemberMappings(sourceType, targetType);
-
-            for(int i = 0; i < mappings.Count; i++)
+            for (int i = 0; i < ms.TargetTypeDescription.Members.Count; i++)
             {
-                var m = mappings[i];
-
-                // todo: this should resolve value
-                // custom resolvers may be applied to convert / modify the value
-                var val = m.From.GetValue(source);
-
-                if (val == null)
+                try
                 {
-                    m.To.SetValue(target, null);
-                }
-                else
-                {
-                    if (IsBuiltInSimpleValueType(val))
+                    var member = ms.TargetTypeDescription.Members[i];
+
+                    var valueResolver = (IValueResolver)null;
+
+                    if (!ms.TryGetValueResolverForMember(member.Name, out valueResolver))
+                        continue;
+
+                    var val = valueResolver.ResolveValue(source);
+
+                    if (val == null || IsBuiltInSimpleValueType(val))
                     {
-                        m.To.SetValue(target, val);
+                        member.SetValue(target, val);
                     }
                     else
                     {
-                        // value is not null and is reference type
-                        // create a clone and assign to target
-                        var memberType = Type.GetType(m.To.AssemblyQualifiedMemberTypeName);
-                        var clone = MapInternal(val, memberType, cx);
+                        var memberType = Type.GetType(member.AssemblyQualifiedMemberTypeName);
+                        
+                        val = MapInternal(val, memberType, cx);
 
-                        m.To.SetValue(target, clone);
+                        member.SetValue(target, val);
                     }
+                }
+                catch (Exception ex)
+                {
+                    // todo: internally log mapping error
                 }
             }
         }
