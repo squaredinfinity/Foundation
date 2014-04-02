@@ -86,6 +86,9 @@
     <Compile Include="Types\Mapping\MappingContext.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Types\Mapping\MappingOptions.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Types\Mapping\MemberMatching\MemberMatchingRuleCollection.cs">
       <SubType>Code</SubType>
     </Compile>

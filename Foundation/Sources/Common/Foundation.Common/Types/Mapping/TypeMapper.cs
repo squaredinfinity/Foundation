@@ -50,7 +50,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             if (source == null)
                 return null;
 
-            return (TTarget)MapInternal(source, typeof(TTarget), new MappingContext());
+            return (TTarget)MapInternal(source, typeof(TTarget), MappingOptions.Default, new MappingContext());
         }
 
         public object DeepClone(object source)
@@ -60,7 +60,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             var sourceType = source.GetType();
 
-            return MapInternal(source, sourceType, new MappingContext());
+            return MapInternal(source, sourceType, MappingOptions.Default, new MappingContext());
         }
 
         public object DeepClone(object source, Type sourceType)
@@ -68,7 +68,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             if (source == null)
                 return null;
 
-            return MapInternal(source, sourceType, new MappingContext());
+            return MapInternal(source, sourceType, MappingOptions.Default, new MappingContext());
         }
 
         protected virtual object CreateClonePrototype(Type type)
@@ -97,21 +97,31 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
         public void Map<TTarget>(object source, TTarget target) where TTarget : class, new()
         {
-            if (source == null)
-                throw new ArgumentNullException("source");
-
-            MapInternal(source, target, source.GetType(), typeof(TTarget), new MappingContext());
+            Map<TTarget>(source, target, MappingOptions.Default);
         }
 
-        public void Map(object source, object target, Type targetType)
+        public void Map<TTarget>(object source, TTarget target, MappingOptions options) where TTarget : class, new()
         {
             if (source == null)
                 throw new ArgumentNullException("source");
 
-            MapInternal(source, target, source.GetType(), targetType, new MappingContext());
+            MapInternal(source, target, source.GetType(), typeof(TTarget), options, new MappingContext());
         }
 
-        object MapInternal(object source, Type targetType, MappingContext cx)
+        public void Map(object source, object target, Type targetType)
+        {
+            Map(source, target, targetType, MappingOptions.Default);
+        }
+
+        public void Map(object source, object target, Type targetType, MappingOptions options)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+
+            MapInternal(source, target, source.GetType(), targetType, options, new MappingContext());
+        }
+
+        object MapInternal(object source, Type targetType, MappingOptions options, MappingContext cx)
         {
             if (IsBuiltInSimpleValueType(source))
                 return source;
@@ -133,12 +143,12 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             var sourceType = source.GetType();
 
             if (isCloneNew)
-                MapInternal(source, clone, sourceType, targetType, cx);
+                MapInternal(source, clone, sourceType, targetType, options, cx);
 
             return clone;
         }
 
-        void MapInternal(object source, object target, Type sourceType, Type targetType, MappingContext cx)
+        void MapInternal(object source, object target, Type sourceType, Type targetType, MappingOptions options, MappingContext cx)
         {
             var key = new TypeMappingStrategiesKey(sourceType, targetType);
 
@@ -147,7 +157,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             // todo: anything needed here for IReadOnlyList support in 4.5?
             if (ms.CloneListElements && source is IList && target is IList)
             {
-                DeepCloneListElements(source as IList, target as IList, cx);
+                DeepCloneListElements(source as IList, target as IList, options, cx);
             }
 
             for (int i = 0; i < ms.TargetTypeDescription.Members.Count; i++)
@@ -163,6 +173,9 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
                     var val = valueResolver.ResolveValue(source);
 
+                    if (val == null && options.IgnoreNulls)
+                        continue;
+
                     if (val == null || IsBuiltInSimpleValueType(val))
                     {
                         member.SetValue(target, val);
@@ -171,7 +184,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                     {
                         var memberType = Type.GetType(member.AssemblyQualifiedMemberTypeName);
                         
-                        val = MapInternal(val, memberType, cx);
+                        val = MapInternal(val, memberType, options, cx);
 
                         member.SetValue(target, val);
                     }
@@ -183,13 +196,13 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             }
         }
 
-        void DeepCloneListElements(IList source, IList target, MappingContext cx)
+        void DeepCloneListElements(IList source, IList target, MappingOptions options, MappingContext cx)
         {
             for (int i = 0; i < source.Count; i++)
             {
                 var sourceItem = source[i];
 
-                var targetItem = MapInternal(sourceItem, sourceItem.GetType(), cx);
+                var targetItem = MapInternal(sourceItem, sourceItem.GetType(), options, cx);
 
                 target.Add(targetItem);
             }
@@ -198,18 +211,28 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
         public TTarget Map<TTarget>(object source) where TTarget : class, new()
         {
-            if (source == null)
-                return null;
-
-            return (TTarget)MapInternal(source, typeof(TTarget), new MappingContext());
+            return Map<TTarget>(source, MappingOptions.Default);
         }
 
-        public object Map(object source, Type targetType)
+        public TTarget Map<TTarget>(object source, MappingOptions options) where TTarget : class, new()
         {
             if (source == null)
                 return null;
 
-            return MapInternal(source, targetType, new MappingContext());
+            return (TTarget)MapInternal(source, typeof(TTarget), options, new MappingContext());
+        }
+
+        public object Map(object source, Type targetType)
+        {
+            return Map(source, targetType, MappingOptions.Default);
+        }
+
+        public object Map(object source, Type targetType, MappingOptions options)
+        {
+            if (source == null)
+                return null;
+
+            return MapInternal(source, targetType, options, new MappingContext());
         }
     }
 }

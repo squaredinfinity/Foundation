@@ -41,7 +41,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             // clone SimpleType2 to its subtype SimpleType
             var clone = tm.Map<SimpleType>(st);
-
+            
             Assert.AreEqual(st.EnumProperty, clone.EnumProperty);
             Assert.AreEqual(st.IntegerProperty, clone.IntegerProperty);
             Assert.AreEqual(st.StringProperty, clone.StringProperty);
@@ -124,6 +124,28 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             Assert.AreSame(clone, clone.Next.Next.Next.Next);
             Assert.AreSame(clone, clone.Previous.Previous.Previous.Previous);
+        }
+
+        [TestMethod]
+        public void IgnoreNulls__DoesNotMapMembersWithNullValue()
+        {
+            var st = new SimpleType();
+            st.EnumProperty = DayOfWeek.Friday;
+            st.IntegerProperty = 13;
+            st.StringProperty = null;
+
+            var tm = new TypeMapper();
+
+            SimpleType st2 = new SimpleType();
+            st2.EnumProperty = DayOfWeek.Thursday;
+            st2.IntegerProperty = 14;
+            st2.StringProperty = "this should remain what it is";
+
+            tm.Map(st, st2, new MappingOptions { IgnoreNulls = true });
+
+            Assert.AreEqual(st.EnumProperty, st2.EnumProperty);
+            Assert.AreEqual(st.IntegerProperty, st2.IntegerProperty);
+            Assert.AreEqual("this should remain what it is", st2.StringProperty);
         }
     }
 }

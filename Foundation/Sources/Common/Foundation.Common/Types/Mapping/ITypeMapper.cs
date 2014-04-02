@@ -43,6 +43,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         /// <param name="source"></param>
         /// <param name="target"></param>
         void Map<TTarget>(object source, TTarget target) where TTarget : class, new();
+        void Map<TTarget>(object source, TTarget target, MappingOptions options) where TTarget : class, new();
 
         /// <summary>
         /// Clones *source* into *target*.
@@ -52,9 +53,12 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         /// <param name="target"></param>
         /// <param name="targetType"></param>
         void Map(object source, object target, Type targetType);
+        void Map(object source, object target, Type targetType, MappingOptions options);
 
         TTarget Map<TTarget>(object source) where TTarget : class, new();
+        TTarget Map<TTarget>(object source, MappingOptions options) where TTarget : class, new();
 
         object Map(object source, Type targetType);
+        object Map(object source, Type targetType, MappingOptions options);
     }
 }
