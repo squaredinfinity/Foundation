@@ -59,14 +59,64 @@
     <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService_.ConvertStringToPropertyValueEventArgs.cs" />
     <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService.cs" />
     <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService_.ResolveElementReferenceEventArgs.cs" />
+    <Compile Include="Serialization\Mapping\FlexiMappedInstance.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Serialization\Mapping\FlexiTypeMapper.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Serialization\Services\ISerializationService.cs" />
     <Compile Include="Types\Description\IMemberAccessor.cs" />
     <Compile Include="Types\Description\ITypeDescription.cs" />
     <Compile Include="Types\Description\ITypeDescriptor.cs" />
     <Compile Include="Types\Description\ITypeMemberDescription.cs" />
+    <Compile Include="Types\Description\MemberVisibility.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Types\Description\Reflection\ReflectionBasedTypeDescriptor.cs" />
+    <Compile Include="Types\Description\Reflection\ReflectionBasedTypeMemberDescription.cs" />
     <Compile Include="Types\Description\TypeDescription.cs" />
     <Compile Include="Types\Description\TypeMemberDescription.cs" />
+    <Compile Include="Types\Mapping\ITypeMapper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Types\Mapping\ITypeMappingStrategy.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Types\Mapping\MappingContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Types\Mapping\MappingOptions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Types\Mapping\MemberMatching\MemberMatchingRuleCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Types\Mapping\TypeMapper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Types\Mapping\MemberMatching\ExactNameMatchMemberMatchingRule.cs" />
+    <Compile Include="Types\Mapping\MemberMatching\IMemberMatch.cs" />
+    <Compile Include="Types\Mapping\MemberMatching\IMemberMatchingRule.cs" />
+    <Compile Include="Types\Mapping\MemberMatching\MemberMatch.cs" />
+    <Compile Include="Types\Mapping\MemberMatching\MemberMatchCollection.cs" />
+    <Compile Include="Types\Mapping\MemberMatching\PrefixedNameMatchMemberMatchingRule.cs" />
+    <Compile Include="Types\Mapping\TypeMappingStrategy.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Types\Mapping\TypeMappingStrategy.static.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Types\Mapping\ValueResolving\DynamicValueResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Types\Mapping\ValueResolving\IValueResolver.cs" />
+    <Compile Include="Types\Mapping\ValueResolving\MatchedMemberValueResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Types\Mapping\ValueResolving\ValueResolverCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
