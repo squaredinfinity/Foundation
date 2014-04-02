@@ -7,6 +7,12 @@ namespace SquaredInfinity.Foundation.Serialization.Mapping
 {
     public class FlexiMappedInstance
     {
+        public Type MappedType { get; private set; }
+
+        public FlexiMappedInstance(Type mappedType)
+        {
+            this.MappedType = mappedType;
+        }
 
     }
 }

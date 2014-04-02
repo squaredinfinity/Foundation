@@ -1,4 +1,6 @@
 ﻿using SquaredInfinity.Foundation.Types.Description;
+using SquaredInfinity.Foundation.Types.Description.Reflection;
+using SquaredInfinity.Foundation.Types.Mapping.MemberMatching;
 using SquaredInfinity.Foundation.Types.Mapping.ValueResolving;
 using System;
 using System.Collections;
@@ -152,7 +154,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         {
             var key = new TypeMappingStrategiesKey(sourceType, targetType);
 
-            var ms = TypeMappingStrategies.GetOrAdd(key, _key => TypeMappingStrategy.CreateTypeMappingStrategy(sourceType, targetType));
+            var ms = TypeMappingStrategies.GetOrAdd(key, _key => CreateDefaultTypeMappingStrategy(sourceType, targetType));
 
             // todo: anything needed here for IReadOnlyList support in 4.5?
             if (ms.CloneListElements && source is IList && target is IList)
@@ -194,6 +196,21 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                     // todo: internally log mapping error
                 }
             }
+        }
+
+        protected virtual ITypeMappingStrategy CreateDefaultTypeMappingStrategy(Type sourceType, Type targetType)
+        {
+            var result =
+                new TypeMappingStrategy(
+                    sourceType,
+                    targetType,
+                    new ReflectionBasedTypeDescriptor(),
+                    new MemberMatchingRuleCollection() { new ExactNameMatchMemberMatchingRule() },
+                    valueResolvers: null);
+
+            result.CloneListElements = true;
+
+            return result;
         }
 
         void DeepCloneListElements(IList source, IList target, MappingOptions options, MappingContext cx)

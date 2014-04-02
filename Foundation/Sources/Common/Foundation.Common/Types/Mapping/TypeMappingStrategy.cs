@@ -41,14 +41,14 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             Type sourceType,
             Type targetType,
             ITypeDescriptor typeDescriptor,
-            MemberMatchingRuleCollection memberMappingRules, 
+            MemberMatchingRuleCollection memberMatchingRules, 
             ValueResolverCollection valueResolvers)
         {
             this.SourceType = sourceType;
             this.TargetType = targetType;
 
             this.TypeDescriptor = typeDescriptor;
-            this.MemberMatchingRules = memberMappingRules;
+            this.MemberMatchingRules = memberMatchingRules;
             this.ValueResolvers = valueResolvers;
 
             this.SourceTypeDescription = TypeDescriptor.DescribeType(sourceType);

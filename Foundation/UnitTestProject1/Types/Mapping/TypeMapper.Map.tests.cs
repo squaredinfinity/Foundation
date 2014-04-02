@@ -147,5 +147,18 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             Assert.AreEqual(st.IntegerProperty, st2.IntegerProperty);
             Assert.AreEqual("this should remain what it is", st2.StringProperty);
         }
+
+        [TestMethod]
+        public void CanConvertNullableWithValueToNonNullable()
+        {
+            var np = new NullablesTests.HasNullableProperty();
+            np.Property = 13;
+
+            var tm = new TypeMapper();
+
+            var p = tm.Map<NullablesTests.HasNonNullableProperty>(np);
+
+            Assert.AreEqual(13, p.Property);
+        }
     }
 }
