@@ -51,15 +51,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Types\Mapping\TestEntities\LinkedListNode.cs" />
-    <Compile Include="Types\Mapping\TestEntities\SimpleType.cs" />
-    <Compile Include="Types\Mapping\TestEntities\SimpleType2.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Types\Mapping\TestEntities\SimpleType_.cs" />
-    <Compile Include="Types\Mapping\TestEntities\NullablesTests.cs" />
-    <Compile Include="Types\Mapping\TypeMapper.Map.tests.cs" />
-    <Compile Include="Types\Mapping\TypeMapper.DeepClone.tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sources\Common\Foundation.Common\Foundation.Common.csproj">
@@ -67,7 +58,9 @@
       <Name>Foundation.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Types\" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

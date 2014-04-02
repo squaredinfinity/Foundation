@@ -85,10 +85,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Serialization\FlexiXmlSerialization\Services\TestEntities\Entity.cs" />
+    <Compile Include="Types\Mapping\TestEntities\LinkedListNode.cs" />
+    <Compile Include="Types\Mapping\TestEntities\NullablesTests.cs" />
+    <Compile Include="Types\Mapping\TestEntities\SimpleType.cs" />
+    <Compile Include="Types\Mapping\TestEntities\SimpleType2.cs" />
+    <Compile Include="Types\Mapping\TestEntities\SimpleType_.cs" />
+    <Compile Include="Types\Mapping\TypeMapper.DeepClone.tests.cs" />
+    <Compile Include="Types\Mapping\TypeMapper.Map.tests.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Types\Mapping\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\Foundation.Common\Foundation.Common.csproj">
       <Project>{DFEAB4E6-D02D-448B-8649-2D12BE137191}</Project>
