@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4E62F88D-AB89-4AEB-932D-B8D1EE78F59D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Foundation.DotNet45</RootNamespace>
+    <AssemblyName>Foundation.DotNet45</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Common\Foundation.Common\ChainOfCommand.cs">
+      <Link>ChainOfCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\CommandHandlerEventArgs.cs">
+      <Link>CommandHandlerEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\CommandHandlerEventArgs_T.cs">
+      <Link>CommandHandlerEventArgs_T.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Xml.Linq\XElement.extensions.cs">
+      <Link>FrameworkExtensions\System.Xml.Linq\XElement.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Xml.Linq\XObject.extensions.cs">
+      <Link>FrameworkExtensions\System.Xml.Linq\XObject.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\Object.extensions.cs">
+      <Link>FrameworkExtensions\System\Object.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\String.extensions.cs">
+      <Link>FrameworkExtensions\System\String.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\Type.extensions.cs">
+      <Link>FrameworkExtensions\System\Type.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXmlSerialization\Delegates.cs">
+      <Link>Serialization\FlexiXmlSerialization\Delegates.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXmlSerialization\Entities\MemberDiscovertyMode.cs">
+      <Link>Serialization\FlexiXmlSerialization\Entities\MemberDiscovertyMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXmlSerialization\Entities\MemberMappingRule.cs">
+      <Link>Serialization\FlexiXmlSerialization\Entities\MemberMappingRule.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXmlSerialization\Entities\ParticipationMode.cs">
+      <Link>Serialization\FlexiXmlSerialization\Entities\ParticipationMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXmlSerialization\Entities\SerializationContext.cs">
+      <Link>Serialization\FlexiXmlSerialization\Entities\SerializationContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXmlSerialization\Entities\SerializationStrategy.cs">
+      <Link>Serialization\FlexiXmlSerialization\Entities\SerializationStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXmlSerialization\Entities\TypeMappingRule.cs">
+      <Link>Serialization\FlexiXmlSerialization\Entities\TypeMappingRule.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService.cs">
+      <Link>Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService_.ConvertStringToPropertyValueEventArgs.cs">
+      <Link>Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService_.ConvertStringToPropertyValueEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService_.ResolveElementReferenceEventArgs.cs">
+      <Link>Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService_.ResolveElementReferenceEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\Mapping\FlexiMappedInstance.cs">
+      <Link>Serialization\Mapping\FlexiMappedInstance.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\Mapping\FlexiTypeMapper.cs">
+      <Link>Serialization\Mapping\FlexiTypeMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\Services\ISerializationService.cs">
+      <Link>Serialization\Services\ISerializationService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Description\IMemberAccessor.cs">
+      <Link>Types\Description\IMemberAccessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Description\ITypeDescription.cs">
+      <Link>Types\Description\ITypeDescription.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Description\ITypeDescriptor.cs">
+      <Link>Types\Description\ITypeDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Description\ITypeMemberDescription.cs">
+      <Link>Types\Description\ITypeMemberDescription.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Description\MemberVisibility.cs">
+      <Link>Types\Description\MemberVisibility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Description\Reflection\ReflectionBasedTypeDescriptor.cs">
+      <Link>Types\Description\Reflection\ReflectionBasedTypeDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Description\Reflection\ReflectionBasedTypeMemberDescription.cs">
+      <Link>Types\Description\Reflection\ReflectionBasedTypeMemberDescription.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Description\TypeDescription.cs">
+      <Link>Types\Description\TypeDescription.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Description\TypeMemberDescription.cs">
+      <Link>Types\Description\TypeMemberDescription.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\ITypeMapper.cs">
+      <Link>Types\Mapping\ITypeMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\ITypeMappingStrategy.cs">
+      <Link>Types\Mapping\ITypeMappingStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\MappingContext.cs">
+      <Link>Types\Mapping\MappingContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\MappingOptions.cs">
+      <Link>Types\Mapping\MappingOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\MemberMatching\ExactNameMatchMemberMatchingRule.cs">
+      <Link>Types\Mapping\MemberMatching\ExactNameMatchMemberMatchingRule.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\MemberMatching\IMemberMatch.cs">
+      <Link>Types\Mapping\MemberMatching\IMemberMatch.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\MemberMatching\IMemberMatchingRule.cs">
+      <Link>Types\Mapping\MemberMatching\IMemberMatchingRule.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\MemberMatching\MemberMatch.cs">
+      <Link>Types\Mapping\MemberMatching\MemberMatch.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\MemberMatching\MemberMatchCollection.cs">
+      <Link>Types\Mapping\MemberMatching\MemberMatchCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\MemberMatching\MemberMatchingRuleCollection.cs">
+      <Link>Types\Mapping\MemberMatching\MemberMatchingRuleCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\MemberMatching\PrefixedNameMatchMemberMatchingRule.cs">
+      <Link>Types\Mapping\MemberMatching\PrefixedNameMatchMemberMatchingRule.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\TypeMapper.cs">
+      <Link>Types\Mapping\TypeMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\TypeMappingStrategy.cs">
+      <Link>Types\Mapping\TypeMappingStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\TypeMappingStrategy.static.cs">
+      <Link>Types\Mapping\TypeMappingStrategy.static.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\ValueResolving\DynamicValueResolver.cs">
+      <Link>Types\Mapping\ValueResolving\DynamicValueResolver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\ValueResolving\IValueResolver.cs">
+      <Link>Types\Mapping\ValueResolving\IValueResolver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\ValueResolving\MatchedMemberValueResolver.cs">
+      <Link>Types\Mapping\ValueResolving\MatchedMemberValueResolver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\ValueResolving\ValueResolverCollection.cs">
+      <Link>Types\Mapping\ValueResolving\ValueResolverCollection.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
