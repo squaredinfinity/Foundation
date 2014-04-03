@@ -22,12 +22,29 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 
         public ITypeDescription DescribeType(Type type)
         {
-            var td = new TypeDescription();
+            bool isNew = false;
 
-            td.AssemblyQualifiedName = type.AssemblyQualifiedName;
-            td.FullName = type.FullName;
-            td.Name = type.Name;
-            td.Namespace = type.Namespace;
+            var memberTypeDescription =
+                TypeDescriptionCache.GetOrAdd(
+                type.AssemblyQualifiedName,
+                (_) =>
+                {
+                    isNew = true;
+                    return new TypeDescription();
+                });
+
+            if (isNew)
+                DescribeTypeInternal(type, (TypeDescription)memberTypeDescription);
+
+            return memberTypeDescription;
+        }
+
+        void DescribeTypeInternal(Type type, TypeDescription prototype)
+        {
+            prototype.AssemblyQualifiedName = type.AssemblyQualifiedName;
+            prototype.FullName = type.FullName;
+            prototype.Name = type.Name;
+            prototype.Namespace = type.Namespace;
 
             var ps = type.GetProperties();
 
@@ -43,11 +60,11 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 
                 if (member_type == type)
                 {
-                    memberTypeDescription = td;
+                    memberTypeDescription = prototype;
                 }
                 else
                 {
-                    memberTypeDescription = TypeDescriptionCache.GetOrAdd(member_type.AssemblyQualifiedName, (_) => DescribeType(member_type));
+                    memberTypeDescription = DescribeType(member_type);
                 }
 
                 md.AssemblyQualifiedMemberTypeName = memberTypeDescription.AssemblyQualifiedName;
@@ -62,12 +79,10 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 
                 md.Visibility = GetMemberVisibility(p);
 
-                md.DeclaringType = td;
+                md.DeclaringType = prototype;
 
-                td.Members.Add(md);
+                prototype.Members.Add(md);
             }
-
-            return td;
         }
 
         MemberVisibility GetMemberVisibility(PropertyInfo pi)
