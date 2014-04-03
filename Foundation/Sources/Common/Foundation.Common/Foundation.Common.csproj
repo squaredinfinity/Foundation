@@ -45,6 +45,7 @@
     <Compile Include="CommandHandlerEventArgs_T.cs" />
     <Compile Include="FrameworkExtensions\System.Xml.Linq\XElement.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Xml.Linq\XObject.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System\IEnumerable.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\Object.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\String.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\Type.extensions.cs" />
@@ -59,12 +60,8 @@
     <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService_.ConvertStringToPropertyValueEventArgs.cs" />
     <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService.cs" />
     <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService_.ResolveElementReferenceEventArgs.cs" />
-    <Compile Include="Serialization\Mapping\FlexiMappedInstance.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Serialization\Mapping\FlexiTypeMapper.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Serialization\FlexiXml\FlexiXmlSerializer.cs" />
+    <Compile Include="Serialization\ISerializer.cs" />
     <Compile Include="Serialization\Services\ISerializationService.cs" />
     <Compile Include="Types\Description\IMemberAccessor.cs" />
     <Compile Include="Types\Description\ITypeDescription.cs" />

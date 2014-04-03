@@ -41,7 +41,8 @@ namespace SquaredInfinity.Foundation.Types.Mapping
     public class TypeMapper : ITypeMapper
     {   
         TypeMappingStrategiesConcurrentDictionary TypeMappingStrategies = new TypeMappingStrategiesConcurrentDictionary();
-        
+     
+   
         public TypeMapper()
         {
         }
@@ -128,9 +129,6 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             if (IsBuiltInSimpleValueType(source))
                 return source;
 
-            
-           //var clone = CloneOrReuseExistingInstance(source, targetType, cx);
-
             bool isCloneNew = false;
 
             var clone =
@@ -150,7 +148,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             return clone;
         }
 
-        void MapInternal(object source, object target, Type sourceType, Type targetType, MappingOptions options, MappingContext cx)
+        protected virtual void MapInternal(object source, object target, Type sourceType, Type targetType, MappingOptions options, MappingContext cx)
         {
             var key = new TypeMappingStrategiesKey(sourceType, targetType);
 
@@ -200,11 +198,14 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
         protected virtual ITypeMappingStrategy CreateDefaultTypeMappingStrategy(Type sourceType, Type targetType)
         {
+            var descriptor = new ReflectionBasedTypeDescriptor();
+
             var result =
                 new TypeMappingStrategy(
                     sourceType,
                     targetType,
-                    new ReflectionBasedTypeDescriptor(),
+                    descriptor,
+                    descriptor,
                     new MemberMatchingRuleCollection() { new ExactNameMatchMemberMatchingRule() },
                     valueResolvers: null);
 
@@ -250,6 +251,14 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 return null;
 
             return MapInternal(source, targetType, options, new MappingContext());
+        }
+
+        public object Map(object source, Type targetType, MappingOptions options, MappingContext cx)
+        {
+            if (source == null)
+                return null;
+
+            return MapInternal(source, targetType, options, cx);
         }
     }
 }

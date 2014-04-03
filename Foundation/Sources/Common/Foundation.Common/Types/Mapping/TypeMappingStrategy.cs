@@ -21,38 +21,33 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
         MemberMatchingRuleCollection MemberMatchingRules { get; set; }
 
-        public ITypeDescriptor TypeDescriptor { get; set; }
+        public ITypeDescriptor SourceTypeDescriptor { get; set; }
+        public ITypeDescriptor TargetTypeDescriptor { get; set; }
 
         public ValueResolving.ValueResolverCollection ValueResolvers { get; set; }
 
         readonly ConcurrentDictionary<string, IValueResolver> MemberNameToValueResolverMappings 
             = new ConcurrentDictionary<string, IValueResolver>();
 
-        public TypeMappingStrategy(Type sourceType, Type targetType)
-            : this(
-            sourceType,
-            targetType,
-            new ReflectionBasedTypeDescriptor(),
-            new MemberMatchingRuleCollection(),
-            new ValueResolverCollection())
-        { }
-
         public TypeMappingStrategy(
             Type sourceType,
             Type targetType,
-            ITypeDescriptor typeDescriptor,
+            ITypeDescriptor sourceTypeDescriptor,
+            ITypeDescriptor targetTypeDescriptor,
             MemberMatchingRuleCollection memberMatchingRules, 
             ValueResolverCollection valueResolvers)
         {
             this.SourceType = sourceType;
             this.TargetType = targetType;
 
-            this.TypeDescriptor = typeDescriptor;
+            this.SourceTypeDescriptor = sourceTypeDescriptor;
+            this.TargetTypeDescriptor = targetTypeDescriptor;
+
             this.MemberMatchingRules = memberMatchingRules;
             this.ValueResolvers = valueResolvers;
 
-            this.SourceTypeDescription = TypeDescriptor.DescribeType(sourceType);
-            this.TargetTypeDescription = TypeDescriptor.DescribeType(targetType);
+            this.SourceTypeDescription = SourceTypeDescriptor.DescribeType(sourceType);
+            this.TargetTypeDescription = TargetTypeDescriptor.DescribeType(targetType);
 
             var memberMatches = GetMemberMatches(SourceTypeDescription, TargetTypeDescription, MemberMatchingRules);
 

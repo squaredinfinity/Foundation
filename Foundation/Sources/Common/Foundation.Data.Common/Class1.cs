@@ -1,51 +1,4 @@
-﻿//    public static class IEnumerableExtensions
-//    {
-//        public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> list)
-//        {
-//            if (list == null)
-//                return new EmptyEnumerator<T>();
-
-//            return list;
-//        }
-
-//        public class EmptyEnumerator<T> : IEnumerator<T>, IEnumerable<T>, IEnumerator, IEnumerable
-//        {
-//            public object Current
-//            {
-//                get { return null; }
-//            }
-
-//            public bool MoveNext()
-//            {
-//                return false;
-//            }
-
-//            public void Reset()
-//            {
-//            }
-
-//            public IEnumerator GetEnumerator()
-//            {
-//                return this;
-//            }
-
-//            T IEnumerator<T>.Current
-//            {
-//                get { return default(T); }
-//            }
-
-//            public void Dispose()
-//            {
-//            }
-
-//            IEnumerator<T> IEnumerable<T>.GetEnumerator()
-//            {
-//                return this;
-//            }
-//        }
-//    }
-
-//    public static class ArrayExtensions
+﻿//    public static class ArrayExtensions
 //    {
 //        public static bool ArrayContentsEqual<T>(this Array a1, Array a2, IEqualityComparer<T> comparer = null)
 //        {
@@ -103,17 +56,6 @@
 
 //public static class ObjectExtensions
 //{
-//    public static bool IsIn<T>(this object obj, params T[] args)
-//    {
-//        foreach (var a in args)
-//        {
-//            if (object.Equals(obj, a))
-//                return true;
-//        }
-
-//        return false;
-//    }
-
 //    public static object ToDbValue(this object obj)
 //    {
 //        if (obj == null) return DBNull.Value;
