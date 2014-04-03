@@ -186,7 +186,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                     {
                         var memberType = Type.GetType(member.AssemblyQualifiedMemberTypeName);
                         
-                        val = MapInternal(val, memberType, options, cx);
+                        val = MapInternal(val, val.GetType(), options, cx);
 
                         member.SetValue(target, val);
                     }
