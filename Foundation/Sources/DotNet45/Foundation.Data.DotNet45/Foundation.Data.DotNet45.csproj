@@ -39,6 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Common\Foundation.Data.Common\ConnectionFactory.cs">
+      <Link>ConnectionFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Data.Common\DataAccessService.cs">
+      <Link>DataAccessService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Data.Common\Sql\SqlDataAccessService.cs">
+      <Link>Sql\SqlDataAccessService.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
