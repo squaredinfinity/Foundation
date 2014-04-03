@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using SquaredInfinity.Foundation;
 
-namespace SquaredInfinity.Foundation
+namespace SquaredInfinity.Foundation.Extensions
 {
     [TestClass]
     public class GetAttributeValueTests

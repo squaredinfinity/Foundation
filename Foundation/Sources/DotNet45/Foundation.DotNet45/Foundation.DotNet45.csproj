@@ -7,8 +7,8 @@
     <ProjectGuid>{4E62F88D-AB89-4AEB-932D-B8D1EE78F59D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Foundation.DotNet45</RootNamespace>
-    <AssemblyName>Foundation.DotNet45</AssemblyName>
+    <RootNamespace>SquaredInfinity.Foundation.DotNet45</RootNamespace>
+    <AssemblyName>SquaredInfinity.Foundation.DotNet45</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

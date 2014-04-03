@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace SquaredInfinity.Foundation
+namespace SquaredInfinity.Foundation.Extensions
 {
     public static class XObjectExtensions
     {

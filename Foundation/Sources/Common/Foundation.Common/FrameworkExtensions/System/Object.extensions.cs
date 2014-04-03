@@ -1,10 +1,11 @@
-﻿using System;
+﻿using SquaredInfinity.Foundation.Types.Mapping;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation
+namespace SquaredInfinity.Foundation.Extensions
 {
     public static class ObjectExtensions
     {
@@ -50,6 +51,26 @@ namespace SquaredInfinity.Foundation
         public static bool IsIn<T>(this T obj, IEqualityComparer<T> equalityComparer, IEnumerable<T> list)
         {
             return list.Contains(obj, equalityComparer);
+        }
+
+        static readonly TypeMapper DefaultTypeMapper = new TypeMapper();
+
+        public static void DeepCopyFrom<TTarget>(this TTarget target, object source)
+            where TTarget : class, new()
+        {
+            target.DeepCopyFrom<TTarget>(source, MappingOptions.Default);
+        }
+
+        public static void DeepCopyFrom<TTarget>(this TTarget target, object source, MappingOptions options)
+            where TTarget : class, new()
+        {
+            DefaultTypeMapper.Map(source, target, options);
+        }
+
+        public static TTarget DeepClone<TTarget>(this TTarget source)
+            where TTarget : class, new()
+        {
+            return DefaultTypeMapper.DeepClone<TTarget>(source);
         }
     }
 }

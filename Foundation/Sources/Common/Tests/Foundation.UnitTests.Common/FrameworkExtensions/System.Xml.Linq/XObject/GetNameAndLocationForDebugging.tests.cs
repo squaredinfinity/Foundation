@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace SquaredInfinity.Foundation
+namespace SquaredInfinity.Foundation.Extensions
 {
     [TestClass]
     public class GetNameAndLocationForDebuggingTests
