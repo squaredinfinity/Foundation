@@ -14,6 +14,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Common", "Source
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.DotNet45", "Sources\DotNet45\Foundation.DotNet45\Foundation.DotNet45.csproj", "{4E62F88D-AB89-4AEB-932D-B8D1EE78F59D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Data.Common", "Sources\Common\Foundation.Data.Common\Foundation.Data.Common.csproj", "{23CEADC1-A877-465A-9549-35C2C80A0460}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Data.DotNet45", "Sources\DotNet45\Foundation.Data.DotNet45\Foundation.Data.DotNet45.csproj", "{1A2DB9FE-7D95-47F2-8B28-7E9B0A319B14}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +36,14 @@ Global
 		{4E62F88D-AB89-4AEB-932D-B8D1EE78F59D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E62F88D-AB89-4AEB-932D-B8D1EE78F59D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E62F88D-AB89-4AEB-932D-B8D1EE78F59D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23CEADC1-A877-465A-9549-35C2C80A0460}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23CEADC1-A877-465A-9549-35C2C80A0460}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23CEADC1-A877-465A-9549-35C2C80A0460}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23CEADC1-A877-465A-9549-35C2C80A0460}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A2DB9FE-7D95-47F2-8B28-7E9B0A319B14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A2DB9FE-7D95-47F2-8B28-7E9B0A319B14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A2DB9FE-7D95-47F2-8B28-7E9B0A319B14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A2DB9FE-7D95-47F2-8B28-7E9B0A319B14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
