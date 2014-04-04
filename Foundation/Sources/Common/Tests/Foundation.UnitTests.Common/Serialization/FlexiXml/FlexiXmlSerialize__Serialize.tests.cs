@@ -14,11 +14,14 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         [TestMethod]
         public void CanSerializeTypes()
         {
-            var x = new SimpleSerializableType();
+        //    var n = TestEntities.LinkedListNode.CreateDefaultTestHierarchy();
 
-            var s = new FllexXmlSerializer();
+            var n = new TestEntities.LinkedListNode { Id = 13 };
+            var s = new FlexiXml.FllexXmlSerializer();
 
-            var xml = s.Serialize(x);
+            var xml = s.Serialize(n);
+
+            Assert.IsNotNull(xml);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SquaredInfinity.Foundation.TestEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -91,39 +92,13 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         [TestMethod]
         public void HandlesCircularReferences__ObjectReferencesSelfIndirectly()
         {
-            var n0 = new LinkedListNode { Id = 0 };
-            var n1 = new LinkedListNode { Id = 1 };
-            var n2 = new LinkedListNode { Id = 2 };
-            var n3 = new LinkedListNode { Id = 3 };
-
-            n0.Next = n1;
-            n1.Next = n2;
-            n2.Next = n3;
-            n3.Next = n0;
-
-            n0.Previous = n3;
-            n1.Previous = n0;
-            n2.Previous = n1;
-            n3.Previous = n2;
+            var n = LinkedListNode.CreateDefaultTestHierarchy();
 
             var tm = new TypeMapper();
 
-            var clone = tm.Map<LinkedListNode>(n3);
+            var clone = tm.Map<LinkedListNode>(n);
 
-            Assert.AreEqual(3, clone.Id);
-
-            Assert.AreEqual(2, clone.Previous.Id);
-            Assert.AreEqual(1, clone.Previous.Previous.Id);
-            Assert.AreEqual(0, clone.Previous.Previous.Previous.Id);
-            Assert.AreEqual(3, clone.Previous.Previous.Previous.Previous.Id);
-
-            Assert.AreEqual(0, clone.Next.Id);
-            Assert.AreEqual(1, clone.Next.Next.Id);
-            Assert.AreEqual(2, clone.Next.Next.Next.Id);
-            Assert.AreEqual(3, clone.Next.Next.Next.Next.Id);
-
-            Assert.AreSame(clone, clone.Next.Next.Next.Next);
-            Assert.AreSame(clone, clone.Previous.Previous.Previous.Previous);
+            LinkedListNode.EnsureDefaultTestHierarchyPreserved(clone);
         }
 
         [TestMethod]

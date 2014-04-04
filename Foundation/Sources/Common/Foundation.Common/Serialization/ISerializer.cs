@@ -8,7 +8,7 @@ namespace SquaredInfinity.Foundation.Serialization
 {
     public interface ISerializer
     {
-        XDocument Serialize(object obj);
+        XElement Serialize(object obj);
 
         T Deserialize<T>(XDocument xml);
     }

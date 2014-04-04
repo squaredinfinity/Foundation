@@ -89,7 +89,7 @@
     <Compile Include="Serialization\FlexiXml\FlexiXmlSerialize__Serialize.tests.cs" />
     <Compile Include="Types\Description\Reflection\ReflectionBasedTypeDescriptor.DescribeType.tests.cs" />
     <Compile Include="Types\Description\Reflection\TestEntities\TypeHaPropertyOfTheSameType.cs" />
-    <Compile Include="Types\Mapping\TestEntities\LinkedListNode.cs" />
+    <Compile Include="TestEntities\LinkedListNode.cs" />
     <Compile Include="Types\Mapping\TestEntities\NullablesTests.cs" />
     <Compile Include="Types\Mapping\TestEntities\SimpleType.cs" />
     <Compile Include="Types\Mapping\TestEntities\SimpleType2.cs" />

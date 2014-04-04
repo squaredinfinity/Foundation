@@ -63,20 +63,11 @@
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\Type.extensions.cs">
       <Link>FrameworkExtensions\System\Type.extensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\Types\Description\FlexiTypeDescription.cs">
-      <Link>Serialization\FlexiXml\Types\Description\FlexiTypeDescription.cs</Link>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\FlexiXmlSerializer.cs">
+      <Link>Serialization\FlexiXml\FlexiXmlSerializer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\Types\Description\FlexiTypeDescriptor.cs">
-      <Link>Serialization\FlexiXml\Types\Description\FlexiTypeDescriptor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\Types\Description\FlexiTypeMemberDescription.cs">
-      <Link>Serialization\FlexiXml\Types\Description\FlexiTypeMemberDescription.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\Types\Mapping\FlexiXmlMappedInstance.cs">
-      <Link>Serialization\FlexiXml\Types\Mapping\FlexiXmlMappedInstance.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\Types\Mapping\FlexiXmlTypeMapper.cs">
-      <Link>Serialization\FlexiXml\Types\Mapping\FlexiXmlTypeMapper.cs</Link>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\ISerializer.cs">
+      <Link>Serialization\ISerializer.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Types\Description\IMemberAccessor.cs">
       <Link>Types\Description\IMemberAccessor.cs</Link>
