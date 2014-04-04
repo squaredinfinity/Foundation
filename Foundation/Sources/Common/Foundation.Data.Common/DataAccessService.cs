@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace SquaredInfinity.Foundation.Data
 {
@@ -67,10 +68,10 @@ namespace SquaredInfinity.Foundation.Data
             using (var connection = connectionFactory.GetNewConnection())
             {
                 connection.Open();
-                
+
                 using (var command = PrepareCommand(connection, CommandType.StoredProcedure, procName, parameters))
-                {   
-                    using (var reader = (TDataReader) command.ExecuteReader())
+                {
+                    using (var reader = (TDataReader)command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -118,7 +119,7 @@ namespace SquaredInfinity.Foundation.Data
 
                 using (var command = PrepareCommand(connection, CommandType.StoredProcedure, procName, parameters))
                 {
-                    using (var reader = command.ExecuteReader(CommandBehavior.SingleRow))
+                    using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -161,7 +162,7 @@ namespace SquaredInfinity.Foundation.Data
             string procName,
             IEnumerable<TParameter> parameters)
         {
-            var result = (Dictionary<string, object>) null;
+            var result = (Dictionary<string, object>)null;
 
             using (var connection = connectionFactory.GetNewConnection())
             {
@@ -225,9 +226,9 @@ namespace SquaredInfinity.Foundation.Data
 
         public T ExecuteScalar<T>(string procName)
         {
-            return (T) ExecuteScalar(ConnectionFactory, procName, new List<TParameter>());
+            return (T)ExecuteScalar(ConnectionFactory, procName, new List<TParameter>());
         }
-        
+
         public Task<T> ExecuteScalarAsync<T>(string procName)
         {
             return Task.Factory.StartNew(() => ExecuteScalar<T>(procName));
@@ -235,7 +236,7 @@ namespace SquaredInfinity.Foundation.Data
 
         public T ExecuteScalar<T>(string procName, IEnumerable<TParameter> parameters)
         {
-            return (T) ExecuteScalar(ConnectionFactory, procName, parameters);
+            return (T)ExecuteScalar(ConnectionFactory, procName, parameters);
         }
 
         public Task<T> ExecuteScalarAsync<T>(string procName, IEnumerable<TParameter> parameters)
@@ -255,7 +256,7 @@ namespace SquaredInfinity.Foundation.Data
                 }
             }
         }
-        
+
         protected virtual TCommand PrepareCommand(TConnection connection, CommandType commandType, string commandText, IEnumerable<TParameter> parameters)
         {
             var command = connection.CreateCommand();
@@ -270,6 +271,60 @@ namespace SquaredInfinity.Foundation.Data
             }
 
             return (TCommand)command;
+        }
+
+
+        public virtual object MapToDbValue(object clrValue)
+        {
+            if (clrValue == null) 
+                return DBNull.Value;
+
+            var ts = clrValue as TimeSpan?;
+            if (ts != null)
+            {
+                return ts.Value.Ticks;
+            }
+
+            if (clrValue is XDocument)
+                return (clrValue as XDocument).ToString(SaveOptions.None);
+
+            return clrValue;
+        }
+
+        public TTarget MapToClrValue<TTarget>(object dbValue, TTarget clrTarget, TTarget defaultValue = default(TTarget))
+        {
+            MapToClrValue<TTarget>(dbValue, ref clrTarget, defaultValue);
+
+            return clrTarget;
+        }
+
+        public virtual void MapToClrValue<TTarget>(object dbValue, ref TTarget clrTarget, TTarget defaultValue = default(TTarget))
+        {
+            if (dbValue == null)
+            {
+                clrTarget = defaultValue;
+                return;
+            }
+
+            if (dbValue == DBNull.Value)
+            {
+                clrTarget = defaultValue;
+                return;
+            }
+
+            if (clrTarget is TimeSpan? || clrTarget is TimeSpan)
+            {
+                clrTarget = (TTarget)(object)TimeSpan.FromTicks((long)dbValue);
+                return;
+            }
+
+            if (clrTarget is XDocument)
+            {
+                clrTarget = (TTarget)(object)XDocument.Parse(dbValue as string);
+                return;
+            }
+
+            clrTarget = (TTarget)dbValue;
         }
     }
 }
