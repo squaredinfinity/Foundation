@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Data
 {
@@ -291,11 +292,22 @@ namespace SquaredInfinity.Foundation.Data
             return clrValue;
         }
 
-        public TTarget MapToClrValue<TTarget>(object dbValue, TTarget clrTarget, TTarget defaultValue = default(TTarget))
+        public TTarget MapToClrValue<TTarget>(object dbValue, TTarget defaultValue = default(TTarget))
         {
+            TTarget clrTarget = default(TTarget);
+
             MapToClrValue<TTarget>(dbValue, ref clrTarget, defaultValue);
 
             return clrTarget;
+        }
+
+        public void MapToClrValue<TTarget>(object dbValue, TTarget target, Action<TTarget> setValue, TTarget defaultValue = default(TTarget))
+        {
+            TTarget clrValue = default(TTarget);
+
+            MapToClrValue<TTarget>(dbValue, ref clrValue, defaultValue);
+
+            setValue(clrValue);
         }
 
         public virtual void MapToClrValue<TTarget>(object dbValue, ref TTarget clrTarget, TTarget defaultValue = default(TTarget))
@@ -312,6 +324,15 @@ namespace SquaredInfinity.Foundation.Data
                 return;
             }
 
+            var targetType = typeof(TTarget);
+            var sourceType = dbValue.GetType();
+
+            if (sourceType.IsTypeEquivalentTo(targetType, treatNullableAsEquivalent: true))
+            {
+                clrTarget = (TTarget)dbValue;
+                return;
+            }
+
             if (clrTarget is TimeSpan? || clrTarget is TimeSpan)
             {
                 clrTarget = (TTarget)(object)TimeSpan.FromTicks((long)dbValue);
@@ -324,7 +345,20 @@ namespace SquaredInfinity.Foundation.Data
                 return;
             }
 
-            clrTarget = (TTarget)dbValue;
+            if (dbValue is IConvertible)
+            {
+                clrTarget = (TTarget)Convert.ChangeType(dbValue, typeof(TTarget));
+            }
+            else
+            {
+                var ex = new InvalidCastException(
+                    "Unable to Map type {0} to {1}."
+                    .FormatWith(
+                        sourceType.Name,
+                        targetType.Name));
+
+                // todo: add context data AssemblyQName
+            }
         }
     }
 }
