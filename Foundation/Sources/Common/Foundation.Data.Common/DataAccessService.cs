@@ -31,7 +31,7 @@ namespace SquaredInfinity.Foundation.Data
             string procName,
             Func<TDataReader, TEntity> createEntity)
         {
-            return ExecuteReader<TEntity>(ConnectionFactory, procName, new List<TParameter>(), createEntity);
+            return ExecuteReaderInternal<TEntity>(ConnectionFactory, procName, new List<TParameter>(), createEntity);
         }
 
         public Task<List<TEntity>> ExecuteReaderAsync<TEntity>(
@@ -47,7 +47,7 @@ namespace SquaredInfinity.Foundation.Data
             IEnumerable<TParameter> parameters,
             Func<TDataReader, TEntity> createEntity)
         {
-            return ExecuteReader<TEntity>(ConnectionFactory, procName, parameters, createEntity);
+            return ExecuteReaderInternal<TEntity>(ConnectionFactory, procName, parameters, createEntity);
         }
 
         public Task<List<TEntity>> ExecuteReaderAsync<TEntity>(
@@ -58,7 +58,7 @@ namespace SquaredInfinity.Foundation.Data
             return Task.Factory.StartNew(() => ExecuteReader<TEntity>(procName, parameters, createEntity).ToList());
         }
 
-        IEnumerable<TEntity> ExecuteReader<TEntity>(
+        IEnumerable<TEntity> ExecuteReaderInternal<TEntity>(
             ConnectionFactory<TConnection> connectionFactory,
             string procName,
             IEnumerable<TParameter> parameters,
@@ -75,6 +75,61 @@ namespace SquaredInfinity.Foundation.Data
                         while (reader.Read())
                         {
                             yield return createEntity(reader);
+                        }
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<Dictionary<string, object>> ExecuteReader(
+            string procName)
+        {
+            return ExecuteReader(procName, new List<TParameter>());
+        }
+
+        public Task<List<Dictionary<string, object>>> ExecuteReaderAsync(
+            string procName)
+        {
+            return Task.Factory.StartNew(() => ExecuteReader(procName).ToList());
+        }
+
+        public IEnumerable<Dictionary<string, object>> ExecuteReader(
+            string procName,
+            IEnumerable<TParameter> parameters)
+        {
+            return ExecuteReaderInternal(ConnectionFactory, procName, parameters);
+        }
+
+        public Task<List<Dictionary<string, object>>> ExecuteReaderAsync(
+            string procName,
+            IEnumerable<TParameter> parameters)
+        {
+            return Task.Factory.StartNew(() => ExecuteReader(procName, parameters).ToList());
+        }
+
+        IEnumerable<Dictionary<string, object>> ExecuteReaderInternal(
+            ConnectionFactory<TConnection> connectionFactory,
+            string procName,
+            IEnumerable<TParameter> parameters)
+        {
+            using (var connection = connectionFactory.GetNewConnection())
+            {
+                connection.Open();
+
+                using (var command = PrepareCommand(connection, CommandType.StoredProcedure, procName, parameters))
+                {
+                    using (var reader = command.ExecuteReader(CommandBehavior.SingleRow))
+                    {
+                        while (reader.Read())
+                        {
+                            var result = new Dictionary<string, object>(capacity: reader.FieldCount);
+
+                            for (int i = 0; i < reader.FieldCount; i++)
+                            {
+                                result.Add(reader.GetName(i), reader[i]);
+                            }
+
+                            yield return result;
                         }
                     }
                 }

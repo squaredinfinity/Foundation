@@ -12,5 +12,9 @@ namespace SquaredInfinity.Foundation.Data.Sql
         public SqlDataAccessService(ConnectionFactory<SqlConnection> connectionFactory, TimeSpan defaultCommandTimeout)
             : base(connectionFactory, defaultCommandTimeout)
         { }
+
+        public SqlDataAccessService(string connectionString, TimeSpan defaultCommandTimeout)
+            : this(new ConnectionFactory<SqlConnection>(connectionString), defaultCommandTimeout)
+        {}
     }
 }
