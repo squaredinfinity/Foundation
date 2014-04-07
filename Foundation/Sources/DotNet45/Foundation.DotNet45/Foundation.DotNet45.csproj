@@ -102,6 +102,9 @@
     <Compile Include="..\..\Common\Foundation.Common\Types\Description\TypeMemberDescription.cs">
       <Link>Types\Description\TypeMemberDescription.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\CreateInstanceContext.cs">
+      <Link>Types\Mapping\CreateInstanceContext.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\ITypeMapper.cs">
       <Link>Types\Mapping\ITypeMapper.cs</Link>
     </Compile>

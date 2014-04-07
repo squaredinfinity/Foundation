@@ -39,6 +39,16 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         {
             return Equals(obj as TypeMappingStrategy);
         }
+
+        public override int GetHashCode()
+        {
+            var hash = 21;
+
+            hash *= 31 ^ SourceType.GetHashCode();
+            hash *= 31 ^ TargetType.GetHashCode();
+
+            return hash;
+        }
     }
 
     public class TypeMapper : ITypeMapper
@@ -75,34 +85,6 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 return null;
 
             return MapInternal(source, sourceType, MappingOptions.Default, new MappingContext());
-        }
-
-        protected virtual bool TryCreateClonePrototype(Type type, out object clone)
-        {
-            clone = null;
-
-            try
-            {
-                var constructor = type
-                    .GetConstructor(
-                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, 
-                    binder: null,
-                    types: Type.EmptyTypes,
-                    modifiers:null);
-
-                if (constructor != null)
-                {
-                    clone = constructor.Invoke(null);
-
-                    return true;
-                }
-            }
-            catch(Exception ex)
-            {
-                // todo: internal logging
-            }
-
-            return false;
         }
 
         bool IsBuiltInSimpleValueType(object obj)
@@ -153,7 +135,15 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             if (IsBuiltInSimpleValueType(source))
                 return source;
 
+            var sourceType = source.GetType();
+
+            var key = new TypeMappingStrategiesKey(sourceType, targetType);
+
+            var ms = TypeMappingStrategies.GetOrAdd(key, _key => CreateDefaultTypeMappingStrategy(sourceType, targetType));
+
             bool isCloneNew = false;
+
+            var create_cx = new CreateInstanceContext();
 
             var clone =
                 cx.Objects_MappedFromTo.GetOrAdd(
@@ -162,20 +152,19 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 {
                     var _clone = (object) null;
 
-                    if (TryCreateClonePrototype(targetType, out _clone))
+                    if(ms.TryCreateInstace(source, targetType, create_cx, out _clone))
                     {
                         isCloneNew = true;
                         return _clone;
                     }
                     else
                     {
+                        // todo: log error
                         return source;
                     }
                 });
 
-            var sourceType = source.GetType();
-
-            if (isCloneNew)
+            if (isCloneNew && !create_cx.IsFullyConstructed)
                 MapInternal(source, clone, sourceType, targetType, options, cx);
 
             return clone;
@@ -278,7 +267,29 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                     new MemberMatchingRuleCollection() { new ExactNameMatchMemberMatchingRule() },
                     valueResolvers: null);
 
-            result.CloneListElements = true;
+            return result;
+        }
+
+        TypeMappingStrategy<TFrom, TTo> CreateDefaultTypeMappingStrategy<TFrom, TTo>()
+        {
+            return CreateDefaultTypeMappingStrategy<TFrom, TTo>(
+                new ReflectionBasedTypeDescriptor(),
+                new MemberMatchingRuleCollection() { new ExactNameMatchMemberMatchingRule() },
+                valueResolvers: null);
+        }
+        TypeMappingStrategy<TFrom, TTo> CreateDefaultTypeMappingStrategy<TFrom, TTo>(
+            ITypeDescriptor typeDescriptor, 
+            IEnumerable<IMemberMatchingRule> memberMatchingRules,
+            IEnumerable<IValueResolver> valueResolvers)
+        {
+            var descriptor = new ReflectionBasedTypeDescriptor();
+
+            var result =
+                new TypeMappingStrategy<TFrom, TTo>(
+                    typeDescriptor,
+                    typeDescriptor,
+                    new MemberMatchingRuleCollection() { new ExactNameMatchMemberMatchingRule() },
+                    valueResolvers: null);
 
             return result;
         }
@@ -373,6 +384,19 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 return null;
 
             return MapInternal(source, targetType, options, cx);
+        }
+
+        public TypeMappingStrategy<TFrom, TTo> GetOrCreateTypeMappingStrategy<TFrom, TTo>()
+        {
+            return GetOrCreateTypeMappingStrategy<TFrom, TTo>(() => CreateDefaultTypeMappingStrategy<TFrom, TTo>());
+        }
+
+        public TypeMappingStrategy<TFrom, TTo> GetOrCreateTypeMappingStrategy<TFrom, TTo>(Func<TypeMappingStrategy<TFrom, TTo>> create)
+        {
+            var key = new TypeMappingStrategiesKey(typeof(TFrom), typeof(TTo));
+
+            // todo: create T ITypeMappingStrategy instead
+            return (TypeMappingStrategy<TFrom, TTo>)TypeMappingStrategies.GetOrAdd(key, (ITypeMappingStrategy) create());
         }
     }
 }

@@ -6,10 +6,38 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace SquaredInfinity.Foundation.Types.Mapping
 {
+    public class TypeMappingStrategy<TFrom, TTo> : TypeMappingStrategy
+    {
+        public TypeMappingStrategy(
+            ITypeDescriptor sourceTypeDescriptor,
+            ITypeDescriptor targetTypeDescriptor,
+            MemberMatchingRuleCollection memberMatchingRules,
+            ValueResolverCollection valueResolvers)
+            : base(
+            typeof(TFrom), 
+            typeof(TTo), 
+            sourceTypeDescriptor,
+            targetTypeDescriptor,
+            memberMatchingRules,
+            valueResolvers)
+        { }
+
+        public void CreateInstanceWith(Func<TFrom, TTo> create)
+        {
+            base.CustomCreateInstanceWith = (o, cx) => create((TFrom) o);
+        }
+
+        public void CreateInstanceWith(Func<TFrom, CreateInstanceContext, TTo> create)
+        {
+            base.CustomCreateInstanceWith = (o, cx) => create((TFrom)o, cx);
+        }
+    }
+
     public partial class TypeMappingStrategy : ITypeMappingStrategy
     {
         public Type SourceType { get; set; }
@@ -17,7 +45,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         public ITypeDescription SourceTypeDescription { get; private set; }
         public ITypeDescription TargetTypeDescription { get; private set; }
 
-        public bool CloneListElements { get; set; }
+        protected Func<object, CreateInstanceContext, object> CustomCreateInstanceWith { get; set; }
 
         MemberMatchingRuleCollection MemberMatchingRules { get; set; }
 
@@ -28,7 +56,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
         readonly ConcurrentDictionary<string, IValueResolver> MemberNameToValueResolverMappings 
             = new ConcurrentDictionary<string, IValueResolver>();
-
+        
         public TypeMappingStrategy(
             Type sourceType,
             Type targetType,
@@ -118,6 +146,40 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             valueResolver = null;
 
             return MemberNameToValueResolverMappings.TryGetValue(memberName, out valueResolver);                
+        }
+
+        public bool TryCreateInstace(object source, Type targetType, CreateInstanceContext create_cx, out object newInstance)
+        {
+            newInstance = null;
+
+            try
+            {
+                if (CustomCreateInstanceWith != null)
+                {
+                    newInstance = CustomCreateInstanceWith(source, create_cx);
+                    return true;
+                }
+
+                var constructor = targetType
+                    .GetConstructor(
+                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                    binder: null,
+                    types: Type.EmptyTypes,
+                    modifiers: null);
+
+                if (constructor != null)
+                {
+                    newInstance = constructor.Invoke(null);
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                // todo: internal logging
+            }
+
+            return false;
         }
     }
 }

@@ -77,6 +77,7 @@
     <Compile Include="Types\Description\Reflection\ReflectionBasedTypeMemberDescription.cs" />
     <Compile Include="Types\Description\TypeDescription.cs" />
     <Compile Include="Types\Description\TypeMemberDescription.cs" />
+    <Compile Include="Types\Mapping\CreateInstanceContext.cs" />
     <Compile Include="Types\Mapping\ITypeMapper.cs">
       <SubType>Code</SubType>
     </Compile>
