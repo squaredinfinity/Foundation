@@ -4,12 +4,74 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Extensions
 {
     public static class StringExtensions
     {
+        /// <summary>
+        /// Returns the substring using regex pattern.
+        /// </summary>
+        /// <param name="str">Input string</param>
+        /// <param name="regexPattern">The regex pattern.</param>
+        /// <returns></returns>
+        public static string Substring(this string str, string regexPattern)
+        {
+            var match = Regex.Match(str, regexPattern);
+
+            return match.Value;
+        }
+
+        public static string Substring(this string str, string regexPattern, string capturingGroupName)
+        {
+            return str.Substring(regexPattern, capturingGroupName, true);
+        }
+
+        /// <summary>
+        /// Returns the substring using regex pattern.
+        /// The substring is a value captured by named group
+        /// </summary>
+        /// <param name="str">input string</param>
+        /// <param name="regexPattern">The regex pattern.</param>
+        /// <param name="capturingGroupName">Name of the capturing group.</param>
+        /// <returns></returns>
+        public static string Substring(this string str, string regexPattern, string capturingGroupName, bool throwOnFailure)
+        {
+            var match = Regex.Match(str, regexPattern);
+
+            if (!match.Success)
+            {
+                if (throwOnFailure)
+                {
+                    Exception ex = new ArgumentException("no match found.");
+                    throw ex;
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+
+            var group = match.Groups[capturingGroupName];
+
+            if (group == null || !group.Success)
+            {
+                if (throwOnFailure)
+                {
+                    Exception ex = new ArgumentException("capturing group does not exist.");
+                    throw ex;
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+
+            return group.Value;
+        }
+
         public static bool IsMultiLine(this string str)
         {
             if (str.Contains(Environment.NewLine))
@@ -235,5 +297,29 @@ namespace SquaredInfinity.Foundation.Extensions
         {
             return cultureInfo.TextInfo.ToTitleCase(str);
         }
+
+        public static string TrimEachLine(this string str, bool removeEmptyLines = true)
+        {
+            var result = new StringBuilder();
+
+            var lines = str.GetLines();
+
+            foreach (var line in lines)
+            {
+                var trimmedLine = line.Trim();
+
+                if (trimmedLine.Length == 0)
+                    continue;
+
+                // add new line before if result already has some contents
+                if (result.Length > 0)
+                    result.AppendLine();
+
+                result.Append(trimmedLine);
+            }
+
+            return result.ToString();
+        }
+
     }
 }

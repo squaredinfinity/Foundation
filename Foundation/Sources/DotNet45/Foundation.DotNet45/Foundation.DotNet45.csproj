@@ -66,6 +66,9 @@
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Collections\IEnumerable.Extensions.cs">
       <Link>FrameworkExtensions\System.Collections\IEnumerable.Extensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.ComponentModel\INotifyPropertyChanged.extensions.cs">
+      <Link>FrameworkExtensions\System.ComponentModel\INotifyPropertyChanged.extensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Diagnostics\Stopwatch.extensions.cs">
       <Link>FrameworkExtensions\System.Diagnostics\Stopwatch.extensions.cs</Link>
     </Compile>

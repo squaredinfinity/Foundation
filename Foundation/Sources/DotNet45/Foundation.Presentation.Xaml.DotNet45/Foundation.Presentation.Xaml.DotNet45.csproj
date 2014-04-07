@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{48E58F39-A7B8-44D9-AFBF-7985E42208C9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Foundation.Presentation.Xaml.DotNet45</RootNamespace>
+    <AssemblyName>Foundation.Presentation.Xaml.DotNet45</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Commands\DelegateCommand.cs">
+      <Link>Commands\DelegateCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Commands\DelegateCommandBase.cs">
+      <Link>Commands\DelegateCommandBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Commands\DelegateCommand_T.cs">
+      <Link>Commands\DelegateCommand_T.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\BoolToNumberConverter.cs">
+      <Link>Converters\BoolToNumberConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\BoolToVisibilityConverter.cs">
+      <Link>Converters\BoolToVisibilityConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\CollectionLastItemToVisibilityConverter.cs">
+      <Link>Converters\CollectionLastItemToVisibilityConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\ComObjectConverter.cs">
+      <Link>Converters\ComObjectConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\CompositeConverter.cs">
+      <Link>Converters\CompositeConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\EnumToBoolConverter.cs">
+      <Link>Converters\EnumToBoolConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\GetApplicationResourceConverter.cs">
+      <Link>Converters\GetApplicationResourceConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\InvertBoolConverter.cs">
+      <Link>Converters\InvertBoolConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\MixedCompositeConverter.cs">
+      <Link>Converters\MixedCompositeConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\NullOrEmptyToBoolConverter.cs">
+      <Link>Converters\NullOrEmptyToBoolConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\NumberToBoolConverter.cs">
+      <Link>Converters\NumberToBoolConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\TextFlattenAndTrimConverter.cs">
+      <Link>Converters\TextFlattenAndTrimConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\TreeViewItemLeftMarginConverter.cs">
+      <Link>Converters\TreeViewItemLeftMarginConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Data\CollectionViewSource.cs">
+      <Link>Data\CollectionViewSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DialogMode.cs">
+      <Link>DialogMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DialogScope.cs">
+      <Link>DialogScope.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows.Controls\TreeViewItem.extensions.cs">
+      <Link>FrameworkExtensions\System.Windows.Controls\TreeViewItem.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows.Media\ImageSource.extensions.cs">
+      <Link>FrameworkExtensions\System.Windows.Media\ImageSource.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows\DependencyObject.extensions.cs">
+      <Link>FrameworkExtensions\System.Windows\DependencyObject.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\IHostAwareViewModel.cs">
+      <Link>IHostAwareViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\IUIService.cs">
+      <Link>IUIService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\IViewModel.cs">
+      <Link>IViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\IViewModelHost.cs">
+      <Link>IViewModelHost.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\CommandMethodBinding.CommandMethodConverter.cs">
+      <Link>MarkupExtensions\CommandMethodBinding.CommandMethodConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\CommandMethodBinding.cs">
+      <Link>MarkupExtensions\CommandMethodBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\CommandMethodBinding.InvokeMethodCommand.cs">
+      <Link>MarkupExtensions\CommandMethodBinding.InvokeMethodCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\LoadImageFromMainAssembly.cs">
+      <Link>MarkupExtensions\LoadImageFromMainAssembly.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\MethodBinding.cs">
+      <Link>MarkupExtensions\MethodBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\MethodResultBinding.cs">
+      <Link>MarkupExtensions\MethodResultBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\MethodResultBinding.MethodWithParametersResultConverter.cs">
+      <Link>MarkupExtensions\MethodResultBinding.MethodWithParametersResultConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\PredicateMethodBinding.cs">
+      <Link>MarkupExtensions\PredicateMethodBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\PredicateMethodBinding.PredicateMethodConverter.cs">
+      <Link>MarkupExtensions\PredicateMethodBinding.PredicateMethodConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\SmartBinding.cs">
+      <Link>MarkupExtensions\SmartBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\NotifyPropertyChangedObject.cs">
+      <Link>NotifyPropertyChangedObject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Resources.cs">
+      <Link>Resources.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\UIService.cs">
+      <Link>UIService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\UserInteractionOutcome.cs">
+      <Link>UserInteractionOutcome.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ViewModel.cs">
+      <Link>ViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ViewModel.IHostAwareViewModel.cs">
+      <Link>ViewModel.IHostAwareViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ViewModelState.cs">
+      <Link>ViewModelState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\WeakEvent.cs">
+      <Link>WeakEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\WeakEventHandlerManager.cs">
+      <Link>WeakEventHandlerManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\WindowViewModel.cs">
+      <Link>WindowViewModel.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Foundation.DotNet45\Foundation.DotNet45.csproj">
+      <Project>{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}</Project>
+      <Name>Foundation.DotNet45</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
