@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace SquaredInfinity.Foundation.Presentation.Commands
 {
-    public abstract class DelegateCommandBase : ICommand
+    public abstract partial class DelegateCommandBase : ICommand
     {
         private readonly Action<object> executeMethod;
         private readonly Func<object, bool> canExecuteMethod;

@@ -7,8 +7,8 @@
     <ProjectGuid>{6D246254-BF79-47C6-AE0E-2FDA3E9467A4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Foundation.Presentation.Xaml.Common</RootNamespace>
-    <AssemblyName>Foundation.Presentation.Xaml.Common</AssemblyName>
+    <RootNamespace>SquaredInfinity.Foundation.Presentation</RootNamespace>
+    <AssemblyName>SquaredInfinity.Foundation.Presentation.Xaml.Common</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\DelegateCommand.cs" />
+    <Compile Include="Commands\DelegateCommandBase.WeakEventHandlerManager.cs" />
     <Compile Include="Commands\DelegateCommandBase.cs" />
     <Compile Include="Commands\DelegateCommand_T.cs" />
     <Compile Include="Converters\BoolToNumberConverter.cs" />
@@ -89,7 +90,6 @@
     <Compile Include="ViewModel.IHostAwareViewModel.cs" />
     <Compile Include="ViewModelState.cs" />
     <Compile Include="WeakEvent.cs" />
-    <Compile Include="WeakEventHandlerManager.cs" />
     <Compile Include="WindowViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

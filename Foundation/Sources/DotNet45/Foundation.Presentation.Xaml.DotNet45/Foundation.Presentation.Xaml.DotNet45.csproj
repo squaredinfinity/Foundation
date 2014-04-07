@@ -7,8 +7,8 @@
     <ProjectGuid>{48E58F39-A7B8-44D9-AFBF-7985E42208C9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Foundation.Presentation.Xaml.DotNet45</RootNamespace>
-    <AssemblyName>Foundation.Presentation.Xaml.DotNet45</AssemblyName>
+    <RootNamespace>SquaredInfinity.Foundation.Presentation</RootNamespace>
+    <AssemblyName>SquaredInfinity.Foundation.Presentation.Xaml.DotNet45</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -49,6 +49,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Commands\DelegateCommandBase.cs">
       <Link>Commands\DelegateCommandBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Commands\DelegateCommandBase.WeakEventHandlerManager.cs">
+      <Link>Commands\DelegateCommandBase.WeakEventHandlerManager.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Commands\DelegateCommand_T.cs">
       <Link>Commands\DelegateCommand_T.cs</Link>
@@ -175,9 +178,6 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\WeakEvent.cs">
       <Link>WeakEvent.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\WeakEventHandlerManager.cs">
-      <Link>WeakEventHandlerManager.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\WindowViewModel.cs">
       <Link>WindowViewModel.cs</Link>
