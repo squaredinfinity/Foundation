@@ -46,12 +46,31 @@
     <Compile Include="ChainOfCommand.cs" />
     <Compile Include="CommandHandlerEventArgs.cs" />
     <Compile Include="CommandHandlerEventArgs_T.cs" />
+    <Compile Include="CompositeComparer_T.cs" />
+    <Compile Include="DateTimeContext.cs" />
+    <Compile Include="FrameworkExtensions\Microsoft.Win32\RegistryKey.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System.Collections\ICollection.Extensions.cs" />
+    <Compile Include="FrameworkExtensions\System.Collections\IEnumerable.Extensions.cs" />
+    <Compile Include="FrameworkExtensions\System.Diagnostics\Stopwatch.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System.Linq.Expressions\Expression.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System.Xml.Linq\XAttribute.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System.Xml.Linq\XContainer.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System.Xml.Linq\XDocument.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Xml.Linq\XElement.extensions.cs" />
-    <Compile Include="FrameworkExtensions\System.Xml.Linq\XObject.extensions.cs" />
-    <Compile Include="FrameworkExtensions\System\IEnumerable.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System.Xml.Linq\XNode.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System.Xml.Linq\XObject.extensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FrameworkExtensions\System.Xml\XmlDocument.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System\Char.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System\DateTimeExtensions.cs" />
+    <Compile Include="FrameworkExtensions\System\Double.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System\Enum.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System\IServiceProvider.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\Object.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\String.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\Type.extensions.cs" />
+    <Compile Include="IDateTimeContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\FlexiXmlSerialization\Delegates.cs" />
     <Compile Include="Serialization\FlexiXmlSerialization\Entities\MemberDiscovertyMode.cs" />
@@ -66,6 +85,7 @@
     <Compile Include="Serialization\FlexiXml\FlexiXmlSerializer.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
     <Compile Include="Serialization\Services\ISerializationService.cs" />
+    <Compile Include="TreeTraversalMode.cs" />
     <Compile Include="Types\Description\IMemberAccessor.cs" />
     <Compile Include="Types\Description\ITypeDescription.cs" />
     <Compile Include="Types\Description\ITypeDescriptor.cs" />

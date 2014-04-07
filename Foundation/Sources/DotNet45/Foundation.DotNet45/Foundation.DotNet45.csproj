@@ -51,14 +51,62 @@
     <Compile Include="..\..\Common\Foundation.Common\CommandHandlerEventArgs_T.cs">
       <Link>CommandHandlerEventArgs_T.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\CompositeComparer_T.cs">
+      <Link>CompositeComparer_T.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\DateTimeContext.cs">
+      <Link>DateTimeContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\Microsoft.Win32\RegistryKey.extensions.cs">
+      <Link>FrameworkExtensions\Microsoft.Win32\RegistryKey.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Collections\ICollection.Extensions.cs">
+      <Link>FrameworkExtensions\System.Collections\ICollection.Extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Collections\IEnumerable.Extensions.cs">
+      <Link>FrameworkExtensions\System.Collections\IEnumerable.Extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Diagnostics\Stopwatch.extensions.cs">
+      <Link>FrameworkExtensions\System.Diagnostics\Stopwatch.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Linq.Expressions\Expression.extensions.cs">
+      <Link>FrameworkExtensions\System.Linq.Expressions\Expression.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Xml.Linq\XAttribute.extensions.cs">
+      <Link>FrameworkExtensions\System.Xml.Linq\XAttribute.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Xml.Linq\XContainer.extensions.cs">
+      <Link>FrameworkExtensions\System.Xml.Linq\XContainer.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Xml.Linq\XDocument.extensions.cs">
+      <Link>FrameworkExtensions\System.Xml.Linq\XDocument.extensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Xml.Linq\XElement.extensions.cs">
       <Link>FrameworkExtensions\System.Xml.Linq\XElement.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Xml.Linq\XNode.extensions.cs">
+      <Link>FrameworkExtensions\System.Xml.Linq\XNode.extensions.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Xml.Linq\XObject.extensions.cs">
       <Link>FrameworkExtensions\System.Xml.Linq\XObject.extensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\IEnumerable.extensions.cs">
-      <Link>FrameworkExtensions\System\IEnumerable.extensions.cs</Link>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Xml\XmlDocument.extensions.cs">
+      <Link>FrameworkExtensions\System.Xml\XmlDocument.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\Char.extensions.cs">
+      <Link>FrameworkExtensions\System\Char.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\DateTimeExtensions.cs">
+      <Link>FrameworkExtensions\System\DateTimeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\Double.extensions.cs">
+      <Link>FrameworkExtensions\System\Double.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\Enum.extensions.cs">
+      <Link>FrameworkExtensions\System\Enum.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\IServiceProvider.extensions.cs">
+      <Link>FrameworkExtensions\System\IServiceProvider.extensions.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\Object.extensions.cs">
       <Link>FrameworkExtensions\System\Object.extensions.cs</Link>
@@ -69,11 +117,17 @@
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\Type.extensions.cs">
       <Link>FrameworkExtensions\System\Type.extensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\IDateTimeContext.cs">
+      <Link>IDateTimeContext.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\FlexiXmlSerializer.cs">
       <Link>Serialization\FlexiXml\FlexiXmlSerializer.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\ISerializer.cs">
       <Link>Serialization\ISerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\TreeTraversalMode.cs">
+      <Link>TreeTraversalMode.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Types\Description\IMemberAccessor.cs">
       <Link>Types\Description\IMemberAccessor.cs</Link>

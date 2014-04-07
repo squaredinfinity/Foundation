@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -225,5 +226,14 @@ namespace SquaredInfinity.Foundation.Extensions
             return string.Join(Environment.NewLine, lines);
         }
 
+        public static string ToTitleCase(this string str)
+        {
+            return str.ToTitleCase(CultureInfo.CurrentUICulture);
+        }
+
+        public static string ToTitleCase(this string str, CultureInfo cultureInfo)
+        {
+            return cultureInfo.TextInfo.ToTitleCase(str);
+        }
     }
 }
