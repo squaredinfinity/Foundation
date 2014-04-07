@@ -135,5 +135,130 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             Assert.AreEqual(13, p.Property);
         }
+
+        public class MapTestCollectionItem
+        {
+            public int Id { get; set; }
+        }
+
+        public class MapTestCollection : List<MapTestCollectionItem>
+        {
+
+        }
+
+        public class MapTestCollectionOwner
+        {
+            public MapTestCollection Collection { get; set; }
+        }
+
+        [TestMethod]
+        public void PreservesExistingCollectionsAndCollectionItems_ButMapsTheirProperties()
+        {
+            var source = new MapTestCollectionOwner();
+            
+            var sourceCollection = new MapTestCollection();
+            source.Collection = sourceCollection;
+
+            var sourceCollectionItem = new MapTestCollectionItem { Id = 13 };
+            source.Collection.Add(sourceCollectionItem);
+
+            var target = new MapTestCollectionOwner();
+
+            var targetCollection = new MapTestCollection();
+            target.Collection = targetCollection;
+
+            var targetCollectionItem = new MapTestCollectionItem { Id = 7 };
+            target.Collection.Add(targetCollectionItem);
+
+            TypeMapper mapper = new TypeMapper();
+
+            mapper.Map(source, target);
+
+            Assert.AreSame(sourceCollection, source.Collection);
+            Assert.AreSame(sourceCollectionItem, source.Collection.Single());
+
+            Assert.AreSame(targetCollection, target.Collection);
+            Assert.AreSame(targetCollectionItem, target.Collection.Single());
+
+            Assert.AreEqual(13, target.Collection.Single().Id);
+
+            Assert.AreEqual(1, target.Collection.Count);
+        }
+
+        [TestMethod]
+        public void PreservesExistingCollectionsAndCollectionItems_ButMapsTheirProperties__TrimsRemainingOldItems()
+        {
+            var source = new MapTestCollectionOwner();
+
+            var sourceCollection = new MapTestCollection();
+            source.Collection = sourceCollection;
+
+            var sourceCollectionItem = new MapTestCollectionItem { Id = 13 };
+            source.Collection.Add(sourceCollectionItem);
+
+            var target = new MapTestCollectionOwner();
+
+            var targetCollection = new MapTestCollection();
+            target.Collection = targetCollection;
+
+            var targetCollectionItem_1 = new MapTestCollectionItem { Id = 7 };
+            var targetCollectionItem_2 = new MapTestCollectionItem { Id = 21 };
+            target.Collection.Add(targetCollectionItem_1);
+            target.Collection.Add(targetCollectionItem_2);
+
+            TypeMapper mapper = new TypeMapper();
+
+            mapper.Map(source, target);
+
+            Assert.AreSame(sourceCollection, source.Collection);
+            Assert.AreSame(sourceCollectionItem, source.Collection.Single());
+
+            Assert.AreSame(targetCollection, target.Collection);
+            Assert.AreSame(targetCollectionItem_1, target.Collection.Single());
+
+            Assert.AreEqual(13, target.Collection.Single().Id);
+
+            Assert.AreEqual(1, target.Collection.Count);
+        }
+
+        [TestMethod]
+        public void PreservesExistingCollectionsAndCollectionItems_ButMapsTheirProperties__AddsAdditionalNewItemsWhenNeeded()
+        {
+            var source = new MapTestCollectionOwner();
+
+            var sourceCollection = new MapTestCollection();
+            source.Collection = sourceCollection;
+
+            var sourceCollectionItem_1 = new MapTestCollectionItem { Id = 13 };
+            var sourceCollectionItem_2 = new MapTestCollectionItem { Id = 21 };
+            source.Collection.Add(sourceCollectionItem_1);
+            source.Collection.Add(sourceCollectionItem_2);
+
+            var target = new MapTestCollectionOwner();
+
+            var targetCollection = new MapTestCollection();
+            target.Collection = targetCollection;
+
+            var targetCollectionItem_1 = new MapTestCollectionItem { Id = 7 };
+            target.Collection.Add(targetCollectionItem_1);
+
+            TypeMapper mapper = new TypeMapper();
+
+            mapper.Map(source, target);
+
+            Assert.AreSame(sourceCollection, source.Collection);
+            Assert.AreSame(sourceCollectionItem_1, source.Collection.First());
+            Assert.AreSame(sourceCollectionItem_2, source.Collection.Skip(1).First());
+
+            Assert.AreSame(targetCollection, target.Collection);
+            
+            Assert.AreSame(targetCollectionItem_1, target.Collection.First());
+            Assert.AreEqual(13, target.Collection.First().Id);
+
+            Assert.AreNotSame(sourceCollectionItem_2, target.Collection.Skip(1).First());
+            Assert.AreEqual(21, target.Collection.Skip(1).First().Id);
+
+            Assert.AreEqual(2, target.Collection.Count);
+        }
     }
 }

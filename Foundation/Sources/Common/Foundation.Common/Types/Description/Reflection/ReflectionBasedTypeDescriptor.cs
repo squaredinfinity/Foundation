@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Types.Description.Reflection
 {
@@ -46,7 +47,10 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
             prototype.Name = type.Name;
             prototype.Namespace = type.Namespace;
 
-            var ps = type.GetProperties();
+            var ps =
+                (from p in type.GetProperties()
+                 where p.GetIndexParameters().IsNullOrEmpty()
+                 select p).ToArray();
 
             for (int i = 0; i < ps.Length; i++)
             {

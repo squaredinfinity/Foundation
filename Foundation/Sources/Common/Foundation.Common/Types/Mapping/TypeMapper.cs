@@ -8,6 +8,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SquaredInfinity.Foundation.Extensions;
+using System.Windows.Media;
+using System.Reflection;
 
 namespace SquaredInfinity.Foundation.Types.Mapping
 {
@@ -74,11 +77,32 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             return MapInternal(source, sourceType, MappingOptions.Default, new MappingContext());
         }
 
-        protected virtual object CreateClonePrototype(Type type)
+        protected virtual bool TryCreateClonePrototype(Type type, out object clone)
         {
-            var clone = Activator.CreateInstance(type);
-            
-            return clone;
+            clone = null;
+
+            try
+            {
+                var constructor = type
+                    .GetConstructor(
+                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, 
+                    binder: null,
+                    types: Type.EmptyTypes,
+                    modifiers:null);
+
+                if (constructor != null)
+                {
+                    clone = constructor.Invoke(null);
+
+                    return true;
+                }
+            }
+            catch(Exception ex)
+            {
+                // todo: internal logging
+            }
+
+            return false;
         }
 
         bool IsBuiltInSimpleValueType(object obj)
@@ -136,8 +160,17 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 source,
                 (_) =>
                 {
-                    isCloneNew = true;
-                    return CreateClonePrototype(targetType);
+                    var _clone = (object) null;
+
+                    if (TryCreateClonePrototype(targetType, out _clone))
+                    {
+                        isCloneNew = true;
+                        return _clone;
+                    }
+                    else
+                    {
+                        return source;
+                    }
                 });
 
             var sourceType = source.GetType();
@@ -155,8 +188,11 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             var ms = TypeMappingStrategies.GetOrAdd(key, _key => CreateDefaultTypeMappingStrategy(sourceType, targetType));
 
             // todo: anything needed here for IReadOnlyList support in 4.5?
-            if (ms.CloneListElements && source is IList && target is IList)
+            if (source is IList && target is IList)
             {
+                if (!options.ReuseTargetCollectionItemsWhenPossible)
+                    (target as IList).Clear();
+
                 DeepCloneListElements(source as IList, target as IList, options, cx);
             }
 
@@ -164,29 +200,62 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             {
                 try
                 {
-                    var member = ms.TargetTypeDescription.Members[i];
+                    var targetMember = ms.TargetTypeDescription.Members[i];
 
                     var valueResolver = (IValueResolver)null;
 
-                    if (!ms.TryGetValueResolverForMember(member.Name, out valueResolver))
+                    if (!ms.TryGetValueResolverForMember(targetMember.Name, out valueResolver))
                         continue;
 
                     var val = valueResolver.ResolveValue(source);
+                    
+                    // check if there exists value converter for source / target types
+
+                    var targetMemberType = Type.GetType(targetMember.AssemblyQualifiedMemberTypeName);
+
+                    if (valueResolver.ToType != targetMemberType)
+                    {
+                        //var converter = ms.TryGetValueConverter(valueResolver.ToType, targetMemberType);
+
+                        //val = converter.Convert(val);
+                    }
 
                     if (val == null && options.IgnoreNulls)
                         continue;
 
-                    if (val == null || IsBuiltInSimpleValueType(val))
+                    // check for any post-processing rules
+
+                    bool isCloned = false;
+
+                    // todo: add custom post-processing rule, possibly remove dependency on presentaioncore, windowsbase, presentationframewoprk
+                    if (val != null && valueResolver.ToType == typeof(Brush))
                     {
-                        member.SetValue(target, val);
+                        var brush = (Brush)val;
+
+                        val = brush.CloneCurrentValue();
+
+                        if (brush.IsFrozen)
+                            ((Brush)val).Freeze();
+
+                        isCloned = true;
+                    }
+
+                    if (val == null || IsBuiltInSimpleValueType(val) || isCloned)
+                    {
+                        targetMember.SetValue(target, val);
                     }
                     else
                     {
-                        var memberType = Type.GetType(member.AssemblyQualifiedMemberTypeName);
-                        
-                        val = MapInternal(val, val.GetType(), options, cx);
-
-                        member.SetValue(target, val);
+                        // todo: what if target is null ? should we create new instance ?
+                        if (options.ReuseTargetCollectionsWhenPossible && targetMemberType.ImplementsInterface<IList>())
+                        {
+                            MapInternal(val, targetMember.GetValue(target), val.GetType(), targetMemberType, options, cx);
+                        }
+                        else
+                        {
+                            val = MapInternal(val, val.GetType(), options, cx);
+                            targetMember.SetValue(target, val);
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -220,9 +289,54 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             {
                 var sourceItem = source[i];
 
-                var targetItem = MapInternal(sourceItem, sourceItem.GetType(), options, cx);
+                if (sourceItem == null)
+                {
+                    target.Add(sourceItem);
+                    continue;
+                }
 
-                target.Add(targetItem);
+                var targetItem = (object)null;
+
+                if (options.ReuseTargetCollectionItemsWhenPossible)
+                {
+                    if (target.Count - 1 >= i)
+                    {
+                        targetItem = target[i];
+
+                        if (targetItem != null)
+                        {
+                            var sourceItemType = sourceItem.GetType();
+                            var targetItemType = targetItem.GetType();
+
+                            if (sourceItemType == targetItemType)
+                            {
+                                // reuse target
+                                MapInternal(sourceItem, targetItem, sourceItemType, targetItemType, options, cx);
+                                continue;
+                            }
+                        }
+                    }
+                }
+
+                // did not reuse target, replace it with new instance
+
+                targetItem = MapInternal(sourceItem, sourceItem.GetType(), options, cx);
+
+                // if item in *i* position exists, replace it (as we failed to reuse it above)
+                if (target.Count > i)
+                {
+                    target.RemoveAt(i);
+                }
+                
+                target.Insert(i, targetItem);
+            }
+
+            if(options.ReuseTargetCollectionItemsWhenPossible && target.Count > source.Count)
+            {
+                for(int i = source.Count; i < target.Count; i++)
+                {
+                    target.RemoveAt(i);
+                }
             }
         }
 

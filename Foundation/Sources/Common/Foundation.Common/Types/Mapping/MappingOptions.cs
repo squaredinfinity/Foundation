@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SquaredInfinity.Foundation.Types.Mapping
 {
-    public class MappingOptions
+    public struct MappingOptions
     {
         public static readonly MappingOptions Default;
 
@@ -13,7 +13,10 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         {
             Default = new MappingOptions
             {
-                IgnoreNulls = false
+                IgnoreNulls = false,
+
+                ReuseTargetCollectionsWhenPossible = true,
+                ReuseTargetCollectionItemsWhenPossible = true
             };
         }
 
@@ -21,5 +24,9 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         /// When *true*, source members with NULL value will not be mapped (original value of the target will be preserved)
         /// </summary>
         public bool IgnoreNulls { get; set; }
+
+        public bool ReuseTargetCollectionsWhenPossible { get; set; }
+
+        public bool ReuseTargetCollectionItemsWhenPossible { get; set; }
     }
 }

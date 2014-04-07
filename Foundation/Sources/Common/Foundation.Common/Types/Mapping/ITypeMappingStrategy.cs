@@ -8,8 +8,6 @@ namespace SquaredInfinity.Foundation.Types.Mapping
     {
         ITypeDescription SourceTypeDescription { get; }
         ITypeDescription TargetTypeDescription { get; }
-
-        bool CloneListElements { get; }
         
         bool TryGetValueResolverForMember(string memberName, out IValueResolver valueResolver);
     }

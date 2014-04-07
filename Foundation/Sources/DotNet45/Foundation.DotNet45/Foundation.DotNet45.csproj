@@ -30,6 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -37,6 +39,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\Common\Foundation.Common\ChainOfCommand.cs">
@@ -53,6 +56,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Xml.Linq\XObject.extensions.cs">
       <Link>FrameworkExtensions\System.Xml.Linq\XObject.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\IEnumerable.extensions.cs">
+      <Link>FrameworkExtensions\System\IEnumerable.extensions.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\Object.extensions.cs">
       <Link>FrameworkExtensions\System\Object.extensions.cs</Link>
@@ -146,6 +152,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\ValueResolving\MatchedMemberValueResolver.cs">
       <Link>Types\Mapping\ValueResolving\MatchedMemberValueResolver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\ValueResolving\ValueResolver.cs">
+      <Link>Types\Mapping\ValueResolving\ValueResolver.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\ValueResolving\ValueResolverCollection.cs">
       <Link>Types\Mapping\ValueResolving\ValueResolverCollection.cs</Link>

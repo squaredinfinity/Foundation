@@ -5,18 +5,18 @@ using System.Text;
 
 namespace SquaredInfinity.Foundation.Types.Mapping.ValueResolving
 {
-    public class DynamicValueResolver<TSource, TTarget> : IValueResolver
+    public class DynamicValueResolver<TFrom, TTo> : ValueResolver<TFrom, TTo>
     {
-        Func<TSource, TTarget> Resolve { get; set; }
+        Func<TFrom, TTo> Resolve { get; set; }
 
-        public DynamicValueResolver(Func<TSource, TTarget> resolve)
+        public DynamicValueResolver(Func<TFrom, TTo> resolve)
         {
             this.Resolve = resolve;
         }
 
-        public object ResolveValue(object source)
+        public override TTo ResolveValue(TFrom source)
         {
-            return Resolve((TSource)source);
+            return Resolve(source);
         }
     }
 }

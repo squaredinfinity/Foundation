@@ -8,6 +8,14 @@ namespace SquaredInfinity.Foundation.Extensions
 {
     public static class IEnumerableExtensions
     {
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> list)
+        {
+            if (list == null)
+                return true;
+
+            return !list.Any();
+        }
+
         public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> list)
         {
             if (list == null)
