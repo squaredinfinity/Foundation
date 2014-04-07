@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SquaredInfinity.Foundation.Extensions;
-using System.Windows.Media;
 using System.Reflection;
 
 namespace SquaredInfinity.Foundation.Types.Mapping
@@ -212,24 +211,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                     if (val == null && options.IgnoreNulls)
                         continue;
 
-                    // check for any post-processing rules
-
-                    bool isCloned = false;
-
-                    // todo: add custom post-processing rule, possibly remove dependency on presentaioncore, windowsbase, presentationframewoprk
-                    if (val != null && valueResolver.ToType == typeof(Brush))
-                    {
-                        var brush = (Brush)val;
-
-                        val = brush.CloneCurrentValue();
-
-                        if (brush.IsFrozen)
-                            ((Brush)val).Freeze();
-
-                        isCloned = true;
-                    }
-
-                    if (val == null || IsBuiltInSimpleValueType(val) || isCloned)
+                    if (val == null || IsBuiltInSimpleValueType(val))
                     {
                         targetMember.SetValue(target, val);
                     }
