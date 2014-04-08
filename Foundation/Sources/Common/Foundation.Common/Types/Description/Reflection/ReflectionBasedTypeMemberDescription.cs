@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
 namespace SquaredInfinity.Foundation.Types.Description.Reflection
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public class ReflectionBasedTypeMemberDescription : TypeMemberDescription
     {
         MemberInfo MemberInfo { get; set; }

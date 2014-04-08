@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Types.Description
 {
@@ -72,5 +73,13 @@ namespace SquaredInfinity.Foundation.Types.Description
 
         public abstract object GetValue(object obj);
         public abstract void SetValue(object obj, object value);
+
+        public string DebuggerDisplay
+        {
+            get
+            {
+                return "{0} ({1})".FormatWith(Name, FullMemberTypeName);
+            }
+        }
     }
 }
