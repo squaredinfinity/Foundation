@@ -8,6 +8,17 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Extensions
 {
+    public static class IListExtensions
+    {
+        public static IList EmptyIfNull(this IList list)
+        {
+            if (list == null)
+                return new List<object>();
+
+            return list;
+        }
+    }
+
     public static class IEnumerableExtensions
     {
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> list)
@@ -221,6 +232,18 @@ namespace SquaredInfinity.Foundation.Extensions
         public static IEnumerable<T> Except<T>(this IEnumerable<T> list, T excludedElement)
         {
             return list.Except(new T[] { excludedElement });
+        }
+
+        public static int FastCount<T>(this IEnumerable<T> list)
+        {
+            var collection = list as ICollection;
+
+            if(collection != null)
+            {
+                return collection.Count;
+            }
+
+            return list.Count();
         }
     }
 }

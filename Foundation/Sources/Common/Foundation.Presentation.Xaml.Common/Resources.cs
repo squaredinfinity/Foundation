@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -8,6 +7,9 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xaml;
+using System.IO;
+using SquaredInfinity.Foundation;
+
 using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Presentation
@@ -41,10 +43,7 @@ namespace SquaredInfinity.Foundation.Presentation
             {
                 var resourceDictionary = LoadCompiledResourceDictionary("{0};component/{1}".FormatWith(assemblyName, resourceDictionaryRelativeUri));
 
-                foreach (var key in resourceDictionary.Keys)
-                {
-                    Application.Current.Resources.Add(key, resourceDictionary[key]);
-                }
+                MergeResourceDictionary(resourceDictionary);
             }
             catch (Exception ex)
             {
@@ -52,6 +51,12 @@ namespace SquaredInfinity.Foundation.Presentation
                 //ex.TryAddContextData("resourceDictionaryRelativeUri", () => resourceDictionaryRelativeUri);
                 throw ex;
             }
+        }
+
+        public static void MergeResourceDictionary(ResourceDictionary dict)
+        {
+            Application.Current.Resources.MergedDictionaries.Add(dict);
+            return;
         }
 
         public static void LoadAndMergeCompiledResourceDictionaryFromThisAssembly(string resourceDictionaryRelativeUri)
@@ -99,10 +104,7 @@ namespace SquaredInfinity.Foundation.Presentation
             {
                 var resourceDictionary = LoadResourceDictionary("{0};component/{1}".FormatWith(assemblyName, resourceDictionaryRelativeUri));
 
-                foreach (var key in resourceDictionary.Keys)
-                {
-                    Application.Current.Resources.Add(key, resourceDictionary[key]);
-                }
+                MergeResourceDictionary(resourceDictionary);
             }
             catch (Exception ex)
             {
@@ -146,11 +148,6 @@ namespace SquaredInfinity.Foundation.Presentation
         public static T LoadResource<T>(string resourceUri)
             where T : class
         {
-            return LoadResource(resourceUri) as T;
-        }
-
-        public static object LoadResource(string resourceUri)
-        {
             var resourceInfo = Application.GetResourceStream(new Uri(resourceUri, UriKind.Relative));
             using (StreamReader reader = new StreamReader(resourceInfo.Stream))
             {
@@ -158,9 +155,9 @@ namespace SquaredInfinity.Foundation.Presentation
                 if (!string.IsNullOrEmpty(xaml))
                 {
 #if SILVERLIGHT
-                    return XamlReader.Load(xaml);
+                    return XamlReader.Load(xaml) as T;
 #else
-                    return XamlServices.Parse(xaml);
+                    return XamlServices.Parse(xaml) as T;
 #endif
                 }
             }
@@ -194,7 +191,7 @@ namespace SquaredInfinity.Foundation.Presentation
         public static void RegisterPackUriScheme()
         {
             //! creating instance of Application class will register pack uri scheme
-            var ignored = new System.Windows.Application(); 
+            var ignored = new System.Windows.Application();
         }
 
         public static ImageSource LoadImageFromEntryAssembly(string resourceRelativeUri)
@@ -213,7 +210,7 @@ namespace SquaredInfinity.Foundation.Presentation
 
         public static T LoadResourceFromAssembly<T>(string assemblyName, string resourceDictionaryRelativeUri)
             where T : class
-        { 
+        {
             return LoadResource<T>("{0};component/{1}".FormatWith(assemblyName, resourceDictionaryRelativeUri));
         }
 

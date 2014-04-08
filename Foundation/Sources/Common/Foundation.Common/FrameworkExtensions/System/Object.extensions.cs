@@ -9,6 +9,30 @@ namespace SquaredInfinity.Foundation.Extensions
 {
     public static class ObjectExtensions
     {
+        public static object GetValueOrDefault<T>(this T obj, T defaultValue)
+        {
+            if (obj == null)
+                return defaultValue;
+
+            return obj;
+        }
+
+        public static object GetValueOrDefault<T>(this T obj, Func<T> defaultValue)
+        {
+            if (obj == null)
+                return defaultValue();
+
+            return obj;
+        }
+
+        public static string ToString(this object obj, string nullValue)
+        {
+            if (obj == null)
+                return nullValue;
+
+            return obj.ToString();
+        }
+
         /// <summary>
         /// Determines whether the specified object (value) is in a list.
         /// </summary>
