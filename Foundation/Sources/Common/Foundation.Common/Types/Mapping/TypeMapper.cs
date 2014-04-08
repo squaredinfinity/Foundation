@@ -252,11 +252,11 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             return result;
         }
 
-        TypeMappingStrategy<TFrom, TTo> CreateDefaultTypeMappingStrategy<TFrom, TTo>(bool autoMatchMembers = true)
+        TypeMappingStrategy<TFrom, TTo> CreateDefaultTypeMappingStrategy<TFrom, TTo>()
         {
             return CreateDefaultTypeMappingStrategy<TFrom, TTo>(
                 new ReflectionBasedTypeDescriptor(),
-               new MemberMatchingRuleCollection() { new ExactNameMatchMemberMatchingRule() },
+                new MemberMatchingRuleCollection() { new ExactNameMatchMemberMatchingRule() },
                valueResolvers: null);
         }
         TypeMappingStrategy<TFrom, TTo> CreateDefaultTypeMappingStrategy<TFrom, TTo>(
@@ -368,9 +368,9 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             return MapInternal(source, targetType, options, cx);
         }
 
-        public TypeMappingStrategy<TFrom, TTo> GetOrCreateTypeMappingStrategy<TFrom, TTo>(bool autoMatchMembers = true)
+        public TypeMappingStrategy<TFrom, TTo> GetOrCreateTypeMappingStrategy<TFrom, TTo>()
         {
-            return GetOrCreateTypeMappingStrategy<TFrom, TTo>(() => CreateDefaultTypeMappingStrategy<TFrom, TTo>(autoMatchMembers));
+            return GetOrCreateTypeMappingStrategy<TFrom, TTo>(() => CreateDefaultTypeMappingStrategy<TFrom, TTo>());
         }
 
         public TypeMappingStrategy<TFrom, TTo> GetOrCreateTypeMappingStrategy<TFrom, TTo>(Func<TypeMappingStrategy<TFrom, TTo>> create)

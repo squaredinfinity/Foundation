@@ -29,6 +29,9 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             valueResolvers)
         { }
 
+
+        // todo: refactor those out to a fluent interface
+
         public void CreateInstanceWith(Func<TFrom, TTo> create)
         {
             base.CustomCreateInstanceWith = (o, cx) => create((TFrom) o);
@@ -39,11 +42,21 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             base.CustomCreateInstanceWith = (o, cx) => create((TFrom)o, cx);
         }
 
-        public void MapMember<TFrom, TTo>(string memberName, Func<TFrom, TTo> getValue)
+        public TypeMappingStrategy<TFrom, TTo> MapMember<TMember>(Expression<Func<TFrom, object>> sourceMemberExpression, Func<TFrom, TMember> getValue)
         {
-            var resolver = new DynamicValueResolver<TFrom, TTo>(getValue);
+            var resolver = new DynamicValueResolver<TFrom, TMember>(getValue);
 
-            MemberNameToValueResolverMappings.AddOrUpdate("memberName", (_) => resolver, (_, __) => resolver);
+            var memberName = sourceMemberExpression.GetAccessedMemberName();
+
+            MemberNameToValueResolverMappings.AddOrUpdate(memberName, (key) => resolver, (key, oldValue) => resolver);
+
+            return this;
+        }
+
+        public TypeMappingStrategy<TFrom, TTo> IgnoreAll()
+        {
+            MemberNameToValueResolverMappings.Clear();
+            return this;
         }
     }
 

@@ -14,7 +14,7 @@ namespace SquaredInfinity.Foundation.Extensions
         /// </summary>
         /// <param name="me">Me.</param>
         /// <returns></returns>
-        public static string GetAccessedMemberName(this Expression<Func<object>> me)
+        public static string GetAccessedMemberName(this Expression me)
         {
             object value = null;
 
@@ -26,7 +26,7 @@ namespace SquaredInfinity.Foundation.Extensions
         /// </summary>
         /// <param name="me">Me.</param>
         /// <returns></returns>
-        public static string GetAccessedMemberName(this Expression<Func<object>> me, out object value)
+        public static string GetAccessedMemberName(this Expression me, out object value)
         {
             var lambda = me as LambdaExpression;
 

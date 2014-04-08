@@ -260,5 +260,26 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             Assert.AreEqual(2, target.Collection.Count);
         }
+
+        [TestMethod]
+        public void CanOverrideDefaultMapping()
+        {
+            var s = new SimpleType { IntegerProperty = 13, StringProperty = "Thirteen" };
+            var t = new SimpleType { IntegerProperty = 7, StringProperty = "Seven" };
+
+            var tm = new TypeMapper();
+
+            tm.GetOrCreateTypeMappingStrategy<SimpleType, SimpleType>()
+            .IgnoreAll()
+            .MapMember(x => s.IntegerProperty, x => x.IntegerProperty + 10);
+
+            tm.Map(s, t);
+
+            Assert.AreEqual(13, s.IntegerProperty);
+            Assert.AreEqual("Thirteen", s.StringProperty);
+
+            Assert.AreEqual(23, t.IntegerProperty);
+            Assert.AreEqual("Seven", t.StringProperty);
+        }
     }
 }
