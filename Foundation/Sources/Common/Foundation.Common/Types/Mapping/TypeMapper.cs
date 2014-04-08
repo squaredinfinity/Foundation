@@ -252,16 +252,16 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             return result;
         }
 
-        TypeMappingStrategy<TFrom, TTo> CreateDefaultTypeMappingStrategy<TFrom, TTo>()
+        TypeMappingStrategy<TFrom, TTo> CreateDefaultTypeMappingStrategy<TFrom, TTo>(bool autoMatchMembers = true)
         {
             return CreateDefaultTypeMappingStrategy<TFrom, TTo>(
                 new ReflectionBasedTypeDescriptor(),
-                new MemberMatchingRuleCollection() { new ExactNameMatchMemberMatchingRule() },
-                valueResolvers: null);
+               new MemberMatchingRuleCollection() { new ExactNameMatchMemberMatchingRule() },
+               valueResolvers: null);
         }
         TypeMappingStrategy<TFrom, TTo> CreateDefaultTypeMappingStrategy<TFrom, TTo>(
-            ITypeDescriptor typeDescriptor, 
-            IEnumerable<IMemberMatchingRule> memberMatchingRules,
+            ITypeDescriptor typeDescriptor,
+            MemberMatchingRuleCollection memberMatchingRules,
             IEnumerable<IValueResolver> valueResolvers)
         {
             var descriptor = new ReflectionBasedTypeDescriptor();
@@ -270,7 +270,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 new TypeMappingStrategy<TFrom, TTo>(
                     typeDescriptor,
                     typeDescriptor,
-                    new MemberMatchingRuleCollection() { new ExactNameMatchMemberMatchingRule() },
+                    memberMatchingRules,
                     valueResolvers: null);
 
             return result;
@@ -368,9 +368,9 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             return MapInternal(source, targetType, options, cx);
         }
 
-        public TypeMappingStrategy<TFrom, TTo> GetOrCreateTypeMappingStrategy<TFrom, TTo>()
+        public TypeMappingStrategy<TFrom, TTo> GetOrCreateTypeMappingStrategy<TFrom, TTo>(bool autoMatchMembers = true)
         {
-            return GetOrCreateTypeMappingStrategy<TFrom, TTo>(() => CreateDefaultTypeMappingStrategy<TFrom, TTo>());
+            return GetOrCreateTypeMappingStrategy<TFrom, TTo>(() => CreateDefaultTypeMappingStrategy<TFrom, TTo>(autoMatchMembers));
         }
 
         public TypeMappingStrategy<TFrom, TTo> GetOrCreateTypeMappingStrategy<TFrom, TTo>(Func<TypeMappingStrategy<TFrom, TTo>> create)

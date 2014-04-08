@@ -6,8 +6,10 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Types.Mapping
 {
@@ -36,6 +38,13 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         {
             base.CustomCreateInstanceWith = (o, cx) => create((TFrom)o, cx);
         }
+
+        public void MapMember<TFrom, TTo>(string memberName, Func<TFrom, TTo> getValue)
+        {
+            var resolver = new DynamicValueResolver<TFrom, TTo>(getValue);
+
+            MemberNameToValueResolverMappings.AddOrUpdate("memberName", (_) => resolver, (_, __) => resolver);
+        }
     }
 
     public partial class TypeMappingStrategy : ITypeMappingStrategy
@@ -54,7 +63,8 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
         public ValueResolving.ValueResolverCollection ValueResolvers { get; set; }
 
-        readonly ConcurrentDictionary<string, IValueResolver> MemberNameToValueResolverMappings 
+        // todo, add cia method instead of maing int protected
+        protected readonly ConcurrentDictionary<string, IValueResolver> MemberNameToValueResolverMappings 
             = new ConcurrentDictionary<string, IValueResolver>();
         
         public TypeMappingStrategy(
@@ -63,7 +73,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             ITypeDescriptor sourceTypeDescriptor,
             ITypeDescriptor targetTypeDescriptor,
             MemberMatchingRuleCollection memberMatchingRules, 
-            ValueResolverCollection valueResolvers)
+            ValueResolverCollection valueResolvers, bool useautomatchedresolvers = true)
         {
             this.SourceType = sourceType;
             this.TargetType = targetType;
@@ -79,15 +89,18 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             var memberMatches = GetMemberMatches(SourceTypeDescription, TargetTypeDescription, MemberMatchingRules);
 
-            for(int i = 0; i < memberMatches.Count; i++)
+            if (useautomatchedresolvers)
             {
-                var m = memberMatches[i];
+                for (int i = 0; i < memberMatches.Count; i++)
+                {
+                    var m = memberMatches[i];
 
-                MemberNameToValueResolverMappings
-                    .AddOrUpdate(
-                    m.To.Name,
-                    _key => new MatchedMemberValueResolver(m),
-                    (_key, _old) => new MatchedMemberValueResolver(m));
+                    MemberNameToValueResolverMappings
+                        .AddOrUpdate(
+                        m.To.Name,
+                        _key => new MatchedMemberValueResolver(m),
+                        (_key, _old) => new MatchedMemberValueResolver(m));
+                }
             }
         }
 
