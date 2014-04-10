@@ -2,44 +2,75 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:WPF"
+        WindowState="Maximized"
         Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <DataTemplate x:Key="one">
+            <Border Background="WhiteSmoke">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Id}"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
-        <local:MyListView ItemsSource="{Binding MyItems}">
-            <local:MyListView.View>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Button Click="Button_Click" Grid.Row="0">
+            
+        </Button>
+        <local:BackgroundLoadingListView ItemsSource="{Binding MyItems}" 
+                                         Grid.Row="1"
+                                         VirtualizingPanel.IsVirtualizing="False">
+            <local:BackgroundLoadingListView.View>
                 <GridView>
                     <GridView.Columns>
-                        <GridViewColumn DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Id}" />
-                        
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+                        <GridViewColumn CellTemplate="{StaticResource one}" />
+
 
                     </GridView.Columns>
                 </GridView>
-            </local:MyListView.View>
-            <local:MyListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <local:MyStackPanel />
-                    <!--<StackPanel />-->
-                </ItemsPanelTemplate>
-            </local:MyListView.ItemsPanel>
-        </local:MyListView>
+            </local:BackgroundLoadingListView.View>
+        </local:BackgroundLoadingListView>
     </Grid>
 </Window>

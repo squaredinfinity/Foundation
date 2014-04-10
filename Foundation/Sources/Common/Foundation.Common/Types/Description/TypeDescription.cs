@@ -39,10 +39,11 @@ namespace SquaredInfinity.Foundation.Types.Description
             set { _namespace = value; }
         }
 
-        readonly List<ITypeMemberDescription> _members = new List<ITypeMemberDescription>();
+        IList<ITypeMemberDescription> _members;
         public IList<ITypeMemberDescription> Members
         {
             get { return _members; }
+            set { _members = value; }
         }
     }
 }

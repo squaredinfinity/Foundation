@@ -56,6 +56,7 @@
     <Compile Include="Converters\BoolToNumberConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\CollectionLastItemToVisibilityConverter.cs" />
+    <Compile Include="Converters\ColorToSolidColorBrushConverter.cs" />
     <Compile Include="Converters\ComObjectConverter.cs" />
     <Compile Include="Converters\CompositeConverter.cs" />
     <Compile Include="Converters\EnumToBoolConverter.cs" />
@@ -72,6 +73,9 @@
     <Compile Include="FrameworkExtensions\System.Windows.Controls\TreeViewItem.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Windows.Media\ImageSource.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Windows\DependencyObject.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System.Windows\Rect.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System.Windows\Size.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System.Windows\Vector.extensions.cs" />
     <Compile Include="IHostAwareViewModel.cs" />
     <Compile Include="IViewModel.cs" />
     <Compile Include="IViewModelHost.cs" />

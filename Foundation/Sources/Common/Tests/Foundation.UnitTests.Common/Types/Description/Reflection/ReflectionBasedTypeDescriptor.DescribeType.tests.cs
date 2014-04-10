@@ -19,5 +19,17 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 
             Assert.AreEqual(1, description.Members.Count);
         }
+
+
+        // todo: ignores backing fields
+        //[TestMethod]
+        //public void TypeHasPropertyOfTheSameType()
+        //{
+        //    var td = new ReflectionBasedTypeDescriptor();
+
+        //    var description = td.DescribeType(typeof(TestEntities.TypeHasPropertyOfTheSameType));
+
+        //    Assert.AreEqual(1, description.Members.Count);
+        //}
     }
 }

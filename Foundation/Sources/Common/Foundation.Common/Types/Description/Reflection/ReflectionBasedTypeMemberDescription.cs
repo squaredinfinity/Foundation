@@ -12,6 +12,7 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
     {
         MemberInfo MemberInfo { get; set; }
         PropertyInfo PropertyInfo { get; set; }
+        FieldInfo FieldInfo { get; set; }
 
         public ReflectionBasedTypeMemberDescription(MemberInfo memberInfo)
         {
@@ -21,6 +22,10 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
             {
                 PropertyInfo = memberInfo as PropertyInfo;
             }
+            else if(memberInfo is FieldInfo)
+            {
+                FieldInfo = memberInfo as FieldInfo;
+            }
         }
 
         public override object GetValue(object obj)
@@ -28,6 +33,10 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
             if(PropertyInfo != null)
             {
                 return PropertyInfo.GetValue(obj, null);
+            }
+            else if (FieldInfo != null)
+            {
+                return FieldInfo.GetValue(obj);
             }
             else
             {
@@ -40,6 +49,10 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
             if (PropertyInfo != null)
             {
                 PropertyInfo.SetValue(obj, value, null);
+            }
+            else if (FieldInfo != null)
+            {
+                FieldInfo.SetValue(obj, value);
             }
             else
             {

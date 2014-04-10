@@ -80,6 +80,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\CollectionLastItemToVisibilityConverter.cs">
       <Link>Converters\CollectionLastItemToVisibilityConverter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\ColorToSolidColorBrushConverter.cs">
+      <Link>Converters\ColorToSolidColorBrushConverter.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\ComObjectConverter.cs">
       <Link>Converters\ComObjectConverter.cs</Link>
     </Compile>
@@ -127,6 +130,15 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows\DependencyObject.extensions.cs">
       <Link>FrameworkExtensions\System.Windows\DependencyObject.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows\Rect.extensions.cs">
+      <Link>FrameworkExtensions\System.Windows\Rect.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows\Size.extensions.cs">
+      <Link>FrameworkExtensions\System.Windows\Size.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows\Vector.extensions.cs">
+      <Link>FrameworkExtensions\System.Windows\Vector.extensions.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\IHostAwareViewModel.cs">
       <Link>IHostAwareViewModel.cs</Link>

@@ -10,13 +10,19 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 {
     public class ReflectionBasedTypeDescriptor : ITypeDescriptor
     {
-        static readonly Type TYPE_RuntimeMemberInfo;
+        static readonly Type TYPE_RuntimePropertyInfo;
         static readonly PropertyInfo PROPERTY_BindingFlags;
+
+        static readonly Type TYPE_RuntimeFieldInfo;
+        static readonly PropertyInfo FIELD_BindingFlags;
 
         static ReflectionBasedTypeDescriptor()
         {
-            TYPE_RuntimeMemberInfo = typeof(PropertyInfo).Assembly.GetType("System.Reflection.RuntimePropertyInfo");
-            PROPERTY_BindingFlags = TYPE_RuntimeMemberInfo.GetProperty("BindingFlags", BindingFlags.NonPublic | BindingFlags.Instance);
+            TYPE_RuntimePropertyInfo = typeof(PropertyInfo).Assembly.GetType("System.Reflection.RuntimePropertyInfo");
+            PROPERTY_BindingFlags = TYPE_RuntimePropertyInfo.GetProperty("BindingFlags", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            TYPE_RuntimeFieldInfo = typeof(FieldInfo).Assembly.GetType("System.Reflection.RuntimeFieldInfo");
+            FIELD_BindingFlags = TYPE_RuntimeFieldInfo.GetProperty("BindingFlags", BindingFlags.NonPublic | BindingFlags.Instance);
         }
 
         readonly ConcurrentDictionary<string, ITypeDescription> TypeDescriptionCache = new ConcurrentDictionary<string, ITypeDescription>();
@@ -47,14 +53,60 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
             prototype.Name = type.Name;
             prototype.Namespace = type.Namespace;
 
-            var ps =
-                (from p in type.GetProperties()
+            var properties =
+                (from p in type.GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
                  where p.GetIndexParameters().IsNullOrEmpty()
                  select p).ToArray();
 
-            for (int i = 0; i < ps.Length; i++)
+            var fields = new List<FieldInfo>().ToArray();
+            // todo: develop customizable filters which can be used to determine if field should be included or now
+            // those should work in later part (down below) after member description is created but before it is added
+                //(from f in type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+                // where !f.Name.EndsWith("_backingfield", StringComparison.InvariantCultureIgnoreCase)
+                // select f).ToArray();
+            
+            prototype.Members = new List<ITypeMemberDescription>(capacity: properties.Length + fields.Length);
+
+            for (int i = 0; i < fields.Length; i++)
             {
-                var p = ps[i];
+                var f = fields[i];
+
+                var md = new ReflectionBasedTypeMemberDescription(f);
+
+                var member_type = f.FieldType;
+
+                var memberTypeDescription = (ITypeDescription)null;
+
+                if (member_type == type)
+                {
+                    memberTypeDescription = prototype;
+                }
+                else
+                {
+                    memberTypeDescription = DescribeType(member_type);
+                }
+
+                md.AssemblyQualifiedMemberTypeName = memberTypeDescription.AssemblyQualifiedName;
+                md.FullMemberTypeName = memberTypeDescription.FullName;
+                md.MemberTypeName = memberTypeDescription.Name;
+
+                md.Name = f.Name;
+                md.SanitizedName = f.Name;
+
+                // todo: handle readonly fields
+                md.CanGetValue = true;
+                md.CanSetValue = true;
+
+                md.Visibility = GetMemberVisibility(f);
+
+                md.DeclaringType = prototype;
+
+                prototype.Members.Add(md);
+            }
+
+            for (int i = 0; i < properties.Length; i++)
+            {
+                var p = properties[i];
 
                 var md = new ReflectionBasedTypeMemberDescription(p);
 
@@ -92,6 +144,14 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
         MemberVisibility GetMemberVisibility(PropertyInfo pi)
         {
             if ((BindingFlags)PROPERTY_BindingFlags.GetValue(pi, null) == BindingFlags.Public)
+                return MemberVisibility.Public;
+
+            return MemberVisibility.NonPublic;
+        }
+
+        MemberVisibility GetMemberVisibility(FieldInfo fi)
+        {
+            if ((BindingFlags)FIELD_BindingFlags.GetValue(fi, null) == BindingFlags.Public)
                 return MemberVisibility.Public;
 
             return MemberVisibility.NonPublic;
