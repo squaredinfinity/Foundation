@@ -231,7 +231,6 @@ namespace WPF
 
                 if (item != null)
                 {
-                    item.ApplyTemplate();
                     RequestRender(item);
                 }
             }

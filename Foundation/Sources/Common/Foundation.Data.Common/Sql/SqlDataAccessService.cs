@@ -9,12 +9,15 @@ namespace SquaredInfinity.Foundation.Data.Sql
 {
     public class SqlDataAccessService : DataAccessService<SqlConnection, SqlCommand, SqlParameter, SqlDataReader>
     {
-        public SqlDataAccessService(ConnectionFactory<SqlConnection> connectionFactory, TimeSpan defaultCommandTimeout)
-            : base(connectionFactory, defaultCommandTimeout)
-        { }
-
         public SqlDataAccessService(string connectionString, TimeSpan defaultCommandTimeout)
             : this(new ConnectionFactory<SqlConnection>(connectionString), defaultCommandTimeout)
-        {}
+        { }
+
+        public SqlDataAccessService(ConnectionFactory<SqlConnection> connectionFactory, TimeSpan defaultCommandTimeout)
+            : base(connectionFactory, defaultCommandTimeout)
+        {
+            RetryPolicy = new RetryPolicy();
+            RetryPolicy.DefaultTransientFaultFilters.Add(new SqlTransientFaultFilter());
+        }
     }
 }

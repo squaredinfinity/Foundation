@@ -53,6 +53,16 @@ namespace SquaredInfinity.Foundation.Extensions
             return list;
         }
 
+
+        // todo: move to array extensions
+        public static T[] EmptyIfNull<T>(this T[] list)
+        {
+            if (list == null)
+                return new T[0];
+
+            return list;
+        }
+
         class EmptyEnumerator<T> : IEnumerator<T>, IEnumerable<T>, IEnumerator, IEnumerable
         {
             public object Current

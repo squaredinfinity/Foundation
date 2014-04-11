@@ -14,7 +14,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         /// <typeparam name="TTarget"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        TTarget DeepClone<TTarget>(TTarget source) where TTarget : class, new();
+        TTarget DeepClone<TTarget>(TTarget source);
 
         /// <summary>
         /// Creates a deep clone of *source*.
@@ -42,8 +42,8 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         /// <typeparam name="TTarget"></typeparam>
         /// <param name="source"></param>
         /// <param name="target"></param>
-        void Map<TTarget>(object source, TTarget target) where TTarget : class, new();
-        void Map<TTarget>(object source, TTarget target, MappingOptions options) where TTarget : class, new();
+        void Map<TTarget>(object source, TTarget target);
+        void Map<TTarget>(object source, TTarget target, MappingOptions options);
 
         /// <summary>
         /// Clones *source* into *target*.
@@ -55,8 +55,8 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         void Map(object source, object target, Type targetType);
         void Map(object source, object target, Type targetType, MappingOptions options);
 
-        TTarget Map<TTarget>(object source) where TTarget : class, new();
-        TTarget Map<TTarget>(object source, MappingOptions options) where TTarget : class, new();
+        TTarget Map<TTarget>(object source);
+        TTarget Map<TTarget>(object source, MappingOptions options);
 
         object Map(object source, Type targetType);
         object Map(object source, Type targetType, MappingOptions options);

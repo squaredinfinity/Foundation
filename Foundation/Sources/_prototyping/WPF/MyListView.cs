@@ -14,7 +14,7 @@ namespace WPF
 {
     public class BackgroundLoadingListView : ListView
     {
-        BackgroundRenderingService RS = new BackgroundRenderingService();
+        public  BackgroundRenderingService RS = new BackgroundRenderingService();
 
         public BackgroundLoadingListView()
         {
@@ -45,6 +45,8 @@ namespace WPF
 
         void cc_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            Trace.WriteLine("collection changed : " + e.Action.ToString());
+
             if (e.Action != NotifyCollectionChangedAction.Remove)
             {
                 RS.RequestRender(this);
@@ -101,10 +103,14 @@ namespace WPF
         {
             if (!BackgroundLoadComplete)
             {
-                if (VisualParent is VirtualizingPanel && VirtualizingPanel.GetIsVirtualizing(this.VisualParent.FindVisualParent<ListView>()))
+                var parentListView = this.VisualParent.FindVisualParent<BackgroundLoadingListView>();
+
+                if (VisualParent is VirtualizingPanel && VirtualizingPanel.GetIsVirtualizing(parentListView))
                 {
                     return base.MeasureOverride(constraint);
                 }
+
+                parentListView.RS.RequestRender(this);
 
                 if (!constraint.IsInfinite())
                     return constraint;
@@ -121,10 +127,14 @@ namespace WPF
         {
             if (!BackgroundLoadComplete)
             {
-                if (VisualParent is VirtualizingPanel && VirtualizingPanel.GetIsVirtualizing(this.VisualParent.FindVisualParent<ListView>()))
+                var parentListView = this.VisualParent.FindVisualParent<BackgroundLoadingListView>();
+
+                if (VisualParent is VirtualizingPanel && VirtualizingPanel.GetIsVirtualizing(parentListView))
                 {
                     return base.ArrangeOverride(arrangeBounds);
                 }
+
+                parentListView.RS.RequestRender(this);
 
                 return arrangeBounds;
             }

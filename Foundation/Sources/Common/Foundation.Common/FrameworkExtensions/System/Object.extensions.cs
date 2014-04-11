@@ -80,19 +80,16 @@ namespace SquaredInfinity.Foundation.Extensions
         static readonly TypeMapper DefaultTypeMapper = new TypeMapper();
 
         public static void DeepCopyFrom<TTarget>(this TTarget target, object source)
-            where TTarget : class, new()
         {
             target.DeepCopyFrom<TTarget>(source, MappingOptions.Default);
         }
 
         public static void DeepCopyFrom<TTarget>(this TTarget target, object source, MappingOptions options)
-            where TTarget : class, new()
         {
             DefaultTypeMapper.Map(source, target, options);
         }
 
         public static TTarget DeepClone<TTarget>(this TTarget source)
-            where TTarget : class, new()
         {
             return DefaultTypeMapper.DeepClone<TTarget>(source);
         }

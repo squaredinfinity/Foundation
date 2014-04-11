@@ -60,10 +60,9 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         }
 
         public TTarget DeepClone<TTarget>(TTarget source)
-            where TTarget : class, new()
         {
             if (source == null)
-                return null;
+                return default(TTarget);
 
             return (TTarget)MapInternal(source, typeof(TTarget), MappingOptions.Default, new MappingContext());
         }
@@ -103,12 +102,12 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 || obj is Enum;
         }
 
-        public void Map<TTarget>(object source, TTarget target) where TTarget : class, new()
+        public void Map<TTarget>(object source, TTarget target)
         {
             Map<TTarget>(source, target, MappingOptions.Default);
         }
 
-        public void Map<TTarget>(object source, TTarget target, MappingOptions options) where TTarget : class, new()
+        public void Map<TTarget>(object source, TTarget target, MappingOptions options)
         {
             if (source == null)
                 throw new ArgumentNullException("source");
@@ -334,15 +333,15 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         }
 
 
-        public TTarget Map<TTarget>(object source) where TTarget : class, new()
+        public TTarget Map<TTarget>(object source)
         {
             return Map<TTarget>(source, MappingOptions.Default);
         }
 
-        public TTarget Map<TTarget>(object source, MappingOptions options) where TTarget : class, new()
+        public TTarget Map<TTarget>(object source, MappingOptions options)
         {
             if (source == null)
-                return null;
+                return default(TTarget);
 
             return (TTarget)MapInternal(source, typeof(TTarget), options, new MappingContext());
         }

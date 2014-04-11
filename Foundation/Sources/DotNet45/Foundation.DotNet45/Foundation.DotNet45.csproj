@@ -216,6 +216,18 @@
     <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\ValueResolving\ValueResolverCollection.cs">
       <Link>Types\Mapping\ValueResolving\ValueResolverCollection.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\_RetryPolicy\DynamicTransientFaultFilter.cs">
+      <Link>_RetryPolicy\DynamicTransientFaultFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\_RetryPolicy\ITransientFaultFilter.cs">
+      <Link>_RetryPolicy\ITransientFaultFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\_RetryPolicy\RetryPolicy.cs">
+      <Link>_RetryPolicy\RetryPolicy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\_RetryPolicy\TransientFaultFilter.cs">
+      <Link>_RetryPolicy\TransientFaultFilter.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

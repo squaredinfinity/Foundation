@@ -48,6 +48,9 @@
     <Compile Include="..\..\Common\Foundation.Data.Common\Sql\SqlDataAccessService.cs">
       <Link>Sql\SqlDataAccessService.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Data.Common\Sql\SqlTransientFaultFilter.cs">
+      <Link>Sql\SqlTransientFaultFilter.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

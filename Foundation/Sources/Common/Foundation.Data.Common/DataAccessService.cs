@@ -21,6 +21,8 @@ namespace SquaredInfinity.Foundation.Data
 
         public TimeSpan DefaultCommandTimeout { get; set; }
 
+        public RetryPolicy RetryPolicy { get; set; }
+
         public DataAccessService(
             ConnectionFactory<TConnection> connectionFactory,
             TimeSpan defaultCommandTimeout)
@@ -33,7 +35,7 @@ namespace SquaredInfinity.Foundation.Data
             string procName,
             Func<TDataReader, TEntity> createEntity)
         {
-            return ExecuteReaderInternal<TEntity>(ConnectionFactory, procName, new List<TParameter>(), createEntity);
+            return ExecuteReaderInternalWithRetry<TEntity>(ConnectionFactory, procName, new List<TParameter>(), createEntity);
         }
 
         public Task<List<TEntity>> ExecuteReaderAsync<TEntity>(
@@ -49,7 +51,7 @@ namespace SquaredInfinity.Foundation.Data
             IEnumerable<TParameter> parameters,
             Func<TDataReader, TEntity> createEntity)
         {
-            return ExecuteReaderInternal<TEntity>(ConnectionFactory, procName, parameters, createEntity);
+            return ExecuteReaderInternalWithRetry<TEntity>(ConnectionFactory, procName, parameters, createEntity);
         }
 
         public Task<List<TEntity>> ExecuteReaderAsync<TEntity>(
@@ -58,6 +60,23 @@ namespace SquaredInfinity.Foundation.Data
             Func<TDataReader, TEntity> createEntity)
         {
             return Task.Factory.StartNew(() => ExecuteReader<TEntity>(procName, parameters, createEntity).ToList());
+        }
+
+        IEnumerable<TEntity> ExecuteReaderInternalWithRetry<TEntity>(
+            ConnectionFactory<TConnection> connectionFactory,
+            string procName,
+            IEnumerable<TParameter> parameters,
+            Func<TDataReader, TEntity> createEntity)
+        {
+            return 
+                RetryPolicy.Execute(() => 
+                    {
+                        return ExecuteReaderInternal<TEntity>(
+                            connectionFactory,
+                            procName,
+                            parameters,
+                            createEntity);
+                    });
         }
 
         IEnumerable<TEntity> ExecuteReaderInternal<TEntity>(
@@ -99,7 +118,7 @@ namespace SquaredInfinity.Foundation.Data
             string procName,
             IEnumerable<TParameter> parameters)
         {
-            return ExecuteReaderInternal(ConnectionFactory, procName, parameters);
+            return ExecuteReaderInternalWithRetry(ConnectionFactory, procName, parameters);
         }
 
         public Task<List<Dictionary<string, object>>> ExecuteReaderAsync(
@@ -107,6 +126,21 @@ namespace SquaredInfinity.Foundation.Data
             IEnumerable<TParameter> parameters)
         {
             return Task.Factory.StartNew(() => ExecuteReader(procName, parameters).ToList());
+        }
+
+        IEnumerable<Dictionary<string, object>> ExecuteReaderInternalWithRetry(
+            ConnectionFactory<TConnection> connectionFactory,
+            string procName,
+            IEnumerable<TParameter> parameters)
+        {
+            return RetryPolicy
+                .Execute(() =>
+                {
+                    return ExecuteReaderInternal(
+                        connectionFactory,
+                        procName,
+                        parameters);
+                });
         }
 
         IEnumerable<Dictionary<string, object>> ExecuteReaderInternal(
@@ -140,7 +174,7 @@ namespace SquaredInfinity.Foundation.Data
 
         public Dictionary<string, object> ExecuteReaderSingleRow(string procName)
         {
-            return ExecuteReaderSingleRow(ConnectionFactory, procName, new List<TParameter>());
+            return ExecuteReaderSingleRowInternalWithRetry(ConnectionFactory, procName, new List<TParameter>());
         }
 
         public Task<Dictionary<string, object>> ExecuteReaderSingleRowAsync(string procName)
@@ -150,7 +184,7 @@ namespace SquaredInfinity.Foundation.Data
 
         public Dictionary<string, object> ExecuteReaderSingleRow(string procName, IEnumerable<TParameter> parameters)
         {
-            return ExecuteReaderSingleRow(ConnectionFactory, procName, parameters);
+            return ExecuteReaderSingleRowInternalWithRetry(ConnectionFactory, procName, parameters);
         }
 
         public Task<Dictionary<string, object>> ExecuteReaderSingleRowAsync(string procName, IEnumerable<TParameter> parameters)
@@ -158,7 +192,22 @@ namespace SquaredInfinity.Foundation.Data
             return Task.Factory.StartNew(() => ExecuteReaderSingleRow(procName, parameters));
         }
 
-        Dictionary<string, object> ExecuteReaderSingleRow(
+        Dictionary<string, object> ExecuteReaderSingleRowInternalWithRetry(
+           ConnectionFactory<TConnection> connectionFactory,
+           string procName,
+           IEnumerable<TParameter> parameters)
+        {
+            return RetryPolicy
+                .Execute(() =>
+                {
+                    return ExecuteReaderSingleRowInternal(
+                        connectionFactory, 
+                        procName,
+                        parameters);
+                });
+        }
+
+        Dictionary<string, object> ExecuteReaderSingleRowInternal(
             ConnectionFactory<TConnection> connectionFactory,
             string procName,
             IEnumerable<TParameter> parameters)
@@ -227,7 +276,7 @@ namespace SquaredInfinity.Foundation.Data
 
         public T ExecuteScalar<T>(string procName)
         {
-            return (T)ExecuteScalar(ConnectionFactory, procName, new List<TParameter>());
+            return (T)ExecuteScalarInternalWithRetry(ConnectionFactory, procName, new List<TParameter>());
         }
 
         public Task<T> ExecuteScalarAsync<T>(string procName)
@@ -237,7 +286,7 @@ namespace SquaredInfinity.Foundation.Data
 
         public T ExecuteScalar<T>(string procName, IEnumerable<TParameter> parameters)
         {
-            return (T)ExecuteScalar(ConnectionFactory, procName, parameters);
+            return (T)ExecuteScalarInternalWithRetry(ConnectionFactory, procName, parameters);
         }
 
         public Task<T> ExecuteScalarAsync<T>(string procName, IEnumerable<TParameter> parameters)
@@ -245,7 +294,25 @@ namespace SquaredInfinity.Foundation.Data
             return Task.Factory.StartNew(() => ExecuteScalar<T>(procName, parameters));
         }
 
-        object ExecuteScalar(ConnectionFactory<TConnection> connectionFactory, string procname, IEnumerable<TParameter> parameters)
+        object ExecuteScalarInternalWithRetry(
+            ConnectionFactory<TConnection> connectionFactory, 
+            string procname, 
+            IEnumerable<TParameter> parameters)
+        {
+            return RetryPolicy
+                .Execute(() =>
+                {
+                    return ExecuteScalarInternal(
+                        connectionFactory,
+                        procname,
+                        parameters);
+                });
+        }
+
+        object ExecuteScalarInternal(
+            ConnectionFactory<TConnection> connectionFactory, 
+            string procname, 
+            IEnumerable<TParameter> parameters)
         {
             using (var connection = connectionFactory.GetNewConnection())
             {
