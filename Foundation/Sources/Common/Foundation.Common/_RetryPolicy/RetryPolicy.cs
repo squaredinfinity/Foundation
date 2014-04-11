@@ -54,6 +54,7 @@ namespace SquaredInfinity.Foundation
             var maxRetryAttempts = 10;
             TimeSpan retryDelay = TimeSpan.FromMilliseconds(100);
 
+            // todo: use circular queue instead
             List<Exception> failedAttempts = new List<Exception>(capacity: maxRetryAttempts);
 
             var filters = transientFaultFilters.EmptyIfNull().ToArray();

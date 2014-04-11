@@ -15,6 +15,7 @@ using System.Windows.Threading;
 using SquaredInfinity.Foundation.Extensions;
 using System.Diagnostics;
 using SquaredInfinity.Foundation;
+using SquaredInfinity.Foundation.Collections;
 
 namespace WPF
 {
@@ -39,16 +40,14 @@ namespace WPF
         public class AfterItemRenderedEventArgs : EventArgs
         {
             public FrameworkElement RenderedElement { get; private set; }
-            public object RenderedElementDataContext { get; private set; }
 
-            public AfterItemRenderedEventArgs(FrameworkElement renderedElement, object dataContext)
+            public AfterItemRenderedEventArgs(FrameworkElement renderedElement)
             {
                 this.RenderedElement = renderedElement;
-                this.RenderedElementDataContext = dataContext;
             }
         }
 
-        BlockingCollection<BackgroundRenderingQueueItem> WorkQueue = new BlockingCollection<BackgroundRenderingQueueItem>();
+        BlockingCollection<PriorityQueueItem<BackgroundRenderingQueueItem>> WorkQueue = new BlockingCollection<PriorityQueueItem<BackgroundRenderingQueueItem>>(new PriorityQueue<BackgroundRenderingQueueItem>(10));
 
         public int RemainingQueueSize
         {
@@ -72,30 +71,26 @@ namespace WPF
             RenderingPriority_LowPriorityQueue = DispatcherPriority.SystemIdle;
         }
 
-        void RequestRender(IReadOnlyList<FrameworkElement> frameworkElements, Action postRenderAction = null)
+        public void RequestRender(int priority, FrameworkElement frameworkElement, Action postRenderAction = null)
         {
-            for (int i = 0; i < frameworkElements.Count; i++)
+            var br = frameworkElement as ISupportsBackgroundRendering;
+
+            if (br != null)
             {
-                var fe = frameworkElements[i];
+                if (br.ScheduledForBackgroundRendering)
+                    return;
 
-                var queueItem = new BackgroundRenderingQueueItem();
-
-                queueItem.ElementToRender = fe;
-
-                queueItem.PostRenderAction = postRenderAction;
-
-                WorkQueue.Add(queueItem);
+                br.ScheduledForBackgroundRendering = true;
             }
-        }
 
-        public void RequestRender(FrameworkElement frameworkElement, Action postRenderAction = null)
-        {
             var queueItem = new BackgroundRenderingQueueItem();
 
             queueItem.ElementToRender = frameworkElement;
             queueItem.PostRenderAction = postRenderAction;
 
-            WorkQueue.Add(queueItem);
+            var item = new PriorityQueueItem<BackgroundRenderingQueueItem> { Priority = priority, Value = queueItem };
+
+            WorkQueue.Add(item);
         }
 
         CancellationTokenSource WorkQueueProcessingCancellationTokenSource;
@@ -107,7 +102,7 @@ namespace WPF
             if (WorkQueueProcessingCancellationTokenSource != null)
                 WorkQueueProcessingCancellationTokenSource.Cancel();
 
-            WorkQueue = new BlockingCollection<BackgroundRenderingQueueItem>();
+            WorkQueue = new BlockingCollection<PriorityQueueItem<BackgroundRenderingQueueItem>>(new PriorityQueue<BackgroundRenderingQueueItem>(10));
 
             WorkQueueProcessingCancellationTokenSource = null;
         }
@@ -141,10 +136,13 @@ namespace WPF
         {
             while (true)
             {
-                var queueItem = (BackgroundRenderingQueueItem)null;
 
-                if (!WorkQueue.TryTake(out queueItem, TimeSpan.FromMilliseconds(250)))
+                var pqi = (PriorityQueueItem<BackgroundRenderingQueueItem>) null;
+
+                if (!WorkQueue.TryTake(out pqi, TimeSpan.FromMilliseconds(250)))
                     continue;
+
+                var queueItem = pqi.Value;
 
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -172,16 +170,6 @@ namespace WPF
 
                 if (cancellationToken.IsCancellationRequested)
                     return;
-
-                //// second part just added
-                //if (queueItem.PostRenderAction != null && queueItem.FrameworkElementToRender != null)
-                //{
-                //    queueItem.FrameworkElementToRender.Dispatcher.BeginInvoke(new Action(() =>
-                //    {
-                //        queueItem.PostRenderAction();
-
-                //    }), DefaultRenderingPriority);
-                //}
             }
         }
 
@@ -189,7 +177,7 @@ namespace WPF
         {
             try
             {
-                itemsControl.Dispatcher.Invoke(new Action(() =>
+                itemsControl.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     try
                     {
@@ -200,7 +188,9 @@ namespace WPF
                         //         Logger.DiagnosticOnlyLogException(ex);
                     }
 
-                }), RenderingPriority_HighPriorityQueue);
+                }), RenderingPriority_HighPriorityQueue).Wait();
+
+                OnElementRendered(itemsControl);
             }
             catch (Exception ex)
             {
@@ -210,10 +200,30 @@ namespace WPF
 
         void RenderItemsControlCore(ItemsControl itemsControl)
         {
+
+            if (itemsControl.Name == "two")
+            {
+
+            }
+
             var itemsHost =
                 (from c in itemsControl.VisualTreeTraversal(includeChildItemsControls: false, traversalMode: TreeTraversalMode.BreadthFirst).OfType<Panel>()
                  where c.IsItemsHost
                  select c).FirstOrDefault();
+
+            if (itemsHost == null)
+            {
+                // todo: surely some of this is not needed
+
+                itemsControl.ApplyTemplate();
+                itemsControl.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                itemsControl.Arrange(new Rect(itemsControl.DesiredSize));
+
+                itemsHost =
+                (from c in itemsControl.VisualTreeTraversal(includeChildItemsControls: false, traversalMode: TreeTraversalMode.BreadthFirst).OfType<Panel>()
+                 where c.IsItemsHost
+                 select c).FirstOrDefault();
+            }
 
             if (itemsHost == null)
                 return;
@@ -225,13 +235,15 @@ namespace WPF
                 wait.WaitForContainersGeneratedStatus();
             }
 
+            int priority = itemsControl.IsVisible ? 1 : 2;
+
             for (int i = 0; i < itemsControl.ItemContainerGenerator.Items.Count; i++)
             {
                 var item = itemsControl.ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;
 
                 if (item != null)
                 {
-                    RequestRender(item);
+                    RequestRender(priority, item);
                 }
             }
         }
@@ -245,6 +257,8 @@ namespace WPF
                     RenderFrameworkElementCore(fe);
 
                 }), RenderingPriority_HighPriorityQueue).Wait();
+
+                OnElementRendered(fe);
             }
             catch (Exception ex)
             {
@@ -256,23 +270,58 @@ namespace WPF
         {
             try
             {
+                if (fe is TabItem)
+                {
+
+                }
+
                 var itemsControl = VisualTreeHelper.GetParent(fe) as Panel;
 
                 // itemsControl may be null if this item has been disconnected
                 if (itemsControl == null)
                     return;
 
-                var x = (fe as BackgroundLoadingListViewItem);
+                var x = (fe as ISupportsBackgroundRendering);
 
-                x.BackgroundLoadComplete = true;
+                if (x != null)
+                    x.BackgroundRenderingComplete = true;
 
                 fe.InvalidateMeasure();
                 fe.InvalidateVisual();
+
+                var contentcontrol = fe as ContentControl;
+
+                if (contentcontrol != null)
+                {
+                    contentcontrol.ApplyTemplate();
+
+                    var contentFe = contentcontrol.Content as FrameworkElement;
+
+                    if (contentFe == null)
+                        return;
+
+                    contentFe.ApplyTemplate();
+
+                    if (contentFe.Name == "two")
+                    {
+
+                    }
+
+                    int priority = contentFe.IsVisible ? 1 : 2;
+
+                    RequestRender(priority, contentFe);
+                }
             }
             catch (Exception ex)
             {
                 //         Logger.DiagnosticOnlyLogException(ex);
             }
+        }
+
+        void OnElementRendered(FrameworkElement fe)
+        {
+            if(AfterItemRendered != null)
+                AfterItemRendered(this, new AfterItemRenderedEventArgs(fe));
         }
 
         class ItemContainerGeneratorStatusMonitor : IDisposable

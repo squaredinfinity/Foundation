@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChainOfCommand.cs" />
+    <Compile Include="Collections\PriorityQueue.cs" />
     <Compile Include="CommandHandlerEventArgs.cs" />
     <Compile Include="CommandHandlerEventArgs_T.cs" />
     <Compile Include="CompositeComparer_T.cs" />
@@ -147,9 +148,7 @@
     </Compile>
     <Compile Include="_RetryPolicy\TransientFaultFilter.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Collections\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

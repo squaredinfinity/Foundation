@@ -42,6 +42,9 @@
     <Compile Include="..\..\Common\Foundation.Common\ChainOfCommand.cs">
       <Link>ChainOfCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\PriorityQueue.cs">
+      <Link>Collections\PriorityQueue.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\CommandHandlerEventArgs.cs">
       <Link>CommandHandlerEventArgs.cs</Link>
     </Compile>

@@ -40,7 +40,9 @@ namespace WPF
                 cc_new.CollectionChanged += cc_CollectionChanged;
             }
 
-            RS.RequestRender(this);
+            int priority = IsVisible ? 1 : 2;
+
+            RS.RequestRender(priority, this);
         }
 
         void cc_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -49,8 +51,20 @@ namespace WPF
 
             if (e.Action != NotifyCollectionChangedAction.Remove)
             {
-                RS.RequestRender(this);
+                int priority = IsVisible ? 1 : 2;
+
+                RS.RequestRender(priority, this);
             }
+        }
+
+        protected override Size MeasureOverride(Size constraint)
+        {
+            return base.MeasureOverride(constraint);
+        }
+
+        protected override Size ArrangeOverride(Size arrangeBounds)
+        {
+            return base.ArrangeOverride(arrangeBounds);
         }
 
         void RS_AfterItemRendered(object sender, BackgroundRenderingService.AfterItemRenderedEventArgs e)
@@ -64,16 +78,17 @@ namespace WPF
         }
     }
 
-    public class BackgroundLoadingListViewItem : ListViewItem
+    public interface ISupportsBackgroundRendering
     {
-        public bool BackgroundLoadComplete
-        {
-            get { return (bool)GetValue(BackgroundLoadCompleteProperty); }
-            set { SetValue(BackgroundLoadCompleteProperty, value); }
-        }
+        bool BackgroundRenderingComplete { get; set; }
+        bool ScheduledForBackgroundRendering { get; set; }
+    }
 
-        public static readonly DependencyProperty BackgroundLoadCompleteProperty =
-            DependencyProperty.Register("BackgroundLoadComplete", typeof(bool), typeof(BackgroundLoadingListViewItem), new PropertyMetadata(false));
+    public class BackgroundLoadingListViewItem : ListViewItem, ISupportsBackgroundRendering
+    {
+        public bool BackgroundRenderingComplete { get; set; }
+        public bool ScheduledForBackgroundRendering { get; set; }
+
 
 
 
@@ -91,7 +106,7 @@ namespace WPF
 
         public BackgroundLoadingListViewItem()
         {   
-
+            
         }
 
         public override void OnApplyTemplate()
@@ -101,7 +116,7 @@ namespace WPF
 
         protected override System.Windows.Size MeasureOverride(System.Windows.Size constraint)
         {
-            if (!BackgroundLoadComplete)
+            if (!BackgroundRenderingComplete)
             {
                 var parentListView = this.VisualParent.FindVisualParent<BackgroundLoadingListView>();
 
@@ -110,7 +125,11 @@ namespace WPF
                     return base.MeasureOverride(constraint);
                 }
 
-                parentListView.RS.RequestRender(this);
+                if (!ScheduledForBackgroundRendering)
+                {
+                    int priority = parentListView.IsVisible ? 1 : 2;
+                    parentListView.RS.RequestRender(priority, this);
+                }
 
                 if (!constraint.IsInfinite())
                     return constraint;
@@ -125,7 +144,7 @@ namespace WPF
 
         protected override System.Windows.Size ArrangeOverride(System.Windows.Size arrangeBounds)
         {
-            if (!BackgroundLoadComplete)
+            if (!BackgroundRenderingComplete)
             {
                 var parentListView = this.VisualParent.FindVisualParent<BackgroundLoadingListView>();
 
@@ -134,7 +153,11 @@ namespace WPF
                     return base.ArrangeOverride(arrangeBounds);
                 }
 
-                parentListView.RS.RequestRender(this);
+                if (!ScheduledForBackgroundRendering)
+                {
+                    int priority = parentListView.IsVisible ? 1 : 2;
+                    parentListView.RS.RequestRender(priority, this);
+                }
 
                 return arrangeBounds;
             }
