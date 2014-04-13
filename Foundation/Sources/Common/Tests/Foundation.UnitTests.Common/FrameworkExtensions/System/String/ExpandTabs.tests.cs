@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Foundation.Extensions
 {
     [TestClass]
-    public class ExpandTabsTests
+    public class String__ExpandTabs
     {
         [TestMethod]
         public void EmptyString__ReturnsEmptyString()

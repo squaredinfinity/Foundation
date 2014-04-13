@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Foundation.Extensions
 {
     [TestClass]
-    public class IsNullOrEmptyTests
+    public class String__IsNullOrEmpty
     {
         [TestMethod]
         public void EmptyString__ReturnsTrue()

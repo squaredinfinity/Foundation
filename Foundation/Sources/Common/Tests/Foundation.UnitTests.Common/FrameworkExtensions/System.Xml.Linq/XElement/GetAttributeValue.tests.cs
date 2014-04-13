@@ -10,7 +10,7 @@ using SquaredInfinity.Foundation;
 namespace SquaredInfinity.Foundation.Extensions
 {
     [TestClass]
-    public class GetAttributeValueTests
+    public class XElement__GetAttributeValue
     {
         [TestMethod]
         public void AttributeExistsAndHasValue__ReturnsValueOfTheAttribute()

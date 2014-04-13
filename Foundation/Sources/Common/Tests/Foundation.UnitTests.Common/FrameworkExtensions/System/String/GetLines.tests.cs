@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Foundation.Extensions
 {
     [TestClass]
-    public class GetLinesTests
+    public class String__GetLines
     {
         [TestMethod]
-        public void SingleLineString__ReturnsStringItself()
+        public void String__SingleLineString__ReturnsStringItself()
         {
             var s = "123";
 

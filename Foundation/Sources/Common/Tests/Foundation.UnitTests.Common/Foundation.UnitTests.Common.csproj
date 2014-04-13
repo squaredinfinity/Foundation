@@ -55,6 +55,7 @@
     <Compile Include="ChainOfCommand\TryHandle.tests.cs" />
     <Compile Include="FrameworkExtensions\System.Xml.Linq\XElement\GetAttributeValue.tests.cs" />
     <Compile Include="FrameworkExtensions\System.Xml.Linq\XObject\GetNameAndLocationForDebugging.tests.cs" />
+    <Compile Include="FrameworkExtensions\System\Double\AreClose.tests.cs" />
     <Compile Include="FrameworkExtensions\System\Object\IsIn.tests.cs" />
     <Compile Include="FrameworkExtensions\System\String\ExpandTabs.tests.cs">
       <SubType>Code</SubType>

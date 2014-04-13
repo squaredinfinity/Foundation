@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Foundation.Extensions
 {
     [TestClass]
-    public class IsEqualToTests
+    public class Type__IsEqualTo
     {
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Null__ThrowsArgumentNullException()
         {
-            var t = typeof(IsEqualToTests);
+            var t = typeof(Type__IsEqualTo);
 
             t.IsTypeEquivalentTo(null);
         }
@@ -22,9 +22,9 @@ namespace SquaredInfinity.Foundation.Extensions
         [TestMethod]
         public void ExactlyTheSameType__ReturnsTrue()
         {
-            var t = typeof(IsEqualToTests);
+            var t = typeof(Type__IsEqualTo);
 
-            var r = t.IsTypeEquivalentTo(typeof(IsEqualToTests));
+            var r = t.IsTypeEquivalentTo(typeof(Type__IsEqualTo));
 
             Assert.IsTrue(r);
         }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Foundation.Extensions
 {
     [TestClass]
-    public class IsMultilineTests
+    public class String__IsMultiline
     {
         [TestMethod]
         public void StringHasMultipleLines__ReturnsTrue()

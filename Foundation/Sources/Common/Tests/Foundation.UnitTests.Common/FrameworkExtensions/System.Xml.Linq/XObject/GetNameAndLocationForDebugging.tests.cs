@@ -9,7 +9,7 @@ using System.Xml.Linq;
 namespace SquaredInfinity.Foundation.Extensions
 {
     [TestClass]
-    public class GetNameAndLocationForDebuggingTests
+    public class XElement__GetNameAndLocationForDebugging
     {
         string Xml =
 @"<el>

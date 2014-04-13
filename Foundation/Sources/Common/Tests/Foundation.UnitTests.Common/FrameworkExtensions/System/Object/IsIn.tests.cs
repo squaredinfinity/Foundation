@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Foundation.Extensions
 {
     [TestClass]
-    public class IsInTests
+    public class Object__IsIn
     {
         [TestMethod]
         public void ItemIsInSpecifiedList__ReturnsTrue()

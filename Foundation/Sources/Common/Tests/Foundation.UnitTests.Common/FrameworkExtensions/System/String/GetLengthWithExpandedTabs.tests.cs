@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Foundation.Extensions
 {
     [TestClass]
-    public class GetLengthWithExpandedTabsTests
+    public class String__GetLengthWithExpandedTabs
     {
         [TestMethod]
         public void EmptyString__Zero()

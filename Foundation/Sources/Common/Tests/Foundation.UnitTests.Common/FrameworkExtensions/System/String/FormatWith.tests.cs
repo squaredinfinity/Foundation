@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Foundation.Extensions
 {
     [TestClass]
-    public class FormatWithTests
+    public class String__FormatWith
     {
         [TestMethod]
         public void ReturnsFormattedString()

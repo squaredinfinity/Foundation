@@ -10,7 +10,7 @@ using System.Xml.Linq;
 namespace SquaredInfinity.Foundation.Extensions
 {
     [TestClass]
-    public class ImplementsInterfaceTests
+    public class Type__ImplementsInterface
     {
         [TestMethod]
         public void TypeImplementsSpecifiedInterface__ReturnsTrue()

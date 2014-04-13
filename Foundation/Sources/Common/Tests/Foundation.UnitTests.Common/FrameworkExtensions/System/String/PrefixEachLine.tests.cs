@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Foundation.Extensions
 {
     [TestClass]
-    public class PrefixEachLineTests
+    public class String__PrefixEachLine
     {
         [TestMethod]
         public void SingleLineString__AddsPrefix()
