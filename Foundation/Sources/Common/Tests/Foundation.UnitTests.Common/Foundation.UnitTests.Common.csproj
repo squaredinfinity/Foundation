@@ -78,6 +78,9 @@
     <Compile Include="FrameworkExtensions\System\String\PrefixEachLine.tests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FrameworkExtensions\System\String\Substring.tests.cs" />
+    <Compile Include="FrameworkExtensions\System\String\ToTitleCase.tests.cs" />
+    <Compile Include="FrameworkExtensions\System\String\TrimEachLine.tests.cs" />
     <Compile Include="FrameworkExtensions\System\Type\ImplementsInterface.tests.cs" />
     <Compile Include="FrameworkExtensions\System\Type\IsEqualTo.tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

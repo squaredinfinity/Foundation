@@ -93,16 +93,13 @@ namespace SquaredInfinity.Foundation.Extensions
         /// <param name="str"></param>
         /// <param name="tabSize"></param>
         /// <returns></returns>
-        public static int GetLengthWithExpandedTabs(this string str, int tabSize = 4)
+        public static int GetLengthWithExpandedTabs(this string str, ushort tabSize = 4)
         {
             if (str.IsNullOrEmpty(treatWhitespaceOnlyStringAsEmpty: false))
                 return 0;
 
             if (tabSize == 1)
                 return str.Length;
-
-            if (tabSize <= 0)
-                throw new ArgumentException("tabSize must be > 0");
 
             var len = 0;
 
@@ -135,16 +132,13 @@ namespace SquaredInfinity.Foundation.Extensions
         /// <param name="str"></param>
         /// <param name="tabSize"></param>
         /// <returns></returns>
-        public static string ExpandTabs(this string str, int tabSize = 4)
+        public static string ExpandTabs(this string str, ushort tabSize = 4)
         {
             if (str.IsNullOrEmpty(treatWhitespaceOnlyStringAsEmpty: false))
                 return str;
 
             if (tabSize == 1)
                 return str.Replace('\t', ' ');
-
-            if (tabSize <= 0)
-                throw new ArgumentException("tabSize must be > 0");
 
             var sb = new StringBuilder();
 
@@ -300,23 +294,44 @@ namespace SquaredInfinity.Foundation.Extensions
 
         public static string TrimEachLine(this string str, bool removeEmptyLines = true)
         {
-            var result = new StringBuilder();
+            var result = new StringBuilder(capacity: str.Length);
 
             var lines = str.GetLines();
 
-            foreach (var line in lines)
+            bool lastLineEmpty = false;
+
+            for (int i = 0; i < lines.Length; i++)
             {
+                var line = lines[i];
+
                 var trimmedLine = line.Trim();
 
                 if (trimmedLine.Length == 0)
-                    continue;
+                {
+                    if (!removeEmptyLines)
+                    {
+                        lastLineEmpty = true;
+                        result.AppendLine();
+                    }
 
-                // add new line before if result already has some contents
-                if (result.Length > 0)
+                    continue;
+                }
+                
+                // add new line before if:
+                //  - last line wasn't empty and this is not the first line to be added
+                //  - last line was empty, and this is not the second line to be added
+                if(!lastLineEmpty && result.Length > 0 || lastLineEmpty && i != 1)
+                {
                     result.AppendLine();
+                }
 
                 result.Append(trimmedLine);
+
+                lastLineEmpty = false;
             }
+
+            if (lastLineEmpty)
+                result.AppendLine();
 
             return result.ToString();
         }

@@ -83,5 +83,17 @@ namespace SquaredInfinity.Foundation.Extensions
             r = s.GetLengthWithExpandedTabs();
             Assert.AreEqual(8, r);
         }
+
+        [TestMethod]
+        public void TabSizeIsOne__ReturnsStringLength()
+        {
+            // when tab size == 1, all tabs are expanded to 1 space, this 1 to 1 mapping should result in resulting string having the same length as input string
+
+            var input = "a\t\tz";
+            var output = input.ExpandTabs(tabSize:1);
+
+            Assert.AreEqual(input.Length, output.Length);
+            Assert.AreEqual("a  z", output);
+        }
     }
 }
