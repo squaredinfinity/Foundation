@@ -18,64 +18,52 @@ namespace SquaredInfinity.Foundation.Collections
     {
         // each priority holds its own queue with items
 
-        class SpecificPriorityConcurrentQueue : ConcurrentQueue<PriorityQueueItem<TValue>>
+        protected class SpecificPriorityConcurrentQueue : ConcurrentQueue<PriorityQueueItem<TValue>>
         { }
 
-        SpecificPriorityConcurrentQueue[] InternalQueues = null;
-        
-        int priorityCount = 0;
-        int m_count = 0;
+        readonly protected SpecificPriorityConcurrentQueue[] InternalQueues;
+
+        protected int PriorityCount { get; private set; }
 
         public PriorityQueue(int priCount)
         {
-            this.priorityCount = priCount;
-            InternalQueues = new SpecificPriorityConcurrentQueue[priorityCount];
+            this.PriorityCount = priCount;
+            InternalQueues = new SpecificPriorityConcurrentQueue[PriorityCount];
 
-            for (int i = 0; i < priorityCount; i++)
+            for (int i = 0; i < PriorityCount; i++)
                 InternalQueues[i] = new SpecificPriorityConcurrentQueue();
         }
 
-        public bool TryAdd(int priority, TValue item)
+        protected void IncrementCount()
         {
-            var pqItem = new PriorityQueueItem<TValue> { Priority = priority, Value = item };
-
-            return TryAdd(pqItem);
+            Interlocked.Increment(ref _count);
         }
 
-        public bool TryAdd(PriorityQueueItem<TValue> item)
+        protected void DecrementCount()
+        {
+            Interlocked.Decrement(ref _count);
+        }
+
+        public virtual bool TryAdd(PriorityQueueItem<TValue> item)
         {
             InternalQueues[item.Priority].Enqueue(item);
 
-            Interlocked.Increment(ref m_count);
+            IncrementCount();
 
             return true;
         }
 
-        public bool TryTake(out TValue item)
-        {
-            PriorityQueueItem<TValue> result = default(PriorityQueueItem<TValue>);
-
-            if(TryTake(out result))
-            {
-                item = result.Value;
-                return true;
-            }
-
-            item = default(TValue);
-            return false;
-        }
-
-        public bool TryTake(out PriorityQueueItem<TValue> item)
+        public virtual bool TryTake(out PriorityQueueItem<TValue> item)
         {
             bool success = false;
 
-            for (int i = 0; i < priorityCount; i++)
+            for (int i = 0; i < PriorityCount; i++)
             {
                 success = InternalQueues[i].TryDequeue(out item);
 
                 if (success)
                 {
-                    Interlocked.Decrement(ref m_count);
+                    DecrementCount();
 
                     return true;
                 }
@@ -86,9 +74,11 @@ namespace SquaredInfinity.Foundation.Collections
             return false;
         }
 
+        int _count = 0;
+
         public int Count
         {
-            get { return m_count; }
+            get { return _count; }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -96,9 +86,9 @@ namespace SquaredInfinity.Foundation.Collections
             return GetEnumerator();
         }
 
-        public IEnumerator<PriorityQueueItem<TValue>> GetEnumerator()
+        public virtual IEnumerator<PriorityQueueItem<TValue>> GetEnumerator()
         {
-            for (int i = 0; i < priorityCount; i++)
+            for (int i = 0; i < PriorityCount; i++)
             {
                 foreach (var item in InternalQueues[i])
                     yield return item;

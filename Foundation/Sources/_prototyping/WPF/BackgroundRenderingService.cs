@@ -16,10 +16,152 @@ using SquaredInfinity.Foundation.Extensions;
 using System.Diagnostics;
 using SquaredInfinity.Foundation;
 using SquaredInfinity.Foundation.Collections;
+using System.Windows.Input;
 
 namespace WPF
 {
+    public static class IEnumerableExtensions
+    {
+        public static IEnumerable<IEnumerable<T>> Chunkify<T>(
+            this IEnumerable<T> enumerable,
+            int chunkSize)
+        {
+            if (chunkSize < 1)
+                throw new ArgumentException("chunkSize");
+
+            using (var enumerator = enumerable.GetEnumerator())
+            {
+                while (enumerator.MoveNext())
+                {
+                    yield return enumerator.GetChunk(chunkSize);
+                }
+            }
+        }
+
+        private static IEnumerable<T> GetChunk<T>(
+            this IEnumerator<T> enumerator,
+            int chunkSize)
+        {
+            do 
+            {
+                yield return enumerator.Current;
+            }
+            while (--chunkSize > 0 && enumerator.MoveNext());
+        }
+    }
+
+    public class PriorityQueueWithHighPriorityStack<TValue> : PriorityQueue<TValue>
+    {
+        //  priority level 0 -  high priority stack
+        //                      will be processed before any other priorities
+
+        readonly ConcurrentStack<PriorityQueueItem<TValue>>[] InternalHighPriorityStacks;
+
+        public int HighPriorityStacksCount;
+
+        public PriorityQueueWithHighPriorityStack(int highPriorityStacks, int lowPriorityQueues)
+            : base(lowPriorityQueues - highPriorityStacks)
+        {
+            HighPriorityStacksCount = highPriorityStacks;
+
+            InternalHighPriorityStacks = new ConcurrentStack<PriorityQueueItem<TValue>>[highPriorityStacks];
+
+            for(int i = 0; i < highPriorityStacks; i++)
+                InternalHighPriorityStacks[i] = new ConcurrentStack<PriorityQueueItem<TValue>>();
+        }
+
+        public override bool TryAdd(PriorityQueueItem<TValue> item)
+        {
+            if (item.Priority < HighPriorityStacksCount)
+            {
+                var stack = InternalHighPriorityStacks[item.Priority];
+                stack.Push(item);
+                IncrementCount();
+                return true;
+            }
+            else
+                return base.TryAdd(item);
+        }
+
+        public override bool TryTake(out PriorityQueueItem<TValue> item)
+        {
+            for (int i = 0; i < HighPriorityStacksCount; i++)
+            {
+                var stack = InternalHighPriorityStacks[i];
+
+                if (stack.TryPop(out item))
+                {
+                    DecrementCount();
+                    return true;
+                }
+            }
+
+            return base.TryTake(out item);
+        }
+
+        public override IEnumerator<PriorityQueueItem<TValue>> GetEnumerator()
+        {
+            for (int i = 0; i < HighPriorityStacksCount; i++)
+            {
+                foreach (var item in InternalHighPriorityStacks[i])
+                    yield return item;
+            }
+
+            for (int i = 0; i < PriorityCount; i++)
+            {
+                foreach (var item in InternalQueues[i])
+                    yield return item;
+            }
+        }
+    }
+
+    public class AfterItemRenderedEventArgs : EventArgs
+    {
+        public FrameworkElement RenderedElement { get; private set; }
+
+        public AfterItemRenderedEventArgs(FrameworkElement renderedElement)
+        {
+            this.RenderedElement = renderedElement;
+        }
+    }
+
     public class BackgroundRenderingService
+    {
+        static readonly BackgroundRenderingServiceImplementation Instance = new BackgroundRenderingServiceImplementation();
+
+        public static event EventHandler<AfterItemRenderedEventArgs> AfterItemRendered;
+
+        static BackgroundRenderingService()
+        {
+            Instance.AfterItemRendered += (s, e) =>
+                {
+                    if (AfterItemRendered != null)
+                        AfterItemRendered(null, e);
+                };
+        }
+        
+        public static void Start()
+        {
+            Instance.Start();
+        }
+
+        public static void RequestRender(int priority, FrameworkElement fe)
+        {
+            Instance.RequestRender(priority, fe);
+        }
+
+        internal static void RequestRender(int priority, List<FrameworkElement> itemsToRender)
+        {
+            Instance.RequestRender(priority, itemsToRender);
+        }
+
+        public static int RemainingQueueSize
+        {
+            get { return Instance.RemainingQueueSize; }
+        }
+    }
+
+    class BackgroundRenderingServiceImplementation
     {
         static readonly Type ItemsControlType;
         static readonly PropertyInfo ItemsHostProperty;
@@ -37,17 +179,8 @@ namespace WPF
 
         public DispatcherPriority RenderingPriority_LowPriorityQueue { get; set; }
 
-        public class AfterItemRenderedEventArgs : EventArgs
-        {
-            public FrameworkElement RenderedElement { get; private set; }
-
-            public AfterItemRenderedEventArgs(FrameworkElement renderedElement)
-            {
-                this.RenderedElement = renderedElement;
-            }
-        }
-
-        BlockingCollection<PriorityQueueItem<BackgroundRenderingQueueItem>> WorkQueue = new BlockingCollection<PriorityQueueItem<BackgroundRenderingQueueItem>>(new PriorityQueue<BackgroundRenderingQueueItem>(10));
+        BlockingCollection<PriorityQueueItem<BackgroundRenderingQueueItem>> WorkQueue =
+            new BlockingCollection<PriorityQueueItem<BackgroundRenderingQueueItem>>(new PriorityQueueWithHighPriorityStack<BackgroundRenderingQueueItem>(2, 8));
 
         public int RemainingQueueSize
         {
@@ -56,7 +189,7 @@ namespace WPF
 
         IProgress<int> Progress;
 
-        static BackgroundRenderingService()
+        static BackgroundRenderingServiceImplementation()
         {
             ItemsControlType = typeof(ItemsControl);
             ItemsHostProperty = ItemsControlType.GetProperty("ItemsHost", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -65,10 +198,33 @@ namespace WPF
             EnsureGeneratorMethod = PanelType.GetMethod("EnsureGenerator", BindingFlags.NonPublic | BindingFlags.Instance);
         }
 
-        public BackgroundRenderingService()
+        public BackgroundRenderingServiceImplementation()
         {
             RenderingPriority_HighPriorityQueue = DispatcherPriority.Input;
             RenderingPriority_LowPriorityQueue = DispatcherPriority.SystemIdle;
+        }
+
+
+        public void RequestRender(int priority, List<FrameworkElement> itemsToRender)
+        {
+            if (itemsToRender.IsNullOrEmpty())
+                return;
+
+            var notYetRendered =
+                (from i in itemsToRender
+                 let rs = i as ISupportsBackgroundRendering
+                 where
+                 rs == null || !rs.BackgroundRenderingComplete
+                 select i).ToList();
+
+            if (notYetRendered.Count == 0)
+                return;
+
+            for(int i = 0; i < notYetRendered.Count; i++)
+            {
+                var fe = notYetRendered[i];
+                RequestRender(priority, fe);
+            }
         }
 
         public void RequestRender(int priority, FrameworkElement frameworkElement, Action postRenderAction = null)
@@ -77,10 +233,8 @@ namespace WPF
 
             if (br != null)
             {
-                if (br.ScheduledForBackgroundRendering)
+                if (br.BackgroundRenderingComplete)
                     return;
-
-                br.ScheduledForBackgroundRendering = true;
             }
 
             var queueItem = new BackgroundRenderingQueueItem();
@@ -102,11 +256,11 @@ namespace WPF
             if (WorkQueueProcessingCancellationTokenSource != null)
                 WorkQueueProcessingCancellationTokenSource.Cancel();
 
-            WorkQueue = new BlockingCollection<PriorityQueueItem<BackgroundRenderingQueueItem>>(new PriorityQueue<BackgroundRenderingQueueItem>(10));
+            WorkQueue = new BlockingCollection<PriorityQueueItem<BackgroundRenderingQueueItem>>(new PriorityQueueWithHighPriorityStack<BackgroundRenderingQueueItem>(2, 8));
 
             WorkQueueProcessingCancellationTokenSource = null;
         }
-
+        
         public void Start()
         {
             Start(new Progress<int>());
@@ -136,6 +290,7 @@ namespace WPF
         {
             while (true)
             {
+                Progress.Report(WorkQueue.Count);
 
                 var pqi = (PriorityQueueItem<BackgroundRenderingQueueItem>) null;
 
@@ -152,20 +307,33 @@ namespace WPF
                 if (queueItem == null)
                     continue;
 
-                Progress.Report(WorkQueue.Count);
-
                 if (queueItem.ElementToRender == null)
+                    continue;
+
+                var br = queueItem.ElementToRender as ISupportsBackgroundRendering;
+                if (br != null && br.BackgroundRenderingComplete)
+                    continue;
+
+                if (pqi.Priority < 2)
+                {
+                    if (!pqi.Value.ElementToRender.IsVisible)
+                    {
+                        RequestRender(2, pqi.Value.ElementToRender);
                         continue;
+                    }
+                }
+
+                var dispatcherPriority = pqi.Priority == 0 ? RenderingPriority_HighPriorityQueue : RenderingPriority_LowPriorityQueue;
 
                 var ic = queueItem.ElementToRender as ItemsControl;
 
                 if (ic != null)
                 {
-                    RenderItemsControl(ic);
+                    RenderItemsControl(ic, dispatcherPriority);
                 }
                 else
                 {
-                    RenderFrameworkElement(queueItem.ElementToRender);
+                    RenderFrameworkElement(queueItem.ElementToRender, dispatcherPriority);
                 }
 
                 if (cancellationToken.IsCancellationRequested)
@@ -173,7 +341,7 @@ namespace WPF
             }
         }
 
-        void RenderItemsControl(ItemsControl itemsControl)
+        void RenderItemsControl(ItemsControl itemsControl, DispatcherPriority dispatcherPriority)
         {
             try
             {
@@ -188,7 +356,7 @@ namespace WPF
                         //         Logger.DiagnosticOnlyLogException(ex);
                     }
 
-                }), RenderingPriority_HighPriorityQueue).Wait();
+                }), dispatcherPriority).Wait();
 
                 OnElementRendered(itemsControl);
             }
@@ -237,6 +405,8 @@ namespace WPF
 
             int priority = itemsControl.IsVisible ? 1 : 2;
 
+            var sv = itemsControl.FindDescendant<ScrollViewer>();
+
             for (int i = 0; i < itemsControl.ItemContainerGenerator.Items.Count; i++)
             {
                 var item = itemsControl.ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;
@@ -248,7 +418,7 @@ namespace WPF
             }
         }
 
-        void RenderFrameworkElement(FrameworkElement fe)
+        void RenderFrameworkElement(FrameworkElement fe, DispatcherPriority dispatcherPriority)
         {
             try
             {
@@ -256,7 +426,7 @@ namespace WPF
                 {
                     RenderFrameworkElementCore(fe);
 
-                }), RenderingPriority_HighPriorityQueue).Wait();
+                }), dispatcherPriority).Wait();
 
                 OnElementRendered(fe);
             }
@@ -266,16 +436,12 @@ namespace WPF
             }
         }
 
-        void RenderFrameworkElementCore(FrameworkElement fe)
+        void RenderFrameworkElementCore(FrameworkElement fe, Panel itemsControl = null, bool shouldInvalidateVisual = true)
         {
             try
             {
-                if (fe is TabItem)
-                {
-
-                }
-
-                var itemsControl = VisualTreeHelper.GetParent(fe) as Panel;
+                if(itemsControl == null)
+                    itemsControl = VisualTreeHelper.GetParent(fe) as Panel;
 
                 // itemsControl may be null if this item has been disconnected
                 if (itemsControl == null)
@@ -284,10 +450,17 @@ namespace WPF
                 var x = (fe as ISupportsBackgroundRendering);
 
                 if (x != null)
+                {
                     x.BackgroundRenderingComplete = true;
 
-                fe.InvalidateMeasure();
-                fe.InvalidateVisual();
+                }
+
+                fe.InvalidateArrange();
+
+                if (shouldInvalidateVisual)
+                {
+                    fe.InvalidateVisual();
+                }
 
                 var contentcontrol = fe as ContentControl;
 
@@ -301,11 +474,6 @@ namespace WPF
                         return;
 
                     contentFe.ApplyTemplate();
-
-                    if (contentFe.Name == "two")
-                    {
-
-                    }
 
                     int priority = contentFe.IsVisible ? 1 : 2;
 
@@ -369,6 +537,7 @@ namespace WPF
         class BackgroundRenderingQueueItem
         {
             public FrameworkElement ElementToRender { get; set; }
+
             public Action PostRenderAction = () => { };
         }
     }

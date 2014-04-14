@@ -9,17 +9,128 @@ using System.Diagnostics;
 using System.Windows.Media;
 using System.Windows;
 using System.Collections.Specialized;
+using System.Windows.Input;
+using System.Windows.Media.Media3D;
+using System.Reactive.Linq;
+using System.Reactive.Concurrency;
 
 namespace WPF
 {
     public class BackgroundLoadingListView : ListView
     {
-        public  BackgroundRenderingService RS = new BackgroundRenderingService();
+        internal ScrollViewer ScrollViewer { get; set; }
 
         public BackgroundLoadingListView()
         {
-            RS.AfterItemRendered += RS_AfterItemRendered;
-            RS.Start();
+            this.IsVisibleChanged += BackgroundLoadingListView_IsVisibleChanged;
+        }
+
+        void BackgroundLoadingListView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            RenderItemsInView();
+            RenderAllItems();
+        }
+
+        object ScrollChangedSubscription;
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            ScrollViewer = this.FindDescendant<ScrollViewer>();
+
+            ScrollChangedSubscription = Observable.FromEvent<ScrollChangedEventHandler, ScrollChangedEventArgs>(
+                h =>
+                    {
+                        ScrollChangedEventHandler x = (sender, e) => h(e);
+                        return x;
+                    },
+                    h => ScrollViewer.ScrollChanged += h,
+                    h => ScrollViewer.ScrollChanged -= h)
+                    .Throttle(TimeSpan.FromMilliseconds(250))
+                    .ObserveOnDispatcher()
+                    .Subscribe(args =>
+                    {
+                        RenderItemsInView();
+                    }); 
+        }
+
+        void RenderAllItems()
+        {
+            var itemsToRender = new List<FrameworkElement>();
+
+            for (int i = 0; i < this.ItemContainerGenerator.Items.Count; i++)
+            {
+                var c = ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;
+
+                if (c == null)
+                    continue;
+
+                itemsToRender.Add(c);
+            }
+            
+            BackgroundRenderingService.RequestRender(1, itemsToRender);
+        }
+
+        void RenderItemsInView()
+        {
+            if (ScrollViewer == null)
+                return;
+
+            if (!ScrollViewer.IsLoaded)
+                return;
+
+            var itemsToRender = new List<FrameworkElement>();
+
+            for (int i = 0; i < this.ItemContainerGenerator.Items.Count; i++)
+            {
+                var c = ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;
+
+                if (c == null)
+                    continue;
+
+                if (!IsInViewport(ScrollViewer, c))
+                {
+                    continue;
+                }
+
+                itemsToRender.Add(c);
+            }
+             
+      //      itemsToRender.Reverse();
+
+            BackgroundRenderingService.RequestRender(0, itemsToRender);
+        }
+
+        static bool IsInViewport(FrameworkElement scrollViewer, FrameworkElement fe)
+        {
+            var p = VisualTreeHelper.GetParent(fe) as FrameworkElement;
+
+            var transform = fe.TransformToVisual(scrollViewer);
+            var rectangle = transform.TransformBounds(new Rect(new Point(0, 0), fe.RenderSize));
+
+            var intersection = Rect.Intersect(new Rect(new Point(0, 0), scrollViewer.RenderSize), rectangle);
+
+            if (intersection == Rect.Empty)
+            {
+                // framework element is not in view
+
+                return false;
+
+                // todo: make this configurable (by number of pixels, pages)
+                // render elements which are just outside of view port
+
+                //rectangle.Inflate(scrollViewer.RenderSize.Width * .5, scrollViewer.RenderSize.Height * .5);
+                //intersection = Rect.Intersect(new Rect(new Point(0, 0), scrollViewer.RenderSize), rectangle);
+
+                //return intersection != Rect.Empty;
+
+                //return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         protected override void OnItemsSourceChanged(System.Collections.IEnumerable oldValue, System.Collections.IEnumerable newValue)
@@ -42,7 +153,7 @@ namespace WPF
 
             int priority = IsVisible ? 1 : 2;
 
-            RS.RequestRender(priority, this);
+            BackgroundRenderingService.RequestRender(priority, this);
         }
 
         void cc_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -53,7 +164,7 @@ namespace WPF
             {
                 int priority = IsVisible ? 1 : 2;
 
-                RS.RequestRender(priority, this);
+                BackgroundRenderingService.RequestRender(priority, this);
             }
         }
 
@@ -65,11 +176,6 @@ namespace WPF
         protected override Size ArrangeOverride(Size arrangeBounds)
         {
             return base.ArrangeOverride(arrangeBounds);
-        }
-
-        void RS_AfterItemRendered(object sender, BackgroundRenderingService.AfterItemRenderedEventArgs e)
-        {
-            Trace.WriteLine("rendered, {0} in queue.".FormatWith(RS.RemainingQueueSize));
         }
 
         protected override System.Windows.DependencyObject GetContainerForItemOverride()
@@ -100,13 +206,33 @@ namespace WPF
         }
 
         public static readonly DependencyProperty SizeWhileBackgroundLoadingProperty =
-            DependencyProperty.Register("SizeWhileBackgroundLoading", typeof(Size), typeof(BackgroundLoadingListViewItem), new PropertyMetadata(new Size(0, 20)));
+            DependencyProperty.Register("SizeWhileBackgroundLoading", typeof(Size), typeof(BackgroundLoadingListViewItem), new PropertyMetadata(new Size(1, 20)));
 
         
 
         public BackgroundLoadingListViewItem()
-        {   
-            
+        {
+            this.IsVisibleChanged += BackgroundLoadingListViewItem_IsVisibleChanged;
+        }
+
+        void BackgroundLoadingListViewItem_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            var parent = VisualParent.FindVisualParent<BackgroundLoadingListView>();
+
+            if (IsVisible && IsUserVisible(this, parent))
+            {
+                //BackgroundRenderingService.RequestRender(0, this, parent, parent.ScrollViewer);
+            }
+        }
+
+        private bool IsUserVisible(FrameworkElement element, FrameworkElement container)
+        {
+            if (!element.IsVisible)
+                return false;
+
+            Rect bounds = element.TransformToAncestor(container).TransformBounds(new Rect(0.0, 0.0, element.ActualWidth, element.ActualHeight));
+            Rect rect = new Rect(0.0, 0.0, container.ActualWidth, container.ActualHeight);
+            return rect.Contains(bounds.TopLeft) || rect.Contains(bounds.BottomRight);
         }
 
         public override void OnApplyTemplate()
@@ -128,7 +254,7 @@ namespace WPF
                 if (!ScheduledForBackgroundRendering)
                 {
                     int priority = parentListView.IsVisible ? 1 : 2;
-                    parentListView.RS.RequestRender(priority, this);
+                    BackgroundRenderingService.RequestRender(priority, this);
                 }
 
                 if (!constraint.IsInfinite())
@@ -156,7 +282,7 @@ namespace WPF
                 if (!ScheduledForBackgroundRendering)
                 {
                     int priority = parentListView.IsVisible ? 1 : 2;
-                    parentListView.RS.RequestRender(priority, this);
+                    BackgroundRenderingService.RequestRender(priority, this);
                 }
 
                 return arrangeBounds;
