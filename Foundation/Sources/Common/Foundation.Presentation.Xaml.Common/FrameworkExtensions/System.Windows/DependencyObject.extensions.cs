@@ -165,6 +165,36 @@ namespace SquaredInfinity.Foundation.Extensions
             return null;
         }
 
+           public static TParent FindLogicalParent<TParent>(this DependencyObject me)
+            where TParent : DependencyObject
+        {
+            DependencyObject parent = LogicalTreeHelper.GetParent(me);
+
+            while (parent != null)
+            {
+                TParent typedParent = parent as TParent;
+
+                if (typedParent != null)
+                {
+                    return typedParent;
+                }
+
+                parent = LogicalTreeHelper.GetParent(parent);
+            }
+
+            return null;
+        }
+
+        public static DependencyObject GetVisualParent(this DependencyObject obj)
+        {
+            return VisualTreeHelper.GetParent(obj);
+        }
+
+        public static DependencyObject GetLogicalParent(this DependencyObject obj)
+        {
+            return LogicalTreeHelper.GetParent(obj);
+        }
+
         public static TInterface FindVisualParentByInterface<TInterface>(this DependencyObject me)
             where TInterface : class
         {

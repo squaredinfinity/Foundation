@@ -131,6 +131,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows\DependencyObject.extensions.cs">
       <Link>FrameworkExtensions\System.Windows\DependencyObject.extensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows\FrameworkElement.extensions.cs">
+      <Link>FrameworkExtensions\System.Windows\FrameworkElement.extensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows\Rect.extensions.cs">
       <Link>FrameworkExtensions\System.Windows\Rect.extensions.cs</Link>
     </Compile>

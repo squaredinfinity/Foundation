@@ -72,6 +72,7 @@
     <Compile Include="DialogScope.cs" />
     <Compile Include="FrameworkExtensions\System.Windows.Controls\TreeViewItem.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Windows.Media\ImageSource.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System.Windows\FrameworkElement.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Windows\DependencyObject.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Windows\Rect.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Windows\Size.extensions.cs" />

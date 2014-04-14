@@ -21,56 +21,220 @@
         <Button Click="Button_Click" Grid.Row="0">
             
         </Button>
-        <local:BackgroundLoadingListView ItemsSource="{Binding MyItems}" 
-                                         Grid.Row="1"
-                                         VirtualizingPanel.IsVirtualizing="False">
-            <local:BackgroundLoadingListView.View>
-                <GridView>
-                    <GridView.Columns>
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
-                        <GridViewColumn CellTemplate="{StaticResource one}" />
+
+        <local:TabControl Grid.Row="1">
+            <TabItem Header="1">
+                <local:BackgroundLoadingListView ItemsSource="{Binding MyItems}" 
+                                                 x:Name="one"
+                                                 VirtualizingPanel.IsVirtualizing="False">
+                    <local:BackgroundLoadingListView.View>
+                        <GridView>
+                            <GridView.Columns>
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
 
 
-                    </GridView.Columns>
-                </GridView>
-            </local:BackgroundLoadingListView.View>
-        </local:BackgroundLoadingListView>
+                            </GridView.Columns>
+                        </GridView>
+                    </local:BackgroundLoadingListView.View>
+                </local:BackgroundLoadingListView>
+            </TabItem>
+            <TabItem Header="2">
+                <local:BackgroundLoadingListView ItemsSource="{Binding MyItems}" 
+                                                 x:Name="two"
+                                                 VirtualizingPanel.IsVirtualizing="False">
+                    <local:BackgroundLoadingListView.View>
+                        <GridView>
+                            <GridView.Columns>
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+
+
+                            </GridView.Columns>
+                        </GridView>
+                    </local:BackgroundLoadingListView.View>
+                </local:BackgroundLoadingListView>
+            </TabItem>
+            <TabItem Header="3">
+                <local:BackgroundLoadingListView ItemsSource="{Binding MyItems}" 
+                                                 x:Name="three"
+                                                 VirtualizingPanel.IsVirtualizing="False">
+                    <local:BackgroundLoadingListView.View>
+                        <GridView>
+                            <GridView.Columns>
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+
+
+                            </GridView.Columns>
+                        </GridView>
+                    </local:BackgroundLoadingListView.View>
+                </local:BackgroundLoadingListView>
+            </TabItem>
+            <TabItem Header="4">
+                <local:BackgroundLoadingListView ItemsSource="{Binding MyItems}" 
+                                                 x:Name="four"
+                                                 VirtualizingPanel.IsVirtualizing="False">
+                    <local:BackgroundLoadingListView.View>
+                        <GridView>
+                            <GridView.Columns>
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+                                <GridViewColumn CellTemplate="{StaticResource one}" />
+
+
+                            </GridView.Columns>
+                        </GridView>
+                    </local:BackgroundLoadingListView.View>
+                </local:BackgroundLoadingListView>
+            </TabItem>
+        </local:TabControl>
     </Grid>
 </Window>

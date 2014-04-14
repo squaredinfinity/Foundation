@@ -52,7 +52,7 @@ namespace WPF
         {
             var x = new ObservableCollectionEx<MyItem>();
 
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 100; i++)
                 x.Add(new MyItem { Id = i });
 
             MyItems = x;

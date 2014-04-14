@@ -68,8 +68,8 @@ namespace WPF
 
                 itemsToRender.Add(c);
             }
-            
-            BackgroundRenderingService.RequestRender(1, itemsToRender);
+
+            BackgroundRenderingService.RequestRender(RenderingPriority.ParentVisible, itemsToRender);
         }
 
         void RenderItemsInView()
@@ -89,7 +89,7 @@ namespace WPF
                 if (c == null)
                     continue;
 
-                if (!IsInViewport(ScrollViewer, c))
+                if (!c.IsInViewport(ScrollViewer))
                 {
                     continue;
                 }
@@ -100,37 +100,6 @@ namespace WPF
       //      itemsToRender.Reverse();
 
             BackgroundRenderingService.RequestRender(0, itemsToRender);
-        }
-
-        static bool IsInViewport(FrameworkElement scrollViewer, FrameworkElement fe)
-        {
-            var p = VisualTreeHelper.GetParent(fe) as FrameworkElement;
-
-            var transform = fe.TransformToVisual(scrollViewer);
-            var rectangle = transform.TransformBounds(new Rect(new Point(0, 0), fe.RenderSize));
-
-            var intersection = Rect.Intersect(new Rect(new Point(0, 0), scrollViewer.RenderSize), rectangle);
-
-            if (intersection == Rect.Empty)
-            {
-                // framework element is not in view
-
-                return false;
-
-                // todo: make this configurable (by number of pixels, pages)
-                // render elements which are just outside of view port
-
-                //rectangle.Inflate(scrollViewer.RenderSize.Width * .5, scrollViewer.RenderSize.Height * .5);
-                //intersection = Rect.Intersect(new Rect(new Point(0, 0), scrollViewer.RenderSize), rectangle);
-
-                //return intersection != Rect.Empty;
-
-                //return false;
-            }
-            else
-            {
-                return true;
-            }
         }
 
         protected override void OnItemsSourceChanged(System.Collections.IEnumerable oldValue, System.Collections.IEnumerable newValue)
@@ -153,7 +122,7 @@ namespace WPF
 
             int priority = IsVisible ? 1 : 2;
 
-            BackgroundRenderingService.RequestRender(priority, this);
+            BackgroundRenderingService.RequestRender(RenderingPriority.BackgroundLow, this);
         }
 
         void cc_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -164,7 +133,7 @@ namespace WPF
             {
                 int priority = IsVisible ? 1 : 2;
 
-                BackgroundRenderingService.RequestRender(priority, this);
+                BackgroundRenderingService.RequestRender(RenderingPriority.BackgroundLow, this);
             }
         }
 
@@ -253,7 +222,7 @@ namespace WPF
 
                 if (!ScheduledForBackgroundRendering)
                 {
-                    int priority = parentListView.IsVisible ? 1 : 2;
+                    var priority = parentListView.IsVisible ? RenderingPriority.ParentVisible : RenderingPriority.BackgroundLow;
                     BackgroundRenderingService.RequestRender(priority, this);
                 }
 
@@ -281,7 +250,7 @@ namespace WPF
 
                 if (!ScheduledForBackgroundRendering)
                 {
-                    int priority = parentListView.IsVisible ? 1 : 2;
+                    var priority = parentListView.IsVisible ? RenderingPriority.ParentVisible : RenderingPriority.BackgroundLow;
                     BackgroundRenderingService.RequestRender(priority, this);
                 }
 

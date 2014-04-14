@@ -115,7 +115,7 @@ namespace WPF
             }
         }
 
-        private ContentPresenter CreateChildContentPresenter(object item)
+        internal ContentPresenter CreateChildContentPresenter(object item)
         {
             if (item == null)
                 return null;
@@ -168,6 +168,11 @@ namespace WPF
                 item = base.ItemContainerGenerator.ContainerFromIndex(base.SelectedIndex) as TabItem;
 
             return item;
+        }
+
+        protected override System.Windows.DependencyObject GetContainerForItemOverride()
+        {
+            return base.GetContainerForItemOverride();
         }
     }
 }
