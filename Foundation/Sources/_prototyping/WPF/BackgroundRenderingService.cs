@@ -77,14 +77,20 @@ namespace WPF
         {
             get { return Instance.RemainingQueueSize; }
         }
+
+        public static void Stop()
+        {
+            Instance.Stop();
+        }
     }
 
     public enum RenderingPriority
     {
-        ImmediatelyVisible = 0,
-        ParentVisible,
+        BackgroundLow = 0,
         BackgroundHigh,
-        BackgroundLow
+        ParentVisible,
+        ImmediatelyVisible
+        
     }
 
     class BackgroundRenderingServiceImplementation
@@ -140,7 +146,7 @@ namespace WPF
                 (from i in itemsToRender
                  let rs = i as ISupportsBackgroundRendering
                  where
-                 rs == null || !rs.BackgroundRenderingComplete
+                 rs == null || (!rs.BackgroundRenderingComplete && !rs.ScheduledForBackgroundRendering) || (rs.ScheduledForBackgroundRendering && priority > rs.HighestScheduledPriority)
                  select i).ToList();
 
             if (notYetRendered.Count == 0)
@@ -157,6 +163,10 @@ namespace WPF
 
                 RequestRender(priority, queueItem);
             }
+
+            var panel = notYetRendered[0].FindVisualParent<Panel>();
+            if (panel != null && panel.IsItemsHost)
+                RequestRender(RenderingPriority.BackgroundHigh, new BackgroundRenderingQueueItem { ElementToRender = panel });
         }
 
         public void RequestRender(RenderingPriority priority, FrameworkElement frameworkElement, Action postRenderAction = null)
@@ -167,6 +177,11 @@ namespace WPF
             {
                 if (br.BackgroundRenderingComplete)
                     return;
+
+                if (br.ScheduledForBackgroundRendering && priority <= br.HighestScheduledPriority)
+                    return;
+
+                br.ScheduledForBackgroundRendering = true;
             }
 
             var queueItem = new BackgroundRenderingQueueItem();
@@ -245,6 +260,7 @@ namespace WPF
             ImmediatelyVisibleWorkQueueProcessingTask =
                 Task.Run(
                 () => StartCore(
+                    RenderingPriority.ImmediatelyVisible,
                     ImmediatelyVisibleWorkQueue,
                     DispatcherPriority.Input,
                     WorkQueueProcessingCancellationTokenSource.Token));
@@ -252,6 +268,7 @@ namespace WPF
             ParentVisibleWorkQueueProcessingTask =
                 Task.Run(
                 () => StartCore(
+                    RenderingPriority.ParentVisible,
                     ParentVisibleWorkQueue,
                     DispatcherPriority.Background,
                     WorkQueueProcessingCancellationTokenSource.Token));
@@ -259,6 +276,7 @@ namespace WPF
             BackgroundHighWorkQueueProcessingTask =
                 Task.Run(
                 () => StartCore(
+                    RenderingPriority.BackgroundHigh,
                     BackgroundHighWorkQueue,
                     DispatcherPriority.Background,
                     WorkQueueProcessingCancellationTokenSource.Token));
@@ -266,83 +284,97 @@ namespace WPF
             BackgroundLowWorkQueueProcessingTask =
                 Task.Run(
                 () => StartCore(
+                    RenderingPriority.BackgroundLow,
                     BackgroundLowWorkQueue,
                     DispatcherPriority.SystemIdle,
                     WorkQueueProcessingCancellationTokenSource.Token));
         }
 
         void StartCore(
+            RenderingPriority priority,
             BlockingCollection<BackgroundRenderingQueueItem> collection,
             DispatcherPriority dispatcherPriority,
             CancellationToken cancellationToken)
         {
-            while (true)
+            try
             {
-                Progress.Report(RemainingQueueSize);
-
-                var queueItem = (BackgroundRenderingQueueItem)null;
-
-                if (!collection.TryTake(out queueItem, TimeSpan.FromMilliseconds(250)))
-                    continue;
-
-                if (cancellationToken.IsCancellationRequested)
-                    return;
-
-                if (queueItem == null)
-                    continue;
-
-                if (queueItem.ElementToRender == null)
-                    continue;
-
-                var supportsBackgroundRendering = queueItem.ElementToRender as ISupportsBackgroundRendering;
-                if (supportsBackgroundRendering != null && supportsBackgroundRendering.BackgroundRenderingComplete)
-                    continue;
-
-                //if (pqi.Priority < 2)
-                //{
-                //    if (!pqi.Value.ElementToRender.IsVisible)
-                //    {
-                //        RequestRender(2, pqi.Value.ElementToRender);
-                //        continue;
-                //    }
-                //}
-
-                Trace.WriteLine("rendering: {0}, {1} left".FormatWith(dispatcherPriority.ToString(), RemainingQueueSize));
-
-                var ic = queueItem.ElementToRender as ItemsControl;
-
-                if (ic != null)
+                while (true)
                 {
-                    RenderItemsControl(ic, dispatcherPriority);
-                }
-                else
-                {
-                    RenderFrameworkElement(queueItem.ElementToRender, dispatcherPriority);
-                }
+                    Progress.Report(RemainingQueueSize);
 
-                if (cancellationToken.IsCancellationRequested)
-                    return;
+                    var queueItem = collection.Take(cancellationToken);
+
+                    if (queueItem == null)
+                        continue;
+
+                    if (queueItem.ElementToRender == null)
+                        continue;
+
+                    // background loading list view handles everything itself
+                    if (queueItem.ElementToRender is BackgroundLoadingListView && queueItem.ElementToRender.IsVisible)
+                        return;
+
+                    var supportsBackgroundRendering = queueItem.ElementToRender as ISupportsBackgroundRendering;
+                    if (supportsBackgroundRendering != null && supportsBackgroundRendering.BackgroundRenderingComplete)
+                        continue;
+
+                    if (cancellationToken.IsCancellationRequested)
+                        return;
+
+                    if (priority == RenderingPriority.ImmediatelyVisible && !queueItem.ElementToRender.IsVisible)
+                    {
+                        RequestRender(RenderingPriority.BackgroundLow, queueItem);
+                        continue;
+                    }
+
+                    if (priority == RenderingPriority.BackgroundHigh)
+                    {
+
+                    }
+
+                    Trace.Write("rendering {0}, {1} left.".FormatWith(priority, RemainingQueueSize));
+
+                    var ic = queueItem.ElementToRender as ItemsControl;
+
+                    if (ic != null)
+                    {
+                        RenderItemsControl(ic, dispatcherPriority, cancellationToken);
+                        continue;
+                    }
+                    else
+                    {
+                        RenderFrameworkElement(queueItem.ElementToRender, dispatcherPriority, cancellationToken);
+                    }
+                }
+            }
+            catch (OperationCanceledException)
+            { 
+                // operation was cancelled, nothing else to here.
             }
         }
 
-        void RenderItemsControl(ItemsControl itemsControl, DispatcherPriority dispatcherPriority)
+        void RenderItemsHost(Panel panel, DispatcherPriority dispatcherPriority, CancellationToken cancellationToken)
         {
             try
             {
-                itemsControl.Dispatcher.BeginInvoke(new Action(() =>
+                panel.Dispatcher.Invoke(new Action(() =>
                 {
                     try
                     {
-                        RenderItemsControlCore(itemsControl);
+                        RenderItemsHostCore(panel, cancellationToken);
                     }
                     catch (Exception ex)
                     {
                         //         Logger.DiagnosticOnlyLogException(ex);
                     }
 
-                }), dispatcherPriority).Wait();
+                }), dispatcherPriority, cancellationToken);
 
-                OnElementRendered(itemsControl);
+                OnElementRendered(panel);
+            }
+            catch (OperationCanceledException)
+            {
+                // operation has been cancelled, nothing more needs to be done
             }
             catch (Exception ex)
             {
@@ -350,13 +382,47 @@ namespace WPF
             }
         }
 
-        void RenderItemsControlCore(ItemsControl itemsControl)
+        void RenderItemsControl(ItemsControl itemsControl, DispatcherPriority dispatcherPriority, CancellationToken cancellationToken)
+        {
+            try
+            {
+                itemsControl.Dispatcher.Invoke(new Action(() =>
+                {
+                    try
+                    {
+                        RenderItemsControlCore(itemsControl, cancellationToken);
+                    }
+                    catch (Exception ex)
+                    {
+                        //         Logger.DiagnosticOnlyLogException(ex);
+                    }
+
+                }), dispatcherPriority, cancellationToken);
+
+                OnElementRendered(itemsControl);
+            }
+            catch (OperationCanceledException)
+            {
+                // operation has been cancelled, nothing more needs to be done
+            }
+            catch(Exception ex)
+            {
+                //        Logger.DiagnosticOnlyLogException(ex);
+            }
+        }
+
+        void RenderItemsControlCore(ItemsControl itemsControl, CancellationToken cancellationToken)
         {
             if(itemsControl.GetVisualParent() == null)
             {
                 var tabControl = itemsControl.FindLogicalParent<WPF.TabControl>();
+                var tabItem = itemsControl.FindLogicalParent<TabItem>();
 
-                tabControl.CreateChildContentPresenter(itemsControl);
+                if (tabControl != null && tabItem != null && tabItem.IsDescendantOf(tabControl))
+                {
+                    tabControl.CreateChildContentPresenter(tabItem);
+                    tabControl.InvalidateVisual();
+                }
             }
 
             // NOTE: THIS WILL BE CALLED ON UI THREAD
@@ -368,13 +434,14 @@ namespace WPF
                  where c.IsItemsHost
                  select c).FirstOrDefault();
 
+            if (cancellationToken.IsCancellationRequested)
+                return;
+
             if (itemsHost == null)
             {
                 // todo: surely some of this is not needed
 
                 itemsControl.ApplyTemplate();
-                itemsControl.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                itemsControl.Arrange(new Rect(itemsControl.DesiredSize));
 
                 itemsHost =
                     (from c in itemsControl.VisualTreeTraversal(
@@ -387,6 +454,14 @@ namespace WPF
             if (itemsHost == null)
                 return;
 
+            itemsHost.InvalidateMeasure();
+            itemsHost.InvalidateArrange();
+            itemsHost.InvalidateVisual();
+            itemsHost.UpdateLayout();
+
+            if (cancellationToken.IsCancellationRequested)
+                return;
+
             using (var wait = new ItemContainerGeneratorStatusMonitor(itemsControl.ItemContainerGenerator))
             {
                 EnsureGeneratorMethod.Invoke(itemsHost, new object[] { });
@@ -396,57 +471,86 @@ namespace WPF
 
             var priority = itemsControl.IsVisible ? RenderingPriority.ParentVisible : RenderingPriority.BackgroundLow;
 
-            var isParentVisible = false;
-            var parentViewPort = (FrameworkElement)null;
+            var parent = (FrameworkElement) null;
+            var parentWindow = (Window) null;
 
-            if (!itemsControl.IsVisible)
+
+            parent = itemsControl.FindVisualParent<Control>();
+
+            if (parent != null)
             {
-                var parent = (LogicalTreeHelper.GetParent(itemsControl) as FrameworkElement);
-
-                if (parent != null)
+                if (parent.IsVisible)
                 {
-                    if(parent.IsVisible)
-                    {
-                        isParentVisible = true;
-                        parentViewPort = parent.FindDescendant<ScrollViewer>();
-
-                        if (parentViewPort == null)
-                            parentViewPort = parent;
-                    }
+                    parentWindow = itemsControl.FindVisualParent<Window>();
                 }
             }
 
-            for (int i = 0; i < itemsControl.ItemContainerGenerator.Items.Count; i++)
+//            using (itemsControl.ItemContainerGenerator.GenerateBatches())
             {
-                var item = itemsControl.ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;
-
-                if (item != null)
+                for (int i = itemsControl.ItemContainerGenerator.Items.Count - 1; i >= 0; i--)
                 {
-                    // TODO: should it adjust priority based on other criteria?
-                    // e.g. find if item control above is visible, then check if item is visible
-                    // in scroll viewer (if any), or within screen bounds
+                    if (cancellationToken.IsCancellationRequested)
+                        return;
 
-                    if(itemsControl.IsVisible || !isParentVisible || !item.IsInViewport(parentViewPort))
-                        RequestRender(priority, item);
-                    else
+                    var item = itemsControl.ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;
+
+                    if (item != null)
                     {
-                        RequestRender(RenderingPriority.BackgroundHigh, item);
+                        var sbr = item as ISupportsBackgroundRendering;
+                        if (sbr != null && sbr.BackgroundRenderingComplete)
+                            continue;
+
+                        if (itemsControl.IsVisible)
+                        {
+                            if (parentWindow != null && item.IsInViewport(parentWindow))
+                            {
+                                RequestRender(RenderingPriority.ImmediatelyVisible, item);
+                            }
+                            else
+                            {
+                                RequestRender(RenderingPriority.ParentVisible, item);
+                            }
+                        }
+                        else if (parent == null || parentWindow == null || !item.IsInViewport(parentWindow))
+                        {
+                            RequestRender(RenderingPriority.BackgroundLow, item);
+                        }
+                        else
+                        {
+                            RequestRender(RenderingPriority.BackgroundHigh, item);
+                        }
                     }
                 }
             }
         }
 
-        void RenderFrameworkElement(FrameworkElement fe, DispatcherPriority dispatcherPriority)
+        void RenderFrameworkElement(FrameworkElement fe, DispatcherPriority dispatcherPriority, CancellationToken cancellationToken)
         {
+            var x = (fe as ISupportsBackgroundRendering);
+            if (x != null && x.BackgroundRenderingComplete)
+                    return;
+            
             try
             {
-                fe.Dispatcher.BeginInvoke(new Action(() =>
+                fe.Dispatcher.Invoke(new Action(() =>
                 {
-                    RenderFrameworkElementCore(fe);
+                    var ih = fe is Panel && ((Panel)fe).IsItemsHost;
+                    if (ih)
+                    {
+                        RenderItemsHostCore((Panel)fe, cancellationToken);
+                    }
+                    else
+                    {
+                        RenderFrameworkElementCore(fe, cancellationToken);
+                    }
 
-                }), dispatcherPriority).Wait();
+                }), dispatcherPriority, cancellationToken);
 
                 OnElementRendered(fe);
+            }
+            catch (OperationCanceledException)
+            {
+                // operation cancelled, nothing else to do here.
             }
             catch (Exception ex)
             {
@@ -454,66 +558,73 @@ namespace WPF
             }
         }
 
-        void RenderFrameworkElementCore(FrameworkElement fe, Panel itemsControl = null, bool shouldInvalidateVisual = true)
+        void RenderItemsHostCore(Panel panel, CancellationToken cancellationToken)
         {
-            try
-            {
-                if(itemsControl == null)
-                    itemsControl = VisualTreeHelper.GetParent(fe) as Panel;
+            panel.InvalidateVisual();
+        }
 
-                // itemsControl may be null if this item has been disconnected
-                if (itemsControl == null)
+        void RenderFrameworkElementCore(FrameworkElement fe, CancellationToken cancellationToken)
+        {
+            var itemsControl = fe.FindVisualParent<Panel>();
+
+            // itemsControl may be null if this item has been disconnected
+            if (itemsControl == null)
+                return;
+
+            var x = (fe as ISupportsBackgroundRendering);
+
+            if (x != null)
+            {
+                if (x.BackgroundRenderingComplete)
                     return;
 
-                var x = (fe as ISupportsBackgroundRendering);
+                x.BackgroundRenderingComplete = true;
+                //  invalidating measure will cause parent container to recalculate needed area.
+                //  for example, if this framework element is inside scrollviewer, the scrollviewer will update it's extent
+                //  without this scrollviewer may not have up to date information and scrollbars instide it may not cover the whole child control
+                fe.InvalidateMeasure();
+                
+                // invalide visual works in a simillar way to invalidate measure (in terms of outcome) bo parent container will not be refreshed
+                // todo: see if there's a visible performance benefit of doing one over another
+                // fe.InvalidateVisual();
+                return;
 
-                if (x != null)
-                {
-                    x.BackgroundRenderingComplete = true;
+                // todo: arrange + invalidate parent panel seems to do the trick
+                // try to arrange multiple children at the same time and invalidate panel in one go after
+                //fe.Arrange(new Rect(fe.DesiredSize));
+                //fe.FindVisualParent<Panel>().InvalidateVisual();
 
-                }
-
-                fe.InvalidateArrange();
-
-                if (shouldInvalidateVisual)
-                {
-                    fe.InvalidateVisual();
-                }
-
-                var contentcontrol = fe as ContentControl;
-
-                if (contentcontrol != null)
-                {
-                    contentcontrol.ApplyTemplate();
-
-                    var contentFe = contentcontrol.Content as FrameworkElement;
-
-                    if (contentFe == null)
-                        return;
-
-                    contentFe.ApplyTemplate();
-
-                    var priority = contentFe.IsVisible ? RenderingPriority.ParentVisible : RenderingPriority.BackgroundLow;
-
-                    if(contentcontrol.IsVisible)
-                    {
-                        var isInViewPort = contentFe.IsInViewport(contentcontrol);
-
-                        if (isInViewPort)
-                            priority = RenderingPriority.BackgroundHigh;
-                    }
-
-                    if (contentFe is ItemsControl && VisualTreeHelper.GetParent(contentFe) == null)
-                    {
-
-                    }
-
-                    RequestRender(priority, contentFe);
-                }
+                return;
             }
-            catch (Exception ex)
+
+            fe.InvalidateVisual();
+
+            var contentcontrol = fe as ContentControl;
+
+            if (contentcontrol != null)
             {
-                //         Logger.DiagnosticOnlyLogException(ex);
+                contentcontrol.ApplyTemplate();
+
+                var contentFe = contentcontrol.Content as FrameworkElement;
+
+                if (contentFe == null)
+                    return;
+
+                if (cancellationToken.IsCancellationRequested)
+                    return;
+
+                contentFe.ApplyTemplate();
+
+                var priority = contentFe.IsVisible ? RenderingPriority.ParentVisible : RenderingPriority.BackgroundLow;
+
+                var parentWindow = contentFe.FindVisualParent<Window>();
+
+                if (parentWindow != null && contentFe.IsInViewport(parentWindow))
+                {
+                    priority = RenderingPriority.BackgroundHigh;
+                }
+
+                RequestRender(priority, contentFe);
             }
         }
 
@@ -531,7 +642,7 @@ namespace WPF
             readonly EventWaitHandle WaitHandle = new ManualResetEvent(false);
 
             public ItemContainerGeneratorStatusMonitor(ItemContainerGenerator generator)
-                : this(generator, TimeSpan.FromMilliseconds(250))
+                : this(generator, TimeSpan.FromMilliseconds(500))
             { }
 
             public ItemContainerGeneratorStatusMonitor(ItemContainerGenerator generator, TimeSpan timeout)

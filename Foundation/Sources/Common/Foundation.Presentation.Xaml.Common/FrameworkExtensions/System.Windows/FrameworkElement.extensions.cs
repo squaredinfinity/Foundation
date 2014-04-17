@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,41 +12,29 @@ namespace SquaredInfinity.Foundation.Extensions
 {
     public static class FrameworkElementExtensions
     {
-        public static bool IsInViewport(this FrameworkElement fe, FrameworkElement parentElement)
+        public static bool IsInViewport(this FrameworkElement fe, Window parentWindow)
         {
-            if (parentElement == null)
+            if (parentWindow == null)
                 return false;
 
-            var scrollViewer = parentElement as ScrollViewer;
-
-            if (scrollViewer == null)
-                scrollViewer = parentElement.FindDescendant<ScrollViewer>();
-
-            FrameworkElement viewPortElement = scrollViewer;
-
-            if (viewPortElement == null)
-                viewPortElement = parentElement;
-
-            var transform = fe.TransformToVisual(viewPortElement);
+            var transform = fe.TransformToVisual(parentWindow);
             var rectangle = transform.TransformBounds(new Rect(new Point(0, 0), fe.RenderSize));
 
-            var intersection = Rect.Intersect(new Rect(new Point(0, 0), viewPortElement.RenderSize), rectangle);
+            var intersection = Rect.Intersect(new Rect(new Point(0, 0), parentWindow.RenderSize), rectangle);
 
             if (intersection == Rect.Empty)
             {
                 // framework element is not in view
 
-                return false;
-
                 // todo: make this configurable (by number of pixels, pages)
-                // render elements which are just outside of view port
+                // render elements which are just outside of view port (currently supports only elements below)
 
-                //rectangle.Inflate(scrollViewer.RenderSize.Width * .5, scrollViewer.RenderSize.Height * .5);
-                //intersection = Rect.Intersect(new Rect(new Point(0, 0), scrollViewer.RenderSize), rectangle);
+                //var lookAhead = fe.RenderSize.Height * 50;
 
-                //return intersection != Rect.Empty;
+                //if (rectangle.Y > 0 && rectangle.Y - lookAhead <= parentWindow.RenderSize.Height)
+                //    return true;
 
-                //return false;
+                return false;
             }
             else
             {

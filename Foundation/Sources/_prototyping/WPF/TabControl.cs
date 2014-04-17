@@ -134,6 +134,7 @@ namespace WPF
             cp.Visibility = System.Windows.Visibility.Collapsed;
             cp.Tag = (item is TabItem) ? item : (this.ItemContainerGenerator.ContainerFromItem(item));
             ItemsHolderPanel.Children.Add(cp);
+            cp.ApplyTemplate();
             return cp;
         }
 

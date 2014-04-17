@@ -108,6 +108,12 @@
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\Enum.extensions.cs">
       <Link>FrameworkExtensions\System\Enum.extensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\Int32.extensions.cs">
+      <Link>FrameworkExtensions\System\Int32.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\Int64.extensions.cs">
+      <Link>FrameworkExtensions\System\Int64.extensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\IServiceProvider.extensions.cs">
       <Link>FrameworkExtensions\System\IServiceProvider.extensions.cs</Link>
     </Compile>

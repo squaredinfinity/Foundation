@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -281,6 +282,69 @@ namespace SquaredInfinity.Foundation.Extensions
             }
 
             return list.Count();
+        }
+
+        public static List<T> ToList<T>(this IEnumerable<T> source, int capacity)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            else
+            {
+                var list = new List<T>(capacity);
+                
+                list.AddRange(source);
+
+                return list;
+            }
+        }
+
+        public static ConcurrentDictionary<TKey, TSource> ToConcurrentDictionary<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            return IEnumerableExtensions.ToConcurrentDictionary<TSource, TKey, TSource>(source, keySelector, IdentityFunction<TSource>.Instance, (IEqualityComparer<TKey>)null);
+        }
+
+        public static ConcurrentDictionary<TKey, TSource> ToConcurrentDictionary<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
+        {
+            return IEnumerableExtensions.ToConcurrentDictionary<TSource, TKey, TSource>(source, keySelector, IdentityFunction<TSource>.Instance, comparer);
+        }
+
+        public static ConcurrentDictionary<TKey, TElement> ToConcurrentDictionary<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector)
+        {
+            return IEnumerableExtensions.ToConcurrentDictionary<TSource, TKey, TElement>(source, keySelector, elementSelector, (IEqualityComparer<TKey>)null);
+        }
+
+        public static ConcurrentDictionary<TKey, TElement> ToConcurrentDictionary<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, IEqualityComparer<TKey> comparer)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            if (keySelector == null)
+                throw new ArgumentNullException("keySelector");
+            if (elementSelector == null)
+                throw new ArgumentNullException("elementSelector");
+
+            comparer = comparer ?? EqualityComparer<TKey>.Default;
+
+            ConcurrentDictionary<TKey, TElement> dictionary = new ConcurrentDictionary<TKey, TElement>(comparer);
+            
+            foreach (TSource source1 in source)
+                dictionary.TryAdd(keySelector(source1), elementSelector(source1));
+
+            return dictionary;
+        }
+
+        internal class IdentityFunction<TElement>
+        {
+            public static Func<TElement, TElement> Instance
+            {
+                get
+                {
+                    return (Func<TElement, TElement>)(x => x);
+                }
+            }
+
+            public IdentityFunction()
+            {
+            }
         }
     }
 }

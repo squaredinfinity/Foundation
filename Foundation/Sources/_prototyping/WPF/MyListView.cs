@@ -23,10 +23,31 @@ namespace WPF
         public BackgroundLoadingListView()
         {
             this.IsVisibleChanged += BackgroundLoadingListView_IsVisibleChanged;
+
+            ItemContainerGenerator.StatusChanged += ItemContainerGenerator_StatusChanged;
+        }
+
+        void ItemContainerGenerator_StatusChanged(object sender, EventArgs e)
+        {
+            if (ItemContainerGenerator.Status == System.Windows.Controls.Primitives.GeneratorStatus.ContainersGenerated)
+            {
+                if (VirtualizingPanel.GetIsVirtualizing(this))
+                    return;
+
+                var priority = IsVisible ? RenderingPriority.ParentVisible : RenderingPriority.BackgroundLow;
+
+                BackgroundRenderingService.RequestRender(priority, this);
+            }
         }
 
         void BackgroundLoadingListView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            if ((bool)e.NewValue == false)
+                return;
+
+            if (VirtualizingPanel.GetIsVirtualizing(this))
+                return;
+
             RenderItemsInView();
             RenderAllItems();
         }
@@ -57,6 +78,9 @@ namespace WPF
 
         void RenderAllItems()
         {
+            if (VirtualizingPanel.GetIsVirtualizing(this))
+                return;
+
             var itemsToRender = new List<FrameworkElement>();
 
             for (int i = 0; i < this.ItemContainerGenerator.Items.Count; i++)
@@ -66,19 +90,31 @@ namespace WPF
                 if (c == null)
                     continue;
 
+                var sbr = c as ISupportsBackgroundRendering;
+
+                if (sbr != null && sbr.BackgroundRenderingComplete)
+                    continue;
+
                 itemsToRender.Add(c);
             }
+
+            itemsToRender.Reverse();
 
             BackgroundRenderingService.RequestRender(RenderingPriority.ParentVisible, itemsToRender);
         }
 
         void RenderItemsInView()
         {
+            if (VirtualizingPanel.GetIsVirtualizing(this))
+                return;
+
             if (ScrollViewer == null)
                 return;
 
             if (!ScrollViewer.IsLoaded)
                 return;
+
+            var parentWindow = this.FindVisualParent<Window>();
 
             var itemsToRender = new List<FrameworkElement>();
 
@@ -89,17 +125,20 @@ namespace WPF
                 if (c == null)
                     continue;
 
-                if (!c.IsInViewport(ScrollViewer))
-                {
+                var sbr = c as ISupportsBackgroundRendering;
+
+                if (sbr != null && sbr.BackgroundRenderingComplete)
                     continue;
-                }
+
+                if (!c.IsInViewport(parentWindow))
+                    continue;
 
                 itemsToRender.Add(c);
             }
-             
-      //      itemsToRender.Reverse();
 
-            BackgroundRenderingService.RequestRender(0, itemsToRender);
+            itemsToRender.Reverse();
+
+            BackgroundRenderingService.RequestRender(RenderingPriority.ImmediatelyVisible, itemsToRender);
         }
 
         protected override void OnItemsSourceChanged(System.Collections.IEnumerable oldValue, System.Collections.IEnumerable newValue)
@@ -120,20 +159,21 @@ namespace WPF
                 cc_new.CollectionChanged += cc_CollectionChanged;
             }
 
-            int priority = IsVisible ? 1 : 2;
+            if (VirtualizingPanel.GetIsVirtualizing(this))
+                return;
 
-            BackgroundRenderingService.RequestRender(RenderingPriority.BackgroundLow, this);
+            var priority = IsVisible ? RenderingPriority.ParentVisible : RenderingPriority.BackgroundLow;
+
+            BackgroundRenderingService.RequestRender(priority, this);
         }
 
         void cc_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Trace.WriteLine("collection changed : " + e.Action.ToString());
-
             if (e.Action != NotifyCollectionChangedAction.Remove)
             {
-                int priority = IsVisible ? 1 : 2;
+                var priority = IsVisible ? RenderingPriority.ParentVisible : RenderingPriority.BackgroundLow;
 
-                BackgroundRenderingService.RequestRender(RenderingPriority.BackgroundLow, this);
+                BackgroundRenderingService.RequestRender(priority, this);
             }
         }
 
@@ -157,15 +197,14 @@ namespace WPF
     {
         bool BackgroundRenderingComplete { get; set; }
         bool ScheduledForBackgroundRendering { get; set; }
+        RenderingPriority HighestScheduledPriority { get; set; }
     }
 
     public class BackgroundLoadingListViewItem : ListViewItem, ISupportsBackgroundRendering
     {
         public bool BackgroundRenderingComplete { get; set; }
         public bool ScheduledForBackgroundRendering { get; set; }
-
-
-
+        public RenderingPriority HighestScheduledPriority { get; set; }
 
 
         public Size SizeWhileBackgroundLoading
@@ -180,30 +219,8 @@ namespace WPF
         
 
         public BackgroundLoadingListViewItem()
-        {
-            this.IsVisibleChanged += BackgroundLoadingListViewItem_IsVisibleChanged;
-        }
-
-        void BackgroundLoadingListViewItem_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            var parent = VisualParent.FindVisualParent<BackgroundLoadingListView>();
-
-            if (IsVisible && IsUserVisible(this, parent))
-            {
-                //BackgroundRenderingService.RequestRender(0, this, parent, parent.ScrollViewer);
-            }
-        }
-
-        private bool IsUserVisible(FrameworkElement element, FrameworkElement container)
-        {
-            if (!element.IsVisible)
-                return false;
-
-            Rect bounds = element.TransformToAncestor(container).TransformBounds(new Rect(0.0, 0.0, element.ActualWidth, element.ActualHeight));
-            Rect rect = new Rect(0.0, 0.0, container.ActualWidth, container.ActualHeight);
-            return rect.Contains(bounds.TopLeft) || rect.Contains(bounds.BottomRight);
-        }
-
+        { }
+        
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -220,15 +237,9 @@ namespace WPF
                     return base.MeasureOverride(constraint);
                 }
 
-                if (!ScheduledForBackgroundRendering)
-                {
-                    var priority = parentListView.IsVisible ? RenderingPriority.ParentVisible : RenderingPriority.BackgroundLow;
-                    BackgroundRenderingService.RequestRender(priority, this);
-                }
-
                 if (!constraint.IsInfinite())
                     return constraint;
-
+                
                 return SizeWhileBackgroundLoading;
             }
             else
@@ -246,12 +257,6 @@ namespace WPF
                 if (VisualParent is VirtualizingPanel && VirtualizingPanel.GetIsVirtualizing(parentListView))
                 {
                     return base.ArrangeOverride(arrangeBounds);
-                }
-
-                if (!ScheduledForBackgroundRendering)
-                {
-                    var priority = parentListView.IsVisible ? RenderingPriority.ParentVisible : RenderingPriority.BackgroundLow;
-                    BackgroundRenderingService.RequestRender(priority, this);
                 }
 
                 return arrangeBounds;

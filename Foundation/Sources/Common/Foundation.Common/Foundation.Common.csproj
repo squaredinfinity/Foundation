@@ -65,6 +65,8 @@
     <Compile Include="FrameworkExtensions\System\DateTimeExtensions.cs" />
     <Compile Include="FrameworkExtensions\System\Double.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\Enum.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System\Int64.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System\Int32.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\IServiceProvider.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\Object.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\String.extensions.cs" />

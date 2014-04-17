@@ -32,7 +32,8 @@ namespace SquaredInfinity.Foundation.Extensions
             if (me.GetType() != bitFlag.GetType())
                 throw new ArgumentException("Types of parameters have to be the same");
 
-            return (((me as IConvertible).ToInt32(null) & (bitFlag as IConvertible).ToInt32(null)) != 0);
+            return 
+                (me as IConvertible).ToInt32(null).IsFlagSet((bitFlag as IConvertible).ToInt32(null));
         }
 
         public static TEnum Set<TEnum>(this Enum me, TEnum flag)
