@@ -17,7 +17,7 @@ namespace SquaredInfinity.Foundation.Collections
             get { return _version; }
         }
 
-        void IncrementVersion()
+        public void IncrementVersion()
         {
             Interlocked.Increment(ref _version);
         }

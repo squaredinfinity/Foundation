@@ -22,7 +22,7 @@ namespace SquaredInfinity.Foundation.Extensions
             if (s.IsEmpty)
                 return true;
 
-            return s.Width == 0 && s.Height == 0;
+            return s.Width == 0 || s.Height == 0;
         }
 
         public static bool IsInfinite(this Size s)

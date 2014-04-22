@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -28,8 +29,6 @@ namespace SquaredInfinity.Foundation.Collections
         public ObservableCollectionEx(int capacity, SynchronizationContext syncContext)
             : base(new List<TItem>(capacity))
         {
-            //SyncContext = syncContext;
-
             BindingOperations.EnableCollectionSynchronization(this, context: null, synchronizationCallback: BindingSync);
         }
 
@@ -50,11 +49,17 @@ namespace SquaredInfinity.Foundation.Collections
             }
             finally
             {
+                if(CollectionLock.IsUpgradeableReadLockHeld)
+                {
+                    CollectionLock.ExitUpgradeableReadLock();
+                }
+
                 if (CollectionLock.IsWriteLockHeld)
                 {
                     CollectionLock.ExitWriteLock();
                 }
-                else if (CollectionLock.IsReadLockHeld)
+                
+                if (CollectionLock.IsReadLockHeld)
                 {
                     CollectionLock.ExitReadLock();
                 }
@@ -63,78 +68,170 @@ namespace SquaredInfinity.Foundation.Collections
 
         public void Move(int oldIndex, int newIndex)
         {
-            CollectionLock.EnterWriteLock();
+            CollectionLock.EnterUpgradeableReadLock();
+
             try
             {
+                CollectionLock.EnterWriteLock();
+
                 TItem obj = this[oldIndex];
                 base.RemoveItem(oldIndex);
                 base.InsertItem(newIndex, obj);
+
+                CollectionLock.ExitWriteLock();
 
                 RaiseCollectionChanged(NotifyCollectionChangedAction.Move, (object)obj, newIndex, oldIndex);
             }
             finally
             {
-                CollectionLock.ExitWriteLock();
+                if (CollectionLock.IsUpgradeableReadLockHeld)
+                {
+                    CollectionLock.ExitUpgradeableReadLock();
+                }
+
+                if (CollectionLock.IsWriteLockHeld)
+                {
+                    CollectionLock.ExitWriteLock();
+                }
+
+                if (CollectionLock.IsReadLockHeld)
+                {
+                    CollectionLock.ExitReadLock();
+                }
             }
         }
 
         protected sealed override void RemoveItem(int index)
         {
-            CollectionLock.EnterWriteLock();
+            CollectionLock.EnterUpgradeableReadLock();
+
             try
             {
+                CollectionLock.EnterWriteLock();
+
                 TItem obj = this[index];
                 base.RemoveItem(index);
+
+                CollectionLock.ExitWriteLock();
+
                 this.RaiseCollectionChanged(NotifyCollectionChangedAction.Remove, (object)obj, index);
             }
             finally
             {
-                CollectionLock.ExitWriteLock();
+                if (CollectionLock.IsUpgradeableReadLockHeld)
+                {
+                    CollectionLock.ExitUpgradeableReadLock();
+                }
+
+                if (CollectionLock.IsWriteLockHeld)
+                {
+                    CollectionLock.ExitWriteLock();
+                }
+
+                if (CollectionLock.IsReadLockHeld)
+                {
+                    CollectionLock.ExitReadLock();
+                }
             }
         }
 
         protected sealed override void InsertItem(int index, TItem item)
         {
-            CollectionLock.EnterWriteLock();
+            CollectionLock.EnterUpgradeableReadLock();
+
             try
             {
+                CollectionLock.EnterWriteLock();
+
                 base.InsertItem(index, item);
+
+                CollectionLock.ExitWriteLock();
+
                 this.RaiseCollectionChanged(NotifyCollectionChangedAction.Add, (object)item, index);
             }
             finally
             {
-                CollectionLock.ExitWriteLock();
+                if (CollectionLock.IsUpgradeableReadLockHeld)
+                {
+                    CollectionLock.ExitUpgradeableReadLock();
+                }
+
+                if (CollectionLock.IsWriteLockHeld)
+                {
+                    CollectionLock.ExitWriteLock();
+                }
+
+                if (CollectionLock.IsReadLockHeld)
+                {
+                    CollectionLock.ExitReadLock();
+                }
             }
         }
 
         protected sealed override void SetItem(int index, TItem item)
         {
-            CollectionLock.EnterWriteLock();
+            CollectionLock.EnterUpgradeableReadLock();
 
             try
             {
+                CollectionLock.EnterWriteLock();
+
                 TItem obj = this[index];
                 base.SetItem(index, item);
+
+                CollectionLock.ExitWriteLock();
+
                 this.RaiseCollectionChanged(NotifyCollectionChangedAction.Replace, (object)item, (object)obj, index);
             }
             finally
             {
-                CollectionLock.ExitWriteLock();
+                if (CollectionLock.IsUpgradeableReadLockHeld)
+                {
+                    CollectionLock.ExitUpgradeableReadLock();
+                }
+
+                if (CollectionLock.IsWriteLockHeld)
+                {
+                    CollectionLock.ExitWriteLock();
+                }
+
+                if (CollectionLock.IsReadLockHeld)
+                {
+                    CollectionLock.ExitReadLock();
+                }
             }
         }
 
         protected sealed override void ClearItems()
         {
-            CollectionLock.EnterWriteLock();
+            CollectionLock.EnterUpgradeableReadLock();
 
             try
             {
+                CollectionLock.EnterWriteLock();
+
                 base.ClearItems();
+
+                CollectionLock.ExitWriteLock();
+
                 RaiseCollectionReset();
             }
             finally
             {
-                CollectionLock.ExitWriteLock();
+                if (CollectionLock.IsUpgradeableReadLockHeld)
+                {
+                    CollectionLock.ExitUpgradeableReadLock();
+                }
+
+                if (CollectionLock.IsWriteLockHeld)
+                {
+                    CollectionLock.ExitWriteLock();
+                }
+
+                if (CollectionLock.IsReadLockHeld)
+                {
+                    CollectionLock.ExitReadLock();
+                }
             }
         }
     }

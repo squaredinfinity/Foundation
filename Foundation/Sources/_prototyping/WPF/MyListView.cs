@@ -13,6 +13,8 @@ using System.Windows.Input;
 using System.Windows.Media.Media3D;
 using System.Reactive.Linq;
 using System.Reactive.Concurrency;
+using System.ComponentModel;
+using System.Windows.Threading;
 
 namespace WPF
 {
@@ -34,9 +36,12 @@ namespace WPF
                 if (VirtualizingPanel.GetIsVirtualizing(this))
                     return;
 
-                var priority = IsVisible ? RenderingPriority.ParentVisible : RenderingPriority.BackgroundLow;
+                RenderAllItems(forceRender: true);
+                //RenderItemsInView();
 
-                BackgroundRenderingService.RequestRender(priority, this);
+//                var priority = IsVisible ? RenderingPriority.ParentVisible : RenderingPriority.BackgroundLow;
+
+  //              BackgroundRenderingService.RequestRender(priority, this);
             }
         }
 
@@ -76,8 +81,14 @@ namespace WPF
                     }); 
         }
 
-        void RenderAllItems()
+        void RenderAllItems(bool forceRender = false)
         {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.BeginInvoke(new Action(() => RenderAllItems(forceRender)), DispatcherPriority.DataBind);
+                return;
+            }
+
             if (VirtualizingPanel.GetIsVirtualizing(this))
                 return;
 
@@ -92,8 +103,17 @@ namespace WPF
 
                 var sbr = c as ISupportsBackgroundRendering;
 
-                if (sbr != null && sbr.BackgroundRenderingComplete)
-                    continue;
+                if (sbr != null)
+                {
+                    if (forceRender)
+                    {
+                        sbr.BackgroundRenderingComplete = false;
+                        sbr.HighestScheduledPriority = RenderingPriority.BackgroundLow;
+                        sbr.ScheduledForBackgroundRendering = false;
+                    }
+                    else if(sbr.BackgroundRenderingComplete)
+                        continue;
+                }
 
                 itemsToRender.Add(c);
             }
@@ -105,6 +125,12 @@ namespace WPF
 
         void RenderItemsInView()
         {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.BeginInvoke(new Action(() => RenderItemsInView()), DispatcherPriority.DataBind);
+                return;
+            }
+
             if (VirtualizingPanel.GetIsVirtualizing(this))
                 return;
 
@@ -159,6 +185,21 @@ namespace WPF
                 cc_new.CollectionChanged += cc_CollectionChanged;
             }
 
+
+            //var pc_old = oldValue as INotifyPropertyChanged;
+
+            //if (pc_old != null)
+            //{
+            //    pc_old.PropertyChanged -= pc_PropertyChanged;
+            //}
+
+            //var pc_new = newValue as INotifyPropertyChanged;
+
+            //if (pc_new != null)
+            //{
+            //    pc_new.PropertyChanged += pc_PropertyChanged;
+            //}
+
             if (VirtualizingPanel.GetIsVirtualizing(this))
                 return;
 
@@ -167,14 +208,24 @@ namespace WPF
             BackgroundRenderingService.RequestRender(priority, this);
         }
 
+
+
         void cc_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action != NotifyCollectionChangedAction.Remove)
-            {
-                var priority = IsVisible ? RenderingPriority.ParentVisible : RenderingPriority.BackgroundLow;
+            return;
 
-                BackgroundRenderingService.RequestRender(priority, this);
+            if (e.Action == NotifyCollectionChangedAction.Remove)
+                return;
+
+            if (e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                RenderAllItems(forceRender: true);
+                RenderItemsInView();
+                return;
             }
+
+            RenderAllItems();
+            RenderItemsInView();
         }
 
         protected override Size MeasureOverride(Size constraint)
@@ -244,7 +295,9 @@ namespace WPF
             }
             else
             {
-                return base.MeasureOverride(constraint);
+                var result = base.MeasureOverride(constraint);
+
+                return result;
             }
         }
 

@@ -210,6 +210,18 @@
     <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\TypeMappingStrategy.static.cs">
       <Link>Types\Mapping\TypeMappingStrategy.static.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\ValueConverting\DynamicValueConverter.cs">
+      <Link>Types\Mapping\ValueConverting\DynamicValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\ValueConverting\IValueConverter.cs">
+      <Link>Types\Mapping\ValueConverting\IValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\ValueConverting\PreserveOriginalValueConverter.cs">
+      <Link>Types\Mapping\ValueConverting\PreserveOriginalValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\ValueConverting\ValueConverter.cs">
+      <Link>Types\Mapping\ValueConverting\ValueConverter.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\ValueResolving\DynamicValueResolver.cs">
       <Link>Types\Mapping\ValueResolving\DynamicValueResolver.cs</Link>
     </Compile>

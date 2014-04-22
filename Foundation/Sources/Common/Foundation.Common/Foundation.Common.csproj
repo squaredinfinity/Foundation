@@ -73,6 +73,7 @@
     <Compile Include="FrameworkExtensions\System\Type.extensions.cs" />
     <Compile Include="IDateTimeContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Types\Mapping\ValueConverting\PreserveOriginalValueConverter.cs" />
     <Compile Include="_RetryPolicy\DynamicTransientFaultFilter.cs" />
     <Compile Include="_RetryPolicy\ITransientFaultFilter.cs" />
     <Compile Include="_RetryPolicy\RetryPolicy.cs" />

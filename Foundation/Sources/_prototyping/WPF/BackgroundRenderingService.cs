@@ -312,7 +312,7 @@ namespace WPF
 
                     // background loading list view handles everything itself
                     if (queueItem.ElementToRender is BackgroundLoadingListView && queueItem.ElementToRender.IsVisible)
-                        return;
+                        continue;
 
                     var supportsBackgroundRendering = queueItem.ElementToRender as ISupportsBackgroundRendering;
                     if (supportsBackgroundRendering != null && supportsBackgroundRendering.BackgroundRenderingComplete)

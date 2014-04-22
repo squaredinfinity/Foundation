@@ -17,6 +17,9 @@ namespace SquaredInfinity.Foundation.Extensions
             if (parentWindow == null)
                 return false;
 
+            if (fe.RenderSize.IsEmptyOrZeroArea())
+                return false;
+
             var transform = fe.TransformToVisual(parentWindow);
             var rectangle = transform.TransformBounds(new Rect(new Point(0, 0), fe.RenderSize));
 
