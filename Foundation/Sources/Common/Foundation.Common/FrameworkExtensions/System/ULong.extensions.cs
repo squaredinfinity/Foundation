@@ -5,12 +5,12 @@ using System.Text;
 
 namespace SquaredInfinity.Foundation.Extensions
 {
-    public static class Int32Extensions
+    public static class ULongExtensions
     {
-        static readonly Int32 BytesInMebibyte = 1048576;
-        static readonly Int32 BytesInMegabyte = 1000000;
+        static readonly ulong BytesInMebibyte = 1048576;
+        static readonly ulong BytesInMegabyte = 1000000;
 
-        public static object ToMegaBytes(this Int32 bytes)
+        public static object ToMegaBytes(this ulong bytes)
         {
             if (bytes < BytesInMegabyte)
                 return ((double)bytes) / BytesInMegabyte;
@@ -18,17 +18,12 @@ namespace SquaredInfinity.Foundation.Extensions
             return bytes / BytesInMegabyte;
         }
 
-        public static object ToMebiBytes(this Int32 bytes)
+        public static object ToMebiBytes(this ulong bytes)
         {
             if (bytes < BytesInMebibyte)
                 return ((double)bytes) / BytesInMebibyte;
 
             return bytes / BytesInMebibyte;
-        }
-
-        public static bool IsFlagSet(this Int32 number, Int32 flag)
-        {
-            return (number & flag) == flag;
         }
     }
 }

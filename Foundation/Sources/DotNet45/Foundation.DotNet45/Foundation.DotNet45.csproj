@@ -63,6 +63,9 @@
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Collections\ICollection.Extensions.cs">
       <Link>FrameworkExtensions\System.Collections\ICollection.Extensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Collections\IDictionary.extensions.cs">
+      <Link>FrameworkExtensions\System.Collections\IDictionary.extensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Collections\IEnumerable.Extensions.cs">
       <Link>FrameworkExtensions\System.Collections\IEnumerable.Extensions.cs</Link>
     </Compile>

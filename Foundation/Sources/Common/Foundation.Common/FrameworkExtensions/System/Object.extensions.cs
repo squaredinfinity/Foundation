@@ -33,6 +33,19 @@ namespace SquaredInfinity.Foundation.Extensions
             return obj.ToString();
         }
 
+        public static string ToString(this object obj, string valueWhenNull, string valueWhenEmpty)
+        {   
+            if (obj == null)
+                return valueWhenNull;
+
+            var toString = obj.ToString();
+
+            if (string.IsNullOrEmpty(toString))
+                return valueWhenEmpty;
+
+            return toString;
+        }
+
         /// <summary>
         /// Determines whether the specified object (value) is in a list.
         /// </summary>

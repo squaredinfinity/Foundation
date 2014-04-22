@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SquaredInfinity.Foundation</RootNamespace>
     <AssemblyName>SquaredInfinity.Foundation.Common</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -48,10 +50,12 @@
     <Compile Include="DateTimeContext.cs" />
     <Compile Include="FrameworkExtensions\Microsoft.Win32\RegistryKey.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Collections\ICollection.Extensions.cs" />
+    <Compile Include="FrameworkExtensions\System.Collections\IDictionary.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Collections\IEnumerable.Extensions.cs" />
     <Compile Include="FrameworkExtensions\System.ComponentModel\INotifyPropertyChanged.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Diagnostics\Stopwatch.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Linq.Expressions\Expression.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System.Threading.Tasks\ParallelExtensions.cs" />
     <Compile Include="FrameworkExtensions\System.Xml.Linq\XAttribute.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Xml.Linq\XContainer.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Xml.Linq\XDocument.extensions.cs" />
@@ -68,9 +72,11 @@
     <Compile Include="FrameworkExtensions\System\Int64.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\Int32.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\IServiceProvider.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System\Long.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\Object.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\String.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\Type.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System\ULong.extensions.cs" />
     <Compile Include="IDateTimeContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Types\Mapping\ValueConverting\PreserveOriginalValueConverter.cs" />
