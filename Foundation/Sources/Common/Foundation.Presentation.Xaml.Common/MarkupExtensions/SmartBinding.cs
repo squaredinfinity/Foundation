@@ -36,6 +36,10 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                     if (pathGroup.Success)
                         binding.Path = new PropertyPath(pathGroup.Value);
                 }
+                else
+                {
+                    binding.Path = new PropertyPath(Source);
+                }
             }
         }
 

@@ -28,22 +28,28 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
             var contextBinding = new Binding();
             UpdateBindingFromSource(contextBinding);
             contextBinding.Mode = BindingMode.OneTime;
-            multiBinding.Bindings.Add(contextBinding);
+            multiBinding.Bindings.Add(contextBinding);  
 
             if (ParameterBinding != null)
             {
                 multiBinding.Bindings.Add(ParameterBinding);
-                multiBinding.Converter = new MixedCompositeConverter(new MethodWithParametersResultConverter(MethodName, null), Converter);
+                multiBinding.Converter = new MixedCompositeConverter(
+                    new MethodWithParametersResultConverter(MethodName, null), 
+                    Converter);
             }
             else
             {
                 if (Parameter == null)
                 {
-                    multiBinding.Converter = new MixedCompositeConverter(new MethodWithParametersResultConverter(MethodName, null), Converter);
+                    multiBinding.Converter = new MixedCompositeConverter(
+                        new MethodWithParametersResultConverter(MethodName, null), 
+                        Converter);
                 }
                 else
                 {
-                    multiBinding.Converter = new MixedCompositeConverter(new MethodWithParametersResultConverter(MethodName, new object[] { Parameter }), Converter);
+                    multiBinding.Converter = new MixedCompositeConverter(
+                        new MethodWithParametersResultConverter(MethodName, new object[] { Parameter }), 
+                        Converter);
                 }
             }
 

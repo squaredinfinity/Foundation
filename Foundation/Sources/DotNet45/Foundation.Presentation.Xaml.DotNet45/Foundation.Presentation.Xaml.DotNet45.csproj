@@ -11,6 +11,8 @@
     <AssemblyName>SquaredInfinity.Foundation.Presentation.Xaml.DotNet45</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,6 +37,21 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\..\..\packages\Rx-Core.2.2.2\lib\net45\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\..\..\packages\Rx-Interfaces.2.2.2\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\..\..\packages\Rx-Linq.2.2.2\lib\net45\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\..\..\packages\Rx-PlatformServices.2.2.3\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Windows.Threading">
+      <HintPath>..\..\..\packages\Rx-XAML.2.2.2\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,6 +61,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\BackgroundRenderingService.cs">
+      <Link>BackgroundRenderingService.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Collections\ObservableCollectionEx.Batch.cs">
       <Link>Collections\ObservableCollectionEx.Batch.cs</Link>
     </Compile>
@@ -70,6 +90,15 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Commands\DelegateCommand_T.cs">
       <Link>Commands\DelegateCommand_T.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Controls\BackgroundLoadingListView.cs">
+      <Link>Controls\BackgroundLoadingListView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Controls\ISupportsBackgroundRendering.cs">
+      <Link>Controls\ISupportsBackgroundRendering.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Controls\TabControl.cs">
+      <Link>Controls\TabControl.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\BoolToNumberConverter.cs">
       <Link>Converters\BoolToNumberConverter.cs</Link>
@@ -200,6 +229,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\SmartBinding.cs">
       <Link>MarkupExtensions\SmartBinding.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\ViewModelBinding.cs">
+      <Link>MarkupExtensions\ViewModelBinding.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\NotifyPropertyChangedObject.cs">
       <Link>NotifyPropertyChangedObject.cs</Link>
     </Compile>
@@ -242,7 +274,11 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

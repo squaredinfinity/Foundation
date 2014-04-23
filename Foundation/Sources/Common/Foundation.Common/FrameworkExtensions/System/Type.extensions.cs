@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -24,18 +25,27 @@ namespace SquaredInfinity.Foundation.Extensions
         }
 
 
-        public static readonly Func<Assembly, string, bool, Type> LastHopeTypeResolver = (asm, typeName, ignoreCase) => ResolveType(asm, typeName, ignoreCase);
+        public static readonly Func<Assembly, string, bool, Type> LastHopeTypeResolver = (asm, typeName, ignoreCase) => ResolveType(typeName, ignoreCase, asm);
 
-        static Type ResolveType(Assembly assemly, string typeName, bool ignoreCase)
+        public static Type ResolveType(string typeName, bool ignoreCase, Assembly assembly = null)
         {
-            if (assemly != null)
-                return assemly.GetType(typeName, throwOnError: false, ignoreCase: ignoreCase);
+            if (assembly != null)
+                return assembly.GetType(typeName, throwOnError: false, ignoreCase: ignoreCase);
 
             var result =
                 (from asm in AppDomain.CurrentDomain.GetAssemblies().OrderBy(a => a.FullName)
                  let type = asm.GetType(typeName, throwOnError: false, ignoreCase: ignoreCase)
                  where type != null
                  select type).FirstOrDefault();
+
+            if(result == null)
+            {
+                result =
+                    (from asm in AppDomain.CurrentDomain.GetAssemblies().OrderBy(a => a.FullName)
+                     from t in asm.GetTypes()
+                     where t.Name.EndsWith(typeName, ignoreCase, CultureInfo.InvariantCulture)
+                     select t).FirstOrDefault();
+            }
 
             return result;
         }

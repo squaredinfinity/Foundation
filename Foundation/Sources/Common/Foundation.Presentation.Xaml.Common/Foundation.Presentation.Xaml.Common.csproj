@@ -116,6 +116,9 @@
     <Compile Include="MarkupExtensions\PredicateMethodBinding.cs" />
     <Compile Include="MarkupExtensions\PredicateMethodBinding.PredicateMethodConverter.cs" />
     <Compile Include="MarkupExtensions\SmartBinding.cs" />
+    <Compile Include="MarkupExtensions\ViewModelBinding.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="NotifyPropertyChangedObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IUIService.cs" />
