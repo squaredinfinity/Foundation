@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4C00093F-A067-4E66-9F70-7D715D941E20}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SquaredInfinity.Foundation.Diagnostics</RootNamespace>
+    <AssemblyName>SquaredInfinity.Foundation.Diagnostics.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationLifecycleEvents.cs" />
+    <Compile Include="AttachedObject.cs" />
+    <Compile Include="Configuration\DiagnosticsConfiguration.cs" />
+    <Compile Include="Configuration\GlobalSettings.cs" />
+    <Compile Include="Configuration\IChangeMonitoringConfigurationProvider.cs" />
+    <Compile Include="Configuration\IConfigurationProvider.cs" />
+    <Compile Include="Configuration\KnownConfigNames.cs" />
+    <Compile Include="Configuration\Providers\DefaultConfigurationProvider.cs" />
+    <Compile Include="Configuration\Providers\EmbeddedResourceXmlConfigurationProvider.cs" />
+    <Compile Include="Configuration\Providers\XmlStringConfigurationProvider.cs" />
+    <Compile Include="ContextDataCollectors\CompositeContextDataCollector.cs" />
+    <Compile Include="ContextDataCollectors\ContextDataCollector.cs" />
+    <Compile Include="ContextDataCollectors\ContextDataCollectorCollection.cs" />
+    <Compile Include="ContextDataCollectors\DataCollectionContext.cs" />
+    <Compile Include="ContextDataCollectors\DataRequest.cs" />
+    <Compile Include="ContextDataCollectors\EnvironmentDataCollector.cs" />
+    <Compile Include="ContextDataCollectors\IContextDataCollector.cs" />
+    <Compile Include="DiagnosticEvent.DateTimeLocalMostRecentFirstComparerImplementation - Copy 1.cs" />
+    <Compile Include="DiagnosticEvent.DateTimeLocalComparerImplementation.cs" />
+    <Compile Include="DiagnosticEvent.cs" />
+    <Compile Include="ExceptionContextData.cs" />
+    <Compile Include="ILoggerImplementation.cs" />
+    <Compile Include="ILoggerName.cs" />
+    <Compile Include="LinkTypes.cs" />
+    <Compile Include="LoggerName.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SecurityEvents.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Foundation.Common\Foundation.Common.csproj">
+      <Project>{dfeab4e6-d02d-448b-8649-2d12be137191}</Project>
+      <Name>Foundation.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundation.Diagnostics.Infrastructure.Common\Foundation.Diagnostics.Infrastructure.Common.csproj">
+      <Project>{09913c58-684f-471c-a1bb-6e80f6c33862}</Project>
+      <Name>Foundation.Diagnostics.Infrastructure.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
