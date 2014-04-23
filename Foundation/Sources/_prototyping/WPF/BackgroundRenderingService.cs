@@ -584,7 +584,7 @@ namespace WPF
                 //  without this scrollviewer may not have up to date information and scrollbars instide it may not cover the whole child control
                 fe.InvalidateMeasure();
                 
-                // invalide visual works in a simillar way to invalidate measure (in terms of outcome) bo parent container will not be refreshed
+                // invalide visual works in a simillar way to invalidate measure (in terms of outcome) but parent container will not be refreshed
                 // todo: see if there's a visible performance benefit of doing one over another
                 // fe.InvalidateVisual();
                 return;

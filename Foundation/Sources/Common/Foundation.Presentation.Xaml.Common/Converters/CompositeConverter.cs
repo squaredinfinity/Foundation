@@ -15,10 +15,10 @@ namespace SquaredInfinity.Foundation.Presentation.Converters
     /// and every next converter gets passed a result of previous conversion.
     /// </summary>
     [ContentProperty("Converters")]
-    public class CompositeConverter : IValueConverter
+    public class CompositeConverter : IValueConverter, IMultiValueConverter
     {
-        List<IValueConverter> _converters = new List<IValueConverter>();
-        public List<IValueConverter> Converters
+        List<object> _converters = new List<object>();
+        public List<object> Converters
         {
             get { return _converters; }
             set { _converters = value; }
@@ -27,7 +27,7 @@ namespace SquaredInfinity.Foundation.Presentation.Converters
         public CompositeConverter()
         { }
 
-        public CompositeConverter(params IValueConverter[] converters)
+        public CompositeConverter(params object[] converters)
         {
             this.Converters.AddRange(
                     from c in converters
@@ -37,9 +37,14 @@ namespace SquaredInfinity.Foundation.Presentation.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            object result = Converters.First().Convert(value, targetType, parameter, culture);
+            var first = Converters.First() as IValueConverter;
 
-            foreach (var converter in Converters.Skip(1))
+            if (first == null)
+                return DependencyProperty.UnsetValue;
+
+            object result = first.Convert(value, targetType, parameter, culture);
+
+            foreach (var converter in Converters.Skip(1).Cast<IValueConverter>())
                 result = converter.Convert(result, targetType, parameter, culture);
 
             return result;
@@ -48,6 +53,26 @@ namespace SquaredInfinity.Foundation.Presentation.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return DependencyProperty.UnsetValue;
+        }
+
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            var first = Converters.First() as IMultiValueConverter;
+
+            if (first == null)
+                return DependencyProperty.UnsetValue;
+
+            object result = first.Convert(values, targetType, parameter, culture);
+
+            foreach (var converter in Converters.Skip(1).Cast<IValueConverter>())
+                result = converter.Convert(result, targetType, parameter, culture);
+
+            return result;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotSupportedException();
         }
     }
 }

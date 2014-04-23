@@ -74,11 +74,20 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\BoolToNumberConverter.cs">
       <Link>Converters\BoolToNumberConverter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\BoolToValueConverter.cs">
+      <Link>Converters\BoolToValueConverter.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\BoolToVisibilityConverter.cs">
       <Link>Converters\BoolToVisibilityConverter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\BytesToImageSourceConverter.cs">
+      <Link>Converters\BytesToImageSourceConverter.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\CollectionLastItemToVisibilityConverter.cs">
       <Link>Converters\CollectionLastItemToVisibilityConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\CollectionPositionToBoolConverter.cs">
+      <Link>Converters\CollectionPositionToBoolConverter.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\ColorToSolidColorBrushConverter.cs">
       <Link>Converters\ColorToSolidColorBrushConverter.cs</Link>
@@ -113,6 +122,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\TreeViewItemLeftMarginConverter.cs">
       <Link>Converters\TreeViewItemLeftMarginConverter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\ValueToBoolConverter.cs">
+      <Link>Converters\ValueToBoolConverter.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Data\CollectionViewSource.cs">
       <Link>Data\CollectionViewSource.cs</Link>
     </Compile>
@@ -124,6 +136,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows.Controls\TreeViewItem.extensions.cs">
       <Link>FrameworkExtensions\System.Windows.Controls\TreeViewItem.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows.Media.Imaging\BitmapSource.extensions.cs">
+      <Link>FrameworkExtensions\System.Windows.Media.Imaging\BitmapSource.extensions.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows.Media\ImageSource.extensions.cs">
       <Link>FrameworkExtensions\System.Windows.Media\ImageSource.extensions.cs</Link>
@@ -219,6 +234,13 @@
       <Project>{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}</Project>
       <Name>Foundation.DotNet45</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Common\Resources\Xaml\Converters.xaml">
+      <Link>Resources\Xaml\Converters.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

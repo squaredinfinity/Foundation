@@ -51,6 +51,7 @@ namespace SquaredInfinity.Foundation.Presentation.Converters
         Default,
         VisibleWhenTrue = Default,
         CollapsedWhenTrue,
+        HiddenWhenTrue,
         VisibleWhenTrueHiddenWhenFalse
     }
 }

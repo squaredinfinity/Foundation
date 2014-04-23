@@ -126,6 +126,9 @@
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\Type.extensions.cs">
       <Link>FrameworkExtensions\System\Type.extensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\GCMemoryUsagePressure.cs">
+      <Link>GCMemoryUsagePressure.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\IDateTimeContext.cs">
       <Link>IDateTimeContext.cs</Link>
     </Compile>

@@ -54,8 +54,11 @@
     <Compile Include="Commands\DelegateCommandBase.cs" />
     <Compile Include="Commands\DelegateCommand_T.cs" />
     <Compile Include="Converters\BoolToNumberConverter.cs" />
+    <Compile Include="Converters\BoolToValueConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\BytesToImageSourceConverter.cs" />
     <Compile Include="Converters\CollectionLastItemToVisibilityConverter.cs" />
+    <Compile Include="Converters\CollectionPositionToBoolConverter.cs" />
     <Compile Include="Converters\ColorToSolidColorBrushConverter.cs" />
     <Compile Include="Converters\ComObjectConverter.cs" />
     <Compile Include="Converters\CompositeConverter.cs" />
@@ -67,10 +70,12 @@
     <Compile Include="Converters\NumberToBoolConverter.cs" />
     <Compile Include="Converters\TextFlattenAndTrimConverter.cs" />
     <Compile Include="Converters\TreeViewItemLeftMarginConverter.cs" />
+    <Compile Include="Converters\ValueToBoolConverter.cs" />
     <Compile Include="Data\CollectionViewSource.cs" />
     <Compile Include="DialogMode.cs" />
     <Compile Include="DialogScope.cs" />
     <Compile Include="FrameworkExtensions\System.Windows.Controls\TreeViewItem.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System.Windows.Media.Imaging\BitmapSource.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Windows.Media\ImageSource.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Windows\FrameworkElement.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Windows\DependencyObject.extensions.cs" />
@@ -110,6 +115,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Behaviors\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Resources\Xaml\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
