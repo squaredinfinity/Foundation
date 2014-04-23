@@ -16,7 +16,7 @@ using System.Reactive.Concurrency;
 using System.ComponentModel;
 using System.Windows.Threading;
 
-namespace WPF
+namespace SquaredInfinity.Foundation.Presentation.Controls
 {
     public class BackgroundLoadingListView : ListView
     {
@@ -244,12 +244,6 @@ namespace WPF
         }
     }
 
-    public interface ISupportsBackgroundRendering
-    {
-        bool BackgroundRenderingComplete { get; set; }
-        bool ScheduledForBackgroundRendering { get; set; }
-        RenderingPriority HighestScheduledPriority { get; set; }
-    }
 
     public class BackgroundLoadingListViewItem : ListViewItem, ISupportsBackgroundRendering
     {

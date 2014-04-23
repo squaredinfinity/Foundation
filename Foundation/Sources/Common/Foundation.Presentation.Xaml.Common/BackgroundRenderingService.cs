@@ -17,8 +17,9 @@ using System.Diagnostics;
 using SquaredInfinity.Foundation;
 using SquaredInfinity.Foundation.Collections;
 using System.Windows.Input;
+using SquaredInfinity.Foundation.Presentation.Controls;
 
-namespace WPF
+namespace SquaredInfinity.Foundation.Presentation
 {
     public class AfterItemRenderedEventArgs : EventArgs
     {
@@ -415,7 +416,7 @@ namespace WPF
         {
             if(itemsControl.GetVisualParent() == null)
             {
-                var tabControl = itemsControl.FindLogicalParent<WPF.TabControl>();
+                var tabControl = itemsControl.FindLogicalParent<SquaredInfinity.Foundation.Presentation.Controls.TabControl>();
                 var tabItem = itemsControl.FindLogicalParent<TabItem>();
 
                 if (tabControl != null && tabItem != null && tabItem.IsDescendantOf(tabControl))
