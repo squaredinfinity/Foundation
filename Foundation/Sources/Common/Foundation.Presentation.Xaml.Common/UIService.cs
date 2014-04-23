@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace SquaredInfinity.Foundation.Presentation
 {
     public abstract class UIService : IUIService
     {
-        public UIService()
+        protected Dispatcher UIDispatcher { get; private set; }
+
+        public UIService(Dispatcher uiDispatcher)
         {
+            this.UIDispatcher = uiDispatcher;
         }
 
         /// <summary>
@@ -96,18 +101,24 @@ namespace SquaredInfinity.Foundation.Presentation
 
         public abstract IHostAwareViewModel GetDefaultConfirmationDialogViewModel(string message, string dialogTitle);
 
-        public abstract bool IsDesignTime
+        public bool IsDesignTime
         {
-            get;
+            get { return (bool)DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue; }
         }
 
-        public abstract bool IsUIThread
+        public bool IsUIThread
         {
-            get;
+            get { return UIDispatcher.CheckAccess(); }
         }
 
-        public abstract void RunAsync(Action action);
+        public void RunAsync(Action action)
+        {
+            UIDispatcher.BeginInvoke(action);
+        }
 
-        public abstract void Run(Action action);
+        public void Run(Action action)
+        {
+            UIDispatcher.Invoke(action);
+        }
     }
 }
