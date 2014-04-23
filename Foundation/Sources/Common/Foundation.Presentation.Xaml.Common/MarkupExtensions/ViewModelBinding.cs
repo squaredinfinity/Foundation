@@ -37,8 +37,34 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 
             return multiBinding;
         }
+    }
 
-        class ViewModelBindingConverter : IMultiValueConverter
+    public partial class TemplateViewModelBinding : TemplateBindingExtension
+    {
+        public TemplateViewModelBinding()
+        { }
+
+        public TemplateViewModelBinding(DependencyProperty property)
+        {
+            if (property != null)
+            {
+                base.Property = property;
+
+                Converter = new ViewModelBindingConverter();
+            }
+            else
+            {
+                throw new ArgumentNullException("property");
+            }
+        }
+
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            return ProvideValue(serviceProvider);
+        }
+    }
+
+        class ViewModelBindingConverter : IMultiValueConverter, IValueConverter
         {
             public ViewModelBindingConverter()
             { }
@@ -49,35 +75,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                 {
                     var source = values.FirstOrDefault();
 
-                    if (source == null)
-                        return DependencyProperty.UnsetValue;
-
-                    var sourceType = source.GetType();
-
-                    var sourceTypeName = sourceType.Name;
-
-                    var vmTypeName = sourceTypeName + "ViewModel";
-
-                    var vmType = TypeExtensions.ResolveType(vmTypeName, ignoreCase: true);
-
-
-                    var constructor_with_source = vmType.GetConstructor(new Type[] { sourceType });
-
-                    if(constructor_with_source != null)
-                    {
-                        var result = constructor_with_source.Invoke(new object[] { source });
-                        return result;
-                    }
-
-                    var constructor = vmType.GetConstructor(new Type[] { });
-
-                    if(constructor != null)
-                    {
-                        var result = constructor.Invoke(null);
-                        return result;
-                    }
-
-                    return source;
+                    return Convert(source, targetType, parameter, culture);                    
                 }
                 catch (Exception ex)
                 {
@@ -91,6 +89,47 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
             {
                 throw new NotImplementedException();
             }
+
+            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                var source = value;
+
+                if (source == null)
+                    return source;
+
+                var sourceType = source.GetType();
+
+                var sourceTypeName = sourceType.Name;
+
+                var vmTypeName = sourceTypeName + "ViewModel";
+
+                var vmType = TypeExtensions.ResolveType(vmTypeName, ignoreCase: true);
+
+                if (vmType == null)
+                    return source;
+
+                var constructor_with_source = vmType.GetConstructor(new Type[] { sourceType });
+
+                if (constructor_with_source != null)
+                {
+                    var result = constructor_with_source.Invoke(new object[] { source });
+                    return result;
+                }
+
+                var constructor = vmType.GetConstructor(new Type[] { });
+
+                if (constructor != null)
+                {
+                    var result = constructor.Invoke(null);
+                    return result;
+                }
+
+                return source;
+            }
+
+            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                throw new NotImplementedException();
+            }
         }
-    }
 }
