@@ -154,6 +154,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\ValueToBoolConverter.cs">
       <Link>Converters\ValueToBoolConverter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\TypeNameToResourceKeyMappingDataTemplateSelector.cs">
+      <Link>DataTemplateSelectors\TypeNameToResourceKeyMappingDataTemplateSelector.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Data\CollectionViewSource.cs">
       <Link>Data\CollectionViewSource.cs</Link>
     </Compile>
@@ -268,8 +271,18 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Common\Resources\Xaml\All.xaml">
+      <Link>Resources\Xaml\All.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\..\Common\Foundation.Presentation.Xaml.Common\Resources\Xaml\Converters.xaml">
       <Link>Resources\Xaml\Converters.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Common\Resources\Xaml\DataTemplateSelectors.xaml">
+      <Link>Resources\Xaml\DataTemplateSelectors.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

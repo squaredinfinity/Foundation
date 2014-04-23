@@ -92,6 +92,7 @@
     <Compile Include="Converters\TextFlattenAndTrimConverter.cs" />
     <Compile Include="Converters\TreeViewItemLeftMarginConverter.cs" />
     <Compile Include="Converters\ValueToBoolConverter.cs" />
+    <Compile Include="DataTemplateSelectors\TypeNameToResourceKeyMappingDataTemplateSelector.cs" />
     <Compile Include="Data\CollectionViewSource.cs" />
     <Compile Include="DialogMode.cs" />
     <Compile Include="DialogScope.cs" />
@@ -141,6 +142,14 @@
     <Folder Include="Behaviors\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Resources\Xaml\All.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Xaml\DataTemplateSelectors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\Xaml\Converters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
