@@ -25,23 +25,33 @@ namespace SquaredInfinity.Foundation.Extensions
         }
 
 
-        public static readonly Func<Assembly, string, bool, Type> LastHopeTypeResolver = (asm, typeName, ignoreCase) => ResolveType(typeName, ignoreCase, asm);
+        public static readonly Func<Assembly, string, bool, Type> LastHopeTypeResolver = (asm, typeFullName, ignoreCase) => ResolveType(typeFullName, ignoreCase, asm);
 
-        public static Type ResolveType(string typeName, bool ignoreCase, Assembly assembly = null)
+        public static Type ResolveType(string typeName, bool ignoreCase, params Assembly[] assemblies)
         {
-            if (assembly != null)
-                return assembly.GetType(typeName, throwOnError: false, ignoreCase: ignoreCase);
+            List<Assembly> assembliesToCheck = new List<Assembly>();
+
+            if (assemblies == null)
+            {
+                assembliesToCheck.AddRange(AppDomain.CurrentDomain.GetAssemblies());
+            }
+            else
+            {
+                assembliesToCheck.AddRange(assemblies);
+            }
 
             var result =
-                (from asm in AppDomain.CurrentDomain.GetAssemblies().OrderBy(a => a.FullName)
+                (from asm in assembliesToCheck
                  let type = asm.GetType(typeName, throwOnError: false, ignoreCase: ignoreCase)
                  where type != null
                  select type).FirstOrDefault();
 
+            // name passed may not be full name, in which case asm.GetType() will not find it
+            // try to compare each type name directly
             if(result == null)
             {
                 result =
-                    (from asm in AppDomain.CurrentDomain.GetAssemblies().OrderBy(a => a.FullName)
+                    (from asm in assembliesToCheck
                      from t in asm.GetTypes()
                      where t.Name.EndsWith(typeName, ignoreCase, CultureInfo.InvariantCulture)
                      select t).FirstOrDefault();

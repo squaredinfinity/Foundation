@@ -1,9 +1,11 @@
 ﻿using SquaredInfinity.Foundation.Extensions;
 using SquaredInfinity.Foundation.Presentation.Converters;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Data;
@@ -32,7 +34,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
             contextBinding.Mode = BindingMode.OneTime;
             multiBinding.Bindings.Add(contextBinding);
             multiBinding.Converter = new MixedCompositeConverter(
-                new ViewModelBindingConverter(),
+                ViewModelBindingConverter.Instance,
                 Converter);
 
             return multiBinding;
@@ -41,6 +43,8 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 
     public partial class TemplateViewModelBinding : TemplateBindingExtension
     {
+
+
         public TemplateViewModelBinding()
         { }
 
@@ -50,7 +54,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
             {
                 base.Property = property;
 
-                Converter = new ViewModelBindingConverter();
+                Converter = ViewModelBindingConverter.Instance;
             }
             else
             {
@@ -66,6 +70,10 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 
         class ViewModelBindingConverter : IMultiValueConverter, IValueConverter
         {
+            public static ViewModelBindingConverter Instance = new ViewModelBindingConverter();
+
+            ConcurrentDictionary<Type, Type> SourceTypeToViewModelTypeMappings = new ConcurrentDictionary<Type, Type>();
+
             public ViewModelBindingConverter()
             { }
 
@@ -99,11 +107,35 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 
                 var sourceType = source.GetType();
 
-                var sourceTypeName = sourceType.Name;
+                var vmType = (Type)null;
 
-                var vmTypeName = sourceTypeName + "ViewModel";
+                if (!SourceTypeToViewModelTypeMappings.ContainsKey(sourceType))
+                {
+                    var sourceTypeName = sourceType.Name;
 
-                var vmType = TypeExtensions.ResolveType(vmTypeName, ignoreCase: true);
+                    var vmTypeName = sourceTypeName + "ViewModel";
+
+                    var assembliesToCheck =
+                        (from asm in AppDomain.CurrentDomain.GetAssemblies()
+
+                         let microsoftCompanyAttrib =
+                         (from a in asm.CustomAttributes
+                          where a.AttributeType == typeof(AssemblyCompanyAttribute)
+                          && a.ConstructorArguments.Count == 1
+                          && object.Equals(a.ConstructorArguments.Single().Value, "Microsoft Corporation")
+                          select a).FirstOrDefault()
+
+                         where microsoftCompanyAttrib == null
+                         select asm).ToArray();
+
+                    vmType = TypeExtensions.ResolveType(vmTypeName, ignoreCase: true, assemblies: assembliesToCheck);
+
+                    SourceTypeToViewModelTypeMappings.AddOrUpdate(sourceType, vmType);
+                }
+                else
+                {
+                    vmType = SourceTypeToViewModelTypeMappings[sourceType];
+                }
 
                 if (vmType == null)
                     return source;
