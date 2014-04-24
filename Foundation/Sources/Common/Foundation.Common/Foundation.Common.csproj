@@ -80,20 +80,22 @@
     <Compile Include="GCMemoryUsagePressure.cs" />
     <Compile Include="IDateTimeContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\FlexiXml\FlexiXmlSerializer.TypeSerializationStrategiesConcurrentDictionary.cs" />
+    <Compile Include="Serialization\FlexiXml\FlexiXmlSerializer.Deserialization.cs" />
+    <Compile Include="Serialization\FlexiXml\FlexiXmlSerializer.Serialization.cs" />
+    <Compile Include="Serialization\FlexiXml\ITypeSerializationStrategy.cs" />
+    <Compile Include="Serialization\FlexiXml\TypeSerializationStrategy.cs" />
+    <Compile Include="Serialization\FlexiXml\_entities\DeserializationContext.cs" />
+    <Compile Include="Serialization\FlexiXml\_entities\InstanceId.cs" />
+    <Compile Include="Serialization\FlexiXml\_entities\SerializationContext.cs" />
+    <Compile Include="Serialization\FlexiXml\_entities\SerializationOptions.cs" />
+    <Compile Include="Types\Mapping\TypeMapper.TypeMappingStrategiesConcurrentDictionary.cs" />
     <Compile Include="Types\Mapping\ValueConverting\PreserveOriginalValueConverter.cs" />
     <Compile Include="_RetryPolicy\DynamicTransientFaultFilter.cs" />
     <Compile Include="_RetryPolicy\ITransientFaultFilter.cs" />
     <Compile Include="_RetryPolicy\RetryPolicy.cs" />
-    <Compile Include="Serialization\FlexiXmlSerialization\Delegates.cs" />
-    <Compile Include="Serialization\FlexiXmlSerialization\Entities\MemberDiscovertyMode.cs" />
-    <Compile Include="Serialization\FlexiXmlSerialization\Entities\MemberMappingRule.cs" />
-    <Compile Include="Serialization\FlexiXmlSerialization\Entities\ParticipationMode.cs" />
-    <Compile Include="Serialization\FlexiXmlSerialization\Entities\SerializationContext.cs" />
-    <Compile Include="Serialization\FlexiXmlSerialization\Entities\SerializationStrategy.cs" />
-    <Compile Include="Serialization\FlexiXmlSerialization\Entities\TypeMappingRule.cs" />
     <Compile Include="Serialization\FlexiXml\FlexiXmlSerializer.cs" />
-    <Compile Include="Serialization\ISerializer.cs" />
-    <Compile Include="Serialization\Services\ISerializationService.cs" />
+    <Compile Include="Serialization\IXmlSerializer.cs" />
     <Compile Include="TreeTraversalMode.cs" />
     <Compile Include="Types\Description\IMemberAccessor.cs" />
     <Compile Include="Types\Description\ITypeDescription.cs" />
@@ -155,7 +157,9 @@
     </Compile>
     <Compile Include="_RetryPolicy\TransientFaultFilter.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Types\Mapping\TypeMapper.TypeMappingStrategyKey.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

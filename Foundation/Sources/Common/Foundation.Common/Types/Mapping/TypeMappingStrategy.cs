@@ -13,7 +13,7 @@ using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Types.Mapping
 {
-    public class TypeMappingStrategy<TFrom, TTo> : TypeMappingStrategy
+    public class TypeMappingStrategy<TFrom, TTo> : TypeMappingStrategy, ITypeMappingStrategy<TFrom, TTo>
     {
         public TypeMappingStrategy(
             ITypeDescriptor sourceTypeDescriptor,
@@ -53,7 +53,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             return this;
         }
 
-        public TypeMappingStrategy<TFrom, TTo> IgnoreAll()
+        public TypeMappingStrategy<TFrom, TTo> IgnoreAllMembers()
         {
             MemberNameToValueResolverMappings.Clear();
             return this;

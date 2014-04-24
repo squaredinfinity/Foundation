@@ -138,8 +138,35 @@
     <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\FlexiXmlSerializer.cs">
       <Link>Serialization\FlexiXml\FlexiXmlSerializer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Serialization\ISerializer.cs">
-      <Link>Serialization\ISerializer.cs</Link>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\FlexiXmlSerializer.Deserialization.cs">
+      <Link>Serialization\FlexiXml\FlexiXmlSerializer.Deserialization.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\FlexiXmlSerializer.Serialization.cs">
+      <Link>Serialization\FlexiXml\FlexiXmlSerializer.Serialization.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\FlexiXmlSerializer.TypeSerializationStrategiesConcurrentDictionary.cs">
+      <Link>Serialization\FlexiXml\FlexiXmlSerializer.TypeSerializationStrategiesConcurrentDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\ITypeSerializationStrategy.cs">
+      <Link>Serialization\FlexiXml\ITypeSerializationStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\TypeSerializationStrategy.cs">
+      <Link>Serialization\FlexiXml\TypeSerializationStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\_entities\DeserializationContext.cs">
+      <Link>Serialization\FlexiXml\_entities\DeserializationContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\_entities\InstanceId.cs">
+      <Link>Serialization\FlexiXml\_entities\InstanceId.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\_entities\SerializationContext.cs">
+      <Link>Serialization\FlexiXml\_entities\SerializationContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\_entities\SerializationOptions.cs">
+      <Link>Serialization\FlexiXml\_entities\SerializationOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\IXmlSerializer.cs">
+      <Link>Serialization\IXmlSerializer.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\TreeTraversalMode.cs">
       <Link>TreeTraversalMode.cs</Link>
@@ -209,6 +236,12 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\TypeMapper.cs">
       <Link>Types\Mapping\TypeMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\TypeMapper.TypeMappingStrategiesConcurrentDictionary.cs">
+      <Link>Types\Mapping\TypeMapper.TypeMappingStrategiesConcurrentDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\TypeMapper.TypeMappingStrategyKey.cs">
+      <Link>Types\Mapping\TypeMapper.TypeMappingStrategyKey.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\TypeMappingStrategy.cs">
       <Link>Types\Mapping\TypeMappingStrategy.cs</Link>

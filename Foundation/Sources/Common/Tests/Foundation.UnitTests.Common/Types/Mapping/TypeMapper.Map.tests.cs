@@ -256,7 +256,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             var tm = new TypeMapper();
 
             tm.GetOrCreateTypeMappingStrategy<SimpleType, SimpleType>()
-            .IgnoreAll()
+            .IgnoreAllMembers()
             .MapMember(x => s.IntegerProperty, x => x.IntegerProperty + 10);
 
             tm.Map(s, t);

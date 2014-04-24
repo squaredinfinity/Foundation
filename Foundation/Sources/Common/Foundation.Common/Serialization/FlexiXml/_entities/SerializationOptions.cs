@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Serialization.Services
+namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
-    public interface ISerializationService
+    public class SerializationOptions
     {
     }
 }

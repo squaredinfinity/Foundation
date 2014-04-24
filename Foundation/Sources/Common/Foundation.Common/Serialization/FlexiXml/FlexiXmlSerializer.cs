@@ -13,128 +13,14 @@ using System.ComponentModel;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
-    public class SerializationOptions
+    public partial class FlexiXmlSerializer : IXmlSerializer
     {
+        internal static readonly string XmlNamespace = "http://schemas.squaredinfinity.com/serialization/flexixml";
+        internal static readonly XName UniqueIdAttributeName = XName.Get("id", XmlNamespace);
+        internal static readonly XName UniqueIdReferenceAttributeName = XName.Get("id-ref", XmlNamespace);
 
-    }
-
-    public class InstanceId : IEquatable<InstanceId>
-    {
-        long _id;
-        public long Id
-        {
-            get { return _id; }
-            private set { _id = value; }
-        }
-
-        long _referenceCount;
-        public long ReferenceCount
-        {
-            get { return _referenceCount; }
-        }
-
-        public InstanceId(long id)
-        {
-            this.Id = id;
-        }
-
-        public void IncrementReferenceCount()
-        {
-            Interlocked.Increment(ref _referenceCount);
-        }
-
-        public static implicit operator long(InstanceId instanceId)
-        {
-            return instanceId.Id;
-        }
-
-        public override int GetHashCode()
-        {
-            return Id.GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as InstanceId);
-        }
-
-        public bool Equals(InstanceId other)
-        {
-            return this.Id == other.Id;
-        }
-    }
-
-    public class SerializationContext
-    {
-        public readonly ConcurrentDictionary<object, InstanceId> Objects_InstanceIdTracker = new ConcurrentDictionary<object, InstanceId>();
-
-        long LastUsedUniqueId = 0;
-
-        public long GetNextUniqueId()
-        {
-            return Interlocked.Increment(ref LastUsedUniqueId);
-        }
-    }
-
-    public class DeserializationContext
-    {
-        public readonly ConcurrentDictionary<InstanceId, object> Objects_InstanceIdTracker = new ConcurrentDictionary<InstanceId, object>();
-    }
-
-    public class FlexiXmlSerializer : ISerializer
-    {
-        static readonly string XmlNamespace = "http://schemas.squaredinfinity.com/serialization/flexixml";
-
-        public XElement Serialize(object obj)
-        {
-            var rootName = obj.GetType().Name;
-
-            var cx = new SerializationContext();
-
-            var x = SerializeInternal(rootName, obj, new ReflectionBasedTypeDescriptor(), new SerializationOptions(), cx);
-
-            // post process
-            // e.g. move nodes with an id, which are referenced somewhere to some other part of xml
-
-            // remove serialization attributes where not needed
-
-            var uniqueIds = cx.Objects_InstanceIdTracker.Values.ToArray();
-
-            var areAllEntitiesUnreferenced = true;
-            List<InstanceId> referencedIds = new List<InstanceId>();
-
-            for (int i = 0; i < uniqueIds.Length; i++)
-            {
-                var uid = uniqueIds[i];
-
-                if (uid.ReferenceCount > 0)
-                {
-                    referencedIds.Add(uid);
-                    areAllEntitiesUnreferenced = false;
-                }
-            }
-
-            if (areAllEntitiesUnreferenced)
-            {
-                var serializationNodes =
-                    (from e in x.DescendantsAndSelf()
-                     from a in e.Attributes()
-                     where a.Name.NamespaceName == XmlNamespace
-                     select a);
-
-                foreach (var serializationAttribute in serializationNodes)
-                {
-                    serializationAttribute.Remove();
-                }
-            }
-            else
-            {
-                var nsAttribute = new XAttribute(XNamespace.Xmlns + "serialization", XmlNamespace);
-                x.Add(nsAttribute);
-            }
-
-            return x;
-        }
+        readonly TypeSerializationStrategiesConcurrentDictionary TypeSerializationStrategies =
+            new TypeSerializationStrategiesConcurrentDictionary();
 
         bool TryConvertToStringIfTypeSupports(object obj, out string result)
         {
@@ -170,162 +56,62 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             return true;
         }
 
-        XElement SerializeInternal(string name, object source, ITypeDescriptor typeDescriptor, SerializationOptions options, SerializationContext cx)
+        public ITypeSerializationStrategy<T> GetOrCreateTypeSerializationStrategy<T>()
         {
-            bool isNewReference = false;
+            return GetOrCreateTypeSerializationStrategy<T>(() => CreateDefaultTypeSerializationStrategy<T>());
+        }
 
-            var id =
-                cx.Objects_InstanceIdTracker.GetOrAdd(
-                source,
-                (_) =>
-                {
-                    isNewReference = true;
+        public ITypeSerializationStrategy<T> GetOrCreateTypeSerializationStrategy<T>(
+            Func<ITypeSerializationStrategy<T>> create)
+        {
+            var key = typeof(T);
 
-                    return new InstanceId(cx.GetNextUniqueId());
-                });
+            return (ITypeSerializationStrategy<T>)TypeSerializationStrategies
+                .GetOrAdd(key, (ITypeSerializationStrategy)create());
+        }
 
-            if (isNewReference)
-            {
-                var xel = new XElement(name);
+        ITypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T>()
+        {
+            return CreateDefaultTypeSerializationStrategy<T>(
+                new ReflectionBasedTypeDescriptor());
+        }
+        ITypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T>(
+            ITypeDescriptor typeDescriptor)
+        {
 
-                var typeDescription = typeDescriptor.DescribeType(source.GetType());
+            var result =
+                new TypeSerializationStrategy<T>(
+                    typeDescriptor);
 
-                var serializableMembers =
-                    (from m in typeDescription.Members
-                     //where m.Visibility == MemberVisibility.Public
-                     where m.CanGetValue
-                     && m.CanSetValue
-                     select m);
-
-                foreach (var m in serializableMembers)
-                {
-                    var val = m.GetValue(source);
-
-                    if (val == null) // todo: may need to specify a custom way of handling this
-                        continue;
-
-                    var val_as_string = (string)null;
-
-                    if (TryConvertToStringIfTypeSupports(val, out val_as_string))
-                    {
-                        xel.Add(new XAttribute(m.Name, val_as_string)); // todo: do mapping if needed, + conversion
-                        continue;
-                    }
-
-                    xel.Add(SerializeInternal(m.Name, val, typeDescriptor, options, cx));
-                }
-
-                xel.Add(new XAttribute(XName.Get("id", XmlNamespace), id.Id));
-
-                xel.AddAnnotation(typeDescription);
-
-                return xel;
-            }
-            else
-            {
-                var idEl = new XElement(name);
-                var idAttrib = new XAttribute(XName.Get("id-ref", XmlNamespace), id.Id);
-
-                id.IncrementReferenceCount();
-
-                idEl.Add(idAttrib);
-
-                return idEl;
-            }
+            return result;
         }
 
 
-        public T Deserialize<T>(XDocument xml)
-        {
-            return Deserialize<T>(xml.Root);
-        }
+//        var ss = serializer.GetOrCreateSerializationStrategyForType<MyEntity>()
+//.IgnoreAllMembers()
+//.SerializeMember(
+//    x => x.IntegerMember,
+//    m => new Attrbute("ItegerMember", m),
+//    el => el.GetAttribute("IntegerMember").Value.ToInt())
 
-        public T Deserialize<T>(XElement xml)
-        {
-            var cx = new DeserializationContext();
+//.SerializeMember(x => x.IntegerValue, xName: "integer-xxx")
+//    - default, serialize to either attribute (if can be converted to string) or element; use member name as attribute / element name
+//    - to attribute or to xml ? based on availability of converter to/from string
+//    - from xml -> -||-
 
-            var type = typeof(T);
+//.SerializeMember(
+//    x => x.IntegerName,
+//    m => new Attribute("xxx-attribute", m))
+//    a => a.Value);
 
-            var root = DeserializeInternal(type, xml, new ReflectionBasedTypeDescriptor(), new SerializationOptions(), cx);
+//    // default, return string and a conversion will be applied (one of built-in conversions)
+//    // otherwise specify actual conversion (e.g. int.Parse(a.Value))
+//    - to attribute
+//    - from xml -> 
 
-            return (T)root;
-        }
-
-        object DeserializeInternal(Type targetType, XElement xml, ITypeDescriptor typeDescriptor, SerializationOptions options, DeserializationContext cx)
-        {
-            var typeDescription = typeDescriptor.DescribeType(targetType);
-
-            object target = (object)null;
-
-            // check serialization control attributes first
-
-            var id_ref_attrib = xml.Attribute(XName.Get("id-ref", XmlNamespace));
-
-            if(id_ref_attrib != null)
-            {
-                var id = Int64.Parse(id_ref_attrib.Value);
-
-                if (cx.Objects_InstanceIdTracker.TryGetValue(new InstanceId(id), out target))
-                {
-                    return target;
-                }
-                else
-                {
-                    // todo: log, this should always resolve unless serialization xml is corrupted
-                    return null;
-                }
-            }
-
-            target = Activator.CreateInstance(targetType, nonPublic: true);
-
-            var id_attrib = xml.Attribute(XName.Get("id", XmlNamespace));
-
-            if(id_attrib != null)
-            {
-                var id = Int64.Parse(id_attrib.Value);
-
-                cx.Objects_InstanceIdTracker.AddOrUpdate(new InstanceId(id), target);
-            }
-
-            foreach (var attribute in xml.Attributes())
-            {
-                var member =
-                    (from f in typeDescription.Members
-                     where f.Name == attribute.Name
-                     && f.CanSetValue 
-                     && f.CanGetValue
-                     select f).FirstOrDefault();
-
-                if (member == null)
-                    continue;
-
-                var memberType = Type.GetType(member.AssemblyQualifiedMemberTypeName);
-
-                var value = (object)null;
-
-                if (TryConvertFromStringIfTypeSupports(attribute.Value, memberType, out value))
-                {
-                    member.SetValue(target, value);
-                }
-            }
-
-            foreach (var el in xml.Elements())
-            {
-                var member =
-                    (from f in typeDescription.Members
-                     where f.Name == el.Name
-                     && f.CanSetValue
-                     && f.CanGetValue
-                     select f).FirstOrDefault();
-
-                var memberType = Type.GetType(member.AssemblyQualifiedMemberTypeName);
-
-                var value = DeserializeInternal(memberType, el, typeDescriptor, options, cx);
-
-                member.SetValue(target, value);
-            }
-
-            return target;
-        }
-    }
+//.SerializeMember(
+//    x => x.IntegerName,
+//    m => new XElement("xxx", m),
+//    el => el.Value);
+   }
 }

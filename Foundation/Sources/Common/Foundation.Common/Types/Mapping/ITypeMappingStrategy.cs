@@ -7,6 +7,8 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
     public interface ITypeMappingStrategy
     {
+        Type SourceType { get; }
+        Type TargetType { get; }
         ITypeDescription SourceTypeDescription { get; }
         ITypeDescription TargetTypeDescription { get; }
         
@@ -17,6 +19,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
     public interface ITypeMappingStrategy<TFrom, TTo> : ITypeMappingStrategy
     {
-
+        // todo: this should return interface
+        TypeMappingStrategy<TFrom, TTo> IgnoreAllMembers();
     }
 }

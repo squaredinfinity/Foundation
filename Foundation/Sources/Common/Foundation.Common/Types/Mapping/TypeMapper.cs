@@ -13,47 +13,9 @@ using System.Reflection;
 
 namespace SquaredInfinity.Foundation.Types.Mapping
 {
-    class TypeMappingStrategiesConcurrentDictionary
-        : ConcurrentDictionary<TypeMappingStrategiesKey, ITypeMappingStrategy> { }
-
-    struct TypeMappingStrategiesKey : IEquatable<TypeMappingStrategiesKey>
-    {
-        public Type SourceType;
-        public Type TargetType;
-
-        public TypeMappingStrategiesKey(Type source, Type target)
-        {
-            this.SourceType = source;
-            this.TargetType = target;
-        }
-
-        public bool Equals(TypeMappingStrategiesKey other)
-        {
-            return
-                SourceType == other.SourceType
-                && TargetType == other.TargetType;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as TypeMappingStrategy);
-        }
-
-        public override int GetHashCode()
-        {
-            var hash = 21;
-
-            hash *= 31 ^ SourceType.GetHashCode();
-            hash *= 31 ^ TargetType.GetHashCode();
-
-            return hash;
-        }
-    }
-
-    public class TypeMapper : ITypeMapper
+    public partial class TypeMapper : ITypeMapper
     {   
-        TypeMappingStrategiesConcurrentDictionary TypeMappingStrategies = new TypeMappingStrategiesConcurrentDictionary();
-     
+        readonly TypeMappingStrategiesConcurrentDictionary TypeMappingStrategies = new TypeMappingStrategiesConcurrentDictionary();     
    
         public TypeMapper()
         {
@@ -135,7 +97,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             var sourceType = source.GetType();
 
-            var key = new TypeMappingStrategiesKey(sourceType, targetType);
+            var key = new TypeMappingStrategyKey(sourceType, targetType);
 
             var ms = TypeMappingStrategies.GetOrAdd(key, _key => CreateDefaultTypeMappingStrategy(sourceType, targetType));
 
@@ -170,7 +132,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
         protected virtual void MapInternal(object source, object target, Type sourceType, Type targetType, MappingOptions options, MappingContext cx)
         {
-            var key = new TypeMappingStrategiesKey(sourceType, targetType);
+            var key = new TypeMappingStrategyKey(sourceType, targetType);
 
             var ms = TypeMappingStrategies.GetOrAdd(key, _key => CreateDefaultTypeMappingStrategy(sourceType, targetType));
 
@@ -251,20 +213,18 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             return result;
         }
 
-        TypeMappingStrategy<TFrom, TTo> CreateDefaultTypeMappingStrategy<TFrom, TTo>()
+        ITypeMappingStrategy<TFrom, TTo> CreateDefaultTypeMappingStrategy<TFrom, TTo>()
         {
             return CreateDefaultTypeMappingStrategy<TFrom, TTo>(
                 new ReflectionBasedTypeDescriptor(),
                 new MemberMatchingRuleCollection() { new ExactNameMatchMemberMatchingRule() },
                valueResolvers: null);
         }
-        TypeMappingStrategy<TFrom, TTo> CreateDefaultTypeMappingStrategy<TFrom, TTo>(
+        ITypeMappingStrategy<TFrom, TTo> CreateDefaultTypeMappingStrategy<TFrom, TTo>(
             ITypeDescriptor typeDescriptor,
             MemberMatchingRuleCollection memberMatchingRules,
             IEnumerable<IValueResolver> valueResolvers)
         {
-            var descriptor = new ReflectionBasedTypeDescriptor();
-
             var result =
                 new TypeMappingStrategy<TFrom, TTo>(
                     typeDescriptor,
@@ -367,17 +327,17 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             return MapInternal(source, targetType, options, cx);
         }
 
-        public TypeMappingStrategy<TFrom, TTo> GetOrCreateTypeMappingStrategy<TFrom, TTo>()
+        public ITypeMappingStrategy<TFrom, TTo> GetOrCreateTypeMappingStrategy<TFrom, TTo>()
         {
             return GetOrCreateTypeMappingStrategy<TFrom, TTo>(() => CreateDefaultTypeMappingStrategy<TFrom, TTo>());
         }
 
-        public TypeMappingStrategy<TFrom, TTo> GetOrCreateTypeMappingStrategy<TFrom, TTo>(Func<TypeMappingStrategy<TFrom, TTo>> create)
+        public ITypeMappingStrategy<TFrom, TTo> GetOrCreateTypeMappingStrategy<TFrom, TTo>(Func<ITypeMappingStrategy<TFrom, TTo>> create)
         {
-            var key = new TypeMappingStrategiesKey(typeof(TFrom), typeof(TTo));
+            var key = new TypeMappingStrategyKey(typeof(TFrom), typeof(TTo));
 
             // todo: create T ITypeMappingStrategy instead
-            return (TypeMappingStrategy<TFrom, TTo>)TypeMappingStrategies.GetOrAdd(key, (ITypeMappingStrategy) create());
+            return (ITypeMappingStrategy<TFrom, TTo>)TypeMappingStrategies.GetOrAdd(key, (ITypeMappingStrategy) create());
         }
     }
 }

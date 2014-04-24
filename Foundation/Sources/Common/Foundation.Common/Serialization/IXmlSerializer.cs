@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 namespace SquaredInfinity.Foundation.Serialization
 {
-    public interface ISerializer
+    public interface IXmlSerializer
     {
         XElement Serialize(object obj);
 
