@@ -11,7 +11,7 @@ using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Data
 {
-    public partial class DataAccessService<TConnection, TCommand, TParameter, TDataReader>
+    public abstract partial class DataAccessService<TConnection, TCommand, TParameter, TDataReader>
         where TConnection : DbConnection, new()
         where TCommand : DbCommand
         where TParameter : DbParameter

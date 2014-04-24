@@ -91,9 +91,6 @@
     <Compile Include="Serialization\FlexiXmlSerialization\Entities\SerializationContext.cs" />
     <Compile Include="Serialization\FlexiXmlSerialization\Entities\SerializationStrategy.cs" />
     <Compile Include="Serialization\FlexiXmlSerialization\Entities\TypeMappingRule.cs" />
-    <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService_.ConvertStringToPropertyValueEventArgs.cs" />
-    <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService.cs" />
-    <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService_.ResolveElementReferenceEventArgs.cs" />
     <Compile Include="Serialization\FlexiXml\FlexiXmlSerializer.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
     <Compile Include="Serialization\Services\ISerializationService.cs" />

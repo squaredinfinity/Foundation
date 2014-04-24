@@ -319,9 +319,6 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\WeakEvent.cs">
       <Link>WeakEvent.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\WindowViewModel.cs">
-      <Link>WindowViewModel.cs</Link>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

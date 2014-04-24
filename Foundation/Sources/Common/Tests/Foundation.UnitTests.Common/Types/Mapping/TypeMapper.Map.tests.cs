@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SquaredInfinity.Foundation.TestEntities;
+using SquaredInfinity.Foundation.Types.Mapping.TestEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -134,21 +135,6 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             var p = tm.Map<NullablesTests.HasNonNullableProperty>(np);
 
             Assert.AreEqual(13, p.Property);
-        }
-
-        public class MapTestCollectionItem
-        {
-            public int Id { get; set; }
-        }
-
-        public class MapTestCollection : List<MapTestCollectionItem>
-        {
-
-        }
-
-        public class MapTestCollectionOwner
-        {
-            public MapTestCollection Collection { get; set; }
         }
 
         [TestMethod]

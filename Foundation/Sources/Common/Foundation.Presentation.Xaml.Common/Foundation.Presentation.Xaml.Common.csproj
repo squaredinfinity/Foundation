@@ -152,7 +152,6 @@
     <Compile Include="ViewModel.IHostAwareViewModel.cs" />
     <Compile Include="ViewModelState.cs" />
     <Compile Include="WeakEvent.cs" />
-    <Compile Include="WindowViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Foundation.Common\Foundation.Common.csproj">
