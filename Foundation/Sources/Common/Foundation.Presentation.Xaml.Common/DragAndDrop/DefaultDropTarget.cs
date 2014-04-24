@@ -42,7 +42,7 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
             var targetList = dropInfo.TargetCollection.AsList();
             var sourceList = dropInfo.DragInfo.SourceCollection.AsList();
 
-            var data = dropInfo.DataAsEnumerable;
+            var data = new List<object>(dropInfo.DataAsEnumerable.Cast<object>());
 
             // remove items from source and add to target
 
@@ -50,10 +50,8 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
             {
                 // operation within the same list
                 if (dropInfo.ActualDropEffect == DragDropEffects.Move)
-                {
-                    var dataCopy = new List<object>(data.Cast<object>());
-                   
-                    foreach(var item in dataCopy)
+                {                   
+                    foreach(var item in data)
                     {
                         var ix = sourceList.IndexOf(item);
 

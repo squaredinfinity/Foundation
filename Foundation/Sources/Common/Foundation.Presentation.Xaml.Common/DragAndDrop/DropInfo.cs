@@ -38,7 +38,7 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
         /// </param>
         public DropInfo(object sender, DragEventArgs e, DragInfo dragInfo)
         {
-            var dataFormat = DragDrop.DataFormat.Name;
+            var dataFormat = SquaredInfinity.Foundation.Presentation.Behaviors.DragDrop.DataFormat.Name;
             Data = (e.Data.GetDataPresent(dataFormat)) ? e.Data.GetData(dataFormat) : e.Data;
             DragInfo = dragInfo;
             KeyStates = e.KeyStates;
@@ -58,7 +58,7 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
                 if (itemsControl != null)
                 {
                     // now check if this ItemsControl is a drop target
-                    if (DragDrop.GetIsDropTarget(itemsControl))
+                    if (SquaredInfinity.Foundation.Presentation.Behaviors.DragDrop.GetIsDropTarget(itemsControl))
                     {
                         VisualTarget = itemsControl;
                     }

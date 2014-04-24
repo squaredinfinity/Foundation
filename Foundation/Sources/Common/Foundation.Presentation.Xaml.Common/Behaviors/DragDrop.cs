@@ -10,9 +10,9 @@ using System.Windows.Media.Animation;
 using SquaredInfinity.Foundation.Presentation.DragDrop.Utilities;
 using System.Windows.Media.Imaging;
 using SquaredInfinity.Foundation.Extensions;
-using System.Windows.Forms.Integration;
+using SquaredInfinity.Foundation.Presentation.DragDrop;
 
-namespace SquaredInfinity.Foundation.Presentation.DragDrop
+namespace SquaredInfinity.Foundation.Presentation.Behaviors
 {
     public static partial class DragDrop
     {
@@ -211,7 +211,7 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
 
         private static void Scroll(DependencyObject o, DragEventArgs e)
         {
-            var scrollViewer = o.FindDescendant<ScrollViewer>();
+            var scrollViewer = o.FindVisualDescendant<ScrollViewer>();
 
             if (scrollViewer != null)
             {
@@ -458,8 +458,8 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
                 // ItemsPresenter provided by the style, try getting hold of a
                 // ScrollContentPresenter and using that.
                 var adornedElement =
-                  (UIElement)itemsControl.FindDescendant<ItemsPresenter>() ??
-                  (UIElement)itemsControl.FindDescendant<ScrollContentPresenter>();
+                  (UIElement)itemsControl.FindVisualDescendant<ItemsPresenter>() ??
+                  (UIElement)itemsControl.FindVisualDescendant<ScrollContentPresenter>();
 
                 if (adornedElement != null)
                 {

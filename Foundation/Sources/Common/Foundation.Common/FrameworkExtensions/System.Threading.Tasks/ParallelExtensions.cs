@@ -28,7 +28,7 @@ namespace SquaredInfinity.Foundation.Extensions
             }
             catch (Exception ex)
             {
-                Diagnostics.Error(ex);
+             //   Diagnostics.Error(ex);
             }
         }
 

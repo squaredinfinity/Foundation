@@ -96,6 +96,24 @@
     <Compile Include="Data\CollectionViewSource.cs" />
     <Compile Include="DialogMode.cs" />
     <Compile Include="DialogScope.cs" />
+    <Compile Include="DragAndDrop\DefaultDragSource.cs" />
+    <Compile Include="DragAndDrop\DefaultDropTarget.cs" />
+    <Compile Include="DragAndDrop\DragAdorner.cs" />
+    <Compile Include="Behaviors\DragDrop.AttachedProperties.cs" />
+    <Compile Include="Behaviors\DragDrop.cs" />
+    <Compile Include="DragAndDrop\DragInfo.cs" />
+    <Compile Include="DragAndDrop\DropInfo.cs" />
+    <Compile Include="DragAndDrop\DropTargetAdorner.cs" />
+    <Compile Include="DragAndDrop\DropTargetInsertionAdorner.cs" />
+    <Compile Include="DragAndDrop\IDragInfo.cs" />
+    <Compile Include="DragAndDrop\IDragSource.cs" />
+    <Compile Include="DragAndDrop\IDropInfo.cs" />
+    <Compile Include="DragAndDrop\IDropTarget.cs" />
+    <Compile Include="DragAndDrop\IEnumerable.extensions.cs" />
+    <Compile Include="DragAndDrop\KnownDropTargetAdorners.cs" />
+    <Compile Include="DragAndDrop\Utilities\HitTestUtilities.cs" />
+    <Compile Include="DragAndDrop\Utilities\ItemsControlExtensions.cs" />
+    <Compile Include="DragAndDrop\Utilities\VisualTreeExtensions.cs" />
     <Compile Include="FrameworkExtensions\System.Windows.Controls\TreeViewItem.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Windows.Media.Imaging\BitmapSource.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Windows.Media\ImageSource.extensions.cs" />
@@ -139,9 +157,7 @@
       <Name>Foundation.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Behaviors\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Include="Resources\Xaml\All.xaml">
       <Generator>MSBuild:Compile</Generator>

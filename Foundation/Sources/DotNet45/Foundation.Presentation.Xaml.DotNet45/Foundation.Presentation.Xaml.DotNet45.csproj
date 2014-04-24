@@ -64,6 +64,12 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\BackgroundRenderingService.cs">
       <Link>BackgroundRenderingService.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\DragDrop.AttachedProperties.cs">
+      <Link>Behaviors\DragDrop.AttachedProperties.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\DragDrop.cs">
+      <Link>Behaviors\DragDrop.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Collections\ObservableCollectionEx.Batch.cs">
       <Link>Collections\ObservableCollectionEx.Batch.cs</Link>
     </Compile>
@@ -166,6 +172,54 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DialogScope.cs">
       <Link>DialogScope.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DragAndDrop\DefaultDragSource.cs">
+      <Link>DragAndDrop\DefaultDragSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DragAndDrop\DefaultDropTarget.cs">
+      <Link>DragAndDrop\DefaultDropTarget.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DragAndDrop\DragAdorner.cs">
+      <Link>DragAndDrop\DragAdorner.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DragAndDrop\DragInfo.cs">
+      <Link>DragAndDrop\DragInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DragAndDrop\DropInfo.cs">
+      <Link>DragAndDrop\DropInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DragAndDrop\DropTargetAdorner.cs">
+      <Link>DragAndDrop\DropTargetAdorner.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DragAndDrop\DropTargetInsertionAdorner.cs">
+      <Link>DragAndDrop\DropTargetInsertionAdorner.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DragAndDrop\IDragInfo.cs">
+      <Link>DragAndDrop\IDragInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DragAndDrop\IDragSource.cs">
+      <Link>DragAndDrop\IDragSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DragAndDrop\IDropInfo.cs">
+      <Link>DragAndDrop\IDropInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DragAndDrop\IDropTarget.cs">
+      <Link>DragAndDrop\IDropTarget.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DragAndDrop\IEnumerable.extensions.cs">
+      <Link>DragAndDrop\IEnumerable.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DragAndDrop\KnownDropTargetAdorners.cs">
+      <Link>DragAndDrop\KnownDropTargetAdorners.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DragAndDrop\Utilities\HitTestUtilities.cs">
+      <Link>DragAndDrop\Utilities\HitTestUtilities.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DragAndDrop\Utilities\ItemsControlExtensions.cs">
+      <Link>DragAndDrop\Utilities\ItemsControlExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DragAndDrop\Utilities\VisualTreeExtensions.cs">
+      <Link>DragAndDrop\Utilities\VisualTreeExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows.Controls\TreeViewItem.extensions.cs">
       <Link>FrameworkExtensions\System.Windows.Controls\TreeViewItem.extensions.cs</Link>
     </Compile>
@@ -265,24 +319,6 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\WindowViewModel.cs">
       <Link>WindowViewModel.cs</Link>
     </Compile>
-    <Compile Include="DragAndDrop\DefaultDragSource.cs" />
-    <Compile Include="DragAndDrop\DefaultDropTarget.cs" />
-    <Compile Include="DragAndDrop\DragAdorner.cs" />
-    <Compile Include="DragAndDrop\DragDrop.AttachedProperties.cs" />
-    <Compile Include="DragAndDrop\DragDrop.cs" />
-    <Compile Include="DragAndDrop\DragInfo.cs" />
-    <Compile Include="DragAndDrop\DropInfo.cs" />
-    <Compile Include="DragAndDrop\DropTargetAdorner.cs" />
-    <Compile Include="DragAndDrop\DropTargetInsertionAdorner.cs" />
-    <Compile Include="DragAndDrop\IDragInfo.cs" />
-    <Compile Include="DragAndDrop\IDragSource.cs" />
-    <Compile Include="DragAndDrop\IDropInfo.cs" />
-    <Compile Include="DragAndDrop\IDropTarget.cs" />
-    <Compile Include="DragAndDrop\IEnumerable.extensions.cs" />
-    <Compile Include="DragAndDrop\KnownDropTargetAdorners.cs" />
-    <Compile Include="DragAndDrop\Utilities\HitTestUtilities.cs" />
-    <Compile Include="DragAndDrop\Utilities\ItemsControlExtensions.cs" />
-    <Compile Include="DragAndDrop\Utilities\VisualTreeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

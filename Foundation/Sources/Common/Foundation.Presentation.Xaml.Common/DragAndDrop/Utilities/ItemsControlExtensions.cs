@@ -151,7 +151,7 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop.Utilities
 
     public static Orientation GetItemsPanelOrientation(this ItemsControl itemsControl)
     {
-      var itemsPresenter = itemsControl.FindDescendant<ItemsPresenter>();
+      var itemsPresenter = itemsControl.FindVisualDescendant<ItemsPresenter>();
 
       if (itemsPresenter != null) {
         var itemsPanel = VisualTreeHelper.GetChild(itemsPresenter, 0);
@@ -168,7 +168,7 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop.Utilities
 
     public static FlowDirection GetItemsPanelFlowDirection(this ItemsControl itemsControl)
     {
-      var itemsPresenter = itemsControl.FindDescendant<ItemsPresenter>();
+      var itemsPresenter = itemsControl.FindVisualDescendant<ItemsPresenter>();
 
       if (itemsPresenter != null) {
         var itemsPanel = VisualTreeHelper.GetChild(itemsPresenter, 0);
