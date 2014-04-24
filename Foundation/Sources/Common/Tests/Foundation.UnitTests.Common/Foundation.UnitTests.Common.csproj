@@ -90,6 +90,9 @@
     </Compile>
     <Compile Include="Serialization\FlexiXmlSerialization\Services\TestEntities\Entity.cs" />
     <Compile Include="Serialization\FlexiXml\Entities\SimpleSerializableType.cs" />
+    <Compile Include="Serialization\FlexiXml\FlexiXmlSerialize__Deserialize.tests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Serialization\FlexiXml\FlexiXmlSerialize__Serialize.tests.cs" />
     <Compile Include="TestEntities\LinkedListNode.cs" />
     <Compile Include="Types\Description\Reflection\ReflectionBasedTypeDescriptor.DescribeType.tests.cs" />

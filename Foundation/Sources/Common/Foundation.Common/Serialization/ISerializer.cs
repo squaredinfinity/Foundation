@@ -11,5 +11,7 @@ namespace SquaredInfinity.Foundation.Serialization
         XElement Serialize(object obj);
 
         T Deserialize<T>(XDocument xml);
+
+        T Deserialize<T>(XElement xml);
     }
 }
