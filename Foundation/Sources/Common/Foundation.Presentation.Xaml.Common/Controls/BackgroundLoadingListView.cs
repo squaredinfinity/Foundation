@@ -63,7 +63,7 @@ namespace SquaredInfinity.Foundation.Presentation.Controls
         {
             base.OnApplyTemplate();
 
-            ScrollViewer = this.FindDescendant<ScrollViewer>();
+            ScrollViewer = this.FindVisualDescendant<ScrollViewer>();
 
             ScrollChangedSubscription = Observable.FromEvent<ScrollChangedEventHandler, ScrollChangedEventArgs>(
                 h =>

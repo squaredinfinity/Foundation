@@ -11,6 +11,7 @@ using System.Threading;
 using System.Windows.Documents;
 using System.Windows.Interop;
 using System.Diagnostics;
+using System.Windows.Media.Media3D;
 
 namespace SquaredInfinity.Foundation.Extensions
 {
@@ -84,7 +85,7 @@ namespace SquaredInfinity.Foundation.Extensions
             yield break;
         }
 
-        public static DependencyObject FindDescendant(this DependencyObject depObj, string descendantTypeFullName)
+        public static DependencyObject FindVisualDescendant(this DependencyObject depObj, string descendantTypeFullName)
         {
             for (int childIndex = 0; childIndex < VisualTreeHelper.GetChildrenCount(depObj); childIndex++)
             {
@@ -97,7 +98,7 @@ namespace SquaredInfinity.Foundation.Extensions
                         return child;
                     }
 
-                    var child2 = child.FindDescendant(descendantTypeFullName);
+                    var child2 = child.FindVisualDescendant(descendantTypeFullName);
 
                     if (child2 != null)
                         return child2;
@@ -107,7 +108,7 @@ namespace SquaredInfinity.Foundation.Extensions
             return null;
         }
 
-        public static TDescendant FindDescendant<TDescendant>(this DependencyObject depObj, string descendantName = null) where TDescendant : class
+        public static TDescendant FindVisualDescendant<TDescendant>(this DependencyObject depObj, string descendantName = null) where TDescendant : class
         {
             for (int childIndex = 0; childIndex < VisualTreeHelper.GetChildrenCount(depObj); childIndex++)
             {
@@ -128,7 +129,7 @@ namespace SquaredInfinity.Foundation.Extensions
                         }
                     }
 
-                    var child2 = child.FindDescendant<TDescendant>(descendantName);
+                    var child2 = child.FindVisualDescendant<TDescendant>(descendantName);
 
                     if (child2 != null)
                         return child2 as TDescendant;
@@ -138,28 +139,47 @@ namespace SquaredInfinity.Foundation.Extensions
             return null;
         }
 
+        /// <summary>
+        /// If specified Dependency Object is not a Visual or Visual3D, then try to walk up logical tree until you find a Visual
+        /// </summary>
+        /// <param name="me"></param>
+        /// <returns></returns>
+        public static DependencyObject FindNearestVisual(this DependencyObject dobj)
+        {
+            if (dobj is Visual || dobj is Visual3D)
+                return dobj;
+
+            var parent = dobj.GetLogicalParent();
+
+            while(parent != null)
+            {
+                if (parent is Visual || parent is Visual3D)
+                    return parent;
+
+                parent = dobj.GetLogicalParent();
+            }
+
+            return null;
+        }
+
         public static TParent FindVisualParent<TParent>(this DependencyObject me)
             where TParent : DependencyObject
         {
-            //# Inline is not a visual or visual3d, and therefore not supported by VisualTreeHelper.GetParent() - try to use its parent instead
-            // NOTE: this may need to be done recursively until valid parent is found
-            if (me is Inline)
-            {
-                me = (me as Inline).Parent;
-            }
+            return (TParent)me.FindVisualParent(typeof(TParent));
+        }
 
-            DependencyObject parent = VisualTreeHelper.GetParent(me);
+        public static DependencyObject FindVisualParent(this DependencyObject me, Type parentType)
+        {
+            me = me.FindNearestVisual();
+
+            DependencyObject parent = me.GetVisualParent();
 
             while (parent != null)
             {
-                TParent typedParent = parent as TParent;
+                if (parent.GetType() == parentType || parent.GetType().IsSubclassOf(parentType))
+                    return parent;
 
-                if (typedParent != null)
-                {
-                    return typedParent;
-                }
-
-                parent = VisualTreeHelper.GetParent(parent);
+                parent = parent.GetVisualParent();
             }
 
             return null;

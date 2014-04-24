@@ -175,6 +175,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows.Media\ImageSource.extensions.cs">
       <Link>FrameworkExtensions\System.Windows.Media\ImageSource.extensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows.Media\Visual.extensions.cs">
+      <Link>FrameworkExtensions\System.Windows.Media\Visual.extensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows\DependencyObject.extensions.cs">
       <Link>FrameworkExtensions\System.Windows\DependencyObject.extensions.cs</Link>
     </Compile>
@@ -262,6 +265,24 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\WindowViewModel.cs">
       <Link>WindowViewModel.cs</Link>
     </Compile>
+    <Compile Include="DragAndDrop\DefaultDragSource.cs" />
+    <Compile Include="DragAndDrop\DefaultDropTarget.cs" />
+    <Compile Include="DragAndDrop\DragAdorner.cs" />
+    <Compile Include="DragAndDrop\DragDrop.AttachedProperties.cs" />
+    <Compile Include="DragAndDrop\DragDrop.cs" />
+    <Compile Include="DragAndDrop\DragInfo.cs" />
+    <Compile Include="DragAndDrop\DropInfo.cs" />
+    <Compile Include="DragAndDrop\DropTargetAdorner.cs" />
+    <Compile Include="DragAndDrop\DropTargetInsertionAdorner.cs" />
+    <Compile Include="DragAndDrop\IDragInfo.cs" />
+    <Compile Include="DragAndDrop\IDragSource.cs" />
+    <Compile Include="DragAndDrop\IDropInfo.cs" />
+    <Compile Include="DragAndDrop\IDropTarget.cs" />
+    <Compile Include="DragAndDrop\IEnumerable.extensions.cs" />
+    <Compile Include="DragAndDrop\KnownDropTargetAdorners.cs" />
+    <Compile Include="DragAndDrop\Utilities\HitTestUtilities.cs" />
+    <Compile Include="DragAndDrop\Utilities\ItemsControlExtensions.cs" />
+    <Compile Include="DragAndDrop\Utilities\VisualTreeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
