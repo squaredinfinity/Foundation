@@ -243,7 +243,7 @@ namespace SquaredInfinity.Foundation.Data
 
         public void Execute(string procName)
         {
-            Execute(ConnectionFactory, procName, new List<TParameter>());
+            Execute(ConnectionFactory, procName);
         }
 
         public Task ExecuteAsync(string procName)
@@ -251,23 +251,23 @@ namespace SquaredInfinity.Foundation.Data
             return Task.Factory.StartNew(() => Execute(procName));
         }
 
-        public void Execute(string procName, IEnumerable<TParameter> parameters)
+        public void Execute(string procName, params TParameter[] parameters)
         {
             Execute(ConnectionFactory, procName, parameters);
         }
 
-        public Task ExecuteAsync(string procName, IEnumerable<TParameter> parameters)
+        public Task ExecuteAsync(string procName, params TParameter[] parameters)
         {
             return Task.Factory.StartNew(() => Execute(procName, parameters));
         }
 
-        void Execute(ConnectionFactory<TConnection> connectionFactory, string procName, IEnumerable<TParameter> parameters)
+        void Execute(ConnectionFactory<TConnection> connectionFactory, string procName, params TParameter[] parameters)
         {
             using (var connection = connectionFactory.GetNewConnection())
             {
                 connection.Open();
 
-                using (var command = PrepareCommand(connection, CommandType.StoredProcedure, procName, parameters))
+                using (var command = PrepareCommand(connection, CommandType.StoredProcedure, procName, parameters.EmptyIfNull()))
                 {
                     command.ExecuteNonQuery();
                 }
@@ -400,15 +400,22 @@ namespace SquaredInfinity.Foundation.Data
                 return;
             }
 
-            if (clrTarget is TimeSpan? || clrTarget is TimeSpan)
+            if (targetType == typeof(TimeSpan?) || targetType == typeof(TimeSpan))
             {
                 clrTarget = (TTarget)(object)TimeSpan.FromTicks((long)dbValue);
                 return;
             }
 
-            if (clrTarget is XDocument)
+            if (targetType == typeof(XDocument))
             {
                 clrTarget = (TTarget)(object)XDocument.Parse(dbValue as string);
+                return;
+            }
+
+
+            if (targetType == typeof(XElement))
+            {
+                clrTarget = (TTarget)(object)XElement.Parse(dbValue as string);
                 return;
             }
 
