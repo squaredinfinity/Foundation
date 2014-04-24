@@ -113,6 +113,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DotNet45\Foundation.Data.DotNet45\Foundation.Data.DotNet45.csproj">
+      <Project>{1a2db9fe-7d95-47f2-8b28-7e9b0a319b14}</Project>
+      <Name>Foundation.Data.DotNet45</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\DotNet45\Foundation.DotNet45\Foundation.DotNet45.csproj">
       <Project>{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}</Project>
       <Name>Foundation.DotNet45</Name>

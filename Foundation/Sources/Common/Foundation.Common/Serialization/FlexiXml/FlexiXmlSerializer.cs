@@ -81,7 +81,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         public readonly ConcurrentDictionary<InstanceId, object> Objects_InstanceIdTracker = new ConcurrentDictionary<InstanceId, object>();
     }
 
-    public class FllexXmlSerializer : ISerializer
+    public class FlexiXmlSerializer : ISerializer
     {
         static readonly string XmlNamespace = "http://schemas.squaredinfinity.com/serialization/flexixml";
 
@@ -165,12 +165,12 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 return false;
             }
 
-            result = typeConverter.ConvertTo(stringRepresentation, resultType);
+            result = typeConverter.ConvertFrom(stringRepresentation);
 
             return true;
         }
 
-        public XElement SerializeInternal(string name, object source, ITypeDescriptor typeDescriptor, SerializationOptions options, SerializationContext cx)
+        XElement SerializeInternal(string name, object source, ITypeDescriptor typeDescriptor, SerializationOptions options, SerializationContext cx)
         {
             bool isNewReference = false;
 
@@ -251,7 +251,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             return (T)root;
         }
 
-        public object DeserializeInternal(Type targetType, XElement xml, ITypeDescriptor typeDescriptor, SerializationOptions options, DeserializationContext cx)
+        object DeserializeInternal(Type targetType, XElement xml, ITypeDescriptor typeDescriptor, SerializationOptions options, DeserializationContext cx)
         {
             var typeDescription = typeDescriptor.DescribeType(targetType);
 
@@ -292,12 +292,14 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 var member =
                     (from f in typeDescription.Members
                      where f.Name == attribute.Name
+                     && f.CanSetValue 
+                     && f.CanGetValue
                      select f).FirstOrDefault();
 
                 if (member == null)
                     continue;
 
-                var memberType = Type.GetType(member.FullMemberTypeName);
+                var memberType = Type.GetType(member.AssemblyQualifiedMemberTypeName);
 
                 var value = (object)null;
 
@@ -312,6 +314,8 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 var member =
                     (from f in typeDescription.Members
                      where f.Name == el.Name
+                     && f.CanSetValue
+                     && f.CanGetValue
                      select f).FirstOrDefault();
 
                 var memberType = Type.GetType(member.AssemblyQualifiedMemberTypeName);
