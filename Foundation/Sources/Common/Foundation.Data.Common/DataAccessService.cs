@@ -342,22 +342,7 @@ namespace SquaredInfinity.Foundation.Data
         }
 
 
-        public virtual object MapToDbValue(object clrValue)
-        {
-            if (clrValue == null) 
-                return DBNull.Value;
-
-            var ts = clrValue as TimeSpan?;
-            if (ts != null)
-            {
-                return ts.Value.Ticks;
-            }
-
-            if (clrValue is XDocument)
-                return (clrValue as XDocument).ToString(SaveOptions.None);
-
-            return clrValue;
-        }
+        public abstract TParameter MapToParameter(string parameterNAme, object clrValue);
 
         public TTarget MapToClrValue<TTarget>(object dbValue, TTarget defaultValue = default(TTarget))
         {
