@@ -22,11 +22,16 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 
         protected void UpdateBindingFromSource(Binding binding)
         {
-            if (!Source.IsNullOrEmpty())
+            UpdateBindingFromSource(binding, Source);
+        }
+
+        protected static void UpdateBindingFromSource(Binding binding, string source)
+        {
+            if (!source.IsNullOrEmpty())
             {
-                if (Source.StartsWith("@"))
+                if (source.StartsWith("@"))
                 {
-                    var match = SourceElementBindingRegex.Match(Source);
+                    var match = SourceElementBindingRegex.Match(source);
 
                     var elementNameGroup = match.Groups["ElementName"];
                     var pathGroup = match.Groups["Path"];
@@ -38,7 +43,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                 }
                 else
                 {
-                    binding.Path = new PropertyPath(Source);
+                    binding.Path = new PropertyPath(source);
                 }
             }
         }

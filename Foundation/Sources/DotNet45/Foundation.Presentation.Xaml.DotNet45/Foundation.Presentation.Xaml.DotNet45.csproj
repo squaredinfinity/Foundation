@@ -289,6 +289,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\SmartBinding.cs">
       <Link>MarkupExtensions\SmartBinding.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\StringFormatBinding.cs">
+      <Link>MarkupExtensions\StringFormatBinding.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\ViewModelBinding.cs">
       <Link>MarkupExtensions\ViewModelBinding.cs</Link>
     </Compile>

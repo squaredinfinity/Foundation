@@ -136,6 +136,9 @@
     <Compile Include="MarkupExtensions\PredicateMethodBinding.cs" />
     <Compile Include="MarkupExtensions\PredicateMethodBinding.PredicateMethodConverter.cs" />
     <Compile Include="MarkupExtensions\SmartBinding.cs" />
+    <Compile Include="MarkupExtensions\StringFormatBinding.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="MarkupExtensions\ViewModelBinding.cs">
       <SubType>Code</SubType>
     </Compile>
