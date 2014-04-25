@@ -21,17 +21,21 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
 
             var result = (DataTemplate)null;
 
-            // first try to find in parent
+            // first try to find in passed container
 
             var container_frameworkElement = container as FrameworkElement;
             if (container_frameworkElement != null && TryFindDataTemplate(container_frameworkElement.Resources, itemType, out result))
                     return result;
 
-            // first try to find in parent selector
+            // then try all visual parents
 
-            var selector_frameworkElement = container.FindVisualParent<Selector>();
-            if (selector_frameworkElement != null && TryFindDataTemplate(selector_frameworkElement.Resources, itemType, out result))
-                return result;
+            var parent = container_frameworkElement;
+
+            while ((parent = parent.FindVisualParent<FrameworkElement>()) != null)
+            {
+                if (TryFindDataTemplate(parent.Resources, itemType, out result))
+                    return result;
+            }
 
             // then try globally
 
@@ -41,7 +45,7 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
             return null;
         }
 
-        bool TryFindDataTemplate(ResourceDictionary dict, Type type, out DataTemplate dataTemplate)
+        protected virtual bool TryFindDataTemplate(ResourceDictionary dict, Type type, out DataTemplate dataTemplate)
         {
             dataTemplate = dict[type.FullName] as DataTemplate;
             if (dataTemplate != null)

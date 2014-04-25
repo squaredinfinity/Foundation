@@ -26,11 +26,8 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
             {
                 if (value == null)
                     return DependencyProperty.UnsetValue;
-
-                if (InvokeMethodCommand == null)
-                {
-                    InvokeMethodCommand = new InvokeMethodCommand(value, MethodName);
-                }
+                
+                InvokeMethodCommand = new InvokeMethodCommand(value, MethodName);
 
                 return InvokeMethodCommand;
             }

@@ -35,7 +35,14 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                 this.ExecuteMethodInfo = executeMethodInfo;
                 this.CanExecuteMethodInfo = canExecuteMethodInfo;
 
-                this.ExecuteAcceptsParameter = ExecuteMethodInfo.GetParameters().Any();
+                if (ExecuteMethodInfo == null)
+                {
+                    // log warning
+                }
+                else
+                {
+                    this.ExecuteAcceptsParameter = ExecuteMethodInfo.GetParameters().Any();
+                }
 
                 if (CanExecuteMethodInfo != null)
                     this.CanExecuteAcceptsParameter = CanExecuteMethodInfo.GetParameters().Any();
