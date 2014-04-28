@@ -18,12 +18,14 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
     {
         public XElement Serialize(object obj)
         {
-            var rootName = obj.GetType().Name;
-
             var cx = new SerializationContext();
 
-            var x = SerializeInternal(rootName, obj, new ReflectionBasedTypeDescriptor(), new SerializationOptions(), cx);
+            var options = new SerializationOptions();
 
+            var root = new XElement("temp");
+            UpdateElementNameFromType(root, obj.GetType(), options);
+            SerializeInternal(root, obj, new ReflectionBasedTypeDescriptor(), options , cx);
+            
             // post process
             // e.g. move nodes with an id, which are referenced somewhere to some other part of xml
 
@@ -47,27 +49,34 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             if (areAllEntitiesUnreferenced)
             {
-                var serializationNodes =
-                    (from e in x.DescendantsAndSelf()
+                var idNodes =
+                    (from e in root.DescendantsAndSelf()
                      from a in e.Attributes()
-                     where a.Name.NamespaceName == XmlNamespace
+                     where a.Name == UniqueIdAttributeName
                      select a);
 
-                foreach (var serializationAttribute in serializationNodes)
+                foreach (var idAttrib in idNodes)
                 {
-                    serializationAttribute.Remove();
+                    idAttrib.Remove();
                 }
             }
-            else
+
+            var hasAnySerializationAttributes =
+                    (from e in root.DescendantsAndSelf()
+                     from a in e.Attributes()
+                     where a.Name.NamespaceName == XmlNamespace
+                     select a).Any();
+
+            if(hasAnySerializationAttributes)
             {
-                var nsAttribute = new XAttribute(XNamespace.Xmlns + "serialization", XmlNamespace);
-                x.Add(nsAttribute);
+                var nsAttribute = new XAttribute(XNamespace.Xmlns.GetName("serialization"), XmlNamespace);
+                root.Add(nsAttribute);
             }
 
-            return x;
+            return root;
         }
 
-        XElement SerializeInternal(XName name, object source, ITypeDescriptor typeDescriptor, SerializationOptions options, SerializationContext cx)
+        void SerializeInternal(XElement target, object source, ITypeDescriptor typeDescriptor, SerializationOptions options, SerializationContext cx)
         {
             bool isNewReference = false;
 
@@ -83,8 +92,6 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             if (isNewReference)
             {
-                var xel = new XElement(name);
-
                 var typeDescription = typeDescriptor.DescribeType(source.GetType());
 
                 var serializableMembers =
@@ -111,7 +118,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                     if (TryConvertToStringIfTypeSupports(val, out val_as_string))
                     {
-                        xel.Add(new XAttribute(m.Name, val_as_string)); // todo: do mapping if needed, + conversion
+                        target.Add(new XAttribute(m.Name, val_as_string)); // todo: do mapping if needed, + conversion
                         continue;
                     }
                     else
@@ -120,15 +127,22 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                         if (val != null && !((val is IEnumerable) && !m.CanSetValue))
                         {
-                            var contentEl = new XElement(m.Name);
+                            var wrapper = new XElement(m.Name);
 
-                            contentEl.Add(SerializeInternal(ToValidXName(val.GetType(), options), val, typeDescriptor, options, cx));
+                            var el = new XElement("temp");
+                            UpdateElementNameFromType(el, val.GetType(), options);
+                            SerializeInternal(el, val, typeDescriptor, options, cx);
 
-                            xel.Add(contentEl);
+                            wrapper.Add(el);
+
+                            target.Add(wrapper);
                         }
                         else
                         {
-                            xel.Add(SerializeInternal(m.Name, val, typeDescriptor, options, cx));
+                            // null or collection without setter
+                            var el = new XElement(m.Name);
+                            SerializeInternal(el, val, typeDescriptor, options, cx);
+                            target.Add(el);
                         }
                     }
                 }
@@ -147,105 +161,49 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                         if (TryConvertToStringIfTypeSupports(item, out item_as_string))
                         {
-                            xel.Add(new XElement(ToValidXName(itemType, options), item_as_string)); // todo: do mapping if needed, + conversion
+                            var item_string_value_element = new XElement("temp", item_as_string);
+                            UpdateElementNameFromType(item_string_value_element, item.GetType(), options);
+                            target.Add(item_string_value_element);
                             continue;
                         }
 
-                        xel.Add(SerializeInternal(itemType.Name, item, typeDescriptor, options, cx));
+                        var itemElement = new XElement("temp");
+                        UpdateElementNameFromType(itemElement, item.GetType(), options);
+                        SerializeInternal(itemElement, item, typeDescriptor, options, cx);
+
+                        target.Add(itemElement);
                     }
                 }
 
-                xel.Add(new XAttribute(UniqueIdAttributeName, id.Id));
+                target.Add(new XAttribute(UniqueIdAttributeName, id.Id));
 
-                xel.AddAnnotation(typeDescription);
-
-                return xel;
+                target.AddAnnotation(typeDescription);
             }
             else
             {
-                var idEl = new XElement(name);
                 var idAttrib = new XAttribute(UniqueIdReferenceAttributeName, id.Id);
 
                 id.IncrementReferenceCount();
 
-                idEl.Add(idAttrib);
-
-                return idEl;
+                target.Add(idAttrib);
             }
         }
 
-
-        //XObject ConstructXObjectForMember(
-        //    string memberName, 
-        //    Type memberType, 
-        //    string memberValue, 
-        //    SerializationOptions options, 
-        //    SerializationContext cx)
-        //{
-        //    var value_as_string = (string)null;
-
-        //    if (TryConvertToStringIfTypeSupports(memberValue, out value_as_string))
-        //    {
-        //        return new XAttribute(ToValidXName(memberName), value_as_string);
-        //    }
-
-        //    // non-string-convertible types are wrapped in an element which represents their name
-
-        //    var wrapperEl = new XElement(ToValidXName(memberType.Name));
-
-        //    return wrapperEl;
-        //}
-
-        //XObject ConstructXObjectForListItem(
-        //    Type itemType,
-        //    SerializationOptions options,
-        //    SerializationContext cx)
-        //{
-        //    var wrapperEl = new XElement(ToValidXName(itemType.Name));
-
-        //    return wrapperEl;
-        //}
-
-        protected virtual XName ToValidXName(Type type, SerializationOptions options)
+        protected virtual void UpdateElementNameFromType(XElement xel, Type type, SerializationOptions options)
         {
             if(type.IsGenericType)
             {
-                var args = type.GetGenericArguments();
+                xel.Name = "Instance";
+                var typeAttrib = new XAttribute(TypeAttributeName, type.FullName);
+                xel.Add(typeAttrib);
 
-                var sb_args = new StringBuilder();
-
-                foreach (var arg in args)
-                    sb_args.Append("_" + arg.Name);
-
-                var firstInvalidCharIndex = type.Name.IndexOf("`");
-
-                var name = type.Name.Substring(0, firstInvalidCharIndex) + sb_args.ToString();
-
-                return XName.Get(name);
+                var assemblyAttrib = new XAttribute(AssemblyAttributeName, type.Assembly.FullName);
+                xel.Add(assemblyAttrib);
             }
             else
             {
-                return XName.Get(type.Name);
+                xel.Name = type.Name;
             }
-        }
-
-        bool IsValidXName(string name)
-        {
-            var xname = (XName) null;
-
-            try
-            {
-                xname = XName.Get(name);
-
-                return true;
-            }
-            catch
-            {
-                // memberName contains invalid character
-            }
-
-            // use xnmae here to prevent it from being optimized-out
-            return xname != null;
         }
     }
 }

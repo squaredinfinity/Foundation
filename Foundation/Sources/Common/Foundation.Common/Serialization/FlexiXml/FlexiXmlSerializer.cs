@@ -16,9 +16,12 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
     public partial class FlexiXmlSerializer : IXmlSerializer
     {
-        internal static readonly string XmlNamespace = "http://schemas.squaredinfinity.com/serialization/flexixml";
-        internal static readonly XName UniqueIdAttributeName = XName.Get("id", XmlNamespace);
-        internal static readonly XName UniqueIdReferenceAttributeName = XName.Get("id-ref", XmlNamespace);
+        internal static readonly XNamespace XmlNamespace = XNamespace.Get("http://schemas.squaredinfinity.com/serialization/flexixml");
+        internal static readonly XName UniqueIdAttributeName = XmlNamespace.GetName("id");
+        internal static readonly XName UniqueIdReferenceAttributeName = XmlNamespace.GetName("id-ref");
+
+        internal static readonly XName AssemblyAttributeName = XmlNamespace.GetName("assembly");
+        internal static readonly XName TypeAttributeName = XmlNamespace.GetName("type");
 
         readonly TypeSerializationStrategiesConcurrentDictionary TypeSerializationStrategies =
             new TypeSerializationStrategiesConcurrentDictionary();

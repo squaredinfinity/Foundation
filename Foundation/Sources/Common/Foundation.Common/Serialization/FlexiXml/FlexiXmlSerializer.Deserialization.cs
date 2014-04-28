@@ -184,13 +184,26 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                         if (contentEl != null)
                         {
-                            // todo: check for type attribute
+                            var typeAttribute = contentEl.Attribute(TypeAttributeName);
 
-                            var elementType =
+                            var elementType = (Type) null;
+
+                            if (typeAttribute != null)
+                            {
+                                elementType =
                                     TypeExtensions.ResolveType(
-                                    contentEl.Name.LocalName,
-                                    ignoreCase: true,
-                                    baseTypes: new List<Type> { mrType });
+                                    typeAttribute.Value, 
+                                    ignoreCase:true);
+                            }
+                            else
+                            {
+                                elementType =
+                                        TypeExtensions.ResolveType(
+                                        contentEl.Name.LocalName,
+                                        ignoreCase: true,
+                                        baseTypes: new List<Type> { mrType });
+                            }
+
 
                             if (elementType == null)
                             {
