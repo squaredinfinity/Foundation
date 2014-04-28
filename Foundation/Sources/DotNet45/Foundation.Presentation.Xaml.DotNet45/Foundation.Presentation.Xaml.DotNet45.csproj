@@ -70,6 +70,15 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\DragDrop.cs">
       <Link>Behaviors\DragDrop.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\ListBoxItem.IsSelectible.cs">
+      <Link>Behaviors\ListBoxItem.IsSelectible.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\TextBoxBase.ClearButton.cs">
+      <Link>Behaviors\TextBoxBase.ClearButton.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\TextBoxBase.Watermark.cs">
+      <Link>Behaviors\TextBoxBase.Watermark.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Collections\ObservableCollectionEx.Batch.cs">
       <Link>Collections\ObservableCollectionEx.Batch.cs</Link>
     </Compile>

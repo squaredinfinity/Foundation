@@ -19,6 +19,12 @@ namespace SquaredInfinity.Foundation.Presentation
         }
 
         /// <summary>
+        /// Displays a tool window to the user.
+        /// </summary>
+        /// <param name="viewModel"></param>
+        public abstract void ShowToolWindow(IHostAwareViewModel viewModel, Func<Window> getWindow = null);
+
+        /// <summary>
         /// Displays a dialog window to the user using default DialogScope and DialogMode.
         /// </summary>
         /// <param name="viewModel"></param>
@@ -37,7 +43,7 @@ namespace SquaredInfinity.Foundation.Presentation
             DialogScope dialogScope, 
             DialogMode dialogMode, 
             bool showActivated = true,
-            Func<Window> getViewModelHostView = null);
+            Func<Window> getWindow = null);
 
         public abstract IHostAwareViewModel ShowConfirmationDialog(string message, string dialogTitle);
 

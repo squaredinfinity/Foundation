@@ -9,7 +9,10 @@ namespace SquaredInfinity.Foundation.Presentation
 {
     public interface IUIService
     {
+        void ShowToolWindow(IHostAwareViewModel viewModel, Func<Window> getWindow = null);
+
         void ShowDialog(IHostAwareViewModel viewModel);
+
         void ShowDialog(
             IHostAwareViewModel viewModel, 
             DialogScope dialogScope, 
