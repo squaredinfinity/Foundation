@@ -50,5 +50,24 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             Assert.AreEqual(7, o2.Items[0]);
             Assert.AreEqual(13, o2.Items[1]);
         }
+
+        [TestMethod]
+        public void TypeWithInterfaceProperty__CanDeserialize()
+        {
+            var o = new InterfaceTypeProperty();
+            o.MyDispsableProperty = new InterfaceTypeProperty();
+
+            var s = new FlexiXmlSerializer();
+
+            var xml = s.Serialize(o);
+
+            var o2 = s.Deserialize<InterfaceTypeProperty>(xml);
+
+            Assert.IsNotNull(o2);
+
+            Assert.IsNotNull(o2.MyDispsableProperty);
+
+            Assert.AreNotSame(o2, o2.MyDispsableProperty);
+        }
     }
 }

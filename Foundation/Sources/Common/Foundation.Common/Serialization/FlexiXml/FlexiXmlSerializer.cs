@@ -10,6 +10,7 @@ using SquaredInfinity.Foundation.Types.Description.Reflection;
 using SquaredInfinity.Foundation.Types.Description;
 using System.Threading;
 using System.ComponentModel;
+using System.Reflection;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
@@ -84,6 +85,45 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                     typeDescriptor);
 
             return result;
+        }
+
+        public Func<Type, CreateInstanceContext, object> CustomCreateInstanceWith { get; set; }
+
+
+        // todo context should be local to serialzation (type)
+        // todo: this may also try to reuse type mapper code rather than copy it
+        protected bool TryCreateInstace(Type targetType, CreateInstanceContext create_cx, out object newInstance)
+        {
+            newInstance = null;
+
+            try
+            {
+                if (CustomCreateInstanceWith != null)
+                {
+                    newInstance = CustomCreateInstanceWith(targetType, create_cx);
+                    return true;
+                }
+                
+                var constructor = targetType
+                    .GetConstructor(
+                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                    binder: null,
+                    types: Type.EmptyTypes,
+                    modifiers: null);
+
+                if (constructor != null)
+                {
+                    newInstance = constructor.Invoke(null);
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                // todo: internal logging
+            }
+
+            return false;
         }
 
 

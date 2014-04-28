@@ -102,13 +102,15 @@ namespace SquaredInfinity.Foundation.Extensions
 
                     foreach(var t in baseTypes)
                     {
-                        if(t.IsInterface && !result_candidate.ImplementsInterface(t))
+                        if(t.IsInterface)
                         {
-                            results.RemoveAt(i);
+                            if(!result_candidate.ImplementsInterface(t))
+                                results.RemoveAt(i);
                         }
-                        else if(!result_candidate.IsAssignableFrom(t))
+                        else
                         {
-                            results.RemoveAt(i);
+                            if (!result_candidate.IsAssignableFrom(t))
+                                results.RemoveAt(i);
                         }
                     }
                 }

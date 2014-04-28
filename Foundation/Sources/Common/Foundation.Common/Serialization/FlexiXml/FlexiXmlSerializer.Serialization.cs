@@ -67,7 +67,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             return x;
         }
 
-        XElement SerializeInternal(string name, object source, ITypeDescriptor typeDescriptor, SerializationOptions options, SerializationContext cx)
+        XElement SerializeInternal(XName name, object source, ITypeDescriptor typeDescriptor, SerializationOptions options, SerializationContext cx)
         {
             bool isNewReference = false;
 
@@ -114,8 +114,23 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                         xel.Add(new XAttribute(m.Name, val_as_string)); // todo: do mapping if needed, + conversion
                         continue;
                     }
+                    else
+                    {
+                        // this is complex type, use its type as child element name to aid deserialization
 
-                    xel.Add(SerializeInternal(m.Name, val, typeDescriptor, options, cx));
+                        if (val != null && !((val is IEnumerable) && !m.CanSetValue))
+                        {
+                            var contentEl = new XElement(m.Name);
+
+                            contentEl.Add(SerializeInternal(ToValidXName(val.GetType(), options), val, typeDescriptor, options, cx));
+
+                            xel.Add(contentEl);
+                        }
+                        else
+                        {
+                            xel.Add(SerializeInternal(m.Name, val, typeDescriptor, options, cx));
+                        }
+                    }
                 }
 
                 var enumerable = source as IEnumerable;
@@ -132,7 +147,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                         if (TryConvertToStringIfTypeSupports(item, out item_as_string))
                         {
-                            xel.Add(new XElement(itemType.Name, item_as_string)); // todo: do mapping if needed, + conversion
+                            xel.Add(new XElement(ToValidXName(itemType, options), item_as_string)); // todo: do mapping if needed, + conversion
                             continue;
                         }
 
@@ -157,6 +172,80 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                 return idEl;
             }
+        }
+
+
+        //XObject ConstructXObjectForMember(
+        //    string memberName, 
+        //    Type memberType, 
+        //    string memberValue, 
+        //    SerializationOptions options, 
+        //    SerializationContext cx)
+        //{
+        //    var value_as_string = (string)null;
+
+        //    if (TryConvertToStringIfTypeSupports(memberValue, out value_as_string))
+        //    {
+        //        return new XAttribute(ToValidXName(memberName), value_as_string);
+        //    }
+
+        //    // non-string-convertible types are wrapped in an element which represents their name
+
+        //    var wrapperEl = new XElement(ToValidXName(memberType.Name));
+
+        //    return wrapperEl;
+        //}
+
+        //XObject ConstructXObjectForListItem(
+        //    Type itemType,
+        //    SerializationOptions options,
+        //    SerializationContext cx)
+        //{
+        //    var wrapperEl = new XElement(ToValidXName(itemType.Name));
+
+        //    return wrapperEl;
+        //}
+
+        protected virtual XName ToValidXName(Type type, SerializationOptions options)
+        {
+            if(type.IsGenericType)
+            {
+                var args = type.GetGenericArguments();
+
+                var sb_args = new StringBuilder();
+
+                foreach (var arg in args)
+                    sb_args.Append("_" + arg.Name);
+
+                var firstInvalidCharIndex = type.Name.IndexOf("`");
+
+                var name = type.Name.Substring(0, firstInvalidCharIndex) + sb_args.ToString();
+
+                return XName.Get(name);
+            }
+            else
+            {
+                return XName.Get(type.Name);
+            }
+        }
+
+        bool IsValidXName(string name)
+        {
+            var xname = (XName) null;
+
+            try
+            {
+                xname = XName.Get(name);
+
+                return true;
+            }
+            catch
+            {
+                // memberName contains invalid character
+            }
+
+            // use xnmae here to prevent it from being optimized-out
+            return xname != null;
         }
     }
 }

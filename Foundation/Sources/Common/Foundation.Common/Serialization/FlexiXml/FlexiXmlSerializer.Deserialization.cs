@@ -57,7 +57,12 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 }
             }
 
-            target = Activator.CreateInstance(targetType, nonPublic: true);
+
+            if(!targetType.IsValueType && !TryCreateInstace(targetType, new CreateInstanceContext(), out target))
+            {
+                //todo: log error
+                return null;
+            }            
 
             var id_attrib = xml.Attribute(UniqueIdAttributeName);
 
@@ -163,13 +168,62 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 }
                 else
                 {
-                    value = DeserializeInternal(mrType, el, typeDescriptor, options, cx);
 
-                    member.SetValue(target, value);
+                    if (!el.Value.IsNullOrEmpty())
+                    {
+                        throw new NotImplementedException();
+                        // not supported at the moment
+                        // for element to have value, mapped member would need to be convertable to string
+                        // but members convertable to string are serialized to attributes by default
+                    }
+                    else
+                    {
+                        // actual serialization is in child element
+
+                        var contentEl = el.Elements().FirstOrDefault();
+
+                        if (contentEl != null)
+                        {
+                            // todo: check for type attribute
+
+                            var elementType =
+                                    TypeExtensions.ResolveType(
+                                    contentEl.Name.LocalName,
+                                    ignoreCase: true,
+                                    baseTypes: new List<Type> { mrType });
+
+                            if (elementType == null)
+                            {
+                                // type could not be resolver
+                                // todo: log
+                                continue;
+                            }
+
+                            value = DeserializeInternal(elementType, contentEl, typeDescriptor, options, cx);
+
+                            member.SetValue(target, value);
+                        }
+                    }
                 }
             }
 
             return target;
+        }
+
+        protected virtual Type ResolveType(string fullOrPartialTypeName, IReadOnlyList<Type> baseTypes, SerializationOptions options)
+        {
+            var t =
+                TypeExtensions.ResolveType(
+                fullOrPartialTypeName,
+                ignoreCase: true,
+                baseTypes: baseTypes);
+
+            if(t == null)
+            {
+
+            }
+
+            return null;
         }
     }
 }
