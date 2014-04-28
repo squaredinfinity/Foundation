@@ -103,7 +103,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                         (
                             (m.CanGetValue && m.CanSetValue) // can set and get value
                             ||
-                            (m.CanGetValue && memberType.ImplementsInterface<IEnumerable>()) // cannot set value, but it is a collection
+                            (m.CanGetValue && memberType.ImplementsInterface<IList>()) // cannot set value, but it is a collection
                         )
                      select m);
 
@@ -125,7 +125,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                     {
                         // this is complex type, use its type as child element name to aid deserialization
 
-                        if (val != null && !((val is IEnumerable) && !m.CanSetValue))
+                        if (val != null && !((val is IList) && !m.CanSetValue))
                         {
                             var wrapper = new XElement(m.Name);
 
@@ -147,10 +147,10 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                     }
                 }
 
-                var enumerable = source as IEnumerable;
-                if(enumerable != null)
+                var list = source as IList;
+                if(list != null)
                 {
-                    foreach(var item in enumerable)
+                    foreach(var item in list)
                     {
                         if (item == null)
                             continue; // todo: may need to specify a custom way of handling this
@@ -193,7 +193,10 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         {
             if(type.IsGenericType)
             {
-                xel.Name = "Instance";
+                var genericArgumentsSeparator_Index = type.Name.IndexOf("`");
+
+                xel.Name = type.Name.Substring(0, genericArgumentsSeparator_Index);
+
                 var typeAttrib = new XAttribute(TypeAttributeName, type.FullName);
                 xel.Add(typeAttrib);
 

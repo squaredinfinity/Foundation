@@ -86,6 +86,7 @@
     <Compile Include="Serialization\FlexiXml\FlexiXmlSerializer.Serialization.cs" />
     <Compile Include="Serialization\FlexiXml\ITypeSerializationStrategy.cs" />
     <Compile Include="Serialization\FlexiXml\TypeSerializationStrategy.cs" />
+    <Compile Include="Serialization\FlexiXml\_entities\CreateInstanceContext.cs" />
     <Compile Include="Serialization\FlexiXml\_entities\DeserializationContext.cs" />
     <Compile Include="Serialization\FlexiXml\_entities\InstanceId.cs" />
     <Compile Include="Serialization\FlexiXml\_entities\SerializationContext.cs" />

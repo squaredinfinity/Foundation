@@ -116,6 +116,7 @@
     <Compile Include="DragAndDrop\Utilities\HitTestUtilities.cs" />
     <Compile Include="DragAndDrop\Utilities\ItemsControlExtensions.cs" />
     <Compile Include="DragAndDrop\Utilities\VisualTreeExtensions.cs" />
+    <Compile Include="FrameworkExtensions\System.Windows.Controls\ItemsControl.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Windows.Controls\TreeViewItem.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Windows.Media.Imaging\BitmapSource.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Windows.Media\ImageSource.extensions.cs" />

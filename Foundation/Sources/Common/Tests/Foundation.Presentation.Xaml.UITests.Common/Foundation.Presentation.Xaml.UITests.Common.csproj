@@ -57,6 +57,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Behaviors\DragAndDropTestsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Behaviors\WatermarkTestsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -71,6 +75,9 @@
     </Compile>
     <Compile Include="Behaviors\BehaviorsTestsView.xaml.cs">
       <DependentUpon>BehaviorsTestsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Behaviors\DragAndDropTestsView.xaml.cs">
+      <DependentUpon>DragAndDropTestsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviors\WatermarkTestsView.xaml.cs">
       <DependentUpon>WatermarkTestsView.xaml</DependentUpon>
@@ -109,6 +116,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DragAndDrop\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Foundation.Common\Foundation.Common.csproj">
+      <Project>{dfeab4e6-d02d-448b-8649-2d12be137191}</Project>
+      <Name>Foundation.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Foundation.Presentation.Xaml.Common\Foundation.Presentation.Xaml.Common.csproj">
+      <Project>{6d246254-bf79-47c6-ae0e-2fda3e9467a4}</Project>
+      <Name>Foundation.Presentation.Xaml.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

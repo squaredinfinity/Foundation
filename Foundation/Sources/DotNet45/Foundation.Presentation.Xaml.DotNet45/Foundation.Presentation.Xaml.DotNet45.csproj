@@ -214,9 +214,6 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DragAndDrop\IDropTarget.cs">
       <Link>DragAndDrop\IDropTarget.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DragAndDrop\IEnumerable.extensions.cs">
-      <Link>DragAndDrop\IEnumerable.extensions.cs</Link>
-    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DragAndDrop\KnownDropTargetAdorners.cs">
       <Link>DragAndDrop\KnownDropTargetAdorners.cs</Link>
     </Compile>
@@ -228,6 +225,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DragAndDrop\Utilities\VisualTreeExtensions.cs">
       <Link>DragAndDrop\Utilities\VisualTreeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows.Controls\ItemsControl.extensions.cs">
+      <Link>FrameworkExtensions\System.Windows.Controls\ItemsControl.extensions.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows.Controls\TreeViewItem.extensions.cs">
       <Link>FrameworkExtensions\System.Windows.Controls\TreeViewItem.extensions.cs</Link>
@@ -331,6 +331,7 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\WindowViewModel.cs">
       <Link>WindowViewModel.cs</Link>
     </Compile>
+    <Compile Include="FrameworkExtensions\System.Collections\IEnumerable.extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

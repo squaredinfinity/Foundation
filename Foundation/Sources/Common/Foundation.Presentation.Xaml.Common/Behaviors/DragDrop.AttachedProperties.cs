@@ -305,17 +305,17 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
 
         #region Drag Source
 
-        public static readonly DependencyProperty DragHandlerProperty =
-          DependencyProperty.RegisterAttached("DragHandler", typeof(IDragSource), typeof(DragDrop));
+        public static readonly DependencyProperty DragSourceProperty =
+          DependencyProperty.RegisterAttached("DragSource", typeof(IDragSource), typeof(DragDrop));
 
-        public static IDragSource GetDragHandler(UIElement target)
+        public static IDragSource GetDragSource(UIElement target)
         {
-            return (IDragSource)target.GetValue(DragHandlerProperty);
+            return (IDragSource)target.GetValue(DragSourceProperty);
         }
 
-        public static void SetDragHandler(UIElement target, IDragSource value)
+        public static void SetDragSource(UIElement target, IDragSource value)
         {
-            target.SetValue(DragHandlerProperty, value);
+            target.SetValue(DragSourceProperty, value);
         }
 
         #endregion

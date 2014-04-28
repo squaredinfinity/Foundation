@@ -33,7 +33,9 @@ namespace SquaredInfinity.Foundation.Extensions
             are.WaitOne();
         }
 
-        public static IEnumerable<DependencyObject> TreeTraversal(this DependencyObject me, TreeTraversalMode traversalMode = TreeTraversalMode.DepthFirst)
+        public static IEnumerable<DependencyObject> TreeTraversal(
+            this DependencyObject me, 
+            TreeTraversalMode traversalMode = TreeTraversalMode.DepthFirst)
         {
             return me.TreeTraversal(GetChildrenFuncIncludeChildItemsControls);
         }
@@ -56,11 +58,13 @@ namespace SquaredInfinity.Foundation.Extensions
             return GetChildrenFunc(parent, includeChildItemsControls: false);
         }
 
-        static IEnumerable<DependencyObject> GetChildrenFunc(DependencyObject parent, bool includeChildItemsControls = true)
+        static IEnumerable<DependencyObject> GetChildrenFunc(
+            DependencyObject parent, 
+            bool includeChildItemsControls = true)
         {
             int childrenCount = VisualTreeHelper.GetChildrenCount(parent);
 
-            // STEP 1: If no childrent is IS Content Control -> return content
+            // STEP 1: If no children and parent is a Content Control -> return content
             if (childrenCount == 0 && parent is ContentControl)
             {
                 DependencyObject content = (parent as ContentControl).Content as DependencyObject;
@@ -139,6 +143,14 @@ namespace SquaredInfinity.Foundation.Extensions
             return null;
         }
 
+        public static IEnumerable<TDescendant> FindVisualDescendants<TDescendant>(
+            this DependencyObject depObj) where TDescendant : class
+        {
+            return
+                (from c in depObj.TreeTraversal().OfType<TDescendant>()
+                 select c);
+        }
+
         /// <summary>
         /// If specified Dependency Object is not a Visual or Visual3D, then try to walk up logical tree until you find a Visual
         /// </summary>
@@ -168,13 +180,13 @@ namespace SquaredInfinity.Foundation.Extensions
             return (TParent)me.FindVisualParent(typeof(TParent));
         }
 
-        public static DependencyObject FindVisualParent(this DependencyObject me, Type parentType)
+        public static DependencyObject FindVisualParent(this DependencyObject me, Type parentType, DependencyObject stopSearchAt = null)
         {
             me = me.FindNearestVisual();
 
             DependencyObject parent = me.GetVisualParent();
 
-            while (parent != null)
+            while (parent != null && parent != stopSearchAt)
             {
                 if (parent.GetType() == parentType || parent.GetType().IsSubclassOf(parentType))
                     return parent;

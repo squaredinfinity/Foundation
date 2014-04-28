@@ -9,29 +9,11 @@ using System.Collections;
 using System.Windows.Controls.Primitives;
 using SquaredInfinity.Foundation.Extensions;
 
-#if NET35
-using Microsoft.Windows.Controls;
-using Microsoft.Windows.Controls.Primitives;
-#endif
-
 namespace SquaredInfinity.Foundation.Presentation.DragDrop.Utilities
 {
   public static class ItemsControlExtensions
   {
-    public static bool CanSelectMultipleItems(this ItemsControl itemsControl)
-    {
-      if (itemsControl is MultiSelector) {
-        // The CanSelectMultipleItems property is protected. Use reflection to
-        // get its value anyway.
-        return (bool)itemsControl.GetType()
-                                 .GetProperty("CanSelectMultipleItems", BindingFlags.Instance | BindingFlags.NonPublic)
-                                 .GetValue(itemsControl, null);
-      } else if (itemsControl is ListBox) {
-        return ((ListBox)itemsControl).SelectionMode != SelectionMode.Single;
-      } else {
-        return false;
-      }
-    }
+    
 
     public static UIElement GetItemContainer(this ItemsControl itemsControl, UIElement child)
     {
@@ -40,7 +22,7 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop.Utilities
 
       if (itemType != null) {
         return isItemContainer
-                 ? (UIElement)child.GetVisualAncestor(itemType, itemsControl)
+                 ? (UIElement)child.FindVisualParent(itemType, itemsControl)
                  : (UIElement)child.FindVisualParent(itemType);
       }
 
@@ -87,7 +69,7 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop.Utilities
       VisualTreeHelper.HitTest(itemsControl, null,
                                result => {
                                  var itemContainer = isItemContainer
-                                                       ? result.VisualHit.GetVisualAncestor(itemContainerType, itemsControl)
+                                                       ? result.VisualHit.FindVisualParent(itemContainerType, itemsControl)
                                                        : result.VisualHit.FindVisualParent(itemContainerType);
                                  if (itemContainer != null && !hits.Contains(itemContainer) && ((UIElement)itemContainer).IsVisible == true) {
                                    hits.Add(itemContainer);
@@ -200,47 +182,6 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop.Utilities
       }
     }
 
-    public static IEnumerable GetSelectedItems(this ItemsControl itemsControl)
-    {
-      //if (itemsControl.GetType().IsAssignableFrom(typeof(MultiSelector)))
-      if (typeof(MultiSelector).IsAssignableFrom(itemsControl.GetType())) {
-        return ((MultiSelector)itemsControl).SelectedItems;
-      } else if (itemsControl is ListBox) {
-        var listBox = (ListBox)itemsControl;
-
-        if (listBox.SelectionMode == SelectionMode.Single) {
-          return Enumerable.Repeat(listBox.SelectedItem, 1);
-        } else {
-          return listBox.SelectedItems;
-        }
-      }
-        //else if (itemsControl.GetType().IsAssignableFrom(typeof(TreeView)))
-      else if (typeof(TreeView).IsAssignableFrom(itemsControl.GetType())) {
-        return Enumerable.Repeat(((TreeView)itemsControl).SelectedItem, 1);
-      }
-        //else if (itemsControl.GetType().IsAssignableFrom(typeof(Selector)))
-      else if (typeof(Selector).IsAssignableFrom(itemsControl.GetType())) {
-        return Enumerable.Repeat(((Selector)itemsControl).SelectedItem, 1);
-      } else {
-        return Enumerable.Empty<object>();
-      }
-    }
-
-    public static bool GetItemSelected(this ItemsControl itemsControl, object item)
-    {
-      if (itemsControl is MultiSelector) {
-        return ((MultiSelector)itemsControl).SelectedItems.Contains(item);
-      } else if (itemsControl is ListBox) {
-        return ((ListBox)itemsControl).SelectedItems.Contains(item);
-      } else if (itemsControl is TreeView) {
-        return ((TreeView)itemsControl).SelectedItem == item;
-      } else if (itemsControl is Selector) {
-        return ((Selector)itemsControl).SelectedItem == item;
-      } else {
-        return false;
-      }
-    }
-
     public static void SetItemSelected(this ItemsControl itemsControl, object item, bool value)
     {
       if (itemsControl is MultiSelector) {
@@ -270,45 +211,55 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop.Utilities
       }
     }
 
-    private static UIElement GetClosest(ItemsControl itemsControl, List<DependencyObject> items,
-                                        Point position, Orientation searchDirection)
+    static UIElement GetClosest(
+        ItemsControl itemsControl, 
+        List<DependencyObject> items,
+        Point position, 
+        Orientation searchDirection)
     {
-      //Console.WriteLine("GetClosest - {0}", itemsControl.ToString());
+        UIElement closest = null;
 
-      UIElement closest = null;
-      var closestDistance = double.MaxValue;
+        var closestDistance = double.MaxValue;
 
-      foreach (var i in items) {
-        var uiElement = i as UIElement;
+        foreach (var i in items)
+        {
+            var uiElement = i as UIElement;
 
-        if (uiElement != null) {
-          var p = uiElement.TransformToAncestor(itemsControl).Transform(new Point(0, 0));
-          var distance = double.MaxValue;
+            if (uiElement != null)
+            {
+                var p = uiElement.TransformToAncestor(itemsControl).Transform(new Point(0, 0));
 
-          if (itemsControl is TreeView) {
-            var xDiff = position.X - p.X;
-            var yDiff = position.Y - p.Y;
-            var hyp = Math.Sqrt(Math.Pow(xDiff, 2d) + Math.Pow(yDiff, 2d));
-            distance = Math.Abs(hyp);
-          } else {
-            switch (searchDirection) {
-              case Orientation.Horizontal:
-                distance = Math.Abs(position.X - p.X);
-                break;
-              case Orientation.Vertical:
-                distance = Math.Abs(position.Y - p.Y);
-                break;
+                var distance = double.MaxValue;
+
+                if (itemsControl is TreeView)
+                {
+                    var xDiff = position.X - p.X;
+                    var yDiff = position.Y - p.Y;
+                    var hyp = Math.Sqrt(Math.Pow(xDiff, 2d) + Math.Pow(yDiff, 2d));
+                    distance = Math.Abs(hyp);
+                }
+                else
+                {
+                    switch (searchDirection)
+                    {
+                        case Orientation.Horizontal:
+                            distance = Math.Abs(position.X - p.X);
+                            break;
+                        case Orientation.Vertical:
+                            distance = Math.Abs(position.Y - p.Y);
+                            break;
+                    }
+                }
+
+                if (distance < closestDistance)
+                {
+                    closest = uiElement;
+                    closestDistance = distance;
+                }
             }
-          }
-
-          if (distance < closestDistance) {
-            closest = uiElement;
-            closestDistance = distance;
-          }
         }
-      }
 
-      return closest;
+        return closest;
     }
   }
 }

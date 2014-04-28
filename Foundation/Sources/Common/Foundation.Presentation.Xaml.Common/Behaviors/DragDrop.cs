@@ -140,13 +140,6 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
                 return null;
             }
 
-            // Add icon
-            //var imageFactory = new FrameworkElementFactory(typeof(Image));
-            //imageFactory.SetValue(Image.SourceProperty, effectIcon);
-            //imageFactory.SetValue(FrameworkElement.HeightProperty, 12.0);
-            //imageFactory.SetValue(FrameworkElement.WidthProperty, 12.0);
-            //imageFactory.SetValue(FrameworkElement.MarginProperty, new Thickness(0.0, 0.0, 3.0, 0.0));
-
             // Add effect text
             var effectTextBlockFactory = new FrameworkElementFactory(typeof(TextBlock));
             effectTextBlockFactory.SetValue(TextBlock.TextProperty, effectText);
@@ -192,7 +185,7 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
             return template;
         }
 
-        private static DataTemplate GetEffectAdornerTemplate(UIElement target, DragDropEffects effect, string destinationText)
+        static DataTemplate GetEffectAdornerTemplate(UIElement target, DragDropEffects effect, string destinationText)
         {
             switch (effect)
             {
@@ -209,7 +202,7 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
             }
         }
 
-        private static void Scroll(DependencyObject o, DragEventArgs e)
+        static void Scroll(DependencyObject o, DragEventArgs e)
         {
             var scrollViewer = o.FindVisualDescendant<ScrollViewer>();
 
@@ -239,18 +232,33 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
             }
         }
 
-        private static IDragSource TryGetDragHandler(DragInfo dragInfo, UIElement sender)
+        /// <summary>
+        /// Finds a Drag Source
+        /// </summary>
+        /// <param name="dragInfo"></param>
+        /// <param name="sender"></param>
+        /// <returns></returns>
+        static IDragSource GetDragSource(DragInfo dragInfo, UIElement sender)
         {
-            IDragSource dragHandler = null;
-            if (dragInfo != null && dragInfo.VisualSource != null)
+            IDragSource dragSource = null;
+            
+            // check if defined on Visual Source
+            if(dragInfo == null)
             {
-                dragHandler = GetDragHandler(_dragInfo.VisualSource);
+                if(dragInfo.VisualSource != null)
+                    dragSource = GetDragSource(dragInfo.VisualSource);
             }
-            if (dragHandler == null && sender != null)
+            
+            // check if implemented by a sender
+            if (dragSource == null && sender != null)
             {
-                dragHandler = GetDragHandler(sender);
+                dragSource = GetDragSource(sender);
             }
-            return dragHandler ?? DefaultDragSource;
+
+            if (dragSource == null)
+                return DefaultDragSource;
+            else
+                return dragSource;
         }
 
         private static void DragSource_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -273,7 +281,7 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
 
             _dragInfo = new DragInfo(sender, e);
 
-            var dragHandler = TryGetDragHandler(_dragInfo, sender as UIElement);
+            var dragHandler = GetDragSource(_dragInfo, sender as UIElement);
             if (!dragHandler.CanStartDrag(_dragInfo))
             {
                 _dragInfo = null;
@@ -287,9 +295,9 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
 
             if (_dragInfo.VisualSourceItem != null && itemsControl != null && itemsControl.CanSelectMultipleItems())
             {
-                var selectedItems = itemsControl.GetSelectedItems().Cast<object>();
+                var selectedItems = itemsControl.GetSelectedItems().Cast<object>().ToList();
 
-                if (selectedItems.Count() > 1 && selectedItems.Contains(_dragInfo.SourceItem))
+                if (selectedItems.Count > 1 && selectedItems.Contains(_dragInfo.SourceItem))
                 {
                     _clickSupressItem = _dragInfo.SourceItem;
                     e.Handled = true;
@@ -333,7 +341,7 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
                 if (Math.Abs(position.X - dragStart.X) > SystemParameters.MinimumHorizontalDragDistance ||
                     Math.Abs(position.Y - dragStart.Y) > SystemParameters.MinimumVerticalDragDistance)
                 {
-                    var dragHandler = TryGetDragHandler(_dragInfo, sender as UIElement);
+                    var dragHandler = GetDragSource(_dragInfo, sender as UIElement);
                     if (dragHandler.CanStartDrag(_dragInfo))
                     {
                         dragHandler.StartDrag(_dragInfo);
@@ -504,7 +512,7 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
         {
             var dropInfo = new DropInfo(sender, e, _dragInfo);
             var dropHandler = GetDropHandler((UIElement)sender) ?? DefaultDropTarget;
-            var dragHandler = TryGetDragHandler(_dragInfo, sender as UIElement);
+            var dragHandler = GetDragSource(_dragInfo, sender as UIElement);
 
             DragAdorner = null;
             EffectAdorner = null;

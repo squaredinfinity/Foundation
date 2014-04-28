@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using SquaredInfinity.Foundation.Extensions;
 using SquaredInfinity.Foundation.Presentation.DragDrop.Utilities;
 
 namespace SquaredInfinity.Foundation.Presentation.DragDrop

@@ -1,5 +1,4 @@
-﻿using SquaredInfinity.Foundation.Types.Mapping;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -103,8 +102,15 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             {
                 if (CustomCreateInstanceWith != null)
                 {
-                    newInstance = CustomCreateInstanceWith(targetType, create_cx);
-                    return true;
+                    try
+                    {
+                        newInstance = CustomCreateInstanceWith(targetType, create_cx);
+                        return true;
+                    }
+                    catch(Exception ex)
+                    {
+                        // todo: log
+                    }
                 }
                 
                 var constructor = targetType

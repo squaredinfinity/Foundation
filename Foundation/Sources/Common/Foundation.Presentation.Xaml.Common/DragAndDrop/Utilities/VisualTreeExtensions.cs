@@ -11,44 +11,26 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop.Utilities
 {
   public static class VisualTreeExtensions
   {
-     /// <summary>
-    /// find the visual ancestor by type and go through the visual tree until the given itemsControl will be found
-    /// </summary>
-    public static DependencyObject GetVisualAncestor(this DependencyObject d, Type type, ItemsControl itemsControl)
-    {
-      var item = VisualTreeHelper.GetParent(d.FindNearestVisual());
-      DependencyObject lastFoundItemByType = null;
+      public static IEnumerable<T> GetVisualDescendents<T>(this DependencyObject d) where T : DependencyObject
+      {
+          var childCount = VisualTreeHelper.GetChildrenCount(d);
 
-      while (item != null && type != null) {
-        if (item == itemsControl) {
-          return lastFoundItemByType;
-        }
-        if (item.GetType() == type || item.GetType().IsSubclassOf(type)) {
-          lastFoundItemByType = item;
-        }
-        item = VisualTreeHelper.GetParent(item);
+          for (var n = 0; n < childCount; n++)
+          {
+              var child = VisualTreeHelper.GetChild(d, n);
+
+              if (child is T)
+              {
+                  yield return (T)child;
+              }
+
+              foreach (var match in GetVisualDescendents<T>(child))
+              {
+                  yield return match;
+              }
+          }
+
+          yield break;
       }
-
-      return lastFoundItemByType;
-    }
-
-    public static IEnumerable<T> GetVisualDescendents<T>(this DependencyObject d) where T : DependencyObject
-    {
-      var childCount = VisualTreeHelper.GetChildrenCount(d);
-
-      for (var n = 0; n < childCount; n++) {
-        var child = VisualTreeHelper.GetChild(d, n);
-
-        if (child is T) {
-          yield return (T)child;
-        }
-
-        foreach (var match in GetVisualDescendents<T>(child)) {
-          yield return match;
-        }
-      }
-
-      yield break;
-    }
   }
 }
