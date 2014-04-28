@@ -45,14 +45,34 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
             if(listItemTypes.Length == 0)
                 return true;
 
-            var listItemCandidateType = listItemCandidate.GetType();
+            if(listItemCandidate is IEnumerable)
+            {
+                foreach(var item in listItemCandidate as IEnumerable)
+                {
+                    var listItemCandidateType = item.GetType();
 
-            var areTypesCompatible =
-                (from t in listItemTypes
-                 where t.IsAssignableFrom(listItemCandidateType)
-                 select t).Any();
+                    var areTypesCompatible =
+                        (from t in listItemTypes
+                         where t.IsAssignableFrom(listItemCandidateType)
+                         select t).Any();
 
-            return areTypesCompatible;
+                    if (!areTypesCompatible)
+                        return false;
+                }
+
+                return true;
+            }
+            else
+            {
+                var listItemCandidateType = listItemCandidate.GetType();
+
+                var areTypesCompatible =
+                        (from t in listItemTypes
+                         where t.IsAssignableFrom(listItemCandidateType)
+                         select t).Any();
+
+                return areTypesCompatible;
+            }
         }
     }
 }

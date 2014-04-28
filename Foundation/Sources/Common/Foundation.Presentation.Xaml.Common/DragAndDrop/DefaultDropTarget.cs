@@ -18,6 +18,8 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
     /// </summary>
     public partial class DefaultDropTarget : IDropTarget
     {
+        public static readonly IDropTarget Instance = new DefaultDropTarget();
+
         public virtual void DragOver(IDropInfo dropInfo)
         {
             if (CanAcceptData(dropInfo))
@@ -32,6 +34,10 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
                     dropInfo.AllowedEffects = DragDropEffects.Move;
 
                 dropInfo.DropTargetAdorner = KnownDropTargetAdorners.Insert;
+            }
+            else
+            {
+                dropInfo.AllowedEffects = DragDropEffects.None;
             }
         }
 
