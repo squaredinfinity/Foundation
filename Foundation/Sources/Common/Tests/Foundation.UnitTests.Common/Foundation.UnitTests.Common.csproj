@@ -84,10 +84,8 @@
     <Compile Include="FrameworkExtensions\System\Type\ImplementsInterface.tests.cs" />
     <Compile Include="FrameworkExtensions\System\Type\IsEqualTo.tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serialization\FlexiXmlSerialization\Services\FlexiXmlSerializationService.Serialize.tests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Serialization\FlexiXml\Entities\SimpleSerializableType.cs" />
+    <Compile Include="Serialization\FlexiXml\TestEntities\CollectionReadOnlyProperty_InitializedByConstructor.cs" />
+    <Compile Include="Serialization\FlexiXml\TestEntities\SimpleSerializableType.cs" />
     <Compile Include="Serialization\FlexiXml\FlexiXmlSerialize__Deserialize.tests.cs">
       <SubType>Code</SubType>
     </Compile>

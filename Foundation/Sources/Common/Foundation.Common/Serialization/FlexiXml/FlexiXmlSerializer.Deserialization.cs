@@ -10,6 +10,7 @@ using SquaredInfinity.Foundation.Types.Description.Reflection;
 using SquaredInfinity.Foundation.Types.Description;
 using System.Threading;
 using System.ComponentModel;
+using System.Collections;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
@@ -67,6 +68,13 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 cx.Objects_InstanceIdTracker.AddOrUpdate(new InstanceId(id), target);
             }
 
+            var value = (object)null;
+
+            if (xml.Value != null && TryConvertFromStringIfTypeSupports(xml.Value, targetType, out value))
+            {
+                return value;
+            }
+
             foreach (var attribute in xml.Attributes())
             {
                 var member =
@@ -81,7 +89,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                 var memberType = Type.GetType(member.AssemblyQualifiedMemberTypeName);
 
-                var value = (object)null;
+                value = (object)null;
 
                 if (TryConvertFromStringIfTypeSupports(attribute.Value, memberType, out value))
                 {
@@ -92,17 +100,73 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             foreach (var el in xml.Elements())
             {
                 var member =
-                    (from f in typeDescription.Members
-                     where f.Name == el.Name
-                     && f.CanSetValue
-                     && f.CanGetValue
-                     select f).FirstOrDefault();
+                    (from m in typeDescription.Members
+                     let memberType = Type.GetType(m.AssemblyQualifiedMemberTypeName)
+                     where m.Name == el.Name.LocalName
+                        &&
+                        (
+                            (m.CanGetValue && m.CanSetValue) // can set and get value
+                            ||
+                            (m.CanGetValue && memberType.ImplementsInterface<IEnumerable>()) // cannot set value, but it is a collection
+                        )
+                     select m).FirstOrDefault();
 
-                var memberType = Type.GetType(member.AssemblyQualifiedMemberTypeName);
+                if (member == null)
+                    continue;
 
-                var value = DeserializeInternal(memberType, el, typeDescriptor, options, cx);
+                var mrType = Type.GetType(member.AssemblyQualifiedMemberTypeName);
 
-                member.SetValue(target, value);
+                if (!member.CanSetValue && mrType.ImplementsInterface<IList>())
+                {
+                    var targetList = member.GetValue(target) as IList;
+
+                    if(targetList == null)
+                        return null;
+
+                    var targetListItemTypes = targetList.GetItemsTypes();
+
+                    foreach (var itemXml in el.Elements())
+                    {
+                        // todo: check if type attribute has been set, if not, try to deduce item name from element name
+                        
+                        if(false) // todo: if type attribute exists
+                        {
+                            // check type attribute
+                        }
+                        else
+                        {
+                            var itemElementName = itemXml.Name.LocalName;
+
+                            // try to find type of that name in all assemblies
+                            // the type should be compatible with the
+
+                            var itemType = 
+                                TypeExtensions.ResolveType(
+                                itemElementName, 
+                                ignoreCase: true,
+                                baseTypes:targetListItemTypes);
+
+                            if(itemType == null)
+                            {
+                                // todo: log
+                                continue;
+                            }
+
+                            var item = DeserializeInternal(itemType, itemXml, typeDescriptor, options, cx);
+
+                            if (item == null)
+                                continue;
+
+                            targetList.Add(item);
+                        }
+                    }
+                }
+                else
+                {
+                    value = DeserializeInternal(mrType, el, typeDescriptor, options, cx);
+
+                    member.SetValue(target, value);
+                }
             }
 
             return target;

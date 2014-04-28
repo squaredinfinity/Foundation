@@ -128,7 +128,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                          where microsoftCompanyAttrib == null
                          select asm).ToArray();
 
-                    vmType = TypeExtensions.ResolveType(vmTypeName, ignoreCase: true, assemblies: assembliesToCheck);
+                    vmType = TypeExtensions.ResolveType(vmTypeName, ignoreCase: true, assembliesToCheck: assembliesToCheck);
 
                     SourceTypeToViewModelTypeMappings.AddOrUpdate(sourceType, vmType);
                 }

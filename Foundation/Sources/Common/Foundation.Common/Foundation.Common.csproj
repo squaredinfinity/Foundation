@@ -52,6 +52,7 @@
     <Compile Include="FrameworkExtensions\System.Collections\ICollection.Extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Collections\IDictionary.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Collections\IEnumerable.Extensions.cs" />
+    <Compile Include="FrameworkExtensions\System.Collections\IList.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.ComponentModel\INotifyPropertyChanged.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Diagnostics\Stopwatch.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Linq.Expressions\Expression.extensions.cs" />

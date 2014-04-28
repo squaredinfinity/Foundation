@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows.Data;
+using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Presentation.DragDrop
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Serialization.FlexiXml.Entities
+namespace SquaredInfinity.Foundation.Serialization.FlexiXml.TestEntities
 {
     public class SimpleSerializableType
     {

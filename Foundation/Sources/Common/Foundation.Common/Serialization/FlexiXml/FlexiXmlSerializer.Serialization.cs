@@ -10,6 +10,7 @@ using SquaredInfinity.Foundation.Types.Description.Reflection;
 using SquaredInfinity.Foundation.Types.Description;
 using System.Threading;
 using System.ComponentModel;
+using System.Collections;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
@@ -88,9 +89,15 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                 var serializableMembers =
                     (from m in typeDescription.Members
-                     //where m.Visibility == MemberVisibility.Public
-                     where m.CanGetValue
-                     && m.CanSetValue
+                     let memberType = Type.GetType(m.AssemblyQualifiedMemberTypeName)
+                     where 
+                        m.Visibility == MemberVisibility.Public // process public members only
+                        && 
+                        (
+                            (m.CanGetValue && m.CanSetValue) // can set and get value
+                            ||
+                            (m.CanGetValue && memberType.ImplementsInterface<IEnumerable>()) // cannot set value, but it is a collection
+                        )
                      select m);
 
                 foreach (var m in serializableMembers)
@@ -109,6 +116,28 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                     }
 
                     xel.Add(SerializeInternal(m.Name, val, typeDescriptor, options, cx));
+                }
+
+                var enumerable = source as IEnumerable;
+                if(enumerable != null)
+                {
+                    foreach(var item in enumerable)
+                    {
+                        if (item == null)
+                            continue; // todo: may need to specify a custom way of handling this
+
+                        var itemType = item.GetType();
+
+                        var item_as_string = (string) null;
+
+                        if (TryConvertToStringIfTypeSupports(item, out item_as_string))
+                        {
+                            xel.Add(new XElement(itemType.Name, item_as_string)); // todo: do mapping if needed, + conversion
+                            continue;
+                        }
+
+                        xel.Add(SerializeInternal(itemType.Name, item, typeDescriptor, options, cx));
+                    }
                 }
 
                 xel.Add(new XAttribute(UniqueIdAttributeName, id.Id));

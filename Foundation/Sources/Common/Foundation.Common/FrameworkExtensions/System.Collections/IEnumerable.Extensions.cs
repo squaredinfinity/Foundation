@@ -9,17 +9,6 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Extensions
 {
-    public static class IListExtensions
-    {
-        public static IList EmptyIfNull(this IList list)
-        {
-            if (list == null)
-                return new List<object>();
-
-            return list;
-        }
-    }
-
     public static class IEnumerableExtensions
     {
         public static IEnumerable<IEnumerable<T>> Chunkify<T>(

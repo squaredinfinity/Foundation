@@ -25,39 +25,96 @@ namespace SquaredInfinity.Foundation.Extensions
         }
 
 
-        public static readonly Func<Assembly, string, bool, Type> LastHopeTypeResolver = (asm, typeFullName, ignoreCase) => ResolveType(typeFullName, ignoreCase, asm);
+        public static readonly Func<Assembly, string, bool, Type> LastHopeTypeResolver =
+            (asm, typeFullName, ignoreCase) => ResolveType(typeFullName, ignoreCase, new List<Assembly> { asm });
 
-        public static Type ResolveType(string typeName, bool ignoreCase, params Assembly[] assemblies)
+        public static Type ResolveType(
+            string typeFullOrPartialName, 
+            bool ignoreCase,
+            IReadOnlyList<Assembly> assembliesToCheck = null,
+            IReadOnlyList<Type> baseTypes = null)
         {
-            List<Assembly> assembliesToCheck = new List<Assembly>();
+            var result = 
+                ResolveTypeFromFullName(
+                typeFullOrPartialName, 
+                ignoreCase, 
+                assembliesToCheck);
 
-            if (assemblies == null)
+            if (result != null)
+                return result;
+
+            return 
+                ResolveTypeFromPartialName(
+                typeFullOrPartialName, 
+                ignoreCase, 
+                assembliesToCheck,
+                baseTypes)
+                .FirstOrDefault();
+        }
+
+        public static Type ResolveTypeFromFullName(
+            string typeFullName, 
+            bool ignoreCase,
+            IReadOnlyList<Assembly> assembliesToCheck = null)
+        {
+            if (assembliesToCheck == null)
             {
-                assembliesToCheck.AddRange(AppDomain.CurrentDomain.GetAssemblies());
-            }
-            else
-            {
-                assembliesToCheck.AddRange(assemblies);
+                var asms = new List<Assembly>();
+                asms.AddRange(AppDomain.CurrentDomain.GetAssemblies());
+
+                assembliesToCheck = asms;
             }
 
             var result =
                 (from asm in assembliesToCheck
-                 let type = asm.GetType(typeName, throwOnError: false, ignoreCase: ignoreCase)
+                 let type = asm.GetType(typeFullName, throwOnError: false, ignoreCase: ignoreCase)
                  where type != null
                  select type).FirstOrDefault();
 
-            // name passed may not be full name, in which case asm.GetType() will not find it
-            // try to compare each type name directly
-            if(result == null)
+            return result;
+        }
+
+        public static IReadOnlyList<Type> ResolveTypeFromPartialName(
+            string typePartialName, 
+            bool ignoreCase,
+            IReadOnlyList<Assembly> assembliesToCheck = null,
+            IReadOnlyList<Type> baseTypes = null)
+        {
+            if (assembliesToCheck == null)
             {
-                result =
-                    (from asm in assembliesToCheck
-                     from t in asm.GetTypes()
-                     where t.Name.EndsWith(typeName, ignoreCase, CultureInfo.InvariantCulture)
-                     select t).FirstOrDefault();
+                var asms = new List<Assembly>();
+                asms.AddRange(AppDomain.CurrentDomain.GetAssemblies());
+
+                assembliesToCheck = asms;
             }
 
-            return result;
+            var results =
+                (from asm in assembliesToCheck
+                 from t in asm.GetTypes()
+                 where t.Name.EndsWith(typePartialName, ignoreCase, CultureInfo.InvariantCulture)
+                 select t).ToList();
+
+            if(baseTypes != null)
+            {
+                for(int i = results.Count - 1; i >= 0; i--)
+                {
+                    var result_candidate = results[i];
+
+                    foreach(var t in baseTypes)
+                    {
+                        if(t.IsInterface && !result_candidate.ImplementsInterface(t))
+                        {
+                            results.RemoveAt(i);
+                        }
+                        else if(!result_candidate.IsAssignableFrom(t))
+                        {
+                            results.RemoveAt(i);
+                        }
+                    }
+                }
+            }
+
+            return results;
         }
 
         /// <summary>
@@ -68,7 +125,18 @@ namespace SquaredInfinity.Foundation.Extensions
         /// <returns></returns>
         public static bool ImplementsInterface<TInterfaceType>(this Type type)
         {
-            return type.GetInterface(typeof(TInterfaceType).FullName, true) != null;
+            return type.ImplementsInterface(typeof(TInterfaceType));
+        }
+
+        /// <summary>
+        /// Returns true if given type implements specified interface.
+        /// </summary>
+        /// <typeparam name="TInterfaceType"></typeparam>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool ImplementsInterface(this Type type, Type interfaceType)
+        {
+            return type.GetInterface(interfaceType.FullName, ignoreCase: true) != null;
         }
 
         /// <summary>
@@ -79,7 +147,7 @@ namespace SquaredInfinity.Foundation.Extensions
         /// <returns></returns>
         public static bool ImplementsInterface(this Type type, string interfaceFullName)
         {
-            return type.GetInterface(interfaceFullName, true) != null;
+            return type.GetInterface(interfaceFullName, ignoreCase:true) != null;
         }
 
         /// <summary>
