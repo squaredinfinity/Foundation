@@ -51,6 +51,70 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             Assert.AreEqual(13, o2.Items[1]);
         }
 
+
+        [TestMethod]
+        public void TypeWithNonGenericCollectionReadOnlyProperty__CanDeserialize()
+        {
+            var o = new TypeWithNonGenericCollectionReadOnlyProperty();
+            o.Items.Add(7);
+            o.Items.Add(13);
+
+            var s = new FlexiXml.FlexiXmlSerializer();
+
+            var xml = s.Serialize(o);
+
+            var o2 = s.Deserialize<TypeWithNonGenericCollectionReadOnlyProperty>(xml);
+
+            Assert.IsNotNull(o2);
+            Assert.IsNotNull(o2.Items);
+            Assert.AreEqual(2, o2.Items.Count);
+
+            Assert.AreEqual(7, o2.Items[0]);
+            Assert.AreEqual(13, o2.Items[1]);
+        }
+
+        [TestMethod]
+        public void TypeWithCollectionProperty__CanDeserialize()
+        {
+            var o = new TypeWithCollectionProperty();
+            o.Items.Add(7);
+            o.Items.Add(13);
+
+            var s = new FlexiXml.FlexiXmlSerializer();
+
+            var xml = s.Serialize(o);
+
+            var o2 = s.Deserialize<TypeWithCollectionProperty>(xml);
+
+            Assert.IsNotNull(o2);
+            Assert.IsNotNull(o2.Items);
+            Assert.AreEqual(2, o2.Items.Count);
+
+            Assert.AreEqual(7, o2.Items[0]);
+            Assert.AreEqual(13, o2.Items[1]);
+        }
+
+        [TestMethod]
+        public void TypeWithNonGenericCollectionProperty__CanDeserialize()
+        {
+            var o = new TypeWithNonGenericCollectionProperty();
+            o.Items.Add(7);
+            o.Items.Add(13);
+
+            var s = new FlexiXml.FlexiXmlSerializer();
+
+            var xml = s.Serialize(o);
+
+            var o2 = s.Deserialize<TypeWithNonGenericCollectionProperty>(xml);
+
+            Assert.IsNotNull(o2);
+            Assert.IsNotNull(o2.Items);
+            Assert.AreEqual(2, o2.Items.Count);
+
+            Assert.AreEqual(7, o2.Items[0]);
+            Assert.AreEqual(13, o2.Items[1]);
+        }
+
         [TestMethod]
         public void TypeWithInterfaceProperty__CanDeserialize()
         {

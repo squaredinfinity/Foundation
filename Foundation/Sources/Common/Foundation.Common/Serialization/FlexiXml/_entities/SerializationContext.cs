@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
@@ -13,7 +14,11 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
     /// </summary>
     class SerializationContext
     {
-        public readonly ConcurrentDictionary<object, InstanceId> Objects_InstanceIdTracker = new ConcurrentDictionary<object, InstanceId>();
+        public readonly ConcurrentDictionary<object, InstanceId> Objects_InstanceIdTracker = 
+            new ConcurrentDictionary<object, InstanceId>();
+
+        public readonly ConcurrentDictionary<string, XAttribute> ClrNamespaceToNamespaceDelcarationMappings = 
+            new ConcurrentDictionary<string, XAttribute>();
 
         long LastUsedUniqueId = 0;
 

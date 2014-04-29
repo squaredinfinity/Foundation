@@ -8,68 +8,25 @@ namespace SquaredInfinity.Foundation.Types.Description
 {
     public abstract class TypeMemberDescription : ITypeMemberDescription
     {
-        string _rawName;
-        public string Name
-        {
-            get { return _rawName; }
-            set { _rawName = value; }
-        }
+        public string Name { get; set; }
 
-        string _sanitizedName;
-        public string SanitizedName
-        {
-            get { return _sanitizedName; }
-            set { _sanitizedName = value; }
-        }
+        public string SanitizedName { get; set; }
 
-        string _assemblyQualifiedMemberTypeName;
-        public string AssemblyQualifiedMemberTypeName
-        {
-            get { return _assemblyQualifiedMemberTypeName; }
-            set { _assemblyQualifiedMemberTypeName = value; }
-        }
+        public string AssemblyQualifiedMemberTypeName { get; set; }
 
-        string _fullMemberTypeName;
-        public string FullMemberTypeName
-        {
-            get { return _fullMemberTypeName; }
-            set { _fullMemberTypeName = value; }
-        }
+        public string FullMemberTypeName { get; set; }
 
-        string _memberTypeName;
-        public string MemberTypeName
-        {
-            get { return _memberTypeName; }
-            set { _memberTypeName = value; }
-        }
+        public string MemberTypeName { get; set; }
 
-        bool _canSetValue;
-        public bool CanSetValue
-        {
-            get { return _canSetValue; }
-            set { _canSetValue = value; }
-        }
+        public bool CanSetValue { get; set; }
 
-        bool _canGetValue;
-        public bool CanGetValue
-        {
-            get { return _canGetValue; }
-            set { _canGetValue = value; }
-        }
+        public bool CanGetValue { get; set; }
 
-        MemberVisibility _visibility;
-        public MemberVisibility Visibility
-        {
-            get { return _visibility; }
-            set { _visibility = value; }
-        }
+        public MemberVisibility Visibility { get; set; }
 
-        ITypeDescription _declaringType;
-        public ITypeDescription DeclaringType
-        {
-            get { return _declaringType; }
-            set { _declaringType = value; }
-        }
+        public ITypeDescription DeclaringType { get; set; }
+
+        public bool IsExplicitInterfaceImplementation { get; set; }
 
         public abstract object GetValue(object obj);
         public abstract void SetValue(object obj, object value);

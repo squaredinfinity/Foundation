@@ -19,8 +19,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         internal static readonly XName UniqueIdAttributeName = XmlNamespace.GetName("id");
         internal static readonly XName UniqueIdReferenceAttributeName = XmlNamespace.GetName("id-ref");
 
-        internal static readonly XName AssemblyAttributeName = XmlNamespace.GetName("assembly");
-        internal static readonly XName TypeAttributeName = XmlNamespace.GetName("type");
+        internal static readonly XName NamespaceAttributeName = XmlNamespace.GetName("ns");
 
         readonly TypeSerializationStrategiesConcurrentDictionary TypeSerializationStrategies =
             new TypeSerializationStrategiesConcurrentDictionary();

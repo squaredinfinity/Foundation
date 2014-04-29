@@ -127,7 +127,36 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
                 md.FullMemberTypeName = memberTypeDescription.FullName;
                 md.MemberTypeName = memberTypeDescription.Name;
 
-                md.Name = p.Name;
+                var explicit_interface_separator_index = p.Name.IndexOf(".");
+
+                if (explicit_interface_separator_index != -1)
+                {
+                    // this is an explicit interface implementation
+
+                    md.IsExplicitInterfaceImplementation = true;
+                    md.Name = p.Name;
+
+                    //var interface_name = p.Name.Substring(0, explicit_interface_separator_index);
+
+                    //var mapp
+
+                    //foreach(var interf in member_type.GetInterfaces())
+                    //{
+                    //    foreach(var interf_property in interf.GetProperties())
+                    //    {
+                    //        var isMatch =
+                    //            p.Name == interf_property.Name
+                    //            && member_type == interf_property.PropertyType
+                                
+                    //    }
+                    //}
+                    
+                }
+                else
+                {
+                    md.Name = p.Name;
+                }
+
                 md.SanitizedName = p.Name;
 
                 md.CanGetValue = p.CanRead;

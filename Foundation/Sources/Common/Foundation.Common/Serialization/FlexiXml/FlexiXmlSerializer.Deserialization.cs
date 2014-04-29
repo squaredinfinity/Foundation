@@ -38,7 +38,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             object target = (object)null;
 
-            // check serialization control attributes first
+            //# check serialization control attributes first
 
             var id_ref_attrib = xml.Attribute(UniqueIdReferenceAttributeName);
 
@@ -58,12 +58,14 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             }
 
 
+            //# Get a new instance of target
             if(!targetType.IsValueType && !TryCreateInstace(targetType, new CreateInstanceContext(), out target))
             {
                 //todo: log error
                 return null;
             }            
 
+            //# keep track of target instance for future use
             var id_attrib = xml.Attribute(UniqueIdAttributeName);
 
             if(id_attrib != null)
@@ -75,16 +77,20 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             var value = (object)null;
 
-            if (xml.Value != null && TryConvertFromStringIfTypeSupports(xml.Value, targetType, out value))
+            //# Construct target from Element Value
+            if (!xml.HasElements && xml.Value != null && TryConvertFromStringIfTypeSupports(xml.Value, targetType, out value))
             {
                 return value;
             }
 
+            //# Map element attributes to target memebers
             foreach (var attribute in xml.Attributes())
             {
                 var member =
                     (from f in typeDescription.Members
-                     where f.Name == attribute.Name
+                     where 
+                     !f.IsExplicitInterfaceImplementation
+                     && f.Name == attribute.Name
                      && f.CanSetValue 
                      && f.CanGetValue
                      select f).FirstOrDefault();
@@ -102,74 +108,40 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 }
             }
 
-            foreach (var el in xml.Elements())
+            //# Process target List
+            if (targetType.ImplementsInterface<IList>())
             {
+                DeserializeList(xml, target as IList, typeDescriptor, options, cx);
+            }
+
+            //# Process attached elements which map to target members
+            foreach (var el in xml.AttachedElements())
+            {
+                var elName = el.Name.LocalName;
+
+                if(el.IsAttached())
+                {
+                    elName = elName.Substring(elName.IndexOf(".") + 1);
+                }
+
                 var member =
                     (from m in typeDescription.Members
-                     let memberType = Type.GetType(m.AssemblyQualifiedMemberTypeName)
-                     where m.Name == el.Name.LocalName
-                        &&
-                        (
-                            (m.CanGetValue && m.CanSetValue) // can set and get value
-                            ||
-                            (m.CanGetValue && memberType.ImplementsInterface<IEnumerable>()) // cannot set value, but it is a collection
-                        )
+                     where
+                     !m.IsExplicitInterfaceImplementation
+                     && m.Name == elName
                      select m).FirstOrDefault();
 
                 if (member == null)
+                {
+                    // todo: log ?
                     continue;
-
-                var mrType = Type.GetType(member.AssemblyQualifiedMemberTypeName);
-
-                if (!member.CanSetValue && mrType.ImplementsInterface<IList>())
-                {
-                    var targetList = member.GetValue(target) as IList;
-
-                    if(targetList == null)
-                        return null;
-
-                    var targetListItemTypes = targetList.GetItemsTypes();
-
-                    foreach (var itemXml in el.Elements())
-                    {
-                        // todo: check if type attribute has been set, if not, try to deduce item name from element name
-                        
-                        if(false) // todo: if type attribute exists
-                        {
-                            // check type attribute
-                        }
-                        else
-                        {
-                            var itemElementName = itemXml.Name.LocalName;
-
-                            // try to find type of that name in all assemblies
-                            // the type should be compatible with the
-
-                            var itemType = 
-                                TypeExtensions.ResolveType(
-                                itemElementName, 
-                                ignoreCase: true,
-                                baseTypes:targetListItemTypes);
-
-                            if(itemType == null)
-                            {
-                                // todo: log
-                                continue;
-                            }
-
-                            var item = DeserializeInternal(itemType, itemXml, typeDescriptor, options, cx);
-
-                            if (item == null)
-                                continue;
-
-                            targetList.Add(item);
-                        }
-                    }
                 }
-                else
-                {
 
-                    if (!el.Value.IsNullOrEmpty())
+                var memberType = Type.GetType(member.AssemblyQualifiedMemberTypeName);
+
+                if (member.CanSetValue)
+                {
+                    if (!el.HasElements && !el.Value.IsNullOrEmpty())
                     {
                         throw new NotImplementedException();
                         // not supported at the moment
@@ -178,44 +150,52 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                     }
                     else
                     {
-                        // actual serialization is in child element
+                        // element should have exactly one non-attached sub-element
+                        // which acts like a wrapper
 
-                        var contentEl = el.Elements().FirstOrDefault();
+                        var wrapper =
+                            (from xel in el.Elements()
+                             where !xel.IsAttached()
+                             select xel).Single();
 
-                        if (contentEl != null)
+                        var typeAttribute = (XAttribute)null;// wrapper.Attribute(TypeAttributeName);
+
+                        var elementType = (Type)null;
+
+                        if (typeAttribute != null)
                         {
-                            var typeAttribute = contentEl.Attribute(TypeAttributeName);
-
-                            var elementType = (Type) null;
-
-                            if (typeAttribute != null)
-                            {
-                                elementType =
-                                    TypeExtensions.ResolveType(
-                                    typeAttribute.Value, 
-                                    ignoreCase:true);
-                            }
-                            else
-                            {
-                                elementType =
-                                        TypeExtensions.ResolveType(
-                                        contentEl.Name.LocalName,
-                                        ignoreCase: true,
-                                        baseTypes: new List<Type> { mrType });
-                            }
-
-
-                            if (elementType == null)
-                            {
-                                // type could not be resolver
-                                // todo: log
-                                continue;
-                            }
-
-                            value = DeserializeInternal(elementType, contentEl, typeDescriptor, options, cx);
-
-                            member.SetValue(target, value);
+                            elementType =
+                                TypeExtensions.ResolveType(
+                                typeAttribute.Value,
+                                ignoreCase: true);
                         }
+                        else
+                        {
+                            elementType =
+                                    TypeExtensions.ResolveType(
+                                    wrapper.Name.LocalName,
+                                    ignoreCase: true,
+                                    baseTypes: new List<Type> { memberType });
+                        }
+
+
+                        if (elementType == null)
+                        {
+                            // type could not be resolver
+                            // todo: log
+                            continue;
+                        }
+
+                        value = DeserializeInternal(elementType, wrapper, typeDescriptor, options, cx);
+
+                        member.SetValue(target, value);
+                    }
+                }
+                else
+                {
+                    if(memberType.ImplementsInterface<IList>())
+                    {
+                        DeserializeList(el, member.GetValue(target) as IList, typeDescriptor, options, cx);
                     }
                 }
             }
@@ -223,17 +203,79 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             return target;
         }
 
-        protected virtual Type ResolveType(string fullOrPartialTypeName, IReadOnlyList<Type> baseTypes, SerializationOptions options)
+        void DeserializeList(
+            XElement xml,
+            IList targetList, 
+            ITypeDescriptor typeDescriptor,
+            SerializationOptions options,
+            DeserializationContext cx)
         {
-            var t =
-                TypeExtensions.ResolveType(
-                fullOrPartialTypeName,
-                ignoreCase: true,
-                baseTypes: baseTypes);
+            var targetListItemTypes = targetList.GetItemsTypes();
 
-            if(t == null)
+            var non_attached_elements =
+                (from el in xml.Elements()
+                 where !el.IsAttached()
+                 select el).ToArray();
+
+            for (int i = 0; i < non_attached_elements.Length; i++)
             {
+                var itemEl = non_attached_elements[i];
 
+                var itemType = ResolveType(itemEl, targetListItemTypes, options, cx);
+
+
+                if (itemType == null)
+                {
+                    // todo: log
+                    continue;
+                }
+
+                var item = DeserializeInternal(itemType, itemEl, typeDescriptor, options, cx);
+
+                if (item == null)
+                {
+                    // todo: how do we handle nulls?
+                    continue;
+                }
+
+                targetList.Add(item);
+            }
+        }
+
+        Type ResolveType(XElement el, IReadOnlyList<Type> baseTypes, SerializationOptions options, DeserializationContext cx)
+        {
+            var namespaceAttribute = el.Attributes(NamespaceAttributeName).FirstOrDefault();
+
+            var ns = (XAttribute) null;
+
+            //if (namespaceAttribute != null && cx.ClrNamespaceToNamespaceDelcarationMappings.TryGetValue(namespaceAttribute.Value, out ns))
+            //{
+            //    var clr_namespace_parts = ns.Value.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+            //    var clr_namespace = clr_namespace_parts[0];
+
+            //    var clr_assembly = (string) null;
+
+            //    if (clr_namespace_parts.Length > 1)
+            //        clr_assembly = clr_namespace_parts[1];                
+
+            //    var t =
+            //        TypeExtensions.ResolveType(
+            //        clr_namespace + el.Name.LocalName,
+            //        ignoreCase: true,
+            //        baseTypes: baseTypes);
+
+            //    return t;
+            //}
+            //else
+            {
+                var t =
+                    TypeExtensions.ResolveType(
+                    el.Name.LocalName,
+                    ignoreCase: true,
+                    baseTypes: baseTypes);
+
+                return t;
             }
 
             return null;

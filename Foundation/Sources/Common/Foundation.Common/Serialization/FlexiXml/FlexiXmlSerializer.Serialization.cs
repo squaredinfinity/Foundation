@@ -23,7 +23,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             var options = new SerializationOptions();
 
             var root = new XElement("temp");
-            UpdateElementNameFromType(root, obj.GetType(), options);
+            UpdateElementNameFromType(root, obj.GetType(), options, cx);
             SerializeInternal(root, obj, new ReflectionBasedTypeDescriptor(), options , cx);
             
             // post process
@@ -80,6 +80,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         {
             bool isNewReference = false;
 
+            //# track source reference
             var id =
                 cx.Objects_InstanceIdTracker.GetOrAdd(
                 source,
@@ -90,32 +91,72 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                     return new InstanceId(cx.GetNextUniqueId());
                 });
 
-            if (isNewReference)
+            //# source has been serialized before
+            if (!isNewReference)
             {
-                var typeDescription = typeDescriptor.DescribeType(source.GetType());
+                var idAttrib = new XAttribute(UniqueIdReferenceAttributeName, id.Id);
 
-                var serializableMembers =
-                    (from m in typeDescription.Members
-                     let memberType = Type.GetType(m.AssemblyQualifiedMemberTypeName)
-                     where 
-                        m.Visibility == MemberVisibility.Public // process public members only
-                        && 
-                        (
-                            (m.CanGetValue && m.CanSetValue) // can set and get value
-                            ||
-                            (m.CanGetValue && memberType.ImplementsInterface<IList>()) // cannot set value, but it is a collection
-                        )
-                     select m);
+                id.IncrementReferenceCount();
 
-                foreach (var m in serializableMembers)
+                target.Add(idAttrib);
+
+                return;
+            }
+
+            //# Serialize list items
+            var sourceList = source as IList;
+            if (sourceList != null)
+            {
+                foreach (var item in sourceList)
                 {
-                    var val = m.GetValue(source);
+                    if (item == null)
+                        continue; // todo: may need to specify a custom way of handling nulls
 
-                    if (val == null) // todo: may need to specify a custom way of handling this
+                    var itemType = item.GetType();
+
+                    var item_as_string = (string)null;
+
+                    if (TryConvertToStringIfTypeSupports(item, out item_as_string))
+                    {
+                        var item_string_value_element = new XElement("temp", item_as_string);
+                        UpdateElementNameFromType(item_string_value_element, item.GetType(), options, cx);
+                        target.Add(item_string_value_element);
                         continue;
+                    }
 
-                    var val_as_string = (string)null;
+                    var itemElement = new XElement("temp");
+                    UpdateElementNameFromType(itemElement, item.GetType(), options, cx);
+                    SerializeInternal(itemElement, item, typeDescriptor, options, cx);
 
+                    target.Add(itemElement);
+                }
+            }
+
+            var typeDescription = typeDescriptor.DescribeType(source.GetType());
+
+            //# get all source members that can be serialized
+            var serializableMembers =
+                (from m in typeDescription.Members
+                 let memberType = Type.GetType(m.AssemblyQualifiedMemberTypeName)
+                 where
+                    m.Visibility == MemberVisibility.Public // process public members only
+                    &&
+                    !m.IsExplicitInterfaceImplementation // do not process explicit interface implemntations
+                    &&
+                    m.CanGetValue
+                 select m);
+
+            foreach (var m in serializableMembers)
+            {
+                var val = m.GetValue(source);
+
+                if (val == null) // todo: may need to specify a custom way of handling this
+                    continue;
+
+                var val_as_string = (string)null;
+
+                if (m.CanSetValue)
+                {
                     if (TryConvertToStringIfTypeSupports(val, out val_as_string))
                     {
                         target.Add(new XAttribute(m.Name, val_as_string)); // todo: do mapping if needed, + conversion
@@ -123,73 +164,34 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                     }
                     else
                     {
-                        // this is complex type, use its type as child element name to aid deserialization
+                        var wrapper = new XElement(target.Name + "." + m.Name);
 
-                        if (val != null && !((val is IList) && !m.CanSetValue))
-                        {
-                            var wrapper = new XElement(m.Name);
+                        var el = new XElement("temp");
+                        UpdateElementNameFromType(el, val.GetType(), options, cx);
+                        SerializeInternal(el, val, typeDescriptor, options, cx);
 
-                            var el = new XElement("temp");
-                            UpdateElementNameFromType(el, val.GetType(), options);
-                            SerializeInternal(el, val, typeDescriptor, options, cx);
+                        wrapper.Add(el);
 
-                            wrapper.Add(el);
-
-                            target.Add(wrapper);
-                        }
-                        else
-                        {
-                            // null or collection without setter
-                            var el = new XElement(m.Name);
-                            SerializeInternal(el, val, typeDescriptor, options, cx);
-                            target.Add(el);
-                        }
+                        target.Add(wrapper);
                     }
                 }
-
-                var list = source as IList;
-                if(list != null)
+                else
                 {
-                    foreach(var item in list)
+                    if (val is IList)
                     {
-                        if (item == null)
-                            continue; // todo: may need to specify a custom way of handling this
-
-                        var itemType = item.GetType();
-
-                        var item_as_string = (string) null;
-
-                        if (TryConvertToStringIfTypeSupports(item, out item_as_string))
-                        {
-                            var item_string_value_element = new XElement("temp", item_as_string);
-                            UpdateElementNameFromType(item_string_value_element, item.GetType(), options);
-                            target.Add(item_string_value_element);
-                            continue;
-                        }
-
-                        var itemElement = new XElement("temp");
-                        UpdateElementNameFromType(itemElement, item.GetType(), options);
-                        SerializeInternal(itemElement, item, typeDescriptor, options, cx);
-
-                        target.Add(itemElement);
+                        var el = new XElement(target.Name + "." + m.Name);
+                        SerializeInternal(el, val, typeDescriptor, options, cx);
+                        target.Add(el);
                     }
                 }
-
-                target.Add(new XAttribute(UniqueIdAttributeName, id.Id));
-
-                target.AddAnnotation(typeDescription);
             }
-            else
-            {
-                var idAttrib = new XAttribute(UniqueIdReferenceAttributeName, id.Id);
 
-                id.IncrementReferenceCount();
+            target.Add(new XAttribute(UniqueIdAttributeName, id.Id));
 
-                target.Add(idAttrib);
-            }
+            target.AddAnnotation(typeDescription);
         }
 
-        protected virtual void UpdateElementNameFromType(XElement xel, Type type, SerializationOptions options)
+        void UpdateElementNameFromType(XElement xel, Type type, SerializationOptions options, SerializationContext cx)
         {
             if(type.IsGenericType)
             {
@@ -197,11 +199,18 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                 xel.Name = type.Name.Substring(0, genericArgumentsSeparator_Index);
 
-                var typeAttrib = new XAttribute(TypeAttributeName, type.FullName);
-                xel.Add(typeAttrib);
+                var ns = type.Namespace;
 
-                var assemblyAttrib = new XAttribute(AssemblyAttributeName, type.Assembly.FullName);
-                xel.Add(assemblyAttrib);
+                //cx.ClrNamespaceToNamespaceDelcarationMappings.GetOrAdd(
+                //    ns,
+                //    _ =>
+                //    {
+                //        var nsDeclarationAttribute = new XAttribute(XNamespace.Xmlns.GetName("serialization"), XmlNamespace);
+                //        root.Add(nsDeclarationAttribute);
+                //    });
+
+                //var nsAttrib = new XAttribute(NamespaceAttributeName, type.FullName);
+                //xel.Add(typeAttrib);
             }
             else
             {

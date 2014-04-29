@@ -18,6 +18,8 @@ namespace SquaredInfinity.Foundation.Types.Description
         bool CanSetValue { get; }
         bool CanGetValue { get; }
 
+        bool IsExplicitInterfaceImplementation { get; }
+
         object GetValue(object obj);
         void SetValue(object obj, object value);
     }

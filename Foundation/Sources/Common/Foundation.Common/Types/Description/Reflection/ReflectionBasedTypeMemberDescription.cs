@@ -13,7 +13,7 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
         MemberInfo MemberInfo { get; set; }
         PropertyInfo PropertyInfo { get; set; }
         FieldInfo FieldInfo { get; set; }
-
+        
         public ReflectionBasedTypeMemberDescription(MemberInfo memberInfo)
         {
             this.MemberInfo = memberInfo;

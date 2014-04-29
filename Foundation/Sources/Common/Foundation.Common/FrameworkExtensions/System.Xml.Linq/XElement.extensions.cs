@@ -10,6 +10,26 @@ namespace SquaredInfinity.Foundation.Extensions
     public static class XElementExtensions
     {
         /// <summary>
+        /// Returns all attached elements of this element.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public static IEnumerable<XElement> AttachedElements(this XElement element)
+        {
+            var result =
+                (from el in element.Elements()
+                 where el.Name.LocalName.Contains(".")
+                 select el);
+
+            return result;
+        }
+
+        public static bool IsAttached(this XElement element)
+        {
+            return element.Name.LocalName.Contains(".");
+        }
+
+        /// <summary>
         /// Returns a value of specified attribute.
         /// When value does not exist or does not have a value, *defaultValue* value will be returned (null by default)
         /// </summary>
