@@ -165,14 +165,14 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                         if (typeAttribute != null)
                         {
                             elementType =
-                                TypeExtensions.ResolveType(
+                                TypeResolver.ResolveType(
                                 typeAttribute.Value,
                                 ignoreCase: true);
                         }
                         else
                         {
                             elementType =
-                                    TypeExtensions.ResolveType(
+                                    TypeResolver.ResolveType(
                                     wrapper.Name.LocalName,
                                     ignoreCase: true,
                                     baseTypes: new List<Type> { memberType });
@@ -193,9 +193,11 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 }
                 else
                 {
-                    if(memberType.ImplementsInterface<IList>())
+                    var list = member.GetValue(target) as IList;
+
+                    if(list != null)
                     {
-                        DeserializeList(el, member.GetValue(target) as IList, typeDescriptor, options, cx);
+                        DeserializeList(el, list, typeDescriptor, options, cx);
                     }
                 }
             }
@@ -270,7 +272,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             //else
             {
                 var t =
-                    TypeExtensions.ResolveType(
+                    TypeResolver.ResolveType(
                     el.Name.LocalName,
                     ignoreCase: true,
                     baseTypes: baseTypes);

@@ -24,6 +24,8 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         readonly TypeSerializationStrategiesConcurrentDictionary TypeSerializationStrategies =
             new TypeSerializationStrategiesConcurrentDictionary();
 
+        readonly TypeResolver TypeResolver = new TypeResolver();
+
         bool TryConvertToStringIfTypeSupports(object obj, out string result)
         {
             var typeConverter = TypeDescriptor.GetConverter(obj);

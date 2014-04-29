@@ -72,7 +72,8 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
         {
             public static ViewModelBindingConverter Instance = new ViewModelBindingConverter();
 
-            ConcurrentDictionary<Type, Type> SourceTypeToViewModelTypeMappings = new ConcurrentDictionary<Type, Type>();
+            readonly ConcurrentDictionary<Type, Type> SourceTypeToViewModelTypeMappings = new ConcurrentDictionary<Type, Type>();
+            readonly TypeResolver TypeResolver = new TypeResolver();
 
             public ViewModelBindingConverter()
             { }
@@ -128,7 +129,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                          where microsoftCompanyAttrib == null
                          select asm).ToArray();
 
-                    vmType = TypeExtensions.ResolveType(vmTypeName, ignoreCase: true, assembliesToCheck: assembliesToCheck);
+                    vmType = TypeResolver.ResolveType(vmTypeName, ignoreCase: true, assembliesToCheck: assembliesToCheck);
 
                     SourceTypeToViewModelTypeMappings.AddOrUpdate(sourceType, vmType);
                 }

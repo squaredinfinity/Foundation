@@ -22,27 +22,33 @@ namespace SquaredInfinity.Foundation.Presentation.Controls
     {
         internal ScrollViewer ScrollViewer { get; set; }
 
+        IDisposable ContainerGeneratorStatusChangedSubscription;
+
         public BackgroundLoadingListView()
         {
             this.IsVisibleChanged += BackgroundLoadingListView_IsVisibleChanged;
+            
+            ContainerGeneratorStatusChangedSubscription = 
+                Observable.FromEvent<EventHandler, EventArgs>(
+                 h =>
+                    {
+                        EventHandler x = (sender, e) => h(e);
+                        return x;
+                    },
+                    h => ItemContainerGenerator.StatusChanged += h,
+                    h => ItemContainerGenerator.StatusChanged -= h)
+                    .Throttle(TimeSpan.FromMilliseconds(250))
+                    .ObserveOnDispatcher()
+                    .Subscribe(args =>
+                    {
+                        if (ItemContainerGenerator.Status == System.Windows.Controls.Primitives.GeneratorStatus.ContainersGenerated)
+                        {
+                            if (VirtualizingPanel.GetIsVirtualizing(this))
+                                return;
 
-            ItemContainerGenerator.StatusChanged += ItemContainerGenerator_StatusChanged;
-        }
-
-        void ItemContainerGenerator_StatusChanged(object sender, EventArgs e)
-        {
-            if (ItemContainerGenerator.Status == System.Windows.Controls.Primitives.GeneratorStatus.ContainersGenerated)
-            {
-                if (VirtualizingPanel.GetIsVirtualizing(this))
-                    return;
-
-                RenderAllItems(forceRender: true);
-                //RenderItemsInView();
-
-//                var priority = IsVisible ? RenderingPriority.ParentVisible : RenderingPriority.BackgroundLow;
-
-  //              BackgroundRenderingService.RequestRender(priority, this);
-            }
+                            RenderAllItems(forceRender: true);
+                        }
+                    }); 
         }
 
         void BackgroundLoadingListView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -57,7 +63,7 @@ namespace SquaredInfinity.Foundation.Presentation.Controls
             RenderAllItems();
         }
 
-        object ScrollChangedSubscription;
+        IDisposable ScrollChangedSubscription;
 
         public override void OnApplyTemplate()
         {
