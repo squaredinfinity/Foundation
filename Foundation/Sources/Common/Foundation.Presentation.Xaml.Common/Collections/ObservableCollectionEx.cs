@@ -101,7 +101,7 @@ namespace SquaredInfinity.Foundation.Collections
             }
         }
 
-        protected sealed override void RemoveItem(int index)
+        protected override void RemoveItem(int index)
         {
             CollectionLock.EnterUpgradeableReadLock();
 
@@ -135,7 +135,7 @@ namespace SquaredInfinity.Foundation.Collections
             }
         }
 
-        protected sealed override void InsertItem(int index, TItem item)
+        protected override void InsertItem(int index, TItem item)
         {
             CollectionLock.EnterUpgradeableReadLock();
 
@@ -168,7 +168,7 @@ namespace SquaredInfinity.Foundation.Collections
             }
         }
 
-        protected sealed override void SetItem(int index, TItem item)
+        protected override void SetItem(int index, TItem item)
         {
             CollectionLock.EnterUpgradeableReadLock();
 
@@ -202,7 +202,7 @@ namespace SquaredInfinity.Foundation.Collections
             }
         }
 
-        protected sealed override void ClearItems()
+        protected override void ClearItems()
         {
             CollectionLock.EnterUpgradeableReadLock();
 
