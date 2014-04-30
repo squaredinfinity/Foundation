@@ -30,6 +30,7 @@
     <converters:NullOrEmptyToBoolConverter x:Key="Converters.FalseWhenNullOrEmpty"
                                            Mode="FalseWhenNullOrEmpty" />
 
+    <converters:SizeToRectConverter x:Key="Converters.SizeToRect" />
 
 
     <converters:CompositeConverter x:Key="Converters.HiddenWhen0">

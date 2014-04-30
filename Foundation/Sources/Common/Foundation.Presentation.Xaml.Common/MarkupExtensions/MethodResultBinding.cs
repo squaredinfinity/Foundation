@@ -27,7 +27,6 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 
             var contextBinding = new Binding();
             UpdateBindingFromSource(contextBinding);
-            contextBinding.Mode = BindingMode.OneTime;
             multiBinding.Bindings.Add(contextBinding);  
 
             if (ParameterBinding != null)

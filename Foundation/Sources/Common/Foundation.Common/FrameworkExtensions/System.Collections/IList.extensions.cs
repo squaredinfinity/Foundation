@@ -91,5 +91,41 @@ namespace SquaredInfinity.Foundation.Extensions
 
             return listItemTypes;
         }
+
+        public static bool AreEqual<TItem>(
+            IList<TItem> x,
+            IList<TItem> y)
+        {
+            return AreEqual<TItem>(x, y, ensureSameSequence: true, itemEqualityComparer: EqualityComparer<TItem>.Default);
+        }
+
+        public static bool AreEqual<TItem>(
+            IList<TItem> x,
+            IList<TItem> y,
+            bool ensureSameSequence,
+            IEqualityComparer<TItem> itemEqualityComparer)
+        {
+            if (x == null || y == null)
+                return false;
+
+            if (x.Count != y.Count)
+                return false;
+
+            if (ensureSameSequence)
+            {
+                for (int i = 0; i < x.Count; i++)
+                {
+                    var xItem = x[i];
+                    var yItem = y[i];
+
+                    if (!itemEqualityComparer.Equals(xItem, yItem))
+                        return false;
+                }
+            }
+
+            var areAllEqual = x.Union(y, itemEqualityComparer).Count() == x.Count;
+
+            return areAllEqual;
+        }
     }
 }

@@ -22,7 +22,6 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
         {
             var binding = new Binding();
             binding.Converter = new PredicateMethodConverter(MethodName);
-            binding.Mode = BindingMode.OneTime;
 
             UpdateBindingFromSource(binding);
 

@@ -31,7 +31,6 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 
             var contextBinding = new Binding();
             UpdateBindingFromSource(contextBinding);
-            contextBinding.Mode = BindingMode.OneTime;
             multiBinding.Bindings.Add(contextBinding);
             multiBinding.Converter = new MixedCompositeConverter(
                 ViewModelBindingConverter.Instance,

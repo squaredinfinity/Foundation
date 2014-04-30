@@ -91,6 +91,7 @@
     <Compile Include="Converters\MixedCompositeConverter.cs" />
     <Compile Include="Converters\NullOrEmptyToBoolConverter.cs" />
     <Compile Include="Converters\NumberToBoolConverter.cs" />
+    <Compile Include="Converters\SizeToRectConverter.cs" />
     <Compile Include="Converters\TextFlattenAndTrimConverter.cs" />
     <Compile Include="Converters\TreeViewItemLeftMarginConverter.cs" />
     <Compile Include="Converters\ValueToBoolConverter.cs" />
