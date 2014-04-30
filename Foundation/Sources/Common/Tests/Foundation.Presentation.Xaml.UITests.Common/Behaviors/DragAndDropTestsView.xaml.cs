@@ -20,11 +20,10 @@ namespace Foundation.Presentation.Xaml.UITests.Common.Behaviors
     /// </summary>
     public partial class DragAndDropTestsView : UserControl
     {
-
-
         public DragAndDropTestsView()
         {
-            DataContext = this;
+            DataContext = new DragAndDropTestsViewModel();
+
             InitializeComponent();
         }
     }

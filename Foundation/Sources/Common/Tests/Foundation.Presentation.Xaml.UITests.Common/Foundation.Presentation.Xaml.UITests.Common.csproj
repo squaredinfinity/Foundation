@@ -79,6 +79,7 @@
     <Compile Include="Behaviors\DragAndDropTestsView.xaml.cs">
       <DependentUpon>DragAndDropTestsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Behaviors\DragAndDropTestsViewModel.cs" />
     <Compile Include="Behaviors\WatermarkTestsView.xaml.cs">
       <DependentUpon>WatermarkTestsView.xaml</DependentUpon>
     </Compile>

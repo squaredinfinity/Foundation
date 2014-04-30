@@ -18,7 +18,7 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
     {
         public static readonly DataFormat DataFormat = DataFormats.GetDataFormat("SquaredInfinity.Foundation.Presentation.DragDrop");
 
-        static DragInfo _dragInfo;
+        static IDragInfo _dragInfo;
         static bool _dragInProgress;
         static object _clickSupressItem;
         static Point _adornerPos;
@@ -238,7 +238,7 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
         /// <param name="dragInfo"></param>
         /// <param name="sender"></param>
         /// <returns></returns>
-        static IDragSource GetDragSource(DragInfo dragInfo, UIElement sender)
+        static IDragSource GetDragSource(IDragInfo dragInfo, UIElement sender)
         {
             IDragSource dragSource = null;
             
@@ -279,7 +279,7 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
                 return;
             }
 
-            _dragInfo = new DragInfo(sender, e);
+            _dragInfo = DragInfo.CreateFromMouseButtonEvent(sender, e);
 
             var dragHandler = GetDragSource(_dragInfo, sender as UIElement);
             if (!dragHandler.CanStartDrag(_dragInfo))

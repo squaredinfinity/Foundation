@@ -36,7 +36,7 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
         /// <param name="dragInfo">
         /// Information about the source of the drag, if the drag came from within the framework.
         /// </param>
-        public DropInfo(object sender, DragEventArgs e, DragInfo dragInfo)
+        public DropInfo(object sender, DragEventArgs e, IDragInfo dragInfo)
         {
             var dataFormat = SquaredInfinity.Foundation.Presentation.Behaviors.DragDrop.DataFormat.Name;
             Data = (e.Data.GetDataPresent(dataFormat)) ? e.Data.GetData(dataFormat) : e.Data;
