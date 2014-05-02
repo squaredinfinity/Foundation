@@ -342,7 +342,7 @@ namespace SquaredInfinity.Foundation.Data
         }
 
 
-        public abstract TParameter MapToParameter(string parameterNAme, object clrValue);
+        public abstract TParameter CreateParameter(string parameterName, object clrValue);
 
         public TTarget MapToClrValue<TTarget>(object dbValue, TTarget defaultValue = default(TTarget))
         {

@@ -23,7 +23,7 @@ namespace SquaredInfinity.Foundation.Data.Sql
             RetryPolicy.DefaultTransientFaultFilters.Add(new SqlTransientFaultFilter());
         }
 
-        public override SqlParameter MapToParameter(string parameterName, object clrValue)
+        public override SqlParameter CreateParameter(string parameterName, object clrValue)
         {
             var result = new SqlParameter();
 

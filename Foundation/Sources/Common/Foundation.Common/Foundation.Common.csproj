@@ -95,8 +95,12 @@
     <Compile Include="Serialization\FlexiXml\_entities\SerializationContext.cs" />
     <Compile Include="Serialization\FlexiXml\_entities\SerializationOptions.cs" />
     <Compile Include="Threading\ILock.cs" />
+    <Compile Include="Threading\ILongRunningOperation.cs" />
     <Compile Include="Threading\IReadLockAcquisition.cs" />
     <Compile Include="Threading\IWriteLockAcquisition.cs" />
+    <Compile Include="Threading\ILongRunningLoop.cs" />
+    <Compile Include="Threading\LongRunningLoop.cs" />
+    <Compile Include="Threading\LongRunningOperation.cs" />
     <Compile Include="Threading\ReaderWriterLockSlimEx.WriteLockAcquisition.cs" />
     <Compile Include="Threading\ReaderWriterLockSlimEx.ReadLockAcquisition.cs" />
     <Compile Include="Threading\ReaderWriterLockSlimEx.cs" />
