@@ -19,10 +19,7 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
             var itemsControl = sender as ItemsControl;
 
             if (itemsControl == null)
-            {
-                // can it ever happen?
-                throw new InvalidOperationException();
-            }
+                return null;
 
             dragInfo.VisualSourceFlowDirection = itemsControl.GetItemsPanelFlowDirection();
 
@@ -32,7 +29,7 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
                 draggedUIElement = (e.OriginalSource as DependencyObject).FindLogicalParent<UIElement>();
 
             if (draggedUIElement == null)
-                throw new InvalidOperationException(); // can it ever happen?
+                return null;
 
             //# try to get dragged item container
             UIElement draggedItemContainer = itemsControl.GetItemContainer(draggedUIElement);
@@ -41,7 +38,7 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
                 draggedItemContainer = itemsControl.GetItemContainerAt(e.GetPosition(itemsControl), itemsControl.GetItemsPanelOrientation());
 
             if (draggedItemContainer == null)
-                throw new InvalidOperationException(); // can it ever happen?
+                return null;
 
             dragInfo.PositionInDraggedItem = e.GetPosition(draggedItemContainer);
 
@@ -55,7 +52,7 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
             }
             else
             {
-                throw new InvalidOperationException(); // can it ever happen?
+                return null;
             }
 
             dragInfo.SourceItems = itemsControl.GetSelectedItems();

@@ -8,10 +8,29 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <TabControl>
         <TabItem Header="Overview">
-            <StackPanel Orientation="Horizontal">
-                <ListView ItemsSource="{Binding OddNumbers}" behaviors:DragDrop.IsDragSource="True" />
-                <ListView ItemsSource="{Binding EvenNumbers}" behaviors:DragDrop.IsDropTarget="True" />
-            </StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" AutomationProperties.Name="Description" />
+                    <RowDefinition Height="*" AutomationProperties.Name="Content" />
+                </Grid.RowDefinitions>
+                
+                <TextBlock Text="Can drag items from list on the left and drop them to the list on the right"
+                           Grid.Row="0"/>
+
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Top"
+                            Grid.Row="1">
+                    <ListView ItemsSource="{Binding OddNumbers}" 
+                          behaviors:DragDrop.IsDragSource="True"
+                          Width="150"
+                          MaxHeight="200"/>
+
+                    <ListView ItemsSource="{Binding EvenNumbers}" 
+                          behaviors:DragDrop.IsDropTarget="True"
+                          Width="150"
+                          MaxHeight="200"/>
+                </StackPanel>
+            </Grid>
         </TabItem>
     </TabControl>
 </UserControl>

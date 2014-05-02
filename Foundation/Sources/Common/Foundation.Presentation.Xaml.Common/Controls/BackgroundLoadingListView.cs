@@ -23,11 +23,53 @@ namespace SquaredInfinity.Foundation.Presentation.Controls
         internal ScrollViewer ScrollViewer { get; set; }
 
         IDisposable ContainerGeneratorStatusChangedSubscription;
+        IDisposable SizeChangedSubscription;
+        IDisposable IsVisibleChangedSubscription;
 
         public BackgroundLoadingListView()
         {
-            this.IsVisibleChanged += BackgroundLoadingListView_IsVisibleChanged;
-            
+            IsVisibleChangedSubscription =
+                Observable.FromEvent<DependencyPropertyChangedEventHandler, DependencyPropertyChangedEventArgs>(
+                 h =>
+                 {
+                     DependencyPropertyChangedEventHandler x = (sender, e) => h(e);
+                     return x;
+                 },
+                    h => this.IsVisibleChanged += h,
+                    h => this.IsVisibleChanged -= h)
+                    .Throttle(TimeSpan.FromMilliseconds(250))
+                    .ObserveOnDispatcher()
+                    .Subscribe(args =>
+                    {
+                        if ((bool)args.NewValue == false)
+                            return;
+
+                        if (VirtualizingPanel.GetIsVirtualizing(this))
+                            return;
+
+                        RenderItemsInView();
+                        RenderAllItems();
+                    });
+
+            SizeChangedSubscription =
+                Observable.FromEvent<SizeChangedEventHandler, SizeChangedEventArgs>(
+                 h =>
+                 {
+                     SizeChangedEventHandler x = (sender, e) => h(e);
+                     return x;
+                 },
+                    h => this.SizeChanged += h,
+                    h => this.SizeChanged -= h)
+                    .Throttle(TimeSpan.FromMilliseconds(250))
+                    .ObserveOnDispatcher()
+                    .Subscribe(args =>
+                    {
+                        if (VirtualizingPanel.GetIsVirtualizing(this))
+                            return;
+
+                        RenderAllItems(forceRender: true);
+                    });
+
             ContainerGeneratorStatusChangedSubscription = 
                 Observable.FromEvent<EventHandler, EventArgs>(
                  h =>
@@ -49,18 +91,6 @@ namespace SquaredInfinity.Foundation.Presentation.Controls
                             RenderAllItems(forceRender: true);
                         }
                     }); 
-        }
-
-        void BackgroundLoadingListView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if ((bool)e.NewValue == false)
-                return;
-
-            if (VirtualizingPanel.GetIsVirtualizing(this))
-                return;
-
-            RenderItemsInView();
-            RenderAllItems();
         }
 
         IDisposable ScrollChangedSubscription;

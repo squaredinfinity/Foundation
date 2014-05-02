@@ -43,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChainOfCommand.cs" />
+    <Compile Include="Collections\INotifyCollectionContentChanged.cs" />
+    <Compile Include="Collections\IBulkUpdatesCollection.cs" />
     <Compile Include="Collections\PriorityQueue.cs" />
     <Compile Include="CommandHandlerEventArgs.cs" />
     <Compile Include="CommandHandlerEventArgs_T.cs" />
@@ -52,6 +54,7 @@
     <Compile Include="FrameworkExtensions\System.Collections\ICollection.Extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Collections\IDictionary.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Collections\IEnumerable.Extensions.cs" />
+    <Compile Include="FrameworkExtensions\System.Collections\IReadOnlyList.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Collections\IList.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.ComponentModel\INotifyPropertyChanged.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Diagnostics\Stopwatch.extensions.cs" />
@@ -91,6 +94,12 @@
     <Compile Include="Serialization\FlexiXml\_entities\InstanceId.cs" />
     <Compile Include="Serialization\FlexiXml\_entities\SerializationContext.cs" />
     <Compile Include="Serialization\FlexiXml\_entities\SerializationOptions.cs" />
+    <Compile Include="Threading\ILock.cs" />
+    <Compile Include="Threading\IReadLockAcquisition.cs" />
+    <Compile Include="Threading\IWriteLockAcquisition.cs" />
+    <Compile Include="Threading\ReaderWriterLockSlimEx.WriteLockAcquisition.cs" />
+    <Compile Include="Threading\ReaderWriterLockSlimEx.ReadLockAcquisition.cs" />
+    <Compile Include="Threading\ReaderWriterLockSlimEx.cs" />
     <Compile Include="TypeResolver.cs" />
     <Compile Include="Types\Mapping\TypeMapper.TypeMappingStrategiesConcurrentDictionary.cs" />
     <Compile Include="Types\Mapping\ValueConverting\PreserveOriginalValueConverter.cs" />

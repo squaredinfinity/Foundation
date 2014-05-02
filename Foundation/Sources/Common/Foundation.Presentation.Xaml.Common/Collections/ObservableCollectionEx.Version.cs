@@ -9,8 +9,10 @@ using System.Threading;
 
 namespace SquaredInfinity.Foundation.Collections
 {
-    public partial class ObservableCollectionEx<TItem>
+    public partial class ObservableCollectionEx<TItem> : INotifyCollectionContentChanged
     {
+        public event Action<INotifyCollectionContentChanged> VersionChanged;
+
         int _version;
         public int Version
         {
@@ -20,6 +22,9 @@ namespace SquaredInfinity.Foundation.Collections
         public void IncrementVersion()
         {
             Interlocked.Increment(ref _version);
+
+            if (VersionChanged != null)
+                VersionChanged(this);
         }
     }
 }

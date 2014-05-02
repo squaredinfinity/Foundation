@@ -10,7 +10,7 @@ using System.Threading;
 
 namespace SquaredInfinity.Foundation.Collections
 {
-    public partial class ObservableCollectionEx<TItem>
+    public partial class ObservableCollectionEx<TItem> : IBulkUpdatesCollection<TItem>
     {
         readonly ReaderWriterLockSlim UpdateLock = new ReaderWriterLockSlim();
 

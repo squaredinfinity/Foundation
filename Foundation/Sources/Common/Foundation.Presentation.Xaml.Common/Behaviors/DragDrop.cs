@@ -281,6 +281,9 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
 
             _dragInfo = DragInfo.CreateFromMouseButtonEvent(sender, e);
 
+            if (_dragInfo == null)
+                return;
+
             var dragHandler = GetDragSource(_dragInfo, sender as UIElement);
             if (!dragHandler.CanStartDrag(_dragInfo))
             {

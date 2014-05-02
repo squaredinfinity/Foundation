@@ -42,6 +42,12 @@
     <Compile Include="..\..\Common\Foundation.Common\ChainOfCommand.cs">
       <Link>ChainOfCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\IBulkUpdatesCollection.cs">
+      <Link>Collections\IBulkUpdatesCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\INotifyCollectionContentChanged.cs">
+      <Link>Collections\INotifyCollectionContentChanged.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Collections\PriorityQueue.cs">
       <Link>Collections\PriorityQueue.cs</Link>
     </Compile>
@@ -71,6 +77,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Collections\IList.extensions.cs">
       <Link>FrameworkExtensions\System.Collections\IList.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Collections\IReadOnlyList.extensions.cs">
+      <Link>FrameworkExtensions\System.Collections\IReadOnlyList.extensions.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.ComponentModel\INotifyPropertyChanged.extensions.cs">
       <Link>FrameworkExtensions\System.ComponentModel\INotifyPropertyChanged.extensions.cs</Link>
@@ -173,6 +182,24 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\IXmlSerializer.cs">
       <Link>Serialization\IXmlSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Threading\ILock.cs">
+      <Link>Threading\ILock.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Threading\IReadLockAcquisition.cs">
+      <Link>Threading\IReadLockAcquisition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Threading\IWriteLockAcquisition.cs">
+      <Link>Threading\IWriteLockAcquisition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Threading\ReaderWriterLockSlimEx.cs">
+      <Link>Threading\ReaderWriterLockSlimEx.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Threading\ReaderWriterLockSlimEx.ReadLockAcquisition.cs">
+      <Link>Threading\ReaderWriterLockSlimEx.ReadLockAcquisition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Threading\ReaderWriterLockSlimEx.WriteLockAcquisition.cs">
+      <Link>Threading\ReaderWriterLockSlimEx.WriteLockAcquisition.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\TreeTraversalMode.cs">
       <Link>TreeTraversalMode.cs</Link>
