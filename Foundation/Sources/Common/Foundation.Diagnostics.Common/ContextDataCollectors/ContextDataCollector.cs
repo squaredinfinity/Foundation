@@ -1,8 +1,11 @@
-﻿using System;
+﻿using SquaredInfinity.Foundation.Diagnostics.Filters;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
 {
@@ -29,41 +32,29 @@ namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
             set { _filter = value; }
         }
 
-        readonly Collection<DataRequest> _requestedData = new Collection<DataRequest>();
-        public Collection<DataRequest> RequestedData
+        readonly Collection<IDataRequest> _requestedData = new Collection<IDataRequest>();
+        public Collection<IDataRequest> RequestedData
         {
             get { return _requestedData; }
         }
 
-        readonly Dictionary<DataRequest, DiagnosticEventProperty> _dataRequestCache
-            = new Dictionary<DataRequest, DiagnosticEventProperty>();
-        protected Dictionary<DataRequest, DiagnosticEventProperty> DataRequestCache
+        readonly Dictionary<IDataRequest, IDiagnosticEventProperty> _dataRequestCache
+            = new Dictionary<IDataRequest, IDiagnosticEventProperty>();
+        protected Dictionary<IDataRequest, IDiagnosticEventProperty> DataRequestCache
         {
             get { return _dataRequestCache; }
         }
 
-        public abstract bool TryGetData(DataRequest dataRequest, DataCollectionContext context, out object result);
+        public abstract bool TryGetData(IDataRequest dataRequest, IDataCollectionContext context, out object result);
 
-        public virtual
-#if UPTO_DOTNET40
-            IList<DiagnosticEventProperty>
-#else
- IReadOnlyList<DiagnosticEventProperty>
-#endif
- CollectData()
+        public virtual IDiagnosticEventPropertyCollection CollectData()
         {
             return CollectData(RequestedData);
         }
 
-        public
-#if UPTO_DOTNET40
-            IList<DiagnosticEventProperty>
-#else
- IReadOnlyList<DiagnosticEventProperty>
-#endif
- CollectData(IList<DataRequest> requestedContextData)
+        public IDiagnosticEventPropertyCollection CollectData(IReadOnlyList<IDataRequest> requestedContextData)
         {
-            var result = new List<DiagnosticEventProperty>(capacity: requestedContextData.Count);
+            var result = new DiagnosticEventPropertyCollection(capacity: requestedContextData.Count);
 
             if (requestedContextData.Count == 0)
                 return result;
@@ -74,7 +65,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
             {
                 var item = requestedContextData[i];
 
-                DiagnosticEventProperty property = null;
+                IDiagnosticEventProperty property = null;
 
                 //# try to get from cache first
                 if (DataRequestCache.TryGetValue(item, out property))
@@ -88,9 +79,11 @@ namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
 
                 if (TryGetData(item, cx, out dataValue))
                 {
-                    property = new DiagnosticEventProperty();
-                    property.UniqueName = item.Data;
-                    property.Value = dataValue;
+                    var newProperty = new DiagnosticEventProperty();
+                    newProperty.UniqueName = item.Data;
+                    newProperty.Value = dataValue;
+
+                    property = newProperty;
                 }
 
                 result.AddIfNotNull(property);
@@ -104,5 +97,6 @@ namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
         }
 
         public abstract IContextDataCollector Clone();
+
     }
 }

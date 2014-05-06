@@ -8,21 +8,11 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
 {
     [DebuggerDisplay("{Data}, IsAsync={IsAsync}, IsCached={IsCached}")]
-    public class DataRequest
+    public class DataRequest : IDataRequest
     {
         public string Data { get; set; }
         public bool IsAsync { get; set; }
-
-        bool _isCached;
-        /// <summary>
-        /// Specified if value shuld be cached.
-        /// True by default.
-        /// </summary>
-        public bool IsCached
-        {
-            get { return _isCached; }
-            set { _isCached = value; }
-        }
+        public bool IsCached { get; set; }
 
         public static implicit operator DataRequest(string data)
         {

@@ -16,20 +16,14 @@ namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
             set { _collectors = value; }
         }
 
-        public override
-#if UPTO_DOTNET40 
-        IList<DiagnosticEventProperty>
-#else
- IReadOnlyList<DiagnosticEventProperty>
-#endif
- CollectData()
+        public override IDiagnosticEventPropertyCollection CollectData()
         {
-            var result = Collectors.Collect().ToList();
+            var result = Collectors.Collect();
 
             return result;
         }
 
-        public override bool TryGetData(DataRequest dataRequest, DataCollectionContext context, out object result)
+        public override bool TryGetData(IDataRequest dataRequest, IDataCollectionContext context, out object result)
         {
             for (int i = 0; i < Collectors.Count; i++)
             {

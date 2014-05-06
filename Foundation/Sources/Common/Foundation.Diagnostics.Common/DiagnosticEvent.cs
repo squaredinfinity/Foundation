@@ -1,5 +1,4 @@
-﻿using SquaredInfinity.Foundation.Diagnostics.Infrastructure;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,7 +14,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
     /// Represents information about the diagnostic event.
     /// This information will be passed to Filters and Sinks.
     /// </summary>
-    public partial class DiagnosticEvent
+    public partial class DiagnosticEvent : IDiagnosticEvent
     {
         public static readonly IComparer DateTimeLocalComparer = new DateTimeLocalComparerImplementation();
         public static readonly IComparer DateTimeLocalMostRecentFirstComparer = new DateTimeLocalMostRecentFirstComparerImplementation();
@@ -136,7 +135,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
             Properties.AddOrUpdate("Event.AdditionalContextData", AdditionalContextData);
         }
 
-        internal void EvaluateAndPinAllDataIfNeeded()
+        public void EvaluateAndPinAllDataIfNeeded()
         {
             EvaluateMessageIfNeeded();
 
@@ -262,47 +261,6 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
                 return prop;
             }
-        }
-
-        internal void IncludeCallerInformation(bool useCallerNameAsLoggerName, bool includeCallerInfo)
-        {
-            StackFrame callerFrame = null;
-            MethodBase callerMethod = null;
-
-            GetCallerInfo(ref callerFrame, ref callerMethod);
-
-            if (useCallerNameAsLoggerName)
-            {
-                LoggerName = callerMethod.DeclaringType.FullName + "." + callerMethod.Name;
-            }
-
-            if (includeCallerInfo)
-            {
-                Properties.AddOrUpdate("Event.HasCallerInfo", true);
-
-                Properties.AddOrUpdate("Caller.TypeName", callerMethod.DeclaringType.FullName);
-                Properties.AddOrUpdate("Caller.MemberName", callerMethod.Name);
-                Properties.AddOrUpdate("Caller.FullName", callerMethod.DeclaringType.FullName + "." + callerMethod.Name);
-                Properties.AddOrUpdate("Caller.File", callerFrame.GetFileName());
-                Properties.AddOrUpdate("Caller.LineNumber", callerFrame.GetFileLineNumber());
-                Properties.AddOrUpdate("Caller.Column", callerFrame.GetFileColumnNumber());
-                Properties.AddOrUpdate("Caller.ILOffset", callerFrame.GetILOffset());
-                Properties.AddOrUpdate("Caller.NativeOffset", callerFrame.GetNativeOffset());
-            }
-        }
-
-        static void GetCallerInfo(ref StackFrame callerFrame, ref MethodBase callerMethod)
-        {
-            var st = new StackTrace(1, fNeedFileInfo: true);
-
-            int frameOffset = 0;
-
-            do
-            {
-                callerFrame = st.GetFrame(frameOffset++);
-                callerMethod = callerFrame.GetMethod();
-            }
-            while (callerFrame != null && callerMethod != null && callerMethod.DeclaringType != null && callerMethod.DeclaringType.Namespace.StartsWith("SquaredInfinity.Diagnostics."));
         }
     }
 }

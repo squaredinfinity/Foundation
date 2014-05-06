@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
 {
-    public class DataCollectionContext
+    public class DataCollectionContext : IDataCollectionContext
     {
         Process _currentProcess;
         public Process CurrentProcess
@@ -18,7 +20,6 @@ namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
 
                 return _currentProcess;
             }
-            set { _currentProcess = value; }
         }
 
         Thread _currentThread;
@@ -31,7 +32,6 @@ namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
 
                 return _currentThread;
             }
-            set { _currentThread = value; }
         }
     }
 }

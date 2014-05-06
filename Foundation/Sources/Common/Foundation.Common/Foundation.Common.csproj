@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChainOfCommand.cs" />
+    <Compile Include="Collections\CollectionEx.cs" />
     <Compile Include="Collections\INotifyCollectionContentChanged.cs" />
     <Compile Include="Collections\IBulkUpdatesCollection.cs" />
     <Compile Include="Collections\PriorityQueue.cs" />
@@ -98,8 +99,8 @@
     <Compile Include="Threading\IAsyncOperation.cs" />
     <Compile Include="Threading\IReadLockAcquisition.cs" />
     <Compile Include="Threading\IWriteLockAcquisition.cs" />
-    <Compile Include="Threading\ILongRunningLoop.cs" />
-    <Compile Include="Threading\LongRunningLoop.cs" />
+    <Compile Include="Threading\IAsyncLoop.cs" />
+    <Compile Include="Threading\AsyncLoop.cs" />
     <Compile Include="Threading\AsyncOperation.cs" />
     <Compile Include="Threading\ReaderWriterLockSlimEx.WriteLockAcquisition.cs" />
     <Compile Include="Threading\ReaderWriterLockSlimEx.ReadLockAcquisition.cs" />

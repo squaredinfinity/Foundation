@@ -47,6 +47,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9B4D9910
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Presentation.Xaml.UITests.Common", "Sources\Common\Tests\Foundation.Presentation.Xaml.UITests.Common\Foundation.Presentation.Xaml.UITests.Common.csproj", "{EC89CEBA-2D3C-4D16-9622-614ADE1CC0CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Diagnostics.Shared.Common", "Sources\Common\Foundation.Diagnostics.Shared.Common\Foundation.Diagnostics.Shared.Common.csproj", "{140AD714-686F-45CF-BA63-768A8883ED26}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +103,10 @@ Global
 		{EC89CEBA-2D3C-4D16-9622-614ADE1CC0CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC89CEBA-2D3C-4D16-9622-614ADE1CC0CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC89CEBA-2D3C-4D16-9622-614ADE1CC0CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{140AD714-686F-45CF-BA63-768A8883ED26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{140AD714-686F-45CF-BA63-768A8883ED26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{140AD714-686F-45CF-BA63-768A8883ED26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{140AD714-686F-45CF-BA63-768A8883ED26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,5 +124,6 @@ Global
 		{4C00093F-A067-4E66-9F70-7D715D941E20} = {3E3D143E-A6C5-4DED-8927-AEACF1F0784A}
 		{AB8007F5-AD2A-42B8-9375-98AE0AD89F80} = {D95634A3-6069-430C-A3B5-97347AE8EF5F}
 		{EC89CEBA-2D3C-4D16-9622-614ADE1CC0CE} = {9B4D9910-B430-4643-8C5F-DF5844C1A45A}
+		{140AD714-686F-45CF-BA63-768A8883ED26} = {3E3D143E-A6C5-4DED-8927-AEACF1F0784A}
 	EndGlobalSection
 EndGlobal

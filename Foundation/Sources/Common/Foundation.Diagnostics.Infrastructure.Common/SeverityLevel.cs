@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SquaredInfinity.Foundation.Extensions;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Infrastructure
+namespace SquaredInfinity.Foundation.Diagnostics
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
     public struct SeverityLevel

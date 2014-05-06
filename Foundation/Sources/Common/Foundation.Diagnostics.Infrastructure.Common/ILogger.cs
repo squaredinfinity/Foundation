@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Infrastructure
+namespace SquaredInfinity.Foundation.Diagnostics
 {
-
     /// <summary>
     /// Common Infrastructure interface to be implemented by all Loggers.
     /// </summary>

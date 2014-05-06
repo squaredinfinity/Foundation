@@ -1,4 +1,7 @@
-﻿using System;
+﻿using SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors;
+using SquaredInfinity.Foundation.Diagnostics.Formatters;
+using SquaredInfinity.Foundation.Diagnostics.Sinks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,19 +17,19 @@ namespace SquaredInfinity.Foundation.Diagnostics.Configuration
 
         public GlobalSettings GlobalSettings { get; set; }
 
-        public FormatterCollection Formatters { get; set; }
-        public SeverityLevelCollection SeverityLevels { get; set; }
+        public IFormatterCollection Formatters { get; set; }
+        public ISeverityLevelCollection SeverityLevels { get; set; }
 
-        public TypeDescriptorCollection TypeDescriptors { get; set; }
+        public ITypeDescriptorCollection TypeDescriptors { get; set; }
 
         #region Filters
 
         /// <summary>
         /// Collection of filters which can be reused in various components.
         /// </summary>
-        public FilterCollection FilterDefinitions { get; set; }
+        public IFilterCollection FilterDefinitions { get; set; }
 
-        public FilterCollection GlobalFilters { get; set; }
+        public IFilterCollection GlobalFilters { get; set; }
 
         #endregion
 
@@ -36,13 +39,13 @@ namespace SquaredInfinity.Foundation.Diagnostics.Configuration
         /// Collection of sinks which can be reused in various components.
         /// Not all sinks must be used.
         /// </summary>
-        public SinkCollection SinkDefinitions { get; set; }
+        public ISinkCollection SinkDefinitions { get; set; }
 
         /// <summary>
         /// Collections of sinks to be used for logging.
         /// All sinks in this list will receive diagnostic events.
         /// </summary>
-        public SinkCollection Sinks { get; set; }
+        public ISinkCollection Sinks { get; set; }
 
         // TODO: is this still needed?
         public SinkCollection InternalSinks { get; set; }

@@ -1,7 +1,15 @@
-﻿using System;
+﻿using SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors;
+using System;
 using System.Collections.Generic;
+using System.Deployment.Application;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
+using SquaredInfinity.Foundation.Extensions;
+using System.Reflection;
+using System.Globalization;
+using System.ComponentModel;
+using System.Diagnostics;
 
 namespace SquaredInfinity.Foundation.ContextDataCollectors
 {
@@ -34,7 +42,7 @@ namespace SquaredInfinity.Foundation.ContextDataCollectors
             }
         }
 
-        public override bool TryGetData(DataRequest request, DataCollectionContext cx, out object result)
+        public override bool TryGetData(IDataRequest request, IDataCollectionContext cx, out object result)
         {
             try
             {
@@ -272,6 +280,7 @@ namespace SquaredInfinity.Foundation.ContextDataCollectors
                 if (request.Data == "Process.PagedMemorySize (MiB)")
                 {
                     result = cx.CurrentProcess.PagedMemorySize64.ToMebiBytes();
+                    
                     return true;
                 }
 

@@ -13,7 +13,7 @@ namespace SquaredInfinity.Foundation.Threading
         [TestMethod]
         public void Xxx()
         {
-            var op = new AsyncOperation()
+            //var op = new AsyncOperation()
         }
 
 

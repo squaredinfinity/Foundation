@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.FrameworkExtensions.System
+namespace SquaredInfinity.Foundation.Extensions
 {
-    static class LongExtensions
+    public static class LongExtensions
     {
         static readonly long BytesInMebibyte = 1048576;
         static readonly long BytesInMegabyte = 1000000;

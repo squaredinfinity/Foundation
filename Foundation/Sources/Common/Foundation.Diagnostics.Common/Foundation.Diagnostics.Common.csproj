@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Deployment" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,31 +42,51 @@
   <ItemGroup>
     <Compile Include="ApplicationLifecycleEvents.cs" />
     <Compile Include="AttachedObject.cs" />
-    <Compile Include="Configuration\DiagnosticsConfiguration.cs" />
-    <Compile Include="Configuration\GlobalSettings.cs" />
-    <Compile Include="Configuration\IChangeMonitoringConfigurationProvider.cs" />
-    <Compile Include="Configuration\IConfigurationProvider.cs" />
-    <Compile Include="Configuration\KnownConfigNames.cs" />
-    <Compile Include="Configuration\Providers\DefaultConfigurationProvider.cs" />
-    <Compile Include="Configuration\Providers\EmbeddedResourceXmlConfigurationProvider.cs" />
-    <Compile Include="Configuration\Providers\XmlStringConfigurationProvider.cs" />
     <Compile Include="ContextDataCollectors\CompositeContextDataCollector.cs" />
     <Compile Include="ContextDataCollectors\ContextDataCollector.cs" />
     <Compile Include="ContextDataCollectors\ContextDataCollectorCollection.cs" />
     <Compile Include="ContextDataCollectors\DataCollectionContext.cs" />
     <Compile Include="ContextDataCollectors\DataRequest.cs" />
     <Compile Include="ContextDataCollectors\EnvironmentDataCollector.cs" />
-    <Compile Include="ContextDataCollectors\IContextDataCollector.cs" />
     <Compile Include="DiagnosticEvent.DateTimeLocalMostRecentFirstComparerImplementation - Copy 1.cs" />
     <Compile Include="DiagnosticEvent.DateTimeLocalComparerImplementation.cs" />
     <Compile Include="DiagnosticEvent.cs" />
+    <Compile Include="DiagnosticEventPropertyCollection.cs" />
+    <Compile Include="DiagnosticEventCollection.cs" />
+    <Compile Include="DiagnosticEventProperty.cs" />
+    <Compile Include="DiagnosticLogger.cs" />
+    <Compile Include="DiagnosticLogger.ILogger.cs" />
     <Compile Include="ExceptionContextData.cs" />
+    <Compile Include="Filters\Filter.cs" />
+    <Compile Include="Filters\FilterCollection.cs" />
+    <Compile Include="Fluent\IHideObjectInheritedMembers.cs" />
+    <Compile Include="Formatters\FormatterCollection.cs" />
+    <Compile Include="Formatters\PatternFormatter.cs" />
+    <Compile Include="Formatters\RawFormatter.cs" />
+    <Compile Include="Framework Extensions\SquaredInfinity.Foundation.Diagnostics\ILogger.extensions.cs" />
     <Compile Include="ILoggerImplementation.cs" />
-    <Compile Include="ILoggerName.cs" />
+    <Compile Include="InternalDiagnosticLogger.cs" />
+    <Compile Include="InternalDiagnosticLogger.EmergencyLogger.cs" />
     <Compile Include="LinkTypes.cs" />
     <Compile Include="LoggerName.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecurityEvents.cs" />
+    <Compile Include="Sinks\MemorySink.cs" />
+    <Compile Include="Sinks\Sink.cs" />
+    <Compile Include="Sinks\SinkCollection.cs" />
+    <Compile Include="Sinks\SinkLocation.cs" />
+    <Compile Include="TextTemplates\Function.cs" />
+    <Compile Include="TextTemplates\FunctionCollection.cs" />
+    <Compile Include="TextTemplates\FunctionDefinition.cs" />
+    <Compile Include="TextTemplates\Placeholders\ConditionalPlaceholder.cs" />
+    <Compile Include="TextTemplates\Placeholders\Placeholder.cs" />
+    <Compile Include="TextTemplates\Substitutions\TextSubstitution.cs" />
+    <Compile Include="TextTemplates\Substitutions\EvaluatedSubstitution.cs" />
+    <Compile Include="TextTemplates\Substitutions\Substitution.cs" />
+    <Compile Include="TextTemplates\Substitutions\SubstitutionCollection.cs" />
+    <Compile Include="TextTemplates\Template.cs" />
+    <Compile Include="TextTemplates\TemplateProcessingService.cs" />
+    <Compile Include="TextTemplates\TextTemplateProcessingContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Foundation.Common\Foundation.Common.csproj">
@@ -77,6 +98,10 @@
       <Name>Foundation.Diagnostics.Infrastructure.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="TextTemplates\!overview.txt" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

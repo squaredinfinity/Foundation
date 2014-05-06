@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Threading
 {
-    public interface ILongRunningLoop
+    public interface IAsyncLoop
     {
         TimeSpan LoopIterationInterval { get; set; }
 

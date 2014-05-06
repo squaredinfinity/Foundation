@@ -19,41 +19,35 @@ namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
 
         readonly ReaderWriterLockSlim CacheLock = new ReaderWriterLockSlim();
 
-        public Dictionary<string, object> Collect()
+        public IDiagnosticEventPropertyCollection Collect()
         {
-            var result = new Dictionary<string, object>(capacity: 27);
+            var result = new DiagnosticEventPropertyCollection();
 
             for (int i = 0; i < SyncCollectors.Count; i++)
             {
                 var c = SyncCollectors[i];
-                result.AddOrUpdateFrom(c.CollectData());
+           //     result.AddOrUpdateFrom(c.CollectData());
             }
 
             if (AsyncCollectors.Count > 0)
             {
                 Parallel.ForEach(AsyncCollectors, (c) =>
                 {
-                    result.AddOrUpdateFrom(c.CollectData());
+             //       result.AddOrUpdateFrom(c.CollectData());
                 });
             }
 
             return result;
         }
 
-        public
-#if UPTO_DOTNET40
-            IList<DiagnosticEventProperty>
-#else
- IReadOnlyList<DiagnosticEventProperty>
-#endif
- Collect(IList<DataRequest> requestedContextData)
+        public IReadOnlyList<DiagnosticEventProperty> Collect(IList<DataRequest> requestedContextData)
         {
             var result = new List<DiagnosticEventProperty>();
 
             for (int i = 0; i < SyncCollectors.Count; i++)
             {
                 var c = SyncCollectors[i];
-                result.AddRange(c.CollectData(requestedContextData));
+          //      result.AddRange(c.CollectData(requestedContextData));
             }
 
             // TODO: Async collectors not supported at the moment

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Threading
 {
-    public class LongRunningLoop : ILongRunningLoop
+    public class AsyncLoop : IAsyncLoop
     {
         CancellationTokenSource OperationCancellationTokenSource;
 
@@ -52,11 +52,11 @@ namespace SquaredInfinity.Foundation.Threading
             }
         }
 
-        public LongRunningLoop(Action loopBody)
+        public AsyncLoop(Action loopBody)
             : this(loopBody, Timeout.InfiniteTimeSpan)
         { }
 
-        public LongRunningLoop(Action actionToExecute, TimeSpan loopIterationInterval)
+        public AsyncLoop(Action actionToExecute, TimeSpan loopIterationInterval)
         {
             LoopBody = actionToExecute;
 
