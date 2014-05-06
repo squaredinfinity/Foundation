@@ -362,6 +362,14 @@ namespace SquaredInfinity.Foundation.Data
             setValue(clrValue);
         }
 
+        /// <summary>
+        /// Provides a logic for mapping DB values to Clr values.
+        /// For example, mapping of DBNull to null.
+        /// </summary>
+        /// <typeparam name="TTarget">.Net type to map to</typeparam>
+        /// <param name="dbValue">DB value</param>
+        /// <param name="clrTarget">.Net class or struct member where mapped value will be written to.</param>
+        /// <param name="defaultValue">Value to use to substitute NULL</param>
         public virtual void MapToClrValue<TTarget>(object dbValue, ref TTarget clrTarget, TTarget defaultValue = default(TTarget))
         {
             if (dbValue == null)
@@ -385,25 +393,35 @@ namespace SquaredInfinity.Foundation.Data
                 return;
             }
 
+            //# Timespan
+            //  Sql Server does not support TimeSpan directly
+            //  Convert from number of ticks instead
             if (targetType == typeof(TimeSpan?) || targetType == typeof(TimeSpan))
             {
                 clrTarget = (TTarget)(object)TimeSpan.FromTicks((long)dbValue);
                 return;
             }
 
+            //# XDocument
+            //  Sql Server does not support XDocument directly
+            //  Convert from string representation instead
             if (targetType == typeof(XDocument))
             {
                 clrTarget = (TTarget)(object)XDocument.Parse(dbValue as string);
                 return;
             }
 
-
+            //# XElement
+            //  Sql Server does not support XElement directly
+            //  Convert from string representation instead
             if (targetType == typeof(XElement))
             {
                 clrTarget = (TTarget)(object)XElement.Parse(dbValue as string);
                 return;
             }
 
+            //# IConvertible
+            //  Convert DB value to .NET value if it can be converted without loss of information
             if (dbValue is IConvertible)
             {
                 clrTarget = (TTarget)Convert.ChangeType(dbValue, typeof(TTarget));

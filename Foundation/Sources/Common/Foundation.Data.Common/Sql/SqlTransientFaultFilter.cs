@@ -72,6 +72,11 @@ namespace SquaredInfinity.Foundation.Data.Sql
             // until the resources are available and your connection is established again.
         }
 
+        /// <summary>
+        /// Checks if exception should be classified as a transient fault
+        /// </summary>
+        /// <param name="ex"></param>
+        /// <returns>True if exception is a transient fault, False otherwise</returns>
         public bool IsTransientFault(Exception ex)
         {
             var result = false;
@@ -89,16 +94,21 @@ namespace SquaredInfinity.Foundation.Data.Sql
             return IsExceptionTransient(ex);
         }
 
+        /// <summary>
+        /// Checks if exception should be classified as a transient fault.
+        /// </summary>
+        /// <param name="ex">An exception (this will never be a SqlException, those are handled by IsSqlExceptionTransient)</param>
+        /// <returns>True if exception is a transient fault, False otherwise</returns>
         protected virtual bool IsExceptionTransient(Exception ex)
         {
             return (ex is TimeoutException);
         }
 
         /// <summary>
-        /// http://msdn.microsoft.com/en-us/library/ff394106.aspx
+        /// Checks if Sql Exception should be classified as a transient fault.
         /// </summary>
         /// <param name="ex"></param>
-        /// <returns></returns>
+        /// <returns>True if exception is a transient fault, False otherwise</returns>
         protected virtual bool IsSqlExceptionTransient(SqlException ex)
         {
             return ex.Number.IsIn(TransientErrorNumbers);

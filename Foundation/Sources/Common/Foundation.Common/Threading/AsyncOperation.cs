@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Threading
 {
-    public class LongRunningOperation
+    public class AsyncAction : IAsyncAction
     {
         CancellationTokenSource OperationCancellationTokenSource;
 
@@ -15,7 +15,7 @@ namespace SquaredInfinity.Foundation.Threading
 
         AutoResetEvent ExecuteRequestedEvent = new AutoResetEvent(false);
 
-        public TimeSpan Throttle { get; set; }
+        public TimeSpan RequestsThrottle { get; set; }
 
         Action ActionToExecute { get; set; }
 
@@ -45,7 +45,7 @@ namespace SquaredInfinity.Foundation.Threading
                 ExecuteRequestedEvent.Set();
             }
 
-        public LongRunningOperation(Action actionToExecute)
+        public AsyncAction(Action actionToExecute)
             {
                 this.ActionToExecute = actionToExecute;
 
@@ -54,9 +54,7 @@ namespace SquaredInfinity.Foundation.Threading
                 OperationTask =
                     Task.Factory.StartNew(
                     () => OperationLoop(OperationCancellationTokenSource.Token),
-                    OperationCancellationTokenSource.Token,
-                    TaskCreationOptions.LongRunning,
-                    TaskScheduler.Default);
+                    OperationCancellationTokenSource.Token);
             }
     }
 }

@@ -6,10 +6,16 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Threading
 {
-    public interface ILongRunningOperation
+    public interface IAsyncAction
     {
-        TimeSpan Throttle { get; set; }
+        TimeSpan RequestsThrottle { get; set; }
 
         void RequestExecute();
+    }
+
+    public enum AsyncOperationMode
+    {
+        QueueOperations,
+
     }
 }

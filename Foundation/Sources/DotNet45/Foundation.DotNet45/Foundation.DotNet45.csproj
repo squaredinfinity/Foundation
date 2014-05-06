@@ -183,14 +183,17 @@
     <Compile Include="..\..\Common\Foundation.Common\Serialization\IXmlSerializer.cs">
       <Link>Serialization\IXmlSerializer.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Threading\AsyncOperation.cs">
+      <Link>Threading\AsyncOperation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Threading\IAsyncOperation.cs">
+      <Link>Threading\IAsyncOperation.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Threading\ILock.cs">
       <Link>Threading\ILock.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Threading\ILongRunningLoop.cs">
       <Link>Threading\ILongRunningLoop.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Threading\ILongRunningOperation.cs">
-      <Link>Threading\ILongRunningOperation.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Threading\IReadLockAcquisition.cs">
       <Link>Threading\IReadLockAcquisition.cs</Link>
@@ -200,9 +203,6 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Threading\LongRunningLoop.cs">
       <Link>Threading\LongRunningLoop.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Threading\LongRunningOperation.cs">
-      <Link>Threading\LongRunningOperation.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Threading\ReaderWriterLockSlimEx.cs">
       <Link>Threading\ReaderWriterLockSlimEx.cs</Link>

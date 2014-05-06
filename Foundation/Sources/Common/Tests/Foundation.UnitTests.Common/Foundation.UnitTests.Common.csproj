@@ -96,6 +96,7 @@
     </Compile>
     <Compile Include="Serialization\FlexiXml\FlexiXmlSerialize__Serialize.tests.cs" />
     <Compile Include="TestEntities\LinkedListNode.cs" />
+    <Compile Include="Threading\AsyncOperation.tests.cs" />
     <Compile Include="Types\Description\Reflection\ReflectionBasedTypeDescriptor.DescribeType.tests.cs" />
     <Compile Include="Types\Description\Reflection\TestEntities\TypeHaPropertyOfTheSameType.cs" />
     <Compile Include="Types\Mapping\TestEntities\MapTestCollection.cs" />

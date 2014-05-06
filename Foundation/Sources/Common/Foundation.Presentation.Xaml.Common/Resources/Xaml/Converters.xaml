@@ -32,6 +32,7 @@
 
     <converters:SizeToRectConverter x:Key="Converters.SizeToRect" />
 
+    <converters:EnumToBoolConverter x:Key="Converters.EnumToBool" />
 
     <converters:CompositeConverter x:Key="Converters.HiddenWhen0">
         <converters:ValueToBoolConverter ExpectedValue="0" />
