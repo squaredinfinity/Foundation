@@ -95,6 +95,8 @@
     <Compile Include="Converters\TextFlattenAndTrimConverter.cs" />
     <Compile Include="Converters\TreeViewItemLeftMarginConverter.cs" />
     <Compile Include="Converters\ValueToBoolConverter.cs" />
+    <Compile Include="DataTemplateSelectors\DynamicDataTemplateSelector.cs" />
+    <Compile Include="DataTemplateSelectors\ResourcesTraversingDataTemplateSelector.cs" />
     <Compile Include="DataTemplateSelectors\TypeNameToResourceKeyMappingDataTemplateSelector.cs" />
     <Compile Include="Data\CollectionViewSource.cs" />
     <Compile Include="DialogMode.cs" />

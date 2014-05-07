@@ -172,6 +172,12 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\ValueToBoolConverter.cs">
       <Link>Converters\ValueToBoolConverter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\DynamicDataTemplateSelector.cs">
+      <Link>DataTemplateSelectors\DynamicDataTemplateSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\ResourcesTraversingDataTemplateSelector.cs">
+      <Link>DataTemplateSelectors\ResourcesTraversingDataTemplateSelector.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\TypeNameToResourceKeyMappingDataTemplateSelector.cs">
       <Link>DataTemplateSelectors\TypeNameToResourceKeyMappingDataTemplateSelector.cs</Link>
     </Compile>

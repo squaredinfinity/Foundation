@@ -10,54 +10,27 @@ using System.Windows.Controls.Primitives;
 
 namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
 {
-    public class TypeNameToResourceKeyMappingDataTemplateSelector : DataTemplateSelector
+    public class TypeNameToResourceKeyMappingDataTemplateSelector : ResourcesTraversingDataTemplateSelector
     {
-        public override System.Windows.DataTemplate SelectTemplate(object item, System.Windows.DependencyObject container)
+        protected override bool TryFindDataTemplate(
+            ResourceDictionary resources,
+            FrameworkElement resourcesOwner,
+            DependencyObject itemContainer,
+            object item,
+            Type itemType,
+            out DataTemplate dataTemplate)
         {
-            if (item == null)
-                return null;
-
-            var itemType = item.GetType();
-
-            var result = (DataTemplate)null;
-
-            // first try to find in passed container
-
-            var container_frameworkElement = container as FrameworkElement;
-            if (container_frameworkElement != null && TryFindDataTemplate(container_frameworkElement.Resources, itemType, out result))
-                    return result;
-
-            // then try all visual parents
-
-            var parent = container_frameworkElement;
-
-            while ((parent = parent.FindVisualParent<FrameworkElement>()) != null)
-            {
-                if (TryFindDataTemplate(parent.Resources, itemType, out result))
-                    return result;
-            }
-
-            // then try globally
-
-            if (Application.Current != null && TryFindDataTemplate(Application.Current.Resources, itemType, out result))
-                return result;             
-
-            return null;
-        }
-
-        protected virtual bool TryFindDataTemplate(ResourceDictionary dict, Type type, out DataTemplate dataTemplate)
-        {
-            dataTemplate = dict[type.FullName] as DataTemplate;
+            dataTemplate = resources[itemType.FullName] as DataTemplate;
             if (dataTemplate != null)
                 return true;
 
-            dataTemplate = dict[type.Name] as DataTemplate;
+            dataTemplate = resources[itemType.Name] as DataTemplate;
             if (dataTemplate != null)
                 return true;
 
-            if(type.Name.EndsWith("ViewModel"))
+            if (itemType.Name.EndsWith("ViewModel"))
             {
-                dataTemplate = dict[type.Name.Substring(0, type.Name.Length - "ViewModel".Length)] as DataTemplate;
+                dataTemplate = resources[itemType.Name.Substring(0, itemType.Name.Length - "ViewModel".Length)] as DataTemplate;
                 if (dataTemplate != null)
                     return true;
             }

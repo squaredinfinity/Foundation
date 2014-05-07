@@ -42,6 +42,9 @@
     <Compile Include="..\..\Common\Foundation.Common\ChainOfCommand.cs">
       <Link>ChainOfCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\CollectionEx.cs">
+      <Link>Collections\CollectionEx.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Collections\IBulkUpdatesCollection.cs">
       <Link>Collections\IBulkUpdatesCollection.cs</Link>
     </Compile>
