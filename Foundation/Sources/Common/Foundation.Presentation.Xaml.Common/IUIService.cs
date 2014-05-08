@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace SquaredInfinity.Foundation.Presentation
 {
@@ -47,13 +49,6 @@ namespace SquaredInfinity.Foundation.Presentation
         /// <param name="action">The action.</param>
         bool IsUIThread { get; }
 
-        /// <summary>
-        /// Runs the specified action.
-        /// Action will run on UI thread (using Dispatcher in WPF/Silverlight or Control.Invoke in WinForms)
-        /// </summary>
-        /// <param name="action">The action.</param>
-        void RunAsync(Action action);
-
-        void Run(Action action);
+        SynchronizationContext SynchronizationContext { get; }
     }
 }

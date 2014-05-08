@@ -13,9 +13,10 @@ namespace SquaredInfinity.Foundation.Threading
         void RequestExecute();
     }
 
-    public enum AsyncOperationMode
+    public interface IAsyncAction<T>
     {
-        QueueOperations,
+        TimeSpan RequestsThrottle { get; set; }
 
+        void RequestExecute(T argument);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -16,7 +17,10 @@ namespace SquaredInfinity.Foundation.Presentation
         public UIService(Dispatcher uiDispatcher)
         {
             this.UIDispatcher = uiDispatcher;
+            this.SynchronizationContext = new DispatcherSynchronizationContext(uiDispatcher);
         }
+
+        public SynchronizationContext SynchronizationContext { get; private set; }
 
         /// <summary>
         /// Displays a tool window to the user.
@@ -115,16 +119,6 @@ namespace SquaredInfinity.Foundation.Presentation
         public bool IsUIThread
         {
             get { return UIDispatcher.CheckAccess(); }
-        }
-
-        public void RunAsync(Action action)
-        {
-            UIDispatcher.BeginInvoke(action);
-        }
-
-        public void Run(Action action)
-        {
-            UIDispatcher.Invoke(action);
         }
     }
 }

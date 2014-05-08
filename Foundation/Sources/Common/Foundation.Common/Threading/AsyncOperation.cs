@@ -12,49 +12,100 @@ namespace SquaredInfinity.Foundation.Threading
         CancellationTokenSource OperationCancellationTokenSource;
 
         Task OperationTask;
-
-        AutoResetEvent ExecuteRequestedEvent = new AutoResetEvent(false);
-
+        
         public TimeSpan RequestsThrottle { get; set; }
 
         Action ActionToExecute { get; set; }
-
-        void OperationLoop(CancellationToken cancellationToken)
+        
+        Action<CancellationToken> CancellableActionToExecute { get; set; }
+        
+        public void RequestExecute()
         {
-            while (true)
+            if(OperationTask != null)
             {
-                if (cancellationToken.IsCancellationRequested)
-                    return;
-
-                if (!ExecuteRequestedEvent.WaitOne(millisecondsTimeout: 250))
-                    continue;
-
-                try
-                {
-                    ActionToExecute();
-                }
-                catch (Exception ex)
-                {
-                    // notify about error via event
-                }
+                OperationCancellationTokenSource.Cancel();
+                OperationTask.Wait();
             }
+
+            OperationCancellationTokenSource = new CancellationTokenSource();
+
+            if (CancellableActionToExecute != null)
+            {
+                OperationTask =
+                    new Task(() => 
+                        CancellableActionToExecute(OperationCancellationTokenSource.Token),
+                        OperationCancellationTokenSource.Token);
+            }
+            else
+            {
+                OperationTask =
+                    new Task(() =>
+                        ActionToExecute(),
+                        OperationCancellationTokenSource.Token);
+            }
+
+            OperationTask.Start();
         }
 
-        public void RequestExecute()
-            {
-                ExecuteRequestedEvent.Set();
-            }
-
         public AsyncAction(Action actionToExecute)
+        {
+            this.ActionToExecute = actionToExecute;
+        }
+
+        public AsyncAction(Action<CancellationToken> cancellableActionToExecute)
+        {
+            this.CancellableActionToExecute = cancellableActionToExecute;
+        }
+    }
+
+    public class AsyncAction<T> : IAsyncAction<T>
+    {
+        CancellationTokenSource OperationCancellationTokenSource;
+
+        Task OperationTask;
+
+        public TimeSpan RequestsThrottle { get; set; }
+
+        Action<T> ActionToExecute { get; set; }
+
+        Action<T, CancellationToken> CancellableActionToExecute { get; set; }
+
+        public void RequestExecute(T argument)
+        {
+            if (OperationTask != null)
             {
-                this.ActionToExecute = actionToExecute;
-
-                OperationCancellationTokenSource = new CancellationTokenSource();
-
-                OperationTask =
-                    Task.Factory.StartNew(
-                    () => OperationLoop(OperationCancellationTokenSource.Token),
-                    OperationCancellationTokenSource.Token);
+                OperationCancellationTokenSource.Cancel();
+                OperationTask.Wait();
             }
+
+            OperationCancellationTokenSource = new CancellationTokenSource();
+
+            if (CancellableActionToExecute != null)
+            {
+                OperationTask =
+                    new Task(() =>
+                        CancellableActionToExecute(argument, OperationCancellationTokenSource.Token),
+                        OperationCancellationTokenSource.Token);
+            }
+            else
+            {
+                OperationTask =
+                    new Task(() =>
+                        ActionToExecute(argument),
+                        OperationCancellationTokenSource.Token);
+            }
+
+            OperationTask.Start();
+        }
+
+        public AsyncAction(Action<T> actionToExecute)
+        {
+            this.ActionToExecute = actionToExecute;
+        }
+
+        public AsyncAction(Action<T, CancellationToken> cancellableActionToExecute)
+        {
+            this.CancellableActionToExecute = cancellableActionToExecute;
+        }
     }
 }
