@@ -13,7 +13,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.Formatters
 
         public string Format(IDiagnosticEvent de)
         {
-            return de.VerbatimMessage;
+            return de.Message;
         }
 
         public IReadOnlyList<IDataRequest> GetRequestedContextData()

@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Diagnostics
 {
-    public interface IDiagnosticEventCollection : 
-        ICollection<IDiagnosticEvent>, 
-        IList<IDiagnosticEvent>,
-        IBulkUpdatesCollection<IDiagnosticEvent>, 
+    public interface IAttachedObjectCollection :
+        ICollection<IAttachedObject>,
+        IList<IAttachedObject>,
+        IBulkUpdatesCollection<IAttachedObject>,
         INotifyCollectionContentChanged
     {
+
     }
 }

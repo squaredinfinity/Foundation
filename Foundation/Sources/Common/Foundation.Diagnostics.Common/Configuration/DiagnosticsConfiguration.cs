@@ -1,4 +1,5 @@
 ﻿using SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors;
+using SquaredInfinity.Foundation.Diagnostics.Filters;
 using SquaredInfinity.Foundation.Diagnostics.Formatters;
 using SquaredInfinity.Foundation.Diagnostics.Sinks;
 using System;
@@ -11,35 +12,16 @@ namespace SquaredInfinity.Foundation.Diagnostics.Configuration
 {
     public class DiagnosticsConfiguration
     {
-        internal ConfigurationCache LogConfigCache;
-
         internal List<DataRequest> RequestedContextDataCache = new List<DataRequest>();
 
-        public GlobalSettings GlobalSettings { get; set; }
-
-        public IFormatterCollection Formatters { get; set; }
-        public ISeverityLevelCollection SeverityLevels { get; set; }
-
-        public ITypeDescriptorCollection TypeDescriptors { get; set; }
-
-        #region Filters
+        public GlobalSettings Settings { get; set; }
+        
+        public IFilterCollection Filters { get; set; }
 
         /// <summary>
-        /// Collection of filters which can be reused in various components.
+        /// Global filters can be used to control which event are processed even before they get to any sink
         /// </summary>
-        public IFilterCollection FilterDefinitions { get; set; }
-
         public IFilterCollection GlobalFilters { get; set; }
-
-        #endregion
-
-        #region Sinks
-
-        /// <summary>
-        /// Collection of sinks which can be reused in various components.
-        /// Not all sinks must be used.
-        /// </summary>
-        public ISinkCollection SinkDefinitions { get; set; }
 
         /// <summary>
         /// Collections of sinks to be used for logging.
@@ -47,34 +29,27 @@ namespace SquaredInfinity.Foundation.Diagnostics.Configuration
         /// </summary>
         public ISinkCollection Sinks { get; set; }
 
-        // TODO: is this still needed?
-        public SinkCollection InternalSinks { get; set; }
+        /// <summary>
+        /// Context Data Collectors registered globally which will be used to retrieve context data as requested by sinks.
+        /// </summary>
+        public IContextDataCollectorCollection ContextDataCollectors { get; set; }
 
-        #endregion
-
-        #region Context Data Collectors
-
-        public ContextDataCollectorCollection GlobalContextDataCollectors { get; set; }
-        public ContextDataCollectorCollection AdditionalContextDataCollectors { get; set; }
-
-        #endregion
+        /// <summary>
+        /// Additional Context Data Collectors will be used to retrieve additional context data depending on specified filter criteria.
+        /// For example, you may want to include additional, more detailed (and expensive to get) information when application-lifecycle.startup event is logged, 
+        /// but do not require it when verbose messages are logged.
+        /// </summary>
+        public IContextDataCollectorCollection AdditionalContextDataCollectors { get; set; }
 
         public DiagnosticsConfiguration()
         {
-            this.GlobalSettings = new GlobalSettings();
+            this.Settings = new GlobalSettings();
 
-            this.Formatters = new FormatterCollection();
-            this.SeverityLevels = new SeverityLevelCollection();
+            this.Filters = new FilterCollection();
 
-            this.TypeDescriptors = new TypeDescriptorCollection();
-
-            this.FilterDefinitions = new FilterCollection();
-            this.GlobalFilters = new FilterCollection();
-
-            this.GlobalContextDataCollectors = new ContextDataCollectorCollection();
+            this.ContextDataCollectors = new ContextDataCollectorCollection();
             this.AdditionalContextDataCollectors = new ContextDataCollectorCollection();
 
-            this.SinkDefinitions = new SinkCollection();
             this.Sinks = new SinkCollection();
         }
     }

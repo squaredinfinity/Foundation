@@ -548,20 +548,6 @@ namespace SquaredInfinity.Foundation.ContextDataCollectors
         readonly MemoryStatus MemoryStatus = new MemoryStatus();
 
 
-        public override IContextDataCollector Clone()
-        {
-            var result = new EnvironmentDataCollector();
-
-            result.IsAsync = IsAsync;
-
-            result.Filter = Filter;
-
-            foreach (var data in RequestedData)
-                result.RequestedData.Add(data);
-
-            return result;
-        }
-
         [DllImport("Kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal extern static bool GlobalMemoryStatusEx([In, Out] MEMORYSTATUSEX lpBuffer);

@@ -1,4 +1,5 @@
-﻿using SquaredInfinity.Foundation.Diagnostics.Filters;
+﻿using SquaredInfinity.Foundation.Diagnostics.Configuration;
+using SquaredInfinity.Foundation.Diagnostics.Filters;
 using SquaredInfinity.Foundation.Diagnostics.Sinks;
 using System;
 using System.Collections.Generic;
@@ -42,8 +43,6 @@ namespace SquaredInfinity.Foundation.Diagnostics
         /// </summary>
         ILoggerImplementation Parent { get; set; }
 
-     //   DiagnosticsConfiguration Config { get; set; }
-
         /// <summary>
         /// Determines if given Diagnostic Event meets filtering criteria
         /// </summary>
@@ -51,7 +50,6 @@ namespace SquaredInfinity.Foundation.Diagnostics
         /// <param name="loggerName"></param>
         /// <param name="config"></param>
         /// <returns>true if event should be logged, false otherwise1</returns>
-        bool MeetsFiltersCriteria(DiagnosticEvent diagnosticEvent, ILoggerName loggerName, IFilterCollection filters);
-
+        bool MeetsFiltersCriteria(IDiagnosticEvent diagnosticEvent, ILoggerName loggerName, IFilterCollection filters);
     }
 }

@@ -8,9 +8,12 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Foundation.Diagnostics
 {
     public interface IDiagnosticEventPropertyCollection :
-        ICollection<IDiagnosticEventProperty>,
-        IBulkUpdatesCollection<IDiagnosticEventProperty>, 
-        INotifyCollectionContentChanged
+        IEnumerable<IDiagnosticEventProperty>
     {
+        void AddOrUpdate(string propertyName, object value);
+        void AddOrUpdate(IDiagnosticEventProperty property);
+        void AddOrUpdateRange(IEnumerable<IDiagnosticEventProperty> properties);
+
+        bool TryGetValue(string propertyName, out object value);
     }
 }

@@ -22,7 +22,7 @@ namespace SquaredInfinity.Foundation.Extensions
             collection.Add(value);
         }
 
-        public static void TryAddRange<T>(this ICollection<T> collection, params T[] items)
+        public static void AddRange<T>(this ICollection<T> collection, params T[] items)
         {
             if (items == null)
                 return;

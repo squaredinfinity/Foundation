@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{09913C58-684F-471C-A1BB-6E80F6C33862}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{03CC4F8E-3873-49AD-BB58-BD9B95473E85}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SquaredInfinity.Foundation.Diagnostics</RootNamespace>
-    <AssemblyName>SquaredInfinity.Foundation.Diagnostics.Infrastructure</AssemblyName>
+    <RootNamespace>Test</RootNamespace>
+    <AssemblyName>Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -39,37 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContextDataCollectors\IContextDataCollector.cs" />
-    <Compile Include="ContextDataCollectors\IContextDataCollectorCollection.cs" />
-    <Compile Include="ContextDataCollectors\IDataCollectionContext.cs" />
-    <Compile Include="ContextDataCollectors\IDataRequest.cs" />
-    <Compile Include="ContextDataCollectors\IDataRequestCollection.cs" />
-    <Compile Include="Filters\FilterMode.cs" />
-    <Compile Include="Filters\IFilter.cs" />
-    <Compile Include="Filters\IFilterCollection.cs" />
-    <Compile Include="Formatters\IFormatter.cs" />
-    <Compile Include="Formatters\IFormatterCollection.cs" />
-    <Compile Include="IAttachedObject.cs" />
-    <Compile Include="IAttachedObjectCollection.cs" />
-    <Compile Include="IDiagnosticEvent.cs" />
-    <Compile Include="IDiagnosticEventPropertyCollection.cs" />
-    <Compile Include="IDiagnosticEventCollection.cs" />
-    <Compile Include="IDiagnosticEventProperty.cs" />
-    <Compile Include="ILogger.cs" />
-    <Compile Include="ILoggerName.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SeverityLevel.cs" />
-    <Compile Include="KnownSeverityLevels.cs" />
-    <Compile Include="Sinks\IRawMessageSink.cs" />
-    <Compile Include="Sinks\ISink.cs" />
-    <Compile Include="Sinks\ISinkCollection.cs" />
-    <Compile Include="Sinks\ISinkLocation.cs" />
-    <Compile Include="Sinks\KnownSinkLocationSchemas.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Foundation.Common\Foundation.Common.csproj">
-      <Project>{dfeab4e6-d02d-448b-8649-2d12be137191}</Project>
-      <Name>Foundation.Common</Name>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sources\DotNet45\Foundation.DotNet45\Foundation.DotNet45.csproj">
+      <Project>{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}</Project>
+      <Name>Foundation.DotNet45</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

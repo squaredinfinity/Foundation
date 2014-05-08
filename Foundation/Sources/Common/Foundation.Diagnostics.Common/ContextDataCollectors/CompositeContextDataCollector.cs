@@ -81,17 +81,5 @@ namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
         {
             return Collectors.GetEnumerator();
         }
-
-        public override IContextDataCollector Clone()
-        {
-            var result = new CompositeContextDataCollector();
-
-            result.IsAsync = IsAsync;
-
-            foreach (var c in Collectors)
-                result.Collectors.Add(c.Clone());
-
-            return result;
-        }
     }
 }
