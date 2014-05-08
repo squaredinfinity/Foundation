@@ -217,5 +217,17 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 xel.Name = type.Name;
             }
         }
+
+        public XElement Serialize<T>(IEnumerable<T> items, string rootElementName, Func<T, XElement> getItemElement)
+        {
+            var root = new XElement(rootElementName);
+
+            foreach(var item in items)
+            {
+                root.Add(getItemElement(item));
+            }
+
+            return root;
+        }
     }
 }

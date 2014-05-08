@@ -10,6 +10,8 @@ namespace SquaredInfinity.Foundation.Serialization
     {
         XElement Serialize(object obj);
 
+        XElement Serialize<T>(IEnumerable<T> items, string rootElementName, Func<T, XElement> getItemElement);
+
         T Deserialize<T>(XDocument xml);
 
         T Deserialize<T>(XElement xml);
