@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SquaredInfinity.Foundation.Threading;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,6 +8,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Threading;
 
@@ -14,224 +17,166 @@ namespace SquaredInfinity.Foundation.Collections
 {
     public partial class ObservableCollectionEx<TItem> : Collection<TItem>
     {
-        //readonly object Sync = new object();
-        //readonly SynchronizationContext SyncContext;
-        readonly ReaderWriterLockSlim CollectionLock = new ReaderWriterLockSlim();
+        readonly ILock CollectionLock = new ReaderWriterLockSlimEx();
 
-        public ObservableCollectionEx(SynchronizationContext syncContext)
-            : this(21, syncContext)
-        { }
+        readonly Dispatcher Dispatcher;
+
+        static Dispatcher GetMainThreadDispatcher()
+        {
+            if(Application.Current != null && Application.Current.Dispatcher != null)
+                return Application.Current.Dispatcher;
+
+            return Dispatcher.CurrentDispatcher;
+        }
 
         public ObservableCollectionEx()
-            : this(21, new DispatcherSynchronizationContext())
+            : this(21, GetMainThreadDispatcher())
         { }
 
-        public ObservableCollectionEx(int capacity, SynchronizationContext syncContext)
+        public ObservableCollectionEx(
+            int capacity, 
+            Dispatcher dispatcher)
             : base(new List<TItem>(capacity))
         {
+            Dispatcher = dispatcher;
+
             BindingOperations.EnableCollectionSynchronization(this, context: null, synchronizationCallback: BindingSync);
         }
 
         void BindingSync(IEnumerable collection, object context, Action accessMethod, bool writeAccess)
         {
+            var lockAcquisition = (IDisposable)null;
+
             if (writeAccess)
             {
-                CollectionLock.EnterWriteLock();
+                lockAcquisition = CollectionLock.AcquireReadLock();
             }
             else
             {
-                CollectionLock.EnterReadLock();
+                lockAcquisition = CollectionLock.AcquireWriteLock();
             }
 
-            try
-            {
+            using(lockAcquisition)
+            { 
                 accessMethod();
-            }
-            finally
-            {
-                if(CollectionLock.IsUpgradeableReadLockHeld)
-                {
-                    CollectionLock.ExitUpgradeableReadLock();
-                }
-
-                if (CollectionLock.IsWriteLockHeld)
-                {
-                    CollectionLock.ExitWriteLock();
-                }
-                
-                if (CollectionLock.IsReadLockHeld)
-                {
-                    CollectionLock.ExitReadLock();
-                }
             }
         }
 
         public void Move(int oldIndex, int newIndex)
         {
-            CollectionLock.EnterUpgradeableReadLock();
-
-            try
+            using(var readLock = CollectionLock.AcquireUpgradeableReadLock())
             {
-                CollectionLock.EnterWriteLock();
+                var obj = default(TItem);
 
-                TItem obj = this[oldIndex];
-                base.RemoveItem(oldIndex);
-                base.InsertItem(newIndex, obj);
-
-                CollectionLock.ExitWriteLock();
+                using(readLock.AcquireWriteLock())
+                {
+                    obj = this[oldIndex];
+                    base.RemoveItem(oldIndex);
+                    base.InsertItem(newIndex, obj);
+                }
 
                 RaiseCollectionChanged(NotifyCollectionChangedAction.Move, (object)obj, newIndex, oldIndex);
-            }
-            finally
-            {
-                if (CollectionLock.IsUpgradeableReadLockHeld)
-                {
-                    CollectionLock.ExitUpgradeableReadLock();
-                }
-
-                if (CollectionLock.IsWriteLockHeld)
-                {
-                    CollectionLock.ExitWriteLock();
-                }
-
-                if (CollectionLock.IsReadLockHeld)
-                {
-                    CollectionLock.ExitReadLock();
-                }
             }
         }
 
         protected override void RemoveItem(int index)
         {
-            CollectionLock.EnterUpgradeableReadLock();
-
-            try
+            using(var readLock = CollectionLock.AcquireUpgradeableReadLock())
             {
-                CollectionLock.EnterWriteLock();
+                var obj = default(TItem);
 
-                TItem obj = this[index];
-                base.RemoveItem(index);
-
-                CollectionLock.ExitWriteLock();
+                using(readLock.AcquireWriteLock())
+                {
+                    obj = this[index];
+                    base.RemoveItem(index);
+                }
 
                 this.RaiseCollectionChanged(NotifyCollectionChangedAction.Remove, (object)obj, index);
-            }
-            finally
-            {
-                if (CollectionLock.IsUpgradeableReadLockHeld)
-                {
-                    CollectionLock.ExitUpgradeableReadLock();
-                }
-
-                if (CollectionLock.IsWriteLockHeld)
-                {
-                    CollectionLock.ExitWriteLock();
-                }
-
-                if (CollectionLock.IsReadLockHeld)
-                {
-                    CollectionLock.ExitReadLock();
-                }
             }
         }
 
         protected override void InsertItem(int index, TItem item)
         {
-            CollectionLock.EnterUpgradeableReadLock();
-
-            try
-            {
-                CollectionLock.EnterWriteLock();
-
-                base.InsertItem(index, item);
-
-                CollectionLock.ExitWriteLock();
+            using(var readLock = CollectionLock.AcquireUpgradeableReadLock())
+            { 
+                using(readLock.AcquireWriteLock())
+                {
+                    base.InsertItem(index, item);
+                }
 
                 this.RaiseCollectionChanged(NotifyCollectionChangedAction.Add, (object)item, index);
-            }
-            finally
-            {
-                if (CollectionLock.IsUpgradeableReadLockHeld)
-                {
-                    CollectionLock.ExitUpgradeableReadLock();
-                }
-
-                if (CollectionLock.IsWriteLockHeld)
-                {
-                    CollectionLock.ExitWriteLock();
-                }
-
-                if (CollectionLock.IsReadLockHeld)
-                {
-                    CollectionLock.ExitReadLock();
-                }
             }
         }
 
         protected override void SetItem(int index, TItem item)
         {
-            CollectionLock.EnterUpgradeableReadLock();
-
-            try
+            using(var readLock = CollectionLock.AcquireUpgradeableReadLock())
             {
-                CollectionLock.EnterWriteLock();
+                var obj = default(TItem);
 
-                TItem obj = this[index];
-                base.SetItem(index, item);
-
-                CollectionLock.ExitWriteLock();
+                using(CollectionLock.AcquireWriteLock())
+                {
+                    obj = this[index];
+                    base.SetItem(index, item);
+                }
 
                 this.RaiseCollectionChanged(NotifyCollectionChangedAction.Replace, (object)item, (object)obj, index);
-            }
-            finally
-            {
-                if (CollectionLock.IsUpgradeableReadLockHeld)
-                {
-                    CollectionLock.ExitUpgradeableReadLock();
-                }
-
-                if (CollectionLock.IsWriteLockHeld)
-                {
-                    CollectionLock.ExitWriteLock();
-                }
-
-                if (CollectionLock.IsReadLockHeld)
-                {
-                    CollectionLock.ExitReadLock();
-                }
             }
         }
 
         protected override void ClearItems()
         {
-            CollectionLock.EnterUpgradeableReadLock();
-
-            try
-            {
-                CollectionLock.EnterWriteLock();
-
-                base.ClearItems();
-
-                CollectionLock.ExitWriteLock();
+            using(var readLock = CollectionLock.AcquireUpgradeableReadLock())
+            { 
+                using(CollectionLock.AcquireWriteLock())
+                {
+                    base.ClearItems();
+                }
 
                 RaiseCollectionReset();
             }
-            finally
+        }
+
+        public Task AddRangeAsync(IEnumerable<TItem> items, CancellationToken cancellationToken)
+        {
+            if (items == null)
             {
-                if (CollectionLock.IsUpgradeableReadLockHeld)
-                {
-                    CollectionLock.ExitUpgradeableReadLock();
-                }
+                throw new ArgumentNullException("items");
+            }
+            else
+            {
+                List<TItem> list = new List<TItem>(items);
 
-                if (CollectionLock.IsWriteLockHeld)
-                {
-                    CollectionLock.ExitWriteLock();
-                }
+                return Task.Factory.StartNew(() =>
+                    {
+                        for (int i = 0; i < list.Count; i++)
+                        {
+                            if (cancellationToken.IsCancellationRequested)
+                                return;
 
-                if (CollectionLock.IsReadLockHeld)
-                {
-                    CollectionLock.ExitReadLock();
-                }
+                            try
+                            {
+                                Dispatcher.Invoke(() =>
+                                    {
+                                        using (var writeLock = CollectionLock.AcquireWriteLock())
+                                        {
+                                            var item = list[i];
+
+                                            if (cancellationToken.IsCancellationRequested)
+                                                return;
+
+                                            Items.Add(item);
+
+                                            RaiseCollectionChanged(NotifyCollectionChangedAction.Add, (object)item, Items.Count - 1);
+                                        }
+                                    }, DispatcherPriority.Background, cancellationToken);
+                            }
+                            catch (OperationCanceledException)
+                            {
+                                // operation has been cancelled, nothing more needs to be done
+                            }
+                        }
+                    }, cancellationToken);
             }
         }
     }

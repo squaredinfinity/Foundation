@@ -30,9 +30,7 @@ namespace SquaredInfinity.Foundation.Collections
             }
             else
             {
-                CollectionLock.EnterWriteLock();
-
-                try
+                using(var writeLock = CollectionLock.AcquireWriteLock())
                 {
                     List<TItem> list = new List<TItem>(items);
 
@@ -44,10 +42,6 @@ namespace SquaredInfinity.Foundation.Collections
 
                         RaiseCollectionChanged(NotifyCollectionChangedAction.Add, (object)item, Items.Count - 1);
                     }
-                }
-                finally
-                {
-                    CollectionLock.ExitWriteLock();
                 }
             }
         }
@@ -64,10 +58,8 @@ namespace SquaredInfinity.Foundation.Collections
             }
             else
             {
-                CollectionLock.EnterWriteLock();
-
-                try
-                {
+                using(var writeLock = CollectionLock.AcquireWriteLock())
+                { 
                     TItem[] objArray = new TItem[count];
 
                     for (int index1 = 0; index1 < count; index1++)
@@ -79,32 +71,30 @@ namespace SquaredInfinity.Foundation.Collections
                         RaiseCollectionChanged(NotifyCollectionChangedAction.Remove, (object)item, index);
                     }
                 }
-                finally
-                {
-                    CollectionLock.ExitWriteLock();
-                }
             }
         }
 
         public void Reset(IEnumerable<TItem> newItems)
         {
-            CollectionLock.EnterWriteLock();
-            try
-            {
+            using(var readLock = CollectionLock.AcquireUpgradeableReadLock())
+            { 
                 bool hadAnyItemsBefore = Items.Count > 0;
                 bool hasAnyNewItems = newItems != null && newItems.Any();
 
                 TItem[] oldItems = new TItem[Items.Count];
                 Items.CopyTo(oldItems, 0);
 
-                if (hadAnyItemsBefore)
-                    Items.Clear();
-
-                if (hasAnyNewItems)
+                using(readLock.AcquireWriteLock())
                 {
-                    foreach (TItem obj in newItems)
+                    if (hadAnyItemsBefore)
+                        Items.Clear();
+
+                    if (hasAnyNewItems)
                     {
-                        this.Items.Add(obj);
+                        foreach (TItem obj in newItems)
+                        {
+                            this.Items.Add(obj);
+                        }
                     }
                 }
 
@@ -112,10 +102,6 @@ namespace SquaredInfinity.Foundation.Collections
                 {
                     RaiseCollectionReset();
                 }
-            }
-            finally
-            {
-                CollectionLock.ExitWriteLock();
             }
         }
     }
