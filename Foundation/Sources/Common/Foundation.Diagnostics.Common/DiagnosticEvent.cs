@@ -263,5 +263,63 @@ namespace SquaredInfinity.Foundation.Diagnostics
                 return prop;
             }
         }
+
+        /// <summary>
+        /// Includes information about a coller (part of code which requested logging of the diagnostic event).
+        /// Optionaly can use caller name as a logger name.
+        /// </summary>
+        /// <param name="useCallerNameAsLoggerName"></param>
+        /// <param name="includeCallerInfo"></param>
+        public void IncludeCallerInformation(bool useCallerNameAsLoggerName, bool includeCallerInfo)
+        {
+            StackFrame callerFrame = null;
+            MethodBase callerMethod = null;
+
+            GetCallerInfo(ref callerFrame, ref callerMethod);
+
+            if (useCallerNameAsLoggerName)
+            {
+                LoggerName = callerMethod.DeclaringType.FullName + "." + callerMethod.Name;
+            }
+
+            if (includeCallerInfo)
+            {
+                Properties.AddOrUpdate("Event.HasCallerInfo", true);
+
+                Properties.AddOrUpdate("Caller.TypeName", callerMethod.DeclaringType.FullName);
+                Properties.AddOrUpdate("Caller.MemberName", callerMethod.Name);
+                Properties.AddOrUpdate("Caller.FullName", callerMethod.DeclaringType.FullName + "." + callerMethod.Name);
+                Properties.AddOrUpdate("Caller.File", callerFrame.GetFileName());
+                Properties.AddOrUpdate("Caller.LineNumber", callerFrame.GetFileLineNumber());
+                Properties.AddOrUpdate("Caller.Column", callerFrame.GetFileColumnNumber());
+                Properties.AddOrUpdate("Caller.ILOffset", callerFrame.GetILOffset());
+                Properties.AddOrUpdate("Caller.NativeOffset", callerFrame.GetNativeOffset());
+            }
+        }
+
+        /// <summary>
+        /// Returns StackFrame and MethodBase of a caller
+        /// </summary>
+        /// <param name="callerFrame"></param>
+        /// <param name="callerMethod"></param>
+        static void GetCallerInfo(ref StackFrame callerFrame, ref MethodBase callerMethod)
+        {
+            var st = new StackTrace(1, fNeedFileInfo: true);
+
+            int frameOffset = 0;
+
+            // navigate up the stack until no longer in Diagnostics namespace
+
+            do
+            {
+                callerFrame = st.GetFrame(frameOffset++);
+                callerMethod = callerFrame.GetMethod();
+            }
+            while (
+                callerFrame != null 
+                && callerMethod != null 
+                && callerMethod.DeclaringType != null 
+                && callerMethod.DeclaringType.Namespace.StartsWith("SquaredInfinity.Foundation.Diagnostics"));
+        }
     }
 }

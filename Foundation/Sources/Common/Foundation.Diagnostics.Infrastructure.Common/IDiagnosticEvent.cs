@@ -34,5 +34,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
         void EvaluateAndPinAllDataIfNeeded();
 
         void PinAdditionalContextDataIfNeeded();
+
+        void IncludeCallerInformation(bool useCallerNameAsLoggerName, bool includeCallerInfo);
     }
 }

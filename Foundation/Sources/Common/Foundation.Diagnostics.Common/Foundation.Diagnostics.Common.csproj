@@ -63,6 +63,7 @@
     <Compile Include="DiagnosticEventProperty.cs" />
     <Compile Include="DiagnosticLogger.cs" />
     <Compile Include="DiagnosticLogger.ILogger.cs" />
+    <Compile Include="DiagnosticLogger.static.cs" />
     <Compile Include="ExceptionContextData.cs" />
     <Compile Include="Filters\Filter.cs" />
     <Compile Include="Filters\FilterCollection.cs" />
@@ -72,7 +73,6 @@
     <Compile Include="Formatters\RawFormatter.cs" />
     <Compile Include="Framework Extensions\SquaredInfinity.Foundation.Diagnostics\ILogger.extensions.cs" />
     <Compile Include="Framework Extensions\System\Object.extensions.cs" />
-    <Compile Include="ILoggerImplementation.cs" />
     <Compile Include="InternalDiagnosticLogger.cs" />
     <Compile Include="InternalDiagnosticLogger.EmergencyLogger.cs" />
     <Compile Include="LinkTypes.cs" />

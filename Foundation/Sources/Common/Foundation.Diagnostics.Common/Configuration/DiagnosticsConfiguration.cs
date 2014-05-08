@@ -41,6 +41,15 @@ namespace SquaredInfinity.Foundation.Diagnostics.Configuration
         /// </summary>
         public IContextDataCollectorCollection AdditionalContextDataCollectors { get; set; }
 
+
+        internal ConfigurationCache Cache { get; private set; }
+
+        // cache will be refresheed after configuration is applied to the logger
+        internal void RefreshCache()
+        { 
+
+        }
+
         public DiagnosticsConfiguration()
         {
             this.Settings = new GlobalSettings();

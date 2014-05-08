@@ -50,7 +50,7 @@ namespace SquaredInfinity.Foundation.Extensions
 
         public static ILogger CreateLoggerForType(this ILogger logger, Type type)
         {
-            ILoggerImplementation newLogger = null;
+            ILogger newLogger = null;
 
 
             if (DiagnosticsAssemblyName == type.Assembly.FullName)
@@ -60,7 +60,7 @@ namespace SquaredInfinity.Foundation.Extensions
             else
             {
                 newLogger = new DiagnosticLogger(type.FullName);
-                newLogger.Parent = logger as ILoggerImplementation;
+                newLogger.Parent = logger as ILogger;
             }
 
 

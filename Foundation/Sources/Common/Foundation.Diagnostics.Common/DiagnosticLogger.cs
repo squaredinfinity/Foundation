@@ -15,27 +15,32 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Diagnostics
 {
-    public partial class DiagnosticLogger : ILogger, ILoggerImplementation, IHideObjectInheritedMembers
+    public partial class DiagnosticLogger : ILogger, IHideObjectInheritedMembers
     {
         Lazy<ILogger> Diagnostics = new Lazy<ILogger>(() => new InternalDiagnosticLogger("SquaredInfinity.Diagnostics.DiagnosticLogger"));
 
         public ILoggerName Name { get; set; }
-        public ILoggerImplementation Parent { get; set; }
+        public ILogger Parent { get; set; }
 
-        public ILogger Log
-        {
-            get { return (ILogger)this; }
-        }
         //public ILoggerConfigProvider Configuration
         //{
         //    get { return (ILoggerConfigProvider)this; }
         //}
         
+        /// <summary>
+        /// Returns a cloned copy of current configuration.
+        /// You can modify the copy and apply it using ApplyConfiguration() method.
+        /// </summary>
+        /// <returns></returns>
         public DiagnosticsConfiguration GetConfigurationClone()
         {
             return Config.DeepClone();
         }
 
+        /// <summary>
+        /// Applies specified configuration.
+        /// </summary>
+        /// <param name="newConfiguration"></param>
         public void ApplyConfiguration(DiagnosticsConfiguration newConfiguration)
         {
             var clone = newConfiguration.DeepClone();
@@ -43,11 +48,17 @@ namespace SquaredInfinity.Foundation.Diagnostics
             this.Config = clone;
         }
 
+        /// <summary>
+        /// Current configuration.
+        /// </summary>
         DiagnosticsConfiguration Config { get; set; }
         
         ConfigurationCache ConfigCache = new ConfigurationCache();
 
         DiagnosticEventPropertyCollection _globalProperties = new DiagnosticEventPropertyCollection();
+        /// <summary>
+        /// Global Properties
+        /// </summary>
         public IDiagnosticEventPropertyCollection GlobalProperties
         {
             get { return _globalProperties; }
@@ -61,65 +72,17 @@ namespace SquaredInfinity.Foundation.Diagnostics
             this.Name = new LoggerName(name);
         }
 
-        public Exception LogAndReplace(Exception ex)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ProcessAuditEvent(DiagnosticEvent de)
-        {
-            //if (de == null)
-            //    return;
-
-            //// TODO: read config specific to Audit
-            //var config_ref = Volatile.Read(ref TraceConfigCache);
-
-            //ProcessDiagnosticEvent(de, config_ref);
-        }
-
-        void IncludeCallerInformation(IDiagnosticEvent de, bool useCallerNameAsLoggerName, bool includeCallerInfo)
-        {
-            StackFrame callerFrame = null;
-            MethodBase callerMethod = null;
-
-            GetCallerInfo(ref callerFrame, ref callerMethod);
-
-            if (useCallerNameAsLoggerName)
-            {
-                de.LoggerName = callerMethod.DeclaringType.FullName + "." + callerMethod.Name;
-            }
-
-            if (includeCallerInfo)
-            {
-                de.Properties.AddOrUpdate("Event.HasCallerInfo", true);
-
-                de.Properties.AddOrUpdate("Caller.TypeName", callerMethod.DeclaringType.FullName);
-                de.Properties.AddOrUpdate("Caller.MemberName", callerMethod.Name);
-                de.Properties.AddOrUpdate("Caller.FullName", callerMethod.DeclaringType.FullName + "." + callerMethod.Name);
-                de.Properties.AddOrUpdate("Caller.File", callerFrame.GetFileName());
-                de.Properties.AddOrUpdate("Caller.LineNumber", callerFrame.GetFileLineNumber());
-                de.Properties.AddOrUpdate("Caller.Column", callerFrame.GetFileColumnNumber());
-                de.Properties.AddOrUpdate("Caller.ILOffset", callerFrame.GetILOffset());
-                de.Properties.AddOrUpdate("Caller.NativeOffset", callerFrame.GetNativeOffset());
-            }
-        }
-
-        static void GetCallerInfo(ref StackFrame callerFrame, ref MethodBase callerMethod)
-        {
-            var st = new StackTrace(1, fNeedFileInfo: true);
-
-            int frameOffset = 0;
-
-            do
-            {
-                callerFrame = st.GetFrame(frameOffset++);
-                callerMethod = callerFrame.GetMethod();
-            }
-            while (callerFrame != null && callerMethod != null && callerMethod.DeclaringType != null && callerMethod.DeclaringType.Namespace.StartsWith("SquaredInfinity.Foundation.Diagnostics"));
-        }
-
+        /// <summary>
+        /// Processes specified Diagnostic Event.
+        /// Attaches context information, applies filters and sends to Sinks.
+        /// </summary>
+        /// <param name="de"></param>
         public virtual void ProcessDiagnosticEvent(IDiagnosticEvent de)
         {
+            // if logging disabled, exit early to improve performance
+            if (!Config.Settings.EnableLogging)
+                return;
+
             // make a copy of reference to current configuration
             // to make sure that any changes (which would replace Config)
             // will not be applied to this method before it exits
@@ -128,37 +91,42 @@ namespace SquaredInfinity.Foundation.Diagnostics
             ProcessDiagnosticEventInternal(de, config_ref);
         }
 
-        private void ProcessDiagnosticEventInternal(IDiagnosticEvent de, DiagnosticsConfiguration config_ref)
+        void ProcessDiagnosticEventInternal(IDiagnosticEvent de, DiagnosticsConfiguration config_ref)
         {
             // NOTE:    This method is *performance critical* and should be optimized for quickest execution even at cost of readability
             //          This method is static because it should not use any instance members of DiagnosticLogger
 
             try
             {
-                //if (config_ref.GlobalSettings.IncludeCallerInfo || config_ref.GlobalSettings.UseCallerNameAsLoggerName)
-                //{
-                //    IncludeCallerInformation(
-                //        de,
-                //        config_ref.GlobalSettings.UseCallerNameAsLoggerName,
-                //        config_ref.GlobalSettings.IncludeCallerInfo);
-                //}
+                //# Include Caller Info
+                if (config_ref.Settings.IncludeCallerInfo || config_ref.Settings.UseCallerNameAsLoggerName)
+                {
+                    de.IncludeCallerInformation(
+                        config_ref.Settings.UseCallerNameAsLoggerName,
+                        config_ref.Settings.IncludeCallerInfo);
+                }
 
-                // override logger name only if it has not already been set (custom name might have been used)
+                //# Override logger name only if it has not already been set (custom name might have been used)
                 if (de.LoggerName == null)
                     de.LoggerName = Name.ToString();
 
-                // todo: potential performance issue?
-                foreach (var p in GlobalProperties)
-                    de.Properties.AddOrUpdate(p.UniqueName, p.Value);
+                //# COPY GLOBAL PROPERTIES
+                de.Properties.AddOrUpdateRange(GlobalProperties);
 
                 //# EVALUATE AND PIN DIAGNOSTIC EVENT DATA
                 de.EvaluateAndPinAllDataIfNeeded();
 
                 //# GLOBAL FILTER
+                
+                //! Filtering on a global level must happen *after* logger name is set and properties pinned
+                //! This is because filters are most likely use their values
+
                 if (config_ref.GlobalFilters.Count > 0 && !MeetsFiltersCriteria(de, Name, config_ref.Filters))
                     return;
 
                 //# GET SINKS
+
+                // only use sinks which meet filtering criteria for this event
 
                 var mustWaitForWriteSinks =
                     (from s in config_ref.Sinks.MustWaitForWriteSinks
@@ -172,6 +140,9 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
                 var allSinks = mustWaitForWriteSinks.Concat(fireAndForgetSinks).ToArray();
 
+                //# REQUESTED CONTEXT DATA
+
+                // get requested context data (requested by sinks via formatters)
 
                 var isAdditionalContextDataRequested = false;
 
@@ -240,7 +211,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     }
                     else
                     {
-                        Parallel.ForEach(mustWaitForWriteSinks, (sink) =>
+                        ParallelExtensions.ForEach(mustWaitForWriteSinks, (sink) =>
                         {
                             sink.Write(de);
                         });
@@ -264,7 +235,14 @@ namespace SquaredInfinity.Foundation.Diagnostics
             }
         }
         
-        public bool MeetsFiltersCriteria(IDiagnosticEvent de, ILoggerName loggerName, IFilterCollection filters)
+        /// <summary>
+        /// Checks if specified Diagnostic Event meets filtering criteria.
+        /// </summary>
+        /// <param name="de"></param>
+        /// <param name="loggerName"></param>
+        /// <param name="filters"></param>
+        /// <returns></returns>
+        internal bool MeetsFiltersCriteria(IDiagnosticEvent de, ILoggerName loggerName, IFilterCollection filters)
         {
             //# check this loger's filters
             for (int i = 0; i < filters.Count; i++)
@@ -277,9 +255,10 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     return false;
             }
 
-            //# check parent loger's filter TODO
-            if (Parent != null)
-                return Parent.MeetsFiltersCriteria(de, loggerName, filters);
+            var parentLogger = Parent as DiagnosticLogger;
+
+            if (parentLogger != null)
+                return parentLogger.MeetsFiltersCriteria(de, loggerName, filters);
 
             return true;
         }
@@ -411,28 +390,5 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         //    return config;
         //}
-
-
-        public IReadOnlyList<ISinkLocation> GetLogLocations()
-        {
-            //List<ISinkLocation> result = new List<ISinkLocation>();
-
-            //// make a copy of reference to current configuration
-            //// to make sure that any changes (which would replace Config)
-            //// will not be applied to this method before it exits
-            //var config_ref = Config;
-
-            //for (int i = 0; i < config_ref.SinkDefinitions.Count; i++)
-            //{
-            //    var sink = config_ref.SinkDefinitions[i];
-
-            //    result.Add(sink.SinkLocation);
-            //}
-
-            //return result;
-
-
-            return null;
-        }
     }
 }
