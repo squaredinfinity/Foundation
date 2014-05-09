@@ -51,6 +51,7 @@
     <Compile Include="CommandHandlerEventArgs_T.cs" />
     <Compile Include="CompositeComparer_T.cs" />
     <Compile Include="DateTimeContext.cs" />
+    <Compile Include="Direction.cs" />
     <Compile Include="FrameworkExtensions\Microsoft.Win32\RegistryKey.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Collections\ICollection.Extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Collections\IDictionary.extensions.cs" />
