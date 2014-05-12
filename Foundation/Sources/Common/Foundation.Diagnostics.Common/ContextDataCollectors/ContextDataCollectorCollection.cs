@@ -1,4 +1,5 @@
-﻿using SquaredInfinity.Foundation.ContextDataCollectors;
+﻿using SquaredInfinity.Foundation.Collections;
+using SquaredInfinity.Foundation.ContextDataCollectors;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,15 +10,13 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
 {
-    public class ContextDataCollectorCollection : Collection<IContextDataCollector>
+    public class ContextDataCollectorCollection : CollectionEx<IContextDataCollector>, IContextDataCollectorCollection
     {
         internal ReadOnlyCollection<IContextDataCollector> SyncCollectors =
             new ReadOnlyCollection<IContextDataCollector>(new List<IContextDataCollector>());
 
         internal ReadOnlyCollection<IContextDataCollector> AsyncCollectors =
             new ReadOnlyCollection<IContextDataCollector>(new List<IContextDataCollector>());
-
-        readonly ReaderWriterLockSlim CacheLock = new ReaderWriterLockSlim();
 
         public IDiagnosticEventPropertyCollection Collect()
         {
@@ -40,14 +39,14 @@ namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
             return result;
         }
 
-        public IReadOnlyList<DiagnosticEventProperty> Collect(IList<DataRequest> requestedContextData)
+        public IDiagnosticEventPropertyCollection Collect(IReadOnlyList<IDataRequest> requestedContextData)
         {
-            var result = new List<DiagnosticEventProperty>();
+            var result = new DiagnosticEventPropertyCollection(capacity: requestedContextData.Count);
 
             for (int i = 0; i < SyncCollectors.Count; i++)
             {
                 var c = SyncCollectors[i];
-          //      result.AddRange(c.CollectData(requestedContextData));
+                result.AddOrUpdateRange(c.CollectData(requestedContextData));
             }
 
             // TODO: Async collectors not supported at the moment
@@ -64,66 +63,28 @@ namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
             return result;
         }
 
+        protected override void OnVersionChanged()
+        {
+            base.OnVersionChanged();
+
+            RefreshCache();
+        }
+
         void RefreshCache()
         {
-            CacheLock.EnterWriteLock();
+            SyncCollectors =
+                new ReadOnlyCollection<IContextDataCollector>(
+                    (from s in this
+                     where !s.IsAsync
+                     select s)
+                     .ToList());
 
-            try
-            {
-                SyncCollectors =
-                    new ReadOnlyCollection<IContextDataCollector>(
-                        (from s in this
-                         where !s.IsAsync
-                         select s)
-                         .ToList());
-
-                AsyncCollectors =
-                    new ReadOnlyCollection<IContextDataCollector>(
-                        (from s in this
-                         where s.IsAsync
-                         select s)
-                        .ToList());
-            }
-            finally
-            {
-                CacheLock.ExitWriteLock();
-            }
-        }
-
-        protected override void ClearItems()
-        {
-            base.ClearItems();
-            RefreshCache();
-        }
-
-        protected override void InsertItem(int index, IContextDataCollector item)
-        {
-            base.InsertItem(index, item);
-            RefreshCache();
-        }
-
-        protected override void RemoveItem(int index)
-        {
-            base.RemoveItem(index);
-            RefreshCache();
-        }
-
-        protected override void SetItem(int index, IContextDataCollector item)
-        {
-            base.SetItem(index, item);
-            RefreshCache();
-        }
-
-        public ContextDataCollectorCollection Clone()
-        {
-            var result = new ContextDataCollectorCollection();
-
-            foreach (var c in this)
-            {
-                result.Add(c.Clone());
-            }
-
-            return result;
+            AsyncCollectors =
+                new ReadOnlyCollection<IContextDataCollector>(
+                    (from s in this
+                     where s.IsAsync
+                     select s)
+                    .ToList());
         }
     }
 }

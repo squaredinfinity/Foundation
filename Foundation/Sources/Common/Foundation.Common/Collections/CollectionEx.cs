@@ -63,7 +63,7 @@ namespace SquaredInfinity.Foundation.Collections
             }
         }
 
-        public void AddRange(IEnumerable<TItem> items)
+        public virtual void AddRange(IEnumerable<TItem> items)
         {
             using(UpdateLock.AcquireWriteLock())
             {
@@ -74,7 +74,7 @@ namespace SquaredInfinity.Foundation.Collections
             }
         }
 
-        public void RemoveRange(int index, int count)
+        public virtual void RemoveRange(int index, int count)
         {
             using(UpdateLock.AcquireWriteLock())
             {
@@ -85,7 +85,7 @@ namespace SquaredInfinity.Foundation.Collections
             }
         }
 
-        public void Reset(IEnumerable<TItem> newItems)
+        public virtual void Reset(IEnumerable<TItem> newItems)
         {
             using(UpdateLock.AcquireWriteLock())
             {

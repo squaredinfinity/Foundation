@@ -22,7 +22,8 @@ namespace SquaredInfinity.Foundation.Diagnostics
         ILogger Diagnostics = new InternalDiagnosticLogger(typeof(DiagnosticEvent).FullName);
 
         internal Func<string> GetMessage { get; set; }
-        internal string VerbatimMessage { get; set; }
+        
+        string VerbatimMessage { get; set; }
 
         public string Message
         {
@@ -68,7 +69,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
         public SeverityLevel Severity { get; set; }
         public bool HasRawMessage { get; set; }
 
-        public IDictionary<string, object> Properties { get; private set; }
+        public IDiagnosticEventPropertyCollection Properties { get; private set; }
 
         public bool HasAdditionalContextData
         {
@@ -78,12 +79,12 @@ namespace SquaredInfinity.Foundation.Diagnostics
             }
         }
 
-        public IDictionary<string, object> AdditionalContextData { get; set; }
+        public IDiagnosticEventPropertyCollection AdditionalContextData { get; set; }
 
         /// <summary>
         /// Collection of additional objects which will have their representation sent to sinks.
         /// </summary>
-        public IDictionary<string, object> AttachedObjects { get; set; }
+        public IAttachedObjectCollection AttachedObjects { get; set; }
 
         public bool HasAttachedObjects
         {
@@ -120,16 +121,16 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public DiagnosticEvent()
         {
-            Properties = new Dictionary<string, object>(capacity: 27);
+            Properties = new DiagnosticEventPropertyCollection(capacity: 27);
 
             Properties.AddOrUpdate("Event.HasCallerInfo", false);
 
             LoggerName = "";
 
-            AttachedObjects = new Dictionary<string, object>(capacity: 27);
+            AttachedObjects = new AttachedObjectCollection();
         }
 
-        internal void PinAdditionalContextData()
+        public void PinAdditionalContextDataIfNeeded()
         {
             Properties.AddOrUpdate("Event.HasAdditionalContextData", HasAdditionalContextData);
             Properties.AddOrUpdate("Event.AdditionalContextData", AdditionalContextData);
@@ -153,7 +154,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
             Properties.AddOrUpdate("Event.HasMessage", HasMessage);
 
-            PinAdditionalContextData();
+            PinAdditionalContextDataIfNeeded();
 
             if (HasMessage)
                 Properties.AddOrUpdate("Event.Message", Message);
@@ -216,7 +217,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
             de.GetMessage = getMessage;
 
-            de.AttachedObjects.TryAddRange(attachedObjects);
+            de.AttachedObjects.AddRange(attachedObjects);
 
             return de;
         }
@@ -245,7 +246,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     de.VerbatimMessage = message;
             }
 
-            de.AttachedObjects.TryAddRange(attachedObjects);
+            de.AttachedObjects.AddRange(attachedObjects);
 
             return de;
         }
@@ -261,6 +262,64 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
                 return prop;
             }
+        }
+
+        /// <summary>
+        /// Includes information about a coller (part of code which requested logging of the diagnostic event).
+        /// Optionaly can use caller name as a logger name.
+        /// </summary>
+        /// <param name="useCallerNameAsLoggerName"></param>
+        /// <param name="includeCallerInfo"></param>
+        public void IncludeCallerInformation(bool useCallerNameAsLoggerName, bool includeCallerInfo)
+        {
+            StackFrame callerFrame = null;
+            MethodBase callerMethod = null;
+
+            GetCallerInfo(ref callerFrame, ref callerMethod);
+
+            if (useCallerNameAsLoggerName)
+            {
+                LoggerName = callerMethod.DeclaringType.FullName + "." + callerMethod.Name;
+            }
+
+            if (includeCallerInfo)
+            {
+                Properties.AddOrUpdate("Event.HasCallerInfo", true);
+
+                Properties.AddOrUpdate("Caller.TypeName", callerMethod.DeclaringType.FullName);
+                Properties.AddOrUpdate("Caller.MemberName", callerMethod.Name);
+                Properties.AddOrUpdate("Caller.FullName", callerMethod.DeclaringType.FullName + "." + callerMethod.Name);
+                Properties.AddOrUpdate("Caller.File", callerFrame.GetFileName());
+                Properties.AddOrUpdate("Caller.LineNumber", callerFrame.GetFileLineNumber());
+                Properties.AddOrUpdate("Caller.Column", callerFrame.GetFileColumnNumber());
+                Properties.AddOrUpdate("Caller.ILOffset", callerFrame.GetILOffset());
+                Properties.AddOrUpdate("Caller.NativeOffset", callerFrame.GetNativeOffset());
+            }
+        }
+
+        /// <summary>
+        /// Returns StackFrame and MethodBase of a caller
+        /// </summary>
+        /// <param name="callerFrame"></param>
+        /// <param name="callerMethod"></param>
+        static void GetCallerInfo(ref StackFrame callerFrame, ref MethodBase callerMethod)
+        {
+            var st = new StackTrace(1, fNeedFileInfo: true);
+
+            int frameOffset = 0;
+
+            // navigate up the stack until no longer in Diagnostics namespace
+
+            do
+            {
+                callerFrame = st.GetFrame(frameOffset++);
+                callerMethod = callerFrame.GetMethod();
+            }
+            while (
+                callerFrame != null 
+                && callerMethod != null 
+                && callerMethod.DeclaringType != null 
+                && callerMethod.DeclaringType.Namespace.StartsWith("SquaredInfinity.Foundation.Diagnostics"));
         }
     }
 }

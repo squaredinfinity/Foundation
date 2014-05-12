@@ -32,8 +32,8 @@ namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
             set { _filter = value; }
         }
 
-        readonly Collection<IDataRequest> _requestedData = new Collection<IDataRequest>();
-        public Collection<IDataRequest> RequestedData
+        readonly IDataRequestCollection _requestedData = new DataRequestCollection();
+        public IDataRequestCollection RequestedData
         {
             get { return _requestedData; }
         }
@@ -70,7 +70,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
                 //# try to get from cache first
                 if (DataRequestCache.TryGetValue(item, out property))
                 {
-                    result.Add(property);
+                    result.AddOrUpdate(property);
                     continue;
                 }
 
@@ -84,19 +84,16 @@ namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
                     newProperty.Value = dataValue;
 
                     property = newProperty;
+
+                    result.AddOrUpdate(property);
+
+                    // add to cache if needed
+                    if (item.IsCached && !DataRequestCache.ContainsKey(item))
+                        DataRequestCache.Add(item, property);
                 }
-
-                result.AddIfNotNull(property);
-
-                // add to cache if needed
-                if (item.IsCached && !DataRequestCache.ContainsKey(item))
-                    DataRequestCache.Add(item, property);
             }
 
             return result;
         }
-
-        public abstract IContextDataCollector Clone();
-
     }
 }

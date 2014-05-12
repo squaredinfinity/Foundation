@@ -22,6 +22,13 @@ namespace SquaredInfinity.Foundation.Diagnostics.Configuration
         /// </summary>
         public bool IncludeCallerInfo { get; set; }
 
+        /// <summary>
+        /// When true (default), logging is enable.
+        /// When false, logging is disabled.
+        /// Set to false if you want to disable all logging.
+        /// </summary>
+        public bool EnableLogging { get; set; }
+
         public GlobalSettings()
         {
             UseCallerNameAsLoggerName = false;

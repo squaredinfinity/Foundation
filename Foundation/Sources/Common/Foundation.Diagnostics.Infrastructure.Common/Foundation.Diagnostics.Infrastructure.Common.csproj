@@ -43,11 +43,14 @@
     <Compile Include="ContextDataCollectors\IContextDataCollectorCollection.cs" />
     <Compile Include="ContextDataCollectors\IDataCollectionContext.cs" />
     <Compile Include="ContextDataCollectors\IDataRequest.cs" />
+    <Compile Include="ContextDataCollectors\IDataRequestCollection.cs" />
     <Compile Include="Filters\FilterMode.cs" />
     <Compile Include="Filters\IFilter.cs" />
     <Compile Include="Filters\IFilterCollection.cs" />
     <Compile Include="Formatters\IFormatter.cs" />
     <Compile Include="Formatters\IFormatterCollection.cs" />
+    <Compile Include="IAttachedObject.cs" />
+    <Compile Include="IAttachedObjectCollection.cs" />
     <Compile Include="IDiagnosticEvent.cs" />
     <Compile Include="IDiagnosticEventPropertyCollection.cs" />
     <Compile Include="IDiagnosticEventCollection.cs" />
@@ -56,6 +59,7 @@
     <Compile Include="ILoggerName.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SeverityLevel.cs" />
+    <Compile Include="KnownSeverityLevels.cs" />
     <Compile Include="Sinks\IRawMessageSink.cs" />
     <Compile Include="Sinks\ISink.cs" />
     <Compile Include="Sinks\ISinkCollection.cs" />

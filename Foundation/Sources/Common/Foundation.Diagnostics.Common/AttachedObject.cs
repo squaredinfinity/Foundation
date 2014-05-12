@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Diagnostics
 {
-    public class AttachedObject
+    public class AttachedObject : IAttachedObject
     {
         public string Name { get; private set; }
         public object Value { get; private set; }

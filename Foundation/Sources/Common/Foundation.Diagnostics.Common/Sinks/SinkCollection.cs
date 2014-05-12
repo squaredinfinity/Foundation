@@ -11,23 +11,24 @@ namespace SquaredInfinity.Foundation.Diagnostics.Sinks
 {
     public class SinkCollection : CollectionEx<ISink>, ISinkCollection
     {
-        internal ReadOnlyCollection<ISink> MustWaitForWriteSinks =
-            new ReadOnlyCollection<ISink>(new List<ISink>());
-
-        internal ReadOnlyCollection<ISink> FireAndForgetSinks =
-            new ReadOnlyCollection<ISink>(new List<ISink>());
-
-        internal ReadOnlyCollection<IRawMessageSink> MustWaitForWriteRawMessageSinks =
-            new ReadOnlyCollection<IRawMessageSink>(new List<IRawMessageSink>());
-
-        internal ReadOnlyCollection<IRawMessageSink> FireAndForgetRawMessageSinks =
-            new ReadOnlyCollection<IRawMessageSink>(new List<IRawMessageSink>());
+        public IReadOnlyList<ISink> MustWaitForWriteSinks { get; private set; }
+        public IReadOnlyList<ISink> FireAndForgetSinks { get; private set; }
+        public IReadOnlyList<IRawMessageSink> MustWaitForWriteRawMessageSinks { get; private set; }
+        public IReadOnlyList<IRawMessageSink> FireAndForgetRawMessageSinks { get; private set; }
 
         readonly ILock CacheLock = new ReaderWriterLockSlimEx();
 
-        public SinkCollection() { }
+        public SinkCollection() 
+        {
+
+            MustWaitForWriteSinks = new ReadOnlyCollection<ISink>(new List<ISink>());
+            FireAndForgetSinks = new ReadOnlyCollection<ISink>(new List<ISink>());
+            MustWaitForWriteRawMessageSinks = new ReadOnlyCollection<IRawMessageSink>(new List<IRawMessageSink>());
+            FireAndForgetRawMessageSinks = new ReadOnlyCollection<IRawMessageSink>(new List<IRawMessageSink>());
+        }
 
         public SinkCollection(ISink[] items)
+            : this()
         {
             AddRange(items);
         }

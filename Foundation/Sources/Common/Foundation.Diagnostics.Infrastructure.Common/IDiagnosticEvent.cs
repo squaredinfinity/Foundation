@@ -19,11 +19,11 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         SeverityLevel Severity { get; }
 
-        IDictionary<string, object> Properties { get; }
+        IDiagnosticEventPropertyCollection Properties { get; }
 
-        IDictionary<string, object> AdditionalContextData { get; }
+        IDiagnosticEventPropertyCollection AdditionalContextData { get; }
 
-        IDictionary<string, object> AttachedObjects { get; }
+        IAttachedObjectCollection AttachedObjects { get; }
 
         string LoggerName { get; set; }
 
@@ -32,5 +32,9 @@ namespace SquaredInfinity.Foundation.Diagnostics
         DateTime? DateTimeUtc { get; }
 
         void EvaluateAndPinAllDataIfNeeded();
+
+        void PinAdditionalContextDataIfNeeded();
+
+        void IncludeCallerInformation(bool useCallerNameAsLoggerName, bool includeCallerInfo);
     }
 }

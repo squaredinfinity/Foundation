@@ -19,9 +19,8 @@ namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
         IFilter Filter { get; set; }
 
         IDiagnosticEventPropertyCollection CollectData();
+        IDiagnosticEventPropertyCollection CollectData(IReadOnlyList<IDataRequest> requestedContextData);
 
         bool TryGetData(IDataRequest dataRequest, IDataCollectionContext context, out object result);
-
-        IContextDataCollector Clone();
     }
 }

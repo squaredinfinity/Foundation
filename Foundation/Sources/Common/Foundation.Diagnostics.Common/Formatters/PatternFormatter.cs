@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using SquaredInfinity.Foundation.Extensions;
 using SquaredInfinity.Foundation.Diagnostics.TextTemplates;
 using SquaredInfinity.Foundation.Diagnostics.TextTemplates.Substitutions;
+using SquaredInfinity.Foundation.Diagnostics.TextTemplates.Placeholders;
 
 namespace SquaredInfinity.Foundation.Diagnostics.Formatters
 {
@@ -58,12 +59,13 @@ namespace SquaredInfinity.Foundation.Diagnostics.Formatters
                     "dumpWithHeader",
                     (originalValue, input, parameters) =>
                     {
-                        var kvp = new KeyValuePair(parameters.First().ToString().Trim(new char[] { '\'' }), input);
+                        throw new NotImplementedException();
+                        //var kvp = new KeyValuePair(parameters.First().ToString().Trim(new char[] { '\'' }), input);
 
-                        // todo: apply descriptors
-                        var result = new StringObjectWriter().Write(kvp);
+                        //// todo: apply descriptors
+                        //var result = new StringObjectWriter().Write(kvp);
 
-                        return result;
+                        //return result;
                     }));
 
             // Event.Exception.DeepOriginHash - Type + TargetSite of top + all inner

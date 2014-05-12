@@ -26,8 +26,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DotNet45", "DotNet45", "{D9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Presentation.Xaml.DotNet45", "Sources\DotNet45\Foundation.Presentation.Xaml.DotNet45\Foundation.Presentation.Xaml.DotNet45.csproj", "{48E58F39-A7B8-44D9-AFBF-7985E42208C9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Prototyping", "_Prototyping", "{B7B1CD4D-EC6E-45A0-BEB0-26DC2F2339B6}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{53B5030B-10DF-4CBC-B843-A709EF6C6D87}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
@@ -43,11 +41,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Diagnostics.Comm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Diagnostics.DotNet45", "Sources\DotNet45\Foundation.Diagnostics.DotNet45\Foundation.Diagnostics.DotNet45.csproj", "{AB8007F5-AD2A-42B8-9375-98AE0AD89F80}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9B4D9910-B430-4643-8C5F-DF5844C1A45A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".tests", ".tests", "{9B4D9910-B430-4643-8C5F-DF5844C1A45A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Presentation.Xaml.UITests.Common", "Sources\Common\Tests\Foundation.Presentation.Xaml.UITests.Common\Foundation.Presentation.Xaml.UITests.Common.csproj", "{EC89CEBA-2D3C-4D16-9622-614ADE1CC0CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Diagnostics.Shared.Common", "Sources\Common\Foundation.Diagnostics.Shared.Common\Foundation.Diagnostics.Shared.Common.csproj", "{140AD714-686F-45CF-BA63-768A8883ED26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Diagnostics.UnitTests.Common", "Sources\Common\Tests\Foundation.Diagnostics.UnitTests.Common\Foundation.Diagnostics.UnitTests.Common.csproj", "{E198D2AB-90D6-46C2-B30C-288B973DD8BA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".documentation", ".documentation", "{2571A7F4-6A81-421E-AC34-50BA59DB6417}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Diagnostics", "Documentation\Foundation.Diagnostics\Foundation.Diagnostics.csproj", "{E673F697-FEB4-49FB-9F0C-8F5C45F5E19A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +111,14 @@ Global
 		{140AD714-686F-45CF-BA63-768A8883ED26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{140AD714-686F-45CF-BA63-768A8883ED26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{140AD714-686F-45CF-BA63-768A8883ED26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E198D2AB-90D6-46C2-B30C-288B973DD8BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E198D2AB-90D6-46C2-B30C-288B973DD8BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E198D2AB-90D6-46C2-B30C-288B973DD8BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E198D2AB-90D6-46C2-B30C-288B973DD8BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E673F697-FEB4-49FB-9F0C-8F5C45F5E19A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E673F697-FEB4-49FB-9F0C-8F5C45F5E19A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E673F697-FEB4-49FB-9F0C-8F5C45F5E19A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E673F697-FEB4-49FB-9F0C-8F5C45F5E19A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,5 +137,7 @@ Global
 		{AB8007F5-AD2A-42B8-9375-98AE0AD89F80} = {D95634A3-6069-430C-A3B5-97347AE8EF5F}
 		{EC89CEBA-2D3C-4D16-9622-614ADE1CC0CE} = {9B4D9910-B430-4643-8C5F-DF5844C1A45A}
 		{140AD714-686F-45CF-BA63-768A8883ED26} = {3E3D143E-A6C5-4DED-8927-AEACF1F0784A}
+		{E198D2AB-90D6-46C2-B30C-288B973DD8BA} = {9B4D9910-B430-4643-8C5F-DF5844C1A45A}
+		{E673F697-FEB4-49FB-9F0C-8F5C45F5E19A} = {2571A7F4-6A81-421E-AC34-50BA59DB6417}
 	EndGlobalSection
 EndGlobal

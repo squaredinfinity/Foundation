@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SquaredInfinity.Foundation.Diagnostics.Filters;
+using SquaredInfinity.Foundation.Diagnostics.Sinks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -93,5 +95,16 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ProcessDiagnosticEvent(IDiagnosticEvent de);
 
+        IDiagnosticEventPropertyCollection GlobalProperties { get; }
+
+        /// <summary>
+        /// Name of a logger
+        /// </summary>
+        ILoggerName Name { get; set; }
+
+        /// <summary>
+        /// Parent of a logger
+        /// </summary>
+        ILogger Parent { get; set; }
     }
 }

@@ -42,11 +42,18 @@
   <ItemGroup>
     <Compile Include="ApplicationLifecycleEvents.cs" />
     <Compile Include="AttachedObject.cs" />
+    <Compile Include="AttachedObjectCollection.cs" />
+    <Compile Include="Configuration\ConfigurationCache.cs" />
+    <Compile Include="Configuration\DiagnosticsConfiguration.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Configuration\GlobalSettings.cs" />
     <Compile Include="ContextDataCollectors\CompositeContextDataCollector.cs" />
     <Compile Include="ContextDataCollectors\ContextDataCollector.cs" />
     <Compile Include="ContextDataCollectors\ContextDataCollectorCollection.cs" />
     <Compile Include="ContextDataCollectors\DataCollectionContext.cs" />
     <Compile Include="ContextDataCollectors\DataRequest.cs" />
+    <Compile Include="ContextDataCollectors\DataRequestCollection.cs" />
     <Compile Include="ContextDataCollectors\EnvironmentDataCollector.cs" />
     <Compile Include="DiagnosticEvent.DateTimeLocalMostRecentFirstComparerImplementation - Copy 1.cs" />
     <Compile Include="DiagnosticEvent.DateTimeLocalComparerImplementation.cs" />
@@ -56,6 +63,7 @@
     <Compile Include="DiagnosticEventProperty.cs" />
     <Compile Include="DiagnosticLogger.cs" />
     <Compile Include="DiagnosticLogger.ILogger.cs" />
+    <Compile Include="DiagnosticLogger.static.cs" />
     <Compile Include="ExceptionContextData.cs" />
     <Compile Include="Filters\Filter.cs" />
     <Compile Include="Filters\FilterCollection.cs" />
@@ -64,7 +72,7 @@
     <Compile Include="Formatters\PatternFormatter.cs" />
     <Compile Include="Formatters\RawFormatter.cs" />
     <Compile Include="Framework Extensions\SquaredInfinity.Foundation.Diagnostics\ILogger.extensions.cs" />
-    <Compile Include="ILoggerImplementation.cs" />
+    <Compile Include="Framework Extensions\System\Object.extensions.cs" />
     <Compile Include="InternalDiagnosticLogger.cs" />
     <Compile Include="InternalDiagnosticLogger.EmergencyLogger.cs" />
     <Compile Include="LinkTypes.cs" />
@@ -101,7 +109,9 @@
   <ItemGroup>
     <Content Include="TextTemplates\!overview.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Framework Extensions\System\Exception.extensions.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
