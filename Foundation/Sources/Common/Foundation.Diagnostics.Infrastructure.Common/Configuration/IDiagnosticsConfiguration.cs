@@ -1,6 +1,5 @@
 ﻿using SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors;
 using SquaredInfinity.Foundation.Diagnostics.Filters;
-using SquaredInfinity.Foundation.Diagnostics.Formatters;
 using SquaredInfinity.Foundation.Diagnostics.Sinks;
 using System;
 using System.Collections.Generic;
@@ -10,12 +9,10 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Diagnostics.Configuration
 {
-    public class DiagnosticsConfiguration
+    public interface IDiagnosticsConfiguration
     {
-        internal List<DataRequest> RequestedContextDataCache = new List<DataRequest>();
-
         public GlobalSettings Settings { get; set; }
-        
+
         /// <summary>
         /// Global filters can be used to control which event are processed even before they get to any sink
         /// </summary>
@@ -39,14 +36,5 @@ namespace SquaredInfinity.Foundation.Diagnostics.Configuration
         /// </summary>
         public IContextDataCollectorCollection AdditionalContextDataCollectors { get; set; }
 
-        public DiagnosticsConfiguration()
-        {
-            this.Settings = new GlobalSettings();
-
-            this.ContextDataCollectors = new ContextDataCollectorCollection();
-            this.AdditionalContextDataCollectors = new ContextDataCollectorCollection();
-
-            this.Sinks = new SinkCollection();
-        }
     }
 }

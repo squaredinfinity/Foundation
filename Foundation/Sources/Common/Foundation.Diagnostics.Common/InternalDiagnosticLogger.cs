@@ -26,10 +26,8 @@ namespace SquaredInfinity.Foundation.Diagnostics
         public InternalDiagnosticLogger(string name)
             : base()
         {
-            
             // configure this logger to allaw everything
-            var config = new DiagnosticsConfiguration();
-            config.LogConfigCache = new ConfigurationCache(allowAll: true);
+            var config = new DiagnosticsConfigurationWithCache(new ConfigurationCache(allowAll: true));
 
             ApplyConfiguration(config);
         }

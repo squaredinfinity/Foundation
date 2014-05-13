@@ -39,6 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\GlobalSettings.cs" />
+    <Compile Include="Configuration\IConfigurationProvider.cs" />
+    <Compile Include="Configuration\IDiagnosticsConfiguration.cs" />
     <Compile Include="ContextDataCollectors\IContextDataCollector.cs" />
     <Compile Include="ContextDataCollectors\IContextDataCollectorCollection.cs" />
     <Compile Include="ContextDataCollectors\IDataCollectionContext.cs" />

@@ -12,7 +12,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Critical(Exception ex, string message)
         {
-            if (!ConfigCache.ShouldProcessCriticals)
+            if (!Config.Cache.ShouldProcessCriticals)
                 return;
 
             var de =
@@ -26,7 +26,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.CriticalFormat(Exception ex, string message, params object[] messageArgs)
         {
-            if (!ConfigCache.ShouldProcessCriticals)
+            if (!Config.Cache.ShouldProcessCriticals)
                 return;
 
             var de =
@@ -41,7 +41,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Critical(Exception ex, Func<string> getMessage)
         {
-            if (!ConfigCache.ShouldProcessCriticals)
+            if (!Config.Cache.ShouldProcessCriticals)
                 return;
 
             var de =
@@ -55,7 +55,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Critical(Exception ex, Func<string> getMessage, params object[] attachedObjects)
         {
-            if (!ConfigCache.ShouldProcessCriticals)
+            if (!Config.Cache.ShouldProcessCriticals)
                 return;
 
             var de =
@@ -70,7 +70,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Critical(string message)
         {
-            if (!ConfigCache.ShouldProcessCriticals)
+            if (!Config.Cache.ShouldProcessCriticals)
                 return;
 
             var de =
@@ -83,7 +83,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.CriticalFormat(string message, params object[] messageArgs)
         {
-            if (!ConfigCache.ShouldProcessCriticals)
+            if (!Config.Cache.ShouldProcessCriticals)
                 return;
 
             var de =
@@ -97,7 +97,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Critical(Func<string> getMessage)
         {
-            if (!ConfigCache.ShouldProcessCriticals)
+            if (!Config.Cache.ShouldProcessCriticals)
                 return;
 
             var de =
@@ -110,7 +110,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Critical(Func<string> getMessage, params object[] attachedObjects)
         {
-            if (!ConfigCache.ShouldProcessCriticals)
+            if (!Config.Cache.ShouldProcessCriticals)
                 return;
 
             var de =
@@ -128,7 +128,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Error(Exception ex, string message)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -142,7 +142,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.ErrorFormat(Exception ex, string message, params object[] messageArgs)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -157,7 +157,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Error(Exception ex, Func<string> getMessage)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -171,7 +171,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Error(Exception ex, Func<string> getMessage, params object[] attachedObjects)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -186,7 +186,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Error(string message)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -199,7 +199,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.ErrorFormat(string message, params object[] messageArgs)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -213,7 +213,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Error(Func<string> getMessage)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -226,7 +226,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Error(Func<string> getMessage, params object[] attachedObjects)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -244,7 +244,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Warning(Exception ex, string message)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -258,7 +258,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.WarningFormat(Exception ex, string message, params object[] messageArgs)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -273,7 +273,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Warning(Exception ex, Func<string> getMessage)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -287,7 +287,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Warning(Exception ex, Func<string> getMessage, params object[] attachedObjects)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -302,7 +302,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Warning(string message)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -315,7 +315,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.WarningFormat(string message, params object[] messageArgs)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -329,7 +329,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Warning(Func<string> getMessage)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -342,7 +342,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Warning(Func<string> getMessage, params object[] attachedObjects)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -360,7 +360,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Information(Exception ex, string message)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -374,7 +374,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.InformationFormat(Exception ex, string message, params object[] messageArgs)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -389,7 +389,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Information(Exception ex, Func<string> getMessage)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -403,7 +403,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Information(Exception ex, Func<string> getMessage, params object[] attachedObjects)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -418,7 +418,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Information(string message)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -431,7 +431,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.InformationFormat(string message, params object[] messageArgs)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -445,7 +445,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Information(Func<string> getMessage)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -458,7 +458,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Information(Func<string> getMessage, params object[] attachedObjects)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -476,7 +476,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Verbose(Exception ex, string message)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -490,7 +490,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.VerboseFormat(Exception ex, string message, params object[] messageArgs)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -505,7 +505,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Verbose(Exception ex, Func<string> getMessage)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -519,7 +519,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Verbose(Exception ex, Func<string> getMessage, params object[] attachedObjects)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -534,7 +534,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Verbose(string message)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -547,7 +547,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.VerboseFormat(string message, params object[] messageArgs)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -561,7 +561,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Verbose(Func<string> getMessage)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -574,7 +574,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         void ILogger.Verbose(Func<string> getMessage, params object[] attachedObjects)
         {
-            if (!ConfigCache.ShouldProcessErrors)
+            if (!Config.Cache.ShouldProcessErrors)
                 return;
 
             var de =
@@ -599,7 +599,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
         {
             try
             {
-                if (!ConfigCache.ShouldProcessRawMessages)
+                if (!Config.Cache.ShouldProcessRawMessages)
                     return;
 
                 // first write to sinks that we must wait for to finish writing

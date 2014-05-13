@@ -21,11 +21,6 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public ILoggerName Name { get; set; }
         public ILogger Parent { get; set; }
-
-        //public ILoggerConfigProvider Configuration
-        //{
-        //    get { return (ILoggerConfigProvider)this; }
-        //}
         
         /// <summary>
         /// Returns a cloned copy of current configuration.
@@ -43,7 +38,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
         /// <param name="newConfiguration"></param>
         public void ApplyConfiguration(DiagnosticsConfiguration newConfiguration)
         {
-            var clone = newConfiguration.DeepClone();
+            var clone = new DiagnosticsConfigurationWithCache(newConfiguration);
 
             this.Config = clone;
         }
@@ -51,10 +46,8 @@ namespace SquaredInfinity.Foundation.Diagnostics
         /// <summary>
         /// Current configuration.
         /// </summary>
-        DiagnosticsConfiguration Config { get; set; }
+        DiagnosticsConfigurationWithCache Config { get; set; }
         
-        ConfigurationCache ConfigCache = new ConfigurationCache();
-
         DiagnosticEventPropertyCollection _globalProperties = new DiagnosticEventPropertyCollection();
         /// <summary>
         /// Global Properties
@@ -98,6 +91,9 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
             try
             {
+                if (!config_ref.Settings.EnableLogging)
+                    return;
+
                 //# Include Caller Info
                 if (config_ref.Settings.IncludeCallerInfo || config_ref.Settings.UseCallerNameAsLoggerName)
                 {
@@ -121,7 +117,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                 //! Filtering on a global level must happen *after* logger name is set and properties pinned
                 //! This is because filters are most likely use their values
 
-                if (config_ref.GlobalFilters.Count > 0 && !MeetsFiltersCriteria(de, Name, config_ref.Filters))
+                if (!MeetsFiltersCriteria(de, Name, config_ref.GlobalFilters))
                     return;
 
                 //# GET SINKS
@@ -310,85 +306,6 @@ namespace SquaredInfinity.Foundation.Diagnostics
         //    {
         //        Configure(configProvider.LoadConfiguration());
         //    }
-        //}
-        //public void Configure(DiagnosticsConfiguration config)
-        //{
-        //    config.LogConfigCache = new ConfigurationCache();
-
-        //    config.SinkDefinitions.RefreshCache();
-
-        //    foreach (var sink in config.SinkDefinitions)
-        //        sink.Initialize();
-
-        //    config.Sinks.RefreshCache();
-
-        //    //# get log levels enabled states
-        //    var de = new DiagnosticEvent();
-        //    de.EvaluateAndPinAllDataIfNeeded();
-
-        //    de.Severity = SeverityLevels.Critical;
-        //    config.LogConfigCache.ShouldProcessCriticals = MeetsFiltersCriteria(de, Name, config);
-
-        //    de.Severity = SeverityLevels.Error;
-        //    config.LogConfigCache.ShouldProcessErrors = MeetsFiltersCriteria(de, Name, config);
-
-        //    de.Severity = SeverityLevels.Warning;
-        //    config.LogConfigCache.ShouldProcessWarnings = MeetsFiltersCriteria(de, Name, config);
-
-        //    de.Severity = SeverityLevels.Information;
-        //    config.LogConfigCache.ShouldProcessInformation = MeetsFiltersCriteria(de, Name, config);
-
-        //    de.Severity = SeverityLevels.Verbose;
-        //    config.LogConfigCache.ShouldProcessVerbose = MeetsFiltersCriteria(de, Name, config);
-
-        //    //# get raw messages enabled states
-        //    de.Severity = SeverityLevels.Maximum;
-        //    de.HasRawMessage = true;
-        //    config.LogConfigCache.ShouldProcessRawMessages = MeetsFiltersCriteria(de, Name, config);
-
-        //    //# replace current config with new config
-        //    //NOTE: we are setting some values on newCache, make sure that there's a memory barrier in place
-        //    Thread.MemoryBarrier();
-        //    Config = config;
-        //}
-
-        //public DiagnosticsConfiguration GetConfiguration()
-        //{
-        //    // make a copy of reference to current configuration
-        //    // to make sure that any changes (which would replace Config)
-        //    // will not be applied to this method before it exits
-        //    var config_ref = Config;
-
-        //    if (config_ref == null)
-        //        return new DiagnosticsConfiguration();
-
-        //    var config = new DiagnosticsConfiguration();
-
-        //    // TODO: all should be cloned, not copied
-        //    // TODO: remember that some objects store references to other objects, those should be preserved (reassignment 
-
-        //    //# Sinks
-
-        //    config.SinkDefinitions = new SinkCollection(config_ref.SinkDefinitions.ToArray());
-        //    config.Sinks = config_ref.Sinks;
-
-        //    //# Fiters
-
-        //    config.FilterDefinitions = config_ref.FilterDefinitions;
-
-        //    config.GlobalFilters = config_ref.GlobalFilters;
-
-        //    config.Formatters = new FormatterCollection(config_ref.Formatters.ToArray());
-        //    config.SeverityLevels = new SeverityLevelCollection(config_ref.SeverityLevels.ToArray());
-
-        //    //# Context Data Collectors
-
-        //    if (config_ref.GlobalContextDataCollectors != null)
-        //        config.GlobalContextDataCollectors = config_ref.GlobalContextDataCollectors.Clone();
-
-        //    config.AdditionalContextDataCollectors = config_ref.AdditionalContextDataCollectors.Clone();
-
-        //    return config;
         //}
     }
 }

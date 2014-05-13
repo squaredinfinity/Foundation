@@ -44,10 +44,11 @@
     <Compile Include="AttachedObject.cs" />
     <Compile Include="AttachedObjectCollection.cs" />
     <Compile Include="Configuration\ConfigurationCache.cs" />
+    <Compile Include="Configuration\DiagnosticsConfigurationWithCache.cs" />
     <Compile Include="Configuration\DiagnosticsConfiguration.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Configuration\GlobalSettings.cs" />
+    <Compile Include="Configuration\IConfigurationProvider.cs" />
     <Compile Include="ContextDataCollectors\CompositeContextDataCollector.cs" />
     <Compile Include="ContextDataCollectors\ContextDataCollector.cs" />
     <Compile Include="ContextDataCollectors\ContextDataCollectorCollection.cs" />
@@ -67,6 +68,11 @@
     <Compile Include="ExceptionContextData.cs" />
     <Compile Include="Filters\Filter.cs" />
     <Compile Include="Filters\FilterCollection.cs" />
+    <Compile Include="Filters\LoggerNameFilter.cs" />
+    <Compile Include="Filters\PatternEvaluation\PatternEvaluator.cs" />
+    <Compile Include="Filters\PatternEvaluation\WildcardPatternEvaluator.cs" />
+    <Compile Include="Filters\PropertyFilter.cs" />
+    <Compile Include="Filters\SeverityFilter.cs" />
     <Compile Include="Fluent\IHideObjectInheritedMembers.cs" />
     <Compile Include="Formatters\FormatterCollection.cs" />
     <Compile Include="Formatters\PatternFormatter.cs" />
@@ -107,11 +113,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\DefaultConfigs\config.unspecified.xml" />
     <Content Include="TextTemplates\!overview.txt" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Framework Extensions\System\Exception.extensions.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

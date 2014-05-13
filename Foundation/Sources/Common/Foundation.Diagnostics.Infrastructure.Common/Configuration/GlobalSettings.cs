@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Diagnostics.Configuration
 {
-    public class GlobalSettings
+    public struct GlobalSettings
     {
         /// <summary>
         /// True to use calling member full name as a logger name.
@@ -23,7 +23,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.Configuration
         public bool IncludeCallerInfo { get; set; }
 
         /// <summary>
-        /// When true (default), logging is enable.
+        /// When true (default), logging is enabled.
         /// When false, logging is disabled.
         /// Set to false if you want to disable all logging.
         /// </summary>
@@ -33,6 +33,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.Configuration
         {
             UseCallerNameAsLoggerName = false;
             IncludeCallerInfo = false;
+            EnableLogging = true;
         }
     }
 }

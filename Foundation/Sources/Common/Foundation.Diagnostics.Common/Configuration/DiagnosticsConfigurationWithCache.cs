@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Foundation.Diagnostics.Filters;
+
+namespace SquaredInfinity.Foundation.Diagnostics.Configuration
+{
+    internal class DiagnosticsConfigurationWithCache : DiagnosticsConfiguration
+    {
+        public ConfigurationCache Cache { get; private set; }
+
+        public DiagnosticsConfigurationWithCache(DiagnosticsConfiguration source)
+        {
+            this.DeepCopyFrom(source);
+            RefreshCache();
+        }
+
+        public DiagnosticsConfigurationWithCache(ConfigurationCache cache)
+        {
+            this.Cache = cache;
+        }
+
+        internal void RefreshCache()
+        {
+            if(!Settings.EnableLogging)
+            {
+                Cache = new ConfigurationCache(allowAll: false);
+                return;
+            }
+            this.Cache = new ConfigurationCache();
+
+            Cache.ShouldProcessCriticals = ShouldProcessSeverityLevel(KnownSeverityLevels.Critical);
+            Cache.ShouldProcessErrors = ShouldProcessSeverityLevel(KnownSeverityLevels.Error);
+            Cache.ShouldProcessWarnings = ShouldProcessSeverityLevel(KnownSeverityLevels.Warning);
+            Cache.ShouldProcessInformation = ShouldProcessSeverityLevel(KnownSeverityLevels.Information);
+            Cache.ShouldProcessVerbose = ShouldProcessSeverityLevel(KnownSeverityLevels.Verbose);
+        }
+
+        bool ShouldProcessSeverityLevel(SeverityLevel sl)
+        {
+            var result =
+                (from f in GlobalFilters.OfType<SeverityFilter>()
+                 where f.EvaluateInternal(sl) == true
+                 select 1)
+                 .Any();
+
+            return result;
+        }
+    }
+}
