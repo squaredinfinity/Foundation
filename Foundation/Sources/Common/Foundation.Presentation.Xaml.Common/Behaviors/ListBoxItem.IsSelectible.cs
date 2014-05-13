@@ -8,5 +8,6 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
 {
     public class IsSelectible
     {
+
     }
 }

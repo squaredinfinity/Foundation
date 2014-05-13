@@ -109,6 +109,7 @@
     <Compile Include="TypeResolver.cs" />
     <Compile Include="Types\Mapping\TypeMapper.TypeMappingStrategiesConcurrentDictionary.cs" />
     <Compile Include="Types\Mapping\ValueConverting\PreserveOriginalValueConverter.cs" />
+    <Compile Include="WeakEvent.cs" />
     <Compile Include="_RetryPolicy\DynamicTransientFaultFilter.cs" />
     <Compile Include="_RetryPolicy\ITransientFaultFilter.cs" />
     <Compile Include="_RetryPolicy\RetryPolicy.cs" />

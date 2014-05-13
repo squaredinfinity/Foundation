@@ -330,6 +330,9 @@
     <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\ValueResolving\ValueResolverCollection.cs">
       <Link>Types\Mapping\ValueResolving\ValueResolverCollection.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\WeakEvent.cs">
+      <Link>WeakEvent.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\_RetryPolicy\DynamicTransientFaultFilter.cs">
       <Link>_RetryPolicy\DynamicTransientFaultFilter.cs</Link>
     </Compile>

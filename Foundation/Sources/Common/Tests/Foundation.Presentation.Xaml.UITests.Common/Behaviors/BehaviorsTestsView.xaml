@@ -10,6 +10,9 @@
     <TabControl>
         <TabItem Header="Watermark">
             <views:WatermarkTestsView />
-        </TabItem>            
+        </TabItem>
+        <TabItem Header="Multiselection">
+            <views:MultiSelectionTestsView />
+        </TabItem>
     </TabControl>
 </UserControl>

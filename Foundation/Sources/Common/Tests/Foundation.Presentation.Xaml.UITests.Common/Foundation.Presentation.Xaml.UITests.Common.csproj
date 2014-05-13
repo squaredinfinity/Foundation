@@ -61,6 +61,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Behaviors\MultiSelectionTestsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Behaviors\WatermarkTestsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -80,6 +84,10 @@
       <DependentUpon>DragAndDropTestsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviors\DragAndDropTestsViewModel.cs" />
+    <Compile Include="Behaviors\MultiSelectionTestsView.xaml.cs">
+      <DependentUpon>MultiSelectionTestsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Behaviors\MultiSelectionTestsViewModel.cs" />
     <Compile Include="Behaviors\WatermarkTestsView.xaml.cs">
       <DependentUpon>WatermarkTestsView.xaml</DependentUpon>
     </Compile>

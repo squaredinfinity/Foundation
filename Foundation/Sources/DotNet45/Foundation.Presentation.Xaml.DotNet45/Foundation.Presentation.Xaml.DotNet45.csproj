@@ -73,6 +73,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\ListBoxItem.IsSelectible.cs">
       <Link>Behaviors\ListBoxItem.IsSelectible.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\Selector.MultiSelection.cs">
+      <Link>Behaviors\Selector.MultiSelection.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\TextBoxBase.ClearButton.cs">
       <Link>Behaviors\TextBoxBase.ClearButton.cs</Link>
     </Compile>

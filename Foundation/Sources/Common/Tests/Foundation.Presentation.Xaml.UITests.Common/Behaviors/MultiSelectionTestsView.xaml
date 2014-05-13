@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="Foundation.Presentation.Xaml.UITests.Common.Behaviors.MultiSelectionTestsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:behaviors="http://schemas.squaredinfinity.com/foundation/behaviors"
+             mc:Ignorable="d" 
+             x:Name="root"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <TabControl>
+            <TabItem Header="List View">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" AutomationProperties.Name="Description" />
+                        <RowDefinition Height="*" AutomationProperties.Name="Content" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text=""
+                           Grid.Row="0"/>
+
+                    <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Top"
+                            Grid.Row="1">
+                        
+                        <ListView ItemsSource="{Binding AllItems}" 
+                                  behaviors:MultiSelection.SelectedItems="{Binding SelectedItems}"
+                                  Width="150"
+                                  MaxHeight="200"/>
+
+                        <ListView ItemsSource="{Binding SelectedItems}" 
+                                  Width="150"
+                                  MaxHeight="200"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Binding To Dependency Property">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" AutomationProperties.Name="Description" />
+                        <RowDefinition Height="*" AutomationProperties.Name="Content" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text=""
+                           Grid.Row="0"/>
+
+                    <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Top"
+                            Grid.Row="1">
+
+                        <ListView ItemsSource="{Binding AllItems}" 
+                                  behaviors:MultiSelection.SelectedItems="{Binding SelectedItemsDP, ElementName=root, Mode=TwoWay}"
+                                  Width="150"
+                                  MaxHeight="200"/>
+
+                        <ListView ItemsSource="{Binding SelectedItemsDP, ElementName=root}"
+                                  Width="150"
+                                  MaxHeight="200"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>
