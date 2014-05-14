@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SquaredInfinity.Foundation.Presentation.Views;
+using SquaredInfinity.Foundation.Presentation.Windows;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -12,29 +14,38 @@ namespace SquaredInfinity.Foundation.Presentation
 {
     public abstract class UIService : IUIService
     {
-        protected Dispatcher UIDispatcher { get; private set; }
+        static Dispatcher GetMainThreadDispatcher()
+        {
+            if (Application.Current != null && Application.Current.Dispatcher != null)
+                return Application.Current.Dispatcher;
+
+            return Dispatcher.CurrentDispatcher;
+        }
+
+        public Dispatcher UIDispatcher { get; private set; }
+
+        public UIService()
+            : this(GetMainThreadDispatcher())
+        {}
 
         public UIService(Dispatcher uiDispatcher)
         {
             this.UIDispatcher = uiDispatcher;
-            this.SynchronizationContext = new DispatcherSynchronizationContext(uiDispatcher);
         }
-
-        public SynchronizationContext SynchronizationContext { get; private set; }
 
         /// <summary>
         /// Displays a tool window to the user.
         /// </summary>
         /// <param name="viewModel"></param>
-        public abstract void ShowToolWindow(IHostAwareViewModel viewModel, Func<Window> getWindow = null);
+        public abstract void ShowToolWindow(View view, Func<ViewHostWindow> getWindow = null);
 
         /// <summary>
         /// Displays a dialog window to the user using default DialogScope and DialogMode.
         /// </summary>
         /// <param name="viewModel"></param>
-        public virtual void ShowDialog(IHostAwareViewModel viewModel)
+        public virtual void ShowDialog(View view)
         {
-            ShowDialog(viewModel, DialogScope.Default, DialogMode.Default);
+            ShowDialog(view, DialogScope.Default, DialogMode.Default);
         }
         
         /// <summary>
@@ -43,11 +54,11 @@ namespace SquaredInfinity.Foundation.Presentation
         /// <param name="viewModel"></param>
         /// <param name="dialogScope"></param>
         public abstract void ShowDialog(
-            IHostAwareViewModel viewModel, 
+            View view, 
             DialogScope dialogScope, 
             DialogMode dialogMode, 
             bool showActivated = true,
-            Func<Window> getWindow = null);
+            Func<ViewHostWindow> getWindow = null);
 
         public abstract IHostAwareViewModel ShowConfirmationDialog(string message, string dialogTitle);
 
@@ -55,18 +66,20 @@ namespace SquaredInfinity.Foundation.Presentation
         /// Shows an alert window using default DialogScope and DialogMode.
         /// </summary>
         /// <param name="viewModel"></param>
-        public virtual void ShowAlert(IHostAwareViewModel viewModel)
+        public virtual void ShowAlert(View view)
         {
-            ShowAlert(viewModel, DialogScope.Default, DialogMode.Default);
+            ShowAlert(view, DialogScope.Default, DialogMode.Default);
         }
 
-        public abstract void ShowAlert(IHostAwareViewModel viewModel, DialogScope dialogScope, DialogMode dialogMode);
+        public abstract void ShowAlert(View view, DialogScope dialogScope, DialogMode dialogMode);
 
         public IHostAwareViewModel ShowAlert(string message)
         {
             var hostAwareViewModel = GetDefaultAlertViewModel(message);
 
-            ShowAlert(hostAwareViewModel);
+            
+
+            //ShowAlert(hostAwareViewModel);
 
             return hostAwareViewModel;
         }
@@ -77,7 +90,7 @@ namespace SquaredInfinity.Foundation.Presentation
 
             hostAwareViewModel.Title = title;
 
-            ShowAlert(hostAwareViewModel);
+            //ShowAlert(hostAwareViewModel);
 
             return hostAwareViewModel;
         }

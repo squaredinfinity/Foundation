@@ -20,9 +20,16 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
         public string Source { get; set; }
         public IValueConverter Converter { get; set; }
 
+        public int Delay { get; set; }
+
+        public UpdateSourceTrigger UpdateSourceTrigger { get; set; }
+
         protected void UpdateBindingFromSource(Binding binding)
         {
             UpdateBindingFromSource(binding, Source);
+
+            binding.Delay = Delay;
+            binding.UpdateSourceTrigger = UpdateSourceTrigger;
         }
 
         protected static void UpdateBindingFromSource(Binding binding, string source)
@@ -31,9 +38,16 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
             {
                 if (source.StartsWith("@"))
                 {
-                    if (source == "@TemplatedParent")
+                    if (source.StartsWith("@TemplatedParent"))
                     {
                         binding.RelativeSource = new RelativeSource(RelativeSourceMode.TemplatedParent);
+
+                        var ix_dot = source.IndexOf(".");
+
+                        if(ix_dot > 0)
+                        {
+                            binding.Path = new PropertyPath(source.Substring(ix_dot));
+                        }
                     }
                     else
                     {

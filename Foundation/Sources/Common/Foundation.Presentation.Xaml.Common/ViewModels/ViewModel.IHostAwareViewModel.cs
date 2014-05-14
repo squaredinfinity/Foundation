@@ -5,12 +5,9 @@ using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
-namespace SquaredInfinity.Foundation.Presentation
+namespace SquaredInfinity.Foundation.Presentation.ViewModels
 {
-    /// <summary>
-    /// Base class for all viewmodels
-    /// </summary>
-    public abstract partial class ViewModel : NotifyPropertyChangedObject, IViewModel, IHostAwareViewModel
+    public abstract partial class ViewModel : IHostAwareViewModel
     {
         public event Action<IHostAwareViewModel> InteractionCompleting;
         public event Action<IHostAwareViewModel> InteractionCompleted;
@@ -37,9 +34,15 @@ namespace SquaredInfinity.Foundation.Presentation
             }
         }
 
-        public ICommand CancelInteractionCommand { get; private set; }
+        public virtual void CompleteInteraction()
+        {
+            CompleteInteraction(UserInteractionOutcome.OtherSuccess);
+        }
 
-        public ICommand CompleteInteractionCommand { get; private set; }
+        public virtual void CancelInteraction()
+        {
+            CompleteInteraction(UserInteractionOutcome.Cancelled);
+        }
 
         public virtual void CompleteInteraction(UserInteractionOutcome interactionOutcome)
         {
@@ -54,6 +57,17 @@ namespace SquaredInfinity.Foundation.Presentation
 
             if (InteractionCompleted != null)
                 InteractionCompleted(this);
+        }
+
+        string title;
+        public string Title
+        {
+            get { return title; }
+            set
+            {
+                title = value;
+                RaisePropertyChanged(() => Title);
+            }
         }
     }
 }

@@ -292,9 +292,6 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\LoadImageFromMainAssembly.cs">
       <Link>MarkupExtensions\LoadImageFromMainAssembly.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\MethodBinding.cs">
-      <Link>MarkupExtensions\MethodBinding.cs</Link>
-    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\MethodResultBinding.cs">
       <Link>MarkupExtensions\MethodResultBinding.cs</Link>
     </Compile>
@@ -313,8 +310,8 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\StringFormatBinding.cs">
       <Link>MarkupExtensions\StringFormatBinding.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\ViewModelBinding.cs">
-      <Link>MarkupExtensions\ViewModelBinding.cs</Link>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\TemplatedParentBinding.cs">
+      <Link>MarkupExtensions\TemplatedParentBinding.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\NotifyPropertyChangedObject.cs">
       <Link>NotifyPropertyChangedObject.cs</Link>
@@ -322,26 +319,38 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Resources.cs">
       <Link>Resources.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\SharedResourceDictionary.cs">
+      <Link>SharedResourceDictionary.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\UIService.cs">
       <Link>UIService.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\UserInteractionOutcome.cs">
       <Link>UserInteractionOutcome.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ViewModel.cs">
-      <Link>ViewModel.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ViewModel.IHostAwareViewModel.cs">
-      <Link>ViewModel.IHostAwareViewModel.cs</Link>
-    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ViewModelState.cs">
       <Link>ViewModelState.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\WeakEvent.cs">
-      <Link>WeakEvent.cs</Link>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ViewModels\AlertViewModel.cs">
+      <Link>ViewModels\AlertViewModel.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\WindowViewModel.cs">
-      <Link>WindowViewModel.cs</Link>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ViewModels\ViewModel.cs">
+      <Link>ViewModels\ViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ViewModels\ViewModel.IHostAwareViewModel.cs">
+      <Link>ViewModels\ViewModel.IHostAwareViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Views\View.cs">
+      <Link>Views\View.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Windows\ViewHostWindow.cs">
+      <Link>Windows\ViewHostWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Windows\ViewHostWindow.IViewModelHost.cs">
+      <Link>Windows\ViewHostWindow.IViewModelHost.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Xaml\All.cs">
+      <Link>Xaml\All.cs</Link>
     </Compile>
     <Compile Include="FrameworkExtensions\System.Collections\IEnumerable.extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -353,24 +362,24 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Common\Resources\Xaml\All.xaml">
-      <Link>Resources\Xaml\All.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Common\Resources\Xaml\Converters.xaml">
-      <Link>Resources\Xaml\Converters.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Common\Resources\Xaml\DataTemplateSelectors.xaml">
-      <Link>Resources\Xaml\DataTemplateSelectors.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Common\Xaml\All.xaml">
+      <Link>Xaml\All.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Common\Xaml\Converters.xaml">
+      <Link>Xaml\Converters.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Common\Xaml\DataTemplateSelectors.xaml">
+      <Link>Xaml\DataTemplateSelectors.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

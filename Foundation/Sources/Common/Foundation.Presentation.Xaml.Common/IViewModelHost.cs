@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SquaredInfinity.Foundation.Presentation
 {
-    public interface IViewModelHost : IViewModel
+    public interface IViewModelHost
     {
         IHostAwareViewModel HostedViewModel { get; set; }
     }

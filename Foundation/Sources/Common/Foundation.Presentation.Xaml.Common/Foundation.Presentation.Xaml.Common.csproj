@@ -75,6 +75,8 @@
     <Compile Include="Commands\DelegateCommandBase.cs" />
     <Compile Include="Commands\DelegateCommand_T.cs" />
     <Compile Include="Controls\BackgroundLoadingListView.cs" />
+    <Compile Include="SharedResourceDictionary.cs" />
+    <Compile Include="Windows\ViewHostWindow.cs" />
     <Compile Include="Controls\ISupportsBackgroundRendering.cs" />
     <Compile Include="Controls\TabControl.cs" />
     <Compile Include="Converters\BoolToNumberConverter.cs" />
@@ -137,16 +139,13 @@
     <Compile Include="MarkupExtensions\CommandMethodBinding.cs" />
     <Compile Include="MarkupExtensions\CommandMethodBinding.InvokeMethodCommand.cs" />
     <Compile Include="MarkupExtensions\LoadImageFromMainAssembly.cs" />
-    <Compile Include="MarkupExtensions\MethodBinding.cs" />
     <Compile Include="MarkupExtensions\MethodResultBinding.cs" />
     <Compile Include="MarkupExtensions\MethodResultBinding.MethodWithParametersResultConverter.cs" />
     <Compile Include="MarkupExtensions\PredicateMethodBinding.cs" />
     <Compile Include="MarkupExtensions\PredicateMethodBinding.PredicateMethodConverter.cs" />
     <Compile Include="MarkupExtensions\SmartBinding.cs" />
+    <Compile Include="MarkupExtensions\TemplatedParentBinding.cs" />
     <Compile Include="MarkupExtensions\StringFormatBinding.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MarkupExtensions\ViewModelBinding.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="NotifyPropertyChangedObject.cs" />
@@ -155,11 +154,12 @@
     <Compile Include="Resources.cs" />
     <Compile Include="UIService.cs" />
     <Compile Include="UserInteractionOutcome.cs" />
-    <Compile Include="ViewModel.cs" />
-    <Compile Include="ViewModel.IHostAwareViewModel.cs" />
+    <Compile Include="ViewModels\AlertViewModel.cs" />
+    <Compile Include="ViewModels\ViewModel.cs" />
+    <Compile Include="ViewModels\ViewModel.IHostAwareViewModel.cs" />
     <Compile Include="ViewModelState.cs" />
-    <Compile Include="WeakEvent.cs" />
-    <Compile Include="WindowViewModel.cs" />
+    <Compile Include="Views\View.cs" />
+    <Compile Include="Xaml\All.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Foundation.Common\Foundation.Common.csproj">
@@ -169,15 +169,15 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Page Include="Resources\Xaml\All.xaml">
+    <Page Include="Xaml\All.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\Xaml\DataTemplateSelectors.xaml">
+    <Page Include="Xaml\DataTemplateSelectors.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\Xaml\Converters.xaml">
+    <Page Include="Xaml\Converters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -185,6 +185,7 @@
   <ItemGroup>
     <Compile Include="Behaviors\ListBoxItem.IsSelectible.cs" />
     <None Include="packages.config" />
+    <Compile Include="Windows\ViewHostWindow.IViewModelHost.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

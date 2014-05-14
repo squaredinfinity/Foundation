@@ -6,8 +6,8 @@ using System.Text;
 
 namespace SquaredInfinity.Foundation.Presentation
 {
-    public interface IViewModel : INotifyPropertyChanged
+    public interface IViewModel
     {
-        object View { get; set; }
+        ViewModelState State { get; set; }
     }
 }

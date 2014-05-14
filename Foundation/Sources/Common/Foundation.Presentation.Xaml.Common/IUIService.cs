@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SquaredInfinity.Foundation.Presentation.Views;
+using SquaredInfinity.Foundation.Presentation.Windows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,21 +13,21 @@ namespace SquaredInfinity.Foundation.Presentation
 {
     public interface IUIService
     {
-        void ShowToolWindow(IHostAwareViewModel viewModel, Func<Window> getWindow = null);
+        void ShowToolWindow(View view, Func<ViewHostWindow> getWindow = null);
 
-        void ShowDialog(IHostAwareViewModel viewModel);
+        void ShowDialog(View view);
 
         void ShowDialog(
-            IHostAwareViewModel viewModel, 
+            View view, 
             DialogScope dialogScope, 
             DialogMode dialogMode, 
             bool showActivated = true,
-            Func<Window> getViewModelHostView = null);
+            Func<ViewHostWindow> getViewModelHostView = null);
 
         IHostAwareViewModel ShowConfirmationDialog(string message, string dialogTitle);
 
-        void ShowAlert(IHostAwareViewModel viewModel);
-        void ShowAlert(IHostAwareViewModel viewModel, DialogScope dialogScope, DialogMode dialogMode);
+        void ShowAlert(View view);
+        void ShowAlert(View vieew, DialogScope dialogScope, DialogMode dialogMode);
         IHostAwareViewModel ShowAlert(string message);
         IHostAwareViewModel ShowAlert(string message, string dialogTitle);
 
@@ -48,7 +50,5 @@ namespace SquaredInfinity.Foundation.Presentation
         /// </summary>
         /// <param name="action">The action.</param>
         bool IsUIThread { get; }
-
-        SynchronizationContext SynchronizationContext { get; }
     }
 }

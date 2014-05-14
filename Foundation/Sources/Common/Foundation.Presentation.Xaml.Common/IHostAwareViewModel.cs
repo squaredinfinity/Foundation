@@ -14,11 +14,13 @@ namespace SquaredInfinity.Foundation.Presentation
         string Title { get; set; }
 
         UserInteractionOutcome InteractionOutcome { get; }
+
         IViewModelHost ViewModelHost { get; set; }
 
-        ICommand CancelInteractionCommand { get; }
-        ICommand CompleteInteractionCommand { get; }
-
         void CompleteInteraction(UserInteractionOutcome interactionOutcome);
+
+        void CompleteInteraction();
+
+        void CancelInteraction();
     }
 }

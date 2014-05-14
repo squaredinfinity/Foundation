@@ -1,5 +1,6 @@
 ﻿using SquaredInfinity.Foundation.Collections;
 using SquaredInfinity.Foundation.Presentation;
+using SquaredInfinity.Foundation.Presentation.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -21,9 +21,18 @@ namespace SquaredInfinity.Foundation.Presentation
         /// </summary>
         /// <param name="resourceDictionaryUri">The resource dictionary URI  in format: 'applicationName;/component/pathToResource'.</param>
         /// <returns></returns>
-        public static ResourceDictionary LoadCompiledResourceDictionary(string resourceDictionaryUri)
+        public static ResourceDictionary LoadCompiledResourceDictionary(Uri resourceDictionaryUri)
         {
-            ResourceDictionary result = Application.LoadComponent(new Uri(resourceDictionaryUri, UriKind.Relative)) as ResourceDictionary;
+            if(resourceDictionaryUri.IsAbsoluteUri)
+            {
+                // cannot use absolute uris here, make it relative
+
+                var relativeUriString = resourceDictionaryUri.OriginalString.Replace(@"pack://application:,,,/", "");
+
+                resourceDictionaryUri = new Uri(relativeUriString, UriKind.Relative);
+            }
+
+            ResourceDictionary result = Application.LoadComponent(resourceDictionaryUri) as ResourceDictionary;
 
             return result;
         }
@@ -32,7 +41,7 @@ namespace SquaredInfinity.Foundation.Presentation
         /// Loads a compiled (BAML) resource dictionary and merges it with current Application dictionaries
         /// </summary>
         /// <param name="resourceDictionaryUri"></param>
-        public static void LoadAnMergeCompiledResourceDictionary(string resourceDictionaryUri)
+        public static void LoadAnMergeCompiledResourceDictionary(Uri resourceDictionaryUri)
         {
             Application.Current.Resources.MergedDictionaries.Add(LoadCompiledResourceDictionary(resourceDictionaryUri));
         }
@@ -41,7 +50,9 @@ namespace SquaredInfinity.Foundation.Presentation
         {
             try
             {
-                var resourceDictionary = LoadCompiledResourceDictionary("{0};component/{1}".FormatWith(assemblyName, resourceDictionaryRelativeUri));
+                var uri = new Uri("{0};component/{1}".FormatWith(assemblyName, resourceDictionaryRelativeUri), UriKind.Relative);
+
+                var resourceDictionary = LoadCompiledResourceDictionary(uri);
 
                 MergeResourceDictionary(resourceDictionary);
             }
@@ -57,6 +68,16 @@ namespace SquaredInfinity.Foundation.Presentation
         {
             Application.Current.Resources.MergedDictionaries.Add(dict);
             return;
+
+            foreach (var key in dict.Keys)
+            {
+                Application.Current.Resources[key] = dict[key];
+            }
+
+            foreach(var md in dict.MergedDictionaries)
+            {
+                MergeResourceDictionary(md);
+            }
         }
 
         public static void LoadAndMergeCompiledResourceDictionaryFromThisAssembly(string resourceDictionaryRelativeUri)
@@ -192,6 +213,13 @@ namespace SquaredInfinity.Foundation.Presentation
         {
             //! creating instance of Application class will register pack uri scheme
             var ignored = new System.Windows.Application();
+        }
+
+        public static ImageSource LoadImage(Uri resourceUri)
+        {
+            var isc = new ImageSourceConverter();
+            
+            return BitmapFrame.Create(resourceUri);
         }
 
         public static ImageSource LoadImageFromEntryAssembly(string resourceRelativeUri)
