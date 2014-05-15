@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:selectors="clr-namespace:SquaredInfinity.Foundation.Presentation.DataTemplateSelectors"
+                    xmlns:p="clr-namespace:SquaredInfinity.Foundation.Presentation"
+                    xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" >
+
+    <ResourceDictionary.MergedDictionaries>
+        <p:SharedResourceDictionary DictionaryName="Foundation.Converters"
+                                    Source="{p:ResourceFromThisAssembly RelativePath=/Xaml/Converters.xaml}" />
+
+        <p:SharedResourceDictionary DictionaryName="Foundation.DataTemplateSelectors"
+                                    Source="{p:ResourceFromThisAssembly RelativePath=/Xaml/DataTemplateSelectors.xaml}" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>
