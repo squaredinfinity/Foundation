@@ -24,7 +24,15 @@ namespace SquaredInfinity.Foundation.Threading
             if(OperationTask != null)
             {
                 OperationCancellationTokenSource.Cancel();
-                OperationTask.Wait();
+
+                try
+                {
+                    OperationTask.Wait(OperationCancellationTokenSource.Token);
+                }
+                catch (OperationCanceledException)
+                { 
+                    // expected
+                }
             }
 
             OperationCancellationTokenSource = new CancellationTokenSource();
@@ -75,7 +83,15 @@ namespace SquaredInfinity.Foundation.Threading
             if (OperationTask != null)
             {
                 OperationCancellationTokenSource.Cancel();
-                OperationTask.Wait();
+
+                try
+                {
+                    OperationTask.Wait(OperationCancellationTokenSource.Token);
+                }
+                catch (OperationCanceledException)
+                { 
+                    // expected
+                }
             }
 
             OperationCancellationTokenSource = new CancellationTokenSource();

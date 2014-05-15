@@ -12,6 +12,34 @@ namespace SquaredInfinity.Foundation.Presentation.Windows
     {
         ContentPresenter PART_ContentPresenter;
 
+        #region Is Dialog Window
+
+        public bool IsDialog
+        {
+            get { return (bool)GetValue(IsDialogProperty); }
+            set { SetValue(IsDialogProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsDialogProperty =
+            DependencyProperty.Register(
+            "IsDialog",
+            typeof(bool),
+            typeof(ViewHostWindow),
+            new FrameworkPropertyMetadata(false, OnIsDialogChanged));
+
+        static void OnIsDialogChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var vhw = d as ViewHostWindow;
+
+            if ((bool)e.NewValue == true)
+            {
+                vhw.SetValue(Window.MaxHeightProperty, System.Windows.SystemParameters.PrimaryScreenHeight);
+                vhw.SetValue(Window.MaxWidthProperty, System.Windows.SystemParameters.PrimaryScreenWidth);
+            }
+        }
+
+        #endregion
+
         #region Hosted View
 
         public FrameworkElement HostedView
@@ -31,9 +59,6 @@ namespace SquaredInfinity.Foundation.Presentation.Windows
 
         public ViewHostWindow()
         {
-            SetValue(Window.MaxHeightProperty, System.Windows.SystemParameters.PrimaryScreenHeight * .75);
-            SetValue(Window.MaxWidthProperty, System.Windows.SystemParameters.PrimaryScreenHeight * .75);
-
             this.LayoutUpdated += DefaultDialogWindow_LayoutUpdated;
         }
 

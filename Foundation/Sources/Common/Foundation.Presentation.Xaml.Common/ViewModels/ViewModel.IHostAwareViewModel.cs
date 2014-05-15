@@ -59,6 +59,11 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
                 InteractionCompleted(this);
         }
 
+        public virtual bool CanCompleteInteraction()
+        {
+            return true;
+        }
+
         string title;
         public string Title
         {

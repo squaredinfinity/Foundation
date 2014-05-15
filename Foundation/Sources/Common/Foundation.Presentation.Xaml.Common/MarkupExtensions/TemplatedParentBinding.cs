@@ -32,6 +32,9 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 
             binding.RelativeSource = new RelativeSource { Mode = RelativeSourceMode.TemplatedParent };
 
+            binding.Converter = Converter;
+            binding.ConverterParameter = ConverterParameter;
+
             return binding;
         }
     }

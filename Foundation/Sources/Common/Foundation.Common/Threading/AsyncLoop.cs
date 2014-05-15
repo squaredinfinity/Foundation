@@ -70,7 +70,13 @@ namespace SquaredInfinity.Foundation.Threading
                 if (OperationCancellationTokenSource != null)
                 {
                     OperationCancellationTokenSource.Cancel();
-                    OperationTask.Wait(250, OperationCancellationTokenSource.Token);
+
+                    try
+                    {
+                        // todo: wait interval may need to be configurable
+                        OperationTask.Wait(250, OperationCancellationTokenSource.Token);
+                    }
+                    catch(OperationCanceledException) { /* expected */ }
 
                     OperationCancellationTokenSource = null;
                     OperationTask = null;

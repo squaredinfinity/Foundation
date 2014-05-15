@@ -175,14 +175,6 @@ namespace SquaredInfinity.Foundation
         }
     }
 
-    public static class WeakEventExtensions
-    {
-        public static WeakEventHandlerPrototype<TSource> CreateWeakEventHandler<TSource>(this TSource source)
-        {
-            return new WeakEventHandlerPrototype<TSource>(source);
-        }
-    }
-
     public class WeakEventHandlerPrototype<TSource>
     {
         internal TSource Source;

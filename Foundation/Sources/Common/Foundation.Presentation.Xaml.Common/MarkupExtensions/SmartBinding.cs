@@ -20,6 +20,8 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
         public string Source { get; set; }
         public IValueConverter Converter { get; set; }
 
+        public object ConverterParameter { get; set; }
+
         public int Delay { get; set; }
 
         public UpdateSourceTrigger UpdateSourceTrigger { get; set; }

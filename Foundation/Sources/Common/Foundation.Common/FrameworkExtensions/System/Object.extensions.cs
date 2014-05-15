@@ -106,5 +106,16 @@ namespace SquaredInfinity.Foundation.Extensions
         {
             return DefaultTypeMapper.DeepClone<TTarget>(source);
         }
+
+        /// <summary>
+        /// Create a weak event handler (subscription) for an event on source object.
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static WeakEventHandlerPrototype<TSource> CreateWeakEventHandler<TSource>(this TSource source)
+        {
+            return new WeakEventHandlerPrototype<TSource>(source);
+        }
     }
 }

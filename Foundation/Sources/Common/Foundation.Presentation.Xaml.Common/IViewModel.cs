@@ -8,6 +8,8 @@ namespace SquaredInfinity.Foundation.Presentation
 {
     public interface IViewModel
     {
+        object DataContext { get; set; }
+
         ViewModelState State { get; set; }
     }
 }

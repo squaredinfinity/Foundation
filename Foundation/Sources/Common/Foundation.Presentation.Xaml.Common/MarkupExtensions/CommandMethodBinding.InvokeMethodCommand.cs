@@ -29,8 +29,21 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 
                 var targetType = targetObject.GetType();
 
-                var executeMethodInfo = targetType.GetMethod(methodName);
-                var canExecuteMethodInfo = targetType.GetMethod("Can" + methodName);
+                var executeMethodInfo = (MethodInfo)null;
+
+                executeMethodInfo =
+                    (from m in targetType.GetMethods()
+                     where m.GetParameters().Length == 0 && m.Name == methodName
+                     select m).FirstOrDefault();
+
+                var canExecuteMethodInfo = (MethodInfo)null;
+                
+                var canExecuteMethodName = "Can" + methodName;
+
+                canExecuteMethodInfo =
+                    (from m in targetType.GetMethods()
+                     where m.GetParameters().Length == 0 && m.Name == canExecuteMethodName
+                     select m).FirstOrDefault();
 
                 this.ExecuteMethodInfo = executeMethodInfo;
                 this.CanExecuteMethodInfo = canExecuteMethodInfo;

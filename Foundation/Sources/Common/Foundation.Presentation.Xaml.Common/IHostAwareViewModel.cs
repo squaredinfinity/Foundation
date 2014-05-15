@@ -22,5 +22,7 @@ namespace SquaredInfinity.Foundation.Presentation
         void CompleteInteraction();
 
         void CancelInteraction();
+
+        bool CanCompleteInteraction();
     }
 }
