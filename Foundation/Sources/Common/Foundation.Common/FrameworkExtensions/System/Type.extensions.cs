@@ -68,5 +68,13 @@ namespace SquaredInfinity.Foundation.Extensions
                 return type == otherType;
             }
         }
+
+        public static bool IsNullable(this Type type)
+        {
+            if (Nullable.GetUnderlyingType(type) == null)
+                return false;
+
+            return true;
+        }
     }
 }
