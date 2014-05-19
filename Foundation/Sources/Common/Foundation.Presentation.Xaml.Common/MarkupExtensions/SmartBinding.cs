@@ -48,7 +48,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 
                         if(ix_dot > 0)
                         {
-                            binding.Path = new PropertyPath(source.Substring(ix_dot));
+                            binding.Path = new PropertyPath(source.Substring(ix_dot + 1));
                         }
                     }
                     else

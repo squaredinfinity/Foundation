@@ -105,20 +105,15 @@ namespace SquaredInfinity.Foundation.Presentation.Views
                 return;
             }
 
-            // if template not yet loaded, only resolve view model once (i.e. not every time data context changes)
-            //if (IsTemplateLoaded || (!IsTemplateLoaded && ViewModel == null))
-            {
-                OnBeforeOldViewModelRemoved(oldDataContext, ViewModel);
+            OnBeforeOldViewModelRemoved(oldDataContext, ViewModel);
 
-                var newVM = ResolveViewModel(this.GetType(), newDataContext);
+            var newVM = ResolveViewModel(this.GetType(), newDataContext);
 
-                if (newVM.DataContext == null)
-                    newVM.DataContext = newDataContext;
+            newVM.DataContext = newDataContext;
 
-                OnBeforeNewViewModelAdded(newDataContext, newVM);
+            OnBeforeNewViewModelAdded(newDataContext, newVM);
 
-                ViewModel = newVM;
-            }
+            ViewModel = newVM;
         }
 
         protected virtual bool IsViewModelBound()

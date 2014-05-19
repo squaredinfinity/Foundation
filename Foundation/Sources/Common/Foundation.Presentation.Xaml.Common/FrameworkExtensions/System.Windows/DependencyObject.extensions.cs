@@ -143,6 +143,59 @@ namespace SquaredInfinity.Foundation.Extensions
             return null;
         }
 
+        public static DependencyObject FindVisualDescendant(this DependencyObject depObj, Func<DependencyObject, bool> isMatchFunc)
+        {
+            for (int childIndex = 0; childIndex < VisualTreeHelper.GetChildrenCount(depObj); childIndex++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(depObj, childIndex);
+
+                if (child != null)
+                {
+                    if (isMatchFunc(child))
+                        return child;
+
+                    var child2 = child.FindVisualDescendant(isMatchFunc);
+
+                    if (child2 != null)
+                        return child2;
+                }
+            }
+
+            return null;
+        }
+
+        public static TDescendant FindVisualDescendantByDataContext<TDescendant>(this DependencyObject depObj, object dataContext)
+            where TDescendant : class
+        {
+            return depObj.FindVisualDescendant(
+                _do =>
+                {
+                    var fe = _do as FrameworkElement;
+
+                    if (fe == null)
+                        return false;
+
+                    if (!(fe is TDescendant))
+                        return false;
+
+                    return object.Equals(fe.DataContext, dataContext);
+                }) as TDescendant;
+        }
+
+        public static DependencyObject FindVisualDescendantByDataContext(this DependencyObject depObj, object dataContext)
+        {
+            return depObj.FindVisualDescendant(
+                _do =>
+                {
+                    var fe = _do as FrameworkElement;
+
+                    if (fe == null)
+                        return false;
+
+                    return object.Equals(fe.DataContext, dataContext);
+                });
+        }
+
         public static IEnumerable<TDescendant> FindVisualDescendants<TDescendant>(
             this DependencyObject depObj) where TDescendant : class
         {
@@ -173,11 +226,11 @@ namespace SquaredInfinity.Foundation.Extensions
 
             return null;
         }
-
-        public static TParent FindVisualParent<TParent>(this DependencyObject me)
+        
+        public static TParent FindVisualParent<TParent>(this DependencyObject me, DependencyObject stopSearchAt = null)
             where TParent : DependencyObject
         {
-            return (TParent)me.FindVisualParent(typeof(TParent));
+            return (TParent) me.FindVisualParent(typeof(TParent), stopSearchAt);
         }
 
         public static DependencyObject FindVisualParent(this DependencyObject me, Type parentType, DependencyObject stopSearchAt = null)

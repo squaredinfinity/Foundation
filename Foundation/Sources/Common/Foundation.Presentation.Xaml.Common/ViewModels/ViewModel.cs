@@ -16,14 +16,20 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
             set
             {
                 base.DataContext = value;
-                OnAfterDataContextChanged(_dataContext);
                 RaiseThisPropertyChanged();
             }
         }
 
         protected virtual void OnAfterDataContextChanged(TDataContext newDataContext)
         {
+            
+        }
 
+        protected override void OnAfterDataContextChanged(object newDataContext)
+        {
+            base.OnAfterDataContextChanged(newDataContext);
+
+            this.OnAfterDataContextChanged((TDataContext)newDataContext);
         }
     }
 
