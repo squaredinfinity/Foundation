@@ -286,12 +286,7 @@ namespace SquaredInfinity.Foundation.Data
 
             var result = resultParameter.Value;
 
-            if (result == null && !typeof(T).IsNullable())
-                throw new InvalidCastException(
-                    "{0} function returned NULL but expected type is non-nullable {1}"
-                    .FormatWith(functionName, typeof(T).Name));
-
-            return (T)result;
+            return MapToClrValue<T>(result);
         }
 
         public T ExecuteScalarFunction<T>(string functionName, IEnumerable<TParameter> parameters)
@@ -307,12 +302,7 @@ namespace SquaredInfinity.Foundation.Data
 
             var result = resultParameter.Value;
 
-            if (result == null && !typeof(T).IsNullable())
-                throw new InvalidCastException(
-                    "{0} function returned NULL but expected type is non-nullable {1}"
-                    .FormatWith(functionName, typeof(T).Name));
-
-            return (T)result;
+            return MapToClrValue<T>(result);
         }
 
         public T ExecuteScalar<T>(string procName)
