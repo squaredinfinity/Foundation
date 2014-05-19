@@ -62,6 +62,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BackgroundRenderingService.cs" />
+    <Compile Include="Behaviors\Selector.ItemDoubleClick.cs" />
+    <Compile Include="Behaviors\Control.DoubleClick.cs" />
     <Compile Include="Behaviors\Selector.MultiSelection.cs" />
     <Compile Include="Behaviors\TextBoxBase.ClearButton.cs" />
     <Compile Include="Behaviors\TextBoxBase.Watermark.cs" />

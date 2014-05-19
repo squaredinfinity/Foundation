@@ -64,6 +64,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\BackgroundRenderingService.cs">
       <Link>BackgroundRenderingService.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\Control.DoubleClick.cs">
+      <Link>Behaviors\Control.DoubleClick.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\DragDrop.AttachedProperties.cs">
       <Link>Behaviors\DragDrop.AttachedProperties.cs</Link>
     </Compile>
@@ -72,6 +75,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\ListBoxItem.IsSelectible.cs">
       <Link>Behaviors\ListBoxItem.IsSelectible.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\Selector.ItemDoubleClick.cs">
+      <Link>Behaviors\Selector.ItemDoubleClick.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\Selector.MultiSelection.cs">
       <Link>Behaviors\Selector.MultiSelection.cs</Link>
