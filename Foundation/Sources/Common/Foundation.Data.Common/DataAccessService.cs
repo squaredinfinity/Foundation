@@ -274,9 +274,58 @@ namespace SquaredInfinity.Foundation.Data
             }
         }
 
+        public T ExecuteScalarFunction<T>(string functionName)
+        {
+            var resultParameter = CreateParameter("", null);
+            resultParameter.Direction = ParameterDirection.ReturnValue;
+
+            var parameters = new List<TParameter>();
+            parameters.Add(resultParameter);
+
+            ExecuteScalarInternalWithRetry(ConnectionFactory, functionName, parameters);
+
+            var result = resultParameter.Value;
+
+            if (result == null && !typeof(T).IsNullable())
+                throw new InvalidCastException(
+                    "{0} function returned NULL but expected type is non-nullable {1}"
+                    .FormatWith(functionName, typeof(T).Name));
+
+            return (T)result;
+        }
+
+        public T ExecuteScalarFunction<T>(string functionName, IEnumerable<TParameter> parameters)
+        {
+            var resultParameter = CreateParameter("", null);
+            resultParameter.Direction = ParameterDirection.ReturnValue;
+
+            var all_parameters = parameters.ToList();
+
+            all_parameters.Add(resultParameter);
+
+            ExecuteScalarInternalWithRetry(ConnectionFactory, functionName, all_parameters);
+
+            var result = resultParameter.Value;
+
+            if (result == null && !typeof(T).IsNullable())
+                throw new InvalidCastException(
+                    "{0} function returned NULL but expected type is non-nullable {1}"
+                    .FormatWith(functionName, typeof(T).Name));
+
+            return (T)result;
+        }
+
         public T ExecuteScalar<T>(string procName)
         {
-            return (T)ExecuteScalarInternalWithRetry(ConnectionFactory, procName, new List<TParameter>());
+            var result = ExecuteScalarInternalWithRetry(ConnectionFactory, procName, new List<TParameter>());
+
+
+            if (result == null && !typeof(T).IsNullable())
+                throw new InvalidCastException(
+                    "{0} stored procedure returned NULL but expected type is non-nullable {1}"
+                    .FormatWith(procName, typeof(T).Name));
+
+            return (T) result;
         }
 
         public Task<T> ExecuteScalarAsync<T>(string procName)
