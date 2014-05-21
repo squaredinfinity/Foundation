@@ -33,19 +33,15 @@ namespace SquaredInfinity.Foundation.Extensions
             are.WaitOne();
         }
 
-        public static IEnumerable<DependencyObject> TreeTraversal(
-            this DependencyObject me, 
-            TreeTraversalMode traversalMode = TreeTraversalMode.DepthFirst)
-        {
-            return me.TreeTraversal(GetChildrenFuncIncludeChildItemsControls);
-        }
-
-        public static IEnumerable<DependencyObject> VisualTreeTraversal(this DependencyObject me, bool includeChildItemsControls = true, TreeTraversalMode traversalMode = TreeTraversalMode.DepthFirst)
+        public static IEnumerable<DependencyObject> VisualTreeTraversal(
+            this DependencyObject me,
+            bool includeChildItemsControls = true, 
+            TreeTraversalMode traversalMode = TreeTraversalMode.BreadthFirst)
         {
             if (includeChildItemsControls)
-                return me.TreeTraversal(GetChildrenFuncIncludeChildItemsControls);
+                return me.TreeTraversal(traversalMode, GetChildrenFuncIncludeChildItemsControls);
             else
-                return me.TreeTraversal(GetChildrenFuncExcludeChildItemsControls);
+                return me.TreeTraversal(traversalMode, GetChildrenFuncExcludeChildItemsControls);
         }
 
         static IEnumerable<DependencyObject> GetChildrenFuncIncludeChildItemsControls(DependencyObject parent)
@@ -221,7 +217,7 @@ namespace SquaredInfinity.Foundation.Extensions
             this DependencyObject depObj) where TDescendant : class
         {
             return
-                (from c in depObj.TreeTraversal().OfType<TDescendant>()
+                (from c in depObj.VisualTreeTraversal().OfType<TDescendant>()
                  select c);
         }
 
