@@ -33,6 +33,19 @@
     <converters:SizeToRectConverter x:Key="Converters.SizeToRect" />
 
     <converters:EnumToBoolConverter x:Key="Converters.EnumToBool" />
+    
+    <converters:AddNumberConverter x:Key="Converters.IncrementByOne" NumberToAdd="1" />
+    <converters:AddNumberConverter x:Key="Converters.DecrementByOne" NumberToAdd="-1" />
+    
+    <converters:MultiplyNumberConverter x:Key="Converters.TimesByTwo"    Multiplier="2" />
+    <converters:MultiplyNumberConverter x:Key="Converters.TimesThree"  Multiplier="3" />
+    <converters:MultiplyNumberConverter x:Key="Converters.TimesFour"   Multiplier="4" />
+    <converters:MultiplyNumberConverter x:Key="Converters.TimesFive"   Multiplier="5" />
+    <converters:MultiplyNumberConverter x:Key="Converters.TimesSix"    Multiplier="6" />
+    <converters:MultiplyNumberConverter x:Key="Converters.TimesSeven"  Multiplier="7" />
+    <converters:MultiplyNumberConverter x:Key="Converters.TimesEight"  Multiplier="8" />
+    <converters:MultiplyNumberConverter x:Key="Converters.TimesNine"   Multiplier="9" />
+    <converters:MultiplyNumberConverter x:Key="Converters.TimesTen"    Multiplier="10" />
 
     <converters:CompositeConverter x:Key="Converters.HiddenWhen0">
         <converters:ValueToBoolConverter ExpectedValue="0" />

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:behaviorsTests="clr-namespace:Foundation.Presentation.Xaml.UITests.Common.Behaviors"
         xmlns:controlsTests="clr-namespace:Foundation.Presentation.Xaml.UITests.Common.Controls"
+        xmlns:mvvmTests="clr-namespace:Foundation.Presentation.Xaml.UITests.Common.MVVM"
         Title="MainWindow" 
         WindowState="Maximized">
     
@@ -12,6 +13,10 @@
         </TabItem>
         <TabItem Header="Controls">
             <controlsTests:ControlsTestsView />
+        </TabItem>
+
+        <TabItem Header="MVVM">
+            <mvvmTests:MVVMTestsView />
         </TabItem>
     </TabControl>
 </Window>

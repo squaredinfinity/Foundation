@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SquaredInfinity.Foundation.Presentation.Xaml;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +14,14 @@ namespace Foundation.Presentation.Xaml.UITests.Common
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            All.LoadAndMergeResourcesFromThisAssembly();
+
+            SquaredInfinity.Foundation.Presentation.Resources
+                .LoadAndMergeCompiledResourceDictionaryFromThisAssembly(@"AllResources.xaml");
+        }
     }
 }

@@ -7,7 +7,7 @@
     <ProjectGuid>{EC89CEBA-2D3C-4D16-9622-614ADE1CC0CE}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Foundation.Presentation.Xaml.UITests.Common</RootNamespace>
+    <RootNamespace>Foundation.Presentation.Xaml.UITests</RootNamespace>
     <AssemblyName>Foundation.Presentation.Xaml.UITests.Common</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -106,8 +106,32 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MVVM\MVVMTestsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\ViewModelEvents\TestView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MVVM\ViewModelEvents\ViewModelEventsTests.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AllResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MVVM\MVVMTestsView.xaml.cs">
+      <DependentUpon>MVVMTestsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\ViewModelEvents\TestView.cs" />
+    <Compile Include="MVVM\ViewModelEvents\TestViewModel.cs" />
+    <Compile Include="MVVM\ViewModelEvents\ViewModelEventsTests.xaml.cs">
+      <DependentUpon>ViewModelEventsTests.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

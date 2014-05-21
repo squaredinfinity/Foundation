@@ -4,12 +4,5 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="{ResourceFromThisAssembly /Behaviors/DragAndDropTestsView.xaml}" />
-
-                <ResourceDictionary Source="{ResourceFromThisAssembly /Controls/ZoomableListViewTestsView.xaml}" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
     </Application.Resources>
 </Application>

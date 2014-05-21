@@ -130,6 +130,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Controls\ZoomableListView.cs">
       <Link>Controls\ZoomableListView.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\AddNumberConverter.cs">
+      <Link>Converters\AddNumberConverter.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\BoolToNumberConverter.cs">
       <Link>Converters\BoolToNumberConverter.cs</Link>
     </Compile>
@@ -168,6 +171,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\MixedCompositeConverter.cs">
       <Link>Converters\MixedCompositeConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\MultiplyNumberConverter.cs">
+      <Link>Converters\MultiplyNumberConverter.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\NullOrEmptyToBoolConverter.cs">
       <Link>Converters\NullOrEmptyToBoolConverter.cs</Link>

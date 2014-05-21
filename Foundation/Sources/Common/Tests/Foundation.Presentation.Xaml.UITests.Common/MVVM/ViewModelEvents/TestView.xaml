@@ -1,0 +1,88 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                    xmlns:controls="http://schemas.squaredinfinity.com/foundation/controls"
+                    xmlns:behaviors="http://schemas.squaredinfinity.com/foundation/behaviors"
+                    xmlns:localViews="clr-namespace:Foundation.Presentation.Xaml.UITests.MVVM.ViewModelEvents"
+                    mc:Ignorable="d" >
+
+    <Style TargetType="{x:Type localViews:TestView}">
+        <Style.Setters>
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type localViews:TestView}">
+                        <Grid Margin="{TemplatedParentBinding MaxDepth, Converter={StaticResource Converters.TimesTen}}">                            
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" AutomationProperties.Name="Events To Handle" />
+                                <RowDefinition Height="Auto" AutomationProperties.Name="Event To Raise" />
+                                <RowDefinition Height="50" AutomationProperties.Name="Messages" />
+                                <RowDefinition Height="*" AutomationProperties.Name="Child View" />
+                            </Grid.RowDefinitions>
+                            
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="150" />
+                                </Grid.ColumnDefinitions>
+                                
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" AutomationProperties.Name="Event To Handle" />
+                                    <RowDefinition Height="Auto" AutomationProperties.Name="Bubbles" />
+                                    <RowDefinition Height="Auto" AutomationProperties.Name="Tunnels" />
+                                    <RowDefinition Height="Auto" AutomationProperties.Name="Broadcasts To Children" />
+                                </Grid.RowDefinitions>
+                                
+                                <Label Content="Event To Handle:" 
+                                       Grid.Row="0"
+                                       Grid.Column="0"/>
+                                
+                                <TextBox Text="{TemplatedParentBinding ViewModel.EventToHandle}"
+                                         Grid.Row="0"
+                                         Grid.Column="1" />
+
+
+                                <Label Content="Event Bubble Events:" 
+                                       Grid.Row="1"
+                                       Grid.Column="0"/>
+
+                                <CheckBox IsChecked="{TemplatedParentBinding ViewModel.HandleBubble}"
+                                          Grid.Row="1"
+                                          Grid.Column="1" />
+
+
+
+                                <Label Content="Event Tunnel Events:" 
+                                       Grid.Row="2"
+                                       Grid.Column="0"/>
+
+                                <CheckBox IsChecked="{TemplatedParentBinding ViewModel.HandleTunnel}"
+                                          Grid.Row="2"
+                                          Grid.Column="1" />
+
+
+
+                                <Label Content="Event Broadcast Events:" 
+                                       Grid.Row="3"
+                                       Grid.Column="0"/>
+
+                                <CheckBox IsChecked="{TemplatedParentBinding ViewModel.HandleBroadcast}"
+                                          Grid.Row="3"
+                                          Grid.Column="1" />
+
+                            </Grid>
+
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,1,0,0"
+                                    Grid.Row="3">
+                                <ContentPresenter x:Name="PART_ChildPresenter" />
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+</ResourceDictionary>
