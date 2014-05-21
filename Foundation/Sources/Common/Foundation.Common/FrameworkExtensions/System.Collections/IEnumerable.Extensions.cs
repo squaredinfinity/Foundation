@@ -215,6 +215,8 @@ namespace SquaredInfinity.Foundation.Extensions
                     workQueue.Enqueue(child);
                 }
 
+                // todo: should this yield be before getting children?
+                // that way children would not be enqueued if iteration stopped by caller
                 yield return item;
             }
 
