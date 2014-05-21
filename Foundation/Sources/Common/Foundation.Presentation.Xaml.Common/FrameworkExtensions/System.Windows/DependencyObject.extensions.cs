@@ -89,7 +89,7 @@ namespace SquaredInfinity.Foundation.Extensions
             yield break;
         }
 
-        public static DependencyObject FindVisualDescendant(this DependencyObject depObj, string descendantTypeFullName)
+        public static DependencyObject FindVisualDescendantByType(this DependencyObject depObj, string descendantTypeFullName)
         {
             for (int childIndex = 0; childIndex < VisualTreeHelper.GetChildrenCount(depObj); childIndex++)
             {
@@ -102,7 +102,7 @@ namespace SquaredInfinity.Foundation.Extensions
                         return child;
                     }
 
-                    var child2 = child.FindVisualDescendant(descendantTypeFullName);
+                    var child2 = child.FindVisualDescendantByType(descendantTypeFullName);
 
                     if (child2 != null)
                         return child2;
@@ -112,7 +112,10 @@ namespace SquaredInfinity.Foundation.Extensions
             return null;
         }
 
-        public static TDescendant FindVisualDescendant<TDescendant>(this DependencyObject depObj, string descendantName = null) where TDescendant : class
+        public static TDescendant FindVisualDescendant<TDescendant>(
+            this DependencyObject depObj, 
+            string descendantName = "",
+            bool includeContentOfContentControls = true) where TDescendant : class
         {
             for (int childIndex = 0; childIndex < VisualTreeHelper.GetChildrenCount(depObj); childIndex++)
             {
@@ -133,7 +136,25 @@ namespace SquaredInfinity.Foundation.Extensions
                         }
                     }
 
-                    var child2 = child.FindVisualDescendant<TDescendant>(descendantName);
+                    if (includeContentOfContentControls)
+                    {
+                        var cc = child as ContentControl;
+                        if (cc != null)
+                        {
+                            var contentFe = cc.Content as FrameworkElement;
+                            if (contentFe != null)
+                            {
+                                if (contentFe is TDescendant && contentFe.Name == descendantName)
+                                    return contentFe as TDescendant;
+
+                                var contentChild = contentFe.FindVisualDescendant<TDescendant>(descendantName, includeContentOfContentControls);
+                                if (contentChild != null)
+                                    return (TDescendant)contentChild;
+                            }
+                        }
+                    }
+
+                    var child2 = child.FindVisualDescendant<TDescendant>(descendantName, includeContentOfContentControls);
 
                     if (child2 != null)
                         return child2 as TDescendant;
