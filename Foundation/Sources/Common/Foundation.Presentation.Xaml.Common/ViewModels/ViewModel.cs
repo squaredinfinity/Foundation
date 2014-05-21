@@ -31,6 +31,14 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
 
             this.OnAfterDataContextChanged((TDataContext)newDataContext);
         }
+
+        public ViewModel()
+            : base()
+        { }
+
+        public ViewModel(IUIService uiService)
+            : base(uiService)
+        { }
     }
 
     /// <summary>
@@ -49,6 +57,8 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
                 RaiseThisPropertyChanged();
             }
         }
+
+        protected IUIService UIService { get; private set; }
 
         protected virtual void OnAfterDataContextChanged(object newDataContext)
         {
@@ -70,5 +80,11 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
 
             }
         }
+
+        public ViewModel()
+        { }
+
+        public ViewModel(IUIService uiService)
+        { }
     }
 }
