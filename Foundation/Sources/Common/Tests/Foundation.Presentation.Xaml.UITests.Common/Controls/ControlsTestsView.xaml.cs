@@ -13,17 +13,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Foundation.Presentation.Xaml.UITests.Common.Behaviors
+namespace Foundation.Presentation.Xaml.UITests.Common.Controls
 {
     /// <summary>
-    /// Interaction logic for DragAndDropTestsView.xaml
+    /// Interaction logic for ControlsTestsView.xaml
     /// </summary>
-    public partial class DragAndDropTestsView : UserControl
+    public partial class ControlsTestsView : UserControl
     {
-        public DragAndDropTestsView()
+        public ControlsTestsView()
         {
-            DataContext = new DragAndDropTestsViewModel();
-
             InitializeComponent();
         }
     }

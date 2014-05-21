@@ -1,0 +1,74 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                    xmlns:controls="http://schemas.squaredinfinity.com/foundation/controls"
+                    xmlns:behaviors="http://schemas.squaredinfinity.com/foundation/behaviors"
+                    xmlns:controlsTests="clr-namespace:Foundation.Presentation.Xaml.UITests.Common.Controls"
+                    mc:Ignorable="d" >
+
+    <Style TargetType="{x:Type controlsTests:ZommableListViewTestsView}">
+        <Style.Setters>
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type controlsTests:ZommableListViewTestsView}">
+                        <TabControl>
+                            <TabItem Header="Overview">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" AutomationProperties.Name="Description" />
+                                        <RowDefinition Height="*" AutomationProperties.Name="Content" />
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Text=""
+                                               Grid.Row="0"/>
+
+                                    <controls:ZoomableListView Grid.Row="1">
+                                        <controls:ZoomableListView.Template>
+                                            <ControlTemplate TargetType="{x:Type controls:ZoomableListView}">
+                                                <Border Name="Border"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        Background="{TemplateBinding Background}"
+                                                        SnapsToDevicePixels="true">
+                                                    <ScrollViewer x:Name="PART_ScrollViewer" 
+                                                                  Padding="{TemplateBinding Padding}">
+                                                        <!-- ZoomableListViewBox -->
+                                                        <Viewbox Stretch="Fill"
+                                                                 StretchDirection="Both"
+                                                                 HorizontalAlignment="Stretch"
+                                                                 VerticalAlignment="Stretch">
+                                                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                                        </Viewbox>
+                                                    </ScrollViewer>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </controls:ZoomableListView.Template>
+                                        <ListViewItem>Item One</ListViewItem>
+                                        <ListViewItem>Item Two</ListViewItem>                                        
+                                        <controls:ZoomableListView.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <!-- Contents are large so we can see zooming happening -->
+                                                <StackPanel Orientation="Vertical"
+                                                            Background="WhiteSmoke"
+                                                            Width="5000"
+                                                            Height="5000">
+                                                    <StackPanel.LayoutTransform>
+                                                        <ScaleTransform ScaleX="{Binding Zoom, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                                        ScaleY="{Binding Zoom, RelativeSource={RelativeSource AncestorType=ListView}}" />
+                                                    </StackPanel.LayoutTransform>
+                                                </StackPanel>
+                                            </ItemsPanelTemplate>
+                                        </controls:ZoomableListView.ItemsPanel>
+                                    </controls:ZoomableListView>
+                                </Grid>
+                            </TabItem>
+                        </TabControl>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+</ResourceDictionary>

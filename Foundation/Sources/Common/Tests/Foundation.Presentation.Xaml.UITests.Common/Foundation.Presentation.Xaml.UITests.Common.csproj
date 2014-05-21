@@ -69,6 +69,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\ControlsTestsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ZoomableListViewTestsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -80,9 +88,7 @@
     <Compile Include="Behaviors\BehaviorsTestsView.xaml.cs">
       <DependentUpon>BehaviorsTestsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Behaviors\DragAndDropTestsView.xaml.cs">
-      <DependentUpon>DragAndDropTestsView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Behaviors\DragAndDropTestsView.cs" />
     <Compile Include="Behaviors\DragAndDropTestsViewModel.cs" />
     <Compile Include="Behaviors\MultiSelectionTestsView.xaml.cs">
       <DependentUpon>MultiSelectionTestsView.xaml</DependentUpon>
@@ -91,6 +97,11 @@
     <Compile Include="Behaviors\WatermarkTestsView.xaml.cs">
       <DependentUpon>WatermarkTestsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ControlsTestsView.xaml.cs">
+      <DependentUpon>ControlsTestsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ZommableListViewTestsView.cs" />
+    <Compile Include="Controls\ZoomableListViewTestsViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

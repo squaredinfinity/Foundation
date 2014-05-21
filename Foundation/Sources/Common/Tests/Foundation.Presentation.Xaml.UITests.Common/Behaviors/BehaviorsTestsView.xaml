@@ -8,6 +8,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <TabControl>
+        <TabItem Header="Drag and Drop">
+            <views:DragAndDropTestsView />
+        </TabItem>
         <TabItem Header="Watermark">
             <views:WatermarkTestsView />
         </TabItem>

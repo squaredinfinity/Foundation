@@ -115,6 +115,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Commands\DelegateCommand_T.cs">
       <Link>Commands\DelegateCommand_T.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Controls\AdornerWithVisual.cs">
+      <Link>Controls\AdornerWithVisual.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Controls\BackgroundLoadingListView.cs">
       <Link>Controls\BackgroundLoadingListView.cs</Link>
     </Compile>
@@ -123,6 +126,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Controls\TabControl.cs">
       <Link>Controls\TabControl.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Controls\ZoomableListView.cs">
+      <Link>Controls\ZoomableListView.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\BoolToNumberConverter.cs">
       <Link>Converters\BoolToNumberConverter.cs</Link>
