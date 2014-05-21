@@ -11,6 +11,7 @@ using SquaredInfinity.Foundation.Presentation.DragDrop.Utilities;
 using System.Windows.Media.Imaging;
 using SquaredInfinity.Foundation.Extensions;
 using SquaredInfinity.Foundation.Presentation.DragDrop;
+using System.Diagnostics;
 
 namespace SquaredInfinity.Foundation.Presentation.Behaviors
 {
@@ -420,7 +421,15 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
             }
 
             var dropInfo = new DropInfo(sender, e, _dragInfo);
-            var dropHandler = GetDropHandler((UIElement)sender) ?? DefaultDropTarget;
+            var dropHandler = GetDropHandler((UIElement)sender);
+
+            if (dropHandler == null)
+            {
+                // sender does not have DropHandler attached property set.
+                // use default drop target in that case
+
+                dropHandler = DefaultDropTarget;
+            }
             var itemsControl = dropInfo.VisualTarget;
 
             dropHandler.DragOver(dropInfo);
@@ -506,9 +515,10 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
             }
 
             e.Effects = dropInfo.AllowedEffects;
-            e.Handled = !dropInfo.NotHandled;
+            e.Handled = true;
 
-            Scroll((DependencyObject)dropInfo.VisualTarget, e);
+            if(e.Effects != DragDropEffects.None)
+                Scroll((DependencyObject)dropInfo.VisualTarget, e);
         }
 
         private static void DropTarget_PreviewDrop(object sender, DragEventArgs e)

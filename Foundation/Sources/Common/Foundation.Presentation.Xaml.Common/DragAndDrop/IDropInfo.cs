@@ -127,10 +127,5 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
         /// Gets a flag enumeration indicating the current state of the SHIFT, CTRL, and ALT keys, as well as the state of the mouse buttons.
         /// </summary>
         DragDropKeyStates KeyStates { get; }
-
-        /// <summary>
-        /// Indicates if the drop info should be handled by itself (useful for child elements)
-        /// </summary>
-        bool NotHandled { get; set; }
     }
 }
