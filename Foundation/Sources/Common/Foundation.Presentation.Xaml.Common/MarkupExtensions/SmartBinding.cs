@@ -51,6 +51,17 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                             binding.Path = new PropertyPath(source.Substring(ix_dot + 1));
                         }
                     }
+                    else if(source.StartsWith("@Self"))
+                    {
+                        binding.RelativeSource = new RelativeSource(RelativeSourceMode.Self);
+
+                        var ix_dot = source.IndexOf(".");
+
+                        if (ix_dot > 0)
+                        {
+                            binding.Path = new PropertyPath(source.Substring(ix_dot + 1));
+                        }
+                    }
                     else
                     {
                         var match = SourceElementBindingRegex.Match(source);

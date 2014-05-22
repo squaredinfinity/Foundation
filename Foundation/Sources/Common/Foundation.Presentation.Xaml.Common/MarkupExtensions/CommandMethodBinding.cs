@@ -13,9 +13,20 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
         public CommandMethodBinding()
         { }
 
-        public CommandMethodBinding(string methodName)
+        public CommandMethodBinding(string methodNameOrFullSourcePath)
         {
-            MethodName = methodName;
+            var ix_last_dot = methodNameOrFullSourcePath.LastIndexOf('.');
+
+            if (ix_last_dot < 0)
+            {
+                MethodName = methodNameOrFullSourcePath;
+            }
+            else
+            {
+                MethodName = methodNameOrFullSourcePath.Substring(ix_last_dot + 1);
+
+                Source = methodNameOrFullSourcePath.Substring(0, ix_last_dot);
+            }
         }
 
         protected override BindingBase InitialiseBinding(IServiceProvider serviceProvider)
