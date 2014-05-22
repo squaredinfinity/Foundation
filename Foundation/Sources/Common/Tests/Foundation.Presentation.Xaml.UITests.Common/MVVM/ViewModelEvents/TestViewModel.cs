@@ -5,13 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SquaredInfinity.Foundation.Extensions;
+using System.Threading;
 
 namespace Foundation.Presentation.Xaml.UITests.MVVM.ViewModelEvents
 {
     public class TestViewModel : ViewModel
     {
+        static int _lastMessageNumber = 0;
+        static int GetNextMessageNumber()
+        {
+            return Interlocked.Increment(ref _lastMessageNumber);
+        }
+
         string _eventToHandle = "MVVM.*";
-        public string EventNameToHandle
+        public string EventToHandle
         {
             get { return _eventToHandle; }
             set
@@ -54,7 +61,7 @@ namespace Foundation.Presentation.Xaml.UITests.MVVM.ViewModelEvents
             }
         }
 
-        string _messages;
+        string _messages = string.Empty;
         public string Messages
         {
             get { return _messages; }
@@ -76,8 +83,8 @@ namespace Foundation.Presentation.Xaml.UITests.MVVM.ViewModelEvents
             }
         }
 
-        SquaredInfinity.Foundation.Presentation.Views.View.EventRoutingStrategy _eventRoutingStrategyToRaise = SquaredInfinity.Foundation.Presentation.Views.View.EventRoutingStrategy.BubbleTunnelBroadcastToChildren;
-        public SquaredInfinity.Foundation.Presentation.Views.View.EventRoutingStrategy EventRoutingStrategyToRaise
+        ViewModelEventRoutingStrategy _eventRoutingStrategyToRaise = ViewModelEventRoutingStrategy.BubbleTunnelBroadcastToChildren;
+        public ViewModelEventRoutingStrategy EventRoutingStrategyToRaise
         {
             get { return _eventRoutingStrategyToRaise; }
             set
@@ -92,34 +99,46 @@ namespace Foundation.Presentation.Xaml.UITests.MVVM.ViewModelEvents
             base.RaiseEvent(EventToRaise, EventRoutingStrategyToRaise);
         }
 
-        protected override void OnPreviewViewModelEvent(SquaredInfinity.Foundation.Presentation.Views.View.ViewModelEvent ev)
+        protected override void OnPreviewViewModelEvent(ViewModelEventArgs args)
         {
-            base.OnPreviewViewModelEvent(ev);
+            base.OnPreviewViewModelEvent(args);
 
-            if (!HandleBubbleEvents)
+            if (!HandleBubbleEvents)    
                 return;
 
-            Messages = "{0}: Bubble Event {1} Handled".FormatWith(Messages.GetLines().Length, ev.Name);
+            Messages = 
+                "{0}: RECEIVED Bubble Event {1}"
+                .FormatWith(GetNextMessageNumber(), args.Event.Name)
+                + Environment.NewLine
+                + Messages;
         }
 
-        protected override void OnViewModelEvent(SquaredInfinity.Foundation.Presentation.Views.View.ViewModelEvent ev)
+        protected override void OnViewModelEvent(ViewModelEventArgs args)
         {
-            base.OnViewModelEvent(ev);
+            base.OnViewModelEvent(args);
 
-            if(ev.RoutingStrategy == SquaredInfinity.Foundation.Presentation.Views.View.EventRoutingStrategy.Tunnel)
+            if(args.RoutingStrategy == ViewModelEventRoutingStrategy.Tunnel)
             {
                 if (!HandleTunnelEvents)
                     return;
 
-                Messages = "{0}: Tunnel Event {1} Handled".FormatWith(Messages.GetLines().Length, ev.Name);
+                Messages = 
+                    "{0}: RECEIVED Tunnel Event {1}"
+                    .FormatWith(GetNextMessageNumber(), args.Event.Name)
+                    + Environment.NewLine
+                    + Messages;
             }
 
-            if (ev.RoutingStrategy == SquaredInfinity.Foundation.Presentation.Views.View.EventRoutingStrategy.BroadcastToChildren)
+            if (args.RoutingStrategy == ViewModelEventRoutingStrategy.BroadcastToChildren)
             {
                 if (!HandleTunnelEvents)
                     return;
 
-                Messages = "{0}: Broadcast To Children Event {1} Handled".FormatWith(Messages.GetLines().Length, ev.Name);
+                Messages = 
+                    "{0}: RECEIVED Broadcast To Children Event {1}"
+                    .FormatWith(GetNextMessageNumber(), args.Event.Name)
+                    + Environment.NewLine
+                    + Messages;
             }
         }
     }

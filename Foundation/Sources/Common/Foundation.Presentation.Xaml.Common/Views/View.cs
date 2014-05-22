@@ -6,24 +6,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Foundation.Presentation.ViewModels;
 
 namespace SquaredInfinity.Foundation.Presentation.Views
 {
-    public class View<TViewModel> : View
-        where TViewModel: IHostAwareViewModel
-    {
-        #region View Model
-
-        public new TViewModel ViewModel
-        {
-            get { return (TViewModel)base.ViewModel; }
-            set { base.ViewModel = value; }
-        }
-
-        #endregion
-    }
-
-    public class View : Control
+    public partial class View : Control
     {
         #region View Model
 
@@ -38,8 +26,95 @@ namespace SquaredInfinity.Foundation.Presentation.Views
         /// otherwise ViewModel DP will be set to Placeholder value.
         /// 
         /// </summary>
+        
         IHostAwareViewModel ViewModelPlaceholder { get; set; }
+        
         bool IsTemplateLoaded { get; set; }
+
+        public delegate void ViewModelEventRoutedEventHandler(object sender, ViewModelEventRoutedEventArgs e);
+
+        public static readonly RoutedEvent PreviewViewModelEventProperty = 
+            EventManager.RegisterRoutedEvent(
+            "PreviewViewModelEvent", 
+            RoutingStrategy.Bubble,
+            typeof(ViewModelEventRoutedEventHandler), 
+            typeof(View));
+
+        public event ViewModelEventRoutedEventHandler PreviewViewModelEvent
+        {
+            add { AddHandler(PreviewViewModelEventProperty, value); }
+            remove { RemoveHandler(PreviewViewModelEventProperty, value); }
+        }
+
+        public static readonly RoutedEvent ViewModelEventProperty =
+            EventManager.RegisterRoutedEvent(
+            "ViewModelEvent",
+            RoutingStrategy.Tunnel,
+            typeof(ViewModelEventRoutedEventHandler),
+            typeof(View));
+
+        public event ViewModelEventRoutedEventHandler ViewModelEvent
+        {
+            add { AddHandler(ViewModelEventProperty, value); }
+            remove { RemoveHandler(ViewModelEventProperty, value); }
+        }
+
+        void RaiseViewModelEvent(IViewModel vm, IViewModelEvent ev, ViewModelEventRoutingStrategy routingStrategy)
+        {
+            if (routingStrategy.IsFlagSet(ViewModelEventRoutingStrategy.Bubble))
+            {
+                var preview_args = new ViewModelEventArgs(vm, ev, ViewModelEventRoutingStrategy.Bubble);
+
+                // Raise Bubbling WPF Routed Event
+                var wpf_preview_args = new ViewModelEventRoutedEventArgs(preview_args, PreviewViewModelEventProperty, this);
+
+                RaiseEvent(wpf_preview_args);
+
+                if (wpf_preview_args.Handled || preview_args.IsHandled)
+                    return;
+            }
+
+            if (routingStrategy.IsFlagSet(ViewModelEventRoutingStrategy.Tunnel))
+            {
+                var args = new ViewModelEventArgs(vm, ev, ViewModelEventRoutingStrategy.Tunnel);
+
+                // Raise Tunneling WPF Routed Event
+                var wpf_args = new ViewModelEventRoutedEventArgs(args, ViewModelEventProperty, this);
+
+                RaiseEvent(wpf_args);
+
+                if (wpf_args.Handled || args.IsHandled)
+                    return;
+            }
+
+            if(routingStrategy.IsFlagSet(ViewModelEventRoutingStrategy.BroadcastToChildren))
+            {
+                // search visual tree for children deriving from View
+
+                var children = 
+                    this.VisualTreeTraversal(
+                    includeChildItemsControls: true, 
+                    traversalMode: TreeTraversalMode.BreadthFirst)
+                    .OfType<View>();
+
+                var args = new ViewModelEventArgs(vm, ev, ViewModelEventRoutingStrategy.BroadcastToChildren);
+
+                foreach (var v in children)
+                {
+                    v.OnViewModelEvent(args);
+
+                    if (args.IsHandled)
+                        return;
+                }
+            }
+        }
+
+        void OnViewModelEvent(ViewModelEventArgs args)
+        {
+            // todo: update interface
+            (ViewModel as ViewModel).OnViewModelEventInternal(args);
+        }
+
 
         public IHostAwareViewModel ViewModel
         {
@@ -75,6 +150,26 @@ namespace SquaredInfinity.Foundation.Presentation.Views
         {
             RefreshViewModel(oldDataContext: null, newDataContext: null);
             DataContextChanged += (s, e) => RefreshViewModel(e.OldValue, e.NewValue);
+
+            PreviewViewModelEvent += View_ViewModelMessage;
+            ViewModelEvent += View_ViewModelMessage;
+        }
+
+        void View_ViewModelMessage(object sender, ViewModelEventRoutedEventArgs args)
+        {
+            if(args.RoutedEvent.RoutingStrategy == RoutingStrategy.Bubble)
+            {
+                // todo: update interface
+                (ViewModel as ViewModel).OnPreviewViewModelEventInternal(args.ViewModelEventArgs);
+                return;
+            }
+
+            if(args.RoutedEvent.RoutingStrategy == RoutingStrategy.Tunnel)
+            {
+                // todo: update interface
+                (ViewModel as ViewModel).OnViewModelEventInternal(args.ViewModelEventArgs);
+                return;
+            }
         }
 
         public override void OnApplyTemplate()
@@ -111,7 +206,7 @@ namespace SquaredInfinity.Foundation.Presentation.Views
 
             newVM.DataContext = newDataContext;
 
-            OnBeforeNewViewModelAdded(newDataContext, newVM);
+            OnBeforeNewViewModelAddedInternal(newDataContext, newVM);
 
             ViewModel = newVM;
         }
@@ -129,8 +224,33 @@ namespace SquaredInfinity.Foundation.Presentation.Views
         protected virtual void OnBeforeOldViewModelRemoved(object oldDataContext, IHostAwareViewModel oldViewModel)
         { }
 
+        IDisposable AfterViewModelRaisedSubscription;
+
+        void OnBeforeNewViewModelAddedInternal(object newDataContext, IHostAwareViewModel newViewModel)
+        {
+            if(newViewModel != null)
+            {
+                AfterViewModelRaisedSubscription =
+                (newViewModel as ViewModel) // todo: update IViewModel interface
+                    .CreateWeakEventHandler()
+                    .ForEvent<AfterViewModelEventRaisedArgs>(
+                    (vm, h) => vm.AfterViewModelEventRaised += h,
+                    (vm, h) => vm.AfterViewModelEventRaised -= h)
+                    .Subscribe((vm, args) => OnAfterViewModelEventRaised(vm, args.Event, args.RoutingStrategy));
+            }
+
+            OnBeforeNewViewModelAdded(newDataContext, newViewModel);
+        }
+
+        void OnAfterViewModelEventRaised(IViewModel viewModel, IViewModelEvent ev, ViewModelEventRoutingStrategy routingStrategy)
+        {
+            RaiseViewModelEvent(viewModel, ev, routingStrategy);
+        }
+
         protected virtual void OnBeforeNewViewModelAdded(object newDataContext, IHostAwareViewModel newViewModel)
-        { }
+        { 
+
+        }
 
         protected virtual IHostAwareViewModel ResolveViewModel(Type viewType, object newDatacontext)
         {

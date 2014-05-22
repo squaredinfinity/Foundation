@@ -18,11 +18,16 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" AutomationProperties.Name="Events To Handle" />
                                 <RowDefinition Height="Auto" AutomationProperties.Name="Event To Raise" />
-                                <RowDefinition Height="50" AutomationProperties.Name="Messages" />
                                 <RowDefinition Height="*" AutomationProperties.Name="Child View" />
                             </Grid.RowDefinitions>
                             
-                            <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" AutomationProperties.Name="Controls" />
+                                <ColumnDefinition Width="*" AutomationProperties.Name="Messages" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <Grid Grid.Row="0"
+                                  Grid.Column="0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="150" />
@@ -48,17 +53,15 @@
                                        Grid.Row="1"
                                        Grid.Column="0"/>
 
-                                <CheckBox IsChecked="{TemplatedParentBinding ViewModel.HandleBubble}"
+                                <CheckBox IsChecked="{TemplatedParentBinding ViewModel.HandleBubbleEvents}"
                                           Grid.Row="1"
                                           Grid.Column="1" />
-
-
 
                                 <Label Content="Event Tunnel Events:" 
                                        Grid.Row="2"
                                        Grid.Column="0"/>
 
-                                <CheckBox IsChecked="{TemplatedParentBinding ViewModel.HandleTunnel}"
+                                <CheckBox IsChecked="{TemplatedParentBinding ViewModel.HandleTunnelEvents}"
                                           Grid.Row="2"
                                           Grid.Column="1" />
 
@@ -68,15 +71,38 @@
                                        Grid.Row="3"
                                        Grid.Column="0"/>
 
-                                <CheckBox IsChecked="{TemplatedParentBinding ViewModel.HandleBroadcast}"
+                                <CheckBox IsChecked="{TemplatedParentBinding ViewModel.HandleBroadcastEvents}"
                                           Grid.Row="3"
                                           Grid.Column="1" />
 
                             </Grid>
+                            
+                            <Grid Grid.Row="1"
+                                  Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                
+                                <TextBox Text="{TemplatedParentBinding ViewModel.EventToRaise}" />
+                                <Button Content="Raise event"
+                                        Command="{CommandMethodBinding RaiseEvent, Source=@TemplatedParent.ViewModel}" />
+                            </Grid>
+                            
+                            <Grid Grid.Row="0"
+                                  Grid.RowSpan="2"
+                                  Grid.Column="1">
+                                <TextBox Width="250"
+                                         VerticalAlignment="Stretch"
+                                         Text="{TemplatedParentBinding ViewModel.Messages}" />
+                            </Grid>
 
                             <Border BorderBrush="Black"
                                     BorderThickness="0,1,0,0"
-                                    Grid.Row="3">
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="99">
                                 <ContentPresenter x:Name="PART_ChildPresenter" />
                             </Border>
                         </Grid>

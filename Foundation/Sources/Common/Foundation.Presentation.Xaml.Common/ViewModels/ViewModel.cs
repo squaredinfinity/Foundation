@@ -1,5 +1,6 @@
 ﻿using SquaredInfinity.Foundation.Presentation.Commands;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -65,6 +66,95 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
 
         }
 
+        
+        class ViewModelEventSubscription
+        {
+            public string EventName { get; set; }
+            public Action<ViewModelEventArgs> OnEventAction { get; set; }
+        }
+
+        class ViewModelEventSubscription<TEvent>
+        {
+
+        }
+
+        ConcurrentBag<ViewModelEventSubscription> PreviewViewModelEventSubscriptions = new ConcurrentBag<ViewModelEventSubscription>();
+        ConcurrentBag<ViewModelEventSubscription> ViewModelEventSubscriptions = new ConcurrentBag<ViewModelEventSubscription>();
+
+        internal void OnPreviewViewModelEventInternal(ViewModelEventArgs args)
+        {
+            OnPreviewViewModelEvent(args);
+
+            if (args.IsHandled)
+                return;
+
+            // check subscriptions, invoke handlers
+
+            var subscriptions = PreviewViewModelEventSubscriptions.ToArray();
+
+            foreach(var s in subscriptions)
+            {
+                if (!string.Equals(s.EventName, args.Event.Name, StringComparison.InvariantCultureIgnoreCase))
+                    continue;
+
+                s.OnEventAction(args);
+
+                if (args.IsHandled)
+                    return;
+            }
+        }
+
+        protected virtual void OnPreviewViewModelEvent(ViewModelEventArgs args)
+        {
+
+        }
+
+        internal void OnViewModelEventInternal(ViewModelEventArgs args)
+        {
+            OnViewModelEvent(args);
+
+            if (args.IsHandled)
+                return;
+
+            // check subscriptions, invoke handlers
+
+            var subscriptions = ViewModelEventSubscriptions.ToArray();
+
+            foreach (var s in subscriptions)
+            {
+                if (!string.Equals(s.EventName, args.Event.Name, StringComparison.InvariantCultureIgnoreCase))
+                    continue;
+
+                s.OnEventAction(args);
+
+                if (args.IsHandled)
+                    return;
+            }
+        }
+
+        protected virtual void OnViewModelEvent(ViewModelEventArgs ev)
+        {
+
+        }
+
+        protected void SubscribeToPreviewEvent(string eventName, Action<ViewModelEventArgs> args)
+        {
+            var s = new ViewModelEventSubscription();
+            s.EventName = eventName.ToLower();
+            s.OnEventAction = args;
+
+            PreviewViewModelEventSubscriptions.Add(s);
+        }
+
+        protected void SubscribeToEvent(string eventName, Action<ViewModelEventArgs> onEvent)
+        {
+            var s = new ViewModelEventSubscription();
+            s.EventName = eventName.ToLower();
+            s.OnEventAction = onEvent;
+
+            ViewModelEventSubscriptions.Add(s);
+        }
+
         ViewModelState _state = ViewModelStates.Initialising;
         /// <summary>
         /// Gets or sets the state of a ViewModel
@@ -86,5 +176,26 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
 
         public ViewModel(IUIService uiService)
         { }
+
+        internal event EventHandler<AfterViewModelEventRaisedArgs> AfterViewModelEventRaised;
+
+        /// <summary>
+        /// Call this method to raise a View Model Event.
+        /// </summary>
+        /// <param name="eventName"></param>
+        /// <param name="routingStrategy"></param>
+        protected internal void RaiseEvent(
+            string eventName, 
+            ViewModelEventRoutingStrategy routingStrategy = ViewModelEventRoutingStrategy.Default)
+        {
+            if (AfterViewModelEventRaised != null)
+            {
+                var ev = new ViewModelEvent(eventName);
+
+                var args = new AfterViewModelEventRaisedArgs(ev, routingStrategy);
+
+                AfterViewModelEventRaised(this, args);
+            }
+        }
     }
 }

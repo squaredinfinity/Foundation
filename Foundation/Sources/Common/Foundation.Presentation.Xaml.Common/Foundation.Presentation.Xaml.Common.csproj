@@ -82,6 +82,13 @@
     <Compile Include="Converters\MultiplyNumberConverter.cs" />
     <Compile Include="Converters\AddNumberConverter.cs" />
     <Compile Include="SharedResourceDictionary.cs" />
+    <Compile Include="ViewModels\AfterViewModelEventRaisedArgs.cs" />
+    <Compile Include="ViewModels\IViewModelEvent.cs" />
+    <Compile Include="ViewModels\ViewModelEvent.cs" />
+    <Compile Include="ViewModels\ViewModelEventArgs.cs" />
+    <Compile Include="ViewModels\ViewModelEventRoutingStrategy.cs" />
+    <Compile Include="Views\View_T.cs" />
+    <Compile Include="Views\ViewModelEventRoutedEventArgs.cs" />
     <Compile Include="Windows\ViewHostWindow.cs" />
     <Compile Include="Controls\ISupportsBackgroundRendering.cs" />
     <Compile Include="Controls\TabControl.cs" />

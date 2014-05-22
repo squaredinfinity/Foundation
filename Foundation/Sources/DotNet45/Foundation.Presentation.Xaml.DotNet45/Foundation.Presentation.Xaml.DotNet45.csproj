@@ -349,8 +349,14 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ViewModelState.cs">
       <Link>ViewModelState.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ViewModels\AfterViewModelEventRaisedArgs.cs">
+      <Link>ViewModels\AfterViewModelEventRaisedArgs.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ViewModels\AlertViewModel.cs">
       <Link>ViewModels\AlertViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ViewModels\IViewModelEvent.cs">
+      <Link>ViewModels\IViewModelEvent.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ViewModels\ViewModel.cs">
       <Link>ViewModels\ViewModel.cs</Link>
@@ -358,8 +364,23 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ViewModels\ViewModel.IHostAwareViewModel.cs">
       <Link>ViewModels\ViewModel.IHostAwareViewModel.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ViewModels\ViewModelEvent.cs">
+      <Link>ViewModels\ViewModelEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ViewModels\ViewModelEventArgs.cs">
+      <Link>ViewModels\ViewModelEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ViewModels\ViewModelEventRoutingStrategy.cs">
+      <Link>ViewModels\ViewModelEventRoutingStrategy.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Views\View.cs">
       <Link>Views\View.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Views\ViewModelEventRoutedEventArgs.cs">
+      <Link>Views\ViewModelEventRoutedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Views\View_T.cs">
+      <Link>Views\View_T.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Windows\ViewHostWindow.cs">
       <Link>Windows\ViewHostWindow.cs</Link>
