@@ -101,7 +101,7 @@ namespace SquaredInfinity.Foundation.Presentation.Views
 
                 foreach (var v in children)
                 {
-                    v.OnViewModelEvent(args);
+                    v.OnViewModelEventInternal(args);
 
                     if (args.IsHandled)
                         return;
@@ -109,11 +109,43 @@ namespace SquaredInfinity.Foundation.Presentation.Views
             }
         }
 
-        void OnViewModelEvent(ViewModelEventArgs args)
+        void OnViewModelEventInternal(ViewModelEventRoutedEventArgs args)
         {
+            OnViewModelEventInternal(args.ViewModelEventArgs);
+
+            if (args.ViewModelEventArgs.IsHandled)
+                return;
+
+            if (args.RoutedEvent.RoutingStrategy == RoutingStrategy.Bubble)
+            {
+                // todo: update interface
+                (ViewModel as ViewModel).OnPreviewViewModelEventInternal(args.ViewModelEventArgs);
+                return;
+            }
+
+            if (args.RoutedEvent.RoutingStrategy == RoutingStrategy.Tunnel)
+            {
+                // todo: update interface
+                (ViewModel as ViewModel).OnViewModelEventInternal(args.ViewModelEventArgs);
+                return;
+            }
+        }
+
+        protected virtual void OnViewModelEvent(ViewModelEventArgs args)
+        { }
+
+        protected virtual void OnViewModelEventInternal(ViewModelEventArgs args)
+        {
+            OnViewModelEvent(args);
+
+            if (args.IsHandled)
+                return;
+
             // todo: update interface
             (ViewModel as ViewModel).OnViewModelEventInternal(args);
         }
+
+
 
 
         public IHostAwareViewModel ViewModel
@@ -157,19 +189,7 @@ namespace SquaredInfinity.Foundation.Presentation.Views
 
         void View_ViewModelMessage(object sender, ViewModelEventRoutedEventArgs args)
         {
-            if(args.RoutedEvent.RoutingStrategy == RoutingStrategy.Bubble)
-            {
-                // todo: update interface
-                (ViewModel as ViewModel).OnPreviewViewModelEventInternal(args.ViewModelEventArgs);
-                return;
-            }
-
-            if(args.RoutedEvent.RoutingStrategy == RoutingStrategy.Tunnel)
-            {
-                // todo: update interface
-                (ViewModel as ViewModel).OnViewModelEventInternal(args.ViewModelEventArgs);
-                return;
-            }
+            OnViewModelEventInternal(args);
         }
 
         public override void OnApplyTemplate()
