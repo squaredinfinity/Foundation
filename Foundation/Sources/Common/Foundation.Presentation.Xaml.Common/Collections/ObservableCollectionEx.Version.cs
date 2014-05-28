@@ -11,7 +11,7 @@ namespace SquaredInfinity.Foundation.Collections
 {
     public partial class ObservableCollectionEx<TItem> : INotifyCollectionContentChanged
     {
-        public event Action<INotifyCollectionContentChanged> VersionChanged;
+        public event EventHandler<CollectionContentChangedEventArgs> VersionChanged;
 
         int _version;
         public int Version
@@ -24,7 +24,7 @@ namespace SquaredInfinity.Foundation.Collections
             Interlocked.Increment(ref _version);
 
             if (VersionChanged != null)
-                VersionChanged(this);
+                VersionChanged(this, new CollectionContentChangedEventArgs(_version));
         }
     }
 }

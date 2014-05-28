@@ -104,7 +104,7 @@ namespace SquaredInfinity.Foundation.Collections
         {
         }
 
-        public event Action<INotifyCollectionContentChanged> VersionChanged;
+        public event EventHandler<CollectionContentChangedEventArgs> VersionChanged;
 
         int _version;
         public int Version

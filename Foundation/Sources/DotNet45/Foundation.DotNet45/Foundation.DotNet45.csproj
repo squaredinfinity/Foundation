@@ -42,6 +42,9 @@
     <Compile Include="..\..\Common\Foundation.Common\ChainOfCommand.cs">
       <Link>ChainOfCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\CollectionContentChangedEventArgs.cs">
+      <Link>Collections\CollectionContentChangedEventArgs.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Collections\CollectionEx.cs">
       <Link>Collections\CollectionEx.cs</Link>
     </Compile>

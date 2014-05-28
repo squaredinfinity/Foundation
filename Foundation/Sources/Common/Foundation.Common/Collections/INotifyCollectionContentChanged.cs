@@ -11,7 +11,7 @@ namespace SquaredInfinity.Foundation.Collections
         /// <summary>
         /// Occurs when content of any item in the collection has changed (but no items have been added / removed / moved).
         /// </summary>
-        event Action<INotifyCollectionContentChanged> VersionChanged;
+        event EventHandler<CollectionContentChangedEventArgs> VersionChanged;
 
         int Version { get; }
     }
