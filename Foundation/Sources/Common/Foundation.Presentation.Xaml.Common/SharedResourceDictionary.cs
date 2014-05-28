@@ -16,9 +16,14 @@ namespace SquaredInfinity.Foundation.Presentation
         static readonly ConcurrentDictionary<string, ResourceDictionary> NameToDictionaryMappings =
             new ConcurrentDictionary<string, ResourceDictionary>();
 
-        public static void AddSharedDictionary(string name, ResourceDictionary dict)
+        public static void AddOrUpdateSharedDictionary(string name, ResourceDictionary dict)
         {
             NameToDictionaryMappings.AddOrUpdate(name, dict, (_key, _old) => dict);
+        }
+
+        public static void AddOrUpdateSharedDictionary(SharedResourceDictionary dict)
+        {
+            NameToDictionaryMappings.AddOrUpdate(dict.DictionaryName, dict, (_key, _old) => dict);
         }
 
         static SharedResourceDictionary() { }
@@ -51,7 +56,9 @@ namespace SquaredInfinity.Foundation.Presentation
 
                 _source = value;
 
-                NameToDictionaryMappings.AddOrUpdate(DictionaryName, Resources.LoadCompiledResourceDictionary(_source));
+                var dict = Resources.LoadCompiledResourceDictionary(_source);
+
+                AddOrUpdateSharedDictionary(DictionaryName, dict);
 
                 MergeReferencedDictionary();
             }
