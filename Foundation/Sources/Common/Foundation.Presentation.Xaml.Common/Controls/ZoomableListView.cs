@@ -96,9 +96,29 @@ namespace SquaredInfinity.Foundation.Presentation.Controls
 
         #endregion
 
+
+        #region Content Padding
+
+        public Thickness ContentPadding
+        {
+            get { return (Thickness)GetValue(ContentPaddingProperty); }
+            set { SetValue(ContentPaddingProperty, value); }
+        }
+
+        public static readonly DependencyProperty ContentPaddingProperty =
+            DependencyProperty.Register(
+            "ContentPadding", 
+            typeof(Thickness), 
+            typeof(ZoomableListView),
+            new PropertyMetadata(new Thickness()));
+
+        #endregion
+
+
         Viewbox PART_ViewBox;
         ScrollViewer PART_ScrollViewer;
         ItemsPresenter ItemsPresenter;
+        Panel ItemsPanel;
 
         public override void OnApplyTemplate()
         {
@@ -110,6 +130,10 @@ namespace SquaredInfinity.Foundation.Presentation.Controls
             PART_ViewBox = this.FindVisualDescendant<Viewbox>(descendantName: "PART_ViewBox");
 
             ItemsPresenter = this.FindVisualDescendant<ItemsPresenter>();
+
+            ItemsPresenter.ApplyTemplate();
+
+            ItemsPanel = ItemsPresenter.FindVisualDescendant<Panel>();
         }
 
         protected override void OnPreviewMouseWheel(MouseWheelEventArgs e)
@@ -123,7 +147,7 @@ namespace SquaredInfinity.Foundation.Presentation.Controls
 
                 var oldZoom = Zoom;
 
-                var newZoom = Zoom + (MouseWheelZoomStep * Math.Sign(e.Delta)); //+ (MouseWheelZoomStep * e.Delta);
+                var newZoom = Zoom + (MouseWheelZoomStep * Math.Sign(e.Delta));
 
                 // make sure new zoom is within specified bounds
                 newZoom = Math.Min(newZoom, MaxZoom);
@@ -134,8 +158,23 @@ namespace SquaredInfinity.Foundation.Presentation.Controls
                 var delta_x = (pointUnderMouse.X / oldZoom) * newZoom - pointUnderMouse.X;
                 var delta_y = (pointUnderMouse.Y / oldZoom) * newZoom - pointUnderMouse.Y;
 
-                PART_ScrollViewer.ScrollToHorizontalOffset(PART_ScrollViewer.ContentHorizontalOffset + delta_x);
-                PART_ScrollViewer.ScrollToVerticalOffset(PART_ScrollViewer.ContentVerticalOffset + delta_y);
+                // calculate new content padding (to guarantee that zooming in/out will preserve width/height ratio)
+                var horizontalPadding =
+                    Math.Max(0, (ItemsPanel.ActualWidth - (ItemsPanel.ActualWidth * Zoom)) / 2);
+                var verticalPadding =
+                    Math.Max(0, (ItemsPanel.ActualHeight - (ItemsPanel.ActualHeight * Zoom)) / 2);
+
+                var oldContentPadding = ContentPadding;
+                ContentPadding = new Thickness(horizontalPadding, verticalPadding, horizontalPadding, verticalPadding);
+
+                var horizontalPadding_Delta = ContentPadding.Left - oldContentPadding.Left;
+                var verticalPadding_Delta = ContentPadding.Top - oldContentPadding.Top;
+
+                // padding deltas will need to be added to horizontal / vertical offsets to preserve zoom about the point
+
+
+                PART_ScrollViewer.ScrollToHorizontalOffset(PART_ScrollViewer.ContentHorizontalOffset + delta_x + horizontalPadding_Delta);
+                PART_ScrollViewer.ScrollToVerticalOffset(PART_ScrollViewer.ContentVerticalOffset + delta_y + verticalPadding_Delta);
 
                 e.Handled = true;
                 return;

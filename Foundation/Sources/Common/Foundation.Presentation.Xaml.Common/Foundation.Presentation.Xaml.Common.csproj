@@ -79,6 +79,8 @@
     <Compile Include="Controls\AdornerWithVisual.cs" />
     <Compile Include="Controls\BackgroundLoadingListView.cs" />
     <Compile Include="Controls\ZoomableListView.cs" />
+    <Compile Include="Converters\GetTypeConverter.cs" />
+    <Compile Include="Converters\IsOfTypeConverter.cs" />
     <Compile Include="Converters\MultiplyNumberConverter.cs" />
     <Compile Include="Converters\AddNumberConverter.cs" />
     <Compile Include="SharedResourceDictionary.cs" />

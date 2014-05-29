@@ -166,8 +166,14 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\GetApplicationResourceConverter.cs">
       <Link>Converters\GetApplicationResourceConverter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\GetTypeConverter.cs">
+      <Link>Converters\GetTypeConverter.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\InvertBoolConverter.cs">
       <Link>Converters\InvertBoolConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\IsOfTypeConverter.cs">
+      <Link>Converters\IsOfTypeConverter.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\MixedCompositeConverter.cs">
       <Link>Converters\MixedCompositeConverter.cs</Link>

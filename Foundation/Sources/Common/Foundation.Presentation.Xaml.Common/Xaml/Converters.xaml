@@ -46,6 +46,10 @@
     <converters:MultiplyNumberConverter x:Key="Converters.TimesEight"  Multiplier="8" />
     <converters:MultiplyNumberConverter x:Key="Converters.TimesNine"   Multiplier="9" />
     <converters:MultiplyNumberConverter x:Key="Converters.TimesTen"    Multiplier="10" />
+    
+    <converters:GetTypeConverter x:Key="Converters.GetType" />
+    <converters:IsOfTypeConverter x:Key="Converters.IsExactlyOfType" Mode="IsExactMatch" />
+    <converters:IsOfTypeConverter x:Key="Converters.IsAssignableFromType" Mode="IsAssignableFrom" />
 
     <converters:CompositeConverter x:Key="Converters.HiddenWhen0">
         <converters:ValueToBoolConverter ExpectedValue="0" />
