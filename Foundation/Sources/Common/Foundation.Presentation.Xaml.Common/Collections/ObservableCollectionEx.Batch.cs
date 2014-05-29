@@ -40,6 +40,9 @@ namespace SquaredInfinity.Foundation.Collections
 
                         Items.Add(item);
 
+                        if(MonitorElementsForChanges)
+                            (item as INotifyPropertyChanged).PropertyChanged += HandleItemPropertyChanged;
+
                         RaiseCollectionChanged(NotifyCollectionChangedAction.Add, (object)item, Items.Count - 1);
                     }
                 }
@@ -68,6 +71,9 @@ namespace SquaredInfinity.Foundation.Collections
                         objArray[index1] = item;
                         Items.RemoveAt(index);
 
+                        if(MonitorElementsForChanges)
+                            (item as INotifyPropertyChanged).PropertyChanged -= HandleItemPropertyChanged;
+
                         RaiseCollectionChanged(NotifyCollectionChangedAction.Remove, (object)item, index);
                     }
                 }
@@ -87,13 +93,24 @@ namespace SquaredInfinity.Foundation.Collections
                 using(readLock.AcquireWriteLock())
                 {
                     if (hadAnyItemsBefore)
+                    {
+                        if(MonitorElementsForChanges)
+                        {
+                            foreach(var item in Items)
+                                (item as INotifyPropertyChanged).PropertyChanged -= HandleItemPropertyChanged;
+                        }
+
                         Items.Clear();
+                    }
 
                     if (hasAnyNewItems)
                     {
                         foreach (TItem obj in newItems)
                         {
                             this.Items.Add(obj);
+
+                            if(MonitorElementsForChanges)
+                                (obj as INotifyPropertyChanged).PropertyChanged += HandleItemPropertyChanged;
                         }
                     }
                 }

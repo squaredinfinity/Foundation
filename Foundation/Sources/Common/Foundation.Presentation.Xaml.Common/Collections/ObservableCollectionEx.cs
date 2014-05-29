@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -29,16 +30,24 @@ namespace SquaredInfinity.Foundation.Collections
             return Dispatcher.CurrentDispatcher;
         }
 
+        bool MonitorElementsForChanges { get; set; }
+
         public ObservableCollectionEx()
-            : this(21, GetMainThreadDispatcher())
+            : this(21, GetMainThreadDispatcher(), monitorElementsForChanges:true)
         { }
 
         public ObservableCollectionEx(
             int capacity, 
-            Dispatcher dispatcher)
+            Dispatcher dispatcher,
+            bool monitorElementsForChanges)
             : base(new List<TItem>(capacity))
         {
             Dispatcher = dispatcher;
+
+            if (monitorElementsForChanges == true && typeof(TItem).IsAssignableFrom(typeof(INotifyPropertyChanged)))
+            {
+                MonitorElementsForChanges = monitorElementsForChanges;
+            }
 
             BindingOperations.EnableCollectionSynchronization(this, context: null, synchronizationCallback: BindingSync);
         }
@@ -89,6 +98,9 @@ namespace SquaredInfinity.Foundation.Collections
                 {
                     obj = this[index];
                     base.RemoveItem(index);
+
+                    if(MonitorElementsForChanges)
+                        (obj as INotifyPropertyChanged).PropertyChanged -= HandleItemPropertyChanged;
                 }
 
                 this.RaiseCollectionChanged(NotifyCollectionChangedAction.Remove, (object)obj, index);
@@ -102,6 +114,9 @@ namespace SquaredInfinity.Foundation.Collections
                 using(readLock.AcquireWriteLock())
                 {
                     base.InsertItem(index, item);
+
+                    if(MonitorElementsForChanges)
+                        (item as INotifyPropertyChanged).PropertyChanged += HandleItemPropertyChanged;
                 }
 
                 this.RaiseCollectionChanged(NotifyCollectionChangedAction.Add, (object)item, index);
@@ -118,6 +133,9 @@ namespace SquaredInfinity.Foundation.Collections
                 {
                     obj = this[index];
                     base.SetItem(index, item);
+
+                    if(MonitorElementsForChanges)
+                        (obj as INotifyPropertyChanged).PropertyChanged -= HandleItemPropertyChanged;
                 }
 
                 this.RaiseCollectionChanged(NotifyCollectionChangedAction.Replace, (object)item, (object)obj, index);
@@ -130,6 +148,14 @@ namespace SquaredInfinity.Foundation.Collections
             { 
                 using(CollectionLock.AcquireWriteLock())
                 {
+                    if(MonitorElementsForChanges)
+                    {
+                        foreach(var item in Items)
+                        {
+                            (item as INotifyPropertyChanged).PropertyChanged -= HandleItemPropertyChanged;
+                        }
+                    }
+
                     base.ClearItems();
                 }
 
@@ -168,6 +194,11 @@ namespace SquaredInfinity.Foundation.Collections
                                             Items.Add(item);
 
                                             RaiseCollectionChanged(NotifyCollectionChangedAction.Add, (object)item, Items.Count - 1);
+
+                                            if (MonitorElementsForChanges)
+                                            {
+                                                (item as INotifyPropertyChanged).PropertyChanged += HandleItemPropertyChanged;
+                                            }
                                         }
                                     }, DispatcherPriority.Background, cancellationToken);
                             }
@@ -178,6 +209,14 @@ namespace SquaredInfinity.Foundation.Collections
                         }
                     }, cancellationToken);
             }
+        }
+
+        void HandleItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            // todo:    in future this may need to raise an event with exact item that changed communicated to subscribers,
+            //          but there was not need for it so far.
+
+            this.IncrementVersion();
         }
     }
 }
