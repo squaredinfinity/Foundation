@@ -199,5 +199,28 @@ namespace SquaredInfinity.Foundation.Extensions
 
             return true;
         }
+
+        /// <summary>
+        /// Returns True if double is Infinity (positive or negative) or NaN
+        /// </summary>
+        /// <param name="d"></param>
+        /// <returns></returns>
+        public static bool IsInfinityOrNaN(this double d)
+        {
+            if (double.IsInfinity(d))
+                return true;
+
+            return double.IsNaN(d);
+        }
+
+        /// <summary>
+        /// Returns True if double is Infinity (positive or negative)
+        /// </summary>
+        /// <param name="d"></param>
+        /// <returns></returns>
+        public static bool IsInfinity(this double d)
+        {
+            return double.IsInfinity(d);
+        }
     }
 }
