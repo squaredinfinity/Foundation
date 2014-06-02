@@ -109,26 +109,43 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             {
                 foreach (var item in sourceList)
                 {
+                    var itemType = (Type)null;
+
                     if (item == null)
-                        continue; // todo: may need to specify a custom way of handling nulls
-
-                    var itemType = item.GetType();
-
-                    var item_as_string = (string)null;
-
-                    if (TryConvertToStringIfTypeSupports(item, out item_as_string))
                     {
-                        var item_string_value_element = new XElement("temp", item_as_string);
-                        UpdateElementNameFromType(item_string_value_element, item.GetType(), options, cx);
-                        target.Add(item_string_value_element);
-                        continue;
+                        itemType = sourceList.GetItemsTypes().First();
+
+                        // if item type is nullable, use underlying nullable type as item type
+                        var nullableItemType = Nullable.GetUnderlyingType(itemType);
+                        if (nullableItemType != null)
+                            itemType = nullableItemType;
+
+                        var itemElement = new XElement("temp");
+                        
+                        UpdateElementNameFromType(itemElement, itemType, options, cx);
+
+                        target.Add(itemElement);
                     }
+                    else
+                    {
+                        itemType = item.GetType();
 
-                    var itemElement = new XElement("temp");
-                    UpdateElementNameFromType(itemElement, item.GetType(), options, cx);
-                    SerializeInternal(itemElement, item, typeDescriptor, options, cx);
+                        var item_as_string = (string)null;
 
-                    target.Add(itemElement);
+                        if (TryConvertToStringIfTypeSupports(item, out item_as_string))
+                        {
+                            var item_string_value_element = new XElement("temp", item_as_string);
+                            UpdateElementNameFromType(item_string_value_element, item.GetType(), options, cx);
+                            target.Add(item_string_value_element);
+                            continue;
+                        }
+
+                        var itemElement = new XElement("temp");
+                        UpdateElementNameFromType(itemElement, itemType, options, cx);
+                        SerializeInternal(itemElement, item, typeDescriptor, options, cx);
+
+                        target.Add(itemElement);
+                    }
                 }
             }
 

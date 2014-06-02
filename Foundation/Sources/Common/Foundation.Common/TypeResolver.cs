@@ -19,7 +19,7 @@ namespace SquaredInfinity.Foundation
             new ConcurrentDictionary<string, List<Type>>();
 
         public readonly Func<AssemblyName, Assembly> LastHopeAssemblyResolver;
-        public readonly Func<Assembly, string, bool, Type> LastHopeTypeResolver;
+        public readonly Func<Assembly, string, bool, bool, Type> LastHopeTypeResolver;
 
         public TypeResolver()
         {
@@ -27,7 +27,7 @@ namespace SquaredInfinity.Foundation
                 (an) => ResolveAssembly(an);
 
             LastHopeTypeResolver =
-                (asm, typeFullName, ignoreCase) => ResolveType(typeFullName, ignoreCase, new List<Assembly> { asm });
+                (asm, typeFullName, ignoreCase, treatNullableAsEquivalent) => ResolveType(typeFullName, ignoreCase, treatNullableAsEquivalent, new List<Assembly> { asm });
         }
 
         public void ClearCache()
@@ -48,6 +48,7 @@ namespace SquaredInfinity.Foundation
         public virtual Type ResolveType(
             string typeFullOrPartialName,
             bool ignoreCase,
+            bool treatNullableAsEquivalent = true,
             IReadOnlyList<Assembly> assembliesToCheck = null,
             IReadOnlyList<Type> baseTypes = null)
         {
@@ -60,6 +61,15 @@ namespace SquaredInfinity.Foundation
 
                 if (baseType.Name == typeFullOrPartialName)
                     return baseType;
+
+                if (treatNullableAsEquivalent)
+                {
+                    var nullableUnderlyingType = Nullable.GetUnderlyingType(baseType);
+                    
+                    if (nullableUnderlyingType != null && nullableUnderlyingType.Name == typeFullOrPartialName)
+                        return baseType;
+                }
+
             }
 
             if (baseTypes.IsNullOrEmpty())

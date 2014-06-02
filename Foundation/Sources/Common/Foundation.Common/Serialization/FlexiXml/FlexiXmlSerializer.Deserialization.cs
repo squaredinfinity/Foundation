@@ -234,12 +234,6 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                 var item = DeserializeInternal(itemType, itemEl, typeDescriptor, options, cx);
 
-                if (item == null)
-                {
-                    // todo: how do we handle nulls?
-                    continue;
-                }
-
                 targetList.Add(item);
             }
         }

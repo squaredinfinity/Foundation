@@ -37,5 +37,11 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         {
             throw new NotImplementedException();
         }
+
+
+        public ITypeSerializationStrategy<T> IgnoreMember(System.Linq.Expressions.Expression<Func<object>> memberExpression)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
