@@ -39,9 +39,9 @@ namespace SquaredInfinity.Foundation.Extensions
             TreeTraversalMode traversalMode = TreeTraversalMode.BreadthFirst)
         {
             if (includeChildItemsControls)
-                return me.TreeTraversal(traversalMode, GetChildrenFuncIncludeChildItemsControls);
+                return me.TreeTraversal(traversalMode, GetChildrenFuncIncludeChildItemsControls).Skip(1);
             else
-                return me.TreeTraversal(traversalMode, GetChildrenFuncExcludeChildItemsControls);
+                return me.TreeTraversal(traversalMode, GetChildrenFuncExcludeChildItemsControls).Skip(1);
         }
 
         static IEnumerable<DependencyObject> GetChildrenFuncIncludeChildItemsControls(DependencyObject parent)
