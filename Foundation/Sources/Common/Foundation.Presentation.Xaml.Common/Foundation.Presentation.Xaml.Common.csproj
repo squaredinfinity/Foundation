@@ -78,6 +78,7 @@
     <Compile Include="Commands\DelegateCommand_T.cs" />
     <Compile Include="Controls\AdornerWithVisual.cs" />
     <Compile Include="Controls\BackgroundLoadingListView.cs" />
+    <Compile Include="Controls\Canvas.cs" />
     <Compile Include="Controls\ZoomableListView.cs" />
     <Compile Include="Converters\GetTypeConverter.cs" />
     <Compile Include="Converters\IsOfTypeConverter.cs" />

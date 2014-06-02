@@ -121,6 +121,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Controls\BackgroundLoadingListView.cs">
       <Link>Controls\BackgroundLoadingListView.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Controls\Canvas.cs">
+      <Link>Controls\Canvas.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Controls\ISupportsBackgroundRendering.cs">
       <Link>Controls\ISupportsBackgroundRendering.cs</Link>
     </Compile>
