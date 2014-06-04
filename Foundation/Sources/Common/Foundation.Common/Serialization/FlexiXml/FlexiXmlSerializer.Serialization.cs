@@ -176,7 +176,9 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 {
                     if (TryConvertToStringIfTypeSupports(val, out val_as_string))
                     {
-                        target.Add(new XAttribute(m.Name, val_as_string)); // todo: do mapping if needed, + conversion
+                        var attributeName = m.Name;                        
+
+                        target.Add(new XAttribute(attributeName, val_as_string)); // todo: do mapping if needed, + conversion
                         continue;
                     }
                     else

@@ -96,6 +96,9 @@
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Diagnostics\Stopwatch.extensions.cs">
       <Link>FrameworkExtensions\System.Diagnostics\Stopwatch.extensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.IO\Stream.extensions.cs">
+      <Link>FrameworkExtensions\System.IO\Stream.extensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Linq.Expressions\Expression.extensions.cs">
       <Link>FrameworkExtensions\System.Linq.Expressions\Expression.extensions.cs</Link>
     </Compile>

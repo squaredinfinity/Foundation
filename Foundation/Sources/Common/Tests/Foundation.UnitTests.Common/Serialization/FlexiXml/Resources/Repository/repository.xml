@@ -1,0 +1,28 @@
+﻿<xml>
+	<repository>
+		<formatters>
+			<genericFormatter name="formatters.body" content="content_body" />
+			<customFormatter name="formatters.subject" content="content_subject" />
+		</formatters>
+	</repository>
+
+	<emails>
+		<!-- 
+			    although several different elements use same id, the elment that best matches clr-property behind attribute will be used.
+
+			    in this case formatter elements from repository are mapped to Formatter clr type
+			    which best matches BodyFormatter and SubjectFormatter properties on Email clr type
+		-->
+
+    <!-- use attribute to set properties -->
+		<email bodyformatter.ref="formatters.body" 
+           subjectformatter.ref="formatters.subject" />
+
+    <!-- use attached elements to set properties -->
+		<email>
+			<email.bodyformatter ref="formatters.body" />
+			<email.subjectformatter ref="formatters.subject" />
+		</email>
+    
+	</emails>
+</xml>

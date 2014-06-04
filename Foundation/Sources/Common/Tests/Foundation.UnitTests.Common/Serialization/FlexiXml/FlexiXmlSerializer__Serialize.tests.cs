@@ -13,6 +13,22 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
     public class FlexiXmlSerialize__Serialize
     {
         [TestMethod]
+        public void ByDefault__IfPropertyCanBeConvertedToString__SerializeToAttribute()
+        {
+            var n = new SimpleSerializableType();
+            n.IntProperty = 13;
+            n.NullableIntProperty = 14;
+            n.StringProperty = "string value";
+            n.GuidProperty = new Guid("9763C96B-5AC4-4ACA-AE4E-5D71EDDBE0DD");
+
+            var s = new FlexiXml.FlexiXmlSerializer();
+
+            var xml = s.Serialize(n);
+
+
+        }
+
+        [TestMethod]
         public void CanSerializeTypes()
         {
             var n = LinkedListNode.CreateDefaultTestHierarchy();

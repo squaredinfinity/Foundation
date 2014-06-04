@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
     /// <summary>
     /// Uniquely identifies instance of object participating in serialization.
     /// This is used to deal with circular references.
+    /// Individual instances are identified by auto-increasing Id number, or by unique name
     /// </summary>
     class InstanceId : IEquatable<InstanceId>
     {
@@ -24,6 +26,26 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         public long ReferenceCount
         {
             get { return _referenceCount; }
+        }
+
+        string _name;
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+
+        public InstanceId(string nameOrId)
+        {
+            if (nameOrId.IsNullOrEmpty())
+                throw new ArgumentException("nameOrId");
+
+            var id = 0L;
+
+            if (Int64.TryParse(nameOrId, out id))
+                Id = id;
+            else
+                Name = nameOrId;
         }
 
         public InstanceId(long id)
@@ -41,9 +63,23 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             return instanceId.Id;
         }
 
+        public static implicit operator string(InstanceId instanceId)
+        {
+            return instanceId.Name;
+        }
+
         public override int GetHashCode()
         {
-            return Id.GetHashCode();
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 23 + Id.GetHashCode();
+
+                if (Name != null)
+                    hash = hash * 23 + Name.GetHashCode();
+
+                return hash;
+            }
         }
 
         public override bool Equals(object obj)
@@ -53,7 +89,10 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
         public bool Equals(InstanceId other)
         {
-            return this.Id == other.Id;
+            return
+                this.Id == other.Id
+                &&
+                this.Name == other.Name;
         }
     }
 }

@@ -16,6 +16,13 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
     public partial class FlexiXmlSerializer
     {
+        public T Deserialize<T>(string xml)
+        {
+            var xDoc = XDocument.Parse(xml);
+
+            return Deserialize<T>(xDoc);
+        }
+
         public T Deserialize<T>(XDocument xml)
         {
             return Deserialize<T>(xml.Root);
@@ -34,19 +41,20 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
         object DeserializeInternal(Type targetType, XElement xml, ITypeDescriptor typeDescriptor, SerializationOptions options, DeserializationContext cx)
         {
-            var typeDescription = typeDescriptor.DescribeType(targetType);
+            var targetTypeDescription = typeDescriptor.DescribeType(targetType);
 
             object target = (object)null;
 
             //# check serialization control attributes first
 
+            // ID REF Attribute is used to indicate that this element should point to the instance identified by id_ref attribute
             var id_ref_attrib = xml.Attribute(UniqueIdReferenceAttributeName);
 
             if(id_ref_attrib != null)
             {
-                var id = Int64.Parse(id_ref_attrib.Value);
+                var instanceId = new InstanceId(id_ref_attrib.Value);
 
-                if (cx.Objects_InstanceIdTracker.TryGetValue(new InstanceId(id), out target))
+                if (cx.Objects_InstanceIdTracker.TryGetValue(instanceId, out target))
                 {
                     return target;
                 }
@@ -57,6 +65,13 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 }
             }
 
+            var value = (object)null;
+
+            //# Construct target from Element Value
+            if (!xml.HasElements && xml.Value != null && TryConvertFromStringIfTypeSupports(xml.Value, targetType, out value))
+            {
+                return value;
+            }
 
             //# Get a new instance of target
             if(!targetType.IsValueType && !TryCreateInstace(targetType, new CreateInstanceContext(), out target))
@@ -70,41 +85,86 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             if(id_attrib != null)
             {
-                var id = Int64.Parse(id_attrib.Value);
-
-                cx.Objects_InstanceIdTracker.AddOrUpdate(new InstanceId(id), target);
+                var instanceId = new InstanceId(id_attrib.Value);
+                
+                cx.Objects_InstanceIdTracker.AddOrUpdate(instanceId, target);
             }
 
-            var value = (object)null;
+            DeserializeInternal(target, targetTypeDescription, targetType, xml, typeDescriptor, options, cx);
 
-            //# Construct target from Element Value
-            if (!xml.HasElements && xml.Value != null && TryConvertFromStringIfTypeSupports(xml.Value, targetType, out value))
-            {
-                return value;
-            }
+            return target;
+        }
+        
+        void DeserializeInternal(
+            object target,
+            ITypeDescription targetTypeDescription,
+            Type targetType, 
+            XElement xml, 
+            ITypeDescriptor typeDescriptor, 
+            SerializationOptions options, 
+            DeserializationContext cx)
+        {
+            var nonRefAttributes =
+                (from a in xml.Attributes()
+                 where !a.Name.LocalName.EndsWith(UniqueIdReferenceAttributeSuffix)
+                        && a.Name.Namespace == XNamespace.None
+                 select a);
 
             //# Map element attributes to target memebers
-            foreach (var attribute in xml.Attributes())
+            foreach (var attribute in nonRefAttributes)
             {
                 var member =
-                    (from f in typeDescription.Members
+                    (from f in targetTypeDescription.Members
                      where 
                      !f.IsExplicitInterfaceImplementation
-                     && f.Name == attribute.Name
+                     && string.Equals(f.Name, attribute.Name.LocalName, StringComparison.InvariantCultureIgnoreCase)
                      && f.CanSetValue 
                      && f.CanGetValue
                      select f).FirstOrDefault();
 
-                if (member == null)
-                    continue;
-
                 var memberType = Type.GetType(member.AssemblyQualifiedMemberTypeName);
 
-                value = (object)null;
+                var value = (object)null;
 
                 if (TryConvertFromStringIfTypeSupports(attribute.Value, memberType, out value))
                 {
                     member.SetValue(target, value);
+                }
+            }
+
+            var refAttributes =
+               (from a in xml.Attributes()
+                where a.Name.LocalName.EndsWith(UniqueIdReferenceAttributeSuffix)
+                && a.Name.Namespace == XNamespace.None
+                select a);
+
+            //# Resolve references of id ref attributes (e.g. someProperty.ref="xxx")
+            foreach (var attribute in refAttributes)
+            {
+                var attribLocalName = attribute.Name.LocalName;
+
+                var memberName = attribLocalName.Substring(0, attribLocalName.Length - UniqueIdReferenceAttributeSuffix.Length);
+
+                var member =
+                    (from f in targetTypeDescription.Members
+                     where
+                     !f.IsExplicitInterfaceImplementation
+                     && f.Name == attribute.Name
+                     && f.CanSetValue
+                     && f.CanGetValue
+                     select f).FirstOrDefault();
+
+                var instanceId = new InstanceId(attribute.Value);
+
+                object referenced_instance = null;
+
+                if (cx.Objects_InstanceIdTracker.TryGetValue(instanceId, out referenced_instance))
+                {
+                    member.SetValue(target, referenced_instance);
+                }
+                else
+                {
+                    // todo: log, this should always resolve unless serialization xml is corrupted
                 }
             }
 
@@ -113,96 +173,153 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             {
                 DeserializeList(xml, target as IList, typeDescriptor, options, cx);
             }
+            else
+            {
+                // not a list, it may contain Child Elements (non-attached) which should be mapped to properties
+
+                foreach(var el in xml.Elements())
+                {
+                    if (el.IsAttached())
+                        continue;
+
+                    DeserializeMemberFromElement(el, target, targetTypeDescription, typeDescriptor, options, cx);
+                }
+            }
 
             //# Process attached elements which map to target members
             foreach (var el in xml.AttachedElements())
             {
-                var elName = el.Name.LocalName;
+                DeserializeMemberFromElement(el, target, targetTypeDescription, typeDescriptor, options, cx);
+            }
+        }
 
-                if(el.IsAttached())
-                {
-                    elName = elName.Substring(elName.IndexOf(".") + 1);
-                }
+        void DeserializeMemberFromElement(XElement el, object target, ITypeDescription targetTypeDescription, ITypeDescriptor typeDescriptor, SerializationOptions options, DeserializationContext cx)
+        {
+            var elName = el.Name.LocalName;
 
-                var member =
-                    (from m in typeDescription.Members
-                     where
-                     !m.IsExplicitInterfaceImplementation
-                     && m.Name == elName
-                     select m).FirstOrDefault();
+            if (el.IsAttached())
+            {
+                elName = elName.Substring(elName.IndexOf(".") + 1);
+            }
 
-                if (member == null)
-                {
-                    // todo: log ?
-                    continue;
-                }
+            // try to find member
 
-                var memberType = Type.GetType(member.AssemblyQualifiedMemberTypeName);
+            var member =
+                (from m in targetTypeDescription.Members
+                 where
+                 !m.IsExplicitInterfaceImplementation
+                 && string.Equals(m.Name, elName, StringComparison.InvariantCultureIgnoreCase)
+                 select m).FirstOrDefault();
+
+            if (member == null)
+            {
+                // todo: log ?
+                return;
+            }
+
+            var memberType = Type.GetType(member.AssemblyQualifiedMemberTypeName);
+
+            var memberValue = member.GetValue(target);
+
+            if (!el.HasElements && !el.Value.IsNullOrEmpty())
+            {
+                // no child elements, just a string value
+                // try to convert this string value to a member value
 
                 if (member.CanSetValue)
                 {
-                    if (!el.HasElements && !el.Value.IsNullOrEmpty())
-                    {
-                        throw new NotImplementedException();
-                        // not supported at the moment
-                        // for element to have value, mapped member would need to be convertable to string
-                        // but members convertable to string are serialized to attributes by default
-                    }
-                    else
-                    {
-                        // element should have exactly one non-attached sub-element
-                        // which acts like a wrapper
+                    var value = DeserializeInternal(memberType, el, typeDescriptor, options, cx);
 
-                        var wrapper =
-                            (from xel in el.Elements()
-                             where !xel.IsAttached()
-                             select xel).Single();
-
-                        var typeAttribute = (XAttribute)null;// wrapper.Attribute(TypeAttributeName);
-
-                        var elementType = (Type)null;
-
-                        if (typeAttribute != null)
-                        {
-                            elementType =
-                                TypeResolver.ResolveType(
-                                typeAttribute.Value,
-                                ignoreCase: true);
-                        }
-                        else
-                        {
-                            elementType =
-                                    TypeResolver.ResolveType(
-                                    wrapper.Name.LocalName,
-                                    ignoreCase: true,
-                                    baseTypes: new List<Type> { memberType });
-                        }
-
-
-                        if (elementType == null)
-                        {
-                            // type could not be resolver
-                            // todo: log
-                            continue;
-                        }
-
-                        value = DeserializeInternal(elementType, wrapper, typeDescriptor, options, cx);
-
-                        member.SetValue(target, value);
-                    }
+                    member.SetValue(target, value);
+                    return;
                 }
                 else
                 {
-                    var list = member.GetValue(target) as IList;
-
-                    if(list != null)
-                    {
-                        DeserializeList(el, list, typeDescriptor, options, cx);
-                    }
+                    // log warning
+                    return;
                 }
             }
+            else
+            {
+                //var typeAttribute = (XAttribute)null;// wrapper.Attribute(TypeAttributeName);
+                //        //    var elementType = (Type)null;
+                //        //    if (typeAttribute != null)
+                //        //    {
+                //        //        elementType =
+                //        //            TypeResolver.ResolveType(
+                //        //            typeAttribute.Value,
+                //        //            ignoreCase: true);
+                //        //    }
 
-            return target;
+                var childElements =
+                    (from xel in el.Elements()
+                     where !xel.IsAttached()
+                     select xel).ToList();
+
+                    if (childElements.Count == 1)
+                    {
+                        if (TryUpdateMemberFromPotentialWrapperElement(target, memberType, member, childElements.Single(), typeDescriptor, options, cx))
+                            return;
+                    }
+
+                    if (memberValue == null)
+                    {
+                        if (member.CanSetValue)
+                        {
+                            if (memberType.IsAbstract || memberType.IsInterface)
+                            {
+                                // log warning
+                                return;
+                            }
+
+                            var value = DeserializeInternal(memberType, el, typeDescriptor, options, cx);
+                            member.SetValue(target, value);
+                            return;
+                        }
+                        else
+                        {
+                            // cannot set value and existing value is null, log warning
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        // use type of actual member value instead of member type
+                        memberType = memberValue.GetType();
+
+                        var memberTypeDescription = typeDescriptor.DescribeType(memberType);
+
+                        DeserializeInternal(memberValue, memberTypeDescription, memberType, el, typeDescriptor, options, cx);
+                    }
+                }
+        }
+
+        bool TryUpdateMemberFromPotentialWrapperElement(
+            object target,
+            Type memberType,
+            ITypeMemberDescription member,
+            XElement wrapperCandidate,
+            ITypeDescriptor typeDescriptor,
+            SerializationOptions options,
+            DeserializationContext cx)
+        {
+
+            var wrapperCandidateType =
+                TypeResolver.ResolveType(
+                wrapperCandidate.Name.LocalName,
+                ignoreCase: true);
+
+            if (wrapperCandidateType != null && memberType.IsAssignableFrom(wrapperCandidateType))
+            {
+                // this is a wrapper, deserialize it and assign
+                var value = DeserializeInternal(wrapperCandidateType, wrapperCandidate, typeDescriptor, options, cx);
+
+                member.SetValue(target, value);
+
+                return true;
+            }
+
+            return false;
         }
 
         void DeserializeList(

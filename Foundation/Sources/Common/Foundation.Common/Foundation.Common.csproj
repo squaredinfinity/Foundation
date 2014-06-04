@@ -61,6 +61,7 @@
     <Compile Include="FrameworkExtensions\System.Collections\IList.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.ComponentModel\INotifyPropertyChanged.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Diagnostics\Stopwatch.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System.IO\Stream.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Linq.Expressions\Expression.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Threading.Tasks\ParallelExtensions.cs" />
     <Compile Include="FrameworkExtensions\System.Xml.Linq\XAttribute.extensions.cs" />

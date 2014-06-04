@@ -8,5 +8,6 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
     public class SerializationOptions
     {
+
     }
 }
