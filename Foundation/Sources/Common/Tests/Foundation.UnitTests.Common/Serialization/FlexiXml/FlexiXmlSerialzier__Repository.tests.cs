@@ -24,7 +24,12 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             var xDoc = XDocument.Parse(xml);
 
             var s = new FlexiXmlSerializer();
-            var o = s.Deserialize<TestRoot>(xDoc);
+
+            var options = new SerializationOptions();
+            options.UniqueIdAttributeName = XName.Get("name");
+            options.UniqueIdReferenceAttributeName = XName.Get("ref");
+
+            var o = s.Deserialize<TestRoot>(xDoc, options);
         }
 
         public class TestRoot
@@ -47,7 +52,8 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
         public class Email
         {
-            public IFormatter Formatter { get; set; }
+            public IFormatter SubjectFormatter { get; set; }
+            public IFormatter BodyFormatter { get; set; }
         }
 
         public interface IFormatter

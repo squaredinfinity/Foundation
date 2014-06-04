@@ -18,23 +18,41 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
     {
         public T Deserialize<T>(string xml)
         {
+            return Deserialize<T>(xml, new SerializationOptions());
+        }
+
+        public T Deserialize<T>(string xml, SerializationOptions options)
+        {
             var xDoc = XDocument.Parse(xml);
 
-            return Deserialize<T>(xDoc);
+            return Deserialize<T>(xDoc, options);
         }
 
         public T Deserialize<T>(XDocument xml)
         {
-            return Deserialize<T>(xml.Root);
+            return Deserialize<T>(xml, new SerializationOptions());
+        }
+
+        public T Deserialize<T>(XDocument xml, SerializationOptions options)
+        {
+            return Deserialize<T>(xml.Root, options);
         }
 
         public T Deserialize<T>(XElement xml)
         {
+            return Deserialize<T>(xml, new SerializationOptions());
+        }
+
+        public T Deserialize<T>(XElement xml, SerializationOptions options)
+        {
             var cx = new DeserializationContext();
+
+            if (options == null)
+                options = new SerializationOptions();
 
             var type = typeof(T);
 
-            var root = DeserializeInternal(type, xml, new ReflectionBasedTypeDescriptor(), new SerializationOptions(), cx);
+            var root = DeserializeInternal(type, xml, new ReflectionBasedTypeDescriptor(), options, cx);
 
             return (T)root;
         }
@@ -48,7 +66,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             //# check serialization control attributes first
 
             // ID REF Attribute is used to indicate that this element should point to the instance identified by id_ref attribute
-            var id_ref_attrib = xml.Attribute(UniqueIdReferenceAttributeName);
+            var id_ref_attrib = xml.Attribute(options.UniqueIdReferenceAttributeName);
 
             if(id_ref_attrib != null)
             {
@@ -81,7 +99,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             }            
 
             //# keep track of target instance for future use
-            var id_attrib = xml.Attribute(UniqueIdAttributeName);
+            var id_attrib = xml.Attribute(options.UniqueIdAttributeName);
 
             if(id_attrib != null)
             {
@@ -104,14 +122,14 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             SerializationOptions options, 
             DeserializationContext cx)
         {
-            var nonRefAttributes =
+            var memberMappingCandidateAttributes =
                 (from a in xml.Attributes()
-                 where !a.Name.LocalName.EndsWith(UniqueIdReferenceAttributeSuffix)
+                 where !a.Name.LocalName.EndsWith(options.UniqueIdReferenceAttributeSuffix)
                         && a.Name.Namespace == XNamespace.None
                  select a);
 
             //# Map element attributes to target memebers
-            foreach (var attribute in nonRefAttributes)
+            foreach (var attribute in memberMappingCandidateAttributes)
             {
                 var member =
                     (from f in targetTypeDescription.Members
@@ -122,34 +140,44 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                      && f.CanGetValue
                      select f).FirstOrDefault();
 
-                var memberType = Type.GetType(member.AssemblyQualifiedMemberTypeName);
-
-                var value = (object)null;
-
-                if (TryConvertFromStringIfTypeSupports(attribute.Value, memberType, out value))
+                if (member == null)
                 {
-                    member.SetValue(target, value);
+                    if (attribute.Name != options.UniqueIdAttributeName && attribute.Name != options.UniqueIdReferenceAttributeName)
+                    {
+                        // log warning
+                    }
+                }
+                else
+                {
+                    var memberType = Type.GetType(member.AssemblyQualifiedMemberTypeName);
+
+                    var value = (object)null;
+
+                    if (TryConvertFromStringIfTypeSupports(attribute.Value, memberType, out value))
+                    {
+                        member.SetValue(target, value);
+                    }
                 }
             }
 
-            var refAttributes =
+            var propertyReferenceAttributes =
                (from a in xml.Attributes()
-                where a.Name.LocalName.EndsWith(UniqueIdReferenceAttributeSuffix)
+                where a.Name.LocalName.EndsWith(options.UniqueIdReferenceAttributeSuffix)
                 && a.Name.Namespace == XNamespace.None
                 select a);
 
             //# Resolve references of id ref attributes (e.g. someProperty.ref="xxx")
-            foreach (var attribute in refAttributes)
+            foreach (var attribute in propertyReferenceAttributes)
             {
                 var attribLocalName = attribute.Name.LocalName;
 
-                var memberName = attribLocalName.Substring(0, attribLocalName.Length - UniqueIdReferenceAttributeSuffix.Length);
+                var memberName = attribLocalName.Substring(0, attribLocalName.Length - options.UniqueIdReferenceAttributeSuffix.Length);
 
                 var member =
                     (from f in targetTypeDescription.Members
                      where
                      !f.IsExplicitInterfaceImplementation
-                     && f.Name == attribute.Name
+                     && string.Equals(f.Name, memberName, StringComparison.InvariantCultureIgnoreCase)
                      && f.CanSetValue
                      && f.CanGetValue
                      select f).FirstOrDefault();
@@ -357,7 +385,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
         Type ResolveType(XElement el, IReadOnlyList<Type> baseTypes, SerializationOptions options, DeserializationContext cx)
         {
-            var namespaceAttribute = el.Attributes(NamespaceAttributeName).FirstOrDefault();
+            var namespaceAttribute = el.Attributes(options.NamespaceAttributeName).FirstOrDefault();
 
             var ns = (XAttribute) null;
 

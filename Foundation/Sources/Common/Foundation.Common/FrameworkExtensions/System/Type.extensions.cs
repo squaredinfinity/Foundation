@@ -29,7 +29,12 @@ namespace SquaredInfinity.Foundation.Extensions
         /// <returns></returns>
         public static bool ImplementsInterface(this Type type, Type interfaceType)
         {
-            return type.GetInterface(interfaceType.FullName, ignoreCase: true) != null;
+            var result =
+                (from i in type.GetInterfaces()
+                 where string.Equals(i.AssemblyQualifiedName, interfaceType.AssemblyQualifiedName, StringComparison.InvariantCultureIgnoreCase)
+                 select i).Any();
+
+            return result;
         }
 
         /// <summary>
@@ -40,7 +45,12 @@ namespace SquaredInfinity.Foundation.Extensions
         /// <returns></returns>
         public static bool ImplementsInterface(this Type type, string interfaceFullName)
         {
-            return type.GetInterface(interfaceFullName, ignoreCase:true) != null;
+            var result =
+                (from i in type.GetInterfaces()
+                 where string.Equals(i.FullName, interfaceFullName, StringComparison.InvariantCultureIgnoreCase)
+                 select i).Any();
+
+            return result;
         }
 
         /// <summary>

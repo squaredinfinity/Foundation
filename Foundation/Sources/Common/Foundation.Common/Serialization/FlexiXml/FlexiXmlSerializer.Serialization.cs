@@ -52,7 +52,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 var idNodes =
                     (from e in root.DescendantsAndSelf()
                      from a in e.Attributes()
-                     where a.Name == UniqueIdAttributeName
+                     where a.Name == options.UniqueIdAttributeName
                      select a);
 
                 foreach (var idAttrib in idNodes)
@@ -94,7 +94,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             //# source has been serialized before
             if (!isNewReference)
             {
-                var idAttrib = new XAttribute(UniqueIdReferenceAttributeName, id.Id);
+                var idAttrib = new XAttribute(options.UniqueIdReferenceAttributeName, id.Id);
 
                 id.IncrementReferenceCount();
 
@@ -205,7 +205,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 }
             }
 
-            target.Add(new XAttribute(UniqueIdAttributeName, id.Id));
+            target.Add(new XAttribute(options.UniqueIdAttributeName, id.Id));
 
             target.AddAnnotation(typeDescription);
         }
