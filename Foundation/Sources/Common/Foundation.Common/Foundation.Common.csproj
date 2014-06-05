@@ -45,6 +45,7 @@
     <Compile Include="ChainOfCommand.cs" />
     <Compile Include="Collections\CollectionEx.cs" />
     <Compile Include="Collections\CollectionContentChangedEventArgs.cs" />
+    <Compile Include="Collections\ICollectionEx.cs" />
     <Compile Include="Collections\INotifyCollectionContentChanged.cs" />
     <Compile Include="Collections\IBulkUpdatesCollection.cs" />
     <Compile Include="Collections\PriorityQueue.cs" />

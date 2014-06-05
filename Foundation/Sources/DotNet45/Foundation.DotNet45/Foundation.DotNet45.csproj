@@ -51,6 +51,9 @@
     <Compile Include="..\..\Common\Foundation.Common\Collections\IBulkUpdatesCollection.cs">
       <Link>Collections\IBulkUpdatesCollection.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\ICollectionEx.cs">
+      <Link>Collections\ICollectionEx.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Collections\INotifyCollectionContentChanged.cs">
       <Link>Collections\INotifyCollectionContentChanged.cs</Link>
     </Compile>

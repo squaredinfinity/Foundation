@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Foundation.Collections
 {
     public class CollectionEx<TItem> : 
-        Collection<TItem>, 
+        Collection<TItem>,
+        ICollectionEx<TItem>,
         IBulkUpdatesCollection<TItem>, 
         INotifyCollectionContentChanged
     {
@@ -82,6 +83,19 @@ namespace SquaredInfinity.Foundation.Collections
                     Items.RemoveAt(index);
 
                 OnVersionChangedInternal();
+            }
+        }
+
+        public virtual void Replace(TItem oldItem, TItem newItem)
+        {
+            using(UpdateLock.AcquireUpgradeableReadLock())
+            {
+                var oldIndex = IndexOf(oldItem);
+
+                if (oldIndex < 0)
+                    return;
+
+                SetItem(oldIndex, newItem);
             }
         }
 
