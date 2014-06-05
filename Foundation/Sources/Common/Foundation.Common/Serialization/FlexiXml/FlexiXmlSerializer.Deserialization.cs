@@ -245,6 +245,27 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 return;
             }
 
+            // ID REF Attribute is used to indicate that this element should point to the instance identified by id_ref attribute
+            var id_ref_attrib = el.Attribute(options.UniqueIdReferenceAttributeName);
+
+            if (id_ref_attrib != null)
+            {
+                var instanceId = new InstanceId(id_ref_attrib.Value);
+
+                var referencedValue = (object) null;
+
+                if (cx.Objects_InstanceIdTracker.TryGetValue(instanceId, out referencedValue))
+                {
+                    member.SetValue(target, referencedValue);
+                    return;
+                }
+                else
+                {
+                    // todo: log, this should always resolve unless serialization xml is corrupted
+                    return;
+                }
+            }
+
             var memberType = Type.GetType(member.AssemblyQualifiedMemberTypeName);
 
             var memberValue = member.GetValue(target);

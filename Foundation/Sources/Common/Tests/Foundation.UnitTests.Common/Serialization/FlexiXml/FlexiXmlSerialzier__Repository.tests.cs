@@ -30,6 +30,17 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             options.UniqueIdReferenceAttributeName = XName.Get("ref");
 
             var o = s.Deserialize<TestRoot>(xDoc, options);
+
+            Assert.IsNotNull(o);
+
+            Assert.AreEqual(2, o.Repository.Formatters.Count);
+            Assert.AreEqual(2, o.Emails.Count);
+
+            Assert.AreSame(o.Repository.Formatters[0], o.Emails[0].BodyFormatter);
+            Assert.AreSame(o.Repository.Formatters[1], o.Emails[0].SubjectFormatter);
+
+            Assert.AreSame(o.Repository.Formatters[0], o.Emails[1].BodyFormatter);
+            Assert.AreSame(o.Repository.Formatters[1], o.Emails[1].SubjectFormatter);
         }
 
         public class TestRoot

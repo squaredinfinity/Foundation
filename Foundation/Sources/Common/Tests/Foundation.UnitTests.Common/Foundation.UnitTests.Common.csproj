@@ -115,6 +115,7 @@
     <Compile Include="WeakEvent.tests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="FrameworkExtensions\System.Collections\IEnumerable\" />
     <Folder Include="Serialization\FlexiXml\TestEntities\Repository\" />
   </ItemGroup>
   <ItemGroup>
