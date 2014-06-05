@@ -175,7 +175,9 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
         { }
 
         public ViewModel(IUIService uiService)
-        { }
+        {
+            this.UIService = uiService;
+        }
 
         internal event EventHandler<AfterViewModelEventRaisedArgs> AfterViewModelEventRaised;
 

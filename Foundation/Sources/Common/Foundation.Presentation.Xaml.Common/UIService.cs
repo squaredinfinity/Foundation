@@ -14,7 +14,7 @@ namespace SquaredInfinity.Foundation.Presentation
 {
     public abstract class UIService : IUIService
     {
-        static Dispatcher GetMainThreadDispatcher()
+        internal static Dispatcher GetMainThreadDispatcher()
         {
             if (Application.Current != null && Application.Current.Dispatcher != null)
                 return Application.Current.Dispatcher;

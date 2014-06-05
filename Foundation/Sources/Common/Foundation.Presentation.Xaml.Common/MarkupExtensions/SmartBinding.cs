@@ -18,6 +18,9 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
         BindingBase InternalBinding { get; set; }
 
         public string Source { get; set; }
+
+        public RelativeSource RelativeSource { get; set; }
+
         public IValueConverter Converter { get; set; }
 
         public object ConverterParameter { get; set; }
@@ -32,6 +35,9 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 
             binding.Delay = Delay;
             binding.UpdateSourceTrigger = UpdateSourceTrigger;
+
+            if(RelativeSource != null)
+                binding.RelativeSource = RelativeSource;
         }
 
         protected static void UpdateBindingFromSource(Binding binding, string source)
@@ -51,7 +57,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                             binding.Path = new PropertyPath(source.Substring(ix_dot + 1));
                         }
                     }
-                    else if(source.StartsWith("@Self"))
+                    else if (source.StartsWith("@Self"))
                     {
                         binding.RelativeSource = new RelativeSource(RelativeSourceMode.Self);
 

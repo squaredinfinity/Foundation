@@ -13,13 +13,23 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
     {
         class CommandMethodConverter : IValueConverter
         {
-            readonly string MethodName;
 
             ICommand InvokeMethodCommand;
+            readonly string ExecuteMethodName;
+            readonly string CanExecuteMethodName;
+            readonly string CanExecutePropertyName;
+            readonly string CanExecuteTriggerPropertyName;
 
-            public CommandMethodConverter(string methodName)
+            public CommandMethodConverter(
+                string executeMethodName, 
+                string canExecuteMethodName, 
+                string canExecutePropertyName, 
+                string canExecuteTriggerPropertyName)
             {
-                this.MethodName = methodName;
+                ExecuteMethodName = executeMethodName;
+                CanExecuteMethodName = canExecuteMethodName;
+                CanExecutePropertyName = canExecutePropertyName;
+                CanExecuteTriggerPropertyName = canExecuteTriggerPropertyName;
             }
 
             public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -27,7 +37,13 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                 if (value == null)
                     return DependencyProperty.UnsetValue;
                 
-                InvokeMethodCommand = new InvokeMethodCommand(value, MethodName);
+                InvokeMethodCommand = 
+                    new InvokeMethodCommand(
+                        value, 
+                        ExecuteMethodName, 
+                        CanExecuteMethodName, 
+                        CanExecutePropertyName,
+                        CanExecuteTriggerPropertyName);
 
                 return InvokeMethodCommand;
             }

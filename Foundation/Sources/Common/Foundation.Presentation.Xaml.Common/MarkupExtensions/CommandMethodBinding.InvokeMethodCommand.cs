@@ -1,79 +1,165 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Input;
+using SquaredInfinity.Foundation.Extensions;
+using System.Windows;
 
 namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 {
     public partial class CommandMethodBinding : SmartBinding
     {
+        /// <summary>
+        /// Implementation of ICommand which calls method with [MethodName] when executing.
+        /// Calls Can[MethodName] to check enabled state.
+        /// If [MethodName] owner implements INotifyPropertyChanged then changes to property called Can[MethodName] will be monitored
+        /// and when changed CanExecute state will be reevaluated.
+        /// </summary>
         class InvokeMethodCommand : ICommand
         {
             public event EventHandler CanExecuteChanged;
 
-            protected readonly object TargetObject;
-            protected readonly string MethodName;
+            readonly object TargetObject;
+            readonly string ExecuteMethodName;
+            readonly string CanExecuteTriggerPropertyName;
 
-            protected readonly MethodInfo ExecuteMethodInfo;
-            protected readonly MethodInfo CanExecuteMethodInfo;
+            readonly MethodInfo ExecuteMethodInfo;
+            readonly MethodInfo CanExecuteMethodInfo;
+            readonly PropertyInfo CanExecutePropertyInfo;
+            
+            readonly bool ExecuteAcceptsParameter;
+            readonly bool CanExecuteAcceptsParameter;
 
-            protected readonly bool ExecuteAcceptsParameter;
-            protected readonly bool CanExecuteAcceptsParameter;
+            IDisposable CanExecuteNotifyPropertyChangedSubscription;
 
-            public InvokeMethodCommand(object targetObject, string methodName)
+            public InvokeMethodCommand(
+                object targetObject, 
+                string executeMethodName, 
+                string canExecuteMethodName, 
+                string canExecutePropertyName,
+                string canExecuteTriggerPropertyName)
             {
-                this.TargetObject = targetObject;
-                this.MethodName = methodName;
+                TargetObject = targetObject;
+                ExecuteMethodName = executeMethodName;
+                CanExecuteTriggerPropertyName = canExecuteTriggerPropertyName;
 
                 var targetType = targetObject.GetType();
 
-                var executeMethodInfo = (MethodInfo)null;
+                //# Find Execute Method
 
-                executeMethodInfo =
-                    (from m in targetType.GetMethods()
-                     where m.GetParameters().Length == 0 && m.Name == methodName
-                     select m).FirstOrDefault();
-
-                var canExecuteMethodInfo = (MethodInfo)null;
-                
-                var canExecuteMethodName = "Can" + methodName;
-
-                canExecuteMethodInfo =
-                    (from m in targetType.GetMethods()
-                     where m.GetParameters().Length == 0 && m.Name == canExecuteMethodName
-                     select m).FirstOrDefault();
-
-                this.ExecuteMethodInfo = executeMethodInfo;
-                this.CanExecuteMethodInfo = canExecuteMethodInfo;
-
-                if (ExecuteMethodInfo == null)
+                // first try to find execute method which accepts exactly one parameter
+                // if this fails, find one without any parameters
+                if (!executeMethodName.IsNullOrEmpty())
                 {
-                    // log warning
-                }
-                else
-                {
-                    this.ExecuteAcceptsParameter = ExecuteMethodInfo.GetParameters().Any();
+                    ExecuteMethodInfo =
+                        (from m in targetType.GetMethods()
+                         where m.GetParameters().Length == 1 && m.Name == executeMethodName
+                         select m).FirstOrDefault();
+
+                    if (ExecuteMethodInfo == null)
+                    {
+                        ExecuteMethodInfo =
+                        (from m in targetType.GetMethods()
+                         where m.GetParameters().Length == 0 && m.Name == executeMethodName
+                         select m).FirstOrDefault();
+                    }
+                    if (ExecuteMethodInfo == null)
+                    {
+                        // todo: log warning
+                    }
+                    else
+                    {
+                        ExecuteAcceptsParameter = ExecuteMethodInfo.GetParameters().Any();
+                    }
                 }
 
-                if (CanExecuteMethodInfo != null)
-                    this.CanExecuteAcceptsParameter = CanExecuteMethodInfo.GetParameters().Any();
+                //# Find Can Execute Method
+                if (!canExecuteMethodName.IsNullOrEmpty())
+                {
+                    // first try to find can execute method which accepts exactly one parameter
+                    // if this fails, find one without any parameters
+                    CanExecuteMethodInfo =
+                        (from m in targetType.GetMethods()
+                         where m.GetParameters().Length == 1 && m.Name == canExecuteMethodName
+                         select m).FirstOrDefault();
+
+                    if (CanExecuteMethodInfo == null)
+                    {
+                        CanExecuteMethodInfo =
+                        (from m in targetType.GetMethods()
+                         where m.GetParameters().Length == 0 && m.Name == canExecuteMethodName
+                         select m).FirstOrDefault();
+                    }
+
+                    if (CanExecuteMethodInfo != null)
+                        CanExecuteAcceptsParameter = CanExecuteMethodInfo.GetParameters().Any();
+                }
+
+                //# Find Can Execute Property
+                if (!canExecutePropertyName.IsNullOrEmpty())
+                {
+                    CanExecutePropertyInfo =
+                        (from p in targetType.GetProperties()
+                         where p.CanRead && p.Name == canExecutePropertyName && p.PropertyType == typeof(bool)
+                         select p).FirstOrDefault();
+                }
+
+                //# Subscribe to change in INotifyPropertyChanged
+                var inpc = targetObject as INotifyPropertyChanged;
+                if(inpc != null)
+                {
+                    CanExecuteNotifyPropertyChangedSubscription =
+                        inpc.CreateWeakEventHandler()
+                        .ForEvent<PropertyChangedEventHandler, PropertyChangedEventArgs>(
+                        (s, h) => s.PropertyChanged += h,
+                        (s, h) => s.PropertyChanged -= h)
+                        .Subscribe((s, args) => 
+                            {
+                                if (args.PropertyName == canExecuteMethodName
+                                    || args.PropertyName == canExecuteTriggerPropertyName)
+                                {
+                                    RaiseCanExecuteChanged();
+                                }
+                            });
+                }
+            }
+
+            void RaiseCanExecuteChanged()
+            {
+                if (CanExecuteChanged != null)
+                {
+                    // it is required for CanExecuteChanged handlers to run on UI Thread
+                    // because most XAML control handlers (e.g. on button control) will try to access UI elements in some way.
+
+                    var dispatcher = UIService.GetMainThreadDispatcher();
+
+                    if(!dispatcher.CheckAccess())
+                    {
+                        dispatcher.Invoke(new Action(() => RaiseCanExecuteChanged()));
+                        return;
+                    }
+
+                    CanExecuteChanged(this, EventArgs.Empty);
+                }
             }
 
             public bool CanExecute(object parameter)
             {
                 if (CanExecuteMethodInfo == null)
-                    return true;
+                {
+                    if (CanExecutePropertyInfo == null)
+                        return true;
+                    else
+                        return (bool)CanExecutePropertyInfo.GetValue(TargetObject);
+                }
 
                 if (CanExecuteAcceptsParameter)
-                {
                     return (bool)CanExecuteMethodInfo.Invoke(TargetObject, new object[] { parameter });
-                }
                 else
-                {
                     return (bool)CanExecuteMethodInfo.Invoke(TargetObject, null);
-                }
             }
 
             public void Execute(object parameter)
