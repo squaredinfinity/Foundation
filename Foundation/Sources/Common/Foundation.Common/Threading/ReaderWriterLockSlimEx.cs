@@ -10,9 +10,9 @@ namespace SquaredInfinity.Foundation.Threading
     public partial class ReaderWriterLockSlimEx : ILock
     {
         readonly internal ReaderWriterLockSlim InternalLock;
-
-        public ReaderWriterLockSlimEx()
-            : this(new ReaderWriterLockSlim())
+        
+        public ReaderWriterLockSlimEx(LockRecursionPolicy recursionPolicy = LockRecursionPolicy.NoRecursion)
+            : this(new ReaderWriterLockSlim(recursionPolicy))
         { }
 
         public ReaderWriterLockSlimEx(ReaderWriterLockSlim readerWriterLock)
