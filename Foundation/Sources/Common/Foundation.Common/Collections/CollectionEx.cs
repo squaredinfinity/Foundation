@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Collections
@@ -15,7 +16,7 @@ namespace SquaredInfinity.Foundation.Collections
         IBulkUpdatesCollection<TItem>, 
         INotifyCollectionContentChanged
     {
-        readonly ILock UpdateLock = new ReaderWriterLockSlimEx();
+        readonly protected ILock CollectionLock = new ReaderWriterLockSlimEx(LockRecursionPolicy.SupportsRecursion);
 
         public CollectionEx()
         { }
@@ -26,7 +27,7 @@ namespace SquaredInfinity.Foundation.Collections
 
         protected override void ClearItems()
         {
-            using (UpdateLock.AcquireWriteLock())
+            using (CollectionLock.AcquireWriteLock())
             {
                 base.ClearItems();
 
@@ -36,7 +37,7 @@ namespace SquaredInfinity.Foundation.Collections
 
         protected override void InsertItem(int index, TItem item)
         {
-            using (UpdateLock.AcquireWriteLock())
+            using (CollectionLock.AcquireWriteLock())
             {
                 base.InsertItem(index, item);
 
@@ -46,7 +47,7 @@ namespace SquaredInfinity.Foundation.Collections
 
         protected override void RemoveItem(int index)
         {
-            using (UpdateLock.AcquireWriteLock())
+            using (CollectionLock.AcquireWriteLock())
             {
                 base.RemoveItem(index);
 
@@ -56,7 +57,7 @@ namespace SquaredInfinity.Foundation.Collections
 
         protected override void SetItem(int index, TItem item)
         {
-            using (UpdateLock.AcquireWriteLock())
+            using (CollectionLock.AcquireWriteLock())
             {
                 base.SetItem(index, item);
 
@@ -66,7 +67,7 @@ namespace SquaredInfinity.Foundation.Collections
 
         public virtual void AddRange(IEnumerable<TItem> items)
         {
-            using(UpdateLock.AcquireWriteLock())
+            using(CollectionLock.AcquireWriteLock())
             {
                 foreach (var item in items)
                     Items.Add(item);
@@ -77,7 +78,7 @@ namespace SquaredInfinity.Foundation.Collections
 
         public virtual void RemoveRange(int index, int count)
         {
-            using(UpdateLock.AcquireWriteLock())
+            using(CollectionLock.AcquireWriteLock())
             {
                 for (int i = index; i < index + count; i++)
                     Items.RemoveAt(index);
@@ -88,7 +89,7 @@ namespace SquaredInfinity.Foundation.Collections
 
         public virtual void Replace(TItem oldItem, TItem newItem)
         {
-            using(UpdateLock.AcquireUpgradeableReadLock())
+            using(CollectionLock.AcquireUpgradeableReadLock())
             {
                 var oldIndex = IndexOf(oldItem);
 
@@ -101,7 +102,7 @@ namespace SquaredInfinity.Foundation.Collections
 
         public virtual void Reset(IEnumerable<TItem> newItems)
         {
-            using(UpdateLock.AcquireWriteLock())
+            using(CollectionLock.AcquireWriteLock())
             {
                 Items.Clear();
 
