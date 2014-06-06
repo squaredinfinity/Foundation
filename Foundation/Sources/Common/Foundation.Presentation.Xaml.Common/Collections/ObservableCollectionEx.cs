@@ -16,9 +16,9 @@ using System.Windows.Threading;
 
 namespace SquaredInfinity.Foundation.Collections
 {
-    public partial class ObservableCollectionEx<TItem> : Collection<TItem>
+    public partial class ObservableCollectionEx<TItem> : Collection<TItem>, ICollectionEx<TItem>
     {
-        readonly ILock CollectionLock = new ReaderWriterLockSlimEx();
+        readonly protected ILock CollectionLock = new ReaderWriterLockSlimEx(LockRecursionPolicy.SupportsRecursion);
 
         readonly Dispatcher Dispatcher;
 
@@ -68,6 +68,19 @@ namespace SquaredInfinity.Foundation.Collections
             using(lockAcquisition)
             { 
                 accessMethod();
+            }
+        }
+
+        public virtual void Replace(TItem oldItem, TItem newItem)
+        {
+            using (CollectionLock.AcquireUpgradeableReadLock())
+            {
+                var oldIndex = IndexOf(oldItem);
+
+                if (oldIndex < 0)
+                    return;
+
+                SetItem(oldIndex, newItem);
             }
         }
 
