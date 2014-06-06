@@ -23,8 +23,20 @@ namespace SquaredInfinity.Foundation.Collections
         {
             Interlocked.Increment(ref _version);
 
+            OnVersionChangedInternal(_version);
+        }
+
+        void OnVersionChangedInternal(int newVersion)
+        {
+            OnVersionChanged(newVersion);
+
             if (VersionChanged != null)
-                VersionChanged(this, new CollectionContentChangedEventArgs(_version));
+                VersionChanged(this, new CollectionContentChangedEventArgs(newVersion));
+        }
+
+        protected virtual void OnVersionChanged(int newVersion)
+        {
+
         }
     }
 }
