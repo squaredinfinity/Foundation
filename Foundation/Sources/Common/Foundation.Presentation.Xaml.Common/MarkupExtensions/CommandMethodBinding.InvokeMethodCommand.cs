@@ -26,12 +26,13 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
             readonly string ExecuteMethodName;
             readonly string CanExecuteTriggerPropertyName;
 
-            readonly MethodInfo ExecuteMethodInfo;
-            readonly MethodInfo CanExecuteMethodInfo;
-            readonly PropertyInfo CanExecutePropertyInfo;
+            readonly MethodInfo ExecuteMethodInfo_NoParameters;
+            readonly MethodInfo ExecuteMethodInfo_OneParameter;
             
-            readonly bool ExecuteAcceptsParameter;
-            readonly bool CanExecuteAcceptsParameter;
+            readonly MethodInfo CanExecuteMethodInfo_NoParameters;
+            readonly MethodInfo CanExecuteMethodInfo_OneParameter;
+
+            readonly PropertyInfo CanExecutePropertyInfo;
 
             IDisposable CanExecuteNotifyPropertyChangedSubscription;
 
@@ -54,26 +55,15 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                 // if this fails, find one without any parameters
                 if (!executeMethodName.IsNullOrEmpty())
                 {
-                    ExecuteMethodInfo =
+                    ExecuteMethodInfo_OneParameter =
                         (from m in targetType.GetMethods()
                          where m.GetParameters().Length == 1 && m.Name == executeMethodName
                          select m).FirstOrDefault();
 
-                    if (ExecuteMethodInfo == null)
-                    {
-                        ExecuteMethodInfo =
+                    ExecuteMethodInfo_NoParameters =
                         (from m in targetType.GetMethods()
                          where m.GetParameters().Length == 0 && m.Name == executeMethodName
                          select m).FirstOrDefault();
-                    }
-                    if (ExecuteMethodInfo == null)
-                    {
-                        // todo: log warning
-                    }
-                    else
-                    {
-                        ExecuteAcceptsParameter = ExecuteMethodInfo.GetParameters().Any();
-                    }
                 }
 
                 //# Find Can Execute Method
@@ -81,21 +71,15 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                 {
                     // first try to find can execute method which accepts exactly one parameter
                     // if this fails, find one without any parameters
-                    CanExecuteMethodInfo =
+                    CanExecuteMethodInfo_OneParameter =
                         (from m in targetType.GetMethods()
                          where m.GetParameters().Length == 1 && m.Name == canExecuteMethodName
                          select m).FirstOrDefault();
 
-                    if (CanExecuteMethodInfo == null)
-                    {
-                        CanExecuteMethodInfo =
-                        (from m in targetType.GetMethods()
-                         where m.GetParameters().Length == 0 && m.Name == canExecuteMethodName
-                         select m).FirstOrDefault();
-                    }
-
-                    if (CanExecuteMethodInfo != null)
-                        CanExecuteAcceptsParameter = CanExecuteMethodInfo.GetParameters().Any();
+                    CanExecuteMethodInfo_NoParameters =
+                    (from m in targetType.GetMethods()
+                     where m.GetParameters().Length == 0 && m.Name == canExecuteMethodName
+                     select m).FirstOrDefault();
                 }
 
                 //# Find Can Execute Property
@@ -148,29 +132,80 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 
             public bool CanExecute(object parameter)
             {
-                if (CanExecuteMethodInfo == null)
+                if(parameter == null)
                 {
-                    if (CanExecutePropertyInfo == null)
-                        return true;
-                    else
+                    // if can execute accepts reference type as parameter -> execute it passing null
+                    // NOTE:    if can execute accepts value type parameter, than we should not just pass null to it
+                    //          since it would be internally converted to a default value (see http://msdn.microsoft.com/en-us/library/a89hcwhh(v=vs.110).aspx)
+                    //          In that case we will just call can execute without parameters or get value of can execute property
+
+                    if(CanExecuteMethodInfo_OneParameter != null 
+                        && !CanExecuteMethodInfo_OneParameter.GetParameters().Single().ParameterType.IsValueType)
+                    {
+                        return (bool)CanExecuteMethodInfo_OneParameter.Invoke(TargetObject, new [] { parameter });
+                    }
+
+                    if(CanExecuteMethodInfo_NoParameters != null)
+                        return (bool)CanExecuteMethodInfo_NoParameters.Invoke(TargetObject, null);
+
+                    if(CanExecutePropertyInfo != null)
+                        return (bool)CanExecutePropertyInfo.GetValue(TargetObject);
+                }
+                else
+                {
+                    // parameter has value, pass it to can execute method
+                    if(CanExecuteMethodInfo_OneParameter != null)
+                        return (bool)CanExecuteMethodInfo_OneParameter.Invoke(TargetObject, new [] { parameter });
+
+                    // we can get here if xaml specifies command parameter, but can execute does not exept it
+                    // todo: log warning or information
+
+                    if(CanExecuteMethodInfo_NoParameters != null)
+                        return (bool)CanExecuteMethodInfo_NoParameters.Invoke(TargetObject, null);
+
+                    if(CanExecutePropertyInfo != null)
                         return (bool)CanExecutePropertyInfo.GetValue(TargetObject);
                 }
 
-                if (CanExecuteAcceptsParameter)
-                    return (bool)CanExecuteMethodInfo.Invoke(TargetObject, new object[] { parameter });
-                else
-                    return (bool)CanExecuteMethodInfo.Invoke(TargetObject, null);
+                return true;
             }
 
             public void Execute(object parameter)
             {
-                if (ExecuteAcceptsParameter)
+                if (parameter == null)
                 {
-                    ExecuteMethodInfo.Invoke(TargetObject, new object[] { parameter });
+                    // if execute accepts reference type as parameter -> execute it passing null
+                    // NOTE:    if execute accepts value type parameter, than we should not just pass null to it
+                    //          since it would be internally converted to a default value (see http://msdn.microsoft.com/en-us/library/a89hcwhh(v=vs.110).aspx)
+                    //          In that case we will just call execute without parameters
+
+                    if (ExecuteMethodInfo_OneParameter != null
+                        && !ExecuteMethodInfo_OneParameter.GetParameters().Single().ParameterType.IsValueType)
+                    {
+                        ExecuteMethodInfo_OneParameter.Invoke(TargetObject, new[] { parameter });
+                        return;
+                    }
+
+                    if (ExecuteMethodInfo_NoParameters != null)
+                    {
+                        ExecuteMethodInfo_NoParameters.Invoke(TargetObject, null);
+                        return;
+                    }
                 }
                 else
                 {
-                    ExecuteMethodInfo.Invoke(TargetObject, null);
+                    // parameter has value, pass it to execute method
+                    if (ExecuteMethodInfo_OneParameter != null)
+                    {
+                        ExecuteMethodInfo_OneParameter.Invoke(TargetObject, new[] { parameter });
+                        return;
+                    }
+
+                    // we can get here if xaml specifies command parameter, but execute does not exept it
+                    // todo: log warning or information
+
+                    if (ExecuteMethodInfo_NoParameters != null)
+                        ExecuteMethodInfo_NoParameters.Invoke(TargetObject, null);;
                 }
             }
         }
