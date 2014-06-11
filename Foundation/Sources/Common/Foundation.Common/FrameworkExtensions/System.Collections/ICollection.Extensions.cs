@@ -22,14 +22,13 @@ namespace SquaredInfinity.Foundation.Extensions
             collection.Add(value);
         }
 
-        public static void AddRange<T>(this ICollection<T> collection, params T[] items)
+        public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> items)
         {
             if (items == null)
                 return;
 
-            for (int i = 0; i < items.Length; i++)
+            foreach(var item in items)
             {
-                var item = items[i];
                 collection.Add(item);
             }
         }
