@@ -11,6 +11,11 @@ namespace SquaredInfinity.Foundation.Extensions
 {
     public static class StringExtensions
     {
+        public static string[] Split(this string str, char separator, StringSplitOptions options = StringSplitOptions.None)
+        {
+            return str.Split(new char[] { separator }, options);
+        }
+
         /// <summary>
         /// Returns the substring using regex pattern.
         /// </summary>
@@ -290,6 +295,22 @@ namespace SquaredInfinity.Foundation.Extensions
         public static string ToTitleCase(this string str, CultureInfo cultureInfo)
         {
             return cultureInfo.TextInfo.ToTitleCase(str);
+        }
+
+        public static bool Contains(this string str, string otherString, StringComparison comparisonType)
+        {
+            if (otherString == null)
+                return false;
+
+            return str.IndexOf(otherString, comparisonType) != -1;
+        }
+
+        public static bool Contains(this string str, string otherString, CultureInfo culture, CompareOptions compareOptions = CompareOptions.None)
+        {
+            if (otherString == null)
+                return false;
+
+            return culture.CompareInfo.IndexOf(str, otherString, compareOptions) != -1;
         }
 
         public static string TrimEachLine(this string str, bool removeEmptyLines = true)
