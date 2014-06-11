@@ -168,7 +168,7 @@ namespace SquaredInfinity.Foundation
             var results =
                 (from asm in assembliesToCheck
                  from t in asm.GetTypes()
-                 where t.Name.EndsWith(typePartialName, ignoreCase, CultureInfo.InvariantCulture)
+                 where string.Equals(t.Name, typePartialName, StringComparison.InvariantCultureIgnoreCase)
                  select t).ToList();
 
             if (baseTypes != null)
