@@ -62,7 +62,7 @@ namespace SquaredInfinity.Foundation.Extensions
             IEqualityComparer<TItem> itemEqualityComparer)
         {
             if (x == null || y == null)
-                return false;
+                return true;
 
             if (x.Count != y.Count)
                 return false;
