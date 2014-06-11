@@ -36,6 +36,7 @@ using System.Windows.Markup;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
+[assembly: XmlnsDefinition(@"http://schemas.squaredinfinity.com/foundation/data", "SquaredInfinity.Foundation.Presentation.Data")]
 [assembly: XmlnsDefinition(@"http://schemas.squaredinfinity.com/foundation/behaviors", "SquaredInfinity.Foundation.Presentation.Behaviors")]
 [assembly: XmlnsDefinition(@"http://schemas.squaredinfinity.com/foundation/converters", "SquaredInfinity.Foundation.Presentation.Converters")]
 [assembly: XmlnsDefinition(@"http://schemas.squaredinfinity.com/foundation/controls", "SquaredInfinity.Foundation.Presentation.Controls")]
