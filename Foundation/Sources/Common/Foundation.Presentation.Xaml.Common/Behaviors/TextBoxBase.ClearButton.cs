@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using SquaredInfinity.Foundation.Extensions;
+using System.Windows.Input;
 
 namespace SquaredInfinity.Foundation.Presentation.Behaviors
 {
@@ -29,6 +30,64 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
         public static bool GetIsVisible(TextBoxBase element)
         {
             return (bool)element.GetValue(IsVisibleProperty);
+        }
+
+        #endregion
+
+        #region Intercepts Esc Key
+
+        public static readonly DependencyProperty InterceptsEscKeyProperty =
+            DependencyProperty.RegisterAttached(
+            "InterceptsEscKey",
+            typeof(bool),
+            typeof(ClearButton),
+            new PropertyMetadata(false, OnSetInterceptsEscKeyChanged));
+
+        public static void SetInterceptsEscKey(TextBoxBase element, bool value)
+        {
+            element.SetValue(InterceptsEscKeyProperty, value);
+        }
+
+        public static bool GetSetInterceptsEscKey(TextBoxBase element)
+        {
+            return (bool)element.GetValue(InterceptsEscKeyProperty);
+        }
+
+        static void OnSetInterceptsEscKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var tb = d as TextBoxBase;
+
+            // NOTE: it has to happen on key down, because this is the event used by windows (e.g. when dismissing dialog box, it happens on ESC key down, no key up)
+
+            if((bool) e.NewValue)
+            {
+                tb.PreviewKeyDown -= tb_PreviewKeyDown;
+                tb.PreviewKeyDown += tb_PreviewKeyDown;
+            }
+            else
+            {
+                tb.PreviewKeyDown -= tb_PreviewKeyDown;
+            }
+        }
+
+        static void tb_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key != Key.Escape)
+                return;
+
+            var tbb = sender as TextBoxBase;
+
+            var tb = tbb as TextBox;
+
+            if (tb == null)
+                return;
+
+            if (tb.Text.IsNullOrEmpty())
+                return;            
+
+            ClearTextBox(tb);
+
+            e.Handled = true;
         }
 
         #endregion
@@ -127,12 +186,18 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
             if (parent == null)
                 return;
 
-            var textBox = parent as TextBox;
-            if (textBox != null)
-            {
-                textBox.Text = string.Empty;
+            ClearTextBox(parent);
+        }
+
+        static void ClearTextBox(TextBoxBase textBoxBase)
+        {
+            var textBox = textBoxBase as TextBox;
+
+            if (textBox == null)
                 return;
-            }
+
+            textBox.Text = string.Empty;
+            return;
         }
 
         #endregion
