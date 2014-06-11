@@ -60,30 +60,16 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
         {
             var tb = d as TextBoxBase;
 
-            if (string.IsNullOrEmpty(e.NewValue as string))
-            {
-                SetIsVisible(tb, false);
-            }
-            else
-            {
-                if (tb.GetValue(TextBox.TextProperty).ToString(nullValue: "").IsNullOrEmpty())
-                {                    
-                    SetIsVisible(tb, true);
-                }
-                else
-                {
-                    SetIsVisible(tb, false);
-                }
+            tb.GotFocus -= Watermarked_GotFocus;
+            tb.GotFocus += Watermarked_GotFocus;
 
-                tb.GotFocus -= Watermarked_GotFocus;
-                tb.GotFocus += Watermarked_GotFocus;
+            tb.LostFocus -= Watermarked_LostFocus;
+            tb.LostFocus += Watermarked_LostFocus;
 
-                tb.LostFocus -= Watermarked_LostFocus;
-                tb.LostFocus += Watermarked_LostFocus;
+            tb.TextChanged -= Watermarked_TextChanged;
+            tb.TextChanged += Watermarked_TextChanged;
 
-                tb.TextChanged -= Watermarked_TextChanged;
-                tb.TextChanged += Watermarked_TextChanged;
-            }
+            UpdateWatermarkVisibility(tb);
         }
 
         static void Watermarked_LostFocus(object sender, RoutedEventArgs e)
