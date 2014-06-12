@@ -86,8 +86,10 @@
     <Compile Include="FrameworkExtensions\System\String.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\Type.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\ULong.extensions.cs" />
+    <Compile Include="Freezable.cs" />
     <Compile Include="GCMemoryUsagePressure.cs" />
     <Compile Include="IDateTimeContext.cs" />
+    <Compile Include="IFreezable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\FlexiXml\FlexiXmlSerializer.TypeSerializationStrategiesConcurrentDictionary.cs" />
     <Compile Include="Serialization\FlexiXml\FlexiXmlSerializer.Deserialization.cs" />

@@ -14,7 +14,7 @@ namespace SquaredInfinity.Foundation
     /// Implements INotifyPropertyChanged
     /// </summary> 
     [Serializable]
-    public class NotifyPropertyChangedObject : INotifyPropertyChanged
+    public class NotifyPropertyChangedObject : INotifyPropertyChanged, IFreezable
     {
         /// <summary> 
         /// Occurs when [property changed]. 
@@ -90,6 +90,9 @@ namespace SquaredInfinity.Foundation
             bool raisePropertyChanged = true,
             [CallerMemberName] string propertyName = null)
         {
+            if (IsFrozen)
+                return false;
+
             if (object.Equals(backingField, value))
                 return false;
 
@@ -99,6 +102,18 @@ namespace SquaredInfinity.Foundation
                 RaisePropertyChanged(propertyName);
 
             return true;
+        }
+
+        bool _isFrozen = false;
+        public bool IsFrozen
+        {
+            get { return _isFrozen; }
+            private set { _isFrozen = value; }
+        }
+
+        public void Freeze()
+        {
+            IsFrozen = true;
         }
     }
 }
