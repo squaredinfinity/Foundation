@@ -80,6 +80,7 @@
     <Compile Include="Controls\BackgroundLoadingListView.cs" />
     <Compile Include="Controls\Canvas.cs" />
     <Compile Include="Controls\ZoomableListView.cs" />
+    <Compile Include="Converters\EnumToValuesConverter.cs" />
     <Compile Include="Converters\GetTypeConverter.cs" />
     <Compile Include="Converters\IsOfTypeConverter.cs" />
     <Compile Include="Converters\MultiplyNumberConverter.cs" />
