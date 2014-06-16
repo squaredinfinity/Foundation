@@ -30,7 +30,16 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
         {
             base.OnAfterDataContextChanged(newDataContext);
 
-            this.OnAfterDataContextChanged((TDataContext)newDataContext);
+            // Proper Data Context on view model may be set via binding (e.g. <MyView DataContext={Binding SomeProperty} /> -> Changing Data Context on View in this way will also set DataContext on View Model)
+            // In that case initial data context may be of a wrong type
+            if (!(newDataContext is TDataContext))
+            {
+                // Log warning
+            }
+            else
+            {
+                this.OnAfterDataContextChanged((TDataContext)newDataContext);
+            }
         }
 
         public ViewModel()
