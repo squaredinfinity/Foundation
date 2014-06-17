@@ -9,11 +9,11 @@ namespace SquaredInfinity.Foundation.Threading
 {
     public partial class ReaderWriterLockSlimEx
     {        
-        class ReadLockAcquisition : IReadLockAcquisition
+        class UpgradeableReadLockAcquisition : IReadLockAcquisition
         {
             ReaderWriterLockSlimEx Owner;
 
-            public ReadLockAcquisition(ReaderWriterLockSlimEx owner)
+            public UpgradeableReadLockAcquisition(ReaderWriterLockSlimEx owner)
             {
                 this.Owner = owner;
             }
@@ -27,8 +27,8 @@ namespace SquaredInfinity.Foundation.Threading
 
             public void Dispose()
             {
-                if (Owner.InternalLock.IsReadLockHeld)
-                    Owner.InternalLock.ExitReadLock();
+                if (Owner.InternalLock.IsUpgradeableReadLockHeld)
+                    Owner.InternalLock.ExitUpgradeableReadLock();
             }
         }
     }

@@ -31,7 +31,7 @@ namespace SquaredInfinity.Foundation.Threading
         {
             InternalLock.EnterUpgradeableReadLock();
 
-            return new ReadLockAcquisition(this);
+            return new UpgradeableReadLockAcquisition(this);
         }
 
         public IWriteLockAcquisition AcquireWriteLock()

@@ -108,6 +108,7 @@
     <Compile Include="Threading\IAsyncLoop.cs" />
     <Compile Include="Threading\AsyncLoop.cs" />
     <Compile Include="Threading\AsyncOperation.cs" />
+    <Compile Include="Threading\ReaderWriterLockSlimEx.UpgradeableReadLockAcquisition.cs" />
     <Compile Include="Threading\ReaderWriterLockSlimEx.WriteLockAcquisition.cs" />
     <Compile Include="Threading\ReaderWriterLockSlimEx.ReadLockAcquisition.cs" />
     <Compile Include="Threading\ReaderWriterLockSlimEx.cs" />

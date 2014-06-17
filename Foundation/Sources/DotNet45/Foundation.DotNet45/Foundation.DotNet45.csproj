@@ -231,6 +231,9 @@
     <Compile Include="..\..\Common\Foundation.Common\Threading\ReaderWriterLockSlimEx.ReadLockAcquisition.cs">
       <Link>Threading\ReaderWriterLockSlimEx.ReadLockAcquisition.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Threading\ReaderWriterLockSlimEx.UpgradeableReadLockAcquisition.cs">
+      <Link>Threading\ReaderWriterLockSlimEx.UpgradeableReadLockAcquisition.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Threading\ReaderWriterLockSlimEx.WriteLockAcquisition.cs">
       <Link>Threading\ReaderWriterLockSlimEx.WriteLockAcquisition.cs</Link>
     </Compile>
