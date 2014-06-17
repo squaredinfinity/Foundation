@@ -18,10 +18,23 @@ namespace SquaredInfinity.Foundation.Presentation.Converters
                 return DependencyProperty.UnsetValue;
 
             var en = value as Enum;
+            
+            // check if value is an instance of an Enum
+            if (en != null)
+            {
+                var enumValues = Enum.GetValues(en.GetType());
+                return enumValues;
+            }
 
-            var enumValues = Enum.GetValues(en.GetType());
+            // check if value is an Enum Type
+            var enType = value as Type;
+            if(enType != null && enType.IsEnum)
+            {
+                var enumValues = Enum.GetValues(enType);
+                return enumValues;
+            }
 
-            return enumValues;
+            return DependencyProperty.UnsetValue;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
