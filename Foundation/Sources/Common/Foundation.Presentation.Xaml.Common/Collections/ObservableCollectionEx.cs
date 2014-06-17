@@ -58,11 +58,11 @@ namespace SquaredInfinity.Foundation.Collections
 
             if (writeAccess)
             {
-                lockAcquisition = CollectionLock.AcquireReadLock();
+                lockAcquisition = CollectionLock.AcquireWriteLock();
             }
             else
             {
-                lockAcquisition = CollectionLock.AcquireWriteLock();
+                lockAcquisition = CollectionLock.AcquireReadLock();
             }
 
             using(lockAcquisition)

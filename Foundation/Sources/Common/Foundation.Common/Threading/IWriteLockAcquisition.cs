@@ -8,5 +8,6 @@ namespace SquaredInfinity.Foundation.Threading
 {
     public interface IWriteLockAcquisition : IDisposable
     {
+        bool IsSuccesfull { get; }
     }
 }
