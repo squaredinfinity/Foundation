@@ -19,6 +19,8 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 
         public string Source { get; set; }
 
+        public BindingMode? Mode { get; set; }
+
         public RelativeSource RelativeSource { get; set; }
 
         public IValueConverter Converter { get; set; }
@@ -32,6 +34,10 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
         protected void UpdateBindingFromSource(Binding binding)
         {
             UpdateBindingFromSource(binding, Source);
+
+
+            if(Mode != null)
+                binding.Mode = Mode.Value;
 
             binding.Delay = Delay;
             binding.UpdateSourceTrigger = UpdateSourceTrigger;
