@@ -2,6 +2,7 @@
 using SquaredInfinity.Foundation.Types.Mapping.MemberMatching;
 using System;
 using SquaredInfinity.Foundation.Types.Description;
+using System.Linq.Expressions;
 namespace SquaredInfinity.Foundation.Types.Mapping
 {
 
@@ -20,6 +21,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
     public interface ITypeMappingStrategy<TFrom, TTo> : ITypeMappingStrategy
     {
         // todo: this should return interface
-        TypeMappingStrategy<TFrom, TTo> IgnoreAllMembers();
+        ITypeMappingStrategy<TFrom, TTo> IgnoreAllMembers();
+        ITypeMappingStrategy<TFrom, TTo> MapMember<TMember>(Expression<Func<TFrom, object>> sourceMemberExpression, Func<TFrom, TMember> getValue);
     }
 }
