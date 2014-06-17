@@ -20,6 +20,8 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             st.EnumProperty = DayOfWeek.Friday;
             st.IntegerProperty = 13;
             st.StringProperty = "some string";
+            st.List = new List<DayOfWeek>();
+            st.List.Add(DayOfWeek.Wednesday);
 
             var tm = new TypeMapper();
 
@@ -28,6 +30,10 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             Assert.AreEqual(st.EnumProperty, clone.EnumProperty);
             Assert.AreEqual(st.IntegerProperty, clone.IntegerProperty);
             Assert.AreEqual(st.StringProperty, clone.StringProperty);
+
+            Assert.IsNotNull(clone.List);
+            Assert.AreEqual(1, clone.List.Count);
+            Assert.AreEqual(st.List[0], clone.List[0]);
         }
 
         [TestMethod]

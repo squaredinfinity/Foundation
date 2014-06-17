@@ -11,5 +11,7 @@ namespace UnitTestProject1.Types.Mapping.TestEntities
         public int IntegerProperty { get; set; }
         public string StringProperty { get; set; }
         public DayOfWeek EnumProperty { get; set; }
+
+        public List<DayOfWeek> List { get; set; }
     }
 }

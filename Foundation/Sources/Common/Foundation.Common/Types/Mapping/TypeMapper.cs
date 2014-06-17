@@ -178,10 +178,13 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                     }
                     else
                     {
-                        // todo: what if target is null ? should we create new instance ?
-                        if (options.ReuseTargetCollectionsWhenPossible && targetMemberType.ImplementsInterface<IList>())
+                        var targetMemberValue = targetMember.GetValue(target);
+
+                        if (options.ReuseTargetCollectionsWhenPossible
+                            && targetMemberValue != null
+                            && targetMemberType.ImplementsInterface<IList>())
                         {
-                            MapInternal(val, targetMember.GetValue(target), val.GetType(), targetMemberType, options, cx);
+                            MapInternal(val, targetMemberValue, val.GetType(), targetMemberType, options, cx);
                         }
                         else
                         {
