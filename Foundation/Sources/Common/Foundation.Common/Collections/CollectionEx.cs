@@ -106,6 +106,9 @@ namespace SquaredInfinity.Foundation.Collections
             {
                 Items.Clear();
 
+                foreach (var item in newItems)
+                    Items.Add(item);
+
                 OnVersionChangedInternal();
             }
         }
@@ -117,6 +120,10 @@ namespace SquaredInfinity.Foundation.Collections
 
         protected virtual void OnVersionChanged() 
         {
+            var newVersion = Interlocked.Increment(ref _version);
+
+            if (VersionChanged != null)
+                VersionChanged(this, new CollectionContentChangedEventArgs(newVersion));
         }
 
         public event EventHandler<CollectionContentChangedEventArgs> VersionChanged;
