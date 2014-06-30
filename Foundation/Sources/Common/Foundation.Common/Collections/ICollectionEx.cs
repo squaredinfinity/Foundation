@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Collections
 {
-    public interface ICollectionEx<TItem> : ICollection<TItem>
+    public interface ICollectionEx<TItem> : 
+        ICollection<TItem>
     {
+        TItem this[int index] { get; }
         void Replace(TItem oldItem, TItem newItem);
     }
 }
