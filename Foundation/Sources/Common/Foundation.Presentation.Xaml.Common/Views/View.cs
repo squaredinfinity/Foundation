@@ -145,9 +145,6 @@ namespace SquaredInfinity.Foundation.Presentation.Views
             (ViewModel as ViewModel).OnViewModelEventInternal(args);
         }
 
-
-
-
         public IHostAwareViewModel ViewModel
         {
             get 
@@ -262,7 +259,10 @@ namespace SquaredInfinity.Foundation.Presentation.Views
             OnBeforeNewViewModelAdded(newDataContext, newViewModel);
         }
 
-        void OnAfterViewModelEventRaised(IViewModel viewModel, IViewModelEvent ev, ViewModelEventRoutingStrategy routingStrategy)
+        void OnAfterViewModelEventRaised(
+            IViewModel viewModel,
+            IViewModelEvent ev,
+            ViewModelEventRoutingStrategy routingStrategy)
         {
             RaiseViewModelEvent(viewModel, ev, routingStrategy);
         }

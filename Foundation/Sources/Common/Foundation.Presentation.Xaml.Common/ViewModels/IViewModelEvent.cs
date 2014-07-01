@@ -9,5 +9,7 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
     public interface IViewModelEvent
     {
         string Name { get; }
+
+        object Payload { get; }
     }
 }

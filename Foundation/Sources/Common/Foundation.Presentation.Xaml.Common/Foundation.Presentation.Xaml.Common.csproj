@@ -62,9 +62,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BackgroundRenderingService.cs" />
+    <Compile Include="Behaviors\DialogHost.MinHeight.cs" />
+    <Compile Include="Behaviors\DialogHost.MinWidth.cs" />
     <Compile Include="Behaviors\Selector.ItemDoubleClick.cs" />
     <Compile Include="Behaviors\Control.DoubleClick.cs" />
     <Compile Include="Behaviors\Selector.MultiSelection.cs" />
+    <Compile Include="Behaviors\ColumnHeaders.Visibility.cs" />
     <Compile Include="Behaviors\TextBoxBase.ClearButton.cs" />
     <Compile Include="Behaviors\TextBoxBase.Watermark.cs" />
     <Compile Include="Collections\ObservableCollectionEx.Batch.cs" />

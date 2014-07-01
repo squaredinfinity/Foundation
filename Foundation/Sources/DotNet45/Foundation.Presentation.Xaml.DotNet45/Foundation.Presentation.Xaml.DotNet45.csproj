@@ -64,8 +64,17 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\BackgroundRenderingService.cs">
       <Link>BackgroundRenderingService.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\ColumnHeaders.Visibility.cs">
+      <Link>Behaviors\ColumnHeaders.Visibility.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\Control.DoubleClick.cs">
       <Link>Behaviors\Control.DoubleClick.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\DialogHost.MinHeight.cs">
+      <Link>Behaviors\DialogHost.MinHeight.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\DialogHost.MinWidth.cs">
+      <Link>Behaviors\DialogHost.MinWidth.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\DragDrop.AttachedProperties.cs">
       <Link>Behaviors\DragDrop.AttachedProperties.cs</Link>

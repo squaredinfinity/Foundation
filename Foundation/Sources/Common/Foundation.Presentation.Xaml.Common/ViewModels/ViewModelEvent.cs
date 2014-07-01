@@ -10,6 +10,8 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
     {
         public string Name { get; private set; }
 
+        public object Payload { get; set; }
+
         public ViewModelEvent()
         {
             this.Name = GetType().FullName;

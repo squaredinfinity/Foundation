@@ -196,12 +196,14 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
         /// <param name="eventName"></param>
         /// <param name="routingStrategy"></param>
         protected internal void RaiseEvent(
-            string eventName, 
+            string eventName,
+            object payload = null,
             ViewModelEventRoutingStrategy routingStrategy = ViewModelEventRoutingStrategy.Default)
         {
             if (AfterViewModelEventRaised != null)
             {
                 var ev = new ViewModelEvent(eventName);
+                ev.Payload = payload;
 
                 var args = new AfterViewModelEventRaisedArgs(ev, routingStrategy);
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SquaredInfinity.Foundation.Presentation.ViewModels;
+using SquaredInfinity.Foundation.Presentation.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +13,19 @@ namespace SquaredInfinity.Foundation.Presentation.Windows
     public partial class ViewHostWindow : Window
     {
         ContentPresenter PART_ContentPresenter;
+
+        public IHostAwareViewModel ViewModel
+        {
+            get { return (IHostAwareViewModel)GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
+
+        public static readonly DependencyProperty ViewModelProperty =
+            DependencyProperty.Register(
+            "ViewModel",
+            typeof(IHostAwareViewModel),
+            typeof(ViewHostWindow),
+            new FrameworkPropertyMetadata(null));
 
         #region Is Dialog Window
 
@@ -57,9 +72,60 @@ namespace SquaredInfinity.Foundation.Presentation.Windows
        
         #endregion
 
+        
+
+        public event View.ViewModelEventRoutedEventHandler PreviewViewModelEvent
+        {
+            add { AddHandler(View.PreviewViewModelEventProperty, value); }
+            remove { RemoveHandler(View.PreviewViewModelEventProperty, value); }
+        }
+
         public ViewHostWindow()
         {
             this.LayoutUpdated += DefaultDialogWindow_LayoutUpdated;
+
+            PreviewViewModelEvent += ViewHostWindow_PreviewViewModelEvent;
+        }
+
+        void ViewHostWindow_PreviewViewModelEvent(object sender, Views.ViewModelEventRoutedEventArgs args)
+        {
+            OnViewModelEventInternal(args);
+        }
+
+        void OnViewModelEventInternal(ViewModelEventRoutedEventArgs args)
+        {
+            OnViewModelEventInternal(args.ViewModelEventArgs);
+
+            if (args.ViewModelEventArgs.IsHandled)
+                return;
+
+            if (args.RoutedEvent.RoutingStrategy == RoutingStrategy.Bubble)
+            {
+                // todo: update interface
+                (ViewModel as ViewModel).OnPreviewViewModelEventInternal(args.ViewModelEventArgs);
+                return;
+            }
+
+            if (args.RoutedEvent.RoutingStrategy == RoutingStrategy.Tunnel)
+            {
+                // todo: update interface
+                (ViewModel as ViewModel).OnViewModelEventInternal(args.ViewModelEventArgs);
+                return;
+            }
+        }
+
+        protected virtual void OnViewModelEvent(ViewModelEventArgs args)
+        { }
+
+        protected virtual void OnViewModelEventInternal(ViewModelEventArgs args)
+        {
+            OnViewModelEvent(args);
+
+            if (args.IsHandled)
+                return;
+
+            // todo: update interface
+            (ViewModel as ViewModel).OnViewModelEventInternal(args);
         }
 
         void DefaultDialogWindow_LayoutUpdated(object sender, EventArgs e)

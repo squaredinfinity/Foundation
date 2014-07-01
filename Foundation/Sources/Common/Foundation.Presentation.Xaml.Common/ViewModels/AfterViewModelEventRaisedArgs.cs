@@ -15,7 +15,9 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
 
         public IViewModelEvent Event { get; private set; }
 
-        public AfterViewModelEventRaisedArgs(IViewModelEvent @event, ViewModelEventRoutingStrategy routingStrategy)
+        public AfterViewModelEventRaisedArgs(
+            IViewModelEvent @event, 
+            ViewModelEventRoutingStrategy routingStrategy)
         {
             this.Event = @event;
             this.RoutingStrategy = routingStrategy;

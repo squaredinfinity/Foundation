@@ -16,7 +16,12 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
         
         public bool IsHandled { get; set; }
 
-        public ViewModelEventArgs(IViewModel sender, IViewModelEvent @event, ViewModelEventRoutingStrategy routingStrategy)
+        public object Payload { get; private set; }
+
+        public ViewModelEventArgs(
+            IViewModel sender, 
+            IViewModelEvent @event, 
+            ViewModelEventRoutingStrategy routingStrategy)
         {
             this.Sender = sender;
             this.Event = @event;
