@@ -117,7 +117,7 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
 
         private static void CreateEffectAdorner(DropInfo dropInfo)
         {
-            var template = GetEffectAdornerTemplate(_dragInfo.VisualSource, dropInfo.AllowedEffects, dropInfo.DestinationText);
+            var template = GetEffectAdornerTemplate(dropInfo.VisualTarget, dropInfo.AllowedEffects, dropInfo.DestinationText);
 
             if (template != null)
             {

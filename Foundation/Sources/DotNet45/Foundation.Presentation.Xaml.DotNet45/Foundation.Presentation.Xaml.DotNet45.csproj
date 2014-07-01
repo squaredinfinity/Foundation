@@ -179,6 +179,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\EnumToValuesConverter.cs">
       <Link>Converters\EnumToValuesConverter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\FirstBindingConverter.cs">
+      <Link>Converters\FirstBindingConverter.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\GetApplicationResourceConverter.cs">
       <Link>Converters\GetApplicationResourceConverter.cs</Link>
     </Compile>

@@ -4,4 +4,6 @@
                     xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" >
 
     <selectors:TypeNameToResourceKeyMappingDataTemplateSelector x:Key="DataTemplateSelectors.TypeNameToResourceKey" />
+    <selectors:ContextAwareDataTemplateSelector x:Key="DataTemplateSelectors.ContextAware" />
+    
 </ResourceDictionary>

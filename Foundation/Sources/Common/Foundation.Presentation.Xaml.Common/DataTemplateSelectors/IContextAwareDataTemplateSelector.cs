@@ -14,6 +14,8 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
     /// </summary>
     public interface IContextAwareDataTemplateSelector
     {
+        IReadOnlyList<string> GetSupportedContexts();
+
         bool TrySelectTemplate(
             object item,
             DependencyObject container,

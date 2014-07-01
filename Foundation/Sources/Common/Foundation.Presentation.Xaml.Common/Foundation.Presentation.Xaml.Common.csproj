@@ -87,6 +87,7 @@
     <Compile Include="Converters\EnumToValuesConverter.cs" />
     <Compile Include="Converters\GetTypeConverter.cs" />
     <Compile Include="Converters\IsOfTypeConverter.cs" />
+    <Compile Include="Converters\FirstBindingConverter.cs" />
     <Compile Include="Converters\MultiplyNumberConverter.cs" />
     <Compile Include="Converters\AddNumberConverter.cs" />
     <Compile Include="DataTemplateSelectors\ContextAwareDataTemplateSelector.cs" />

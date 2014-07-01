@@ -1,4 +1,5 @@
-﻿using SquaredInfinity.Foundation.Threading;
+﻿using SquaredInfinity.Foundation.Collections;
+using SquaredInfinity.Foundation.Threading;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
 
         readonly List<IContextAwareDataTemplateSelector> Selectors = new List<IContextAwareDataTemplateSelector>();
 
+        bool IsCacheDirty = true;
+
         public void RegisterDataTemplateSelector(IContextAwareDataTemplateSelector selector)
         {
             using (UpdateLock.AcquireWriteLock())
@@ -28,9 +31,17 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
 
             using (UpdateLock.AcquireReadLock())
             {
-                for (int i = 0; i < Selectors.Count; i++)
+                if (IsCacheDirty)
+                    RefreshCache();
+
+                if (!ByContext.ContainsKey(context))
+                    return null;
+
+                var selectors_by_context = ByContext[context];
+
+                for (int i = 0; i < selectors_by_context.Count; i++)
                 {
-                    var selector = Selectors[i];
+                    var selector = selectors_by_context[i];
 
                     if (selector.TrySelectTemplate(item, container, context, isTooltip, out dt))
                     {
@@ -40,6 +51,29 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
             }
 
             return null;
+        }
+
+        Dictionary<string, IReadOnlyList<IContextAwareDataTemplateSelector>> ByContext;
+
+        void RefreshCache()
+        {
+            ByContext = new Dictionary<string, IReadOnlyList<IContextAwareDataTemplateSelector>>();
+
+            var allContexts =
+                (from s in Selectors
+                 from c in s.GetSupportedContexts()
+                 select c).Distinct().ToArray();
+
+            foreach(var context in allContexts)
+            {
+                var selectors_by_context =
+                    (from s in Selectors
+                     where s.GetSupportedContexts().Contains(context)
+                     select s);
+
+                ByContext.Add(context, selectors_by_context.ToArray());
+            }
+            
         }
     }
 }

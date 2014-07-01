@@ -127,4 +127,6 @@
 
     <converters:BytesToImageSourceConverter x:Key="Converters.BytesToImageSource" />
 
+    <converters:FirstBindingConverter x:Key="Converters.FirstBindingValue" />
+    
 </ResourceDictionary>
