@@ -28,13 +28,6 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
             if (dataTemplate != null)
                 return true;
 
-            if (itemType.Name.EndsWith("ViewModel"))
-            {
-                dataTemplate = resources[itemType.Name.Substring(0, itemType.Name.Length - "ViewModel".Length)] as DataTemplate;
-                if (dataTemplate != null)
-                    return true;
-            }
-
             return false;
         }
     }

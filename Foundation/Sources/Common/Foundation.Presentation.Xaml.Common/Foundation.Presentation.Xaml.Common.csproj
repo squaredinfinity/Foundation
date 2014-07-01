@@ -35,6 +35,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Reactive.Core">
@@ -88,6 +89,11 @@
     <Compile Include="Converters\IsOfTypeConverter.cs" />
     <Compile Include="Converters\MultiplyNumberConverter.cs" />
     <Compile Include="Converters\AddNumberConverter.cs" />
+    <Compile Include="DataTemplateSelectors\ContextAwareDataTemplateSelector.cs" />
+    <Compile Include="DataTemplateSelectors\DefaultTypeDataTemplateSelectorService.cs" />
+    <Compile Include="DataTemplateSelectors\IContextAwareDataTemplateSelector.cs" />
+    <Compile Include="DataTemplateSelectors\IContextAwareDataTemplateSelectorService.cs" />
+    <Compile Include="DataTemplateSelectors\MefTypeDataTemplateSelectorService.cs" />
     <Compile Include="SharedResourceDictionary.cs" />
     <Compile Include="ViewModels\AfterViewModelEventRaisedArgs.cs" />
     <Compile Include="ViewModels\IViewModelEvent.cs" />

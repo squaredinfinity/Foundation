@@ -35,6 +35,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Reactive.Core">
@@ -214,8 +215,23 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\ValueToBoolConverter.cs">
       <Link>Converters\ValueToBoolConverter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\ContextAwareDataTemplateSelector.cs">
+      <Link>DataTemplateSelectors\ContextAwareDataTemplateSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\DefaultTypeDataTemplateSelectorService.cs">
+      <Link>DataTemplateSelectors\DefaultTypeDataTemplateSelectorService.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\DynamicDataTemplateSelector.cs">
       <Link>DataTemplateSelectors\DynamicDataTemplateSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\IContextAwareDataTemplateSelector.cs">
+      <Link>DataTemplateSelectors\IContextAwareDataTemplateSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\IContextAwareDataTemplateSelectorService.cs">
+      <Link>DataTemplateSelectors\IContextAwareDataTemplateSelectorService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\MefTypeDataTemplateSelectorService.cs">
+      <Link>DataTemplateSelectors\MefTypeDataTemplateSelectorService.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\ResourcesTraversingDataTemplateSelector.cs">
       <Link>DataTemplateSelectors\ResourcesTraversingDataTemplateSelector.cs</Link>
