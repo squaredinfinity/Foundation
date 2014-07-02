@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Threading
 {
@@ -21,19 +22,7 @@ namespace SquaredInfinity.Foundation.Threading
         
         public void RequestExecute()
         {
-            if(OperationTask != null)
-            {
-                OperationCancellationTokenSource.Cancel();
-
-                try
-                {
-                    OperationTask.Wait(OperationCancellationTokenSource.Token);
-                }
-                catch (OperationCanceledException)
-                { 
-                    // expected
-                }
-            }
+            CancelCurrentRequest();
 
             OperationCancellationTokenSource = new CancellationTokenSource();
 
@@ -64,6 +53,28 @@ namespace SquaredInfinity.Foundation.Threading
         {
             this.CancellableActionToExecute = cancellableActionToExecute;
         }
+
+        public void Dispose()
+        {
+            CancelCurrentRequest();
+        }
+
+        void CancelCurrentRequest()
+        {
+            if (OperationTask != null)
+            {
+                OperationCancellationTokenSource.Cancel();
+
+                try
+                {
+                    OperationTask.Wait(OperationCancellationTokenSource.Token);
+                }
+                catch (OperationCanceledException)
+                {
+                    // expected
+                }
+            }
+        }
     }
 
     public class AsyncAction<T> : IAsyncAction<T>
@@ -80,19 +91,7 @@ namespace SquaredInfinity.Foundation.Threading
 
         public void RequestExecute(T argument)
         {
-            if (OperationTask != null)
-            {
-                OperationCancellationTokenSource.Cancel();
-
-                try
-                {
-                    OperationTask.Wait(OperationCancellationTokenSource.Token);
-                }
-                catch (OperationCanceledException)
-                { 
-                    // expected
-                }
-            }
+            CancelCurrentRequest();
 
             OperationCancellationTokenSource = new CancellationTokenSource();
 
@@ -122,6 +121,20 @@ namespace SquaredInfinity.Foundation.Threading
         public AsyncAction(Action<T, CancellationToken> cancellableActionToExecute)
         {
             this.CancellableActionToExecute = cancellableActionToExecute;
+        }
+
+        public void Dispose()
+        {
+            CancelCurrentRequest();
+        }
+
+        void CancelCurrentRequest()
+        {
+            if (OperationTask != null)
+            {
+                OperationCancellationTokenSource.Cancel();
+                OperationTask.Wait(OperationCancellationTokenSource.Token, ignoreCanceledExceptions: true);
+            }
         }
     }
 }

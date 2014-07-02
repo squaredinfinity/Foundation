@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Threading
 {
-    public interface IAsyncAction
+    public interface IAsyncAction : IDisposable
     {
         TimeSpan RequestsThrottle { get; set; }
 
         void RequestExecute();
     }
 
-    public interface IAsyncAction<T>
+    public interface IAsyncAction<T> : IDisposable
     {
         TimeSpan RequestsThrottle { get; set; }
 
