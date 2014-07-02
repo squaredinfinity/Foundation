@@ -12,10 +12,8 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
     /// Context is provided by the host application (e.g. SearchResults, RecentItems etc.) and can be used by Type Data Template Selector
     /// to choose specific template to be used.
     /// </summary>
-    public interface IContextAwareDataTemplateSelector
+    public interface IContextAwareDataTemplateProvider
     {
-        IReadOnlyList<string> GetSupportedContexts();
-
         bool TrySelectTemplate(
             object item,
             DependencyObject container,

@@ -225,6 +225,11 @@ namespace SquaredInfinity.Foundation.Presentation.Views
 
             OnBeforeNewViewModelAddedInternal(newDataContext, newVM);
 
+            if(ViewModel != null && !object.ReferenceEquals(ViewModel, newVM))
+            {
+                ViewModel.Dispose();
+            }
+
             ViewModel = newVM;
         }
 

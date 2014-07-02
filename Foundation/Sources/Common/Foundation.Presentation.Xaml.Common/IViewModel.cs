@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SquaredInfinity.Foundation.Presentation
 {
-    public interface IViewModel
+    public interface IViewModel : IDisposable
     {
         object DataContext { get; set; }
 

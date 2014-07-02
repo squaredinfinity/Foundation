@@ -9,7 +9,7 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
 {
     public interface IContextAwareDataTemplateSelectorService
     {
-        void RegisterDataTemplateSelector(IContextAwareDataTemplateSelector selector);
+        void RegisterDataTemplateSelector(IContextAwareDataTemplateProvider selector, string context = null);
 
         DataTemplate SelectTemplate(object item, DependencyObject container, string context, bool isTooltip);
     }

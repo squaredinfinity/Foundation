@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Threading;
+using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Collections
 {
@@ -193,32 +194,28 @@ namespace SquaredInfinity.Foundation.Collections
                             if (cancellationToken.IsCancellationRequested)
                                 return;
 
-                            try
-                            {
-                                Dispatcher.Invoke(() =>
+                            var op = Dispatcher.BeginInvoke(new Action(() =>
+                                {
+                                    using (var writeLock = CollectionLock.AcquireWriteLock())
                                     {
-                                        using (var writeLock = CollectionLock.AcquireWriteLock())
+                                        var item = list[i];
+
+                                        if (cancellationToken.IsCancellationRequested)
+                                            return;
+
+                                        Items.Add(item);
+
+                                        RaiseCollectionChanged(NotifyCollectionChangedAction.Add, (object)item, Items.Count - 1);
+
+                                        if (MonitorElementsForChanges)
                                         {
-                                            var item = list[i];
-
-                                            if (cancellationToken.IsCancellationRequested)
-                                                return;
-
-                                            Items.Add(item);
-
-                                            RaiseCollectionChanged(NotifyCollectionChangedAction.Add, (object)item, Items.Count - 1);
-
-                                            if (MonitorElementsForChanges)
-                                            {
-                                                (item as INotifyPropertyChanged).PropertyChanged += HandleItemPropertyChanged;
-                                            }
+                                            (item as INotifyPropertyChanged).PropertyChanged += HandleItemPropertyChanged;
                                         }
-                                    }, DispatcherPriority.Background, cancellationToken);
-                            }
-                            catch (OperationCanceledException)
-                            {
-                                // operation has been cancelled, nothing more needs to be done
-                            }
+                                    }
+                                }), DispatcherPriority.Background);
+
+                            
+                            op.Task.Wait(ignoreCanceledExceptions:true);
                         }
                     }, cancellationToken);
             }

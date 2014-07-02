@@ -10,7 +10,7 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
 {
     public class ContextAwareDataTemplateSelector : DataTemplateSelector
     {
-        static Func<IContextAwareDataTemplateSelectorService> _getDefaultTemplateSelectorService = () => new DefaultTypeDataTemplateSelectorService();
+        static Func<IContextAwareDataTemplateSelectorService> _getDefaultTemplateSelectorService = () => new ContextAwareDataTemplateSelectorService();
         public static Func<IContextAwareDataTemplateSelectorService> GetDefaultTemplateSelectorService
         {
             get { return _getDefaultTemplateSelectorService; }

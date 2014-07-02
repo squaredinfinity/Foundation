@@ -75,7 +75,7 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
 
         }
 
-        
+
         class ViewModelEventSubscription
         {
             public string EventName { get; set; }
@@ -101,7 +101,7 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
 
             var subscriptions = PreviewViewModelEventSubscriptions.ToArray();
 
-            foreach(var s in subscriptions)
+            foreach (var s in subscriptions)
             {
                 if (!string.Equals(s.EventName, args.Event.Name, StringComparison.InvariantCultureIgnoreCase))
                     continue;
@@ -210,5 +210,32 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
                 AfterViewModelEventRaised(this, args);
             }
         }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~ViewModel()
+        {
+            Dispose(false);
+        }
+
+        void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                DisposeManagedResources();
+            }
+
+            DisposeUnmanagedResources();
+        }
+
+        protected virtual void DisposeUnmanagedResources()
+        { }
+
+        protected virtual void DisposeManagedResources()
+        { }
     }
 }

@@ -105,6 +105,12 @@
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Linq.Expressions\Expression.extensions.cs">
       <Link>FrameworkExtensions\System.Linq.Expressions\Expression.extensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Threading.Tasks\Parallel.extensions.cs">
+      <Link>FrameworkExtensions\System.Threading.Tasks\Parallel.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Threading.Tasks\Task.extensions.cs">
+      <Link>FrameworkExtensions\System.Threading.Tasks\Task.extensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Xml.Linq\XAttribute.extensions.cs">
       <Link>FrameworkExtensions\System.Xml.Linq\XAttribute.extensions.cs</Link>
     </Compile>

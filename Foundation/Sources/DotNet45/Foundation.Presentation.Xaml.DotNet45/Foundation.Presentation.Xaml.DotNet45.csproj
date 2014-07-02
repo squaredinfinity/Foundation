@@ -221,14 +221,14 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\ContextAwareDataTemplateSelector.cs">
       <Link>DataTemplateSelectors\ContextAwareDataTemplateSelector.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\DefaultTypeDataTemplateSelectorService.cs">
-      <Link>DataTemplateSelectors\DefaultTypeDataTemplateSelectorService.cs</Link>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\ContextAwareDataTemplateSelectorService.cs">
+      <Link>DataTemplateSelectors\ContextAwareDataTemplateSelectorService.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\DynamicDataTemplateSelector.cs">
       <Link>DataTemplateSelectors\DynamicDataTemplateSelector.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\IContextAwareDataTemplateSelector.cs">
-      <Link>DataTemplateSelectors\IContextAwareDataTemplateSelector.cs</Link>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\IContextAwareDataTemplateProvider.cs">
+      <Link>DataTemplateSelectors\IContextAwareDataTemplateProvider.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\IContextAwareDataTemplateSelectorService.cs">
       <Link>DataTemplateSelectors\IContextAwareDataTemplateSelectorService.cs</Link>
