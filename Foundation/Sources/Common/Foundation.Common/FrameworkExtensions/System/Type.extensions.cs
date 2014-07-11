@@ -52,19 +52,31 @@ namespace SquaredInfinity.Foundation.Extensions
 
             return result;
         }
-
+        
         /// <summary>
         /// Checks if type is equivalent to other type.
         /// By default, returns true only when specified types are exactly the same.
+        /// By default implemented interfaces and base types are *NOT* considered equivalent.
         /// </summary>
         /// <param name="type"></param>
         /// <param name="otherType">other type</param>
         /// <param name="allowNullable">When set to true, Nullable T (where T is the same type as *type* parameter) will be treated as equivalent.</param>
         /// <returns></returns>
-        public static bool IsTypeEquivalentTo(this Type type, Type otherType, bool treatNullableAsEquivalent = false)
+        public static bool IsTypeEquivalentTo(
+            this Type type,
+            Type otherType, 
+            bool treatNullableAsEquivalent = false,
+            bool treatBaseTypesAsEquivalent = false,
+            bool treatImplementedInterfacesAsEquivalent = false)
         {
             if (otherType == null)
                 throw new ArgumentNullException("otherType");
+
+            if (treatBaseTypesAsEquivalent && type.IsAssignableFrom(otherType))
+                return true;
+
+            if (treatImplementedInterfacesAsEquivalent && type.ImplementsInterface(otherType))
+                return true;
 
             if (treatNullableAsEquivalent)
             {
