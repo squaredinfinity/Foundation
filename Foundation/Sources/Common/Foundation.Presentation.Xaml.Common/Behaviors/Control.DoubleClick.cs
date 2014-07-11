@@ -11,6 +11,27 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
 {
     public class DoubleClick
     {
+        #region CommandParameters
+
+        public static void SetCommandParameter(Control element, object value)
+        {
+            element.SetValue(CommandParameterProperty, value);
+        }
+
+        public static object GetCommandParameter(Control element)
+        {
+            return (object)element.GetValue(CommandParameterProperty);
+        }
+
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.RegisterAttached(
+            "CommandParameter",
+            typeof(object),
+            typeof(DoubleClick),
+            new PropertyMetadata(null));
+
+        #endregion
+
         #region Command
 
         public static void SetCommand(Control element, ICommand value)
@@ -56,8 +77,10 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
 
             var command = GetCommand(c);
 
-            if (command != null && command.CanExecute(null))
-                command.Execute(null);
+            var parameter = GetCommandParameter(c);
+
+            if (command != null && command.CanExecute(parameter))
+                command.Execute(parameter);
         }
 
         #endregion
