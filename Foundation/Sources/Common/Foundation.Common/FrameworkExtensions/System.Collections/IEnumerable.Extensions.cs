@@ -11,6 +11,23 @@ namespace SquaredInfinity.Foundation.Extensions
 {
     public static class IEnumerableExtensions
     {
+        public static IEnumerable<object> OfType(
+            this IEnumerable source, 
+            Type type,
+            bool treatNullableAsEquivalent = false,
+            bool treatBaseTypesAsEquivalent = true,
+            bool treatImplementedInterfacesAsEquivalent = true)
+        {
+            foreach (object obj in source)
+            {
+                if (obj == null)
+                    continue;
+
+                if(obj.GetType().IsTypeEquivalentTo(type, treatNullableAsEquivalent, treatBaseTypesAsEquivalent, treatImplementedInterfacesAsEquivalent))
+                    yield return obj;
+            }
+        }
+
         public static IEnumerable<IEnumerable<T>> Chunkify<T>(
            this IEnumerable<T> enumerable,
            int chunkSize)
@@ -123,13 +140,32 @@ namespace SquaredInfinity.Foundation.Extensions
 
         public static IEnumerable<T> TreeTraversal<T>(this IEnumerable<T> list, TreeTraversalMode traversalMode)
         {
-            return ((T)list).TreeTraversal(traversalMode, DefaultGetChildrenFunc);
+            //  if list of T type itself (e.g. it's a node in a tree hierarchy)
+            //  then process the list itself
+            if (list.GetType().IsTypeEquivalentTo(typeof(T)))
+            {
+                return ((T)list).TreeTraversal(traversalMode, DefaultGetChildrenFunc);
+            }
+            else
+            {
+                switch (traversalMode)
+                {
+                    case TreeTraversalMode.BreadthFirst:
+                        return BreadthFirstTreeTraversalInternal(list, DefaultGetChildrenFunc);
+                    case TreeTraversalMode.DepthFirst:
+                        return DepthFirstTreeTraversalInternal(list, DefaultGetChildrenFunc);
+                    case TreeTraversalMode.BottomUp:
+                        return BottomUpTreeTraversalInternal(list, DefaultGetChildrenFunc);
+                }
+
+                return null;
+            }
         }
 
         public static IEnumerable<T> DefaultGetChildrenFunc<T>(T parent)
         {
             IEnumerable<T> parentAsIEnumerable = parent as IEnumerable<T>;
-            if (parent == null)
+            if (parentAsIEnumerable == null)
                 yield break;
 
             foreach (var child in parentAsIEnumerable)
@@ -165,14 +201,29 @@ namespace SquaredInfinity.Foundation.Extensions
         /// Uses Depth-First algorithm to traverse the tree.
         /// http://en.wikipedia.org/wiki/Depth-first_search
         /// </summary>
-        /// <param name="me"></param>
+        /// <param name="root"></param>
         /// <returns></returns>
-        static IEnumerable<T> DepthFirstTreeTraversal<T>(this T me, Func<T, IEnumerable<T>> getChildrenFunc)
+        static IEnumerable<T> DepthFirstTreeTraversal<T>(this T root, Func<T, IEnumerable<T>> getChildrenFunc)
         {
             Stack<T> workQueue = new Stack<T>();
 
-            workQueue.Push(me);
+            workQueue.Push(root);
 
+            return DepthFirstTreeTraversalInternal<T>(workQueue, getChildrenFunc);
+        }
+
+        static IEnumerable<T> DepthFirstTreeTraversalInternal<T>(IEnumerable<T> initialItems, Func<T, IEnumerable<T>> getChildrenFunc)
+        {
+            Stack<T> workQueue = new Stack<T>();
+
+            foreach(var item in initialItems)
+                workQueue.Push(item);
+
+            return DepthFirstTreeTraversalInternal<T>(workQueue, getChildrenFunc);
+        }
+
+        static IEnumerable<T> DepthFirstTreeTraversalInternal<T>(Stack<T> workQueue, Func<T, IEnumerable<T>> getChildrenFunc)
+        {
             while (workQueue.Count != 0)
             {
                 var item = workQueue.Pop();
@@ -203,6 +254,21 @@ namespace SquaredInfinity.Foundation.Extensions
 
             workQueue.Enqueue(me);
 
+            return BreadthFirstTreeTraversalInternal<T>(workQueue, getChildrenFunc);
+        }
+
+        static IEnumerable<T> BreadthFirstTreeTraversalInternal<T>(IEnumerable<T> initialItems, Func<T, IEnumerable<T>> getChildrenFunc)
+        {
+            Queue<T> workQueue = new Queue<T>();
+
+            foreach(var item in initialItems)
+                workQueue.Enqueue(item);
+
+            return BreadthFirstTreeTraversalInternal<T>(workQueue, getChildrenFunc);
+        }
+
+        static IEnumerable<T> BreadthFirstTreeTraversalInternal<T>(Queue<T> workQueue, Func<T, IEnumerable<T>> getChildrenFunc)
+        {
             while (workQueue.Count != 0)
             {
                 var item = workQueue.Dequeue();
@@ -232,12 +298,27 @@ namespace SquaredInfinity.Foundation.Extensions
         /// <param name="getChildrenFunc"></param>
         /// <returns></returns>
         static IEnumerable<T> BottomUpTreeTraversal<T>(this T me, Func<T, IEnumerable<T>> getChildrenFunc)
-        {
-            Stack<T> results = new Stack<T>();
-            
+        {            
             Queue<T> workQueue = new Queue<T>();
 
             workQueue.Enqueue(me);
+
+            return BottomUpTreeTraversalInternal<T>(workQueue, getChildrenFunc);
+        }
+
+        static IEnumerable<T> BottomUpTreeTraversalInternal<T>(IEnumerable<T> initialItems, Func<T, IEnumerable<T>> getChildrenFunc)
+        {
+            Queue<T> workQueue = new Queue<T>();
+
+            foreach(var item in initialItems)
+                workQueue.Enqueue(item);
+
+            return BottomUpTreeTraversalInternal<T>(workQueue, getChildrenFunc);
+        }
+
+        static IEnumerable<T> BottomUpTreeTraversalInternal<T>(Queue<T> workQueue, Func<T, IEnumerable<T>> getChildrenFunc)
+        {
+            Stack<T> results = new Stack<T>();
 
             while (workQueue.Count != 0)
             {
