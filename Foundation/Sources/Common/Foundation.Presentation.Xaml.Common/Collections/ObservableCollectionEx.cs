@@ -228,5 +228,16 @@ namespace SquaredInfinity.Foundation.Collections
 
             this.IncrementVersion();
         }
+
+
+        public IReadOnlyList<TItem> GetSnapshot()
+        {
+            using(CollectionLock.AcquireReadLock())
+            {
+                var snapshot = this.ToArray();
+                
+                return snapshot;
+            }
+        }
     }
 }

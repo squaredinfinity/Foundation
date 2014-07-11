@@ -11,5 +11,6 @@ namespace SquaredInfinity.Foundation.Collections
     {
         TItem this[int index] { get; }
         void Replace(TItem oldItem, TItem newItem);
+        IReadOnlyList<TItem> GetSnapshot();
     }
 }
