@@ -33,6 +33,7 @@
     <converters:SizeToRectConverter x:Key="Converters.SizeToRect" />
 
     <converters:EnumToBoolConverter x:Key="Converters.EnumToBool" />
+    <converters:EnumToBoolConverter x:Key="Converters.FlagToBool" TreatAsFlag="True" />
     
     <converters:EnumToValuesConverter x:Key="Converters.EnumToValues" />
     
