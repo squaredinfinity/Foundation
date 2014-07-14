@@ -96,6 +96,11 @@
     <Compile Include="DataTemplateSelectors\IContextAwareDataTemplateProvider.cs" />
     <Compile Include="DataTemplateSelectors\IContextAwareDataTemplateSelectorService.cs" />
     <Compile Include="DataTemplateSelectors\MefTypeDataTemplateSelectorService.cs" />
+    <Compile Include="DataTemplateSelectors\Rules\DataTemplateSelectorRule.cs" />
+    <Compile Include="DataTemplateSelectors\Rules\IDataTemplateSelectorRule.cs" />
+    <Compile Include="DataTemplateSelectors\RuleBasedDataTemplateSelector.cs" />
+    <Compile Include="DataTemplateSelectors\Rules\ItemValueRule.cs" />
+    <Compile Include="DataTemplateSelectors\Rules\MemberValueRule.cs" />
     <Compile Include="SharedResourceDictionary.cs" />
     <Compile Include="ViewModels\AfterViewModelEventRaisedArgs.cs" />
     <Compile Include="ViewModels\IViewModelEvent.cs" />

@@ -65,7 +65,7 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
                 // where !f.Name.EndsWith("_backingfield", StringComparison.InvariantCultureIgnoreCase)
                 // select f).ToArray();
             
-            prototype.Members = new List<ITypeMemberDescription>(capacity: properties.Length + fields.Length);
+            var prototypeMembers = new TypeMemberDescriptionCollection();
 
             for (int i = 0; i < fields.Length; i++)
             {
@@ -101,7 +101,7 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 
                 md.DeclaringType = prototype;
 
-                prototype.Members.Add(md);
+                prototypeMembers.Add(md);
             }
 
             for (int i = 0; i < properties.Length; i++)
@@ -166,8 +166,10 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 
                 md.DeclaringType = prototype;
 
-                prototype.Members.Add(md);
+                prototypeMembers.Add(md);
             }
+
+            prototype.Members = prototypeMembers;
         }
 
         MemberVisibility GetMemberVisibility(PropertyInfo pi)

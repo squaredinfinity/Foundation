@@ -242,6 +242,21 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\ResourcesTraversingDataTemplateSelector.cs">
       <Link>DataTemplateSelectors\ResourcesTraversingDataTemplateSelector.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\RuleBasedDataTemplateSelector.cs">
+      <Link>DataTemplateSelectors\RuleBasedDataTemplateSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\Rules\DataTemplateSelectorRule.cs">
+      <Link>DataTemplateSelectors\Rules\DataTemplateSelectorRule.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\Rules\IDataTemplateSelectorRule.cs">
+      <Link>DataTemplateSelectors\Rules\IDataTemplateSelectorRule.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\Rules\ItemValueRule.cs">
+      <Link>DataTemplateSelectors\Rules\ItemValueRule.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\Rules\MemberValueRule.cs">
+      <Link>DataTemplateSelectors\Rules\MemberValueRule.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\TypeNameToResourceKeyMappingDataTemplateSelector.cs">
       <Link>DataTemplateSelectors\TypeNameToResourceKeyMappingDataTemplateSelector.cs</Link>
     </Compile>

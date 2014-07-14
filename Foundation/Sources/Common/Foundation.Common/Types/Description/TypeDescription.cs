@@ -39,8 +39,8 @@ namespace SquaredInfinity.Foundation.Types.Description
             set { _namespace = value; }
         }
 
-        IList<ITypeMemberDescription> _members;
-        public IList<ITypeMemberDescription> Members
+        ITypeMemberDescriptionCollection _members;
+        public ITypeMemberDescriptionCollection Members
         {
             get { return _members; }
             set { _members = value; }
