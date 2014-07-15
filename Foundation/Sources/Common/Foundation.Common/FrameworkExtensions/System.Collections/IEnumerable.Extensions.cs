@@ -11,6 +11,31 @@ namespace SquaredInfinity.Foundation.Extensions
 {
     public static class IEnumerableExtensions
     {
+        public static IEnumerable<TSource> DefaultIfEmpty<TSource>(this IEnumerable<TSource> source, Func<TSource> getDefaultValue)
+        {
+            if (source == null)
+                throw new ArgumentException("source");
+            else
+                return DefaultIfEmptyIterator<TSource>(source, getDefaultValue);
+        }
+
+        static IEnumerable<TSource> DefaultIfEmptyIterator<TSource>(IEnumerable<TSource> source, Func<TSource> getDefaultValue)
+        {
+            using (IEnumerator<TSource> enumerator = source.GetEnumerator())
+            {
+                if (enumerator.MoveNext())
+                {
+                    do
+                    {
+                        yield return enumerator.Current;
+                    }
+                    while (enumerator.MoveNext());
+                }
+                else
+                    yield return getDefaultValue();
+            }
+        }
+
         public static IEnumerable<object> OfType(
             this IEnumerable source, 
             Type type,
