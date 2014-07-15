@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors.Rules
 {
@@ -13,7 +14,15 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors.Rules
         public string MemberName { get; set; }
         public object ExpectedValue { get; set; }
 
+        public bool ConvertExpectedValueToMemberType { get; set; }
+
         static readonly ITypeDescriptor TypeDescriptor = new ReflectionBasedTypeDescriptor();
+        static readonly TypeResolver TypeResolver = new TypeResolver();
+
+        public MemberValueRule()
+        {
+            ConvertExpectedValueToMemberType = true;
+        }
 
         public override bool TryEvaluate(object item, System.Windows.DependencyObject container, out System.Windows.DataTemplate dt)
         {
@@ -32,10 +41,25 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors.Rules
                 return false;
             }
 
-            if(object.Equals(ExpectedValue, member.GetValue(item)))
-                return true;
+            var memberValue = member.GetValue(item);
 
-            return false;
+            if (object.Equals(ExpectedValue, memberValue))
+                return true;
+            else
+            {
+                if (ExpectedValue != null && ConvertExpectedValueToMemberType)
+                {
+                    var memberType = TypeResolver.ResolveTypeFromFullName(member.MemberFullTypeName, ignoreCase: false);
+
+                    var convertedValue = ExpectedValue.Convert(memberType);
+
+                    return object.Equals(convertedValue, memberValue);
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
     }
 }
