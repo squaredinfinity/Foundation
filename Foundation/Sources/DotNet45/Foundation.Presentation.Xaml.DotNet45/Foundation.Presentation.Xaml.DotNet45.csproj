@@ -86,6 +86,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\DragDrop.cs">
       <Link>Behaviors\DragDrop.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\ForwardTextInput.cs">
+      <Link>Behaviors\ForwardTextInput.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\ListBoxItem.IsSelectible.cs">
       <Link>Behaviors\ListBoxItem.IsSelectible.cs</Link>
     </Compile>
