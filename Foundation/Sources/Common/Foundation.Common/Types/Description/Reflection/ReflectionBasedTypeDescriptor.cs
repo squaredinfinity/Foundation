@@ -87,7 +87,7 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
                 }
 
                 md.AssemblyQualifiedMemberTypeName = memberTypeDescription.AssemblyQualifiedName;
-                md.FullMemberTypeName = memberTypeDescription.FullName;
+                md.MemberFullTypeName = memberTypeDescription.FullName;
                 md.MemberTypeName = memberTypeDescription.Name;
 
                 md.Name = f.Name;
@@ -124,7 +124,7 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
                 }
 
                 md.AssemblyQualifiedMemberTypeName = memberTypeDescription.AssemblyQualifiedName;
-                md.FullMemberTypeName = memberTypeDescription.FullName;
+                md.MemberFullTypeName = memberTypeDescription.FullName;
                 md.MemberTypeName = memberTypeDescription.Name;
 
                 var explicit_interface_separator_index = p.Name.IndexOf(".");

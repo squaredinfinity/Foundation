@@ -9,7 +9,7 @@ namespace SquaredInfinity.Foundation.Types.Description
     {
         string Name { get; }
         string AssemblyQualifiedMemberTypeName { get; }
-        string FullMemberTypeName { get; }
+        string MemberFullTypeName { get; }
         string MemberTypeName { get; }
         MemberVisibility Visibility { get; }
 
