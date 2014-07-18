@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Text;
 using SquaredInfinity.Foundation.Extensions;
+using System.Threading;
 
 namespace SquaredInfinity.Foundation
 {
@@ -14,13 +15,35 @@ namespace SquaredInfinity.Foundation
     /// Implements INotifyPropertyChanged
     /// </summary> 
     [Serializable]
-    public class NotifyPropertyChangedObject : INotifyPropertyChanged, IFreezable
+    public class NotifyPropertyChangedObject : INotifyPropertyChanged, IFreezable, INotifyVersionChangedObject
     {
         /// <summary> 
         /// Occurs when [property changed]. 
         /// </summary> 
         [field:NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
+
+        [field: NonSerialized]
+        public event EventHandler VersionChanged;
+
+        void OnVersionChangedInternal()
+        {
+            OnVersionChanged();
+        }
+
+        protected virtual void OnVersionChanged()
+        {
+            var newVersion = Interlocked.Increment(ref _version);
+
+            if (VersionChanged != null)
+                VersionChanged(this, EventArgs.Empty);
+        }
+        
+        int _version;
+        int INotifyVersionChangedObject.Version
+        {
+            get { return _version; }
+        }
 
         public void RaiseThisPropertyChanged([CallerMemberName] string propertyName = "")
         {
@@ -101,17 +124,24 @@ namespace SquaredInfinity.Foundation
             if (raisePropertyChanged)
                 RaisePropertyChanged(propertyName);
 
+            OnVersionChangedInternal();
+
             return true;
         }
 
         bool _isFrozen = false;
-        public bool IsFrozen
+        bool IFreezable.IsFrozen
         {
             get { return _isFrozen; }
-            private set { _isFrozen = value; }
         }
 
-        public void Freeze()
+        bool IsFrozen
+        {
+            get { return _isFrozen; }
+            set { _isFrozen = value; }
+        }
+        
+        void IFreezable.Freeze()
         {
             IsFrozen = true;
         }

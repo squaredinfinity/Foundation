@@ -40,8 +40,8 @@ namespace SquaredInfinity.Foundation.Collections
 
                         Items.Add(item);
 
-                        if(MonitorElementsForChanges)
-                            (item as INotifyPropertyChanged).PropertyChanged += HandleItemPropertyChanged;
+                        if (MonitorElementsForChanges)
+                            BeginItemChangeMonitoring(item);
 
                         RaiseCollectionChanged(NotifyCollectionChangedAction.Add, (object)item, Items.Count - 1);
                     }
@@ -71,8 +71,8 @@ namespace SquaredInfinity.Foundation.Collections
                         objArray[index1] = item;
                         Items.RemoveAt(index);
 
-                        if(MonitorElementsForChanges)
-                            (item as INotifyPropertyChanged).PropertyChanged -= HandleItemPropertyChanged;
+                        if (MonitorElementsForChanges)
+                            StopItemChangeMonitoring(item);
 
                         RaiseCollectionChanged(NotifyCollectionChangedAction.Remove, (object)item, index);
                     }
@@ -96,8 +96,8 @@ namespace SquaredInfinity.Foundation.Collections
                     {
                         if(MonitorElementsForChanges)
                         {
-                            foreach(var item in Items)
-                                (item as INotifyPropertyChanged).PropertyChanged -= HandleItemPropertyChanged;
+                            foreach (var item in Items)
+                                StopItemChangeMonitoring(item);
                         }
 
                         Items.Clear();
@@ -109,8 +109,8 @@ namespace SquaredInfinity.Foundation.Collections
                         {
                             this.Items.Add(obj);
 
-                            if(MonitorElementsForChanges)
-                                (obj as INotifyPropertyChanged).PropertyChanged += HandleItemPropertyChanged;
+                            if (MonitorElementsForChanges)
+                                BeginItemChangeMonitoring(obj);
                         }
                     }
                 }

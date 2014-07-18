@@ -45,7 +45,10 @@ namespace SquaredInfinity.Foundation.Collections
         {
             Dispatcher = dispatcher;
 
-            if (monitorElementsForChanges == true && typeof(TItem).IsAssignableFrom(typeof(INotifyPropertyChanged)))
+            if (monitorElementsForChanges == true 
+                && 
+                (typeof(TItem).ImplementsOrExtends(typeof(INotifyPropertyChanged)) || typeof(TItem).ImplementsOrExtends(typeof(INotifyVersionChangedObject)))
+               )
             {
                 MonitorElementsForChanges = monitorElementsForChanges;
             }
@@ -113,8 +116,10 @@ namespace SquaredInfinity.Foundation.Collections
                     obj = this[index];
                     base.RemoveItem(index);
 
-                    if(MonitorElementsForChanges)
-                        (obj as INotifyPropertyChanged).PropertyChanged -= HandleItemPropertyChanged;
+                    if (MonitorElementsForChanges)
+                    {
+                        StopItemChangeMonitoring(obj);
+                    }
                 }
 
                 this.RaiseCollectionChanged(NotifyCollectionChangedAction.Remove, (object)obj, index);
@@ -129,8 +134,8 @@ namespace SquaredInfinity.Foundation.Collections
                 {
                     base.InsertItem(index, item);
 
-                    if(MonitorElementsForChanges)
-                        (item as INotifyPropertyChanged).PropertyChanged += HandleItemPropertyChanged;
+                    if (MonitorElementsForChanges)
+                        BeginItemChangeMonitoring(item);
                 }
 
                 this.RaiseCollectionChanged(NotifyCollectionChangedAction.Add, (object)item, index);
@@ -148,8 +153,8 @@ namespace SquaredInfinity.Foundation.Collections
                     obj = this[index];
                     base.SetItem(index, item);
 
-                    if(MonitorElementsForChanges)
-                        (obj as INotifyPropertyChanged).PropertyChanged -= HandleItemPropertyChanged;
+                    if (MonitorElementsForChanges)
+                        StopItemChangeMonitoring(obj);
                 }
 
                 this.RaiseCollectionChanged(NotifyCollectionChangedAction.Replace, (object)item, (object)obj, index);
@@ -209,7 +214,7 @@ namespace SquaredInfinity.Foundation.Collections
 
                                         if (MonitorElementsForChanges)
                                         {
-                                            (item as INotifyPropertyChanged).PropertyChanged += HandleItemPropertyChanged;
+                                            BeginItemChangeMonitoring(item);
                                         }
                                     }
                                 }), DispatcherPriority.Background);
@@ -227,6 +232,41 @@ namespace SquaredInfinity.Foundation.Collections
             //          but there was not need for it so far.
 
             this.IncrementVersion();
+        }
+
+        void HandleItemVersionChanged(object sender, EventArgs e)
+        {
+            // todo:    in future this may need to raise an event with exact item that changed communicated to subscribers,
+            //          but there was not need for it so far.
+
+            this.IncrementVersion();
+        }
+
+        void BeginItemChangeMonitoring(object item)
+        {
+            var vco = item as INotifyVersionChangedObject;
+            if(vco != null)
+            {
+                vco.VersionChanged += HandleItemVersionChanged;
+
+                // version changed already includes property changes, so just return
+                return;
+            }
+
+            var inpc = item as INotifyPropertyChanged;
+            if (inpc != null)
+                inpc.PropertyChanged += HandleItemPropertyChanged;
+        }
+
+        void StopItemChangeMonitoring(object item)
+        {
+            var vco = item as INotifyVersionChangedObject;
+            if (vco != null)
+                vco.VersionChanged -= HandleItemVersionChanged;
+
+            var inpc = item as INotifyPropertyChanged;
+            if (inpc != null)
+                inpc.PropertyChanged -= HandleItemPropertyChanged;
         }
 
 

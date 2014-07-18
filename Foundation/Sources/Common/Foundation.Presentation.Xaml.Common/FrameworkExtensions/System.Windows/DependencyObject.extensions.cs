@@ -243,6 +243,23 @@ namespace SquaredInfinity.Foundation.Extensions
 
             return null;
         }
+
+        public static bool IsVisualChildOf(this DependencyObject child, DependencyObject potentialParent, DependencyObject stopSearchAt = null)
+        {
+            child = child.FindNearestVisual();
+
+            DependencyObject parent = child.GetVisualParent();
+
+            while (parent != null && parent != stopSearchAt)
+            {
+                if (parent == potentialParent)
+                    return true;
+
+                parent = parent.GetVisualParent();
+            }
+
+            return false;
+        }
         
         public static TParent FindVisualParent<TParent>(this DependencyObject me, DependencyObject stopSearchAt = null)
             where TParent : DependencyObject
@@ -266,6 +283,7 @@ namespace SquaredInfinity.Foundation.Extensions
 
             return null;
         }
+
 
            public static TParent FindLogicalParent<TParent>(this DependencyObject me)
             where TParent : DependencyObject

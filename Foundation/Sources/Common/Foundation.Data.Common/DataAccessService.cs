@@ -426,7 +426,7 @@ namespace SquaredInfinity.Foundation.Data
             var targetType = typeof(TTarget);
             var sourceType = dbValue.GetType();
 
-            if (sourceType.IsTypeEquivalentTo(targetType, treatNullableAsEquivalent: true))
+            if (sourceType.IsTypeEquivalentTo(targetType, treatNullableAsEquivalent: true) || sourceType.ImplementsOrExtends(targetType))
             {
                 clrTarget = (TTarget)dbValue;
                 return;
