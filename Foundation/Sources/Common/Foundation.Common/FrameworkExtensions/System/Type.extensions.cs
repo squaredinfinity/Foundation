@@ -54,9 +54,8 @@ namespace SquaredInfinity.Foundation.Extensions
         }
         
         /// <summary>
-        /// Checks if type is equivalent to other type.
-        /// By default, returns true only when specified types are exactly the same.
-        /// By default implemented interfaces and base types are *NOT* considered equivalent.
+        /// Returns true if types are equivalent.
+        /// Optionaly can treat nullable version of a non-nullable type T as equivalent to T.
         /// </summary>
         /// <param name="type"></param>
         /// <param name="otherType">other type</param>
@@ -66,17 +65,16 @@ namespace SquaredInfinity.Foundation.Extensions
             this Type type,
             Type otherType, 
             bool treatNullableAsEquivalent = false,
-            bool treatBaseTypesAsEquivalent = false,
-            bool treatImplementedInterfacesAsEquivalent = false)
+            bool treatBaseTypesAndinterfacesAsEquivalent = false)
         {
             if (otherType == null)
                 throw new ArgumentNullException("otherType");
 
-            if (treatBaseTypesAsEquivalent && type.IsAssignableFrom(otherType))
-                return true;
-
-            if (treatImplementedInterfacesAsEquivalent && type.ImplementsInterface(otherType))
-                return true;
+            if(treatBaseTypesAndinterfacesAsEquivalent)
+            {
+                if(type.ImplementsOrExtends(otherType))
+                    return true;
+            }
 
             if (treatNullableAsEquivalent)
             {
@@ -89,6 +87,13 @@ namespace SquaredInfinity.Foundation.Extensions
             {
                 return type == otherType;
             }
+        }
+
+        public static bool ImplementsOrExtends(this Type type, Type otherType)
+        {
+            var result = otherType.IsAssignableFrom(type);
+
+            return result;
         }
 
         public static bool IsNullable(this Type type)

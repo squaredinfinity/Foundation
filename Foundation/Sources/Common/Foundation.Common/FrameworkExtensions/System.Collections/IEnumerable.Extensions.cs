@@ -39,16 +39,16 @@ namespace SquaredInfinity.Foundation.Extensions
         public static IEnumerable<object> OfType(
             this IEnumerable source, 
             Type type,
-            bool treatNullableAsEquivalent = false,
-            bool treatBaseTypesAsEquivalent = true,
-            bool treatImplementedInterfacesAsEquivalent = true)
+            bool treatNullableAsEquivalent = false)
         {
             foreach (object obj in source)
             {
                 if (obj == null)
                     continue;
 
-                if(obj.GetType().IsTypeEquivalentTo(type, treatNullableAsEquivalent, treatBaseTypesAsEquivalent, treatImplementedInterfacesAsEquivalent))
+                if (obj.GetType().IsTypeEquivalentTo(type, treatNullableAsEquivalent))
+                    yield return obj;
+                else if (obj.GetType().ImplementsOrExtends(type))
                     yield return obj;
             }
         }
@@ -165,9 +165,9 @@ namespace SquaredInfinity.Foundation.Extensions
 
         public static IEnumerable<T> TreeTraversal<T>(this IEnumerable<T> list, TreeTraversalMode traversalMode)
         {
-            //  if list of T type itself (e.g. it's a node in a tree hierarchy)
+            //  if list is of T type itself (e.g. it's a node in a tree hierarchy)
             //  then process the list itself
-            if (list.GetType().IsTypeEquivalentTo(typeof(T)))
+            if (list.GetType().IsTypeEquivalentTo(typeof(T)) || list.GetType().ImplementsOrExtends(typeof(T)))
             {
                 return ((T)list).TreeTraversal(traversalMode, DefaultGetChildrenFunc);
             }

@@ -127,7 +127,7 @@ namespace SquaredInfinity.Foundation.Extensions
             {
                 var objType = obj.GetType();
 
-                if (objType.IsTypeEquivalentTo(targetType, treatNullableAsEquivalent: true, treatBaseTypesAsEquivalent: true, treatImplementedInterfacesAsEquivalent: true))
+                if (objType.IsTypeEquivalentTo(targetType, treatNullableAsEquivalent: true) || objType.ImplementsOrExtends(targetType))
                 {
                     result = obj;
                     return true;
