@@ -14,9 +14,12 @@ namespace SquaredInfinity.Foundation.Collections
         Collection<TItem>,
         ICollectionEx<TItem>,
         IBulkUpdatesCollection<TItem>, 
-        INotifyCollectionContentChanged
+        INotifyCollectionContentChanged,
+        System.Collections.IList
     {
         readonly protected ILock CollectionLock = new ReaderWriterLockSlimEx(LockRecursionPolicy.SupportsRecursion);
+
+        object IList.this[int index] { get { return this[index]; } set { this[index] = (TItem) value; } }
 
         public CollectionEx()
         { }

@@ -17,11 +17,16 @@ using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Collections
 {
-    public partial class ObservableCollectionEx<TItem> : Collection<TItem>, ICollectionEx<TItem>
+    public partial class ObservableCollectionEx<TItem> : 
+        Collection<TItem>, 
+        ICollectionEx<TItem>,
+        System.Collections.IList
     {
         readonly protected ILock CollectionLock = new ReaderWriterLockSlimEx(LockRecursionPolicy.SupportsRecursion);
 
         readonly Dispatcher Dispatcher;
+
+        object IList.this[int index] { get { return this[index]; } set { this[index] = (TItem)value; } }
 
         static Dispatcher GetMainThreadDispatcher()
         {
