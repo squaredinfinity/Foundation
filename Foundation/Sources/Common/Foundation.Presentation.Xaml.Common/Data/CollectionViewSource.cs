@@ -40,6 +40,12 @@ namespace SquaredInfinity.Foundation.Presentation.Data
         {
             var cvs = d as CollectionViewSource;
 
+            if (cvs == null)
+                return;
+
+            if (cvs.View == null)
+                return;
+
             cvs.View.Refresh();
         }
       
