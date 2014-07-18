@@ -222,5 +222,24 @@ namespace SquaredInfinity.Foundation.Extensions
         {
             return double.IsInfinity(d);
         }
+
+        public static double GetValueOrDefaultIfInfinityOrNaN(this double? d, double defaultValue)
+        {
+            if (d == null)
+                return defaultValue;
+
+            if (d.Value.IsInfinityOrNaN())
+                return defaultValue;
+
+            return d.Value;
+        }
+
+        public static double GetValueOrDefaultIfInfinityOrNaN(this double d, double defaultValue)
+        {
+            if (d.IsInfinityOrNaN())
+                return defaultValue;
+
+            return d;
+        }
     }
 }
