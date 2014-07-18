@@ -8,12 +8,40 @@ using System.Reflection;
 using System.Collections;
 using System.Windows.Controls.Primitives;
 using SquaredInfinity.Foundation.Extensions;
+using System.ComponentModel;
 
 namespace SquaredInfinity.Foundation.Presentation.DragDrop.Utilities
 {
   public static class ItemsControlExtensions
   {
     
+      /// <summary>
+      /// Returns *raw underlying collection* behind specified Items Control.
+      /// If Items Control is bound to a Collection View, it will return the collection used by Collection View
+      /// </summary>
+      /// <param name="itemsControl"></param>
+      /// <returns></returns>
+      public static IEnumerable GetRawUnderlyingCollection(this ItemsControl itemsControl)
+      {
+          if(itemsControl.ItemsSource != null)
+          {
+              return GetRawUnderlyingCollection(itemsControl.ItemsSource);
+          }
+
+          return GetRawUnderlyingCollection(itemsControl.Items.SourceCollection);
+      }
+
+      static IEnumerable GetRawUnderlyingCollection(IEnumerable collection)
+      {
+          if (collection == null)
+              return collection;
+
+          var cv = collection as ICollectionView;
+          if (cv != null)
+              return GetRawUnderlyingCollection(cv.SourceCollection);
+
+          return collection;
+      }
 
     public static UIElement GetItemContainer(this ItemsControl itemsControl, UIElement child)
     {

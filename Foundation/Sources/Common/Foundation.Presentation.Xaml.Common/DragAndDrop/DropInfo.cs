@@ -70,42 +70,52 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
             if (this.VisualTarget is ItemsControl)
             {
                 var itemsControl = (ItemsControl)this.VisualTarget;
-                var item = itemsControl.GetItemContainerAt(this.DropPosition);
-                var directlyOverItem = item != null;
+                var itemContainer = itemsControl.GetItemContainerAt(this.DropPosition);
+                var directlyOverItem = itemContainer != null;
 
                 this.TargetGroup = this.FindGroup(itemsControl, this.DropPosition);
                 this.VisualTargetOrientation = itemsControl.GetItemsPanelOrientation();
                 this.VisualTargetFlowDirection = itemsControl.GetItemsPanelFlowDirection();
 
-                if (item == null)
+                if (itemContainer == null)
                 {
-                    item = itemsControl.GetItemContainerAt(this.DropPosition, this.VisualTargetOrientation);
+                    itemContainer = itemsControl.GetItemContainerAt(this.DropPosition, this.VisualTargetOrientation);
                     directlyOverItem = false;
                 }
 
-                if (item != null)
+                if (itemContainer != null)
                 {
-                    var itemParent = ItemsControl.ItemsControlFromItemContainer(item);
+                    var itemParent = ItemsControl.ItemsControlFromItemContainer(itemContainer);
 
-                    InsertIndex = itemParent.ItemContainerGenerator.IndexFromContainer(item);
+                    InsertIndex = itemParent.ItemContainerGenerator.IndexFromContainer(itemContainer);
                     TargetCollection = itemParent.ItemsSource ?? itemParent.Items.SourceCollection;
 
-                    if (directlyOverItem || typeof(TreeViewItem).IsAssignableFrom(item.GetType()))
+                    var rawItem = itemParent.ItemContainerGenerator.ItemFromContainer(itemContainer);
+
+                    RawTargetCollection = itemParent.GetRawUnderlyingCollection();
+
+                    var targetList = RawTargetCollection as IList;
+
+                    if(targetList != null)
+                        RawInsertIndex = targetList.IndexOf(rawItem);
+
+                    if (directlyOverItem || typeof(TreeViewItem).IsAssignableFrom(itemContainer.GetType()))
                     {
-                        TargetItem = itemParent.ItemContainerGenerator.ItemFromContainer(item);
-                        VisualTargetItem = item;
+                        TargetItem = itemParent.ItemContainerGenerator.ItemFromContainer(itemContainer);
+                        VisualTargetItem = itemContainer;
                     }
 
-                    var itemRenderSize = item.RenderSize;
+                    var itemRenderSize = itemContainer.RenderSize;
 
                     if (VisualTargetOrientation == Orientation.Vertical)
                     {
-                        var currentYPos = e.GetPosition(item).Y;
+                        var currentYPos = e.GetPosition(itemContainer).Y;
                         var targetHeight = itemRenderSize.Height;
 
                         if (currentYPos > targetHeight / 2)
                         {
                             InsertIndex++;
+                            RawInsertIndex++;
                             InsertPosition = RelativeInsertPosition.AfterTargetItem;
                         }
                         else
@@ -120,13 +130,14 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
                     }
                     else
                     {
-                        var currentXPos = e.GetPosition(item).X;
+                        var currentXPos = e.GetPosition(itemContainer).X;
                         var targetWidth = itemRenderSize.Width;
 
                         if ((VisualTargetFlowDirection == FlowDirection.RightToLeft && currentXPos < targetWidth / 2)
                             || (VisualTargetFlowDirection == FlowDirection.LeftToRight && currentXPos > targetWidth / 2))
                         {
                             InsertIndex++;
+                            RawInsertIndex++;
                             InsertPosition = RelativeInsertPosition.AfterTargetItem;
                         }
                         else
@@ -138,15 +149,13 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
                         {
                             InsertPosition |= RelativeInsertPosition.TargetItemCenter;
                         }
-#if DEBUG
-                        Console.WriteLine("==> DropInfo: {0}, {1}, {2}, X={3}", InsertPosition, item, InsertIndex, currentXPos);
-#endif
                     }
                 }
                 else
                 {
                     TargetCollection = itemsControl.ItemsSource ?? itemsControl.Items.SourceCollection;
                     InsertIndex = itemsControl.Items.Count;
+                    RawInsertIndex = itemsControl.Items.Count;
                 }
             }
         }
@@ -302,6 +311,16 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
         public DragDropKeyStates KeyStates { get; private set; }
         
         public DragDropEffects ActualDropEffect { get; set; }
+
+        /// <summary>
+        /// Insert index in actual target collection (e.g. collection under collection view)
+        /// </summary>
+        public int RawInsertIndex { get; set; }
+
+        /// <summary>
+        /// Actual target collection (e.g. collection under collection view)
+        /// </summary>
+        public IEnumerable RawTargetCollection { get; set; }
     }
 
     [Flags]

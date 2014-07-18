@@ -44,9 +44,9 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
 
         public virtual void Drop(IDropInfo dropInfo)
         {
-            var insertIndex = dropInfo.InsertIndex;
+            var rawInsertIndex = dropInfo.RawInsertIndex;
 
-            var targetList = dropInfo.TargetCollection.AsList();
+            var targetList = dropInfo.RawTargetCollection.AsList();
             var sourceList = dropInfo.DragInfo.SourceCollection.AsList();
 
             var data = new List<object>(dropInfo.DataAsEnumerable.Cast<object>());
@@ -64,10 +64,10 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
 
                         sourceList.Remove(item);
 
-                        if (ix < insertIndex)
-                            sourceList.Insert(insertIndex - 1, item);
+                        if (ix < rawInsertIndex)
+                            sourceList.Insert(rawInsertIndex - 1, item);
                         else
-                            sourceList.Insert(insertIndex, item);
+                            sourceList.Insert(rawInsertIndex, item);
                     }
                 }
                 else
@@ -82,7 +82,7 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
                     if (dropInfo.ActualDropEffect == DragDropEffects.Move)
                         sourceList.Remove(item);
 
-                    targetList.Insert(insertIndex, item);
+                    targetList.Insert(rawInsertIndex, item);
                 }
             }
         }

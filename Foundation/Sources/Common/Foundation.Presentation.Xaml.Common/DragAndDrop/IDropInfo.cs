@@ -127,5 +127,15 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
         /// Gets a flag enumeration indicating the current state of the SHIFT, CTRL, and ALT keys, as well as the state of the mouse buttons.
         /// </summary>
         DragDropKeyStates KeyStates { get; }
+
+        /// <summary>
+        /// Insert index in actual target collection (e.g. collection under collection view)
+        /// </summary>
+        int RawInsertIndex { get; }
+
+        /// <summary>
+        /// Actual target collection (e.g. collection under collection view)
+        /// </summary>
+        IEnumerable RawTargetCollection { get; }
     }
 }
