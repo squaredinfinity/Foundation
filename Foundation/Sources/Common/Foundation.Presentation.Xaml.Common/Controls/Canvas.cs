@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Presentation.Controls
 {
@@ -19,13 +20,13 @@ namespace SquaredInfinity.Foundation.Presentation.Controls
 
             double width =
                 (from c in InternalChildren.OfType<UIElement>()
-                 select c.DesiredSize.Width + Canvas.GetLeft(c))
+                 select c.DesiredSize.Width + Canvas.GetLeft(c).GetValueOrDefaultIfInfinityOrNaN(0))
                  .DefaultIfEmpty(0)
                  .Max();
 
             double height = 
                 (from c in InternalChildren.OfType<UIElement>()
-                 select c.DesiredSize.Height + Canvas.GetTop(c))
+                 select c.DesiredSize.Height + Canvas.GetTop(c).GetValueOrDefaultIfInfinityOrNaN(0))
                  .DefaultIfEmpty(0)
                  .Max();
 
