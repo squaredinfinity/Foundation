@@ -104,12 +104,20 @@ namespace SquaredInfinity.Foundation.Extensions
             return list;
         }
 
-        public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> list)
+        public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> items)
         {
-            if (list == null)
+            if (items == null)
                 return new EmptyEnumerator<T>();
 
-            return list;
+            return items;
+        }
+
+        public static IEnumerable EmptyIfNull(this IEnumerable items)
+        {
+            if (items == null)
+                return new EmptyEnumerator<object>();
+
+            return items;
         }
 
 
