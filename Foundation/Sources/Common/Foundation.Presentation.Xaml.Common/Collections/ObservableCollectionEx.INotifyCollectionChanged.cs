@@ -13,7 +13,7 @@ namespace SquaredInfinity.Foundation.Collections
     {
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
-        void RaiseCollectionChanged(NotifyCollectionChangedAction action, object newItem, object oldItem, int index)
+        protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object newItem, object oldItem, int index)
         {
             IncrementVersion();
 
@@ -33,7 +33,7 @@ namespace SquaredInfinity.Foundation.Collections
             RaisePropertyChanged("Version");
         }
 
-        void RaiseCollectionChanged(NotifyCollectionChangedAction action, object item, int index)
+        protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object item, int index)
         {
             IncrementVersion();
 
@@ -53,7 +53,7 @@ namespace SquaredInfinity.Foundation.Collections
             RaisePropertyChanged("Version");
         }
 
-        void RaiseCollectionChanged(NotifyCollectionChangedAction action, object item, int index, int oldIndex)
+        protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object item, int index, int oldIndex)
         {
             IncrementVersion();
 
@@ -73,7 +73,7 @@ namespace SquaredInfinity.Foundation.Collections
             RaisePropertyChanged("Version");
         }
 
-        void RaiseCollectionReset()
+        protected void RaiseCollectionReset()
         {
             IncrementVersion();
 
