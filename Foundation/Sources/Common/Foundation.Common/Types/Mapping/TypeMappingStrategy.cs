@@ -62,6 +62,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
     public partial class TypeMappingStrategy : ITypeMappingStrategy
     {
+
         public Type SourceType { get; set; }
         public Type TargetType { get; set; }
         public ITypeDescription SourceTypeDescription { get; private set; }

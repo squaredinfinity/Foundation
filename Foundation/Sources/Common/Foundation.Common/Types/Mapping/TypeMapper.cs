@@ -169,9 +169,10 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                         //val = converter.Convert(val);
                     }
 
+                    // if value is null and options are set to igonre nulls, then just skip this member and continue
                     if (val == null && options.IgnoreNulls)
                         continue;
-
+                    
                     if (val == null || IsBuiltInSimpleValueType(val))
                     {
                         targetMember.SetValue(target, val);
