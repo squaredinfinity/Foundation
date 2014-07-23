@@ -28,6 +28,23 @@ namespace SquaredInfinity.Foundation.Collections
             : base(items)
         { }
 
+        public void Move(int oldIndex, int newIndex)
+        {
+            if (oldIndex == newIndex)
+                return;
+
+            MoveItem(oldIndex, newIndex);
+        }
+
+        protected virtual void MoveItem(int oldIndex, int newIndex)
+        {
+            TItem item = this[oldIndex];
+
+            base.RemoveItem(oldIndex);
+
+            base.InsertItem(newIndex, item);
+        }
+
         protected override void ClearItems()
         {
             using (CollectionLock.AcquireWriteLock())

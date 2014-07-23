@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows.Data;
 using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Foundation.Collections;
 
 namespace SquaredInfinity.Foundation.Presentation.DragDrop
 {
@@ -62,12 +63,25 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
                     {
                         var ix = sourceList.IndexOf(item);
 
-                        sourceList.Remove(item);
+                        // where possible use .Move() to drag/drop within same collection
+                        // for it to be an atomic operation
+                        // where not possible, use remove + insert
 
-                        if (ix < rawInsertIndex)
-                            sourceList.Insert(rawInsertIndex - 1, item);
+                        var collEx = sourceList as ICollectionEx;
+
+                        if(collEx != null)
+                        {
+                            collEx.Move(ix, rawInsertIndex);
+                        }
                         else
-                            sourceList.Insert(rawInsertIndex, item);
+                        {
+                            sourceList.Remove(item);
+
+                            if (ix < rawInsertIndex)
+                                sourceList.Insert(rawInsertIndex - 1, item);
+                            else
+                                sourceList.Insert(rawInsertIndex, item);
+                        }
                     }
                 }
                 else

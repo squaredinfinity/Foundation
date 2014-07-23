@@ -17,9 +17,6 @@ namespace SquaredInfinity.Foundation.Collections
         {
             IncrementVersion();
 
-            if (CollectionChanged != null)
-                CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, newItem, oldItem, index));
-
             if (action.IsIn(NotifyCollectionChangedAction.Move, NotifyCollectionChangedAction.Replace))
             {
                 RaisePropertyChanged("Item[]");
@@ -29,16 +26,17 @@ namespace SquaredInfinity.Foundation.Collections
                 RaisePropertyChanged("Item[]");
                 RaisePropertyChanged("Count");
             }
+
+
+            if (CollectionChanged != null)
+                CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, newItem, oldItem, index));
 
             RaisePropertyChanged("Version");
         }
 
-        protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object item, int index)
+        protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object item, int index, bool raiseVersionChanged = true)
         {
             IncrementVersion();
-
-            if (CollectionChanged != null)
-                CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, item, index));
 
             if (action.IsIn(NotifyCollectionChangedAction.Move, NotifyCollectionChangedAction.Replace))
             {
@@ -50,16 +48,17 @@ namespace SquaredInfinity.Foundation.Collections
                 RaisePropertyChanged("Count");
             }
 
-            RaisePropertyChanged("Version");
+            if (CollectionChanged != null)
+                CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, item, index));
+
+            if(raiseVersionChanged)
+                RaisePropertyChanged("Version");
         }
 
         protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object item, int index, int oldIndex)
         {
             IncrementVersion();
 
-            if (CollectionChanged != null)
-                CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, item, index, oldIndex));
-
             if (action.IsIn(NotifyCollectionChangedAction.Move, NotifyCollectionChangedAction.Replace))
             {
                 RaisePropertyChanged("Item[]");
@@ -69,6 +68,9 @@ namespace SquaredInfinity.Foundation.Collections
                 RaisePropertyChanged("Item[]");
                 RaisePropertyChanged("Count");
             }
+
+            if (CollectionChanged != null)
+                CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, item, index, oldIndex));
 
             RaisePropertyChanged("Version");
         }

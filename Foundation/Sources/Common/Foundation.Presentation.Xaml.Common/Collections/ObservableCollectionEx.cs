@@ -95,6 +95,9 @@ namespace SquaredInfinity.Foundation.Collections
 
         public void Move(int oldIndex, int newIndex)
         {
+            if (oldIndex == newIndex)
+                return;
+
             using(var readLock = CollectionLock.AcquireUpgradeableReadLock())
             {
                 var obj = default(TItem);
@@ -106,7 +109,16 @@ namespace SquaredInfinity.Foundation.Collections
                     base.InsertItem(newIndex, obj);
                 }
 
-                RaiseCollectionChanged(NotifyCollectionChangedAction.Move, (object)obj, newIndex, oldIndex);
+                // NOTE:    Action.Move seems to not work properly with CollectionViewSources (UI does not update correctly in some cases, when custom sorting/filtering is applied)
+                //          Use Remove + Add instead
+                //          Raise Version Changed only once
+                
+                //x RaiseCollectionChanged(NotifyCollectionChangedAction.Move, (object)obj, newIndex, oldIndex);
+
+                RaiseCollectionChanged(NotifyCollectionChangedAction.Remove, (object)obj, oldIndex, raiseVersionChanged: false);
+                RaiseCollectionChanged(NotifyCollectionChangedAction.Add, (object)obj, newIndex, raiseVersionChanged: false);
+
+                RaisePropertyChanged("Version");
             }
         }
 
