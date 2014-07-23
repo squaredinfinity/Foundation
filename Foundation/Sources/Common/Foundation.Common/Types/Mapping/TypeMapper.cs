@@ -136,13 +136,19 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             var ms = TypeMappingStrategies.GetOrAdd(key, _key => CreateDefaultTypeMappingStrategy(sourceType, targetType));
 
+            var sourceList = source as IList;
+            var targetList = target as IList;
+
             // todo: anything needed here for IReadOnlyList support in 4.5?
-            if (source is IList && target is IList)
+            if (sourceList != null && targetList != null)
             {
                 if (!options.ReuseTargetCollectionItemsWhenPossible)
-                    (target as IList).Clear();
+                    targetList.Clear();
 
-                DeepCloneListElements(source as IList, target as IList, options, cx);
+                if (sourceList.Count == 0)
+                    targetList.Clear();
+
+                DeepCloneListElements(sourceList, targetList, options, cx);
             }
 
             for (int i = 0; i < ms.TargetTypeDescription.Members.Count; i++)
