@@ -276,9 +276,29 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
                 // did not reuse target, replace it with new instance
 
-                targetItem = MapInternal(sourceItem, sourceItem.GetType(), options, cx);
+                if(target.CanAcceptItem(sourceItem))
+                {
+                    // target can accept source item
+                    targetItem = MapInternal(sourceItem, sourceItem.GetType(), options, cx);
+                }
+                else
+                {
+                    // try to use first available compatible type
 
-                // if item in *i* position exists, replace it (as we failed to reuse it above)
+                    var supportedItemTypes = target.GetItemsTypes();
+
+                    if (supportedItemTypes.Count != 1)
+                    {
+                        // todo: dispaly warning saying that first compatible type will be used
+                    }
+
+                    var targetListItemType = target.GetItemsTypes().First();
+
+                    targetItem = MapInternal(sourceItem, targetListItemType, options, cx);
+                }
+
+
+                // if item in *i* position exists, replace it (as we failed to reuse it before)
                 if (target.Count > i)
                 {
                     target.RemoveAt(i);
@@ -295,7 +315,6 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 }
             }
         }
-
 
         public TTarget Map<TTarget>(object source)
         {
