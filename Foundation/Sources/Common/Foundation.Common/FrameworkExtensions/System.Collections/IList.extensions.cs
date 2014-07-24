@@ -15,20 +15,13 @@ namespace SquaredInfinity.Foundation.Extensions
         /// <param name="list"></param>
         /// <param name="listItemCandidate"></param>
         /// <returns></returns>
-        public static bool CanAcceptItem(this IList list, object listItemCandidate)
+        public static bool CanAcceptItem(this IList list, object listItemCandidate, IReadOnlyList<Type> compatibleItemTypes = null)
         {
-            // find which list interfaces are implemented by list
-            var listInterfaces =
-                (from i in list.GetType().GetInterfaces()
-                 where i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IList<>)
-                 select i);
-
-            var listItemTypes =
-                (from i in listInterfaces
-                 select i.GetGenericArguments().Single()).ToArray();
+            if(compatibleItemTypes == null)
+                compatibleItemTypes = list.GetItemsTypes();
 
             // if no item types found, list accepts everything
-            if (listItemTypes.Length == 0)
+            if (compatibleItemTypes.Count == 0)
                 return true;
 
             if (listItemCandidate is IEnumerable)
@@ -38,7 +31,7 @@ namespace SquaredInfinity.Foundation.Extensions
                     var listItemCandidateType = item.GetType();
 
                     var areTypesCompatible =
-                        (from t in listItemTypes
+                        (from t in compatibleItemTypes
                          where t.IsAssignableFrom(listItemCandidateType)
                          select t).Any();
 
@@ -53,7 +46,7 @@ namespace SquaredInfinity.Foundation.Extensions
                 var listItemCandidateType = listItemCandidate.GetType();
 
                 var areTypesCompatible =
-                        (from t in listItemTypes
+                        (from t in compatibleItemTypes
                          where t.IsAssignableFrom(listItemCandidateType)
                          select t).Any();
 

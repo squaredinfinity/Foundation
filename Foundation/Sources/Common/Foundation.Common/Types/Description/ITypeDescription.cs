@@ -12,5 +12,6 @@ namespace SquaredInfinity.Foundation.Types.Description
         string Name { get; }
         string Namespace { get; }
         ITypeMemberDescriptionCollection Members { get; }
+        Type Type { get; }
     }
 }

@@ -115,6 +115,8 @@
     <Compile Include="Threading\ReaderWriterLockSlimEx.ReadLockAcquisition.cs" />
     <Compile Include="Threading\ReaderWriterLockSlimEx.cs" />
     <Compile Include="TypeResolver.cs" />
+    <Compile Include="Types\Description\EnumerableTypeDescription.cs" />
+    <Compile Include="Types\Description\IEnumerableTypeDescription.cs" />
     <Compile Include="Types\Description\ITypeMemberDescriptionCollection.cs" />
     <Compile Include="Types\Description\TypeMemberDescriptionCollection.cs" />
     <Compile Include="Types\Mapping\TypeMapper.TypeMappingStrategiesConcurrentDictionary.cs" />

@@ -17,8 +17,8 @@ namespace SquaredInfinity.Foundation.Types.Mapping.ValueResolving
         {
             this.Match = match;
 
-            this.FromType = Type.GetType(match.From.AssemblyQualifiedMemberTypeName);
-            this.ToType = Type.GetType(match.To.AssemblyQualifiedMemberTypeName);
+            this.FromType = match.From.MemberType.Type;
+            this.ToType = match.To.MemberType.Type;
         }
 
         public object ResolveValue(object source)

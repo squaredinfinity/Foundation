@@ -30,19 +30,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         { }
 
 
-        // todo: refactor those out to a fluent interface
-
-        public void CreateInstanceWith(Func<TFrom, TTo> create)
-        {
-            base.CustomCreateInstanceWith = (o, cx) => create((TFrom) o);
-        }
-
-        public void CreateInstanceWith(Func<TFrom, CreateInstanceContext, TTo> create)
-        {
-            base.CustomCreateInstanceWith = (o, cx) => create((TFrom)o, cx);
-        }
-
-        public ITypeMappingStrategy<TFrom, TTo> MapMember<TMember>(Expression<Func<TFrom, object>> sourceMemberExpression, Func<TFrom, TMember> getValue)
+        public ITypeMappingStrategy<TFrom, TTo> MapMember<TMember>(Expression<Func<TTo, object>> sourceMemberExpression, Func<TFrom, TMember> getValue)
         {
             var resolver = new DynamicValueResolver<TFrom, TMember>(getValue);
 
@@ -58,6 +46,14 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             MemberNameToValueResolverMappings.Clear();
             return this;
         }
+
+
+        public ITypeMappingStrategy<TFrom, TTo> CreateTargetInstance(Func<TFrom, CreateInstanceContext, TTo> createTargetInstance)
+        {
+            base.CreateTargetInstance = (_s, _cx) => createTargetInstance((TFrom)_s, _cx);
+
+            return this;
+        }
     }
 
     public partial class TypeMappingStrategy : ITypeMappingStrategy
@@ -68,7 +64,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         public ITypeDescription SourceTypeDescription { get; private set; }
         public ITypeDescription TargetTypeDescription { get; private set; }
 
-        protected Func<object, CreateInstanceContext, object> CustomCreateInstanceWith { get; set; }
+        protected Func<object, CreateInstanceContext, object> CreateTargetInstance { get; set; }
 
         MemberMatchingRuleCollection MemberMatchingRules { get; set; }
 
@@ -181,9 +177,9 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             try
             {
-                if (CustomCreateInstanceWith != null)
+                if (CreateTargetInstance != null)
                 {
-                    newInstance = CustomCreateInstanceWith(source, create_cx);
+                    newInstance = CreateTargetInstance(source, create_cx);
                     return true;
                 }
 

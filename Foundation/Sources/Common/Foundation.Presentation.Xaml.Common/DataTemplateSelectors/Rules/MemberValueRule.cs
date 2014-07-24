@@ -49,7 +49,7 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors.Rules
             {
                 if (ExpectedValue != null && ConvertExpectedValueToMemberType)
                 {
-                    var memberType = TypeResolver.ResolveTypeFromFullName(member.MemberFullTypeName, ignoreCase: false);
+                    var memberType = member.MemberType.Type;
 
                     var convertedValue = ExpectedValue.Convert(memberType);
 

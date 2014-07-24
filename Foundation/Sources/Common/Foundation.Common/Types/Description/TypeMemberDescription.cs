@@ -14,10 +14,8 @@ namespace SquaredInfinity.Foundation.Types.Description
 
         public string AssemblyQualifiedMemberTypeName { get; set; }
 
-        public string MemberFullTypeName { get; set; }
-
-        public string MemberTypeName { get; set; }
-
+        public ITypeDescription MemberType { get; set; }
+        
         public bool CanSetValue { get; set; }
 
         public bool CanGetValue { get; set; }
@@ -35,7 +33,7 @@ namespace SquaredInfinity.Foundation.Types.Description
         {
             get
             {
-                return "{0} ({1})".FormatWith(Name, MemberFullTypeName);
+                return "{0} ({1})".FormatWith(Name, MemberType.FullName);
             }
         }
     }

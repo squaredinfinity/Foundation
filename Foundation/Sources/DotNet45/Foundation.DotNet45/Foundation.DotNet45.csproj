@@ -252,6 +252,12 @@
     <Compile Include="..\..\Common\Foundation.Common\TypeResolver.cs">
       <Link>TypeResolver.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Description\EnumerableTypeDescription.cs">
+      <Link>Types\Description\EnumerableTypeDescription.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Description\IEnumerableTypeDescription.cs">
+      <Link>Types\Description\IEnumerableTypeDescription.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Types\Description\IMemberAccessor.cs">
       <Link>Types\Description\IMemberAccessor.cs</Link>
     </Compile>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using SquaredInfinity.Foundation.Extensions;
+using System.Collections;
 
 namespace SquaredInfinity.Foundation.Types.Description.Reflection
 {
@@ -37,7 +38,15 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
                 (_) =>
                 {
                     isNew = true;
-                    return new TypeDescription();
+
+                    if (type.ImplementsInterface(typeof(IEnumerable)))
+                    {
+                        return new EnumerableTypeDescription();
+                    }
+                    else
+                    {
+                        return new TypeDescription();
+                    }
                 });
 
             if (isNew)
@@ -52,7 +61,14 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
             prototype.FullName = type.FullName;
             prototype.Name = type.Name;
             prototype.Namespace = type.Namespace;
+            prototype.Type = type;
 
+            var enumerableTypeDescription = prototype as EnumerableTypeDescription;
+            if(enumerableTypeDescription != null)
+            {
+                enumerableTypeDescription.CompatibleItemTypes = type.GetCompatibleItemTypes();
+            }
+            
             var properties =
                 (from p in type.GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
                  where p.GetIndexParameters().IsNullOrEmpty()
@@ -87,8 +103,7 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
                 }
 
                 md.AssemblyQualifiedMemberTypeName = memberTypeDescription.AssemblyQualifiedName;
-                md.MemberFullTypeName = memberTypeDescription.FullName;
-                md.MemberTypeName = memberTypeDescription.Name;
+                md.MemberType = memberTypeDescription;
 
                 md.Name = f.Name;
                 md.SanitizedName = f.Name;
@@ -123,9 +138,7 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
                     memberTypeDescription = DescribeType(member_type);
                 }
 
-                md.AssemblyQualifiedMemberTypeName = memberTypeDescription.AssemblyQualifiedName;
-                md.MemberFullTypeName = memberTypeDescription.FullName;
-                md.MemberTypeName = memberTypeDescription.Name;
+                md.MemberType = memberTypeDescription;
 
                 var explicit_interface_separator_index = p.Name.IndexOf(".");
 

@@ -148,7 +148,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                         }
 
                         var itemElement = new XElement("temp");
-                        UpdateElementNameFromType(itemElement, itemType, options, cx);
+                        UpdateElementNameFromType(itemElement, itemType,    options, cx);
                         SerializeInternal(itemElement, item, typeDescriptor, options, cx);
 
                         target.Add(itemElement);
@@ -161,7 +161,6 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             //# get all source members that can be serialized
             var serializableMembers =
                 (from m in typeDescription.Members
-                 let memberType = Type.GetType(m.AssemblyQualifiedMemberTypeName)
                  where
                     m.Visibility == MemberVisibility.Public // process public members only
                     &&

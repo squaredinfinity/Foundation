@@ -3,16 +3,113 @@ using SquaredInfinity.Foundation.TestEntities;
 using SquaredInfinity.Foundation.Types.Mapping.TestEntities;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnitTestProject1.Types.Mapping.TestEntities;
+using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Types.Mapping
 {
     [TestClass]
     public class TypeMapper__Map
     {
+        public class X
+        {
+
+            public int INT { get; set; }
+        }
+
+        public class X2
+        {
+            public int INT { get; set; }
+            public int INT2 { get; set; }
+            public int INT3 { get; set; }
+            public int INT4 { get; set; }
+            public int INT5 { get; set; }
+        }
+
+        [TestMethod]
+        public void xxx()
+        {
+            List<List<X>> xx1 = new List<List<X>>();
+            List<List<X2>> xx2 = new List<List<X2>>();
+
+            for (int r = 0; r < 1000; r++)
+            {
+                List<X> x1 = new List<X>();
+                for (int i = 0; i < 2000; i++)
+                {
+                    x1.Add(new X { INT = i });
+                }
+
+                xx1.Add(x1);
+            }
+
+            var sw = Stopwatch.StartNew();
+
+            var tm = new TypeMapper();
+
+            tm.Map(xx1, xx2);
+
+            Trace.WriteLine("MAPPER: " + sw.GetElapsedAndRestart().TotalMilliseconds);
+
+            tm.GetOrCreateTypeMappingStrategy<List<X>, List<X2>>()
+                .CreateTargetInstance((_source, _cx) => new List<X2>())
+                .IgnoreAllMembers();
+
+            tm.GetOrCreateTypeMappingStrategy<List<List<X>>, List<List<X2>>>()
+                .CreateTargetInstance((_source, _cx) => new List<List<X2>>())
+                .IgnoreAllMembers();
+
+            tm.GetOrCreateTypeMappingStrategy<X, X2>()
+                .CreateTargetInstance((_source, cx) => new X2())
+                .IgnoreAllMembers()
+                .MapMember(t => t.INT, s => { return s.INT; });
+
+            sw.Restart();
+
+            tm.Map(xx1, xx2);
+            
+            Trace.WriteLine("MAPPER + MANUAL: " + sw.GetElapsedAndRestart().TotalMilliseconds);
+
+            xx2 = new List<List<X2>>();
+
+            foreach(var r in xx1)
+            {
+                var r2 = new List<X2>();
+                
+                foreach(var c in r)
+                {
+                    var c2 = new X2 { INT = c.INT };
+                    r2.Add(c2);
+                }
+
+                xx2.Add(r2);
+            }
+
+            Trace.WriteLine("BY HAND: "  + sw.GetElapsedAndRestart().TotalMilliseconds);
+
+            xx2 = new List<List<X2>>(capacity: xx1.Count);
+
+            foreach (var r in xx1)
+            {
+                var r2 = new List<X2>(capacity: r.Count);
+
+                foreach (var c in r)
+                {
+                    var c2 = new X2();
+                    c2.INT = c.INT;
+                    r2.Add(c2);
+                }
+
+                xx2.Add(r2);
+            }
+
+            Trace.WriteLine("BY HAND OPTIMIZED: " + sw.GetElapsedAndRestart().TotalMilliseconds);
+        }
+
         [TestMethod]
         public void CanMapAnObject()
         {

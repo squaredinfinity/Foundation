@@ -45,5 +45,13 @@ namespace SquaredInfinity.Foundation.Types.Description
             get { return _members; }
             set { _members = value; }
         }
+
+
+        Type _type;
+        public Type Type
+        {
+            get { return _type; }
+            set { _type = value; }
+        }
     }
 }

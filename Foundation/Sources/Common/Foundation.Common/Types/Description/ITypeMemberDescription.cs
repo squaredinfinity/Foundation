@@ -8,9 +8,7 @@ namespace SquaredInfinity.Foundation.Types.Description
     public interface ITypeMemberDescription
     {
         string Name { get; }
-        string AssemblyQualifiedMemberTypeName { get; }
-        string MemberFullTypeName { get; }
-        string MemberTypeName { get; }
+        ITypeDescription MemberType { get; }
         MemberVisibility Visibility { get; }
 
         ITypeDescription DeclaringType { get; }

@@ -149,7 +149,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 }
                 else
                 {
-                    var memberType = Type.GetType(member.AssemblyQualifiedMemberTypeName);
+                    var memberType = member.MemberType.Type;
 
                     var value = (object)null;
 
@@ -266,7 +266,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 }
             }
 
-            var memberType = Type.GetType(member.AssemblyQualifiedMemberTypeName);
+            var memberType = member.MemberType.Type;
 
             var memberValue = member.GetValue(target);
 

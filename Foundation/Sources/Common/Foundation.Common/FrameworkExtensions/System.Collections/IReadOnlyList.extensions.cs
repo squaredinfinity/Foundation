@@ -27,15 +27,7 @@ namespace SquaredInfinity.Foundation.Extensions
         /// <returns></returns>
         public static IReadOnlyList<Type> GetItemsTypes(this IList list)
         {
-            // find which list interfaces are implemented by list
-            var listInterfaces =
-                (from i in list.GetType().GetInterfaces()
-                 where i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IList<>)
-                 select i);
-
-            var listItemTypes =
-                (from i in listInterfaces
-                 select i.GetGenericArguments().Single()).ToList();
+            var listItemTypes = list.GetType().GetCompatibleItemTypes();
 
             return listItemTypes;
         }
