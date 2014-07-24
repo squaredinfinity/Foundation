@@ -68,7 +68,6 @@
     <Compile Include="Behaviors\DialogHost.MinWidth.cs" />
     <Compile Include="Behaviors\ForwardKeyEvents.cs" />
     <Compile Include="Behaviors\ForwardTextInput.cs" />
-    <Compile Include="Behaviors\InterceptKeyEvents.cs" />
     <Compile Include="Behaviors\Selector.ItemDoubleClick.cs" />
     <Compile Include="Behaviors\Control.DoubleClick.cs" />
     <Compile Include="Behaviors\Selector.MultiSelection.cs" />
