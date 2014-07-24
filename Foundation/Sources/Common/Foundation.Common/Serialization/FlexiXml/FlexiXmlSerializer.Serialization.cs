@@ -104,8 +104,15 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             }
 
             //# Serialize list items
+
+            var sourceArray = source as Array;
             var sourceList = source as IList;
-            if (sourceList != null)
+
+            if(sourceArray != null)
+            {
+                throw new NotSupportedException("Array serialization is not supported at the moment.");
+            }
+            else if (sourceList != null)
             {
                 foreach (var item in sourceList)
                 {
@@ -230,6 +237,10 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                 //var nsAttrib = new XAttribute(NamespaceAttributeName, type.FullName);
                 //xel.Add(typeAttrib);
+            }
+            else if(type.IsArray)
+            {
+
             }
             else
             {

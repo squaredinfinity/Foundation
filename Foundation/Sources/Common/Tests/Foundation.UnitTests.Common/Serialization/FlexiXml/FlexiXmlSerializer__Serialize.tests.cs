@@ -9,9 +9,33 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
+    public class x
+    {
+        public double[,] Data { get; set; }
+    }
+
     [TestClass]
     public class FlexiXmlSerialize__Serialize
     {
+        [TestMethod]
+        public void SerializeMultidimensionalArray()
+        {
+            var array = new double[2, 2];
+
+            array[0, 0] = 0.0;
+            array[0, 1] = 0.1;
+            array[1, 0] = 1.0;
+            array[1, 1] = 1.1;
+
+            var x = new x();
+            x.Data = array;
+            
+
+            var s = new FlexiXml.FlexiXmlSerializer();
+
+            var xml = s.Serialize(x);
+        }
+
         [TestMethod]
         public void ByDefault__IfPropertyCanBeConvertedToString__SerializeToAttribute()
         {
