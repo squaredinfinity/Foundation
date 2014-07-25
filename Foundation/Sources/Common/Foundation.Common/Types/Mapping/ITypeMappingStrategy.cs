@@ -3,6 +3,7 @@ using SquaredInfinity.Foundation.Types.Mapping.MemberMatching;
 using System;
 using SquaredInfinity.Foundation.Types.Description;
 using System.Linq.Expressions;
+using System.Collections.Concurrent;
 namespace SquaredInfinity.Foundation.Types.Mapping
 {
 
@@ -12,8 +13,10 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         Type TargetType { get; }
         ITypeDescription SourceTypeDescription { get; }
         ITypeDescription TargetTypeDescription { get; }
-        
-        bool TryGetValueResolverForMember(string memberName, out IValueResolver valueResolver);
+
+        ConcurrentDictionary<ITypeMemberDescription, IValueResolver> TargetMembersMappings { get; }
+
+        //bool TryGetValueResolverForMember(string memberName, out IValueResolver valueResolver);
         
         bool TryCreateInstace(object source, Type targetType, CreateInstanceContext create_cx, out object newInstance);
     }

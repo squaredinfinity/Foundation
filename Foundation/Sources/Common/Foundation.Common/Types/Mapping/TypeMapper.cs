@@ -207,30 +207,36 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 }
             }
 
-            for (int i = 0; i < ms.TargetTypeDescription.Members.Count; i++)
+            
+            foreach(var kvp in ms.TargetMembersMappings)
+
+            //for (int i = 0; i < ms.TargetTypeDescription.Members.Count; i++)
             {
                 try
                 {
-                    var targetMember = ms.TargetTypeDescription.Members[i];
+                    var targetMemberDescription = kvp.Key;
+                    var valueResolver = kvp.Value;
 
-                    var valueResolver = (IValueResolver)null;
+                    //var targetMember = ms.TargetTypeDescription.Members[i];
 
-                    if (!ms.TryGetValueResolverForMember(targetMember.Name, out valueResolver))
-                        continue;
+                    //var valueResolver = (IValueResolver)null;
 
-                    var sourceValue = valueResolver.ResolveValue(source);
+                    //if (!ms.TryGetValueResolverForMember(targetMember.Name, out valueResolver))
+                    //    continue;
+
+                    var mappedValueCandidate = valueResolver.ResolveValue(source);
 
                     if(valueResolver is IDynamicValueResolver)
                     {
-                        targetMember.SetValue(target, sourceValue);
+                        targetMemberDescription.SetValue(target, mappedValueCandidate);
                         continue;
                     }
 
                     // check if there exists value converter for source / target types
 
-                    var targetMemberTypeDescription = targetMember.MemberType;
+                    //var targetMemberTypeDescription = targetMember.MemberType;
 
-                    if (valueResolver.ToType != targetMemberTypeDescription.Type)
+                    if (valueResolver.ToType != targetMemberDescription.MemberType.Type)
                     {
                         //var converter = ms.TryGetValueConverter(valueResolver.ToType, targetMemberType);
 
@@ -238,33 +244,33 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                     }
 
                     // if value is null and options are set to igonre nulls, then just skip this member and continue
-                    if (sourceValue == null && options.IgnoreNulls)
+                    if (mappedValueCandidate == null && options.IgnoreNulls)
                         continue;
                     
-                    if (sourceValue == null || IsBuiltInSimpleValueType(sourceValue))
+                    if (mappedValueCandidate == null || IsBuiltInSimpleValueType(mappedValueCandidate))
                     {
-                        targetMember.SetValue(target, sourceValue);
+                        targetMemberDescription.SetValue(target, mappedValueCandidate);
                     }
                     else
                     {
-                        var targetMemberValue = targetMember.GetValue(target);
+                        var targetMemberValue = targetMemberDescription.GetValue(target);
 
                         var sourceValType = (Type)null;
                         var targetValType = (Type)null;
                         
-                        if(sourceValue != null)
-                            sourceValType = sourceValue.GetType();
+                        if(mappedValueCandidate != null)
+                            sourceValType = mappedValueCandidate.GetType();
 
                         if(targetMemberValue != null)
                             targetValType = targetMemberValue.GetType();
                         else
                         {
-                            targetValType = targetMemberTypeDescription.Type;
+                            targetValType = targetMemberDescription.MemberType.Type;
                         }
 
                         if (options.ReuseTargetCollectionsWhenPossible
                             && targetMemberValue != null
-                            && targetMemberTypeDescription.Type.ImplementsInterface<IList>()
+                            && targetMemberDescription.MemberType.Type.ImplementsInterface<IList>()
                             )
                         {
 
@@ -272,12 +278,12 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
                             var _ms = TypeMappingStrategies.GetOrAdd(_key, (_) => CreateDefaultTypeMappingStrategy(sourceValType, targetValType));
 
-                            MapInternal(sourceValue, targetMemberValue, sourceValType, targetValType, _ms, options, cx);
+                            MapInternal(mappedValueCandidate, targetMemberValue, sourceValType, targetValType, _ms, options, cx);
                         }
                         else
                         {
-                            sourceValue = MapInternal(sourceValue, targetValType, options, cx);
-                            targetMember.SetValue(target, sourceValue);
+                            mappedValueCandidate = MapInternal(mappedValueCandidate, targetValType, options, cx);
+                            targetMemberDescription.SetValue(target, mappedValueCandidate);
                         }
                     }
                 }

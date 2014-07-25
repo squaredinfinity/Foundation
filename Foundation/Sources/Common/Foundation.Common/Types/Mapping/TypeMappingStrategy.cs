@@ -36,14 +36,18 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             var memberName = sourceMemberExpression.GetAccessedMemberName();
 
-            MemberNameToValueResolverMappings.AddOrUpdate(memberName, (key) => resolver, (key, oldValue) => resolver);
+            var member = (from m in base.TargetTypeDescription.Members
+                          where m.Name == memberName
+                          select m).Single();
+
+            TargetMembersMappings.AddOrUpdate(member, (key) => resolver, (key, oldValue) => resolver);
 
             return this;
         }
 
         public ITypeMappingStrategy<TFrom, TTo> IgnoreAllMembers()
         {
-            MemberNameToValueResolverMappings.Clear();
+            TargetMembersMappings.Clear();
             return this;
         }
 
@@ -73,9 +77,12 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
         public ValueResolving.ValueResolverCollection ValueResolvers { get; set; }
 
-        // todo, add cia method instead of maing int protected
-        protected readonly ConcurrentDictionary<string, IValueResolver> MemberNameToValueResolverMappings 
-            = new ConcurrentDictionary<string, IValueResolver>();
+        ConcurrentDictionary<ITypeMemberDescription, IValueResolver> _targetMembersMappings
+         = new ConcurrentDictionary<ITypeMemberDescription, IValueResolver>();
+        public ConcurrentDictionary<ITypeMemberDescription, IValueResolver> TargetMembersMappings
+        {
+            get { return _targetMembersMappings; }
+        }
         
         public TypeMappingStrategy(
             Type sourceType,
@@ -105,9 +112,9 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 {
                     var m = memberMatches[i];
 
-                    MemberNameToValueResolverMappings
+                    TargetMembersMappings
                         .AddOrUpdate(
-                        m.To.Name,
+                        m.To,
                         _key => new MatchedMemberValueResolver(m),
                         (_key, _old) => new MatchedMemberValueResolver(m));
                 }
@@ -161,14 +168,6 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             }
 
             return result;
-        }
-
-
-        public bool TryGetValueResolverForMember(string memberName, out IValueResolver valueResolver)
-        {
-            valueResolver = null;
-
-            return MemberNameToValueResolverMappings.TryGetValue(memberName, out valueResolver);                
         }
 
         public bool TryCreateInstace(object source, Type targetType, CreateInstanceContext create_cx, out object newInstance)
