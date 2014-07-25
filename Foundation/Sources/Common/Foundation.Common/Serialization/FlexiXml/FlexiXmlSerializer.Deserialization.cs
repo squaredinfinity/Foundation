@@ -11,6 +11,7 @@ using SquaredInfinity.Foundation.Types.Description;
 using System.Threading;
 using System.ComponentModel;
 using System.Collections;
+using SquaredInfinity.Foundation.Types.Description.IL;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
@@ -52,7 +53,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             var type = typeof(T);
 
-            var root = DeserializeInternal(type, xml, new ReflectionBasedTypeDescriptor(), options, cx);
+            var root = DeserializeInternal(type, xml, new ILBasedTypeDescriptor(), options, cx);
 
             return (T)root;
         }

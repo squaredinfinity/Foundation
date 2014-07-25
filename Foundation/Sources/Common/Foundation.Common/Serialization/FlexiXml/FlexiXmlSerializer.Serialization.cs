@@ -11,6 +11,7 @@ using SquaredInfinity.Foundation.Types.Description;
 using System.Threading;
 using System.ComponentModel;
 using System.Collections;
+using SquaredInfinity.Foundation.Types.Description.IL;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
@@ -24,7 +25,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             var root = new XElement("temp");
             UpdateElementNameFromType(root, obj.GetType(), options, cx);
-            SerializeInternal(root, obj, new ReflectionBasedTypeDescriptor(), options , cx);
+            SerializeInternal(root, obj, new ILBasedTypeDescriptor(), options , cx);
             
             // post process
             // e.g. move nodes with an id, which are referenced somewhere to some other part of xml

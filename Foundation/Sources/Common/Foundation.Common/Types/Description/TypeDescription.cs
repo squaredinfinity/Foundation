@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SquaredInfinity.Foundation.Types.Description
 {
-    public class TypeDescription : ITypeDescription
+    public abstract class TypeDescription : ITypeDescription
     {
         string _assemblyQualifiedName;
         public string AssemblyQualifiedName
@@ -53,5 +53,14 @@ namespace SquaredInfinity.Foundation.Types.Description
             get { return _type; }
             set { _type = value; }
         }
+
+
+        bool _isValueType;
+        public bool IsValueType
+        {
+            get { return _isValueType; }
+        }
+
+        public abstract object CreateInstance();
     }
 }

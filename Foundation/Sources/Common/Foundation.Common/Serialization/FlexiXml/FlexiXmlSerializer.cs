@@ -10,6 +10,7 @@ using SquaredInfinity.Foundation.Types.Description;
 using System.Threading;
 using System.ComponentModel;
 using System.Reflection;
+using SquaredInfinity.Foundation.Types.Description.IL;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
@@ -73,7 +74,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         ITypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T>()
         {
             return CreateDefaultTypeSerializationStrategy<T>(
-                new ReflectionBasedTypeDescriptor());
+                new ILBasedTypeDescriptor());
         }
         ITypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T>(
             ITypeDescriptor typeDescriptor)

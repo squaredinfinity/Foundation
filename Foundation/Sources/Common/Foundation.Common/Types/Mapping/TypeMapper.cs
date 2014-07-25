@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using SquaredInfinity.Foundation.Extensions;
 using System.Reflection;
+using SquaredInfinity.Foundation.Types.Description.IL;
 
 namespace SquaredInfinity.Foundation.Types.Mapping
 {
@@ -75,7 +76,14 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             if (source == null)
                 throw new ArgumentNullException("source");
 
-            MapInternal(source, target, source.GetType(), typeof(TTarget), options, new MappingContext());
+            var sourceType = source.GetType();
+            var targetType = typeof(TTarget);
+
+            var key = new TypeMappingStrategyKey(sourceType, targetType);
+
+            var ms = TypeMappingStrategies.GetOrAdd(key, (_) => CreateDefaultTypeMappingStrategy(sourceType, targetType));
+
+            MapInternal(source, target, sourceType, targetType, ms, options, new MappingContext());
         }
 
         public void Map(object source, object target, Type targetType)
@@ -88,7 +96,13 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             if (source == null)
                 throw new ArgumentNullException("source");
 
-            MapInternal(source, target, source.GetType(), targetType, options, new MappingContext());
+            var sourceType = source.GetType();
+
+            var key = new TypeMappingStrategyKey(sourceType, targetType);
+
+            var ms = TypeMappingStrategies.GetOrAdd(key, (_) => CreateDefaultTypeMappingStrategy(sourceType, targetType));
+
+            MapInternal(source, target, sourceType, targetType, ms, options, new MappingContext());
         }
 
         object MapInternal(object source, Type targetType, MappingOptions options, MappingContext cx)
@@ -102,31 +116,47 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             var ms = TypeMappingStrategies.GetOrAdd(key, _key => CreateDefaultTypeMappingStrategy(sourceType, targetType));
 
-            bool isCloneNew = false;
+            var clone = (object)null;
 
             var create_cx = new CreateInstanceContext();
 
-            var clone =
-                cx.Objects_MappedFromTo.GetOrAdd(
-                source,
-                (_) =>
+            if (options.TrackReferences)
+            {
+                bool isCloneNew = false;
+
+                clone =
+                    cx.Objects_MappedFromTo.GetOrAdd(
+                    source,
+                    (_) =>
+                    {
+                        var _clone = (object)null;
+
+                        if (ms.TryCreateInstace(source, targetType, create_cx, out _clone))
+                        {
+                            isCloneNew = true;
+                            return _clone;
+                        }
+                        else
+                        {
+                            // todo: log error
+                            return source;
+                        }
+                    });
+
+                if (isCloneNew && !create_cx.IsFullyConstructed)
+                    MapInternal(source, clone, sourceType, targetType, ms, options, cx);
+            }
+            else
+            {
+                if (ms.TryCreateInstace(source, targetType, create_cx, out clone))
                 {
-                    var _clone = (object) null;
-
-                    if(ms.TryCreateInstace(source, targetType, create_cx, out _clone))
-                    {
-                        isCloneNew = true;
-                        return _clone;
-                    }
-                    else
-                    {
-                        // todo: log error
-                        return source;
-                    }
-                });
-
-            if (isCloneNew && !create_cx.IsFullyConstructed)
-                MapInternal(source, clone, sourceType, targetType, options, cx);
+                    MapInternal(source, clone, sourceType, targetType, ms, options, cx);
+                }
+                else
+                {
+                    // todo: log error   
+                }
+            }
 
             return clone;
         }
@@ -136,12 +166,13 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             object target, 
             Type sourceType, 
             Type targetType, 
+            ITypeMappingStrategy ms,
             MappingOptions options, 
             MappingContext cx)
         {
             var key = new TypeMappingStrategyKey(sourceType, targetType);
 
-            var ms = TypeMappingStrategies.GetOrAdd(key, _key => CreateDefaultTypeMappingStrategy(sourceType, targetType));
+            //var ms = TypeMappingStrategies.GetOrAdd(key, _key => CreateDefaultTypeMappingStrategy(sourceType, targetType));
 
             var sourceList = source as IList;
             var targetList = target as IList;
@@ -149,19 +180,31 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             // todo: anything needed here for IReadOnlyList support in 4.5?
             if (sourceList != null && targetList != null)
             {
-                if (!options.ReuseTargetCollectionItemsWhenPossible)
-                    targetList.Clear();
-
                 if (sourceList.Count == 0)
                     targetList.Clear();
 
-                DeepCloneListElements(
-                    sourceList, 
-                    targetList, 
-                    ms.SourceTypeDescription as IEnumerableTypeDescription, 
-                    ms.TargetTypeDescription as IEnumerableTypeDescription, 
-                    options, 
-                    cx);
+                if (options.ReuseTargetCollectionItemsWhenPossible)
+                {
+                    DeepCloneListElements(
+                        sourceList,
+                        targetList,
+                        ms.SourceTypeDescription as IEnumerableTypeDescription,
+                        ms.TargetTypeDescription as IEnumerableTypeDescription,
+                        options,
+                        cx);
+                }
+                else
+                {
+                    targetList.Clear();
+
+                    DeepCloneListElements_DoNotReuseItems(
+                        sourceList,
+                        targetList,
+                        ms.SourceTypeDescription as IEnumerableTypeDescription,
+                        ms.TargetTypeDescription as IEnumerableTypeDescription,
+                        options,
+                        cx);
+                }
             }
 
             for (int i = 0; i < ms.TargetTypeDescription.Members.Count; i++)
@@ -175,13 +218,19 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                     if (!ms.TryGetValueResolverForMember(targetMember.Name, out valueResolver))
                         continue;
 
-                    var val = valueResolver.ResolveValue(source);
-                    
+                    var sourceValue = valueResolver.ResolveValue(source);
+
+                    if(valueResolver is IDynamicValueResolver)
+                    {
+                        targetMember.SetValue(target, sourceValue);
+                        continue;
+                    }
+
                     // check if there exists value converter for source / target types
 
-                    var targetMemberType = targetMember.MemberType;
+                    var targetMemberTypeDescription = targetMember.MemberType;
 
-                    if (valueResolver.ToType != targetMemberType)
+                    if (valueResolver.ToType != targetMemberTypeDescription.Type)
                     {
                         //var converter = ms.TryGetValueConverter(valueResolver.ToType, targetMemberType);
 
@@ -189,27 +238,46 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                     }
 
                     // if value is null and options are set to igonre nulls, then just skip this member and continue
-                    if (val == null && options.IgnoreNulls)
+                    if (sourceValue == null && options.IgnoreNulls)
                         continue;
                     
-                    if (val == null || IsBuiltInSimpleValueType(val))
+                    if (sourceValue == null || IsBuiltInSimpleValueType(sourceValue))
                     {
-                        targetMember.SetValue(target, val);
+                        targetMember.SetValue(target, sourceValue);
                     }
                     else
                     {
                         var targetMemberValue = targetMember.GetValue(target);
 
+                        var sourceValType = (Type)null;
+                        var targetValType = (Type)null;
+                        
+                        if(sourceValue != null)
+                            sourceValType = sourceValue.GetType();
+
+                        if(targetMemberValue != null)
+                            targetValType = targetMemberValue.GetType();
+                        else
+                        {
+                            targetValType = targetMemberTypeDescription.Type;
+                        }
+
                         if (options.ReuseTargetCollectionsWhenPossible
                             && targetMemberValue != null
-                            && targetMemberType.Type.ImplementsInterface<IList>())
+                            && targetMemberTypeDescription.Type.ImplementsInterface<IList>()
+                            )
                         {
-                            MapInternal(val, targetMemberValue, val.GetType(), targetMemberType.Type, options, cx);
+
+                            var _key = new TypeMappingStrategyKey(sourceValType, targetValType);
+
+                            var _ms = TypeMappingStrategies.GetOrAdd(_key, (_) => CreateDefaultTypeMappingStrategy(sourceValType, targetValType));
+
+                            MapInternal(sourceValue, targetMemberValue, sourceValType, targetValType, _ms, options, cx);
                         }
                         else
                         {
-                            val = MapInternal(val, val.GetType(), options, cx);
-                            targetMember.SetValue(target, val);
+                            sourceValue = MapInternal(sourceValue, targetValType, options, cx);
+                            targetMember.SetValue(target, sourceValue);
                         }
                     }
                 }
@@ -222,7 +290,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
         protected virtual ITypeMappingStrategy CreateDefaultTypeMappingStrategy(Type sourceType, Type targetType)
         {
-            var descriptor = new ReflectionBasedTypeDescriptor();
+            var descriptor = new ILBasedTypeDescriptor();
 
             var result =
                 new TypeMappingStrategy(
@@ -239,7 +307,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         ITypeMappingStrategy<TFrom, TTo> CreateDefaultTypeMappingStrategy<TFrom, TTo>()
         {
             return CreateDefaultTypeMappingStrategy<TFrom, TTo>(
-                new ReflectionBasedTypeDescriptor(),
+                new ILBasedTypeDescriptor(),
                 new MemberMatchingRuleCollection() { new ExactNameMatchMemberMatchingRule() },
                valueResolvers: null);
         }
@@ -266,6 +334,14 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             MappingOptions options, 
             MappingContext cx)
         {
+            bool sourceItemOrTargetItemTypesChanged = false;
+
+            var sourceItemType = (Type) null;
+            var targetItemType = (Type) null;
+
+            var itemsMappingStrategyKey = default(TypeMappingStrategyKey);
+            var itemsMappingStrategy = (ITypeMappingStrategy)null;
+
             for (int i = 0; i < source.Count; i++)
             {
                 var sourceItem = source[i];
@@ -286,13 +362,32 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
                         if (targetItem != null)
                         {
-                            var sourceItemType = sourceItem.GetType();
-                            var targetItemType = targetItem.GetType();
+                            var newSourceItemType = sourceItem.GetType();
+                            var newTargetItemType = targetItem.GetType();
+
+                            if(newSourceItemType != sourceItemType || newTargetItemType != targetItemType)
+                            {
+                                sourceItemOrTargetItemTypesChanged = true;
+                            }
 
                             if (sourceItemType == targetItemType)
                             {
+                                if (sourceItemOrTargetItemTypesChanged)
+                                {
+                                    sourceItemType = newSourceItemType;
+                                    targetItemType = newTargetItemType;
+
+                                    itemsMappingStrategyKey = new TypeMappingStrategyKey(sourceItemType, targetItemType);
+
+                                    itemsMappingStrategy = 
+                                        TypeMappingStrategies
+                                        .GetOrAdd(
+                                        itemsMappingStrategyKey, 
+                                        CreateDefaultTypeMappingStrategy(sourceItemType, targetItemType));
+                                }
+
                                 // reuse target
-                                MapInternal(sourceItem, targetItem, sourceItemType, targetItemType, options, cx);
+                                MapInternal(sourceItem, targetItem, sourceItemType, targetItemType, itemsMappingStrategy, options, cx);
                                 continue;
                             }
                         }
@@ -300,43 +395,90 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 }
 
                 // did not reuse target, replace it with new instance
-                if(target.CanAcceptItem(sourceItem, targetTypeDescription.CompatibleItemTypes))
+                if (targetItem == null)
+                {
+                    if (target.CanAcceptItem(sourceItem, targetTypeDescription.CompatibleItemTypes))
+                    {
+                        // target can accept source item
+                        targetItem = MapInternal(sourceItem, sourceItem.GetType(), options, cx);
+                    }
+                    else
+                    {
+                        // try to use first available compatible type
+
+                        var supportedItemTypes = targetTypeDescription.CompatibleItemTypes;
+
+                        if (supportedItemTypes.Count != 1)
+                        {
+                            // todo: dispaly warning saying that first compatible type will be used
+                        }
+
+                        var targetListItemType = supportedItemTypes[0];
+
+                        targetItem = MapInternal(sourceItem, targetListItemType, options, cx);
+                    }
+                }
+
+                // if item in *i* position exists, replace it (as we failed to reuse it before)
+                if (target.Count > i)
+                {
+                    target[i] = targetItem;
+                }
+                else
+                {
+                    target.Insert(i, targetItem);
+                }
+            }
+
+            if(options.ReuseTargetCollectionItemsWhenPossible && target.Count > source.Count)
+            {
+                for (int i = target.Count - 1; i >= source.Count; i--)
+                {
+                    target.RemoveAt(i);
+                }
+            }
+        }
+
+        void DeepCloneListElements_DoNotReuseItems(
+            IList source,
+            IList target,
+            IEnumerableTypeDescription sourceTypeDescription,
+            IEnumerableTypeDescription targetTypeDescription,
+            MappingOptions options,
+            MappingContext cx)
+        {
+            var sourceItem = (object)null;
+            var targetItem = (object)null;
+
+            var defaultConcreteItemType = targetTypeDescription.DefaultConcreteItemType;
+
+            if(targetTypeDescription.CanSetCapacity)
+            {
+                targetTypeDescription.SetCapacity(target, source.Count);
+            }
+
+            for (int i = 0; i < source.Count; i++)
+            {
+                sourceItem = source[i];
+
+                if (sourceItem == null)
+                {
+                    target.Add(null);
+
+                    continue;
+                }
+
+                if (target.CanAcceptItem(sourceItem, targetTypeDescription.CompatibleItemTypes))
                 {
                     // target can accept source item
                     targetItem = MapInternal(sourceItem, sourceItem.GetType(), options, cx);
                 }
                 else
                 {
-                    // try to use first available compatible type
-
-                    var supportedItemTypes = targetTypeDescription.CompatibleItemTypes;
-
-                    if (supportedItemTypes.Count != 1)
-                    {
-                        // todo: dispaly warning saying that first compatible type will be used
-                    }
-
-                    var targetListItemType = supportedItemTypes[0];
-
-                    targetItem = MapInternal(sourceItem, targetListItemType, options, cx);
-                }
-
-
-                // if item in *i* position exists, replace it (as we failed to reuse it before)
-                if (target.Count > i)
-                {
-                    target.RemoveAt(i);
+                    targetItem = MapInternal(sourceItem, defaultConcreteItemType, options, cx);
                 }
                 
-                target.Insert(i, targetItem);
-            }
-
-            if(options.ReuseTargetCollectionItemsWhenPossible && target.Count > source.Count)
-            {
-                for(int i = source.Count; i < target.Count; i++)
-                {
-                    target.RemoveAt(i);
-                }
+                target.Add(targetItem);
             }
         }
 

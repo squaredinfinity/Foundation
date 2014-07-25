@@ -55,26 +55,34 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             Trace.WriteLine("MAPPER: " + sw.GetElapsedAndRestart().TotalMilliseconds);
 
+            xx2 = new List<List<X2>>();
+
             tm.GetOrCreateTypeMappingStrategy<List<X>, List<X2>>()
-                .CreateTargetInstance((_source, _cx) => new List<X2>())
+                .CreateTargetInstance((_source, _cx) => new List<X2>(capacity: _source.Count))
                 .IgnoreAllMembers();
 
             tm.GetOrCreateTypeMappingStrategy<List<List<X>>, List<List<X2>>>()
-                .CreateTargetInstance((_source, _cx) => new List<List<X2>>())
+                .CreateTargetInstance((_source, _cx) => new List<List<X2>>(capacity: _source.Count))
                 .IgnoreAllMembers();
 
             tm.GetOrCreateTypeMappingStrategy<X, X2>()
-                .CreateTargetInstance((_source, cx) => new X2())
+                .CreateTargetInstance((_source, cx) =>
+                    {
+                        return new X2();
+                    })
                 .IgnoreAllMembers()
                 .MapMember(t => t.INT, s => { return s.INT; });
 
+            var mo = new MappingOptions();
+            mo.TrackReferences = false;
+
             sw.Restart();
 
-            tm.Map(xx1, xx2);
+            tm.Map(xx1, xx2, mo);
             
             Trace.WriteLine("MAPPER + MANUAL: " + sw.GetElapsedAndRestart().TotalMilliseconds);
 
-            xx2 = new List<List<X2>>();
+            //xx2 = new List<List<X2>>();
 
             foreach(var r in xx1)
             {
@@ -183,9 +191,12 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             n.Next = n;
             n.Previous = n;
 
+            var mo = new MappingOptions();
+            mo.TrackReferences = true;
+
             var tm = new TypeMapper();
 
-            var clone = tm.Map<LinkedListNode>(n);
+            var clone = tm.Map<LinkedListNode>(n, mo);
 
             Assert.AreEqual(13, clone.Id);
             Assert.AreSame(n, n.Next);
@@ -200,7 +211,10 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             var tm = new TypeMapper();
 
-            var clone = tm.Map<LinkedListNode>(n);
+            var mo = new MappingOptions();
+            mo.TrackReferences = true;
+
+            var clone = tm.Map<LinkedListNode>(n, mo);
 
             LinkedListNode.EnsureDefaultTestHierarchyPreserved(clone);
         }

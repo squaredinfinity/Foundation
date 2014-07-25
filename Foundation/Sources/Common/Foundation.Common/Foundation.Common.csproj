@@ -91,6 +91,7 @@
     <Compile Include="GCMemoryUsagePressure.cs" />
     <Compile Include="IDateTimeContext.cs" />
     <Compile Include="IFreezable.cs" />
+    <Compile Include="ILGeneration\IL.cs" />
     <Compile Include="INotifyVersionChangedObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\FlexiXml\FlexiXmlSerializer.TypeSerializationStrategiesConcurrentDictionary.cs" />
@@ -115,9 +116,14 @@
     <Compile Include="Threading\ReaderWriterLockSlimEx.ReadLockAcquisition.cs" />
     <Compile Include="Threading\ReaderWriterLockSlimEx.cs" />
     <Compile Include="TypeResolver.cs" />
-    <Compile Include="Types\Description\EnumerableTypeDescription.cs" />
     <Compile Include="Types\Description\IEnumerableTypeDescription.cs" />
+    <Compile Include="Types\Description\IL\ILBasedEnumerableTypeDescription.cs" />
+    <Compile Include="Types\Description\IL\ILBasedTypeDescription.cs" />
+    <Compile Include="Types\Description\IL\ILBasedTypeDescriptor.cs" />
+    <Compile Include="Types\Description\IL\ILBasedTypeMemberDescription.cs" />
     <Compile Include="Types\Description\ITypeMemberDescriptionCollection.cs" />
+    <Compile Include="Types\Description\Reflection\ReflectionBasedEnumerableTypeDescription.cs" />
+    <Compile Include="Types\Description\Reflection\ReflectionBasedTypeDescription.cs" />
     <Compile Include="Types\Description\TypeMemberDescriptionCollection.cs" />
     <Compile Include="Types\Mapping\TypeMapper.TypeMappingStrategiesConcurrentDictionary.cs" />
     <Compile Include="Types\Mapping\ValueConverting\PreserveOriginalValueConverter.cs" />

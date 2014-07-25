@@ -252,11 +252,20 @@
     <Compile Include="..\..\Common\Foundation.Common\TypeResolver.cs">
       <Link>TypeResolver.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Types\Description\EnumerableTypeDescription.cs">
-      <Link>Types\Description\EnumerableTypeDescription.cs</Link>
-    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Types\Description\IEnumerableTypeDescription.cs">
       <Link>Types\Description\IEnumerableTypeDescription.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Description\IL\ILBasedEnumerableTypeDescription.cs">
+      <Link>Types\Description\IL\ILBasedEnumerableTypeDescription.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Description\IL\ILBasedTypeDescription.cs">
+      <Link>Types\Description\IL\ILBasedTypeDescription.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Description\IL\ILBasedTypeDescriptor.cs">
+      <Link>Types\Description\IL\ILBasedTypeDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Description\IL\ILBasedTypeMemberDescription.cs">
+      <Link>Types\Description\IL\ILBasedTypeMemberDescription.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Types\Description\IMemberAccessor.cs">
       <Link>Types\Description\IMemberAccessor.cs</Link>
@@ -275,6 +284,12 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Types\Description\MemberVisibility.cs">
       <Link>Types\Description\MemberVisibility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Description\Reflection\ReflectionBasedEnumerableTypeDescription.cs">
+      <Link>Types\Description\Reflection\ReflectionBasedEnumerableTypeDescription.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Description\Reflection\ReflectionBasedTypeDescription.cs">
+      <Link>Types\Description\Reflection\ReflectionBasedTypeDescription.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Types\Description\Reflection\ReflectionBasedTypeDescriptor.cs">
       <Link>Types\Description\Reflection\ReflectionBasedTypeDescriptor.cs</Link>

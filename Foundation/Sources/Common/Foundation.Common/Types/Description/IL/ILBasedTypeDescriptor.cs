@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using SquaredInfinity.Foundation.Extensions;
 using System.Collections;
 
-namespace SquaredInfinity.Foundation.Types.Description.Reflection
+namespace SquaredInfinity.Foundation.Types.Description.IL
 {
-    public class ReflectionBasedTypeDescriptor : ITypeDescriptor
+    public class ILBasedTypeDescriptor : ITypeDescriptor
     {
         static readonly Type TYPE_RuntimePropertyInfo;
         static readonly PropertyInfo PROPERTY_BindingFlags;
@@ -17,7 +18,7 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
         static readonly Type TYPE_RuntimeFieldInfo;
         static readonly PropertyInfo FIELD_BindingFlags;
 
-        static ReflectionBasedTypeDescriptor()
+        static ILBasedTypeDescriptor()
         {
             TYPE_RuntimePropertyInfo = typeof(PropertyInfo).Assembly.GetType("System.Reflection.RuntimePropertyInfo");
             PROPERTY_BindingFlags = TYPE_RuntimePropertyInfo.GetProperty("BindingFlags", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -41,11 +42,11 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 
                     if (type.ImplementsInterface(typeof(IEnumerable)))
                     {
-                        return new ReflectionBasedEnumerableTypeDescription();
+                        return new ILBasedEnumerableTypeDescription();
                     }
                     else
                     {
-                        return new ReflectionBasedTypeDescription();
+                        return new ILBasedTypeDescription();
                     }
                 });
 
@@ -63,11 +64,11 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
             prototype.Namespace = type.Namespace;
             prototype.Type = type;
 
-            var enumerableTypeDescription = prototype as ReflectionBasedEnumerableTypeDescription;
-            if(enumerableTypeDescription != null)
+            var enumerableTypeDescription = prototype as ILBasedEnumerableTypeDescription;
+            if (enumerableTypeDescription != null)
             {
                 enumerableTypeDescription.CompatibleItemTypes = type.GetCompatibleItemTypes();
-
+                
                 // find min concrete type which could be used as an item
                 enumerableTypeDescription.DefaultConcreteItemType =
                     (from t in enumerableTypeDescription.CompatibleItemTypes
@@ -76,13 +77,13 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 
                 var capacityProperty = type.GetProperty("Capacity");
 
-                if (capacityProperty != null && capacityProperty.CanWrite)
+                if(capacityProperty != null && capacityProperty.CanWrite)
                 {
                     enumerableTypeDescription.CanSetCapacity = true;
-                    //enumerableTypeDescription.CapacityPropertyInfo = capacityProperty;
+                    enumerableTypeDescription.CapacityPropertyInfo = capacityProperty;
                 }
             }
-            
+
             var properties =
                 (from p in type.GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
                  where p.GetIndexParameters().IsNullOrEmpty()
@@ -91,17 +92,17 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
             var fields = new List<FieldInfo>().ToArray();
             // todo: develop customizable filters which can be used to determine if field should be included or now
             // those should work in later part (down below) after member description is created but before it is added
-                //(from f in type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
-                // where !f.Name.EndsWith("_backingfield", StringComparison.InvariantCultureIgnoreCase)
-                // select f).ToArray();
-            
+            //(from f in type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+            // where !f.Name.EndsWith("_backingfield", StringComparison.InvariantCultureIgnoreCase)
+            // select f).ToArray();
+
             var prototypeMembers = new TypeMemberDescriptionCollection();
 
             for (int i = 0; i < fields.Length; i++)
             {
                 var f = fields[i];
 
-                var md = new ReflectionBasedTypeMemberDescription(f);
+                var md = new ILBasedTypeMemberDescription(f);
 
                 var member_type = f.FieldType;
 
@@ -137,11 +138,11 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
             {
                 var p = properties[i];
 
-                var md = new ReflectionBasedTypeMemberDescription(p);
+                var md = new ILBasedTypeMemberDescription(p);
 
                 var member_type = p.PropertyType;
 
-                var memberTypeDescription = (ITypeDescription) null;
+                var memberTypeDescription = (ITypeDescription)null;
 
                 if (member_type == type)
                 {
@@ -174,10 +175,10 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
                     //        var isMatch =
                     //            p.Name == interf_property.Name
                     //            && member_type == interf_property.PropertyType
-                                
+
                     //    }
                     //}
-                    
+
                 }
                 else
                 {

@@ -16,7 +16,8 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 IgnoreNulls = false,
 
                 ReuseTargetCollectionsWhenPossible = true,
-                ReuseTargetCollectionItemsWhenPossible = true
+                ReuseTargetCollectionItemsWhenPossible = true,
+                TrackReferences = true
             };
         }
 
@@ -28,5 +29,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         public bool ReuseTargetCollectionsWhenPossible { get; set; }
 
         public bool ReuseTargetCollectionItemsWhenPossible { get; set; }
+
+        public bool TrackReferences { get; set; }
     }
 }

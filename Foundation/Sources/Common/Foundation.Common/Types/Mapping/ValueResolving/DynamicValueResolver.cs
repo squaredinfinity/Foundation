@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SquaredInfinity.Foundation.Types.Mapping.ValueResolving
 {
-    public class DynamicValueResolver<TFrom, TTo> : ValueResolver<TFrom, TTo>
+    public class DynamicValueResolver<TFrom, TTo> : ValueResolver<TFrom, TTo>, IDynamicValueResolver
     {
         Func<TFrom, TTo> Resolve { get; set; }
 
@@ -19,4 +19,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping.ValueResolving
             return Resolve(source);
         }
     }
+
+    public interface IDynamicValueResolver
+    { }
 }
