@@ -65,6 +65,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\BackgroundRenderingService.cs">
       <Link>BackgroundRenderingService.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\CheckBoxInListItem.cs">
+      <Link>Behaviors\CheckBoxInListItem.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\ColumnHeaders.Visibility.cs">
       <Link>Behaviors\ColumnHeaders.Visibility.cs</Link>
     </Compile>
@@ -370,6 +373,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\CommandMethodBinding.InvokeMethodCommand.cs">
       <Link>MarkupExtensions\CommandMethodBinding.InvokeMethodCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\CompareMethodBinding.cs">
+      <Link>MarkupExtensions\CompareMethodBinding.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\MarkupExtensions\LoadImageFromMainAssembly.cs">
       <Link>MarkupExtensions\LoadImageFromMainAssembly.cs</Link>

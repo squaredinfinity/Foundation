@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BackgroundRenderingService.cs" />
+    <Compile Include="Behaviors\CheckBoxInListItem.cs" />
     <Compile Include="Behaviors\Control.Click.cs" />
     <Compile Include="Behaviors\DialogHost.MinHeight.cs" />
     <Compile Include="Behaviors\DialogHost.MinWidth.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="DataTemplateSelectors\RuleBasedDataTemplateSelector.cs" />
     <Compile Include="DataTemplateSelectors\Rules\ItemValueRule.cs" />
     <Compile Include="DataTemplateSelectors\Rules\MemberValueRule.cs" />
+    <Compile Include="MarkupExtensions\CompareMethodBinding.cs" />
     <Compile Include="SharedResourceDictionary.cs" />
     <Compile Include="ViewModels\AfterViewModelEventRaisedArgs.cs" />
     <Compile Include="ViewModels\IViewModelEvent.cs" />
