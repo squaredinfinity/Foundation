@@ -18,7 +18,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
         //bool TryGetValueResolverForMember(string memberName, out IValueResolver valueResolver);
         
-        bool TryCreateInstace(object source, Type targetType, CreateInstanceContext create_cx, out object newInstance);
+        bool TryCreateInstace(object source, ITypeDescription targetTypeDescription, CreateInstanceContext create_cx, out object newInstance);
     }
 
     public interface ITypeMappingStrategy<TFrom, TTo> : ITypeMappingStrategy

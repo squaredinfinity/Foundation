@@ -107,9 +107,6 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
         object MapInternal(object source, Type targetType, MappingOptions options, MappingContext cx)
         {
-            if (IsBuiltInSimpleValueType(source))
-                return source;
-
             var sourceType = source.GetType();
 
             var key = new TypeMappingStrategyKey(sourceType, targetType);
@@ -131,7 +128,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                     {
                         var _clone = (object)null;
 
-                        if (ms.TryCreateInstace(source, targetType, create_cx, out _clone))
+                        if (ms.TryCreateInstace(source, ms.TargetTypeDescription, create_cx, out _clone))
                         {
                             isCloneNew = true;
                             return _clone;
@@ -148,7 +145,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             }
             else
             {
-                if (ms.TryCreateInstace(source, targetType, create_cx, out clone))
+                if (ms.TryCreateInstace(source, ms.TargetTypeDescription, create_cx, out clone))
                 {
                     MapInternal(source, clone, sourceType, targetType, ms, options, cx);
                 }
@@ -183,7 +180,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 if (sourceList.Count == 0)
                     targetList.Clear();
 
-                if (options.ReuseTargetCollectionItemsWhenPossible)
+                if (options.ReuseTargetCollectionItemsWhenPossible && targetList.Count != 0)
                 {
                     DeepCloneListElements(
                         sourceList,
@@ -209,47 +206,35 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             
             foreach(var kvp in ms.TargetMembersMappings)
-
-            //for (int i = 0; i < ms.TargetTypeDescription.Members.Count; i++)
             {
                 try
                 {
                     var targetMemberDescription = kvp.Key;
                     var valueResolver = kvp.Value;
-
-                    //var targetMember = ms.TargetTypeDescription.Members[i];
-
-                    //var valueResolver = (IValueResolver)null;
-
-                    //if (!ms.TryGetValueResolverForMember(targetMember.Name, out valueResolver))
-                    //    continue;
-
                     var mappedValueCandidate = valueResolver.ResolveValue(source);
 
-                    if(valueResolver is IDynamicValueResolver)
+                    if(!valueResolver.IsMappingNeeded)
                     {
                         targetMemberDescription.SetValue(target, mappedValueCandidate);
                         continue;
                     }
 
                     // check if there exists value converter for source / target types
-
-                    //var targetMemberTypeDescription = targetMember.MemberType;
-
-                    if (valueResolver.ToType != targetMemberDescription.MemberType.Type)
+                    if (!valueResolver.AreFromAndToTypesSame)
                     {
                         //var converter = ms.TryGetValueConverter(valueResolver.ToType, targetMemberType);
 
                         //val = converter.Convert(val);
                     }
 
-                    // if value is null and options are set to igonre nulls, then just skip this member and continue
-                    if (mappedValueCandidate == null && options.IgnoreNulls)
-                        continue;
-                    
-                    if (mappedValueCandidate == null || IsBuiltInSimpleValueType(mappedValueCandidate))
+                    if (mappedValueCandidate == null)
                     {
+                        // if value is null and options are set to igonre nulls, then just skip this member and continue
+                        if(options.IgnoreNulls)
+                            continue;
+
                         targetMemberDescription.SetValue(target, mappedValueCandidate);
+                        continue;
                     }
                     else
                     {
@@ -258,32 +243,31 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                         var sourceValType = (Type)null;
                         var targetValType = (Type)null;
                         
-                        if(mappedValueCandidate != null)
-                            sourceValType = mappedValueCandidate.GetType();
-
-                        if(targetMemberValue != null)
-                            targetValType = targetMemberValue.GetType();
-                        else
+                        if(targetMemberValue == null)
                         {
-                            targetValType = targetMemberDescription.MemberType.Type;
-                        }
-
-                        if (options.ReuseTargetCollectionsWhenPossible
-                            && targetMemberValue != null
-                            && targetMemberDescription.MemberType.Type.ImplementsInterface<IList>()
-                            )
-                        {
-
-                            var _key = new TypeMappingStrategyKey(sourceValType, targetValType);
-
-                            var _ms = TypeMappingStrategies.GetOrAdd(_key, (_) => CreateDefaultTypeMappingStrategy(sourceValType, targetValType));
-
-                            MapInternal(mappedValueCandidate, targetMemberValue, sourceValType, targetValType, _ms, options, cx);
-                        }
-                        else
-                        {
-                            mappedValueCandidate = MapInternal(mappedValueCandidate, targetValType, options, cx);
+                            // just assign source value, no mapping needed since target is null
                             targetMemberDescription.SetValue(target, mappedValueCandidate);
+                        }
+                        else
+                        {
+                            // map
+                            sourceValType = mappedValueCandidate.GetType();
+                            targetValType = targetMemberValue.GetType();
+
+                            if (options.ReuseTargetCollectionsWhenPossible
+                                && targetMemberDescription.MemberType.Type.ImplementsInterface<IList>()) // or Icollection ?
+                            {
+
+                                var _key = new TypeMappingStrategyKey(sourceValType, targetValType);
+
+                                var _ms = TypeMappingStrategies.GetOrAdd(_key, (_) => CreateDefaultTypeMappingStrategy(sourceValType, targetValType));
+
+                                MapInternal(mappedValueCandidate, targetMemberValue, sourceValType, targetValType, _ms, options, cx);
+                            }
+                            else
+                            {
+                                targetMemberDescription.SetValue(target, mappedValueCandidate);
+                            }
                         }
                     }
                 }
@@ -293,7 +277,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 }
             }
         }
-
+        
         protected virtual ITypeMappingStrategy CreateDefaultTypeMappingStrategy(Type sourceType, Type targetType)
         {
             var descriptor = new ILBasedTypeDescriptor();
@@ -340,6 +324,8 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             MappingOptions options, 
             MappingContext cx)
         {
+            var defaultConcreteItemType = targetTypeDescription.DefaultConcreteItemType;
+
             bool sourceItemOrTargetItemTypesChanged = false;
 
             var sourceItemType = (Type) null;
@@ -347,6 +333,20 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             var itemsMappingStrategyKey = default(TypeMappingStrategyKey);
             var itemsMappingStrategy = (ITypeMappingStrategy)null;
+
+            // trim target by removing not needed items from the end
+            if (options.ReuseTargetCollectionItemsWhenPossible && target.Count > source.Count)
+            {
+                for (int i = target.Count - 1; i >= source.Count; i--)
+                {
+                    target.RemoveAt(i);
+                }
+            }
+
+            if (targetTypeDescription.CanSetCapacity)
+            {
+                targetTypeDescription.SetCapacity(target, source.Count);
+            }
 
             for (int i = 0; i < source.Count; i++)
             {
@@ -403,25 +403,14 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 // did not reuse target, replace it with new instance
                 if (targetItem == null)
                 {
-                    if (target.CanAcceptItem(sourceItem, targetTypeDescription.CompatibleItemTypes))
+                    if (targetTypeDescription.CanAcceptItemType(sourceItemType))
                     {
                         // target can accept source item
-                        targetItem = MapInternal(sourceItem, sourceItem.GetType(), options, cx);
+                        targetItem = MapInternal(sourceItem, sourceItemType, options, cx);
                     }
                     else
                     {
-                        // try to use first available compatible type
-
-                        var supportedItemTypes = targetTypeDescription.CompatibleItemTypes;
-
-                        if (supportedItemTypes.Count != 1)
-                        {
-                            // todo: dispaly warning saying that first compatible type will be used
-                        }
-
-                        var targetListItemType = supportedItemTypes[0];
-
-                        targetItem = MapInternal(sourceItem, targetListItemType, options, cx);
+                        targetItem = MapInternal(sourceItem, defaultConcreteItemType, options, cx);
                     }
                 }
 
@@ -433,14 +422,6 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 else
                 {
                     target.Insert(i, targetItem);
-                }
-            }
-
-            if(options.ReuseTargetCollectionItemsWhenPossible && target.Count > source.Count)
-            {
-                for (int i = target.Count - 1; i >= source.Count; i--)
-                {
-                    target.RemoveAt(i);
                 }
             }
         }
@@ -463,6 +444,10 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 targetTypeDescription.SetCapacity(target, source.Count);
             }
 
+            bool areAllSourceItemsOfSameType = true;
+
+            var sourceItemType = (Type) null;
+
             for (int i = 0; i < source.Count; i++)
             {
                 sourceItem = source[i];
@@ -474,10 +459,11 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                     continue;
                 }
 
-                if (target.CanAcceptItem(sourceItem, targetTypeDescription.CompatibleItemTypes))
+                sourceItemType = sourceItem.GetType();
+
+                if (targetTypeDescription.CanAcceptItemType(sourceItemType))
                 {
-                    // target can accept source item
-                    targetItem = MapInternal(sourceItem, sourceItem.GetType(), options, cx);
+                    targetItem = MapInternal(sourceItem, sourceItemType, options, cx);
                 }
                 else
                 {

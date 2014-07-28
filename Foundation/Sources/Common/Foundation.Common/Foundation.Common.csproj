@@ -45,6 +45,8 @@
     <Compile Include="ChainOfCommand.cs" />
     <Compile Include="Collections\CollectionEx.cs" />
     <Compile Include="Collections\CollectionContentChangedEventArgs.cs" />
+    <Compile Include="Collections\Concurrent\ConcurrentHashSet.cs" />
+    <Compile Include="Collections\Concurrent\IConcurrentCollectionEx.cs" />
     <Compile Include="Collections\ICollectionEx.cs" />
     <Compile Include="Collections\INotifyCollectionContentChanged.cs" />
     <Compile Include="Collections\IBulkUpdatesCollection.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="FrameworkExtensions\System.Diagnostics\Stopwatch.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.IO\Stream.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Linq.Expressions\Expression.extensions.cs" />
+    <Compile Include="FrameworkExtensions\System.Reflection\MemberInfo.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Threading.Tasks\Parallel.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Threading.Tasks\Task.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Xml.Linq\XAttribute.extensions.cs" />
@@ -117,9 +120,12 @@
     <Compile Include="Threading\ReaderWriterLockSlimEx.cs" />
     <Compile Include="TypeResolver.cs" />
     <Compile Include="Types\Description\IEnumerableTypeDescription.cs" />
+    <Compile Include="Types\Description\IL\ILBasedEnumerableTypeDescription.IEnumerableTypeDescription.cs" />
     <Compile Include="Types\Description\IL\ILBasedEnumerableTypeDescription.cs" />
+    <Compile Include="Types\Description\IL\ILBasedTypeDescription.ITypeDescription.cs" />
     <Compile Include="Types\Description\IL\ILBasedTypeDescription.cs" />
     <Compile Include="Types\Description\IL\ILBasedTypeDescriptor.cs" />
+    <Compile Include="Types\Description\IL\ILBasedTypeMemberDescription.ITypeMemberDescription.cs" />
     <Compile Include="Types\Description\IL\ILBasedTypeMemberDescription.cs" />
     <Compile Include="Types\Description\ITypeMemberDescriptionCollection.cs" />
     <Compile Include="Types\Description\Reflection\ReflectionBasedEnumerableTypeDescription.cs" />
@@ -134,7 +140,6 @@
     <Compile Include="Serialization\FlexiXml\FlexiXmlSerializer.cs" />
     <Compile Include="Serialization\IXmlSerializer.cs" />
     <Compile Include="TreeTraversalMode.cs" />
-    <Compile Include="Types\Description\IMemberAccessor.cs" />
     <Compile Include="Types\Description\ITypeDescription.cs" />
     <Compile Include="Types\Description\ITypeDescriptor.cs" />
     <Compile Include="Types\Description\ITypeMemberDescription.cs" />
@@ -143,8 +148,6 @@
     </Compile>
     <Compile Include="Types\Description\Reflection\ReflectionBasedTypeDescriptor.cs" />
     <Compile Include="Types\Description\Reflection\ReflectionBasedTypeMemberDescription.cs" />
-    <Compile Include="Types\Description\TypeDescription.cs" />
-    <Compile Include="Types\Description\TypeMemberDescription.cs" />
     <Compile Include="Types\Mapping\CreateInstanceContext.cs" />
     <Compile Include="Types\Mapping\ITypeMapper.cs">
       <SubType>Code</SubType>

@@ -17,8 +17,10 @@ namespace SquaredInfinity.Foundation.Extensions
         /// <returns></returns>
         public static bool CanAcceptItem(this IList list, object listItemCandidate, IReadOnlyList<Type> compatibleItemTypes = null)
         {
+            var listType = list.GetType();
+
             if(compatibleItemTypes == null)
-                compatibleItemTypes = list.GetItemsTypes();
+                compatibleItemTypes = listType.GetCompatibleItemTypes();
 
             // if no item types found, list accepts everything
             if (compatibleItemTypes.Count == 0)
@@ -45,12 +47,7 @@ namespace SquaredInfinity.Foundation.Extensions
             {
                 var listItemCandidateType = listItemCandidate.GetType();
 
-                var areTypesCompatible =
-                        (from t in compatibleItemTypes
-                         where t.IsAssignableFrom(listItemCandidateType)
-                         select t).Any();
-
-                return areTypesCompatible;
+                return listType.CanAcceptItem(listItemCandidateType, compatibleItemTypes);
             }
         }
     }

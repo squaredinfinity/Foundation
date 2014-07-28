@@ -8,23 +8,53 @@ using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Types.Description.Reflection
 {
-    public class ReflectionBasedTypeDescription : TypeDescription
+    public class ReflectionBasedTypeDescription : ITypeDescription
     {
-        ConstructorInfo ParameterLessConstructorInfo;
+        public string AssemblyQualifiedName { get; set; }
 
-        public override object CreateInstance()
+        /// <summary>
+        /// Namespace.Name
+        /// </summary>
+        public string FullName { get; set; }
+
+        public string Name { get; set; }
+
+        public string Namespace { get; set; }
+
+        ITypeMemberDescriptionCollection _members;
+        public ITypeMemberDescriptionCollection Members
         {
-            if(ParameterLessConstructorInfo == null)
-            {
-                ParameterLessConstructorInfo =
-                    Type
-                   .GetConstructor(
-                   BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                   binder: null,
-                   types: Type.EmptyTypes,
-                   modifiers: null);
-            }
+            get { return _members; }
+            set { _members = value; }
+        }
 
+        public Type Type { get; set; }
+
+
+        public bool IsValueType { get; set; }
+
+        ConstructorInfo _parameterLessConstructorInfo;
+        public ConstructorInfo ParameterLessConstructorInfo 
+        {
+            get
+            {
+                if(_parameterLessConstructorInfo == null)
+                {
+                    _parameterLessConstructorInfo =
+                        Type
+                        .GetConstructor(
+                        BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                        binder: null,
+                        types: Type.EmptyTypes,
+                        modifiers: null);
+                }
+
+                return _parameterLessConstructorInfo;
+            }
+        }
+
+        public virtual object CreateInstance()
+        {
             if (ParameterLessConstructorInfo == null)
             {
                 throw new InvalidOperationException("Type {0} does not have parameterless contructor".FormatWith(Type.FullName));
@@ -32,5 +62,8 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 
             return ParameterLessConstructorInfo.Invoke(null);
         }
+
+
+        public bool AreAllMembersImmutable { get; set; }
     }
 }

@@ -12,6 +12,10 @@ namespace SquaredInfinity.Foundation.Types.Mapping.ValueResolving
         public DynamicValueResolver(Func<TFrom, TTo> resolve)
         {
             this.Resolve = resolve;
+
+            // mapping is not needed
+            // mapped value will be supplied by user
+            IsMappingNeeded = false;
         }
 
         public override TTo ResolveValue(TFrom source)

@@ -4,38 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using SquaredInfinity.Foundation.Collections.Concurrent;
+using System.Collections.Concurrent;
+using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Foundation.Types.Description.Reflection;
 
 namespace SquaredInfinity.Foundation.Types.Description.IL
 {
-    public class ILBasedEnumerableTypeDescription : ILBasedTypeDescription, IEnumerableTypeDescription
+    public partial class ILBasedEnumerableTypeDescription : ILBasedTypeDescription
     {
-        IReadOnlyList<Type> _compatibleItemTypes;
-        public IReadOnlyList<Type> CompatibleItemTypes
+        ReflectionBasedEnumerableTypeDescription EnumerableSource;
+
+        public ILBasedEnumerableTypeDescription(ReflectionBasedEnumerableTypeDescription source)
+            : base (source)
         {
-            get { return _compatibleItemTypes; }
-            set { _compatibleItemTypes = value; }
-        }
-
-        Type _defaultConcreteItemType;
-        public Type DefaultConcreteItemType
-        {
-            get { return _defaultConcreteItemType; }
-            set { _defaultConcreteItemType = value; }
-        }
-
-
-        bool _canSetCapacity;
-        public bool CanSetCapacity
-        {
-            get { return _canSetCapacity; }
-            set { _canSetCapacity = value; }
-        }
-
-        public PropertyInfo CapacityPropertyInfo;
-
-        public void SetCapacity(object obj, int capacity)
-        {
-            CapacityPropertyInfo.SetValue(obj, capacity);
+            this.EnumerableSource = source;
         }
     }
 }

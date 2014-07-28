@@ -17,5 +17,7 @@ namespace SquaredInfinity.Foundation.Types.Description
         bool IsValueType { get; }
 
         object CreateInstance();
+
+        bool AreAllMembersImmutable { get; }
     }
 }

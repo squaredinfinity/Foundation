@@ -1,38 +1,58 @@
-﻿using System;
+﻿using SquaredInfinity.Foundation.Collections;
+using SquaredInfinity.Foundation.Collections.Concurrent;
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SquaredInfinity.Foundation.Extensions;
+using System.Reflection;
 
 namespace SquaredInfinity.Foundation.Types.Description.Reflection
 {
     public class ReflectionBasedEnumerableTypeDescription : ReflectionBasedTypeDescription, IEnumerableTypeDescription
     {
+        public Type DefaultConcreteItemType { get; set; }
 
-        IReadOnlyList<Type> _compatibleItemTypes;
-        public IReadOnlyList<Type> CompatibleItemTypes
+        public bool CanSetCapacity { get; set; }
+
+        public PropertyInfo CapacityPropertyInfo { get; set; }
+
+        readonly ConcurrentDictionary<Type, bool> ItemTypeCompatibility = new ConcurrentDictionary<Type, bool>();
+
+        public bool CanAcceptItemType(Type itemType)
         {
-            get { return _compatibleItemTypes; }
-            set { _compatibleItemTypes = value; }
+            var isCompatible = false;
+
+            if (ItemTypeCompatibility.TryGetValue(itemType, out isCompatible))
+            {
+                return isCompatible;
+            }
+
+            // no cached data about this item type compatibility
+            // check if it is compatible or not
+
+            isCompatible = Type.CanAcceptItem(itemType);
+
+            ItemTypeCompatibility.AddOrUpdate(itemType, isCompatible);
+
+            return isCompatible;
         }
 
-        Type _defaultConcreteItemType;
-        public Type DefaultConcreteItemType
+        public void AddCompatibleItemType(Type itemType)
         {
-            get { return _defaultConcreteItemType; }
-            set { _defaultConcreteItemType = value; }
+            ItemTypeCompatibility.GetOrAdd(itemType, true);
         }
 
-
-        public bool CanSetCapacity
+        public void AddIncompatibleItemType(Type itemType)
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            ItemTypeCompatibility.GetOrAdd(itemType, false);
         }
 
         public void SetCapacity(object obj, int capacity)
         {
-            throw new NotImplementedException();
+            CapacityPropertyInfo.SetValue(obj, capacity);
         }
     }
 }

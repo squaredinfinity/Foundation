@@ -170,7 +170,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             return result;
         }
 
-        public bool TryCreateInstace(object source, Type targetType, CreateInstanceContext create_cx, out object newInstance)
+        public bool TryCreateInstace(object source, ITypeDescription targetTypeDescription, CreateInstanceContext create_cx, out object newInstance)
         {
             newInstance = null;
 
@@ -182,19 +182,11 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                     return true;
                 }
 
-                var constructor = targetType
-                    .GetConstructor(
-                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                    binder: null,
-                    types: Type.EmptyTypes,
-                    modifiers: null);
+                // get type descriptor
 
-                if (constructor != null)
-                {
-                    newInstance = constructor.Invoke(null);
-
-                    return true;
-                }
+                newInstance = targetTypeDescription.CreateInstance();
+                
+                return true;
             }
             catch (Exception ex)
             {

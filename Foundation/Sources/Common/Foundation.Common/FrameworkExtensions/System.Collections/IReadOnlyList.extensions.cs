@@ -25,7 +25,7 @@ namespace SquaredInfinity.Foundation.Extensions
         /// <param name="list"></param>
         /// <param name="listItemCandidate"></param>
         /// <returns></returns>
-        public static IReadOnlyList<Type> GetItemsTypes(this IList list)
+        public static IReadOnlyList<Type> GetCompatibleItemsTypes(this IList list)
         {
             var listItemTypes = list.GetType().GetCompatibleItemTypes();
 

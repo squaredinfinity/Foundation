@@ -121,7 +121,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                     if (item == null)
                     {
-                        itemType = sourceList.GetItemsTypes().First();
+                        itemType = sourceList.GetCompatibleItemsTypes().First();
 
                         // if item type is nullable, use underlying nullable type as item type
                         var nullableItemType = Nullable.GetUnderlyingType(itemType);

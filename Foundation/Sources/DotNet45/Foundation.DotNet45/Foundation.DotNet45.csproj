@@ -48,6 +48,12 @@
     <Compile Include="..\..\Common\Foundation.Common\Collections\CollectionEx.cs">
       <Link>Collections\CollectionEx.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\Concurrent\ConcurrentHashSet.cs">
+      <Link>Collections\Concurrent\ConcurrentHashSet.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\Concurrent\IConcurrentCollectionEx.cs">
+      <Link>Collections\Concurrent\IConcurrentCollectionEx.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Collections\IBulkUpdatesCollection.cs">
       <Link>Collections\IBulkUpdatesCollection.cs</Link>
     </Compile>
@@ -104,6 +110,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Linq.Expressions\Expression.extensions.cs">
       <Link>FrameworkExtensions\System.Linq.Expressions\Expression.extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Reflection\MemberInfo.extensions.cs">
+      <Link>FrameworkExtensions\System.Reflection\MemberInfo.extensions.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Threading.Tasks\Parallel.extensions.cs">
       <Link>FrameworkExtensions\System.Threading.Tasks\Parallel.extensions.cs</Link>
@@ -173,6 +182,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\IFreezable.cs">
       <Link>IFreezable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\ILGeneration\IL.cs">
+      <Link>ILGeneration\IL.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\INotifyVersionChangedObject.cs">
       <Link>INotifyVersionChangedObject.cs</Link>
@@ -261,14 +273,17 @@
     <Compile Include="..\..\Common\Foundation.Common\Types\Description\IL\ILBasedTypeDescription.cs">
       <Link>Types\Description\IL\ILBasedTypeDescription.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Description\IL\ILBasedTypeDescription.ITypeDescription.cs">
+      <Link>Types\Description\IL\ILBasedTypeDescription.ITypeDescription.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Types\Description\IL\ILBasedTypeDescriptor.cs">
       <Link>Types\Description\IL\ILBasedTypeDescriptor.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Types\Description\IL\ILBasedTypeMemberDescription.cs">
       <Link>Types\Description\IL\ILBasedTypeMemberDescription.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Types\Description\IMemberAccessor.cs">
-      <Link>Types\Description\IMemberAccessor.cs</Link>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Description\IL\ILBasedTypeMemberDescription.ITypeMemberDescription.cs">
+      <Link>Types\Description\IL\ILBasedTypeMemberDescription.ITypeMemberDescription.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Types\Description\ITypeDescription.cs">
       <Link>Types\Description\ITypeDescription.cs</Link>
@@ -296,12 +311,6 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Types\Description\Reflection\ReflectionBasedTypeMemberDescription.cs">
       <Link>Types\Description\Reflection\ReflectionBasedTypeMemberDescription.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Types\Description\TypeDescription.cs">
-      <Link>Types\Description\TypeDescription.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Types\Description\TypeMemberDescription.cs">
-      <Link>Types\Description\TypeMemberDescription.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Types\Description\TypeMemberDescriptionCollection.cs">
       <Link>Types\Description\TypeMemberDescriptionCollection.cs</Link>

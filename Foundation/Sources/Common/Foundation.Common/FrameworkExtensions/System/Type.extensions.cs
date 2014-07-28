@@ -32,6 +32,23 @@ namespace SquaredInfinity.Foundation.Extensions
             return listItemTypes;
         }
 
+        public static bool CanAcceptItem(this Type collectionType, Type itemCandidateType, IReadOnlyList<Type> compatibleItemTypes = null)
+        {
+            if (compatibleItemTypes == null)
+                compatibleItemTypes = collectionType.GetCompatibleItemTypes();
+
+            // if no item types found, collection accepts everything
+            if (compatibleItemTypes.Count == 0)
+                return true;
+
+            var areTypesCompatible =
+                    (from t in compatibleItemTypes
+                     where t.IsAssignableFrom(itemCandidateType)
+                     select t).Any();
+
+            return areTypesCompatible;
+        }
+
         /// <summary>
         /// Returns true if given type implements specified interface.
         /// </summary>

@@ -5,34 +5,24 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Foundation.Types.Description.Reflection;
+using System.Reflection.Emit;
+using SquaredInfinity.Foundation.ILGeneration;
 
 namespace SquaredInfinity.Foundation.Types.Description.IL
 {
-    public class ILBasedTypeDescription : TypeDescription
+    public partial class ILBasedTypeDescription
     {
-        // todo: use il
+        ReflectionBasedTypeDescription Source;
 
-        ConstructorInfo ParameterLessConstructorInfo;
+        ConstructorInvocation CreateInstanceDelegate;
 
-        public override object CreateInstance()
+        public ILBasedTypeDescription(ReflectionBasedTypeDescription source)
         {
-            if (ParameterLessConstructorInfo == null)
-            {
-                ParameterLessConstructorInfo =
-                    Type
-                   .GetConstructor(
-                   BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                   binder: null,
-                   types: Type.EmptyTypes,
-                   modifiers: null);
-            }
+            this.Source = source;
 
-            if (ParameterLessConstructorInfo == null)
-            {
-                throw new InvalidOperationException("Type {0} does not have parameterless contructor".FormatWith(Type.FullName));
-            }
-
-            return ParameterLessConstructorInfo.Invoke(null);
-        }
+            if(source.ParameterLessConstructorInfo != null)
+                this.CreateInstanceDelegate = source.ParameterLessConstructorInfo.EmitConstructorInvocationDelegate();
+        }        
     }
 }

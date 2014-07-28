@@ -379,7 +379,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             SerializationOptions options,
             DeserializationContext cx)
         {
-            var targetListItemTypes = targetList.GetItemsTypes();
+            var targetListItemTypes = targetList.GetCompatibleItemsTypes();
 
             var non_attached_elements =
                 (from el in xml.Elements()

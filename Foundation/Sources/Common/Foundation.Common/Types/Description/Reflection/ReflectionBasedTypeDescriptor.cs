@@ -39,38 +39,30 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
                 {
                     isNew = true;
 
-                    if (type.ImplementsInterface(typeof(IEnumerable)))
-                    {
-                        return new ReflectionBasedEnumerableTypeDescription();
-                    }
-                    else
-                    {
-                        return new ReflectionBasedTypeDescription();
-                    }
+                    return DescribeTypeInternal(type);
                 });
-
-            if (isNew)
-                DescribeTypeInternal(type, (TypeDescription)memberTypeDescription);
 
             return memberTypeDescription;
         }
 
-        void DescribeTypeInternal(Type type, TypeDescription prototype)
+        protected virtual ITypeDescription DescribeTypeInternal(Type type)
         {
-            prototype.AssemblyQualifiedName = type.AssemblyQualifiedName;
-            prototype.FullName = type.FullName;
-            prototype.Name = type.Name;
-            prototype.Namespace = type.Namespace;
-            prototype.Type = type;
+            var typeDescription = (ReflectionBasedTypeDescription) null;
 
-            var enumerableTypeDescription = prototype as ReflectionBasedEnumerableTypeDescription;
-            if(enumerableTypeDescription != null)
+            if (type.ImplementsInterface(typeof(IEnumerable)))
             {
-                enumerableTypeDescription.CompatibleItemTypes = type.GetCompatibleItemTypes();
+                var enumerableTypeDescription = new ReflectionBasedEnumerableTypeDescription();
+
+                typeDescription = enumerableTypeDescription;
+
+                var compatibleItemTypes = type.GetCompatibleItemTypes();
+
+                foreach(var t in compatibleItemTypes)
+                    enumerableTypeDescription.AddCompatibleItemType(t);
 
                 // find min concrete type which could be used as an item
                 enumerableTypeDescription.DefaultConcreteItemType =
-                    (from t in enumerableTypeDescription.CompatibleItemTypes
+                    (from t in compatibleItemTypes
                      where !t.IsInterface && !t.IsAbstract
                      select t).FirstOrDefault();
 
@@ -79,9 +71,21 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
                 if (capacityProperty != null && capacityProperty.CanWrite)
                 {
                     enumerableTypeDescription.CanSetCapacity = true;
-                    //enumerableTypeDescription.CapacityPropertyInfo = capacityProperty;
+                    enumerableTypeDescription.CapacityPropertyInfo = capacityProperty;
                 }
             }
+            else
+            {
+                typeDescription = new ReflectionBasedTypeDescription();
+            }
+
+            typeDescription.AssemblyQualifiedName = type.AssemblyQualifiedName;
+            typeDescription.FullName = type.FullName;
+            typeDescription.Name = type.Name;
+            typeDescription.Namespace = type.Namespace;
+            typeDescription.Type = type;
+
+            typeDescription.IsValueType = type.IsValueType;
             
             var properties =
                 (from p in type.GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
@@ -95,6 +99,10 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
                 // where !f.Name.EndsWith("_backingfield", StringComparison.InvariantCultureIgnoreCase)
                 // select f).ToArray();
             
+            // assume that all members are immutable
+            // change to false if any field or property is of immutable type
+            bool areAllMembersImmutable = true;
+
             var prototypeMembers = new TypeMemberDescriptionCollection();
 
             for (int i = 0; i < fields.Length; i++)
@@ -105,11 +113,14 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 
                 var member_type = f.FieldType;
 
+                if(!member_type.IsValueType)
+                    areAllMembersImmutable = false;
+
                 var memberTypeDescription = (ITypeDescription)null;
 
                 if (member_type == type)
                 {
-                    memberTypeDescription = prototype;
+                    memberTypeDescription = typeDescription;
                 }
                 else
                 {
@@ -128,7 +139,7 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 
                 md.Visibility = GetMemberVisibility(f);
 
-                md.DeclaringType = prototype;
+                md.DeclaringType = typeDescription;
 
                 prototypeMembers.Add(md);
             }
@@ -141,11 +152,14 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 
                 var member_type = p.PropertyType;
 
+                if(!member_type.IsValueType)
+                    areAllMembersImmutable = false;
+
                 var memberTypeDescription = (ITypeDescription) null;
 
                 if (member_type == type)
                 {
-                    memberTypeDescription = prototype;
+                    memberTypeDescription = typeDescription;
                 }
                 else
                 {
@@ -191,12 +205,16 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 
                 md.Visibility = GetMemberVisibility(p);
 
-                md.DeclaringType = prototype;
+                md.DeclaringType = typeDescription;
 
                 prototypeMembers.Add(md);
             }
 
-            prototype.Members = prototypeMembers;
+            typeDescription.Members = prototypeMembers;
+
+            typeDescription.AreAllMembersImmutable = areAllMembersImmutable;
+
+            return typeDescription;
         }
 
         MemberVisibility GetMemberVisibility(PropertyInfo pi)

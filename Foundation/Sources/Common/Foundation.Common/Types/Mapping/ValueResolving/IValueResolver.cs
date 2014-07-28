@@ -10,6 +10,12 @@ namespace SquaredInfinity.Foundation.Types.Mapping.ValueResolving
         Type FromType { get; }
         Type ToType { get; }
 
+        bool AreFromAndToTypesSame { get; }
+        bool AreFromAndToImmutable { get; }
+        bool AreFromAndToValueType { get; }
+
+        bool IsMappingNeeded { get; }
+
         object ResolveValue(object source);
     }
 

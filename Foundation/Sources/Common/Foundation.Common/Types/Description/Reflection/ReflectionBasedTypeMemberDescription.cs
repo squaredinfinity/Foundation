@@ -4,15 +4,42 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Types.Description.Reflection
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
-    public class ReflectionBasedTypeMemberDescription : TypeMemberDescription
+    public class ReflectionBasedTypeMemberDescription : ITypeMemberDescription
     {
-        MemberInfo MemberInfo { get; set; }
-        PropertyInfo PropertyInfo { get; set; }
-        FieldInfo FieldInfo { get; set; }
+        public string Name { get; set; }
+
+        public string SanitizedName { get; set; }
+
+        public string AssemblyQualifiedMemberTypeName { get; set; }
+
+        public ITypeDescription MemberType { get; set; }
+
+        public bool CanSetValue { get; set; }
+
+        public bool CanGetValue { get; set; }
+
+        public MemberVisibility Visibility { get; set; }
+
+        public ITypeDescription DeclaringType { get; set; }
+
+        public bool IsExplicitInterfaceImplementation { get; set; }
+
+        public string DebuggerDisplay
+        {
+            get
+            {
+                return "{0} ({1})".FormatWith(Name, MemberType.FullName);
+            }
+        }
+
+        public MemberInfo MemberInfo { get; private set; }
+        public PropertyInfo PropertyInfo { get; private set; }
+        public FieldInfo FieldInfo { get; private set; }
         
         public ReflectionBasedTypeMemberDescription(MemberInfo memberInfo)
         {
@@ -28,7 +55,7 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
             }
         }
 
-        public override object GetValue(object obj)
+        public virtual object GetValue(object obj)
         {
             if(PropertyInfo != null)
             {
@@ -44,7 +71,7 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
             }
         }
 
-        public override void SetValue(object obj, object value)
+        public virtual void SetValue(object obj, object value)
         {
             if (PropertyInfo != null)
             {

@@ -47,11 +47,20 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 xx1.Add(x1);
             }
 
-            var sw = Stopwatch.StartNew();
-
             var tm = new TypeMapper();
 
-            tm.Map(xx1, xx2);
+            var mo = new MappingOptions();
+            mo.TrackReferences = false;
+
+            var sw = Stopwatch.StartNew();
+
+            tm.Map(xx1, xx2, mo);
+
+            Trace.WriteLine("MAPPER_FIRST RUN: " + sw.GetElapsedAndRestart().TotalMilliseconds);
+
+            tm.Map(xx1, xx2, mo);
+
+            xx2 = new List<List<X2>>();
 
             Trace.WriteLine("MAPPER: " + sw.GetElapsedAndRestart().TotalMilliseconds);
 
@@ -72,9 +81,6 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                     })
                 .IgnoreAllMembers()
                 .MapMember(t => t.INT, s => { return s.INT; });
-
-            var mo = new MappingOptions();
-            mo.TrackReferences = false;
 
             sw.Restart();
 
