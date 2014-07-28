@@ -112,7 +112,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 {
                     var m = memberMatches[i];
 
-                    TargetMembersMappings.
+                    TargetMembersMappings
                         .AddOrUpdate(
                         m.To,
                         new MatchedMemberValueResolver(m));
