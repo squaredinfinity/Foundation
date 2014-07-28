@@ -51,7 +51,6 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             return this;
         }
 
-
         public ITypeMappingStrategy<TFrom, TTo> CreateTargetInstance(Func<TFrom, CreateInstanceContext, TTo> createTargetInstance)
         {
             base.CreateTargetInstance = (_s, _cx) => createTargetInstance((TFrom)_s, _cx);
@@ -62,6 +61,11 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
     public partial class TypeMappingStrategy : ITypeMappingStrategy
     {
+        public bool AreFromAndToTypesSame { get; set; }
+        public bool AreFromAndToImmutable { get; set; }
+        public bool AreFromAndToValueType { get; set; }
+        public bool CanCopyValueWithoutMapping { get; set; }
+
 
         public Type SourceType { get; set; }
         public Type TargetType { get; set; }
@@ -118,6 +122,17 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                         new MatchedMemberValueResolver(m));
                 }
             }
+
+            AreFromAndToTypesSame = SourceType == TargetType;
+            AreFromAndToImmutable = SourceTypeDescription.AreAllMembersImmutable && TargetTypeDescription.AreAllMembersImmutable;
+            AreFromAndToValueType = SourceType.IsValueType && TargetType.IsValueType;
+
+            CanCopyValueWithoutMapping =
+                (SourceType == typeof(string) && TargetType == typeof(string))
+                ||
+                (AreFromAndToTypesSame && AreFromAndToValueType && AreFromAndToImmutable)
+                ||
+                (AreFromAndToTypesSame && SourceType.IsEnum);
         }
 
         static MemberMatchCollection GetMemberMatches(

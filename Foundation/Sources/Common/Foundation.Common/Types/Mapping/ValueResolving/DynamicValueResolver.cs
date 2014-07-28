@@ -15,7 +15,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping.ValueResolving
 
             // mapping is not needed
             // mapped value will be supplied by user
-            IsMappingNeeded = false;
+            CanCopyValueWithoutMapping = false;
         }
 
         public override TTo ResolveValue(TFrom source)

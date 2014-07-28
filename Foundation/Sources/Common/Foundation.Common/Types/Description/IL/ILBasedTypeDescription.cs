@@ -23,6 +23,8 @@ namespace SquaredInfinity.Foundation.Types.Description.IL
 
             if(source.ParameterLessConstructorInfo != null)
                 this.CreateInstanceDelegate = source.ParameterLessConstructorInfo.EmitConstructorInvocationDelegate();
+            else if(source.Type.IsValueType || source.Type.IsEnum)
+                this.CreateInstanceDelegate = source.Type.EmitConstructorInvocationDelegate();
         }        
     }
 }

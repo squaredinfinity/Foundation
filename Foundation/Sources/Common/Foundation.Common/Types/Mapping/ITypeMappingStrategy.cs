@@ -15,6 +15,11 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         ITypeDescription SourceTypeDescription { get; }
         ITypeDescription TargetTypeDescription { get; }
 
+        bool AreFromAndToTypesSame { get; }
+        bool AreFromAndToImmutable { get; }
+        bool AreFromAndToValueType { get; }
+        bool CanCopyValueWithoutMapping { get; }
+
         Dictionary<ITypeMemberDescription, IValueResolver> TargetMembersMappings { get; }
 
         //bool TryGetValueResolverForMember(string memberName, out IValueResolver valueResolver);

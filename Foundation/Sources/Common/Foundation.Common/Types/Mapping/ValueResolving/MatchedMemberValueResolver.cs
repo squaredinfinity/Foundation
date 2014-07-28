@@ -22,7 +22,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping.ValueResolving
         public bool AreFromAndToTypesSame { get; set; }
         public bool AreFromAndToImmutable { get; set; }
         public bool AreFromAndToValueType { get; set; }
-        public bool IsMappingNeeded { get; set; }
+        public bool CanCopyValueWithoutMapping { get; set; }
 
         public MatchedMemberValueResolver(MemberMatching.IMemberMatch match)
         {
@@ -35,8 +35,12 @@ namespace SquaredInfinity.Foundation.Types.Mapping.ValueResolving
             AreFromAndToImmutable = match.From.MemberType.AreAllMembersImmutable && match.To.MemberType.AreAllMembersImmutable;
             AreFromAndToValueType = FromType.IsValueType && ToType.IsValueType;
 
-            IsMappingNeeded =
-                ! (AreFromAndToTypesSame && AreFromAndToValueType && AreFromAndToImmutable);
+            CanCopyValueWithoutMapping =
+                (FromType == typeof(string) && ToType == typeof(string))
+                ||
+                (AreFromAndToTypesSame && AreFromAndToValueType && AreFromAndToImmutable)
+                ||
+                (AreFromAndToTypesSame && FromType.IsEnum);
         }
 
         public object ResolveValue(object source)

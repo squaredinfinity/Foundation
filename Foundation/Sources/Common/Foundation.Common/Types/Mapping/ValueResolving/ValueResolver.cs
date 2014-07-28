@@ -14,7 +14,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping.ValueResolving
         public bool AreFromAndToTypesSame { get; set; }
         public bool AreFromAndToImmutable { get; set; }
         public bool AreFromAndToValueType { get; set; }
-        public bool IsMappingNeeded { get; set; }
+        public bool CanCopyValueWithoutMapping { get; set; }
 
         public ValueResolver()
         {
@@ -25,7 +25,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping.ValueResolving
             AreFromAndToImmutable = true; // this could be calculated here, bot not needed for now, for now always map unless specified otherwise
             AreFromAndToValueType = FromType.IsValueType && ToType.IsValueType;
 
-            IsMappingNeeded =
+            CanCopyValueWithoutMapping =
                 AreFromAndToTypesSame
                 &&
                 AreFromAndToValueType

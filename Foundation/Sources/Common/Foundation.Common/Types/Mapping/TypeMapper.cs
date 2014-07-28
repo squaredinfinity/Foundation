@@ -97,11 +97,14 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 ms = GetOrCreateTypeMappingStrategy(sourceType, targetType);
             }
 
+            if(ms.CanCopyValueWithoutMapping)
+                return source;
+
             var clone = (object)null;
 
             var create_cx = new CreateInstanceContext();
 
-            if (options.TrackReferences)
+            if (options.TrackReferences && !targetType.IsValueType)
             {
                 bool isCloneNew = false;
 
@@ -189,7 +192,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                     var valueResolver = kvp.Value;
                     var mappedValueCandidate = valueResolver.ResolveValue(source);
 
-                    if(!valueResolver.IsMappingNeeded)
+                    if(mappedValueCandidate != null && valueResolver.CanCopyValueWithoutMapping)
                     {
                         targetMemberDescription.SetValue(target, mappedValueCandidate);
                         continue;
@@ -221,7 +224,13 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                         
                         if(targetMemberValue == null)
                         {
-                            // just assign source value, no mapping needed since target is null
+                            mappedValueCandidate = MapInternal(mappedValueCandidate, targetMemberDescription.MemberType.Type, options, cx);
+
+                            targetMemberDescription.SetValue(target, mappedValueCandidate);
+                        }
+                        else if(targetMemberDescription.MemberType.IsValueType)
+                        {
+                            mappedValueCandidate = MapInternal(mappedValueCandidate, targetMemberDescription.MemberType.Type, options, cx);
                             targetMemberDescription.SetValue(target, mappedValueCandidate);
                         }
                         else
@@ -230,19 +239,23 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                             sourceValType = mappedValueCandidate.GetType();
                             targetValType = targetMemberValue.GetType();
 
-                            if (options.ReuseTargetCollectionsWhenPossible
-                                && targetMemberDescription.MemberType.Type.ImplementsInterface<IList>()) // or Icollection ?
+                            var _key = new TypeMappingStrategyKey(sourceValType, targetValType);
+                            var _ms = TypeMappingStrategies.GetOrAdd(_key, (_) => CreateDefaultTypeMappingStrategy(sourceValType, targetValType));
+
+                            if (targetMemberDescription.MemberType.Type.ImplementsInterface<IList>()) // or Icollection ?
                             {
-
-                                var _key = new TypeMappingStrategyKey(sourceValType, targetValType);
-
-                                var _ms = TypeMappingStrategies.GetOrAdd(_key, (_) => CreateDefaultTypeMappingStrategy(sourceValType, targetValType));
-
-                                MapInternal(mappedValueCandidate, targetMemberValue, sourceValType, targetValType, _ms, options, cx);
+                                if (options.ReuseTargetCollectionsWhenPossible)
+                                {
+                                    MapInternal(mappedValueCandidate, targetMemberValue, sourceValType, targetValType, _ms, options, cx);
+                                }
+                                else
+                                {
+                                    MapInternal(mappedValueCandidate, targetMemberValue, sourceValType, targetValType, _ms, options, cx);
+                                }
                             }
                             else
                             {
-                                targetMemberDescription.SetValue(target, mappedValueCandidate);
+                                MapInternal(mappedValueCandidate, targetMemberValue, sourceValType, targetValType, _ms, options, cx);
                             }
                         }
                     }

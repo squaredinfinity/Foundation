@@ -184,7 +184,7 @@ namespace SquaredInfinity.Foundation.ILGeneration
             if (pi.PropertyType.IsClass)
             {
                 IL
-                    .castclass(pi.DeclaringType);
+                    .castclass(pi.PropertyType);
             }
             else
                 IL
@@ -196,8 +196,8 @@ namespace SquaredInfinity.Foundation.ILGeneration
                     .call_or_callvirt(setMethod)
                     .ret();
 
-            //method.DefineParameter(1, ParameterAttributes.In, "property_owner_instance");
-            //method.DefineParameter(2, ParameterAttributes.In, "property_value");
+            //dynMeth.DefineParameter(1, ParameterAttributes.In, "property_owner_instance");
+            //dynMeth.DefineParameter(2, ParameterAttributes.In, "property_value");
 
             return (PropertySetter)dynMeth.CreateDelegate(typeof(PropertySetter));
         }
@@ -232,6 +232,35 @@ namespace SquaredInfinity.Foundation.ILGeneration
             return (PropertyGetter)dynMeth.CreateDelegate(typeof(PropertyGetter));
         }
 
+        public static ConstructorInvocation EmitConstructorInvocationDelegate(this Type type)
+        {
+            var dynMeth = CreateDynamicMethod(
+                "__SI_IL_ctor__" + type.Name,
+                type,
+                typeof(object),
+                new Type[] { typeof(object) });
+
+            var IL = new IL(dynMeth.GetILGenerator());
+
+            if (type.IsValueType)
+            {
+                IL
+                    .DeclareLocal(type, pinned: false);   // DeclaringType x
+
+                IL
+                    .ldloca_s(0)
+                    .initobj(type)
+                    .ldloc_0
+                    .end();
+
+                IL
+                    .box_if_value_type(type)
+                    .ret();
+            }
+
+            return (ConstructorInvocation)dynMeth.CreateDelegate(typeof(ConstructorInvocation));
+        }
+
         public static ConstructorInvocation EmitConstructorInvocationDelegate(this ConstructorInfo ci)
         {
             var dynMeth = CreateDynamicMethod(
@@ -244,24 +273,12 @@ namespace SquaredInfinity.Foundation.ILGeneration
 
             var ciParameters = ci.GetParameters();
 
-            if(ci.DeclaringType.IsValueType && ciParameters.Length == 0)
-            {
-                IL
-                    .DeclareLocal(ci.DeclaringType, pinned: false);   // DeclaringType x
+            IL
+                .newobj(ci);
 
-                IL
-                    .ldloca_s(0)
-                    .initobj(ci.DeclaringType)
-                    .ldloc_0
-                    .end();
-            }
-            else
-            {
-                IL
-                    .newobj(ci);
-            }
-            
-            IL            
+            // todo: parameters handling
+
+            IL
                 .box_if_value_type(ci.DeclaringType)
                 .ret();
 
