@@ -111,14 +111,14 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             {
                 var r2 = new List<X2>(capacity: r.Count);
 
+                xx2.Add(r2);
+
                 foreach (var c in r)
                 {
                     var c2 = new X2();
                     c2.INT = c.INT;
                     r2.Add(c2);
                 }
-
-                xx2.Add(r2);
             }
 
             Trace.WriteLine("BY HAND OPTIMIZED: " + sw.GetElapsedAndRestart().TotalMilliseconds);

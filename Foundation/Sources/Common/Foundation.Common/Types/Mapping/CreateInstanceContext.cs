@@ -5,8 +5,8 @@ using System.Text;
 
 namespace SquaredInfinity.Foundation.Types.Mapping
 {
-    public class CreateInstanceContext
+    public struct CreateInstanceContext
     {
-        public bool IsFullyConstructed { get; set; }
+        public bool IsFullyConstructed;
     }
 }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Foundation.Types.Description.IL
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
-    public partial class ILBasedTypeMemberDescription
+    public partial class ILBasedTypeMemberDescription : IEquatable<ITypeMemberDescription>
     {
         PropertySetter MemberSetterValueDelegate;
         PropertyGetter MemberGetterDelegate;
@@ -35,6 +35,28 @@ namespace SquaredInfinity.Foundation.Types.Description.IL
             {
                 throw new NotSupportedException();
             }
+
+            _hashCode = Source.Name.GetHashCode();
+        }
+
+        int _hashCode;
+
+        public override int GetHashCode()
+        {
+            return _hashCode;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ITypeMemberDescription);
+        }
+
+        public bool Equals(ITypeMemberDescription other)
+        {
+            if (other == null)
+                return false;
+
+            return string.Equals(Source.Name, other.Name);
         }
     }
 }

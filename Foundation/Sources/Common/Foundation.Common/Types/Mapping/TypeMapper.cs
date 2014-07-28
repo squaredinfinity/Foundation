@@ -49,23 +49,6 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             return MapInternal(source, sourceType, MappingOptions.Default, new MappingContext());
         }
 
-        bool IsBuiltInSimpleValueType(object obj)
-        {
-            return obj is sbyte
-                || obj is byte
-                || obj is short
-                || obj is ushort
-                || obj is int
-                || obj is uint
-                || obj is long
-                || obj is ulong
-                || obj is float
-                || obj is double
-                || obj is decimal
-                || obj is string
-                || obj is Enum;
-        }
-
         public void Map<TTarget>(object source, TTarget target)
         {
             Map<TTarget>(source, target, MappingOptions.Default);
@@ -104,14 +87,15 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             MapInternal(source, target, sourceType, targetType, ms, options, new MappingContext());
         }
-
-        object MapInternal(object source, Type targetType, MappingOptions options, MappingContext cx)
+        
+        object MapInternal(object source, Type targetType, MappingOptions options, MappingContext cx, ITypeMappingStrategy ms = null)
         {
             var sourceType = source.GetType();
 
-            var key = new TypeMappingStrategyKey(sourceType, targetType);
-
-            var ms = TypeMappingStrategies.GetOrAdd(key, _key => CreateDefaultTypeMappingStrategy(sourceType, targetType));
+            if (ms == null)
+            {
+                ms = GetOrCreateTypeMappingStrategy(sourceType, targetType);
+            }
 
             var clone = (object)null;
 
@@ -167,20 +151,13 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             MappingOptions options, 
             MappingContext cx)
         {
-            var key = new TypeMappingStrategyKey(sourceType, targetType);
-
-            //var ms = TypeMappingStrategies.GetOrAdd(key, _key => CreateDefaultTypeMappingStrategy(sourceType, targetType));
-
             var sourceList = source as IList;
             var targetList = target as IList;
 
             // todo: anything needed here for IReadOnlyList support in 4.5?
             if (sourceList != null && targetList != null)
             {
-                if (sourceList.Count == 0)
-                    targetList.Clear();
-
-                if (options.ReuseTargetCollectionItemsWhenPossible && targetList.Count != 0)
+                if (options.ReuseTargetCollectionItemsWhenPossible && targetList.Count != 0 && sourceList.Count != 0)
                 {
                     DeepCloneListElements(
                         sourceList,
@@ -204,7 +181,6 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 }
             }
 
-            
             foreach(var kvp in ms.TargetMembersMappings)
             {
                 try
@@ -444,8 +420,9 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 targetTypeDescription.SetCapacity(target, source.Count);
             }
 
-            bool areAllSourceItemsOfSameType = true;
-
+            var ms = (ITypeMappingStrategy)null;
+            var canAcceptItemType = false;
+            var last_sourceItemType = (Type)null;
             var sourceItemType = (Type) null;
 
             for (int i = 0; i < source.Count; i++)
@@ -461,16 +438,25 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
                 sourceItemType = sourceItem.GetType();
 
-                if (targetTypeDescription.CanAcceptItemType(sourceItemType))
+                if(last_sourceItemType != sourceItemType)
                 {
-                    targetItem = MapInternal(sourceItem, sourceItemType, options, cx);
+                    last_sourceItemType = sourceItemType;
+
+                    ms = GetOrCreateTypeMappingStrategy(sourceItemType, defaultConcreteItemType);
+
+                    canAcceptItemType = targetTypeDescription.CanAcceptItemType(sourceItemType);
+                }
+
+                if (canAcceptItemType)
+                {
+                    targetItem = MapInternal(sourceItem, sourceItemType, options, cx, ms);
                 }
                 else
                 {
-                    targetItem = MapInternal(sourceItem, defaultConcreteItemType, options, cx);
+                    targetItem = MapInternal(sourceItem, defaultConcreteItemType, options, cx, ms);
                 }
                 
-                target.Add(targetItem);
+                target.Insert(i, targetItem);
             }
         }
 
@@ -508,6 +494,15 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             return MapInternal(source, targetType, options, cx);
         }
 
+        ITypeMappingStrategy GetOrCreateTypeMappingStrategy(Type from, Type to)
+        {
+            var key = new TypeMappingStrategyKey(from, to);
+
+            var result = TypeMappingStrategies.GetOrAdd(key, CreateDefaultTypeMappingStrategy(from, to));
+
+            return result;
+        }
+
         public ITypeMappingStrategy<TFrom, TTo> GetOrCreateTypeMappingStrategy<TFrom, TTo>()
         {
             return GetOrCreateTypeMappingStrategy<TFrom, TTo>(() => CreateDefaultTypeMappingStrategy<TFrom, TTo>());
@@ -522,7 +517,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             if(!(result is ITypeMappingStrategy<TFrom, TTo>))
             {
                 // not a generic TypeMappingStrategy
-                // this was created automatically during previous calls to Map()
+                // this was created automatically (before this method was called) during previous calls to Map()
                 // replace with generic version which can be setup by user
 
                 result = create();

@@ -4,6 +4,7 @@ using System;
 using SquaredInfinity.Foundation.Types.Description;
 using System.Linq.Expressions;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 namespace SquaredInfinity.Foundation.Types.Mapping
 {
 
@@ -14,7 +15,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         ITypeDescription SourceTypeDescription { get; }
         ITypeDescription TargetTypeDescription { get; }
 
-        ConcurrentDictionary<ITypeMemberDescription, IValueResolver> TargetMembersMappings { get; }
+        Dictionary<ITypeMemberDescription, IValueResolver> TargetMembersMappings { get; }
 
         //bool TryGetValueResolverForMember(string memberName, out IValueResolver valueResolver);
         

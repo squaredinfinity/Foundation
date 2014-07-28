@@ -40,7 +40,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                           where m.Name == memberName
                           select m).Single();
 
-            TargetMembersMappings.AddOrUpdate(member, (key) => resolver, (key, oldValue) => resolver);
+            TargetMembersMappings.AddOrUpdate(member, resolver);
 
             return this;
         }
@@ -77,9 +77,9 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
         public ValueResolving.ValueResolverCollection ValueResolvers { get; set; }
 
-        ConcurrentDictionary<ITypeMemberDescription, IValueResolver> _targetMembersMappings
-         = new ConcurrentDictionary<ITypeMemberDescription, IValueResolver>();
-        public ConcurrentDictionary<ITypeMemberDescription, IValueResolver> TargetMembersMappings
+        Dictionary<ITypeMemberDescription, IValueResolver> _targetMembersMappings
+         = new Dictionary<ITypeMemberDescription, IValueResolver>();
+        public Dictionary<ITypeMemberDescription, IValueResolver> TargetMembersMappings
         {
             get { return _targetMembersMappings; }
         }
@@ -112,11 +112,10 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 {
                     var m = memberMatches[i];
 
-                    TargetMembersMappings
+                    TargetMembersMappings.
                         .AddOrUpdate(
                         m.To,
-                        _key => new MatchedMemberValueResolver(m),
-                        (_key, _old) => new MatchedMemberValueResolver(m));
+                        new MatchedMemberValueResolver(m));
                 }
             }
         }

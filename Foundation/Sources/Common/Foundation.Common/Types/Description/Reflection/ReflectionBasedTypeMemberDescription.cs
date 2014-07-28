@@ -9,9 +9,18 @@ using SquaredInfinity.Foundation.Extensions;
 namespace SquaredInfinity.Foundation.Types.Description.Reflection
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
-    public class ReflectionBasedTypeMemberDescription : ITypeMemberDescription
+    public class ReflectionBasedTypeMemberDescription : ITypeMemberDescription, IEquatable<ITypeMemberDescription>
     {
-        public string Name { get; set; }
+        string _name;
+        public string Name 
+        {
+            get { return _name; }
+            set 
+            {
+                _name = value;
+                _hashCode = value.GetHashCode();
+            }
+        }
 
         public string SanitizedName { get; set; }
 
@@ -85,6 +94,25 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
             {
                 throw new NotSupportedException();
             }
+        }
+
+        int _hashCode;
+        public override int GetHashCode()
+        {
+            return _hashCode;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ITypeMemberDescription);
+        }
+
+        public bool Equals(ITypeMemberDescription other)
+        {
+            if (other == null)
+                return false;
+
+            return string.Equals(Name, other.Name);
         }
     }
 }
