@@ -8,6 +8,28 @@ using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Threading
 {
+    public interface IAsyncOperationRequest
+    {
+        void Wait();
+    }
+
+    public class AsyncOperationRequest : IAsyncOperationRequest
+    {
+        Task Task;
+        CancellationToken CancellationToken;
+
+        public AsyncOperationRequest(Task operationTask, CancellationToken cancellationToken)
+        {
+            this.Task = operationTask;
+            this.CancellationToken = cancellationToken;
+        }
+
+        public void Wait()
+        {
+            Task.Wait(CancellationToken);
+        }
+    }
+
     public class AsyncAction : IAsyncAction
     {
         CancellationTokenSource OperationCancellationTokenSource;
@@ -16,11 +38,10 @@ namespace SquaredInfinity.Foundation.Threading
         
         public TimeSpan RequestsThrottle { get; set; }
 
-        Action ActionToExecute { get; set; }
-        
+        Action ActionToExecute { get; set; }        
         Action<CancellationToken> CancellableActionToExecute { get; set; }
         
-        public void RequestExecute()
+        public IAsyncOperationRequest RequestExecute()
         {
             CancelCurrentRequest();
 
