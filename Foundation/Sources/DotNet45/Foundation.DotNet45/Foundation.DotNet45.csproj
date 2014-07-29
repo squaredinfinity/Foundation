@@ -270,6 +270,9 @@
     <Compile Include="..\..\Common\Foundation.Common\Types\Description\IL\ILBasedEnumerableTypeDescription.cs">
       <Link>Types\Description\IL\ILBasedEnumerableTypeDescription.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Description\IL\ILBasedEnumerableTypeDescription.IEnumerableTypeDescription.cs">
+      <Link>Types\Description\IL\ILBasedEnumerableTypeDescription.IEnumerableTypeDescription.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Types\Description\IL\ILBasedTypeDescription.cs">
       <Link>Types\Description\IL\ILBasedTypeDescription.cs</Link>
     </Compile>

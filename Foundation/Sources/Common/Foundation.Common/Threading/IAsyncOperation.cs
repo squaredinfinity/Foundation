@@ -8,15 +8,11 @@ namespace SquaredInfinity.Foundation.Threading
 {
     public interface IAsyncAction : IDisposable
     {
-        TimeSpan RequestsThrottle { get; set; }
-
-        void RequestExecute();
+        IAsyncOperationRequest RequestExecute();
     }
 
     public interface IAsyncAction<T> : IDisposable
     {
-        TimeSpan RequestsThrottle { get; set; }
-
-        void RequestExecute(T argument);
+        IAsyncOperationRequest RequestExecute(T argument);
     }
 }

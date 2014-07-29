@@ -219,14 +219,32 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                     {
                         var targetMemberValue = targetMemberDescription.GetValue(target);
 
-                        var sourceValType = (Type)null;
+                        var sourceValType = mappedValueCandidate.GetType();
                         var targetValType = (Type)null;
                         
                         if(targetMemberValue == null)
                         {
-                            mappedValueCandidate = MapInternal(mappedValueCandidate, targetMemberDescription.MemberType.Type, options, cx);
+                            // target value is null
+                            // if source type and target type are compatible, clone source value
+                            if (ms.IsToTypeAssignableFromFromType)
+                            {
+                                mappedValueCandidate = MapInternal(mappedValueCandidate, sourceValType, options, cx);
+                                targetMemberDescription.SetValue(target, mappedValueCandidate);
+                            }
+                            else
+                            {
+                                if(targetMemberDescription.MemberType.Type.IsInterface)
+                                {
+                                    // todo: log warning, unable to map source interface to target interface (don't which concrete type to use)
+                                }
+                                else
+                                {
+                                    targetType = targetMemberDescription.MemberType.Type;
 
-                            targetMemberDescription.SetValue(target, mappedValueCandidate);
+                                    mappedValueCandidate = MapInternal(mappedValueCandidate, targetType, options, cx);
+                                    targetMemberDescription.SetValue(target, mappedValueCandidate);
+                                }
+                            }
                         }
                         else if(targetMemberDescription.MemberType.IsValueType)
                         {
@@ -236,7 +254,6 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                         else
                         {
                             // map
-                            sourceValType = mappedValueCandidate.GetType();
                             targetValType = targetMemberValue.GetType();
 
                             var _key = new TypeMappingStrategyKey(sourceValType, targetValType);

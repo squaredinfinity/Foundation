@@ -65,6 +65,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         public bool AreFromAndToImmutable { get; set; }
         public bool AreFromAndToValueType { get; set; }
         public bool CanCopyValueWithoutMapping { get; set; }
+        public bool IsToTypeAssignableFromFromType { get; set; }
 
 
         public Type SourceType { get; set; }
@@ -133,6 +134,8 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 (AreFromAndToTypesSame && AreFromAndToValueType && AreFromAndToImmutable)
                 ||
                 (AreFromAndToTypesSame && SourceType.IsEnum);
+
+            IsToTypeAssignableFromFromType = TargetType.IsAssignableFrom(SourceType);
         }
 
         static MemberMatchCollection GetMemberMatches(

@@ -10,59 +10,93 @@ namespace SquaredInfinity.Foundation.Threading
 {
     public interface IAsyncOperationRequest
     {
-        void Wait();
+        bool IsCompleted { get; }
+        void Wait(bool ignoreCanceledExceptions);
+        void Wait(TimeSpan timeout, bool ignoreCanceledExceptions);
+        void Cancel();
     }
 
     public class AsyncOperationRequest : IAsyncOperationRequest
     {
         Task Task;
-        CancellationToken CancellationToken;
+        CancellationTokenSource CancellationTokenSource;
 
-        public AsyncOperationRequest(Task operationTask, CancellationToken cancellationToken)
+        public bool IsCompleted
         {
-            this.Task = operationTask;
-            this.CancellationToken = cancellationToken;
+            get { return Task.IsCompleted; }
         }
 
-        public void Wait()
+        public AsyncOperationRequest(Task operationTask, CancellationTokenSource cancellationTokenSource)
         {
-            Task.Wait(CancellationToken);
+            this.Task = operationTask;
+
+            this.CancellationTokenSource = cancellationTokenSource;
+        }
+
+        public void Start()
+        {
+            Task.Start();
+        }
+
+        public void Wait(bool ignoreCanceledExceptions)
+        {
+            Task.Wait(CancellationTokenSource.Token);
+        }
+
+        public void Wait(TimeSpan timeout, bool ignoreCanceledExceptions)
+        {
+            Task.Wait((int)timeout.TotalMilliseconds, CancellationTokenSource.Token, ignoreCanceledExceptions);
+        }
+
+        public void Cancel()
+        {
+            
         }
     }
 
     public class AsyncAction : IAsyncAction
     {
-        CancellationTokenSource OperationCancellationTokenSource;
+        ILock Lock = new ReaderWriterLockSlimEx();
 
-        Task OperationTask;
-        
-        public TimeSpan RequestsThrottle { get; set; }
+        IAsyncOperationRequest CurrentOperation { get; set; }
+        IAsyncOperationRequest NextOperation { get; set; }
 
-        Action ActionToExecute { get; set; }        
+        Action ActionToExecute { get; set; }
         Action<CancellationToken> CancellableActionToExecute { get; set; }
-        
+                
         public IAsyncOperationRequest RequestExecute()
         {
-            CancelCurrentRequest();
-
-            OperationCancellationTokenSource = new CancellationTokenSource();
-
-            if (CancellableActionToExecute != null)
+            using (Lock.AcquireWriteLock())
             {
-                OperationTask =
-                    new Task(() => 
-                        CancellableActionToExecute(OperationCancellationTokenSource.Token),
-                        OperationCancellationTokenSource.Token);
-            }
-            else
-            {
-                OperationTask =
-                    new Task(() =>
-                        ActionToExecute(),
-                        OperationCancellationTokenSource.Token);
+                CancelCurrentRequest();
+
+                var cts = new CancellationTokenSource();
+
+                var task = (Task)null;
+
+                if (CancellableActionToExecute != null)
+                {
+                    task =
+                        new Task(() =>
+                            CancellableActionToExecute(cts.Token),
+                            cts.Token);
+                }
+                else
+                {
+                    task =
+                        new Task(() =>
+                            ActionToExecute(),
+                            cts.Token);
+                }
+
+                var op = new AsyncOperationRequest(task, cts);
+
+                op.Start();
+
+                CurrentOperation = op;
             }
 
-            OperationTask.Start();
+            return CurrentOperation;
         }
 
         public AsyncAction(Action actionToExecute)
@@ -82,56 +116,57 @@ namespace SquaredInfinity.Foundation.Threading
 
         void CancelCurrentRequest()
         {
-            if (OperationTask != null)
+            if (CurrentOperation != null)
             {
-                OperationCancellationTokenSource.Cancel();
-
-                try
-                {
-                    OperationTask.Wait(OperationCancellationTokenSource.Token);
-                }
-                catch (OperationCanceledException)
-                {
-                    // expected
-                }
+                CurrentOperation.Cancel();
+                CurrentOperation.Wait(ignoreCanceledExceptions: true);
             }
         }
     }
 
     public class AsyncAction<T> : IAsyncAction<T>
     {
-        CancellationTokenSource OperationCancellationTokenSource;
+        ILock Lock = new ReaderWriterLockSlimEx();
 
-        Task OperationTask;
-
-        public TimeSpan RequestsThrottle { get; set; }
+        IAsyncOperationRequest CurrentOperation { get; set; }
+        IAsyncOperationRequest NextOperation { get; set; }
 
         Action<T> ActionToExecute { get; set; }
-
         Action<T, CancellationToken> CancellableActionToExecute { get; set; }
-
-        public void RequestExecute(T argument)
+                
+        public IAsyncOperationRequest RequestExecute(T argument)
         {
-            CancelCurrentRequest();
-
-            OperationCancellationTokenSource = new CancellationTokenSource();
-
-            if (CancellableActionToExecute != null)
+            using (Lock.AcquireWriteLock())
             {
-                OperationTask =
-                    new Task(() =>
-                        CancellableActionToExecute(argument, OperationCancellationTokenSource.Token),
-                        OperationCancellationTokenSource.Token);
-            }
-            else
-            {
-                OperationTask =
-                    new Task(() =>
-                        ActionToExecute(argument),
-                        OperationCancellationTokenSource.Token);
+                CancelCurrentRequest();
+
+                var cts = new CancellationTokenSource();
+
+                var task = (Task)null;
+
+                if (CancellableActionToExecute != null)
+                {
+                    task =
+                        new Task(() =>
+                            CancellableActionToExecute(argument, cts.Token),
+                            cts.Token);
+                }
+                else
+                {
+                    task =
+                        new Task(() =>
+                            ActionToExecute(argument),
+                            cts.Token);
+                }
+
+                var op = new AsyncOperationRequest(task, cts);
+
+                op.Start();
+
+                CurrentOperation = op;
             }
 
-            OperationTask.Start();
+            return CurrentOperation;
         }
 
         public AsyncAction(Action<T> actionToExecute)
@@ -151,10 +186,10 @@ namespace SquaredInfinity.Foundation.Threading
 
         void CancelCurrentRequest()
         {
-            if (OperationTask != null)
+            if (CurrentOperation != null)
             {
-                OperationCancellationTokenSource.Cancel();
-                OperationTask.Wait(OperationCancellationTokenSource.Token, ignoreCanceledExceptions: true);
+                CurrentOperation.Cancel();
+                CurrentOperation.Wait(ignoreCanceledExceptions: true);
             }
         }
     }

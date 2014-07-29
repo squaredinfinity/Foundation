@@ -15,6 +15,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         ITypeDescription SourceTypeDescription { get; }
         ITypeDescription TargetTypeDescription { get; }
 
+        bool IsToTypeAssignableFromFromType { get; }
         bool AreFromAndToTypesSame { get; }
         bool AreFromAndToImmutable { get; }
         bool AreFromAndToValueType { get; }

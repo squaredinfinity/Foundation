@@ -13,9 +13,9 @@ namespace SquaredInfinity.Foundation.Types.Description.IL
 {
     public class ILBasedTypeDescriptor : ReflectionBasedTypeDescriptor
     {
-        protected override ITypeDescription DescribeTypeInternal(Type type)
+        protected override ITypeDescription DescribeTypeInternal(Type type, ReflectionBasedTypeDescription typeDescription)
         {
-            var description = base.DescribeTypeInternal(type) as ReflectionBasedTypeDescription;
+            var description = base.DescribeTypeInternal(type, typeDescription) as ReflectionBasedTypeDescription;
 
             var oldMembers = description.Members;
 

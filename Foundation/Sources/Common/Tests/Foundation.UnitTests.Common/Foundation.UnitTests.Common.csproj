@@ -102,8 +102,9 @@
     <Compile Include="TestEntities\TypeWithEvent.cs" />
     <Compile Include="Threading\AsyncOperation.tests.cs" />
     <Compile Include="Threading\ReaderWriterLockSlimEx.tests.cs" />
+    <Compile Include="Types\Description\Reflection\ReflectionBasedTypeDescriptor._BugFixes.cs" />
     <Compile Include="Types\Description\Reflection\ReflectionBasedTypeDescriptor.DescribeType.tests.cs" />
-    <Compile Include="Types\Description\Reflection\TestEntities\TypeHaPropertyOfTheSameType.cs" />
+    <Compile Include="Types\Description\Reflection\TestEntities\TypeHasPropertyOfTheSameType.cs" />
     <Compile Include="Types\Mapping\TestEntities\MapTestCollection.cs" />
     <Compile Include="Types\Mapping\TestEntities\MapTestCollectionItem.cs" />
     <Compile Include="Types\Mapping\TestEntities\MapTestCollectionOwner.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Types\Mapping\TestEntities\SimpleType.cs" />
     <Compile Include="Types\Mapping\TestEntities\SimpleType2.cs" />
     <Compile Include="Types\Mapping\TestEntities\SimpleType_.cs" />
+    <Compile Include="Types\Mapping\TypeMapper._BugFixes.cs" />
     <Compile Include="Types\Mapping\TypeMapper.DeepClone.tests.cs" />
     <Compile Include="Types\Mapping\TypeMapper.Map.tests.cs" />
     <Compile Include="WeakEvent.tests.cs" />

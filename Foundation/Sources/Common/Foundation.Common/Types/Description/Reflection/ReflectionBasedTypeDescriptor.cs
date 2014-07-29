@@ -39,19 +39,31 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
                 {
                     isNew = true;
 
-                    return DescribeTypeInternal(type);
+                    // create uninitialized version of type description (a prototype)
+                    // and finish initialization later
+                    // this is to avoid recursive initialization if some property somewhere deep inside type hierarchy is of this type
+
+                    if (type.ImplementsInterface(typeof(IEnumerable)))
+                    {
+                        return new ReflectionBasedEnumerableTypeDescription();
+                    }
+                    else
+                    {
+                        return new ReflectionBasedTypeDescription();
+                    }
                 });
+
+            if(isNew)
+                memberTypeDescription = DescribeTypeInternal(type, memberTypeDescription as ReflectionBasedTypeDescription);
 
             return memberTypeDescription;
         }
 
-        protected virtual ITypeDescription DescribeTypeInternal(Type type)
+        protected virtual ITypeDescription DescribeTypeInternal(Type type, ReflectionBasedTypeDescription typeDescription)
         {
-            var typeDescription = (ReflectionBasedTypeDescription) null;
-
             if (type.ImplementsInterface(typeof(IEnumerable)))
             {
-                var enumerableTypeDescription = new ReflectionBasedEnumerableTypeDescription();
+                var enumerableTypeDescription = typeDescription as ReflectionBasedEnumerableTypeDescription;
 
                 typeDescription = enumerableTypeDescription;
 
@@ -73,10 +85,6 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
                     enumerableTypeDescription.CanSetCapacity = true;
                     enumerableTypeDescription.CapacityPropertyInfo = capacityProperty;
                 }
-            }
-            else
-            {
-                typeDescription = new ReflectionBasedTypeDescription();
             }
 
             typeDescription.AssemblyQualifiedName = type.AssemblyQualifiedName;
