@@ -189,6 +189,57 @@
     <Compile Include="..\..\Common\Foundation.Common\INotifyVersionChangedObject.cs">
       <Link>INotifyVersionChangedObject.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\ColorChannel.cs">
+      <Link>Media\ColorChannel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\ColorChannelCollection.cs">
+      <Link>Media\ColorChannelCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\ColorChannelDefinition.cs">
+      <Link>Media\ColorChannelDefinition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\ColorSpaces\Color.cs">
+      <Link>Media\ColorSpaces\Color.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\ColorSpaces\IColor.cs">
+      <Link>Media\ColorSpaces\IColor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\ColorSpaces\IColorSpace.cs">
+      <Link>Media\ColorSpaces\IColorSpace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\ColorSpaces\KnownColorSpaces.cs">
+      <Link>Media\ColorSpaces\KnownColorSpaces.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\ColorSpaces\LabColor.cs">
+      <Link>Media\ColorSpaces\LabColor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\ColorSpaces\LabColorSpace.cs">
+      <Link>Media\ColorSpaces\LabColorSpace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\ColorSpaces\RGBColor.cs">
+      <Link>Media\ColorSpaces\RGBColor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\ColorSpaces\RGBColorSpace.cs">
+      <Link>Media\ColorSpaces\RGBColorSpace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\ColorSpaces\ScRBGColor.cs">
+      <Link>Media\ColorSpaces\ScRBGColor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\ColorSpaces\ScRGBColorSpace.cs">
+      <Link>Media\ColorSpaces\ScRGBColorSpace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\ColorSpaces\xyYColor.cs">
+      <Link>Media\ColorSpaces\xyYColor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\ColorSpaces\xyYColorSpace.cs">
+      <Link>Media\ColorSpaces\xyYColorSpace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\ColorSpaces\XYZColor.cs">
+      <Link>Media\ColorSpaces\XYZColor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\ColorSpaces\XyzColorSpace.cs">
+      <Link>Media\ColorSpaces\XyzColorSpace.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\FlexiXmlSerializer.cs">
       <Link>Serialization\FlexiXml\FlexiXmlSerializer.cs</Link>
     </Compile>

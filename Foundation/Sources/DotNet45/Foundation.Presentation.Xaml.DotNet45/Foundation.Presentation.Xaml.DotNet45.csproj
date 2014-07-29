@@ -332,6 +332,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows.Media.Imaging\BitmapSource.extensions.cs">
       <Link>FrameworkExtensions\System.Windows.Media.Imaging\BitmapSource.extensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows.Media\Color.extensions.cs">
+      <Link>FrameworkExtensions\System.Windows.Media\Color.extensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows.Media\ImageSource.extensions.cs">
       <Link>FrameworkExtensions\System.Windows.Media\ImageSource.extensions.cs</Link>
     </Compile>
