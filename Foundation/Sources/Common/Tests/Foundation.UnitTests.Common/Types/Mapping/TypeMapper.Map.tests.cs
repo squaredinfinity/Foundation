@@ -15,10 +15,12 @@ namespace SquaredInfinity.Foundation.Types.Mapping
     [TestClass]
     public class TypeMapper__Map
     {
-        public class X
+        public class X1
         {
 
             public int INT { get; set; }
+            public int INT2 { get; set; }
+            public int INT3 { get; set; }
         }
 
         public class X2
@@ -30,21 +32,47 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             public int INT5 { get; set; }
         }
 
+
+        public class DataSet1 : List<DataRow1> { }
+
+        public class DataRow1
+        {
+            List<X1> _data = new List<X1>();
+            public List<X1> Data
+            {
+                get { return _data; }
+                set { _data = value; }
+            }
+        }
+
+        public class DataSet2 : List<DataRow2> { }
+
+        public class DataRow2
+        {
+            List<X2> _data = new List<X2>();
+            public List<X2> Data
+            {
+                get { return _data; }
+                set { _data = value; }
+            }
+        }
+
         [TestMethod]
         public void xxx()
         {
-            List<List<X>> xx1 = new List<List<X>>();
-            List<List<X2>> xx2 = new List<List<X2>>();
+            var ds2 = new DataSet2();
+            var ds1 = new DataSet1();
 
             for (int r = 0; r < 1000; r++)
             {
-                List<X> x1 = new List<X>();
+                var r1 = new DataRow1();
+
                 for (int i = 0; i < 2000; i++)
                 {
-                    x1.Add(new X { INT = i });
+                    r1.Data.Add(new X1 { INT = i, INT2 = i, INT3 = i });
                 }
 
-                xx1.Add(x1);
+                ds1.Add(r1);
             }
 
             var tm = new TypeMapper();
@@ -54,74 +82,48 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             var sw = Stopwatch.StartNew();
 
-            tm.Map(xx1, xx2, mo);
+            tm.Map(ds1, ds2, mo);
 
             Trace.WriteLine("MAPPER_FIRST RUN: " + sw.GetElapsedAndRestart().TotalMilliseconds);
 
-            tm.Map(xx1, xx2, mo);
-
-            xx2 = new List<List<X2>>();
+            tm.Map(ds1, ds2, mo);
 
             Trace.WriteLine("MAPPER: " + sw.GetElapsedAndRestart().TotalMilliseconds);
 
-            xx2 = new List<List<X2>>();
+            ds2 = new DataSet2();
 
-            tm.GetOrCreateTypeMappingStrategy<List<X>, List<X2>>()
-                .CreateTargetInstance((_source, _cx) => new List<X2>(capacity: _source.Count))
-                .IgnoreAllMembers();
-
-            tm.GetOrCreateTypeMappingStrategy<List<List<X>>, List<List<X2>>>()
-                .CreateTargetInstance((_source, _cx) => new List<List<X2>>(capacity: _source.Count))
-                .IgnoreAllMembers();
-
-            tm.GetOrCreateTypeMappingStrategy<X, X2>()
-                .CreateTargetInstance((_source, cx) =>
-                    {
-                        return new X2();
-                    })
+            tm.GetOrCreateTypeMappingStrategy<X1, X2>()
                 .IgnoreAllMembers()
-                .MapMember(t => t.INT, s => { return s.INT; });
-
+                .MapMember(t => t.INT, s => s.INT)
+                .MapMember(t => t.INT2, s => s.INT2)
+                .MapMember(t => t.INT3, s => s.INT3);
+            
             sw.Restart();
 
-            tm.Map(xx1, xx2, mo);
+            tm.Map(ds1, ds2, mo);
             
             Trace.WriteLine("MAPPER + MANUAL: " + sw.GetElapsedAndRestart().TotalMilliseconds);
 
-            //xx2 = new List<List<X2>>();
+            ds2 = new DataSet2();
 
-            foreach(var r in xx1)
+            foreach(var r1 in ds1)
             {
-                var r2 = new List<X2>();
+                var r2 = new DataRow2();
                 
-                foreach(var c in r)
+                foreach(var c in r1.Data)
                 {
-                    var c2 = new X2 { INT = c.INT };
-                    r2.Add(c2);
+                    var c2 = new X2 ();
+                    c2.INT = c.INT;
+                    c2.INT2 = c.INT2;
+                    c2.INT3 = c.INT3;
+
+                    r2.Data.Add(c2);
                 }
 
-                xx2.Add(r2);
+                ds2.Add(r2);
             }
 
             Trace.WriteLine("BY HAND: "  + sw.GetElapsedAndRestart().TotalMilliseconds);
-
-            xx2 = new List<List<X2>>(capacity: xx1.Count);
-
-            foreach (var r in xx1)
-            {
-                var r2 = new List<X2>(capacity: r.Count);
-
-                xx2.Add(r2);
-
-                foreach (var c in r)
-                {
-                    var c2 = new X2();
-                    c2.INT = c.INT;
-                    r2.Add(c2);
-                }
-            }
-
-            Trace.WriteLine("BY HAND OPTIMIZED: " + sw.GetElapsedAndRestart().TotalMilliseconds);
         }
 
         [TestMethod]
