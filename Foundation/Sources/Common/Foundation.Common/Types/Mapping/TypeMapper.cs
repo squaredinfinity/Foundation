@@ -11,6 +11,7 @@ using System.Text;
 using SquaredInfinity.Foundation.Extensions;
 using System.Reflection;
 using SquaredInfinity.Foundation.Types.Description.IL;
+using System.Threading;
 
 namespace SquaredInfinity.Foundation.Types.Mapping
 {
@@ -18,17 +19,20 @@ namespace SquaredInfinity.Foundation.Types.Mapping
     {
         readonly TypeMappingStrategiesConcurrentDictionary TypeMappingStrategies = new TypeMappingStrategiesConcurrentDictionary();
         readonly TypeResolver TypeResolver = new TypeResolver();
+        readonly ITypeDescriptor TypeDescriptor = new ILBasedTypeDescriptor();
    
         public TypeMapper()
         {
         }
+
+        #region Deep Clone
 
         public TTarget DeepClone<TTarget>(TTarget source)
         {
             if (source == null)
                 return default(TTarget);
 
-            return (TTarget)MapInternal(source, typeof(TTarget), MappingOptions.Default, new MappingContext());
+            return (TTarget)MapInternal(source, typeof(TTarget), MappingOptions.Default, new MappingContext(new CancellationToken()));
         }
 
         public object DeepClone(object source)
@@ -38,7 +42,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             var sourceType = source.GetType();
 
-            return MapInternal(source, sourceType, MappingOptions.Default, new MappingContext());
+            return MapInternal(source, sourceType, MappingOptions.Default, new MappingContext(new CancellationToken()));
         }
 
         public object DeepClone(object source, Type sourceType)
@@ -46,15 +50,70 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             if (source == null)
                 return null;
 
-            return MapInternal(source, sourceType, MappingOptions.Default, new MappingContext());
+            return MapInternal(source, sourceType, MappingOptions.Default, new MappingContext(new CancellationToken()));
         }
+
+        #endregion
+
+        #region Map
+
+        public object Map(object source, Type targetType)
+        {
+            return Map(source, targetType, MappingOptions.Default);
+        }
+
+        public object Map(object source, Type targetType, MappingOptions options)
+        {
+            if (source == null)
+                return null;
+
+            return MapInternal(source, targetType, options, new MappingContext(new CancellationToken()));
+        }
+
+        public object Map(object source, Type targetType, MappingOptions options, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Map(object source, object target, Type targetType)
+        {
+            Map(source, target, targetType, MappingOptions.Default, new CancellationToken());
+        }
+
+        public void Map(object source, object target, Type targetType, MappingOptions options)
+        {
+            Map(source, target, targetType, options, new CancellationToken());
+        }
+
+        public void Map(object source, object target, Type targetType, MappingOptions options, CancellationToken cancellationToken)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+
+            var sourceType = source.GetType();
+
+            var key = new TypeMappingStrategyKey(sourceType, targetType);
+
+            var ms = TypeMappingStrategies.GetOrAdd(key, (_) => CreateDefaultTypeMappingStrategy(sourceType, targetType));
+
+            MapInternal(source, target, sourceType, targetType, ms, options, new MappingContext(cancellationToken));
+        }
+
+        #endregion
+
+        #region Map<TTarget>
 
         public void Map<TTarget>(object source, TTarget target)
         {
-            Map<TTarget>(source, target, MappingOptions.Default);
+            Map<TTarget>(source, target, MappingOptions.Default, new CancellationToken());
         }
 
         public void Map<TTarget>(object source, TTarget target, MappingOptions options)
+        {
+            Map<TTarget>(source, target, options, new CancellationToken());
+        }
+
+        public void Map<TTarget>(object source, TTarget target, MappingOptions options, CancellationToken cancellationToken)
         {
             if (source == null)
                 throw new ArgumentNullException("source");
@@ -66,28 +125,32 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             var ms = TypeMappingStrategies.GetOrAdd(key, (_) => CreateDefaultTypeMappingStrategy(sourceType, targetType));
 
-            MapInternal(source, target, sourceType, targetType, ms, options, new MappingContext());
+            MapInternal(source, target, sourceType, targetType, ms, options, new MappingContext(cancellationToken));
         }
 
-        public void Map(object source, object target, Type targetType)
+        public TTarget Map<TTarget>(object source)
         {
-            Map(source, target, targetType, MappingOptions.Default);
+            return Map<TTarget>(source, MappingOptions.Default);
         }
 
-        public void Map(object source, object target, Type targetType, MappingOptions options)
+        public TTarget Map<TTarget>(object source, MappingOptions options)
         {
             if (source == null)
-                throw new ArgumentNullException("source");
+                return default(TTarget);
 
-            var sourceType = source.GetType();
-
-            var key = new TypeMappingStrategyKey(sourceType, targetType);
-
-            var ms = TypeMappingStrategies.GetOrAdd(key, (_) => CreateDefaultTypeMappingStrategy(sourceType, targetType));
-
-            MapInternal(source, target, sourceType, targetType, ms, options, new MappingContext());
+            return (TTarget)MapInternal(source, typeof(TTarget), options, new MappingContext(new CancellationToken()));
         }
-        
+
+        public TTarget Map<TTarget>(object source, MappingOptions options, CancellationToken cancellationToken)
+        {
+            if (source == null)
+                return default(TTarget);
+
+            return (TTarget)MapInternal(source, typeof(TTarget), options, new MappingContext(cancellationToken));
+        }
+
+        #endregion
+
         object MapInternal(object source, Type targetType, MappingOptions options, MappingContext cx, ITypeMappingStrategy ms = null)
         {
             var sourceType = source.GetType();
@@ -154,6 +217,9 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             MappingOptions options, 
             MappingContext cx)
         {
+            if (cx.CancellationToken.IsCancellationRequested)
+                return;
+
             var sourceList = source as IList;
             var targetList = target as IList;
 
@@ -188,6 +254,9 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             {
                 try
                 {
+                    if (cx.CancellationToken.IsCancellationRequested)
+                        return;
+
                     var targetMemberDescription = kvp.Key;
                     var valueResolver = kvp.Value;
                     var mappedValueCandidate = valueResolver.ResolveValue(source);
@@ -286,7 +355,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         
         protected virtual ITypeMappingStrategy CreateDefaultTypeMappingStrategy(Type sourceType, Type targetType)
         {
-            var descriptor = new ILBasedTypeDescriptor();
+            var descriptor = TypeDescriptor;
 
             var result =
                 new TypeMappingStrategy(
@@ -302,8 +371,10 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
         ITypeMappingStrategy<TFrom, TTo> CreateDefaultTypeMappingStrategy<TFrom, TTo>()
         {
+            var descriptor = TypeDescriptor;
+
             return CreateDefaultTypeMappingStrategy<TFrom, TTo>(
-                new ILBasedTypeDescriptor(),
+                descriptor,
                 new MemberMatchingRuleCollection() { new ExactNameMatchMemberMatchingRule() },
                valueResolvers: null);
         }
@@ -345,6 +416,9 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             {
                 for (int i = target.Count - 1; i >= source.Count; i--)
                 {
+                    if (cx.CancellationToken.IsCancellationRequested)
+                        return;
+
                     target.RemoveAt(i);
                 }
             }
@@ -356,6 +430,9 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             for (int i = 0; i < source.Count; i++)
             {
+                if (cx.CancellationToken.IsCancellationRequested)
+                    return;
+
                 var sourceItem = source[i];
 
                 if (sourceItem == null)
@@ -364,6 +441,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                     continue;
                 }
 
+                bool isReusingTargetItem = false;
                 var targetItem = (object)null;
 
                 if (options.ReuseTargetCollectionItemsWhenPossible)
@@ -374,37 +452,39 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
                         if (targetItem != null)
                         {
+                            isReusingTargetItem = true;
+
                             var newSourceItemType = sourceItem.GetType();
                             var newTargetItemType = targetItem.GetType();
 
-                            if(newSourceItemType != sourceItemType || newTargetItemType != targetItemType)
+                            if (newSourceItemType != sourceItemType || newTargetItemType != targetItemType)
                             {
                                 sourceItemOrTargetItemTypesChanged = true;
                             }
 
-                            if (sourceItemType == targetItemType)
+                            if (sourceItemOrTargetItemTypesChanged)
                             {
-                                if (sourceItemOrTargetItemTypesChanged)
-                                {
-                                    sourceItemType = newSourceItemType;
-                                    targetItemType = newTargetItemType;
+                                sourceItemType = newSourceItemType;
+                                targetItemType = newTargetItemType;
 
-                                    itemsMappingStrategyKey = new TypeMappingStrategyKey(sourceItemType, targetItemType);
+                                itemsMappingStrategyKey = new TypeMappingStrategyKey(sourceItemType, targetItemType);
 
-                                    itemsMappingStrategy = 
-                                        TypeMappingStrategies
-                                        .GetOrAdd(
-                                        itemsMappingStrategyKey, 
-                                        CreateDefaultTypeMappingStrategy(sourceItemType, targetItemType));
-                                }
-
-                                // reuse target
-                                MapInternal(sourceItem, targetItem, sourceItemType, targetItemType, itemsMappingStrategy, options, cx);
-                                continue;
+                                itemsMappingStrategy =
+                                    TypeMappingStrategies
+                                    .GetOrAdd(
+                                    itemsMappingStrategyKey,
+                                    CreateDefaultTypeMappingStrategy(sourceItemType, targetItemType));
                             }
+
+                            // reuse target
+                            MapInternal(sourceItem, targetItem, sourceItemType, targetItemType, itemsMappingStrategy, options, cx);
+                            continue;
                         }
                     }
                 }
+
+                if (cx.CancellationToken.IsCancellationRequested)
+                    return;
 
                 // did not reuse target, replace it with new instance
                 if (targetItem == null)
@@ -423,7 +503,8 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 // if item in *i* position exists, replace it (as we failed to reuse it before)
                 if (target.Count > i)
                 {
-                    target[i] = targetItem;
+                    if(!isReusingTargetItem)
+                        target[i] = targetItem;
                 }
                 else
                 {
@@ -457,6 +538,9 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             for (int i = 0; i < source.Count; i++)
             {
+                if (cx.CancellationToken.IsCancellationRequested)
+                    return;
+
                 sourceItem = source[i];
 
                 if (sourceItem == null)
@@ -488,40 +572,6 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 
                 target.Insert(i, targetItem);
             }
-        }
-
-        public TTarget Map<TTarget>(object source)
-        {
-            return Map<TTarget>(source, MappingOptions.Default);
-        }
-
-        public TTarget Map<TTarget>(object source, MappingOptions options)
-        {
-            if (source == null)
-                return default(TTarget);
-
-            return (TTarget)MapInternal(source, typeof(TTarget), options, new MappingContext());
-        }
-
-        public object Map(object source, Type targetType)
-        {
-            return Map(source, targetType, MappingOptions.Default);
-        }
-
-        public object Map(object source, Type targetType, MappingOptions options)
-        {
-            if (source == null)
-                return null;
-
-            return MapInternal(source, targetType, options, new MappingContext());
-        }
-
-        public object Map(object source, Type targetType, MappingOptions options, MappingContext cx)
-        {
-            if (source == null)
-                return null;
-
-            return MapInternal(source, targetType, options, cx);
         }
 
         ITypeMappingStrategy GetOrCreateTypeMappingStrategy(Type from, Type to)

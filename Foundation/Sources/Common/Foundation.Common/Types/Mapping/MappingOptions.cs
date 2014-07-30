@@ -17,7 +17,8 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
                 ReuseTargetCollectionsWhenPossible = true,
                 ReuseTargetCollectionItemsWhenPossible = true,
-                TrackReferences = true
+                TrackReferences = true,
+                IgnorePrivateTypes = true
             };
         }
 
@@ -25,6 +26,8 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         /// When *true*, source members with NULL value will not be mapped (original value of the target will be preserved)
         /// </summary>
         public bool IgnoreNulls { get; set; }
+
+        public bool IgnorePrivateTypes { get; set; }
 
         public bool ReuseTargetCollectionsWhenPossible { get; set; }
 
