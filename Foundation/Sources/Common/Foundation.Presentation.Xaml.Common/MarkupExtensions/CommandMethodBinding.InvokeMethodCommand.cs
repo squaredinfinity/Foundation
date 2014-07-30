@@ -66,13 +66,11 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                     {
                         ParameterType = ExecuteMethodInfo_OneParameter.GetParameters().Single().ParameterType;
                     }
-                    else
-                    {
-                        ExecuteMethodInfo_NoParameters =
+                    
+                    ExecuteMethodInfo_NoParameters =
                             (from m in targetType.GetMethods()
                              where m.GetParameters().Length == 0 && m.Name == executeMethodName
                              select m).FirstOrDefault();
-                    }
                 }
 
                 //# Find Can Execute Method
