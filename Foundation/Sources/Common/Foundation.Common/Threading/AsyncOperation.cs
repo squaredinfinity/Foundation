@@ -40,7 +40,7 @@ namespace SquaredInfinity.Foundation.Threading
 
         public void Wait(bool ignoreCanceledExceptions)
         {
-            Task.Wait(CancellationTokenSource.Token);
+            Task.Wait(CancellationTokenSource.Token, ignoreCanceledExceptions);
         }
 
         public void Wait(TimeSpan timeout, bool ignoreCanceledExceptions)
@@ -50,7 +50,7 @@ namespace SquaredInfinity.Foundation.Threading
 
         public void Cancel()
         {
-            
+            CancellationTokenSource.Cancel();
         }
     }
 
