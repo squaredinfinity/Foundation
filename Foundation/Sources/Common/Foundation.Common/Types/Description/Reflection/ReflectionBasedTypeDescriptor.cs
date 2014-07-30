@@ -121,6 +121,9 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 
                 var member_type = f.FieldType;
 
+                if (!member_type.IsPublic)
+                    continue;
+
                 if(!member_type.IsValueType)
                     areAllMembersImmutable = false;
 
@@ -159,6 +162,9 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
                 var md = new ReflectionBasedTypeMemberDescription(p);
 
                 var member_type = p.PropertyType;
+
+                if (!member_type.IsPublic)
+                    continue;
 
                 if(!member_type.IsValueType)
                     areAllMembersImmutable = false;
