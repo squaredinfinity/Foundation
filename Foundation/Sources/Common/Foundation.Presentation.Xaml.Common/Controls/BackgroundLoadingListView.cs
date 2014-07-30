@@ -11,8 +11,6 @@ using System.Windows;
 using System.Collections.Specialized;
 using System.Windows.Input;
 using System.Windows.Media.Media3D;
-using System.Reactive.Linq;
-using System.Reactive.Concurrency;
 using System.ComponentModel;
 using System.Windows.Threading;
 
@@ -28,69 +26,69 @@ namespace SquaredInfinity.Foundation.Presentation.Controls
 
         public BackgroundLoadingListView()
         {
-            IsVisibleChangedSubscription =
-                Observable.FromEvent<DependencyPropertyChangedEventHandler, DependencyPropertyChangedEventArgs>(
-                 h =>
-                 {
-                     DependencyPropertyChangedEventHandler x = (sender, e) => h(e);
-                     return x;
-                 },
-                    h => this.IsVisibleChanged += h,
-                    h => this.IsVisibleChanged -= h)
-                    .Throttle(TimeSpan.FromMilliseconds(250))
-                    .ObserveOnDispatcher()
-                    .Subscribe(args =>
-                    {
-                        if ((bool)args.NewValue == false)
-                            return;
+            //IsVisibleChangedSubscription =
+            //    Observable.FromEvent<DependencyPropertyChangedEventHandler, DependencyPropertyChangedEventArgs>(
+            //     h =>
+            //     {
+            //         DependencyPropertyChangedEventHandler x = (sender, e) => h(e);
+            //         return x;
+            //     },
+            //        h => this.IsVisibleChanged += h,
+            //        h => this.IsVisibleChanged -= h)
+            //        .Throttle(TimeSpan.FromMilliseconds(250))
+            //        .ObserveOnDispatcher()
+            //        .Subscribe(args =>
+            //        {
+            //            if ((bool)args.NewValue == false)
+            //                return;
 
-                        if (VirtualizingPanel.GetIsVirtualizing(this))
-                            return;
+            //            if (VirtualizingPanel.GetIsVirtualizing(this))
+            //                return;
 
-                        RenderItemsInView();
-                        RenderAllItems();
-                    });
+            //            RenderItemsInView();
+            //            RenderAllItems();
+            //        });
 
-            SizeChangedSubscription =
-                Observable.FromEvent<SizeChangedEventHandler, SizeChangedEventArgs>(
-                 h =>
-                 {
-                     SizeChangedEventHandler x = (sender, e) => h(e);
-                     return x;
-                 },
-                    h => this.SizeChanged += h,
-                    h => this.SizeChanged -= h)
-                    .Throttle(TimeSpan.FromMilliseconds(250))
-                    .ObserveOnDispatcher()
-                    .Subscribe(args =>
-                    {
-                        if (VirtualizingPanel.GetIsVirtualizing(this))
-                            return;
+            //SizeChangedSubscription =
+            //    Observable.FromEvent<SizeChangedEventHandler, SizeChangedEventArgs>(
+            //     h =>
+            //     {
+            //         SizeChangedEventHandler x = (sender, e) => h(e);
+            //         return x;
+            //     },
+            //        h => this.SizeChanged += h,
+            //        h => this.SizeChanged -= h)
+            //        .Throttle(TimeSpan.FromMilliseconds(250))
+            //        .ObserveOnDispatcher()
+            //        .Subscribe(args =>
+            //        {
+            //            if (VirtualizingPanel.GetIsVirtualizing(this))
+            //                return;
 
-                        RenderAllItems(forceRender: true);
-                    });
+            //            RenderAllItems(forceRender: true);
+            //        });
 
-            ContainerGeneratorStatusChangedSubscription = 
-                Observable.FromEvent<EventHandler, EventArgs>(
-                 h =>
-                    {
-                        EventHandler x = (sender, e) => h(e);
-                        return x;
-                    },
-                    h => ItemContainerGenerator.StatusChanged += h,
-                    h => ItemContainerGenerator.StatusChanged -= h)
-                    .Throttle(TimeSpan.FromMilliseconds(250))
-                    .ObserveOnDispatcher()
-                    .Subscribe(args =>
-                    {
-                        if (ItemContainerGenerator.Status == System.Windows.Controls.Primitives.GeneratorStatus.ContainersGenerated)
-                        {
-                            if (VirtualizingPanel.GetIsVirtualizing(this))
-                                return;
+            //ContainerGeneratorStatusChangedSubscription = 
+            //    Observable.FromEvent<EventHandler, EventArgs>(
+            //     h =>
+            //        {
+            //            EventHandler x = (sender, e) => h(e);
+            //            return x;
+            //        },
+            //        h => ItemContainerGenerator.StatusChanged += h,
+            //        h => ItemContainerGenerator.StatusChanged -= h)
+            //        .Throttle(TimeSpan.FromMilliseconds(250))
+            //        .ObserveOnDispatcher()
+            //        .Subscribe(args =>
+            //        {
+            //            if (ItemContainerGenerator.Status == System.Windows.Controls.Primitives.GeneratorStatus.ContainersGenerated)
+            //            {
+            //                if (VirtualizingPanel.GetIsVirtualizing(this))
+            //                    return;
 
-                            RenderAllItems(forceRender: true);
-                        }
-                    }); 
+            //                RenderAllItems(forceRender: true);
+            //            }
+            //        }); 
         }
 
         IDisposable ScrollChangedSubscription;
@@ -101,20 +99,20 @@ namespace SquaredInfinity.Foundation.Presentation.Controls
 
             ScrollViewer = this.FindVisualDescendant<ScrollViewer>();
 
-            ScrollChangedSubscription = Observable.FromEvent<ScrollChangedEventHandler, ScrollChangedEventArgs>(
-                h =>
-                    {
-                        ScrollChangedEventHandler x = (sender, e) => h(e);
-                        return x;
-                    },
-                    h => ScrollViewer.ScrollChanged += h,
-                    h => ScrollViewer.ScrollChanged -= h)
-                    .Throttle(TimeSpan.FromMilliseconds(250))
-                    .ObserveOnDispatcher()
-                    .Subscribe(args =>
-                    {
-                        RenderItemsInView();
-                    }); 
+            //ScrollChangedSubscription = Observable.FromEvent<ScrollChangedEventHandler, ScrollChangedEventArgs>(
+            //    h =>
+            //        {
+            //            ScrollChangedEventHandler x = (sender, e) => h(e);
+            //            return x;
+            //        },
+            //        h => ScrollViewer.ScrollChanged += h,
+            //        h => ScrollViewer.ScrollChanged -= h)
+            //        .Throttle(TimeSpan.FromMilliseconds(250))
+            //        .ObserveOnDispatcher()
+            //        .Subscribe(args =>
+            //        {
+            //            RenderItemsInView();
+            //        }); 
         }
 
         void RenderAllItems(bool forceRender = false)
