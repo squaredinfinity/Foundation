@@ -179,7 +179,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                 var val_as_string = (string)null;
 
-                if (m.CanSetValue)
+                //if (m.CanSetValue)
                 {
                     if (TryConvertToStringIfTypeSupports(val, out val_as_string))
                     {
@@ -190,25 +190,31 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                     }
                     else
                     {
-                        var wrapper = new XElement(target.Name + "." + m.Name);
+                        { 
+                            if (!m.CanSetValue && val is IList)
+                            {
+                                var el = new XElement(target.Name + "." + m.Name);
+                                SerializeInternal(el, val, typeDescriptor, options, cx);
+                                target.Add(el);
+                            }
+                            else
+                            {
+                                var wrapper = new XElement(target.Name + "." + m.Name);
 
-                        var el = new XElement("temp");
-                        UpdateElementNameFromType(el, val.GetType(), options, cx);
-                        SerializeInternal(el, val, typeDescriptor, options, cx);
+                                var el = new XElement("temp");
+                                UpdateElementNameFromType(el, val.GetType(), options, cx);
+                                SerializeInternal(el, val, typeDescriptor, options, cx);
 
-                        wrapper.Add(el);
+                                wrapper.Add(el);
 
-                        target.Add(wrapper);
+                                target.Add(wrapper);
+                            }
+                        }
                     }
                 }
-                else
+                //else
                 {
-                    if (val is IList)
-                    {
-                        var el = new XElement(target.Name + "." + m.Name);
-                        SerializeInternal(el, val, typeDescriptor, options, cx);
-                        target.Add(el);
-                    }
+                    
                 }
             }
 

@@ -58,7 +58,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                 if (value == null)
                     return DependencyProperty.UnsetValue;
 
-                if (Compare == null)
+                //if (Compare == null)
                 {
                     var target = value.GetType();
 

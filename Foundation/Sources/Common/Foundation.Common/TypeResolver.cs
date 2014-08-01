@@ -72,7 +72,7 @@ namespace SquaredInfinity.Foundation
 
             }
 
-            if (baseTypes.IsNullOrEmpty())
+            //if (baseTypes.IsNullOrEmpty())
             {
                 ConcurrentDictionary<string, List<Type>> cache = IgnoreCaseNameToTypeCache;
 
@@ -93,12 +93,30 @@ namespace SquaredInfinity.Foundation
                         return x;
                     });
 
-                if (candidates.Count == 1)
-                    return candidates.Single();
+                if (baseTypes.IsNullOrEmpty())
+                {
+                    var result = candidates.FirstOrDefault();
+                    if (result != null)
+                        return result;
+                }
+                else
+                {
+                    foreach (var c in candidates)
+                    {
+                        foreach (var bt in baseTypes)
+                        {
+                            if (bt.IsAssignableFrom(c))
+                                return c;
+                        }
+                    }
+                }
 
-                return null;
+                //if (candidates.Count == 1)
+                    //return candidates.Single();
+
+              //  return null;
             }
-            else
+            //else
             {
                 // todo: add cache which supports base types
                 return ResolveTypeInternal(typeFullOrPartialName, ignoreCase, assembliesToCheck, baseTypes);
@@ -186,7 +204,7 @@ namespace SquaredInfinity.Foundation
                         }
                         else
                         {
-                            if (!result_candidate.IsAssignableFrom(t))
+                            if (!t.IsAssignableFrom(result_candidate))
                                 results.RemoveAt(i);
                         }
                     }

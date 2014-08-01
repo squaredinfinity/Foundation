@@ -26,7 +26,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                 if (value == null)
                     return DependencyProperty.UnsetValue;
 
-                if (Filter == null)
+                //if (Filter == null)
                 {
                     var target = value.GetType();
 

@@ -357,16 +357,32 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             var wrapperCandidateType =
                 TypeResolver.ResolveType(
                 wrapperCandidate.Name.LocalName,
-                ignoreCase: true);
+                ignoreCase: true,
+                baseTypes: new Type[] { memberType });
 
             if (wrapperCandidateType != null && memberType.IsAssignableFrom(wrapperCandidateType))
             {
                 // this is a wrapper, deserialize it and assign
                 var value = DeserializeInternal(wrapperCandidateType, wrapperCandidate, typeDescriptor, options, cx);
 
-                member.SetValue(target, value);
+                if (member.CanSetValue)
+                {
+                    member.SetValue(target, value);
 
-                return true;
+                    return true;
+                }
+                else
+                {
+                    if (!member.CanGetValue)
+                        return false;
+
+                    var existingValue = member.GetValue(target);
+
+                    if (existingValue == null)
+                        return false;
+
+                    // todo: map value
+                }
             }
 
             return false;
