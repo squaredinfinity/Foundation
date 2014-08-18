@@ -41,6 +41,11 @@ namespace SquaredInfinity.Foundation.Diagnostics.Configuration
 
         bool ShouldProcessSeverityLevel(SeverityLevel sl)
         {
+            // no filters specified,
+            // process all severity levels
+            if (GlobalFilters.Count == 0)
+                return true;
+
             var result =
                 (from f in GlobalFilters.OfType<SeverityFilter>()
                  where f.EvaluateInternal(sl) == true

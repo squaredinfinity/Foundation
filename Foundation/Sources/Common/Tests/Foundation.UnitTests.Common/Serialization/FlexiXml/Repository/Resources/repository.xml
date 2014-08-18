@@ -1,0 +1,23 @@
+﻿<xml>
+	<repository>
+		<formatters>
+			<genericFormatter name="body"
+                        content="content_body" />
+			<customFormatter name="subject" 
+                       content="content_subject" />
+		</formatters>
+	</repository>
+
+	<emails>
+    <!-- use attribute to set properties -->
+		<email bodyformatter.ref="body" 
+           subjectformatter.ref="subject" />
+
+    <!-- use attached elements to set properties -->
+		<email>
+			<email.bodyformatter ref="body" />
+			<email.subjectformatter ref="subject" />
+		</email>
+    
+	</emails>
+</xml>

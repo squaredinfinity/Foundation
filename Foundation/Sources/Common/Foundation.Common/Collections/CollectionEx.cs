@@ -87,6 +87,9 @@ namespace SquaredInfinity.Foundation.Collections
 
         public virtual void AddRange(IEnumerable<TItem> items)
         {
+            if (items == null)
+                return;
+
             using(CollectionLock.AcquireWriteLock())
             {
                 foreach (var item in items)

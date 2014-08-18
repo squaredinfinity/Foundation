@@ -9,33 +9,21 @@ namespace SquaredInfinity.Foundation.Diagnostics
 {
     public partial class DiagnosticLogger
     {
+        /// <summary>
+        /// Returns a global instance of ILogger.
+        /// This instance can be accessed anywhere in the application,
+        /// but preferred way may be to resovle it using Dependency Injection instead.
+        /// </summary>
         public static ILogger Global { get; private set; }
+
+        static DiagnosticLogger()
+        {
+            Global = new DiagnosticLogger(string.Empty);
+        }
 
         public static void SetGlobalLogger(ILogger newGlobalLogger)
         {
             Global = newGlobalLogger;
-        }
-
-        public static IReadOnlyList<ISinkLocation> GetLogLocations()
-        {
-            //List<ISinkLocation> result = new List<ISinkLocation>();
-
-            //// make a copy of reference to current configuration
-            //// to make sure that any changes (which would replace Config)
-            //// will not be applied to this method before it exits
-            //var config_ref = Config;
-
-            //for (int i = 0; i < config_ref.SinkDefinitions.Count; i++)
-            //{
-            //    var sink = config_ref.SinkDefinitions[i];
-
-            //    result.Add(sink.SinkLocation);
-            //}
-
-            //return result;
-
-
-            return null;
         }
     }
 }

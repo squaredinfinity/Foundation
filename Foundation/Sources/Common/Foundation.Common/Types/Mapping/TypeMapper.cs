@@ -32,7 +32,15 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             if (source == null)
                 return default(TTarget);
 
-            return (TTarget)MapInternal(source, typeof(TTarget), MappingOptions.Default, new MappingContext(new CancellationToken()));
+            return (TTarget)MapInternal(source, typeof(TTarget), MappingOptions.DefaultClone, new MappingContext(new CancellationToken()));
+        }
+
+        public TTarget DeepClone<TTarget>(TTarget source, MappingOptions mappingOptions)
+        {
+            if (source == null)
+                return default(TTarget);
+
+            return (TTarget)MapInternal(source, typeof(TTarget), mappingOptions, new MappingContext(new CancellationToken()));
         }
 
         public object DeepClone(object source)
@@ -42,7 +50,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
             var sourceType = source.GetType();
 
-            return MapInternal(source, sourceType, MappingOptions.Default, new MappingContext(new CancellationToken()));
+            return MapInternal(source, sourceType, MappingOptions.DefaultClone, new MappingContext(new CancellationToken()));
         }
 
         public object DeepClone(object source, Type sourceType)
@@ -50,7 +58,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             if (source == null)
                 return null;
 
-            return MapInternal(source, sourceType, MappingOptions.Default, new MappingContext(new CancellationToken()));
+            return MapInternal(source, sourceType, MappingOptions.DefaultClone, new MappingContext(new CancellationToken()));
         }
 
         #endregion
@@ -59,7 +67,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
         public object Map(object source, Type targetType)
         {
-            return Map(source, targetType, MappingOptions.Default);
+            return Map(source, targetType, MappingOptions.DefaultClone);
         }
 
         public object Map(object source, Type targetType, MappingOptions options)
@@ -77,7 +85,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
         public void Map(object source, object target, Type targetType)
         {
-            Map(source, target, targetType, MappingOptions.Default, new CancellationToken());
+            Map(source, target, targetType, MappingOptions.DefaultClone, new CancellationToken());
         }
 
         public void Map(object source, object target, Type targetType, MappingOptions options)
@@ -105,7 +113,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
         public void Map<TTarget>(object source, TTarget target)
         {
-            Map<TTarget>(source, target, MappingOptions.Default, new CancellationToken());
+            Map<TTarget>(source, target, MappingOptions.DefaultClone, new CancellationToken());
         }
 
         public void Map<TTarget>(object source, TTarget target, MappingOptions options)
@@ -130,7 +138,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
         public TTarget Map<TTarget>(object source)
         {
-            return Map<TTarget>(source, MappingOptions.Default);
+            return Map<TTarget>(source, MappingOptions.DefaultClone);
         }
 
         public TTarget Map<TTarget>(object source, MappingOptions options)
@@ -223,9 +231,13 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             var sourceList = source as IList;
             var targetList = target as IList;
 
-            // todo: anything needed here for IReadOnlyList support in 4.5?
             if (sourceList != null && targetList != null)
             {
+                if(targetList.IsReadOnly)
+                { 
+                    // target list is read-only
+                }
+
                 if (options.ReuseTargetCollectionItemsWhenPossible && targetList.Count != 0 && sourceList.Count != 0)
                 {
                     DeepCloneListElements(
@@ -275,7 +287,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                         //val = converter.Convert(val);
                     }
 
-                    if (mappedValueCandidate == null)
+                    if (mappedValueCandidate == null || options.Mode == MappingMode.Copy)
                     {
                         // if value is null and options are set to igonre nulls, then just skip this member and continue
                         if(options.IgnoreNulls)
@@ -328,20 +340,55 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                             var _key = new TypeMappingStrategyKey(sourceValType, targetValType);
                             var _ms = TypeMappingStrategies.GetOrAdd(_key, (_) => CreateDefaultTypeMappingStrategy(sourceValType, targetValType));
 
-                            if (targetMemberDescription.MemberType.Type.ImplementsInterface<IList>()) // or Icollection ?
+                            var targetMemberValueAsIList = targetMemberValue as IList;
+
+                            if (targetMemberValueAsIList != null)
                             {
-                                if (options.ReuseTargetCollectionsWhenPossible)
+                                if (options.ReuseTargetCollectionsWhenPossible && !targetMemberValueAsIList.IsReadOnly)
                                 {
                                     MapInternal(mappedValueCandidate, targetMemberValue, sourceValType, targetValType, _ms, options, cx);
                                 }
                                 else
                                 {
-                                    MapInternal(mappedValueCandidate, targetMemberValue, sourceValType, targetValType, _ms, options, cx);
+                                    if (!targetMemberDescription.CanSetValue)
+                                    {
+                                        // cannot set value and target list is readonly
+                                        // nothing we can do here
+                                        // todo: log information
+                                    }
+                                    else
+                                    {
+                                        // can set value, do not reuse target collection and recreate it instead
+                                        MapInternal(mappedValueCandidate, targetValType, options, cx, _ms);
+                                    }
                                 }
                             }
                             else
                             {
-                                MapInternal(mappedValueCandidate, targetMemberValue, sourceValType, targetValType, _ms, options, cx);
+                                if (targetMemberDescription.MemberType.Type.ImplementsInterface<IList>()) // or Icollection ?
+                                {
+                                    if (options.ReuseTargetCollectionsWhenPossible)
+                                    {
+                                        MapInternal(mappedValueCandidate, targetMemberValue, sourceValType, targetValType, _ms, options, cx);
+                                    }
+                                    else
+                                    {
+                                        if (!targetMemberDescription.CanSetValue)
+                                        {
+                                            // cannot set value, resue target collection then
+                                            MapInternal(mappedValueCandidate, targetMemberValue, sourceValType, targetValType, _ms, options, cx);
+                                        }
+                                        else
+                                        {
+                                            // can set value, do not reuse target collection and recreate it instead
+                                            MapInternal(mappedValueCandidate, targetValType, options, cx, _ms);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    MapInternal(mappedValueCandidate, targetMemberValue, sourceValType, targetValType, _ms, options, cx);
+                                }
                             }
                         }
                     }

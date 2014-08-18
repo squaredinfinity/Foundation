@@ -7,12 +7,15 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 {
     public struct MappingOptions
     {
-        public static readonly MappingOptions Default;
+        public static readonly MappingOptions DefaultClone;
+        public static readonly MappingOptions DefaultCopy;
 
         static MappingOptions()
         {
-            Default = new MappingOptions
+            DefaultClone = new MappingOptions
             {
+                Mode = MappingMode.Clone,
+
                 IgnoreNulls = false,
 
                 ReuseTargetCollectionsWhenPossible = true,
@@ -20,7 +23,21 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 TrackReferences = true,
                 IgnorePrivateTypes = true
             };
+
+            DefaultCopy = new MappingOptions
+            {
+                Mode = MappingMode.Copy,
+
+                IgnoreNulls = false,
+
+                ReuseTargetCollectionsWhenPossible = false,
+                ReuseTargetCollectionItemsWhenPossible = false,
+                TrackReferences = false,
+                IgnorePrivateTypes = true
+            };
         }
+
+        public MappingMode Mode { get; set; }
 
         /// <summary>
         /// When *true*, source members with NULL value will not be mapped (original value of the target will be preserved)
@@ -34,5 +51,12 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         public bool ReuseTargetCollectionItemsWhenPossible { get; set; }
 
         public bool TrackReferences { get; set; }
+    }
+
+    public enum MappingMode
+    {
+        Clone = 0,
+        Copy,
+        Default = Clone
     }
 }

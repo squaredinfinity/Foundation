@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Diagnostics.Configuration
 {
-    public struct GlobalSettings
+    public class GlobalSettings
     {
         /// <summary>
         /// True to use calling member full name as a logger name.

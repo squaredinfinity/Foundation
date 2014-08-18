@@ -43,6 +43,8 @@ namespace SquaredInfinity.Foundation.Diagnostics.Configuration
         {
             this.Settings = new GlobalSettings();
 
+            this.GlobalFilters = new FilterCollection();
+
             this.ContextDataCollectors = new ContextDataCollectorCollection();
             this.AdditionalContextDataCollectors = new ContextDataCollectorCollection();
 

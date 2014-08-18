@@ -147,7 +147,7 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
                 // todo: handle readonly fields
                 md.CanGetValue = true;
                 md.CanSetValue = true;
-
+                
                 md.Visibility = GetMemberVisibility(f);
 
                 md.DeclaringType = typeDescription;
@@ -215,7 +215,7 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
                 md.SanitizedName = p.Name;
 
                 md.CanGetValue = p.CanRead;
-                md.CanSetValue = p.CanWrite;
+                md.CanSetValue = p.CanWrite && p.SetMethod.IsPublic;
 
                 md.Visibility = GetMemberVisibility(p);
 

@@ -106,5 +106,28 @@ namespace SquaredInfinity.Foundation.Diagnostics
         /// Parent of a logger
         /// </summary>
         ILogger Parent { get; set; }
+
+        // TODO
+        //public static IReadOnlyList<ISinkLocation> GetLogLocations()
+        //{
+        //    //List<ISinkLocation> result = new List<ISinkLocation>();
+
+        //    //// make a copy of reference to current configuration
+        //    //// to make sure that any changes (which would replace Config)
+        //    //// will not be applied to this method before it exits
+        //    //var config_ref = Config;
+
+        //    //for (int i = 0; i < config_ref.SinkDefinitions.Count; i++)
+        //    //{
+        //    //    var sink = config_ref.SinkDefinitions[i];
+
+        //    //    result.Add(sink.SinkLocation);
+        //    //}
+
+        //    //return result;
+
+
+        //    return null;
+        //}
     }
 }

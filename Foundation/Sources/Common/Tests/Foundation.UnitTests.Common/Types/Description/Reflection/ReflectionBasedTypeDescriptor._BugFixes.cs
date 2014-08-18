@@ -20,7 +20,8 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 
             var description = td.DescribeType(typeof(Bug001_Class));
 
-            Assert.AreEqual(1, description.Members.Count);
+            // bug whould cause exception before this line is hit
+            Assert.IsNotNull(description);
         }
 
         public class Bug001_Class

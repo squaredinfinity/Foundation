@@ -95,7 +95,7 @@ namespace SquaredInfinity.Foundation.Extensions
 
         public static void DeepCopyFrom<TTarget>(this TTarget target, object source)
         {
-            target.DeepCopyFrom<TTarget>(source, MappingOptions.Default);
+            target.DeepCopyFrom<TTarget>(source, MappingOptions.DefaultCopy);
         }
 
         public static void DeepCopyFrom<TTarget>(this TTarget target, object source, MappingOptions options)

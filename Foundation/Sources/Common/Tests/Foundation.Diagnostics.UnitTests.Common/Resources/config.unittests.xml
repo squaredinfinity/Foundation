@@ -1,0 +1,20 @@
+﻿<SquaredInfinity.Diagnostics>
+
+  <Definitions>
+    <Filters>
+      
+    </Filters>
+    <Formatters>
+      <RawFormatter name="raw" />
+    </Formatters>
+    <Sinks>
+      <MemorySink name="memory"
+                  formatter.ref="raw" />
+    </Sinks>
+  </Definitions>
+
+  <Sinks>
+    <Sink ref="memory" />
+  </Sinks>
+
+</SquaredInfinity.Diagnostics>

@@ -43,5 +43,10 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         {
             throw new NotImplementedException();
         }
+        
+        public ITypeSerializationStrategy<T> ResolveReferenceWith<TypeToResolve>(Action<ReferenceResolutionContext<T, TypeToResolve>> resolveReference)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

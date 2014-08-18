@@ -19,6 +19,15 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
         /// <summary>
         /// Creates a deep clone of *source*.
+        /// The clone will be of *TTarget* type.
+        /// </summary>
+        /// <typeparam name="TTarget"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        TTarget DeepClone<TTarget>(TTarget source, MappingOptions options);
+
+        /// <summary>
+        /// Creates a deep clone of *source*.
         /// The clone will be of the same type as the *source*.
         /// </summary>
         /// <param name="source"></param>

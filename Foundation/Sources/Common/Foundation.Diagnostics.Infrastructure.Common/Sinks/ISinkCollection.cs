@@ -11,8 +11,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.Sinks
     public interface ISinkCollection : 
         ICollection<ISink>, 
         IBulkUpdatesCollection<ISink>, 
-        INotifyCollectionContentChanged,
-        IList
+        INotifyCollectionContentChanged
     {
         IReadOnlyList<ISink> MustWaitForWriteSinks { get; }
 

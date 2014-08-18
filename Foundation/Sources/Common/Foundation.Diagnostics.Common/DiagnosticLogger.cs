@@ -5,6 +5,7 @@ using SquaredInfinity.Foundation.Diagnostics.Fluent;
 using SquaredInfinity.Foundation.Diagnostics.Formatters;
 using SquaredInfinity.Foundation.Diagnostics.Sinks;
 using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Foundation.Types.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,6 +18,8 @@ namespace SquaredInfinity.Foundation.Diagnostics
 {
     public partial class DiagnosticLogger : ILogger, IHideObjectInheritedMembers
     {
+        ITypeMapper ConfigTypeMapper = new TypeMapper();
+
         Lazy<ILogger> Diagnostics = new Lazy<ILogger>(() => new InternalDiagnosticLogger("SquaredInfinity.Diagnostics.DiagnosticLogger"));
 
         public ILoggerName Name { get; set; }
@@ -29,7 +32,12 @@ namespace SquaredInfinity.Foundation.Diagnostics
         /// <returns></returns>
         public DiagnosticsConfiguration GetConfigurationClone()
         {
-            return Config.DeepClone();
+            var mo = new MappingOptions();
+            mo.ReuseTargetCollectionItemsWhenPossible = false;
+            mo.ReuseTargetCollectionsWhenPossible = false;
+            mo.TrackReferences = false;
+
+            return ConfigTypeMapper.DeepClone<DiagnosticsConfiguration>(Config, mo);
         }
 
         /// <summary>
@@ -58,11 +66,13 @@ namespace SquaredInfinity.Foundation.Diagnostics
         }
 
         public DiagnosticLogger()
+            : this (string.Empty)
         { }
 
         public DiagnosticLogger(string name)
         {
             this.Name = new LoggerName(name);
+            this.Config = new DiagnosticsConfigurationWithCache(new DiagnosticsConfiguration());
         }
 
         /// <summary>
@@ -130,7 +140,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                      select s).ToArray();
 
                 var fireAndForgetSinks =
-                    (from s in config_ref.Sinks.FireAndForgetRawMessageSinks
+                    (from s in config_ref.Sinks.FireAndForgetSinks
                      where s.Filter.Evaluate(de, Name)
                      select s).ToArray();
 

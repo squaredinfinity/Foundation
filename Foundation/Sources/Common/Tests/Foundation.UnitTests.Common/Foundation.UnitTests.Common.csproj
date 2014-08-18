@@ -84,7 +84,13 @@
     <Compile Include="FrameworkExtensions\System\Type\ImplementsInterface.tests.cs" />
     <Compile Include="FrameworkExtensions\System\Type\IsEqualTo.tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serialization\FlexiXml\FlexiXmlSerialzier__Repository.tests.cs" />
+    <Compile Include="Serialization\FlexiXml\Repository\FlexiXmlSerialzier__Repository.tests.cs" />
+    <Compile Include="Serialization\FlexiXml\Repository\_entities\Configuration.cs" />
+    <Compile Include="Serialization\FlexiXml\Repository\_entities\CustomFormatter.cs" />
+    <Compile Include="Serialization\FlexiXml\Repository\_entities\Email.cs" />
+    <Compile Include="Serialization\FlexiXml\Repository\_entities\GenericFormatter.cs" />
+    <Compile Include="Serialization\FlexiXml\Repository\_entities\IFormatter.cs" />
+    <Compile Include="Serialization\FlexiXml\Repository\_entities\Repository.cs" />
     <Compile Include="Serialization\FlexiXml\TestEntities\CollectionItem.cs" />
     <Compile Include="Serialization\FlexiXml\TestEntities\NonGenericCollection.cs" />
     <Compile Include="Serialization\FlexiXml\TestEntities\NonGenericCollectionProperty.cs" />
@@ -119,7 +125,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="FrameworkExtensions\System.Collections\IEnumerable\" />
-    <Folder Include="Serialization\FlexiXml\TestEntities\Repository\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Foundation.Common\Foundation.Common.csproj">
@@ -128,7 +133,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Serialization\FlexiXml\Resources\Repository\repository.xml">
+    <EmbeddedResource Include="Serialization\FlexiXml\Repository\Resources\repository.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

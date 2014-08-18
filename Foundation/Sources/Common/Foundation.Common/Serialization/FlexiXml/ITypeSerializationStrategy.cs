@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
@@ -22,5 +23,25 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         ITypeSerializationStrategy<T> IgnoreAllMembers();
 
         ITypeSerializationStrategy<T> IgnoreMember(Expression<Func<object>> memberExpression);
+
+        ITypeSerializationStrategy<T> ResolveReferenceWith<TypeToResolve>(Action<ReferenceResolutionContext<T, TypeToResolve>> resolveReference);
+    }
+
+    public class ReferenceResolutionContext<TRoot, TypeToResolve>
+    {
+        public XDocument RootDocument { get; private set; }
+        public TRoot Root { get; private set; }
+
+        public string ReferenceName { get; private set; }
+        public TypeToResolve Result { get; set; }
+        public bool IsSuccesful { get; set; }
+
+
+        public ReferenceResolutionContext(XDocument rootDocument, TRoot root, string referenceName)
+        {
+            this.RootDocument = rootDocument;
+            this.Root = root;
+            this.ReferenceName = referenceName;
+        }
     }
 }
