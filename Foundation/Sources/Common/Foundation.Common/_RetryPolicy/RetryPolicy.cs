@@ -13,6 +13,12 @@ namespace SquaredInfinity.Foundation
 
     public class RetryPolicy
     {
+        Random Rand = new Random();
+
+        const int Default_MaxRetryAttempts = 10;
+        const int Default_MinRetryDelayInMiliseconds = 50;
+        const int Default_MaxRetryDelayInMiliseconds = 100;
+
         static RetryPolicy _defaultPolicy;
         public static RetryPolicy Default { get { return _defaultPolicy; } }
 
@@ -33,35 +39,39 @@ namespace SquaredInfinity.Foundation
             Execute(action, null);
         }
 
-        public void Execute(Action action, params ITransientFaultFilter[] transientFaultFilters)
+        public void Execute(Action action, IReadOnlyList<ITransientFaultFilter> transientFaultFilters)
         {
             Execute(() =>
                 {
                     action();
                     return true;
-                });
+                }, transientFaultFilters: transientFaultFilters);
         }
 
         public TResult Execute<TResult>(Func<TResult> func)
         {
-            return Execute(func, null);
+            return Execute(func);
         }
 
-        public TResult Execute<TResult>(Func<TResult> func, params ITransientFaultFilter[] transientFaultFilters)
+        public TResult Execute<TResult>(
+            Func<TResult> func, 
+            int maxRetryAttempts = Default_MaxRetryAttempts, 
+            int minDelayInMiliseconds = Default_MinRetryDelayInMiliseconds, 
+            int maxDelayInMiliseconds = Default_MaxRetryDelayInMiliseconds, 
+            IReadOnlyList<ITransientFaultFilter> transientFaultFilters = null)
         {
+            if (transientFaultFilters == null)
+                transientFaultFilters = new List<ITransientFaultFilter>(capacity: 0);
+
             var result = default(TResult);
 
-            var maxRetryAttempts = 10;
-            TimeSpan retryDelay = TimeSpan.FromMilliseconds(100);
-
-            // todo: use circular queue instead
             List<Exception> failedAttempts = new List<Exception>(capacity: maxRetryAttempts);
 
             var filters = transientFaultFilters.EmptyIfNull().ToArray();
 
             bool success = false;
 
-            while (!success && maxRetryAttempts-- > 0)
+            while (!success && maxRetryAttempts --> 0)
             {
                 try
                 {
@@ -70,7 +80,7 @@ namespace SquaredInfinity.Foundation
                 }
                 catch (Exception ex)
                 {
-                    for (int i = 0; i < transientFaultFilters.Length; i++)
+                    for (int i = 0; i < transientFaultFilters.Count; i++)
                     {
                         var filter = transientFaultFilters[i];
 
@@ -78,6 +88,11 @@ namespace SquaredInfinity.Foundation
                             throw;
 
                         failedAttempts.Add(ex);
+
+                        TimeSpan retryDelay = 
+                            TimeSpan.FromMilliseconds(
+                                Rand.Next(minDelayInMiliseconds, 
+                                maxDelayInMiliseconds));
 
                         Thread.Sleep(retryDelay);
                     }
