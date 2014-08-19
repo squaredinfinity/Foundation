@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Diagnostics
 {
@@ -29,7 +28,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
         {
             get
             {
-                return "{0} ({1})".FormatWith(Name, Value);
+                return string.Format("{0} ({1})", Name, Value);
             }
         }
 

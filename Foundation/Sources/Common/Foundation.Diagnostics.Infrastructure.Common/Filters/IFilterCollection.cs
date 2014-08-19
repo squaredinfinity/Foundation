@@ -1,5 +1,4 @@
-﻿using SquaredInfinity.Foundation.Collections;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +9,8 @@ namespace SquaredInfinity.Foundation.Diagnostics.Filters
 {
     public interface IFilterCollection :
         ICollection<IFilter>, 
-        IBulkUpdatesCollection<IFilter>, 
-        INotifyCollectionContentChanged,
+        //IBulkUpdatesCollection<IFilter>, 
+        //INotifyCollectionContentChanged,
         IList<IFilter>
     {
     }

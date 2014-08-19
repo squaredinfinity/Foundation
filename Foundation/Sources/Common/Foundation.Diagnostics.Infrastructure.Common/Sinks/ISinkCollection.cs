@@ -1,5 +1,4 @@
-﻿using SquaredInfinity.Foundation.Collections;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +8,9 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Foundation.Diagnostics.Sinks
 {
     public interface ISinkCollection : 
-        ICollection<ISink>, 
-        IBulkUpdatesCollection<ISink>, 
-        INotifyCollectionContentChanged
+        ICollection<ISink>//, 
+        //IBulkUpdatesCollection<ISink>, 
+        //INotifyCollectionContentChanged
     {
         IReadOnlyList<ISink> MustWaitForWriteSinks { get; }
 

@@ -1,5 +1,4 @@
-﻿using SquaredInfinity.Foundation.Collections;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +9,8 @@ namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
 {
     public interface IContextDataCollectorCollection :
         ICollection<IContextDataCollector>,
-        IBulkUpdatesCollection<IContextDataCollector>,
-        INotifyCollectionContentChanged,
+//        IBulkUpdatesCollection<IContextDataCollector>,
+        //INotifyCollectionContentChanged,
         IList<IContextDataCollector>
     {
         IDiagnosticEventPropertyCollection Collect();

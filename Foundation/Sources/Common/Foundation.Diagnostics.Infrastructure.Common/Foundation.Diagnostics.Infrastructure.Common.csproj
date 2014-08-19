@@ -69,12 +69,6 @@
     <Compile Include="Sinks\ISinkLocation.cs" />
     <Compile Include="Sinks\KnownSinkLocationSchemas.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Foundation.Common\Foundation.Common.csproj">
-      <Project>{dfeab4e6-d02d-448b-8649-2d12be137191}</Project>
-      <Name>Foundation.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

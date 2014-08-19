@@ -55,6 +55,7 @@
     <Compile Include="CommandHandlerEventArgs_T.cs" />
     <Compile Include="CompositeComparer_T.cs" />
     <Compile Include="DateTimeContext.cs" />
+    <Compile Include="Diagnostics\InternalLogger.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="FrameworkExtensions\Microsoft.Win32\RegistryKey.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Collections\ICollection.Extensions.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="FrameworkExtensions\System\ULong.extensions.cs" />
     <Compile Include="Freezable.cs" />
     <Compile Include="GCMemoryUsagePressure.cs" />
+    <Compile Include="GlobalConfiguration.cs" />
     <Compile Include="IDateTimeContext.cs" />
     <Compile Include="IFreezable.cs" />
     <Compile Include="ILGeneration\IL.cs" />
@@ -216,6 +218,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Types\Mapping\TypeMapper.TypeMappingStrategyKey.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Foundation.Diagnostics.Infrastructure.Common\Foundation.Diagnostics.Infrastructure.Common.csproj">
+      <Project>{09913c58-684f-471c-a1bb-6e80f6c33862}</Project>
+      <Name>Foundation.Diagnostics.Infrastructure.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
