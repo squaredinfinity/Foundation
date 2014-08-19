@@ -39,6 +39,90 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\Configuration\GlobalSettings.cs">
+      <Link>Configuration\GlobalSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\Configuration\IConfigurationProvider.cs">
+      <Link>Configuration\IConfigurationProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\Configuration\IDiagnosticsConfiguration.cs">
+      <Link>Configuration\IDiagnosticsConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\ContextDataCollectors\IContextDataCollector.cs">
+      <Link>ContextDataCollectors\IContextDataCollector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\ContextDataCollectors\IContextDataCollectorCollection.cs">
+      <Link>ContextDataCollectors\IContextDataCollectorCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\ContextDataCollectors\IDataCollectionContext.cs">
+      <Link>ContextDataCollectors\IDataCollectionContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\ContextDataCollectors\IDataRequest.cs">
+      <Link>ContextDataCollectors\IDataRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\ContextDataCollectors\IDataRequestCollection.cs">
+      <Link>ContextDataCollectors\IDataRequestCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\Filters\FilterMode.cs">
+      <Link>Filters\FilterMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\Filters\IFilter.cs">
+      <Link>Filters\IFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\Filters\IFilterCollection.cs">
+      <Link>Filters\IFilterCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\Formatters\IFormatter.cs">
+      <Link>Formatters\IFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\Formatters\IFormatterCollection.cs">
+      <Link>Formatters\IFormatterCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\IAttachedObject.cs">
+      <Link>IAttachedObject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\IAttachedObjectCollection.cs">
+      <Link>IAttachedObjectCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\IDiagnosticEvent.cs">
+      <Link>IDiagnosticEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\IDiagnosticEventCollection.cs">
+      <Link>IDiagnosticEventCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\IDiagnosticEventProperty.cs">
+      <Link>IDiagnosticEventProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\IDiagnosticEventPropertyCollection.cs">
+      <Link>IDiagnosticEventPropertyCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\ILogger.cs">
+      <Link>ILogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\ILoggerName.cs">
+      <Link>ILoggerName.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\KnownSeverityLevels.cs">
+      <Link>KnownSeverityLevels.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\SeverityLevel.cs">
+      <Link>SeverityLevel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\Sinks\IRawMessageSink.cs">
+      <Link>Sinks\IRawMessageSink.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\Sinks\ISink.cs">
+      <Link>Sinks\ISink.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\Sinks\ISinkCollection.cs">
+      <Link>Sinks\ISinkCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\Sinks\ISinkLocation.cs">
+      <Link>Sinks\ISinkLocation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\Sinks\KnownSinkLocationSchemas.cs">
+      <Link>Sinks\KnownSinkLocationSchemas.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

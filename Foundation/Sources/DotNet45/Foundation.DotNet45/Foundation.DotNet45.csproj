@@ -78,6 +78,9 @@
     <Compile Include="..\..\Common\Foundation.Common\DateTimeContext.cs">
       <Link>DateTimeContext.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Diagnostics\InternalLogger.cs">
+      <Link>Diagnostics\InternalLogger.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Direction.cs">
       <Link>Direction.cs</Link>
     </Compile>
@@ -162,6 +165,9 @@
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\IServiceProvider.extensions.cs">
       <Link>FrameworkExtensions\System\IServiceProvider.extensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\Long.extensions.cs">
+      <Link>FrameworkExtensions\System\Long.extensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\Object.extensions.cs">
       <Link>FrameworkExtensions\System\Object.extensions.cs</Link>
     </Compile>
@@ -171,11 +177,17 @@
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\Type.extensions.cs">
       <Link>FrameworkExtensions\System\Type.extensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\ULong.extensions.cs">
+      <Link>FrameworkExtensions\System\ULong.extensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Freezable.cs">
       <Link>Freezable.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\GCMemoryUsagePressure.cs">
       <Link>GCMemoryUsagePressure.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\GlobalConfiguration.cs">
+      <Link>GlobalConfiguration.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\IDateTimeContext.cs">
       <Link>IDateTimeContext.cs</Link>
@@ -464,7 +476,12 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Foundation.Diagnostics.Infrastructure.DotNet45\Foundation.Diagnostics.Infrastructure.DotNet45.csproj">
+      <Project>{231d0bb0-926b-47ce-b7b1-9e8e49dce51e}</Project>
+      <Name>Foundation.Diagnostics.Infrastructure.DotNet45</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
