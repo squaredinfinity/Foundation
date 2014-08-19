@@ -9,7 +9,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.TextTemplates
 {
     public class TemplateProcessingService
     {
-        readonly ILogger Diagnostics = InternalDiagnosticLogger.CreateLoggerForType<TemplateProcessingService>();
+        readonly ILogger Diagnostics = InternalLogger.CreateLoggerForType<TemplateProcessingService>();
 
         public TextTemplateProcessingContext InternalContext { get; private set; }
 

@@ -10,7 +10,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.Filters
 {
     public class PropertyFilter : Filter
     {
-        readonly static ILogger Diag = InternalDiagnosticLogger.CreateLoggerForType<PropertyFilter>();
+        readonly static ILogger Diag = InternalLogger.CreateLoggerForType<PropertyFilter>();
 
         public string Property { get; set; }
 

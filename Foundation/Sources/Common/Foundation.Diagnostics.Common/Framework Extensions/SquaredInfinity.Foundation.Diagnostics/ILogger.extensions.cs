@@ -55,7 +55,7 @@ namespace SquaredInfinity.Foundation.Extensions
 
             if (DiagnosticsAssemblyName == type.Assembly.FullName)
             {
-                newLogger = new InternalDiagnosticLogger(type.FullName);
+                newLogger = new InternalLogger(type.FullName);
             }
             else
             {

@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Diagnostics", "D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Presentation.Xaml.Styles.Modern.Common", "Sources\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Foundation.Presentation.Xaml.Styles.Modern.Common.csproj", "{3DFF87ED-8DD9-4FB3-B982-03BA514F321E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Diagnostics.Walkthrough.Common", "Sources\Common\Tests\Foundation.Diagnostics.Walkthrough.Common\Foundation.Diagnostics.Walkthrough.Common.csproj", "{95283A9F-CED0-4F97-9768-882E4901E02E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +125,10 @@ Global
 		{3DFF87ED-8DD9-4FB3-B982-03BA514F321E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DFF87ED-8DD9-4FB3-B982-03BA514F321E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DFF87ED-8DD9-4FB3-B982-03BA514F321E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95283A9F-CED0-4F97-9768-882E4901E02E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95283A9F-CED0-4F97-9768-882E4901E02E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95283A9F-CED0-4F97-9768-882E4901E02E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95283A9F-CED0-4F97-9768-882E4901E02E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -144,5 +150,6 @@ Global
 		{E198D2AB-90D6-46C2-B30C-288B973DD8BA} = {9B4D9910-B430-4643-8C5F-DF5844C1A45A}
 		{E673F697-FEB4-49FB-9F0C-8F5C45F5E19A} = {2571A7F4-6A81-421E-AC34-50BA59DB6417}
 		{3DFF87ED-8DD9-4FB3-B982-03BA514F321E} = {3E3D143E-A6C5-4DED-8927-AEACF1F0784A}
+		{95283A9F-CED0-4F97-9768-882E4901E02E} = {9B4D9910-B430-4643-8C5F-DF5844C1A45A}
 	EndGlobalSection
 EndGlobal

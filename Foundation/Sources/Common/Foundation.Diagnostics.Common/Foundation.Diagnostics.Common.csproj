@@ -79,16 +79,23 @@
     <Compile Include="Formatters\RawFormatter.cs" />
     <Compile Include="Framework Extensions\SquaredInfinity.Foundation.Diagnostics\ILogger.extensions.cs" />
     <Compile Include="Framework Extensions\System\Object.extensions.cs" />
-    <Compile Include="InternalDiagnosticLogger.cs" />
-    <Compile Include="InternalDiagnosticLogger.EmergencyLogger.cs" />
+    <Compile Include="InternalLogger.cs" />
     <Compile Include="LinkTypes.cs" />
     <Compile Include="LoggerName.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecurityEvents.cs" />
+    <Compile Include="Sinks\DebugTraceSink.cs" />
+    <Compile Include="Sinks\File\ArchiveStrategies\DefaultArchiveStrategy.cs" />
+    <Compile Include="Sinks\File\FileLockingStrategies\LockToken.cs" />
+    <Compile Include="Sinks\File\FileLockingStrategies\MutexMultiProcessLockingStrategy.cs" />
+    <Compile Include="Sinks\File\FileLockingStrategies\SingleProcessLockingStrategy.cs" />
+    <Compile Include="Sinks\File\FileSink.cs" />
+    <Compile Include="Sinks\File\IFileLockingStrategy.cs" />
     <Compile Include="Sinks\MemorySink.cs" />
     <Compile Include="Sinks\Sink.cs" />
     <Compile Include="Sinks\SinkCollection.cs" />
     <Compile Include="Sinks\SinkLocation.cs" />
+    <Compile Include="Sinks\TraceSink.cs" />
     <Compile Include="TextTemplates\Function.cs" />
     <Compile Include="TextTemplates\FunctionCollection.cs" />
     <Compile Include="TextTemplates\FunctionDefinition.cs" />
@@ -113,7 +120,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\DefaultConfigs\config.unspecified.xml" />
+    <Content Include="Resources\DefaultConfigs\config.unspecified.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="TextTemplates\!overview.txt" />
   </ItemGroup>
   <ItemGroup>

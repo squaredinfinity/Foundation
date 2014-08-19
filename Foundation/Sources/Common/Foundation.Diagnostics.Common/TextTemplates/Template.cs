@@ -12,7 +12,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.TextTemplates
 {
     public class Template
     {
-        readonly static ILogger Diagnostics = InternalDiagnosticLogger.CreateLoggerForType<Template>();
+        readonly static ILogger Diagnostics = InternalLogger.CreateLoggerForType<Template>();
 
         static readonly Regex PlaceholderRegex =
            new Regex(@"(?<!{){(?<content>[^{}]*)}(?!})", RegexOptions.Compiled);

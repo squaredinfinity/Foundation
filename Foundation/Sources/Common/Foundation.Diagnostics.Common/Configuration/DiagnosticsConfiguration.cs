@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Diagnostics.Configuration
 {
-    public class DiagnosticsConfiguration
+    public class DiagnosticsConfiguration : IDiagnosticsConfiguration
     {
         internal List<DataRequest> RequestedContextDataCache = new List<DataRequest>();
 

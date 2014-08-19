@@ -1,4 +1,5 @@
-﻿using SquaredInfinity.Foundation.Diagnostics.Filters;
+﻿using SquaredInfinity.Foundation.Diagnostics.Configuration;
+using SquaredInfinity.Foundation.Diagnostics.Filters;
 using SquaredInfinity.Foundation.Diagnostics.Sinks;
 using System;
 using System.Collections.Generic;
@@ -106,6 +107,19 @@ namespace SquaredInfinity.Foundation.Diagnostics
         /// Parent of a logger
         /// </summary>
         ILogger Parent { get; set; }
+
+        /// <summary>
+        /// Returns a cloned copy of current configuration.
+        /// You can modify the copy and apply it using ApplyConfiguration() method.
+        /// </summary>
+        /// <returns></returns>
+        IDiagnosticsConfiguration GetConfigurationClone();
+
+        /// <summary>
+        /// Applies specified configuration.
+        /// </summary>
+        /// <param name="newConfiguration"></param>
+        void ApplyConfiguration(IDiagnosticsConfiguration newConfiguration);
 
         // TODO
         //public static IReadOnlyList<ISinkLocation> GetLogLocations()

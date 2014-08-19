@@ -12,7 +12,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.TextTemplates.Placeholders
     [DebuggerDisplay("{RawValue}")]
     public class Placeholder
     {
-        readonly static ILogger Diagnostics = InternalDiagnosticLogger.CreateLoggerForType<Placeholder>();
+        readonly static ILogger Diagnostics = InternalLogger.CreateLoggerForType<Placeholder>();
 
         public string RawValue { get; set; }
 

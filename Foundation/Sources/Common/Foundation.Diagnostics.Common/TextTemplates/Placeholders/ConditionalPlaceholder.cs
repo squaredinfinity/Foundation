@@ -9,7 +9,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.TextTemplates.Placeholders
 {
     internal class ConditionalPlaceholder : Placeholder
     {
-        static readonly ILogger Diagnostics = InternalDiagnosticLogger.CreateLoggerForType<ConditionalPlaceholder>();
+        static readonly ILogger Diagnostics = InternalLogger.CreateLoggerForType<ConditionalPlaceholder>();
 
         public string TrueOutcomeSubstitutionPattern { get; set; }
         public List<FunctionDefinition> TrueOutcomeProcessFunctions { get; set; }

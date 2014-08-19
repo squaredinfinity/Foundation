@@ -12,7 +12,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.Configuration
     {
         public ConfigurationCache Cache { get; private set; }
 
-        public DiagnosticsConfigurationWithCache(DiagnosticsConfiguration source)
+        public DiagnosticsConfigurationWithCache(IDiagnosticsConfiguration source)
         {
             this.DeepCopyFrom(source);
             RefreshCache();

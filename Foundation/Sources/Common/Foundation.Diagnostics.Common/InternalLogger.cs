@@ -9,21 +9,20 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Diagnostics
 {
-    internal partial class InternalDiagnosticLogger : DiagnosticLogger
+    internal partial class InternalLogger : DiagnosticLogger
     {
         static readonly Sinks.MemorySink CachingLoggerSink = new Sinks.MemorySink();
 
-        public static readonly BooleanSwitch InternalLoggerSwitch =
-                new BooleanSwitch(
-                    "SquaredInfinity.Foundation.Diagnostics",
-                    "SquaredInfinity.Foundation.Diagnostics",
+        public static readonly SourceSwitch InternalLoggerSwitch =
+                new SourceSwitch(
+                    "SquaredInfinity.Diagnostics",
 #if DEBUG
-                defaultSwitchValue: "true");
+                defaultSwitchValue: "Information");
 #else
-                defaultSwitchValue: "false");
+                defaultSwitchValue: "Error");
 #endif
         
-        public InternalDiagnosticLogger(string name)
+        public InternalLogger(string name)
             : base()
         {
             // configure this logger to allaw everything
@@ -36,17 +35,44 @@ namespace SquaredInfinity.Foundation.Diagnostics
         {
             try
             {
-                if (!InternalLoggerSwitch.Enabled)
+                if (InternalLoggerSwitch.Level == SourceLevels.Off)
                     return;
 
                 var prefix = "";
 
-                if (de.Severity == KnownSeverityLevels.Information)
-                    prefix = "INFORMATION: ";
-                else if (de.Severity == KnownSeverityLevels.Warning)
-                    prefix = "WARNNING: ";
+                if (de.Severity == KnownSeverityLevels.Critical)
+                {
+                    if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Critical))
+                        return;
+
+                    prefix = "CRITICAL: ";
+                }
                 else if (de.Severity == KnownSeverityLevels.Error)
+                {
+                    if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Error))
+                        return;
+
                     prefix = "ERROR: ";
+                }
+                else if (de.Severity == KnownSeverityLevels.Warning)
+                {
+                    if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Warning))
+                        return;
+
+                    prefix = "WARNNING: ";
+                }
+                else if (de.Severity == KnownSeverityLevels.Information)
+                {
+                    if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Information))
+                        return;
+
+                    prefix = "INFORMATION: ";
+                }
+                else if (de.Severity == KnownSeverityLevels.Verbose)
+                {
+                    if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Verbose))
+                        return;
+                }
 
                 System.Diagnostics.Trace.WriteLine("[" + prefix + "SquaredInfinity.Diagnostics]: " + de.Message);
             }

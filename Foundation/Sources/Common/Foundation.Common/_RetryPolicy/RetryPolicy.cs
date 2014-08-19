@@ -45,20 +45,29 @@ namespace SquaredInfinity.Foundation
                 {
                     action();
                     return true;
-                }, transientFaultFilters: transientFaultFilters);
+                }, 
+                Default_MaxRetryAttempts,
+                Default_MinRetryDelayInMiliseconds,
+                Default_MaxRetryDelayInMiliseconds,
+                transientFaultFilters);
         }
 
         public TResult Execute<TResult>(Func<TResult> func)
         {
-            return Execute(func);
+            return Execute(
+                func,
+                Default_MaxRetryAttempts,
+                Default_MinRetryDelayInMiliseconds,
+                Default_MaxRetryDelayInMiliseconds,
+                null);
         }
 
         public TResult Execute<TResult>(
             Func<TResult> func, 
-            int maxRetryAttempts = Default_MaxRetryAttempts, 
-            int minDelayInMiliseconds = Default_MinRetryDelayInMiliseconds, 
-            int maxDelayInMiliseconds = Default_MaxRetryDelayInMiliseconds, 
-            IReadOnlyList<ITransientFaultFilter> transientFaultFilters = null)
+            int maxRetryAttempts, 
+            int minDelayInMiliseconds, 
+            int maxDelayInMiliseconds, 
+            IReadOnlyList<ITransientFaultFilter> transientFaultFilters)
         {
             if (transientFaultFilters == null)
                 transientFaultFilters = new List<ITransientFaultFilter>(capacity: 0);

@@ -20,17 +20,20 @@ namespace SquaredInfinity.Foundation.Diagnostics
     {
         ITypeMapper ConfigTypeMapper = new TypeMapper();
 
-        Lazy<ILogger> Diagnostics = new Lazy<ILogger>(() => new InternalDiagnosticLogger("SquaredInfinity.Diagnostics.DiagnosticLogger"));
+        Lazy<ILogger> _internalFallbackLogger = new Lazy<ILogger>(() => new InternalLogger("SquaredInfinity.Diagnostics.FallbackLogger"));
+
+        /// <summary>
+        /// This logger will be used to log internal errors when logging fails (due to configuration error etc).
+        /// </summary>
+        internal Lazy<ILogger> InternalFallbackLogger
+        {
+            get { return _internalFallbackLogger; }
+        }
 
         public ILoggerName Name { get; set; }
         public ILogger Parent { get; set; }
         
-        /// <summary>
-        /// Returns a cloned copy of current configuration.
-        /// You can modify the copy and apply it using ApplyConfiguration() method.
-        /// </summary>
-        /// <returns></returns>
-        public DiagnosticsConfiguration GetConfigurationClone()
+        public IDiagnosticsConfiguration GetConfigurationClone()
         {
             var mo = new MappingOptions();
             mo.ReuseTargetCollectionItemsWhenPossible = false;
@@ -40,13 +43,14 @@ namespace SquaredInfinity.Foundation.Diagnostics
             return ConfigTypeMapper.DeepClone<DiagnosticsConfiguration>(Config, mo);
         }
 
-        /// <summary>
-        /// Applies specified configuration.
-        /// </summary>
-        /// <param name="newConfiguration"></param>
-        public void ApplyConfiguration(DiagnosticsConfiguration newConfiguration)
+        public void ApplyConfiguration(IDiagnosticsConfiguration newConfiguration)
         {
             var clone = new DiagnosticsConfigurationWithCache(newConfiguration);
+
+            foreach(var sink in clone.Sinks)
+            {
+                sink.Initialize();
+            }
 
             this.Config = clone;
         }
@@ -237,7 +241,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
             }
             catch (Exception ex)
             {
-                Diagnostics.Value.Error(ex, "Failed to log diagnostic event.");
+                InternalFallbackLogger.Value.Error(ex, "Failed to log diagnostic event.");
             }
         }
         

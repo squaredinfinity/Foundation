@@ -160,11 +160,8 @@
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Framework Extensions\System\Object.extensions.cs">
       <Link>Framework Extensions\System\Object.extensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\InternalDiagnosticLogger.cs">
-      <Link>InternalDiagnosticLogger.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\InternalDiagnosticLogger.EmergencyLogger.cs">
-      <Link>InternalDiagnosticLogger.EmergencyLogger.cs</Link>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\InternalLogger.cs">
+      <Link>InternalLogger.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\LinkTypes.cs">
       <Link>LinkTypes.cs</Link>
@@ -174,6 +171,27 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\SecurityEvents.cs">
       <Link>SecurityEvents.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Sinks\DebugTraceSink.cs">
+      <Link>Sinks\DebugTraceSink.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Sinks\File\ArchiveStrategies\DefaultArchiveStrategy.cs">
+      <Link>Sinks\File\ArchiveStrategies\DefaultArchiveStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Sinks\File\FileLockingStrategies\LockToken.cs">
+      <Link>Sinks\File\FileLockingStrategies\LockToken.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Sinks\File\FileLockingStrategies\MutexMultiProcessLockingStrategy.cs">
+      <Link>Sinks\File\FileLockingStrategies\MutexMultiProcessLockingStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Sinks\File\FileLockingStrategies\SingleProcessLockingStrategy.cs">
+      <Link>Sinks\File\FileLockingStrategies\SingleProcessLockingStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Sinks\File\FileSink.cs">
+      <Link>Sinks\File\FileSink.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Sinks\File\IFileLockingStrategy.cs">
+      <Link>Sinks\File\IFileLockingStrategy.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Sinks\MemorySink.cs">
       <Link>Sinks\MemorySink.cs</Link>
@@ -186,6 +204,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Sinks\SinkLocation.cs">
       <Link>Sinks\SinkLocation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Sinks\TraceSink.cs">
+      <Link>Sinks\TraceSink.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\TextTemplates\Function.cs">
       <Link>TextTemplates\Function.cs</Link>

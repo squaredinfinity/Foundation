@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Globalization;
 using System.ComponentModel;
 using System.Diagnostics;
+using SquaredInfinity.Foundation.Diagnostics;
 
 namespace SquaredInfinity.Foundation.ContextDataCollectors
 {
@@ -537,7 +538,8 @@ namespace SquaredInfinity.Foundation.ContextDataCollectors
             }
             catch (Exception ex)
             {
-
+                
+                //DiagnosticLogger.Global.in
                 // TODO: log warning
             }
 

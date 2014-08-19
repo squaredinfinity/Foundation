@@ -32,6 +32,7 @@
     <SeverityFilter name="warning"         Severity="Warning" />
     <SeverityFilter name="information"     Severity="Information" />
     <SeverityFilter name="verbose   "      Severity="Verbose" />
+    
     <!-- Exclude messages with specific Severity Level -->
     <SeverityFilter name="!unhandled"      Severity="Unhandled"   Mode="Exclude" />
     <SeverityFilter name="!error"          Severity="Error"       Mode="Exclude" />
@@ -75,8 +76,8 @@
     <PropertyFilter name="system.diagnostics"       Property="Event.Source" Value="System.Diagnostics"        Mode="Include" />
     <PropertyFilter name="!system.diagnostics"      Property="Event.Source" Value="System.Diagnostics"        Mode="Exclude" />
 
-    <PropertyFilter name="internal"  Property="Event.Source" Value="SquaredInfinity"  Mode="Include" />
-    <PropertyFilter name="!internal" Property="Event.Source" Value="SquaredInfinity"  Mode="Exclude" />
+    <PropertyFilter name="internal"  Property="Event.LoggerName" Value="SquaredInfinity.Foundation.Diagnostics.*"  Mode="Include" />
+    <PropertyFilter name="!internal" Property="Event.LoggerName" Value="SquaredInfinity.Foundation.Diagnostics.*"  Mode="Exclude" />
 
     <!-- 
         Filters based on event category
@@ -104,8 +105,8 @@
   -->
 
   <GlobalFilters>
+    <Filter ref="[information,max]" />
     <Filter ref="!internal" />
-    <Filter ref="!contains-raw-message" />
   </GlobalFilters>
 
   <!--
@@ -334,11 +335,8 @@
 
   <Sinks>
     <Sink ref="log.file" />
-  </Sinks>
-
-  <InternalSinks>
     <Sink ref="internal.file" />
     <Sink ref="internal.trace" />
-  </InternalSinks>
+  </Sinks>
 
 </SquaredInfinity.Diagnostics>

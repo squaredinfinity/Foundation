@@ -487,7 +487,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
             ((ILogger)this).ProcessDiagnosticEvent(de);
         }
-
+        
         void ILogger.VerboseFormat(Exception ex, string message, params object[] messageArgs)
         {
             if (!Config.Cache.ShouldProcessErrors)
@@ -621,7 +621,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
             }
             catch (Exception ex)
             {
-                Diagnostics.Value.Error(ex);
+                InternalFallbackLogger.Value.Error(ex);
             }
         }
 

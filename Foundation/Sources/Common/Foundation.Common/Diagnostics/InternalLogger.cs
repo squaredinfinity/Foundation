@@ -8,26 +8,28 @@ using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Diagnostics
 {
-    // todo:
     /// <summary>
     /// Trace Logger writes messages to Sytstem.Diagnostics.Trace output.
     /// It's behavior can be modified using app.config or web.config
     /// </summary>
     internal class InternalLogger : ILogger
     {
-        public static readonly BooleanSwitch InternalLoggerSwitch =
-                new BooleanSwitch(
-                    "SquaredInfinity.Diagnostics",
-                    "SquaredInfinity.Diagnostics",
+        public readonly SourceSwitch InternalLoggerSwitch;
+
+        public InternalLogger(string name)
+        {
+            new SourceSwitch(
+                name,
 #if DEBUG
-                    defaultSwitchValue: "true");
+                defaultSwitchValue: "Information");
 #else
-                    defaultSwitchValue: "false");
+                defaultSwitchValue: "Error");
 #endif
+        }
 
         public void Critical(Exception ex, string message = null)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Critical))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -40,7 +42,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void CriticalFormat(Exception ex, string message, params object[] messageArgs)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Critical))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -53,7 +55,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void Critical(Exception ex, Func<string> getMessage)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Critical))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -71,7 +73,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void Critical(string message)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Critical))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -83,7 +85,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void CriticalFormat(string message, params object[] messageArgs)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Critical))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -95,7 +97,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void Critical(Func<string> getMessage)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Critical))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -112,7 +114,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void Error(Exception ex, string message = null)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Error))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -125,7 +127,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void ErrorFormat(Exception ex, string message, params object[] messageArgs)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Error))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -138,7 +140,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void Error(Exception ex, Func<string> getMessage)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Error))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -156,7 +158,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void Error(string message)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Error))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -168,7 +170,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void ErrorFormat(string message, params object[] messageArgs)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Error))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -180,7 +182,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void Error(Func<string> getMessage)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Error))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -197,7 +199,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void Warning(Exception ex, string message = null)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Warning))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -210,7 +212,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void WarningFormat(Exception ex, string message, params object[] messageArgs)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Warning))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -223,7 +225,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void Warning(Exception ex, Func<string> getMessage)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Warning))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -241,7 +243,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void Warning(string message)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Warning))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -253,7 +255,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void WarningFormat(string message, params object[] messageArgs)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Warning))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -265,7 +267,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void Warning(Func<string> getMessage)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Warning))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -282,7 +284,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void Information(Exception ex, string message = null)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Information))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -295,7 +297,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void InformationFormat(Exception ex, string message, params object[] messageArgs)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Information))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -308,7 +310,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void Information(Exception ex, Func<string> getMessage)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Information))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -326,7 +328,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void Information(string message)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Information))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -338,7 +340,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void InformationFormat(string message, params object[] messageArgs)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Information))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -350,7 +352,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void Information(Func<string> getMessage)
         {
-            if (!InternalLoggerSwitch.Enabled)
+            if (!InternalLoggerSwitch.ShouldTrace(TraceEventType.Information))
                 return;
 
             var ev = new InternalDiagnosticEvent();
@@ -367,41 +369,17 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void Verbose(Exception ex, string message = null)
         {
-            if (!InternalLoggerSwitch.Enabled)
-                return;
-
-            var ev = new InternalDiagnosticEvent();
-            ev.ExceptionObject = ex;
-            ev.Message = message;
-            ev.Severity = KnownSeverityLevels.Verbose;
-
-            ProcessDiagnosticEvent(ev);
+            throw new NotSupportedException();
         }
 
         public void VerboseFormat(Exception ex, string message, params object[] messageArgs)
         {
-            if (!InternalLoggerSwitch.Enabled)
-                return;
-
-            var ev = new InternalDiagnosticEvent();
-            ev.ExceptionObject = ex;
-            ev.Message = message.FormatWith(messageArgs);
-            ev.Severity = KnownSeverityLevels.Verbose;
-
-            ProcessDiagnosticEvent(ev);
+            throw new NotSupportedException();
         }
 
         public void Verbose(Exception ex, Func<string> getMessage)
         {
-            if (!InternalLoggerSwitch.Enabled)
-                return;
-
-            var ev = new InternalDiagnosticEvent();
-            ev.ExceptionObject = ex;
-            ev.Message = getMessage();
-            ev.Severity = KnownSeverityLevels.Verbose;
-
-            ProcessDiagnosticEvent(ev);
+            throw new NotSupportedException();
         }
 
         public void Verbose(Exception ex, Func<string> getMessage, params object[] attachedObjects)
@@ -411,38 +389,17 @@ namespace SquaredInfinity.Foundation.Diagnostics
 
         public void Verbose(string message)
         {
-            if (!InternalLoggerSwitch.Enabled)
-                return;
-
-            var ev = new InternalDiagnosticEvent();
-            ev.Message = message;
-            ev.Severity = KnownSeverityLevels.Verbose;
-
-            ProcessDiagnosticEvent(ev);
+            throw new NotSupportedException();
         }
 
         public void VerboseFormat(string message, params object[] messageArgs)
         {
-            if (!InternalLoggerSwitch.Enabled)
-                return;
-
-            var ev = new InternalDiagnosticEvent();
-            ev.Message = message.FormatWith(messageArgs);
-            ev.Severity = KnownSeverityLevels.Verbose;
-
-            ProcessDiagnosticEvent(ev);
+            throw new NotSupportedException();
         }
 
         public void Verbose(Func<string> getMessage)
         {
-            if (!InternalLoggerSwitch.Enabled)
-                return;
-
-            var ev = new InternalDiagnosticEvent();
-            ev.Message = getMessage();
-            ev.Severity = KnownSeverityLevels.Verbose;
-
-            ProcessDiagnosticEvent(ev);
+            throw new NotSupportedException();
         }
 
         public void Verbose(Func<string> getMessage, params object[] attachedObjects)
@@ -580,6 +537,17 @@ namespace SquaredInfinity.Foundation.Diagnostics
             {
                 throw new NotImplementedException();
             }
+        }
+
+
+        public Configuration.IDiagnosticsConfiguration GetConfigurationClone()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ApplyConfiguration(Configuration.IDiagnosticsConfiguration newConfiguration)
+        {
+            throw new NotImplementedException();
         }
     }
 }

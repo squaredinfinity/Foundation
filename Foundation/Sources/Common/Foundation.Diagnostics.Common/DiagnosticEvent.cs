@@ -19,7 +19,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
         public static readonly IComparer DateTimeLocalComparer = new DateTimeLocalComparerImplementation();
         public static readonly IComparer DateTimeLocalMostRecentFirstComparer = new DateTimeLocalMostRecentFirstComparerImplementation();
 
-        ILogger Diagnostics = new InternalDiagnosticLogger(typeof(DiagnosticEvent).FullName);
+        ILogger Diagnostics = new InternalLogger(typeof(DiagnosticEvent).FullName);
 
         internal Func<string> GetMessage { get; set; }
         
