@@ -18,7 +18,23 @@ namespace Foundation.Diagnostics.Walkthrough.Common
             var fileSink = new FileSink();
             fileSink.FileNamePattern = "log.txt";
             fileSink.FileLocationPattern = AppDomain.CurrentDomain.BaseDirectory + @"\Logs\";
-            fileSink.Formatter = new RawFormatter();
+            fileSink.Formatter = new PatternFormatter() { Pattern = 
+            @" {NewLine}
+            --
+        {NewLine}
+        [{Event.Level}{?Event.HasCategory=>'\:'}{?Event.HasCategory=>Event.Category} thread:{Thread.Id}] {?Event.HasMessage=>Event.Message}
+        {?Event.HasLoggerName=>NewLine}
+        {?Event.HasLoggerName=>'Logger\:'} {?Event.HasLoggerName=>Event.LoggerName}
+        {?Event.HasCallerInfo=>NewLine}
+        {?Event.HasCallerInfo=>'Caller\:'}
+        {?Event.HasCallerInfo=>Caller.FullName} {?Event.HasCallerInfo=>Caller.File} {?Event.HasCallerInfo=>'\:'} {?Event.HasCallerInfo=>Caller.LineNumber}
+        {?Event.HasException=>NewLine}
+        {?Event.HasException=>Event.Exception:dumpWithHeader('Exception')}
+        {?Event.HasAdditionalContextData=>NewLine}
+        {?Event.HasAdditionalContextData=>Event.AdditionalContextData:dumpWithHeader('Context Data')}
+        {?Event.HasAttachedObjects=>NewLine}
+        {?Event.HasAttachedObjects=>Event.AttachedObjects:dumpWithHeader('Attached Objects')}"};
+
 
             config.Sinks.Add(fileSink);
 

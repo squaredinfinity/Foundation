@@ -54,6 +54,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Foundation.Diagnostics.Infrastructure.DotNet45\Foundation.Diagnostics.Infrastructure.DotNet45.csproj">
+      <Project>{231d0bb0-926b-47ce-b7b1-9e8e49dce51e}</Project>
+      <Name>Foundation.Diagnostics.Infrastructure.DotNet45</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Foundation.DotNet45\Foundation.DotNet45.csproj">
       <Project>{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}</Project>
       <Name>Foundation.DotNet45</Name>

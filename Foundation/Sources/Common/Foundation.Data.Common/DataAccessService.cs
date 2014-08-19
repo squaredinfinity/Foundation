@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Foundation.Diagnostics;
 
 namespace SquaredInfinity.Foundation.Data
 {
@@ -17,6 +18,8 @@ namespace SquaredInfinity.Foundation.Data
         where TParameter : DbParameter
         where TDataReader : DbDataReader
     {
+        protected ILogger Logger { get; private set; }
+
         ConnectionFactory<TConnection> ConnectionFactory { get; set; }
 
         public TimeSpan DefaultCommandTimeout { get; set; }
@@ -26,7 +29,17 @@ namespace SquaredInfinity.Foundation.Data
         public DataAccessService(
             ConnectionFactory<TConnection> connectionFactory,
             TimeSpan defaultCommandTimeout)
+            : this(null, connectionFactory, defaultCommandTimeout) 
+            // todo: get default (static) logger using LoggerLocator.GetLogger().CreateLoggerForType<>() and here just assing this static logger
+            // by default this whould be InternalTrace limited to SquaredInfinity.Foundation.Data
+        { }
+
+        public DataAccessService(
+            ILogger logger,
+            ConnectionFactory<TConnection> connectionFactory,
+            TimeSpan defaultCommandTimeout)
         {
+            this.Logger = logger;
             this.ConnectionFactory = connectionFactory;
             this.DefaultCommandTimeout = defaultCommandTimeout;
         }

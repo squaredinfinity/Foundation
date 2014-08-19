@@ -59,7 +59,10 @@ namespace SquaredInfinity.Foundation.Diagnostics.Formatters
                     "dumpWithHeader",
                     (originalValue, input, parameters) =>
                     {
-                        throw new NotImplementedException();
+                        return input.DumpToString();
+
+                        // TODO:
+                        //throw new NotImplementedException();
                         //var kvp = new KeyValuePair(parameters.First().ToString().Trim(new char[] { '\'' }), input);
 
                         //// todo: apply descriptors

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using SquaredInfinity.Foundation.Extensions;
 using System.Xml.Linq;
 using System.Data.SqlTypes;
+using SquaredInfinity.Foundation.Diagnostics;
 
 namespace SquaredInfinity.Foundation.Data.Sql
 {
@@ -15,12 +16,17 @@ namespace SquaredInfinity.Foundation.Data.Sql
     /// </summary>
     public class SqlDataAccessService : DataAccessService<SqlConnection, SqlCommand, SqlParameter, SqlDataReader>
     {
-        public SqlDataAccessService(string connectionString, TimeSpan defaultCommandTimeout)
-            : this(new ConnectionFactory<SqlConnection>(connectionString), defaultCommandTimeout)
+        public SqlDataAccessService(
+            string connectionString, 
+            TimeSpan defaultCommandTimeout)
+            : this(null, new ConnectionFactory<SqlConnection>(connectionString), defaultCommandTimeout)
         { }
 
-        public SqlDataAccessService(ConnectionFactory<SqlConnection> connectionFactory, TimeSpan defaultCommandTimeout)
-            : base(connectionFactory, defaultCommandTimeout)
+        public SqlDataAccessService(
+            ILogger logger,
+            ConnectionFactory<SqlConnection> connectionFactory, 
+            TimeSpan defaultCommandTimeout)
+            : base(logger, connectionFactory, defaultCommandTimeout)
         {
             RetryPolicy = new RetryPolicy();
             RetryPolicy.DefaultTransientFaultFilters.Add(new SqlTransientFaultFilter());

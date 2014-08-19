@@ -21,7 +21,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     message,
                     exception: ex);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.CriticalFormat(Exception ex, string message, params object[] messageArgs)
@@ -36,7 +36,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     messageArgs,
                     ex);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Critical(Exception ex, Func<string> getMessage)
@@ -50,7 +50,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     getMessage,
                     ex);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Critical(Exception ex, Func<string> getMessage, params object[] attachedObjects)
@@ -65,7 +65,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     ex,
                     attachedObjects: attachedObjects.Select((o) => new AttachedObject(o)).ToArray());
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Critical(string message)
@@ -78,7 +78,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     KnownSeverityLevels.Critical,
                     message);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.CriticalFormat(string message, params object[] messageArgs)
@@ -92,7 +92,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     message,
                     messageArgs);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Critical(Func<string> getMessage)
@@ -105,7 +105,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     KnownSeverityLevels.Critical,
                     getMessage);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Critical(Func<string> getMessage, params object[] attachedObjects)
@@ -119,7 +119,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     getMessage,
                     attachedObjects: attachedObjects.Select((o) => new AttachedObject(o)).ToArray());
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         #endregion
@@ -137,7 +137,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     message,
                     exception: ex);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.ErrorFormat(Exception ex, string message, params object[] messageArgs)
@@ -152,7 +152,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     messageArgs,
                     ex);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Error(Exception ex, Func<string> getMessage)
@@ -166,7 +166,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     getMessage,
                     ex);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Error(Exception ex, Func<string> getMessage, params object[] attachedObjects)
@@ -181,7 +181,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     ex,
                     attachedObjects: attachedObjects.Select((o) => new AttachedObject(o)).ToArray());
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Error(string message)
@@ -194,7 +194,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     KnownSeverityLevels.Error,
                     message);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.ErrorFormat(string message, params object[] messageArgs)
@@ -208,7 +208,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     message,
                     messageArgs);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Error(Func<string> getMessage)
@@ -221,7 +221,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     KnownSeverityLevels.Error,
                     getMessage);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Error(Func<string> getMessage, params object[] attachedObjects)
@@ -235,7 +235,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     getMessage,
                     attachedObjects: attachedObjects.Select((o) => new AttachedObject(o)).ToArray());
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         #endregion
@@ -253,7 +253,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     message,
                     exception: ex);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.WarningFormat(Exception ex, string message, params object[] messageArgs)
@@ -268,7 +268,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     messageArgs,
                     ex);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Warning(Exception ex, Func<string> getMessage)
@@ -282,7 +282,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     getMessage,
                     ex);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Warning(Exception ex, Func<string> getMessage, params object[] attachedObjects)
@@ -297,7 +297,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     ex,
                     attachedObjects: attachedObjects.Select((o) => new AttachedObject(o)).ToArray());
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Warning(string message)
@@ -310,7 +310,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     KnownSeverityLevels.Warning,
                     message);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.WarningFormat(string message, params object[] messageArgs)
@@ -324,7 +324,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     message,
                     messageArgs);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Warning(Func<string> getMessage)
@@ -337,7 +337,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     KnownSeverityLevels.Warning,
                     getMessage);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Warning(Func<string> getMessage, params object[] attachedObjects)
@@ -351,7 +351,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     getMessage,
                     attachedObjects: attachedObjects.Select((o) => new AttachedObject(o)).ToArray());
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         #endregion
@@ -369,7 +369,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     message,
                     exception: ex);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.InformationFormat(Exception ex, string message, params object[] messageArgs)
@@ -384,7 +384,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     messageArgs,
                     ex);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Information(Exception ex, Func<string> getMessage)
@@ -398,7 +398,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     getMessage,
                     ex);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Information(Exception ex, Func<string> getMessage, params object[] attachedObjects)
@@ -413,7 +413,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     ex,
                     attachedObjects: attachedObjects.Select((o) => new AttachedObject(o)).ToArray());
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Information(string message)
@@ -426,7 +426,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     KnownSeverityLevels.Information,
                     message);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.InformationFormat(string message, params object[] messageArgs)
@@ -440,7 +440,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     message,
                     messageArgs);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Information(Func<string> getMessage)
@@ -453,7 +453,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     KnownSeverityLevels.Information,
                     getMessage);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Information(Func<string> getMessage, params object[] attachedObjects)
@@ -467,7 +467,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     getMessage,
                     attachedObjects: attachedObjects.Select((o) => new AttachedObject(o)).ToArray());
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         #endregion
@@ -485,7 +485,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     message,
                     exception: ex);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
         
         void ILogger.VerboseFormat(Exception ex, string message, params object[] messageArgs)
@@ -500,7 +500,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     messageArgs,
                     ex);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Verbose(Exception ex, Func<string> getMessage)
@@ -514,7 +514,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     getMessage,
                     ex);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Verbose(Exception ex, Func<string> getMessage, params object[] attachedObjects)
@@ -529,7 +529,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     ex,
                     attachedObjects: attachedObjects.Select((o) => new AttachedObject(o)).ToArray());
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Verbose(string message)
@@ -542,7 +542,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     KnownSeverityLevels.Verbose,
                     message);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.VerboseFormat(string message, params object[] messageArgs)
@@ -556,7 +556,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     message,
                     messageArgs);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Verbose(Func<string> getMessage)
@@ -569,7 +569,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     KnownSeverityLevels.Verbose,
                     getMessage);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Verbose(Func<string> getMessage, params object[] attachedObjects)
@@ -583,7 +583,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     getMessage,
                     attachedObjects: attachedObjects.Select((o) => new AttachedObject(o)).ToArray());
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         #endregion
@@ -640,7 +640,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     severity,
                     category: category);
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         void ILogger.Event(SeverityLevel severity, string category, params object[] attachedObjects)
@@ -655,7 +655,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                     category: category,
                     attachedObjects: attachedObjects.Select((o) => new AttachedObject(o)).ToArray());
 
-            ((ILogger)this).ProcessDiagnosticEvent(de);
+            ProcessDiagnosticEvent(de);
         }
 
         #endregion

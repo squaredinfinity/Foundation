@@ -26,10 +26,10 @@ namespace SquaredInfinity.Foundation.Extensions
             return obj;
         }
 
-        public static string ToString(this object obj, string nullValue)
+        public static string ToString(this object obj, string valueWhenNull)
         {
             if (obj == null)
-                return nullValue;
+                return valueWhenNull;
 
             return obj.ToString();
         }
