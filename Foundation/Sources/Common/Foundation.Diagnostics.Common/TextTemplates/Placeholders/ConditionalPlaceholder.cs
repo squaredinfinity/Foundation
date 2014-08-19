@@ -9,8 +9,6 @@ namespace SquaredInfinity.Foundation.Diagnostics.TextTemplates.Placeholders
 {
     internal class ConditionalPlaceholder : Placeholder
     {
-        static readonly ILogger Diagnostics = InternalLogger.CreateLoggerForType<ConditionalPlaceholder>();
-
         public string TrueOutcomeSubstitutionPattern { get; set; }
         public List<FunctionDefinition> TrueOutcomeProcessFunctions { get; set; }
 
@@ -29,7 +27,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.TextTemplates.Placeholders
                     }
                     else
                     {
-                        Diagnostics.Information(() => "Unable to process True branch for placeholder '{0}'".FormatWith(RawValue));
+                        InternalTrace.Information(() => "Unable to process True branch for placeholder '{0}'".FormatWith(RawValue));
                         return false;
                     }
                 }

@@ -12,8 +12,6 @@ namespace SquaredInfinity.Foundation.Diagnostics.TextTemplates.Placeholders
     [DebuggerDisplay("{RawValue}")]
     public class Placeholder
     {
-        readonly static ILogger Diagnostics = InternalLogger.CreateLoggerForType<Placeholder>();
-
         public string RawValue { get; set; }
 
         public int StartIndex { get; set; }
@@ -68,7 +66,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.TextTemplates.Placeholders
                 {
                     if (functions.Count == 0)
                     {
-                        Diagnostics.Information(() => "No substitution found for pattern '{0}'".FormatWith(substitutionPattern));
+                        InternalTrace.Information(() => "No substitution found for pattern '{0}'".FormatWith(substitutionPattern));
                         return false;
                     }
                 }
@@ -95,7 +93,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.TextTemplates.Placeholders
                     }
                     else
                     {
-                        Diagnostics.Information(() => "Failed to process function {0}".FormatWith(piDef.Name));
+                        InternalTrace.Information(() => "Failed to process function {0}".FormatWith(piDef.Name));
                         return false;
                     }
                 }

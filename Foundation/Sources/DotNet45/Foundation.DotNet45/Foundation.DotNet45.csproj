@@ -78,9 +78,6 @@
     <Compile Include="..\..\Common\Foundation.Common\DateTimeContext.cs">
       <Link>DateTimeContext.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Diagnostics\InternalLogger.cs">
-      <Link>Diagnostics\InternalLogger.cs</Link>
-    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Direction.cs">
       <Link>Direction.cs</Link>
     </Compile>
@@ -186,9 +183,6 @@
     <Compile Include="..\..\Common\Foundation.Common\GCMemoryUsagePressure.cs">
       <Link>GCMemoryUsagePressure.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\GlobalConfiguration.cs">
-      <Link>GlobalConfiguration.cs</Link>
-    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\IDateTimeContext.cs">
       <Link>IDateTimeContext.cs</Link>
     </Compile>
@@ -200,6 +194,12 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\INotifyVersionChangedObject.cs">
       <Link>INotifyVersionChangedObject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\InternalTrace.cs">
+      <Link>InternalTrace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\InternalTrace.Foundation.cs">
+      <Link>InternalTrace.Foundation.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Media\ColorChannel.cs">
       <Link>Media\ColorChannel.cs</Link>

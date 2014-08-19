@@ -20,16 +20,6 @@ namespace SquaredInfinity.Foundation.Diagnostics
     {
         ITypeMapper ConfigTypeMapper = new TypeMapper();
 
-        Lazy<ILogger> _internalFallbackLogger = new Lazy<ILogger>(() => new InternalLogger("SquaredInfinity.Diagnostics.FallbackLogger"));
-
-        /// <summary>
-        /// This logger will be used to log internal errors when logging fails (due to configuration error etc).
-        /// </summary>
-        internal Lazy<ILogger> InternalFallbackLogger
-        {
-            get { return _internalFallbackLogger; }
-        }
-
         public ILoggerName Name { get; set; }
         public ILogger Parent { get; set; }
         
@@ -241,7 +231,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
             }
             catch (Exception ex)
             {
-                InternalFallbackLogger.Value.Error(ex, "Failed to log diagnostic event.");
+                InternalTrace.Error(ex, "Failed to log diagnostic event.");
             }
         }
         

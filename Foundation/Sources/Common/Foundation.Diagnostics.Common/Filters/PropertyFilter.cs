@@ -10,8 +10,6 @@ namespace SquaredInfinity.Foundation.Diagnostics.Filters
 {
     public class PropertyFilter : Filter
     {
-        readonly static ILogger Diag = InternalLogger.CreateLoggerForType<PropertyFilter>();
-
         public string Property { get; set; }
 
         public string Value { get; set; }
@@ -34,7 +32,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.Filters
 
             if (!diagnosticEvent.Properties.TryGetValue(Property, out propertyValue))
             {
-                Diag.Warning(() =>
+                InternalTrace.Warning(() =>
                     "Diagnostic Property '{0}' not found on Diagnostic Event."
                     .FormatWith(Property));
 

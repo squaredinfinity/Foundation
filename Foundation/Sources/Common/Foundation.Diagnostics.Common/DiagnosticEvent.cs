@@ -19,8 +19,6 @@ namespace SquaredInfinity.Foundation.Diagnostics
         public static readonly IComparer DateTimeLocalComparer = new DateTimeLocalComparerImplementation();
         public static readonly IComparer DateTimeLocalMostRecentFirstComparer = new DateTimeLocalMostRecentFirstComparerImplementation();
 
-        ILogger Diagnostics = new InternalLogger(typeof(DiagnosticEvent).FullName);
-
         internal Func<string> GetMessage { get; set; }
         
         string VerbatimMessage { get; set; }
@@ -187,7 +185,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                 }
                 catch (Exception ex)
                 {
-                    Diagnostics.Error(ex, "Unable to load error message");
+                    InternalTrace.Error(ex, "Unable to load error message");
 
                     //! if failed to load error message, use information about this error as error message so it's not reevaluated in the future and gives feedback to users)
                     VerbatimMessage =

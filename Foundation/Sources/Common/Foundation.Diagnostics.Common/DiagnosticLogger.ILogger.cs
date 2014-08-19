@@ -621,7 +621,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
             }
             catch (Exception ex)
             {
-                InternalFallbackLogger.Value.Error(ex);
+                InternalTrace.Error(ex, "Failed to write raw message");
             }
         }
 

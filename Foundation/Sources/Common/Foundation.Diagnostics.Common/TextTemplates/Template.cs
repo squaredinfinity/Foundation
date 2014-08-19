@@ -12,8 +12,6 @@ namespace SquaredInfinity.Foundation.Diagnostics.TextTemplates
 {
     public class Template
     {
-        readonly static ILogger Diagnostics = InternalLogger.CreateLoggerForType<Template>();
-
         static readonly Regex PlaceholderRegex =
            new Regex(@"(?<!{){(?<content>[^{}]*)}(?!})", RegexOptions.Compiled);
 
@@ -102,7 +100,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.TextTemplates
 
                     if (!contentGroup.Success)
                     {
-                        Diagnostics.Warning(() => "Unable to parse pattern: " + patternMatch.Value);
+                        InternalTrace.Warning(() => "Unable to parse pattern: " + patternMatch.Value);
                         continue;
                     }
 
@@ -152,7 +150,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.TextTemplates
                     if (!match.Success)
                     {
                         // treat it as a formatting
-                        Diagnostics.Information(
+                        InternalTrace.Information(
                             () =>
                                 "Unable to find meaning of Content and Instruction {0}. Assuming that this is format specification."
                                 .FormatWith(contentAndInstruction));

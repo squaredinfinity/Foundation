@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Foundation.Common\InternalTrace.cs">
+      <Link>InternalTrace.cs</Link>
+    </Compile>
     <Compile Include="ApplicationLifecycleEvents.cs" />
     <Compile Include="AttachedObject.cs" />
     <Compile Include="AttachedObjectCollection.cs" />
@@ -79,7 +82,7 @@
     <Compile Include="Formatters\RawFormatter.cs" />
     <Compile Include="Framework Extensions\SquaredInfinity.Foundation.Diagnostics\ILogger.extensions.cs" />
     <Compile Include="Framework Extensions\System\Object.extensions.cs" />
-    <Compile Include="InternalLogger.cs" />
+    <Compile Include="InternalTrace.Diagnostics.cs" />
     <Compile Include="LinkTypes.cs" />
     <Compile Include="LoggerName.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
