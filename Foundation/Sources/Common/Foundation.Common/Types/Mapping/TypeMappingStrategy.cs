@@ -10,6 +10,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Foundation.Collections;
 
 namespace SquaredInfinity.Foundation.Types.Mapping
 {

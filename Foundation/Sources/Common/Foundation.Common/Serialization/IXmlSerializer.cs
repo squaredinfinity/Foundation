@@ -11,6 +11,8 @@ namespace SquaredInfinity.Foundation.Serialization
     {
         XElement Serialize(object obj);
 
+        XElement Serialize(object obj, string rootElementName);
+
         XElement Serialize<T>(IEnumerable<T> items, string rootElementName, Func<T, XElement> getItemElement);
 
         T Deserialize<T>(string xml);

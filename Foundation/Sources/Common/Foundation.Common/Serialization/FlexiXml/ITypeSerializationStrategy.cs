@@ -16,15 +16,19 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         Type Type { get; }
 
         ITypeDescription TypeDescription { get; }
+
+        XElement Serialize(object instance, ITypeSerializationContext cx);
     }
 
     public interface ITypeSerializationStrategy<T> : ITypeSerializationStrategy
     {
         ITypeSerializationStrategy<T> IgnoreAllMembers();
 
-        ITypeSerializationStrategy<T> IgnoreMember(Expression<Func<object>> memberExpression);
+        ITypeSerializationStrategy<T> IgnoreMember(Expression<Func<T>> memberExpression);
 
         ITypeSerializationStrategy<T> ResolveReferenceWith<TypeToResolve>(Action<ReferenceResolutionContext<T, TypeToResolve>> resolveReference);
+
+        ITypeSerializationStrategy<T> SerializeMember(Expression<Func<T>> memberExpression);
     }
 
     public class ReferenceResolutionContext<TRoot, TypeToResolve>

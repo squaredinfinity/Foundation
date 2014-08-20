@@ -5,6 +5,7 @@ using SquaredInfinity.Foundation.Types.Description;
 using System.Linq.Expressions;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using SquaredInfinity.Foundation.Collections;
 namespace SquaredInfinity.Foundation.Types.Mapping
 {
 

@@ -19,13 +19,32 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
     {
         public XElement Serialize(object obj)
         {
-            var cx = new SerializationContext();
+            return Serialize(obj, rootElementName: null);
+        }
+
+        public XElement Serialize(object obj, string rootElementName)
+        {
+            var cx = new SerializationContext(DefaultTypeDescriptor);
 
             var options = new SerializationOptions();
 
-            var root = new XElement("temp");
-            UpdateElementNameFromType(root, obj.GetType(), options, cx);
-            SerializeInternal(root, obj, new ILBasedTypeDescriptor(), options , cx);
+            var root = (XElement)null;
+
+            if (rootElementName.IsNullOrEmpty())
+            {
+                if(obj == null)
+                {
+                    rootElementName = "NULL";
+                }
+                else
+                {
+                    rootElementName = ConstructRootElementForType(obj.GetType());
+                }
+            }
+            
+            root = new XElement(rootElementName);
+
+            SerializeInternal(root, obj, options , cx);
             
             // post process
             // e.g. move nodes with an id, which are referenced somewhere to some other part of xml
@@ -76,8 +95,8 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             return root;
         }
-
-        void SerializeInternal(XElement target, object source, ITypeDescriptor typeDescriptor, SerializationOptions options, SerializationContext cx)
+        
+        internal void SerializeInternal(XElement target, object source, SerializationOptions options, SerializationContext cx)
         {
             bool isNewReference = false;
 
@@ -128,9 +147,8 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                         if (nullableItemType != null)
                             itemType = nullableItemType;
 
-                        var itemElement = new XElement("temp");
-                        
-                        UpdateElementNameFromType(itemElement, itemType, options, cx);
+                        var itemElementName = ConstructRootElementForType(itemType);
+                        var itemElement = new XElement(itemElementName);
 
                         target.Add(itemElement);
                     }
@@ -142,22 +160,34 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                         if (TryConvertToStringIfTypeSupports(item, out item_as_string))
                         {
-                            var item_string_value_element = new XElement("temp", item_as_string);
-                            UpdateElementNameFromType(item_string_value_element, item.GetType(), options, cx);
+                            var item_string_value_element_name = ConstructRootElementForType(item.GetType());
+                            var item_string_value_element = new XElement(item_string_value_element_name, item_as_string);
                             target.Add(item_string_value_element);
                             continue;
                         }
 
-                        var itemElement = new XElement("temp");
-                        UpdateElementNameFromType(itemElement, itemType,    options, cx);
-                        SerializeInternal(itemElement, item, typeDescriptor, options, cx);
+                        var itemElementName = ConstructRootElementForType(itemType);
+                        var itemElement = new XElement(itemElementName);
+                        SerializeInternal(itemElement, item, options, cx);
 
                         target.Add(itemElement);
                     }
                 }
             }
 
-            var typeDescription = typeDescriptor.DescribeType(source.GetType());
+            var typeDescription = cx.TypeDescriptor.DescribeType(source.GetType());
+
+            var strategy = 
+                GetOrCreateTypeSerializationStrategy(
+                typeDescription.Type, 
+                () => CreateDefaultTypeSerializationStrategy(typeDescription.Type));
+
+            //foreach(var resover in strategy.SerializationResolvers)
+            //{
+            //    // todo
+            //}
+
+            #region OLD
 
             //# get all source members that can be serialized
             var serializableMembers =
@@ -194,16 +224,17 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                             if (!m.CanSetValue && val is IList)
                             {
                                 var el = new XElement(target.Name + "." + m.Name);
-                                SerializeInternal(el, val, typeDescriptor, options, cx);
+                                SerializeInternal(el, val, options, cx);
                                 target.Add(el);
                             }
                             else
                             {
                                 var wrapper = new XElement(target.Name + "." + m.Name);
 
-                                var el = new XElement("temp");
-                                UpdateElementNameFromType(el, val.GetType(), options, cx);
-                                SerializeInternal(el, val, typeDescriptor, options, cx);
+                                var elName = ConstructRootElementForType(val.GetType());
+                                var el = new XElement(elName);
+
+                                SerializeInternal(el, val, options, cx);
 
                                 wrapper.Add(el);
 
@@ -214,44 +245,15 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 }
                 //else
                 {
-                    
+
                 }
+
+            #endregion
             }
 
             target.Add(new XAttribute(options.UniqueIdAttributeName, id.Id));
 
             target.AddAnnotation(typeDescription);
-        }
-
-        void UpdateElementNameFromType(XElement xel, Type type, SerializationOptions options, SerializationContext cx)
-        {
-            if(type.IsGenericType)
-            {
-                var genericArgumentsSeparator_Index = type.Name.IndexOf("`");
-
-                xel.Name = type.Name.Substring(0, genericArgumentsSeparator_Index);
-
-                var ns = type.Namespace;
-
-                //cx.ClrNamespaceToNamespaceDelcarationMappings.GetOrAdd(
-                //    ns,
-                //    _ =>
-                //    {
-                //        var nsDeclarationAttribute = new XAttribute(XNamespace.Xmlns.GetName("serialization"), XmlNamespace);
-                //        root.Add(nsDeclarationAttribute);
-                //    });
-
-                //var nsAttrib = new XAttribute(NamespaceAttributeName, type.FullName);
-                //xel.Add(typeAttrib);
-            }
-            else if(type.IsArray)
-            {
-
-            }
-            else
-            {
-                xel.Name = type.Name;
-            }
         }
 
         public XElement Serialize<T>(IEnumerable<T> items, string rootElementName, Func<T, XElement> getItemElement)

@@ -63,6 +63,9 @@
     <Compile Include="..\..\Common\Foundation.Common\Collections\INotifyCollectionContentChanged.cs">
       <Link>Collections\INotifyCollectionContentChanged.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\OrderedDictionary.cs">
+      <Link>Collections\OrderedDictionary.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Collections\PriorityQueue.cs">
       <Link>Collections\PriorityQueue.cs</Link>
     </Compile>

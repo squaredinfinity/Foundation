@@ -23,6 +23,8 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
         readonly TypeResolver TypeResolver = new TypeResolver();
 
+        readonly ITypeDescriptor DefaultTypeDescriptor = new ILBasedTypeDescriptor();
+
         bool TryConvertToStringIfTypeSupports(object obj, out string result)
         {
             var typeConverter = TypeDescriptor.GetConverter(obj);
@@ -71,10 +73,18 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 .GetOrAdd(key, (ITypeSerializationStrategy)create());
         }
 
+        public ITypeSerializationStrategy GetOrCreateTypeSerializationStrategy(
+            Type type,
+            Func<ITypeSerializationStrategy> createDefault)
+        {
+            return (ITypeSerializationStrategy)TypeSerializationStrategies
+                .GetOrAdd(type, createDefault());
+        }
+
         ITypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T>()
         {
             return CreateDefaultTypeSerializationStrategy<T>(
-                new ILBasedTypeDescriptor());
+                DefaultTypeDescriptor);
         }
         ITypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T>(
             ITypeDescriptor typeDescriptor)
@@ -83,6 +93,21 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             var result =
                 new TypeSerializationStrategy<T>(
                     typeDescriptor);
+
+            return result;
+        }
+
+        ITypeSerializationStrategy CreateDefaultTypeSerializationStrategy(Type type)
+        {
+            return CreateDefaultTypeSerializationStrategy(type, DefaultTypeDescriptor);
+        }
+
+        ITypeSerializationStrategy CreateDefaultTypeSerializationStrategy(
+            Type type, ITypeDescriptor typeDescriptor)
+        {
+
+            var result =
+                new TypeSerializationStrategy(type, typeDescriptor);
 
             return result;
         }
@@ -160,5 +185,38 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 //    x => x.IntegerName,
 //    m => new XElement("xxx", m),
 //    el => el.Value);
-   }
+
+        internal string ConstructRootElementForType(Type type)
+        {
+            if (type.IsGenericType)
+            {
+                var genericArgumentsSeparator_Index = type.Name.IndexOf("`");
+
+                var name = type.Name.Substring(0, genericArgumentsSeparator_Index);
+
+                return name;
+
+                //var ns = type.Namespace;
+
+                //cx.ClrNamespaceToNamespaceDelcarationMappings.GetOrAdd(
+                //    ns,
+                //    _ =>
+                //    {
+                //        var nsDeclarationAttribute = new XAttribute(XNamespace.Xmlns.GetName("serialization"), XmlNamespace);
+                //        root.Add(nsDeclarationAttribute);
+                //    });
+
+                //var nsAttrib = new XAttribute(NamespaceAttributeName, type.FullName);
+                //xel.Add(typeAttrib);
+            }
+            else if (type.IsArray)
+            {
+                return "array123";
+            }
+            else
+            {
+                return type.Name;
+            }
+        }
+    }
 }
