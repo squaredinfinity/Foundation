@@ -276,9 +276,6 @@
     <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\_entities\CreateInstanceContext.cs">
       <Link>Serialization\FlexiXml\_entities\CreateInstanceContext.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\_entities\DeserializationContext.cs">
-      <Link>Serialization\FlexiXml\_entities\DeserializationContext.cs</Link>
-    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\_entities\InstanceId.cs">
       <Link>Serialization\FlexiXml\_entities\InstanceId.cs</Link>
     </Compile>

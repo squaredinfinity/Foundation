@@ -24,6 +24,28 @@ namespace SquaredInfinity.Foundation.Extensions
             return result;
         }
 
+        /// <summary>
+        /// Finds an attached elements with a specified name
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public static XElement FindAttachedElement(this XElement element, string name, bool isCaseSensitive = true)
+        {
+            var nameWithDot = "." + name;
+
+            var stringComp = StringComparison.InvariantCulture;
+
+            if (!isCaseSensitive)
+                stringComp = StringComparison.InvariantCultureIgnoreCase;
+
+            var result =
+                (from el in element.Elements()
+                 where el.Name.LocalName.StartsWith(element.Name.LocalName, stringComp) && el.Name.LocalName.EndsWith(nameWithDot, stringComp)
+                 select el);
+
+            return result.FirstOrDefault();
+        }
+
         public static bool IsAttached(this XElement element)
         {
             return element.Name.LocalName.Contains(".");

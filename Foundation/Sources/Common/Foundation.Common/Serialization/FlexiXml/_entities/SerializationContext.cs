@@ -24,9 +24,12 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         // todo: this should not be exposed in that way
         ConcurrentDictionary<object, InstanceId> Objects_InstanceIdTracker { get; }
 
+        ConcurrentDictionary<InstanceId, object> Objects_ById { get; }
+
         SerializationOptions Options { get; }
         
         XElement Serialize(object item);
+        object Deserialize(XElement xml, Type targetType);
     }
 
     /// <summary>
@@ -53,6 +56,14 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         public ConcurrentDictionary<object, InstanceId> Objects_InstanceIdTracker
         {
             get { return _objects_InstanceIdTracker; }
+        }
+
+        readonly ConcurrentDictionary<InstanceId, object> _objects_ById =
+            new ConcurrentDictionary<InstanceId, object>();
+
+        public ConcurrentDictionary<InstanceId, object> Objects_ById
+        {
+            get { return _objects_ById; }
         }
 
         //public readonly ConcurrentDictionary<string, XAttribute> ClrNamespaceToNamespaceDelcarationMappings = 
@@ -118,6 +129,63 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             return result_el;
         }
 
+        public object Deserialize(XElement xml, Type targetType)
+        {
+            var value = (object)null;
+
+            //# Check Serialization Control Attributes
+            
+            // ID REF Attribute is used to indicate that this element should point to the instance identified by id_ref attribute
+            
+            var id_ref_attrib = xml.Attribute(Options.UniqueIdReferenceAttributeName);
+
+            if (id_ref_attrib != null)
+            {
+                var instanceId = new InstanceId(id_ref_attrib.Value);
+
+                if (Objects_ById.TryGetValue(instanceId, out value))
+                {
+                    return value;
+                }
+                else
+                {
+                    // todo: log, this should always resolve unless serialization xml is corrupted
+                    throw new InvalidOperationException();
+                }
+            }
+
+            if(targetType == null)
+            {
+                // try to find target type
+            }
+
+            var strategy = GetTypeSerializationStrategy(targetType);
+
+            var cx = new TypeSerializationContext(this, xml, currentInstance: null);
+
+            var targetTypeDescription = TypeDescriptor.DescribeType(targetType);
+
+            var targetInstance = targetTypeDescription.CreateInstance();
+
+            //# keep track of target instance for future use
+            var id_attrib = xml.Attribute(Options.UniqueIdAttributeName);
+
+            if (id_attrib != null)
+            {
+                var instanceId = new InstanceId(id_attrib.Value);
+
+                if (!cx.SerializationContext.Objects_ById.TryAdd(instanceId, targetInstance))
+                {
+                    // todo: log, this is most likely xml corruption (two elements with same id)
+                    throw new Exception("Unable to update instance reference. Same Instance Id already exists.");
+                }
+            }
+
+            strategy.Deserialize(xml, targetInstance, cx);
+
+            return targetInstance;
+        }
+
         public ITypeSerializationStrategy GetTypeSerializationStrategy(Type type)
         {
             return Serializer.GetTypeSerializationStrategy(type);
@@ -131,8 +199,6 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         ISerializationContext SerializationContext { get; }
         object CurrentInstance { get; }
         XElement CurrentElement { get; }
-
-        //string ConstructElementNameForType(Type type);
     }
 
     public class TypeSerializationContext : ITypeSerializationContext

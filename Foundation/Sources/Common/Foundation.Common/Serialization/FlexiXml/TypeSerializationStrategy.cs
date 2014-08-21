@@ -12,6 +12,8 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
     public interface IMemberSerializationStrategy
     {
+        ITypeMemberDescription MemberDescription { get; }
+
         string MemberName { get; }
 
         bool CanGetValue();
@@ -23,10 +25,9 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
     public class MemberSerializationStrategy : IMemberSerializationStrategy
     {
-        ITypeMemberDescription MemberDescription { get; set; }
-
         public string MemberName { get; private set; }
-
+        public ITypeMemberDescription MemberDescription { get; private set; }
+        
         public MemberSerializationStrategy(ITypeMemberDescription memberDescription)
         {
             this.MemberDescription = memberDescription;
@@ -181,7 +182,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 // => create wrapper element
                 // => add xsi:nil attribute to the element
 
-                var wrapperElementName = parentElement.Name + "." + strategy.MemberName;
+                var wrapperElementName = parentElement.Name + "." + strategy.MemberDescription.Name;
 
                 var nullEl = new XElement(wrapperElementName);
 
@@ -198,7 +199,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 // todo:    what if conversion to string produces text which isn't valid for attribute value?
                 //          should it be stored in CDATA element instead?
                 //          or perhaps escaped? or configurable?
-                var attributeName = strategy.MemberName;
+                var attributeName = strategy.MemberDescription.Name;
 
                 var attributeEl = new XAttribute(attributeName, val_as_string);
 
@@ -213,7 +214,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 //
                 // member wriapper is an attached element with name <parent_element_name.member_name>
 
-                var wrapperElementName = parentElement.Name + "." + strategy.MemberName;
+                var wrapperElementName = parentElement.Name + "." + strategy.MemberDescription.Name;
                 var wrapperElement = new XElement(wrapperElementName);
 
                 var childEl = cx.SerializationContext.Serialize(memberValue);
@@ -222,6 +223,131 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                 return wrapperElement;
             }
+        }
+
+        protected virtual bool TryDeserializeMember(
+            XElement parentElement, 
+            object parentInstance,
+            IMemberSerializationStrategy strategy,
+            ITypeSerializationContext cx,
+            out object memberInstance)
+        {
+            var memberTypeCandidate = (Type)null;
+
+            if (strategy.MemberDescription != null)
+                memberTypeCandidate = strategy.MemberDescription.MemberType.Type;
+
+            //# Find attached property for member
+            var memberAttachedProperty = parentElement.FindAttachedElement(strategy.MemberName, isCaseSensitive: false);
+
+            if(memberAttachedProperty != null)
+            {
+                //# deserialize from attached elment
+
+                var memberElement = memberAttachedProperty.Elements().FirstOrDefault();
+
+                // todo: check if member has serialization attribute suggesting which type to deserialize to
+
+                // todo: check if there's only Value and no child elements / attributes, try to convert from string value
+
+                //# try to derive member type from element name
+                var suggestedMemberTypeName = memberElement.Name.LocalName;
+
+                if(!string.Equals(suggestedMemberTypeName, memberTypeCandidate.Name))
+                {
+                    //# try to find type with suggested name
+                    // todo:
+
+                    throw new NotImplementedException();
+                }
+
+                // maybe this is not important at the moment
+                //var memberInstance = strategy.GetValue(parentInstance);
+                //if(memberInstance == null || memberInstance.GetType() != memberTypeCandidate)
+                //{
+                //    //# create new instance of member
+                //    // TODO: get type description and create instance using it
+                //    memberInstance = Activator.CreateInstance(memberTypeCandidate);
+                //}
+
+                // deserialize the element into the instance
+                memberInstance = cx.SerializationContext.Deserialize(memberElement, memberTypeCandidate);
+
+                return true;
+            }
+            
+            var memberAttribute =
+                (from a in parentElement.Attributes()
+                 where string.Equals(a.Name.LocalName, strategy.MemberName, StringComparison.InvariantCultureIgnoreCase)
+                 select a).FirstOrDefault();
+
+            if(memberAttribute != null)
+            {
+                //# deserialize from attribute
+
+                if(TryConvertFromStringIfTypeSupports(memberAttribute.Value, memberTypeCandidate, out memberInstance))
+                {
+                    return true;
+                }
+
+                // todo: log a warning, member cannot be deserialized from attribute
+                throw new Exception();
+            }
+
+            // TODO: log warning, member cannot be deserialized because couldn't find it
+            memberInstance = null;
+            return false;
+
+            //var val_as_string = (string)null;
+
+            //if (memberValue == null)
+            //{
+            //    // value is null
+            //    //
+            //    // => create wrapper element
+            //    // => add xsi:nil attribute to the element
+
+            //    var wrapperElementName = parentElement.Name + "." + strategy.MemberName;
+
+            //    var nullEl = new XElement(wrapperElementName);
+
+            //    nullEl.Add(new XAttribute(cx.Options.NullValueAttributeName, true));
+
+            //    return nullEl;
+            //}
+            //else if (TryConvertToStringIfTypeSupports(memberValue, out val_as_string))
+            //{
+            //    // member value supports converting to and from string
+            //    //
+            //    // => create attribute which will store member value
+
+            //    // todo:    what if conversion to string produces text which isn't valid for attribute value?
+            //    //          should it be stored in CDATA element instead?
+            //    //          or perhaps escaped? or configurable?
+            //    var attributeName = strategy.MemberName;
+
+            //    var attributeEl = new XAttribute(attributeName, val_as_string);
+
+            //    return attributeEl;
+            //}
+            //else
+            //{
+            //    // member value must be serialized
+            //    //
+            //    // => create wrapper element
+            //    // => add serialized member data
+            //    //
+            //    // member wriapper is an attached element with name <parent_element_name.member_name>
+
+            //    var wrapperElementName = parentElement.Name + "." + strategy.MemberName;
+            //    var wrapperElement = new XElement(wrapperElementName);
+
+            //    var childEl = cx.SerializationContext.Serialize(memberValue);
+
+            //    wrapperElement.Add(childEl);
+
+            //    return wrapperElement;
+            //}
         }
 
         protected virtual bool TryConvertToStringIfTypeSupports(object obj, out string result)
@@ -292,9 +418,45 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             }
         }
 
-        public object Deserialize(XElement element)
-        {
-            throw new NotImplementedException();
+        public object Deserialize(XElement xml, object target, ITypeSerializationContext cx)
+        {           
+
+            //# Construct target from Element Value
+            //
+            //  Type which are convertible to / from string are serialized as <typename>string_representation</typename>
+
+            //if (!xml.HasElements && xml.Value != null && TryConvertFromStringIfTypeSupports(xml.Value, targetType, out value))
+            //{
+            //    return value;
+            //}
+
+            ////# Construct element to which instance content will be serialized
+            //var el_name = ConstructElementNameForType(instance.GetType());
+
+            //var el = new XElement(el_name);
+
+            //var item_as_string = (string)null;
+
+            ////# Check if instance type supports conversion to and from string
+            //if (TryConvertToStringIfTypeSupports(instance, out item_as_string))
+            //{
+            //    el.Add(new XText(item_as_string));
+
+            //    return el;
+            //}
+
+            //# Process all members to be deserialized
+            foreach (var r in ContentSerializationStrategies)
+            {
+                var memberInstance = (object)null;
+                
+                if(TryDeserializeMember(xml, target, r, cx, out memberInstance))
+                {
+                    r.SetValue(target, memberInstance);
+                }
+            }
+
+            return target;
         }
     }
 
