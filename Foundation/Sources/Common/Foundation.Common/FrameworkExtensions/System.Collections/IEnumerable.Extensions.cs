@@ -11,6 +11,21 @@ namespace SquaredInfinity.Foundation.Extensions
 {
     public static class IEnumerableExtensions
     {
+        /// <summary>
+        /// Returns minimum base types of items accepted by the enumerable.
+        /// Note that Enumerable class may actually implement several generic IEnumerable interfaces and accept several different item types
+        /// (e.g. by doing conversions internally)
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="listItemCandidate"></param>
+        /// <returns></returns>
+        public static IReadOnlyList<Type> GetCompatibleItemsTypes(this IEnumerable source)
+        {
+            var listItemTypes = source.GetType().GetCompatibleItemTypes();
+
+            return listItemTypes;
+        }
+
         public static IEnumerable<TSource> DefaultIfEmpty<TSource>(this IEnumerable<TSource> source, Func<TSource> getDefaultValue)
         {
             if (source == null)

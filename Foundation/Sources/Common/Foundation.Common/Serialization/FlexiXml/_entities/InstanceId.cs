@@ -13,7 +13,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
     /// This is used to deal with circular references.
     /// Individual instances are identified by auto-increasing Id number, or by unique name
     /// </summary>
-    class InstanceId : IEquatable<InstanceId>
+    public class InstanceId : IEquatable<InstanceId>
     {
         long _id;
         public long Id

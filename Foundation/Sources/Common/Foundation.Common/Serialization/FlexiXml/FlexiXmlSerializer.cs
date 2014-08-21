@@ -11,6 +11,7 @@ using System.Threading;
 using System.ComponentModel;
 using System.Reflection;
 using SquaredInfinity.Foundation.Types.Description.IL;
+using System.Collections;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
@@ -24,40 +25,6 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         readonly TypeResolver TypeResolver = new TypeResolver();
 
         readonly ITypeDescriptor DefaultTypeDescriptor = new ILBasedTypeDescriptor();
-
-        bool TryConvertToStringIfTypeSupports(object obj, out string result)
-        {
-            var typeConverter = TypeDescriptor.GetConverter(obj);
-
-            if (typeConverter == null
-                // what is serialized will need to be deserialized
-                // check if conversion can work both ways
-                || !typeConverter.CanConvertFrom(typeof(string))
-                || !typeConverter.CanConvertTo(typeof(string)))
-            {
-                result = null;
-                return false;
-            }
-
-            result = (string)typeConverter.ConvertTo(obj, typeof(string));
-
-            return true;
-        }
-
-        bool TryConvertFromStringIfTypeSupports(string stringRepresentation, Type resultType, out object result)
-        {
-            var typeConverter = TypeDescriptor.GetConverter(resultType);
-
-            if (typeConverter == null || !typeConverter.CanConvertFrom(typeof(string)))
-            {
-                result = null;
-                return false;
-            }
-
-            result = typeConverter.ConvertFrom(stringRepresentation);
-
-            return true;
-        }
 
         public ITypeSerializationStrategy<T> GetOrCreateTypeSerializationStrategy<T>()
         {
@@ -86,10 +53,11 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             return CreateDefaultTypeSerializationStrategy<T>(
                 DefaultTypeDescriptor);
         }
-        ITypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T>(
+        
+        protected virtual ITypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T>(
             ITypeDescriptor typeDescriptor)
         {
-
+            // todo:
             var result =
                 new TypeSerializationStrategy<T>(
                     typeDescriptor);
@@ -102,14 +70,24 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             return CreateDefaultTypeSerializationStrategy(type, DefaultTypeDescriptor);
         }
 
-        ITypeSerializationStrategy CreateDefaultTypeSerializationStrategy(
-            Type type, ITypeDescriptor typeDescriptor)
+        protected virtual ITypeSerializationStrategy CreateDefaultTypeSerializationStrategy(
+            Type type, 
+            ITypeDescriptor typeDescriptor)
         {
+            if(typeof(IEnumerable).IsAssignableFrom(type))
+            {
+                var result =
+                    new EnumerableTypeSerializationStrategy(type, typeDescriptor);
 
-            var result =
-                new TypeSerializationStrategy(type, typeDescriptor);
+                return result;
+            }
+            else
+            {
+                var result =
+                    new TypeSerializationStrategy(type, typeDescriptor);
 
-            return result;
+                return result;
+            }
         }
 
         public Func<Type, CreateInstanceContext, object> CustomCreateInstanceWith { get; set; }
@@ -186,37 +164,10 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 //    m => new XElement("xxx", m),
 //    el => el.Value);
 
-        internal string ConstructRootElementForType(Type type)
+
+        public ITypeSerializationStrategy GetTypeSerializationStrategy(Type type)
         {
-            if (type.IsGenericType)
-            {
-                var genericArgumentsSeparator_Index = type.Name.IndexOf("`");
-
-                var name = type.Name.Substring(0, genericArgumentsSeparator_Index);
-
-                return name;
-
-                //var ns = type.Namespace;
-
-                //cx.ClrNamespaceToNamespaceDelcarationMappings.GetOrAdd(
-                //    ns,
-                //    _ =>
-                //    {
-                //        var nsDeclarationAttribute = new XAttribute(XNamespace.Xmlns.GetName("serialization"), XmlNamespace);
-                //        root.Add(nsDeclarationAttribute);
-                //    });
-
-                //var nsAttrib = new XAttribute(NamespaceAttributeName, type.FullName);
-                //xel.Add(typeAttrib);
-            }
-            else if (type.IsArray)
-            {
-                return "array123";
-            }
-            else
-            {
-                return type.Name;
-            }
+            return GetOrCreateTypeSerializationStrategy(type, () => CreateDefaultTypeSerializationStrategy(type));
         }
     }
 }

@@ -60,58 +60,60 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
         object DeserializeInternal(Type targetType, XElement xml, ITypeDescriptor typeDescriptor, SerializationOptions options, DeserializationContext cx)
         {
-            var targetTypeDescription = typeDescriptor.DescribeType(targetType);
+            throw new NotImplementedException();
 
-            object target = (object)null;
+            //var targetTypeDescription = typeDescriptor.DescribeType(targetType);
 
-            //# check serialization control attributes first
+            //object target = (object)null;
 
-            // ID REF Attribute is used to indicate that this element should point to the instance identified by id_ref attribute
-            var id_ref_attrib = xml.Attribute(options.UniqueIdReferenceAttributeName);
+            ////# check serialization control attributes first
 
-            if(id_ref_attrib != null)
-            {
-                var instanceId = new InstanceId(id_ref_attrib.Value);
+            //// ID REF Attribute is used to indicate that this element should point to the instance identified by id_ref attribute
+            //var id_ref_attrib = xml.Attribute(options.UniqueIdReferenceAttributeName);
 
-                if (cx.Objects_InstanceIdTracker.TryGetValue(instanceId, out target))
-                {
-                    return target;
-                }
-                else
-                {
-                    // todo: log, this should always resolve unless serialization xml is corrupted
-                    return null;
-                }
-            }
+            //if(id_ref_attrib != null)
+            //{
+            //    var instanceId = new InstanceId(id_ref_attrib.Value);
 
-            var value = (object)null;
+            //    if (cx.Objects_InstanceIdTracker.TryGetValue(instanceId, out target))
+            //    {
+            //        return target;
+            //    }
+            //    else
+            //    {
+            //        // todo: log, this should always resolve unless serialization xml is corrupted
+            //        return null;
+            //    }
+            //}
 
-            //# Construct target from Element Value
-            if (!xml.HasElements && xml.Value != null && TryConvertFromStringIfTypeSupports(xml.Value, targetType, out value))
-            {
-                return value;
-            }
+            //var value = (object)null;
 
-            //# Get a new instance of target
-            if(!targetType.IsValueType && !TryCreateInstace(targetType, new CreateInstanceContext(), out target))
-            {
-                //todo: log error
-                return null;
-            }            
+            ////# Construct target from Element Value
+            //if (!xml.HasElements && xml.Value != null && TryConvertFromStringIfTypeSupports(xml.Value, targetType, out value))
+            //{
+            //    return value;
+            //}
 
-            //# keep track of target instance for future use
-            var id_attrib = xml.Attribute(options.UniqueIdAttributeName);
+            ////# Get a new instance of target
+            //if(!targetType.IsValueType && !TryCreateInstace(targetType, new CreateInstanceContext(), out target))
+            //{
+            //    //todo: log error
+            //    return null;
+            //}            
 
-            if(id_attrib != null)
-            {
-                var instanceId = new InstanceId(id_attrib.Value);
+            ////# keep track of target instance for future use
+            //var id_attrib = xml.Attribute(options.UniqueIdAttributeName);
+
+            //if(id_attrib != null)
+            //{
+            //    var instanceId = new InstanceId(id_attrib.Value);
                 
-                cx.Objects_InstanceIdTracker.AddOrUpdate(instanceId, target);
-            }
+            //    cx.Objects_InstanceIdTracker.AddOrUpdate(instanceId, target);
+            //}
 
-            DeserializeInternal(target, targetTypeDescription, targetType, xml, typeDescriptor, options, cx);
+            //DeserializeInternal(target, targetTypeDescription, targetType, xml, typeDescriptor, options, cx);
 
-            return target;
+            //return target;
         }
         
         void DeserializeInternal(
@@ -123,103 +125,105 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             SerializationOptions options, 
             DeserializationContext cx)
         {
-            var memberMappingCandidateAttributes =
-                (from a in xml.Attributes()
-                 where !a.Name.LocalName.EndsWith(options.UniqueIdReferenceAttributeSuffix)
-                        && a.Name.Namespace == XNamespace.None
-                 select a);
+            throw new NotImplementedException();
 
-            //# Map element attributes to target memebers
-            foreach (var attribute in memberMappingCandidateAttributes)
-            {
-                var member =
-                    (from f in targetTypeDescription.Members
-                     where 
-                     !f.IsExplicitInterfaceImplementation
-                     && string.Equals(f.Name, attribute.Name.LocalName, StringComparison.InvariantCultureIgnoreCase)
-                     && f.CanSetValue 
-                     && f.CanGetValue
-                     select f).FirstOrDefault();
+            //var memberMappingCandidateAttributes =
+            //    (from a in xml.Attributes()
+            //     where !a.Name.LocalName.EndsWith(options.UniqueIdReferenceAttributeSuffix)
+            //            && a.Name.Namespace == XNamespace.None
+            //     select a);
 
-                if (member == null)
-                {
-                    if (attribute.Name != options.UniqueIdAttributeName && attribute.Name != options.UniqueIdReferenceAttributeName)
-                    {
-                        // log warning
-                    }
-                }
-                else
-                {
-                    var memberType = member.MemberType.Type;
+            ////# Map element attributes to target memebers
+            //foreach (var attribute in memberMappingCandidateAttributes)
+            //{
+            //    var member =
+            //        (from f in targetTypeDescription.Members
+            //         where 
+            //         !f.IsExplicitInterfaceImplementation
+            //         && string.Equals(f.Name, attribute.Name.LocalName, StringComparison.InvariantCultureIgnoreCase)
+            //         && f.CanSetValue 
+            //         && f.CanGetValue
+            //         select f).FirstOrDefault();
 
-                    var value = (object)null;
+            //    if (member == null)
+            //    {
+            //        if (attribute.Name != options.UniqueIdAttributeName && attribute.Name != options.UniqueIdReferenceAttributeName)
+            //        {
+            //            // log warning
+            //        }
+            //    }
+            //    else
+            //    {
+            //        var memberType = member.MemberType.Type;
 
-                    if (TryConvertFromStringIfTypeSupports(attribute.Value, memberType, out value))
-                    {
-                        member.SetValue(target, value);
-                    }
-                }
-            }
+            //        var value = (object)null;
 
-            var propertyReferenceAttributes =
-               (from a in xml.Attributes()
-                where a.Name.LocalName.EndsWith(options.UniqueIdReferenceAttributeSuffix)
-                && a.Name.Namespace == XNamespace.None
-                select a);
+            //        if (TryConvertFromStringIfTypeSupports(attribute.Value, memberType, out value))
+            //        {
+            //            member.SetValue(target, value);
+            //        }
+            //    }
+            //}
 
-            //# Resolve references of id ref attributes (e.g. someProperty.ref="xxx")
-            foreach (var attribute in propertyReferenceAttributes)
-            {
-                var attribLocalName = attribute.Name.LocalName;
+            //var propertyReferenceAttributes =
+            //   (from a in xml.Attributes()
+            //    where a.Name.LocalName.EndsWith(options.UniqueIdReferenceAttributeSuffix)
+            //    && a.Name.Namespace == XNamespace.None
+            //    select a);
 
-                var memberName = attribLocalName.Substring(0, attribLocalName.Length - options.UniqueIdReferenceAttributeSuffix.Length);
+            ////# Resolve references of id ref attributes (e.g. someProperty.ref="xxx")
+            //foreach (var attribute in propertyReferenceAttributes)
+            //{
+            //    var attribLocalName = attribute.Name.LocalName;
 
-                var member =
-                    (from f in targetTypeDescription.Members
-                     where
-                     !f.IsExplicitInterfaceImplementation
-                     && string.Equals(f.Name, memberName, StringComparison.InvariantCultureIgnoreCase)
-                     && f.CanSetValue
-                     && f.CanGetValue
-                     select f).FirstOrDefault();
+            //    var memberName = attribLocalName.Substring(0, attribLocalName.Length - options.UniqueIdReferenceAttributeSuffix.Length);
 
-                var instanceId = new InstanceId(attribute.Value);
+            //    var member =
+            //        (from f in targetTypeDescription.Members
+            //         where
+            //         !f.IsExplicitInterfaceImplementation
+            //         && string.Equals(f.Name, memberName, StringComparison.InvariantCultureIgnoreCase)
+            //         && f.CanSetValue
+            //         && f.CanGetValue
+            //         select f).FirstOrDefault();
 
-                object referenced_instance = null;
+            //    var instanceId = new InstanceId(attribute.Value);
 
-                if (cx.Objects_InstanceIdTracker.TryGetValue(instanceId, out referenced_instance))
-                {
-                    member.SetValue(target, referenced_instance);
-                }
-                else
-                {
-                    // todo: log, this should always resolve unless serialization xml is corrupted
-                }
-            }
+            //    object referenced_instance = null;
 
-            //# Process target List
-            if (targetType.ImplementsInterface<IList>())
-            {
-                DeserializeList(xml, target as IList, typeDescriptor, options, cx);
-            }
-            else
-            {
-                // not a list, it may contain Child Elements (non-attached) which should be mapped to properties
+            //    if (cx.Objects_InstanceIdTracker.TryGetValue(instanceId, out referenced_instance))
+            //    {
+            //        member.SetValue(target, referenced_instance);
+            //    }
+            //    else
+            //    {
+            //        // todo: log, this should always resolve unless serialization xml is corrupted
+            //    }
+            //}
 
-                foreach(var el in xml.Elements())
-                {
-                    if (el.IsAttached())
-                        continue;
+            ////# Process target List
+            //if (targetType.ImplementsInterface<IList>())
+            //{
+            //    DeserializeList(xml, target as IList, typeDescriptor, options, cx);
+            //}
+            //else
+            //{
+            //    // not a list, it may contain Child Elements (non-attached) which should be mapped to properties
 
-                    DeserializeMemberFromElement(el, target, targetTypeDescription, typeDescriptor, options, cx);
-                }
-            }
+            //    foreach(var el in xml.Elements())
+            //    {
+            //        if (el.IsAttached())
+            //            continue;
 
-            //# Process attached elements which map to target members
-            foreach (var el in xml.AttachedElements())
-            {
-                DeserializeMemberFromElement(el, target, targetTypeDescription, typeDescriptor, options, cx);
-            }
+            //        DeserializeMemberFromElement(el, target, targetTypeDescription, typeDescriptor, options, cx);
+            //    }
+            //}
+
+            ////# Process attached elements which map to target members
+            //foreach (var el in xml.AttachedElements())
+            //{
+            //    DeserializeMemberFromElement(el, target, targetTypeDescription, typeDescriptor, options, cx);
+            //}
         }
 
         void DeserializeMemberFromElement(XElement el, object target, ITypeDescription targetTypeDescription, ITypeDescriptor typeDescriptor, SerializationOptions options, DeserializationContext cx)

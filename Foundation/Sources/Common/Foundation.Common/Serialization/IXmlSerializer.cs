@@ -20,5 +20,8 @@ namespace SquaredInfinity.Foundation.Serialization
         T Deserialize<T>(XDocument xml);
 
         T Deserialize<T>(XElement xml);
+
+
+        ITypeSerializationStrategy GetTypeSerializationStrategy(Type type);
     }
 }

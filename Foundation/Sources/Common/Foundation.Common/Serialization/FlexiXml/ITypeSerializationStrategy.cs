@@ -18,6 +18,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         ITypeDescription TypeDescription { get; }
 
         XElement Serialize(object instance, ITypeSerializationContext cx);
+        string ConstructElementNameForType(Type type);
     }
 
     public interface ITypeSerializationStrategy<T> : ITypeSerializationStrategy

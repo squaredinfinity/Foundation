@@ -9,6 +9,8 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
     public class SerializationOptions
     {
+
+        public XName NullValueAttributeName { get; set; }
         public XName UniqueIdAttributeName { get; set; }
         public XName UniqueIdReferenceAttributeName { get; set; }
         public string UniqueIdReferenceAttributeSuffix { get; set; }
@@ -17,6 +19,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
         public SerializationOptions()
         {
+            NullValueAttributeName = FlexiXmlSerializer.XmlNamespace.GetName("null");
             UniqueIdAttributeName = FlexiXmlSerializer.XmlNamespace.GetName("id");
             UniqueIdReferenceAttributeName = FlexiXmlSerializer.XmlNamespace.GetName("id-ref");
             UniqueIdReferenceAttributeSuffix = ".ref";
