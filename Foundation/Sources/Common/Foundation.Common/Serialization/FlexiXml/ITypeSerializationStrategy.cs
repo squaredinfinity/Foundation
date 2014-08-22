@@ -20,6 +20,11 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         XElement Serialize(
             object instance, 
             ISerializationContext cx);
+
+        XElement Serialize(
+            object instance, 
+            ISerializationContext serializationContext, 
+            string rootElementName);
         
         object Deserialize(
             XElement xml, 

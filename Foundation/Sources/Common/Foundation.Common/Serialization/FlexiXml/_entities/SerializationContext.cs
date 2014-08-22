@@ -56,23 +56,54 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             return Interlocked.Increment(ref LastUsedUniqueId);
         }
 
+        Func<Type, CreateInstanceContext, object> CustomCreateInstanceWith { get; set; }
+
         internal SerializationContext(
             IXmlSerializer serializer, 
             ITypeDescriptor typeDescriptor, 
             TypeResolver typeResolver,
-            SerializationOptions options)
+            SerializationOptions options,
+            Func<Type, CreateInstanceContext, object> createInstanceWith = null)
         {
             this.Serializer = serializer;
             this.TypeDescriptor = typeDescriptor;
             this.TypeResolver = typeResolver;
             this.Options = options;
+            this.CustomCreateInstanceWith = createInstanceWith;
+        }
+
+        public object CreateInstance(Type type, CreateInstanceContext cx)
+        {
+            if (CustomCreateInstanceWith != null)
+            {
+                var instance = CustomCreateInstanceWith(type, cx);
+                
+                return instance;
+            }
+            else
+            {
+                var targetTypeDescription = TypeDescriptor.DescribeType(type);
+
+                var instance = targetTypeDescription.CreateInstance();
+
+                return instance;
+            }
         }
         
         public XElement Serialize(object instance)
         {
+            return Serialize(instance, rootElementName: null);
+        }
+
+        public XElement Serialize(object instance, string rootElementName)
+        {
             if (instance == null)
             {
-                var nullEl = new XElement("NULL");
+                var nullElementName = rootElementName;
+                if (nullElementName == null)
+                    nullElementName = "NULL";
+
+                var nullEl = new XElement(nullElementName);
 
                 nullEl.Add(new XAttribute(Options.NullValueAttributeName, true));
 
@@ -81,7 +112,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             var strategy = GetTypeSerializationStrategy(instance.GetType());
 
-            var result_el = strategy.Serialize(instance, this);
+            var result_el = strategy.Serialize(instance, this, rootElementName);
 
             return result_el;
         }

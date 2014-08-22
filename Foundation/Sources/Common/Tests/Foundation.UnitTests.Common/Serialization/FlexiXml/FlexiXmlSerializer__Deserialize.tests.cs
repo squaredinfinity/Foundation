@@ -110,6 +110,41 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         }
 
         [TestMethod]
+        public void Bug001__ChildElementNamesWrong()
+        {
+            // read-only collection has a member DefaultItem
+            // it should be serialized as:
+            //
+            // <root>
+            //  <root.items>
+            //      <items.defaultitem>..
+            //
+            // instead is serialzied as:
+            //
+            // <root>
+            //  <root.items>
+            //      <root.items.defaultitem>
+
+            var root = new Root();
+            (root.CollectionReadOnlyPropertyCreatedInConstructor as CollectionItemCollection).StringProperty = "string value 1";
+            (root.CollectionReadOnlyPropertyCreatedInConstructor as CollectionItemCollection).DefaultItem = 
+                new CollectionItem() { IntProperty = 13, StringProperty = "07" };
+            
+            var s = new FlexiXmlSerializer();
+
+            var xml = s.Serialize(root);
+
+            Assert.IsNotNull(xml);
+
+            // there should be no elements with more than 1 '.' in the name
+
+            foreach(var el in xml.Descendants())
+            {
+                Assert.IsTrue(el.Name.LocalName.Count(c => c == '.') <= 1);
+            }
+        }
+
+        [TestMethod]
         public void CanDeserializeSerializedTypes()
         {
             var n = LinkedListNode.CreateDefaultTestHierarchy();

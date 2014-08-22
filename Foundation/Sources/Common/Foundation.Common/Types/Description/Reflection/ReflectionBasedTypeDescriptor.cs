@@ -121,7 +121,7 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 
                 var member_type = f.FieldType;
 
-                if (!member_type.IsPublic)
+                if (!member_type.IsPublic && !member_type.IsNestedPublic)
                     continue;
 
                 if(!member_type.IsValueType)
@@ -163,7 +163,7 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 
                 var member_type = p.PropertyType;
 
-                if (!member_type.IsPublic)
+                if (!member_type.IsPublic && !member_type.IsNestedPublic)
                     continue;
 
                 if(!member_type.IsValueType)

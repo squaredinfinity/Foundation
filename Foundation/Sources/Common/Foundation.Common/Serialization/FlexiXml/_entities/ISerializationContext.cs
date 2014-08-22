@@ -40,7 +40,10 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         /// </summary>
         SerializationOptions Options { get; }
 
+        object CreateInstance(Type type, CreateInstanceContext cx);
+
         XElement Serialize(object item);
+        XElement Serialize(object memberValue, string rootElementName);
         
         /// <summary>
         /// Deserialize xml to specified target type.

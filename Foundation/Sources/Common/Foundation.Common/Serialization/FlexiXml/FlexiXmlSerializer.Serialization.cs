@@ -36,42 +36,24 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             var cx = new SerializationContext(this, DefaultTypeDescriptor, TypeResolver, options);
 
-            cx.RootElement = cx.Serialize(obj);
+            cx.RootElement = cx.Serialize(obj, rootElementName);            
 
-            if(!rootElementName.IsNullOrEmpty())
-                cx.RootElement.Name = rootElementName;
+            //# remove serialization attributes where not needed            
             
-            
+            var idNodes =
+                (from e in cx.RootElement.DescendantsAndSelf()
+                    select e);
 
-            //# remove serialization attributes where not needed
-
-            var uniqueIds = cx.Objects_InstanceIdTracker.Values.ToArray();
-
-            var areAllEntitiesUnreferenced = true;
-            List<InstanceId> referencedIds = new List<InstanceId>();
-
-            for (int i = 0; i < uniqueIds.Length; i++)
+            foreach (var node in idNodes)
             {
-                var uid = uniqueIds[i];
+                var instanceId = node.Annotation<InstanceId>();
 
-                if (uid.ReferenceCount > 0)
+                if(instanceId == null)
+                    continue;
+
+                if(instanceId.ReferenceCount == 0)
                 {
-                    referencedIds.Add(uid);
-                    areAllEntitiesUnreferenced = false;
-                }
-            }
-
-            if (areAllEntitiesUnreferenced)
-            {
-                var idNodes =
-                    (from e in cx.RootElement.DescendantsAndSelf()
-                     from a in e.Attributes()
-                     where a.Name == options.UniqueIdAttributeName
-                     select a);
-
-                foreach (var idAttrib in idNodes)
-                {
-                    idAttrib.Remove();
+                    node.Attribute(options.UniqueIdAttributeName).Remove();
                 }
             }
 

@@ -15,6 +15,51 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
     }
 
     [TestClass]
+    public class FlexiXmleSerializer__BugFixes
+    {
+        [TestMethod]
+        public void Bug001__ReadOnlyNonEnumerableMembersShouldNotBeSerialized() // this is now supported
+        {
+            // read-only non-enumerable members should not be serialized by default
+            // as they would be impossible to deserialize
+
+            var list = new Bug001(new Bug001_Item[] { new Bug001_Item { Number = 1 }, new Bug001_Item { Number = 2 } });
+
+            var s = new FlexiXmlSerializer();
+
+            var xml = s.Serialize(list);
+
+            var list_2 = s.Deserialize<Bug001>(xml);
+
+            //var containsFirstItemElement = 
+            //    (from e in xml.Descendants()
+            //     where e.Name.LocalName.ToLower().Contains("firstitem")
+            //     select e).Any();
+
+            //Assert.IsFalse(containsFirstItemElement);
+        }
+
+        public class Bug001_Item
+        {
+            public int Number { get; set; }
+        }
+
+        public class Bug001 : List<Bug001_Item>
+        {
+            public Bug001_Item FirstItem { get; private set; }
+
+            public Bug001() { }
+
+            public Bug001(Bug001_Item[] items)
+            {
+                this.AddRange(items);
+
+                FirstItem = items.First();
+            }
+        }
+    }
+
+    [TestClass]
     public class FlexiXmlSerialize__Serialize
     {
         [TestMethod]
@@ -62,6 +107,30 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             var xml = s.Serialize(n);
 
             Assert.IsNotNull(xml);
+        }
+
+        [TestMethod]
+        public void CanSpecifyCustomTypeInitialization()
+        {
+            var n = LinkedListNode.CreateDefaultTestHierarchy();
+
+            var s = new FlexiXml.FlexiXmlSerializer();
+
+            var xml = s.Serialize(n);
+
+            bool wasCustomInstanceCalled = false;
+
+            s.CustomCreateInstanceWith = (type, cx) =>
+                {
+                    wasCustomInstanceCalled = true;
+                    return Activator.CreateInstance(type);
+                };
+
+            var result = s.Deserialize<LinkedListNode>(xml);
+
+            Assert.IsNotNull(xml);
+            Assert.IsNotNull(result);
+            Assert.IsTrue(wasCustomInstanceCalled);
         }
 
         [TestMethod]
