@@ -10,33 +10,13 @@ using System.Xml.Linq;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
-    public interface ISerializationContext
-    {
-        ITypeDescriptor TypeDescriptor { get; }
-
-        /// <summary>
-        /// Instance of root object being serialized
-        /// </summary>
-        object RootInstance { get; }
-
-        XElement RootElement { get; }
-
-        // todo: this should not be exposed in that way
-        ConcurrentDictionary<object, InstanceId> Objects_InstanceIdTracker { get; }
-
-        ConcurrentDictionary<InstanceId, object> Objects_ById { get; }
-
-        SerializationOptions Options { get; }
-        
-        XElement Serialize(object item);
-        object Deserialize(XElement xml, Type targetType);
-    }
-
     /// <summary>
     /// Serialization Context sotres state used by serializer during serialization.
     /// </summary>
     public class SerializationContext : ISerializationContext
     {
+        public TypeResolver TypeResolver { get; private set; }
+
         IXmlSerializer Serializer { get; set; }
 
         public ITypeDescriptor TypeDescriptor { get; private set; }
@@ -76,167 +56,81 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             return Interlocked.Increment(ref LastUsedUniqueId);
         }
 
-        internal SerializationContext(IXmlSerializer serializer, ITypeDescriptor typeDescriptor, SerializationOptions options)
+        internal SerializationContext(
+            IXmlSerializer serializer, 
+            ITypeDescriptor typeDescriptor, 
+            TypeResolver typeResolver,
+            SerializationOptions options)
         {
             this.Serializer = serializer;
             this.TypeDescriptor = typeDescriptor;
+            this.TypeResolver = typeResolver;
             this.Options = options;
         }
         
         public XElement Serialize(object instance)
         {
             if (instance == null)
-                throw new ArgumentNullException("instance");
-
-            bool isNewReference = false;
-
-            //# track source reference
-            var id =
-                Objects_InstanceIdTracker.GetOrAdd(
-                instance,
-                (_) =>
-                {
-                    isNewReference = true;
-
-                    return new InstanceId(GetNextUniqueId());
-                });
-
-            var strategy = GetTypeSerializationStrategy(instance.GetType());
-            var result_el = (XElement)null;
-
-            //# source has been serialized before
-            if (!isNewReference)
             {
-                var idAttrib = new XAttribute(Options.UniqueIdReferenceAttributeName, id.Id);
+                var nullEl = new XElement("NULL");
 
-                id.IncrementReferenceCount();
+                nullEl.Add(new XAttribute(Options.NullValueAttributeName, true));
 
-                var result_el_name = strategy.ConstructElementNameForType(instance.GetType());
-                result_el = new XElement(result_el_name);
-
-                result_el.Add(idAttrib);
-
-                return result_el;
+                return nullEl;
             }
 
-            var type_cx = new TypeSerializationContext(this, null, instance);
+            var strategy = GetTypeSerializationStrategy(instance.GetType());
 
-            // todo: why pass instance here and not through context ?
-            result_el = strategy.Serialize(instance, type_cx);
-            
-            result_el.Add(new XAttribute(Options.UniqueIdAttributeName, id.Id));
+            var result_el = strategy.Serialize(instance, this);
 
             return result_el;
         }
 
-        public object Deserialize(XElement xml, Type targetType)
+        public object Deserialize(XElement xml, Type targetType, bool elementNameMayContainTargetTypeName)
         {
-            var value = (object)null;
-
-            //# Check Serialization Control Attributes
-            
-            // ID REF Attribute is used to indicate that this element should point to the instance identified by id_ref attribute
-            
-            var id_ref_attrib = xml.Attribute(Options.UniqueIdReferenceAttributeName);
-
-            if (id_ref_attrib != null)
+            //# check NULL attribute
+            var null_attrib = xml.Attribute(Options.NullValueAttributeName);
+            if (null_attrib != null && null_attrib.Value != null && null_attrib.Value.ToLower() == "true")
             {
-                var instanceId = new InstanceId(id_ref_attrib.Value);
-
-                if (Objects_ById.TryGetValue(instanceId, out value))
-                {
-                    return value;
-                }
-                else
-                {
-                    // todo: log, this should always resolve unless serialization xml is corrupted
-                    throw new InvalidOperationException();
-                }
+                return null;
             }
 
-            if(targetType == null)
+            // todo: check if member has serialization attribute suggesting which type to deserialize to
+
+            //# try to derive member type from element name
+            var suggestedMemberTypeName = xml.Name.LocalName;
+
+            if (elementNameMayContainTargetTypeName && !string.Equals(suggestedMemberTypeName, targetType.Name))
             {
-                // try to find target type
+                //# try to find type with suggested name
+
+                var typeCandidate =
+                    TypeResolver.ResolveType(
+                    suggestedMemberTypeName,
+                    ignoreCase: true,
+                    baseTypes: new Type[] { targetType });
+
+                if (typeCandidate != null)
+                {
+                    targetType = typeCandidate;
+                }
             }
 
             var strategy = GetTypeSerializationStrategy(targetType);
 
-            var cx = new TypeSerializationContext(this, xml, currentInstance: null);
+            return strategy.Deserialize(xml, targetType, this);
+        }
 
-            var targetTypeDescription = TypeDescriptor.DescribeType(targetType);
+        public void Deserialize(XElement xml, object target)
+        {
+            var strategy = GetTypeSerializationStrategy(target.GetType());
 
-            var targetInstance = targetTypeDescription.CreateInstance();
-
-            //# keep track of target instance for future use
-            var id_attrib = xml.Attribute(Options.UniqueIdAttributeName);
-
-            if (id_attrib != null)
-            {
-                var instanceId = new InstanceId(id_attrib.Value);
-
-                if (!cx.SerializationContext.Objects_ById.TryAdd(instanceId, targetInstance))
-                {
-                    // todo: log, this is most likely xml corruption (two elements with same id)
-                    throw new Exception("Unable to update instance reference. Same Instance Id already exists.");
-                }
-            }
-
-            strategy.Deserialize(xml, targetInstance, cx);
-
-            return targetInstance;
+            strategy.Deserialize(xml, target, this);
         }
 
         public ITypeSerializationStrategy GetTypeSerializationStrategy(Type type)
         {
             return Serializer.GetTypeSerializationStrategy(type);
-        }
-
-    }
-    
-    public interface ITypeSerializationContext
-    {
-        SerializationOptions Options { get; }
-        ISerializationContext SerializationContext { get; }
-        object CurrentInstance { get; }
-        XElement CurrentElement { get; }
-    }
-
-    public class TypeSerializationContext : ITypeSerializationContext
-    {
-        public object CurrentInstance { get; private set; }
-        public XElement CurrentElement { get; private set; }
-
-        public SerializationOptions Options { get; private set; }
-        public ISerializationContext SerializationContext { get; private set; }
-
-        internal TypeSerializationContext(ISerializationContext serializationContext, XElement currentElement, object currentInstance)
-        {
-            this.SerializationContext = serializationContext;
-            this.CurrentElement = currentElement;
-            this.CurrentInstance = currentInstance;
-
-            this.Options = SerializationContext.Options;
-        }
-    }
-
-    public interface ITypePartSerializationContext
-    {
-        SerializationOptions Options { get; }
-        ITypeSerializationContext TypeSerializationContext { get; }
-        ISerializationContext SerializationContext { get; }
-    }
-
-    public class TypePartSerializationContext : ITypePartSerializationContext
-    {
-        public SerializationOptions Options { get; private set; }
-        public ISerializationContext SerializationContext { get; private set; }
-        public ITypeSerializationContext TypeSerializationContext { get; private set; }
-
-        internal TypePartSerializationContext(ITypeSerializationContext typeSerializationContext)
-        {
-            this.TypeSerializationContext = typeSerializationContext;
-            this.SerializationContext = TypeSerializationContext.SerializationContext;
-            this.Options = TypeSerializationContext.SerializationContext.Options;
         }
     }
 }

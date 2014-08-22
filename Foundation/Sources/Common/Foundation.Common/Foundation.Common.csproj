@@ -125,6 +125,7 @@
     <Compile Include="Serialization\FlexiXml\_entities\CreateInstanceContext.cs" />
     <Compile Include="Serialization\FlexiXml\_entities\DeserializationContext.cs" />
     <Compile Include="Serialization\FlexiXml\_entities\InstanceId.cs" />
+    <Compile Include="Serialization\FlexiXml\_entities\ISerializationContext.cs" />
     <Compile Include="Serialization\FlexiXml\_entities\SerializationContext.cs" />
     <Compile Include="Serialization\FlexiXml\_entities\SerializationOptions.cs" />
     <Compile Include="Threading\ILock.cs" />

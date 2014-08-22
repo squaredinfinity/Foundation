@@ -74,26 +74,6 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         }
 
         [TestMethod]
-        public void ChildElementsCanBeUsedToMapProperties()
-        {
-            var xml =
-                Assembly.GetExecutingAssembly()
-                .GetManifestResourceStream(@"SquaredInfinity.Foundation.Serialization.FlexiXml.Resources.Deserialization.ChildElementsCanBeUsedToMapProperties.xml")
-                .ReadToEnd();
-
-            var s = new FlexiXmlSerializer();
-
-            var root = s.Deserialize<Root>(xml);
-
-            Assert.IsNotNull(root);
-
-            Assert.AreEqual("string value 1", root.StringProperty);
-            Assert.AreEqual(13, root.IntProperty);
-            Assert.AreEqual(14, root.NullableIntProperty);
-            Assert.AreEqual(new Guid("9763C96B-5AC4-4ACA-AE4E-5D71EDDBE0DD"), root.GuidProperty);
-        }
-
-        [TestMethod]
         public void CanDeserializeCollections()
         {
             var xml =

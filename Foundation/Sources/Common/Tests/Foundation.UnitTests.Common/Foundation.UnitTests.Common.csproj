@@ -158,11 +158,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Serialization\FlexiXml\Resources\Deserialization\ChildElementsCanBeUsedToMapProperties.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Serialization\FlexiXml\Resources\Deserialization\collection_tests.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>

@@ -260,9 +260,11 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\FlexiXmlSerializer.Deserialization.cs">
       <Link>Serialization\FlexiXml\FlexiXmlSerializer.Deserialization.cs</Link>
+      <DependentUpon>FlexiXmlSerializer.cs</DependentUpon>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\FlexiXmlSerializer.Serialization.cs">
       <Link>Serialization\FlexiXml\FlexiXmlSerializer.Serialization.cs</Link>
+      <DependentUpon>FlexiXmlSerializer.cs</DependentUpon>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\FlexiXmlSerializer.TypeSerializationStrategiesConcurrentDictionary.cs">
       <Link>Serialization\FlexiXml\FlexiXmlSerializer.TypeSerializationStrategiesConcurrentDictionary.cs</Link>
@@ -278,6 +280,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\_entities\InstanceId.cs">
       <Link>Serialization\FlexiXml\_entities\InstanceId.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\_entities\ISerializationContext.cs">
+      <Link>Serialization\FlexiXml\_entities\ISerializationContext.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\_entities\SerializationContext.cs">
       <Link>Serialization\FlexiXml\_entities\SerializationContext.cs</Link>

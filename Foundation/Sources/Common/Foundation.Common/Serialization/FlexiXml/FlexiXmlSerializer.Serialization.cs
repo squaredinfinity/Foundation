@@ -34,7 +34,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             var objType = obj.GetType();
 
-            var cx = new SerializationContext(this, DefaultTypeDescriptor, options);
+            var cx = new SerializationContext(this, DefaultTypeDescriptor, TypeResolver, options);
 
             cx.RootElement = cx.Serialize(obj);
 
@@ -42,6 +42,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 cx.RootElement.Name = rootElementName;
             
             
+
             //# remove serialization attributes where not needed
 
             var uniqueIds = cx.Objects_InstanceIdTracker.Values.ToArray();

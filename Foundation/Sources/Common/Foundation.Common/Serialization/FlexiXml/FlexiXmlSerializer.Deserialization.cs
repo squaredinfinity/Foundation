@@ -49,11 +49,11 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             if (options == null)
                 options = new SerializationOptions();
 
-            var cx = new SerializationContext(this, DefaultTypeDescriptor, options);
+            var cx = new SerializationContext(this, DefaultTypeDescriptor, TypeResolver, options);
 
             var type = typeof(T);
 
-            var root = cx.Deserialize(xml, type);
+            var root = cx.Deserialize(xml, type, elementNameMayContainTargetTypeName: true);
             
             return (T)root;
         }

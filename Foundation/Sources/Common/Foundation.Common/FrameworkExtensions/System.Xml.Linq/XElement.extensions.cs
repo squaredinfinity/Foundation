@@ -31,7 +31,24 @@ namespace SquaredInfinity.Foundation.Extensions
         /// <returns></returns>
         public static XElement FindAttachedElement(this XElement element, string name, bool isCaseSensitive = true)
         {
-            var nameWithDot = "." + name;
+            var parentName = element.Name.LocalName;
+
+            //# sanitize parent name
+            //  parent may be an attached element itself
+            //
+            //  e.g:
+            //      <root>
+            //          <root.Member>
+            //              <Member.Value> -- it's parent is an attached element
+            //              ...
+
+            var dotPosition = parentName.LastIndexOf('.');
+            if(dotPosition > 0)
+            {
+                parentName = parentName.Substring(dotPosition + 1); // +1 to remove '.' too
+            }
+
+            var childNameWithDot = "." + name;
 
             var stringComp = StringComparison.InvariantCulture;
 
@@ -40,7 +57,7 @@ namespace SquaredInfinity.Foundation.Extensions
 
             var result =
                 (from el in element.Elements()
-                 where el.Name.LocalName.StartsWith(element.Name.LocalName, stringComp) && el.Name.LocalName.EndsWith(nameWithDot, stringComp)
+                 where el.Name.LocalName.StartsWith(parentName, stringComp) && el.Name.LocalName.EndsWith(childNameWithDot, stringComp)
                  select el);
 
             return result.FirstOrDefault();
@@ -132,13 +149,20 @@ namespace SquaredInfinity.Foundation.Extensions
         {
             StringBuilder result = new StringBuilder();
 
-            var textNodes = from n in xElement.Nodes()
+            var textNodes = (from n in xElement.Nodes()
                             where n.NodeType == System.Xml.XmlNodeType.Text
-                            select n as XText;
+                            select n as XText).ToArray();
 
-            foreach (var tn in textNodes)
+            if (textNodes.Length == 1)
+                result.Append(textNodes[0].Value);
+            else
             {
-                result.AppendLine(tn.Value);
+                for (int i = 0; i < textNodes.Length; i++)
+                {
+                    var tn = textNodes[i];
+
+                    result.AppendLine(tn.Value);
+                }
             }
 
             return result.ToString();
