@@ -1,14 +1,14 @@
-﻿<xml>
-	<repository>
-		<formatters>
+﻿<config>
+	<config.repository>
+		<repository.formatters>
 			<genericFormatter name="body"
                         content="content_body" />
 			<customFormatter name="subject" 
                        content="content_subject" />
-		</formatters>
-	</repository>
+		</repository.formatters>
+	</config.repository>
 
-	<emails>
+	<config.emails>
     <!-- use attribute to set properties -->
 		<email bodyformatter.ref="body" 
            subjectformatter.ref="subject" />
@@ -19,5 +19,5 @@
 			<email.subjectformatter ref="subject" />
 		</email>
     
-	</emails>
-</xml>
+	</config.emails>
+</config>

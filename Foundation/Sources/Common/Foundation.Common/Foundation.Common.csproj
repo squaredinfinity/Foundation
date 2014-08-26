@@ -56,6 +56,8 @@
     <Compile Include="CommandHandlerEventArgs_T.cs" />
     <Compile Include="CompositeComparer_T.cs" />
     <Compile Include="DateTimeContext.cs" />
+    <Compile Include="IdentityComparer.cs" />
+    <Compile Include="IIdentityEquatable.cs" />
     <Compile Include="InternalTrace.Foundation.cs" />
     <Compile Include="InternalTrace.cs" />
     <Compile Include="Direction.cs" />

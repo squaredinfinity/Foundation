@@ -135,6 +135,27 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             if (!member.CanGetValue)
                 return false;
 
+            // if member is read-only, serialize it only if it's enumerable and not IReadOnlyList or IReadOnlyCollection
+            if (!member.CanSetValue)
+            {
+                if (!typeof(IEnumerable).IsAssignableFrom(member.MemberType.Type))
+                    return false;
+
+                if (member.MemberType.Type.IsGenericType)
+                {
+                    var genericTypeDefinition = member.MemberType.Type.GetGenericTypeDefinition();
+
+                    if (genericTypeDefinition == typeof(IReadOnlyCollection<>))
+                        return false;
+
+                    if (genericTypeDefinition == typeof(IReadOnlyList<>))
+                        return false;
+
+                    if (genericTypeDefinition == typeof(IReadOnlyDictionary<,>))
+                        return false;
+                }
+            }
+
             // read-only members which are not enumerable should not be serialized
             // because they could not be deserialized after
             // for read-only enumerable members there's always a chance th
@@ -240,7 +261,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 // value is null
                 //
                 // => create wrapper element
-                // => add xsi:nil attribute to the element
+                // => add serialization:null attribute to the element
 
                 var wrapperElementName = parentElement.Name + "." + strategy.MemberDescription.Name;
                 var wrapper = new XElement(wrapperElementName);
@@ -279,15 +300,15 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                 var memberType = strategy.MemberDescription.MemberType.Type;
 
-                bool canCreateInstance = memberType.IsClass && !memberType.IsAbstract; // should probably check for public constructor (?)
+                //bool canCreateInstance = memberType.IsClass && !memberType.IsAbstract; // should probably check for public constructor (?)
 
-                if(!strategy.CanSetValue() && canCreateInstance)
-                {
-                    var childEl = cx.Serialize(memberValue, wrapperElementName);
+                //if(!strategy.CanSetValue() && !canCreateInstance)
+                //{
+                //    var childEl = cx.Serialize(memberValue, wrapperElementName);
 
-                    return childEl;
-                }
-                else
+                //    return childEl;
+                //}
+                //else
                 {
                     var wrapperElement = new XElement(wrapperElementName);
 
@@ -368,25 +389,32 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 //      <Item2 />
                 //  </Root.Items>
 
-                if (!strategy.CanSetValue())
-                {
-                    if (memberAttachedProeprtyInnerText.IsNullOrEmpty())
-                    {
-                        if (memberInstance != null && memberInstance is IEnumerable)
-                        {
-                            cx.Deserialize(memberAttachedProperty, memberInstance);
-                            return true;
-                        }
+                //if (!strategy.CanSetValue())
+                //{
+                //    if (memberAttachedProeprtyInnerText.IsNullOrEmpty())
+                //    {
+                //        bool canCreateInstance = 
+                //            strategy.MemberDescription.MemberType.Type.IsClass && 
+                //            !strategy.MemberDescription.MemberType.Type.IsAbstract; // should probably check for public constructor (?)
 
-                        if (memberInstance == null)
-                        {
-                            // we cannot assign deserialized instance
-                            // but we still should deserialize it in case it is being referenced somewhere else
-                            memberInstance = cx.Deserialize(memberAttachedProperty, strategy.MemberDescription.MemberType.Type, elementNameMayContainTargetTypeName: true);
-                            return true;
-                        }
-                    }
-                }
+                //        if (!canCreateInstance)
+                //        {
+                //            if (memberInstance != null && memberInstance is IEnumerable)
+                //            {
+                //                cx.Deserialize(memberAttachedProperty, memberInstance);
+                //                return true;
+                //            }
+
+                //            if (memberInstance == null)
+                //            {
+                //                // we cannot assign deserialized instance
+                //                // but we still should deserialize it in case it is being referenced somewhere else
+                //                memberInstance = cx.Deserialize(memberAttachedProperty, strategy.MemberDescription.MemberType.Type, elementNameMayContainTargetTypeName: true);
+                //                return true;
+                //            }
+                //        }
+                //    }
+                //}
 
                 //# deserialize from attached element (WRAPPER)
                 //      - there must be exactly one child element
@@ -408,6 +436,10 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                     {
                         if (memberInstance == null)
                         {
+                            // we cannot assign deserialized instance
+                            // but we still should deserialize it in case it is being referenced somewhere else
+                            memberInstance = cx.Deserialize(memberElement, memberTypeCandidate, elementNameMayContainTargetTypeName: true);
+                            return true;
                             // todo: log warning
                         }
                         else

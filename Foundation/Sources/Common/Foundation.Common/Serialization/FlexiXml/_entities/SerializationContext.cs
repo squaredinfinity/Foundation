@@ -126,6 +126,18 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 return null;
             }
 
+            //# check if has only one child with NULL attribute (i.e. wrapped element signifies null)
+            if(xml.Descendants().Count() == 1)
+            {
+                var nullElementCandidate = xml.Descendants().Single();
+
+                null_attrib = nullElementCandidate.Attribute(Options.NullValueAttributeName);
+                if (null_attrib != null && null_attrib.Value != null && null_attrib.Value.ToLower() == "true")
+                {
+                    return null;
+                }
+            }
+
             // todo: check if member has serialization attribute suggesting which type to deserialize to
 
             //# try to derive member type from element name

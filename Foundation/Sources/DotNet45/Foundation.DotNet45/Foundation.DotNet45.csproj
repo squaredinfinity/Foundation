@@ -189,8 +189,14 @@
     <Compile Include="..\..\Common\Foundation.Common\IDateTimeContext.cs">
       <Link>IDateTimeContext.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\IdentityComparer.cs">
+      <Link>IdentityComparer.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\IFreezable.cs">
       <Link>IFreezable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\IIdentityEquatable.cs">
+      <Link>IIdentityEquatable.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\ILGeneration\IL.cs">
       <Link>ILGeneration\IL.cs</Link>

@@ -8,6 +8,11 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml.Repository._entities
 {
     public class Repository
     {
-        public List<IFormatter> Formatters { get; set; }
+        public IList<IFormatter> Formatters { get; private set; }
+
+        public Repository()
+        {
+            Formatters = new List<IFormatter>();
+        }
     }
 }

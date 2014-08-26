@@ -1,10 +1,12 @@
 ﻿<root>
   <!-- Collection instance created in a constructor -->
-  <root.CollectionReadOnlyPropertyCreatedInConstructor intProperty="13">
-      <CollectionReadOnlyPropertyCreatedInConstructor.StringProperty>string value 1</CollectionReadOnlyPropertyCreatedInConstructor.StringProperty>
+  <root.CollectionReadOnlyPropertyCreatedInConstructor>
+    <CollectionItemCollection intProperty="13">
+      <CollectionItemCollection.StringProperty>string value 1</CollectionItemCollection.StringProperty>
       <CollectionItem intProperty="14" />
       <CollectionItem intProperty="15" />
       <CollectionItem intProperty="16" />
+    </CollectionItemCollection>
   </root.CollectionReadOnlyPropertyCreatedInConstructor>
 
   <!-- Wrapped in element -->

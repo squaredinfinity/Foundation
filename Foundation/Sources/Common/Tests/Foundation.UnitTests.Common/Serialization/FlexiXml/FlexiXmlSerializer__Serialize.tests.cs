@@ -146,7 +146,10 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             Assert.IsNotNull(xml);
 
-            Assert.IsTrue(xml.Descendants().Count() == 3, "Not all collection items have been serialized");
+            Assert.IsNotNull(xml.Element("TypeWithCollectionReadOnlyProperty.Items"));
+            Assert.IsTrue(
+                xml.Element("TypeWithCollectionReadOnlyProperty.Items").Descendants().Count() == 3, 
+                "Not all collection items have been serialized");
         }
 
         [TestMethod]
