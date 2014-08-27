@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using SquaredInfinity.Foundation.Extensions;
 using SquaredInfinity.Foundation.Diagnostics;
+using System.Collections;
+using System.Threading;
 
 namespace SquaredInfinity.Foundation.Data
 {
@@ -98,21 +100,18 @@ namespace SquaredInfinity.Foundation.Data
             IEnumerable<TParameter> parameters,
             Func<TDataReader, TEntity> createEntity)
         {
-            using (var connection = connectionFactory.GetNewConnection())
-            {
-                connection.Open();
-
-                using (var command = PrepareCommand(connection, CommandType.StoredProcedure, procName, parameters))
+            var iterator = new Iterator<TEntity>(() =>
                 {
-                    using (var reader = (TDataReader)command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            yield return createEntity(reader);
-                        }
-                    }
-                }
-            }
+                    return
+                        new CommandResultEnumerator<TConnection, TCommand, TDataReader, TParameter, TEntity>(
+                            this,
+                            connectionFactory,
+                            procName,
+                            parameters,
+                            createEntity);
+                });
+
+            return iterator;
         }
 
         public IEnumerable<Dictionary<string, object>> ExecuteReader(
@@ -161,28 +160,28 @@ namespace SquaredInfinity.Foundation.Data
             string procName,
             IEnumerable<TParameter> parameters)
         {
-            using (var connection = connectionFactory.GetNewConnection())
+            var iterator = new Iterator<Dictionary<string, object>>(() =>
             {
-                connection.Open();
-
-                using (var command = PrepareCommand(connection, CommandType.StoredProcedure, procName, parameters))
-                {
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
+                return
+                    new CommandResultEnumerator<TConnection, TCommand, TDataReader, TParameter, Dictionary<string, object>>(
+                        this,
+                        connectionFactory,
+                        procName,
+                        parameters,
+                        (r) =>
                         {
-                            var result = new Dictionary<string, object>(capacity: reader.FieldCount);
+                            var result = new Dictionary<string, object>(capacity: r.FieldCount);
 
-                            for (int i = 0; i < reader.FieldCount; i++)
+                            for (int i = 0; i < r.FieldCount; i++)
                             {
-                                result.Add(reader.GetName(i), reader[i]);
+                                result.Add(r.GetName(i), r[i]);
                             }
 
-                            yield return result;
-                        }
-                    }
-                }
-            }
+                            return result;
+                        });
+            });
+
+            return iterator;
         }
 
         public Dictionary<string, object> ExecuteReaderSingleRow(string procName)
@@ -225,38 +224,12 @@ namespace SquaredInfinity.Foundation.Data
             string procName,
             IEnumerable<TParameter> parameters)
         {
-            var result = (Dictionary<string, object>)null;
-
-            using (var connection = connectionFactory.GetNewConnection())
-            {
-                connection.Open();
-
-                using (var command = PrepareCommand(connection, CommandType.StoredProcedure, procName, parameters))
-                {
-                    using (var reader = command.ExecuteReader(CommandBehavior.SingleRow))
-                    {
-                        if (reader.Read())
-                        {
-                            result = new Dictionary<string, object>(capacity: reader.FieldCount);
-
-                            for (int i = 0; i < reader.FieldCount; i++)
-                            {
-                                result.Add(reader.GetName(i), reader[i]);
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (result == null)
-                result = new Dictionary<string, object>();
-
-            return result;
+            return ExecuteReaderInternal(connectionFactory, procName, parameters).FirstOrDefault();
         }
 
         public void Execute(string procName)
         {
-            Execute(ConnectionFactory, procName);
+            ExecuteNonQuery(ConnectionFactory, procName);
         }
 
         public Task ExecuteAsync(string procName)
@@ -264,26 +237,39 @@ namespace SquaredInfinity.Foundation.Data
             return Task.Factory.StartNew(() => Execute(procName));
         }
 
-        public void Execute(string procName, params TParameter[] parameters)
+        public void ExecuteNonQuery(string procName, params TParameter[] parameters)
         {
-            Execute(ConnectionFactory, procName, parameters);
+            ExecuteNonQuery(ConnectionFactory, procName, parameters);
         }
 
-        public Task ExecuteAsync(string procName, params TParameter[] parameters)
+        public Task ExecuteNonQueryAsync(string procName, params TParameter[] parameters)
         {
-            return Task.Factory.StartNew(() => Execute(procName, parameters));
+            return Task.Factory.StartNew(() => ExecuteNonQuery(procName, parameters));
         }
 
-        void Execute(ConnectionFactory<TConnection> connectionFactory, string procName, params TParameter[] parameters)
+        void ExecuteNonQuery(ConnectionFactory<TConnection> connectionFactory, string procName, params TParameter[] parameters)
         {
-            using (var connection = connectionFactory.GetNewConnection())
+            try
             {
-                connection.Open();
-
-                using (var command = PrepareCommand(connection, CommandType.StoredProcedure, procName, parameters.EmptyIfNull()))
+                using (var connection = connectionFactory.GetNewConnection())
                 {
-                    command.ExecuteNonQuery();
+                    connection.Open();
+
+                    using (var command = PrepareCommand(connection, CommandType.StoredProcedure, procName, parameters.EmptyIfNull()))
+                    {
+                        command.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+                var ex_new = new Exception("Failed during command execution.", ex);
+
+                ex_new.TryAddContextData("connection factory", () => connectionFactory.ToString());
+                ex_new.TryAddContextData("command", () => procName);
+                ex_new.TryAddContextData("parameters", () => parameters);
+
+                throw ex_new;
             }
         }
 
@@ -377,7 +363,7 @@ namespace SquaredInfinity.Foundation.Data
             }
         }
 
-        protected virtual TCommand PrepareCommand(TConnection connection, CommandType commandType, string commandText, IEnumerable<TParameter> parameters)
+        protected internal virtual TCommand PrepareCommand(TConnection connection, CommandType commandType, string commandText, IEnumerable<TParameter> parameters)
         {
             var command = connection.CreateCommand();
 
@@ -487,6 +473,144 @@ namespace SquaredInfinity.Foundation.Data
                         targetType.Name));
 
                 // todo: add context data AssemblyQName
+            }
+        }
+    }
+
+    class CommandResultIterator<TEntity> : IEnumerable<TEntity>
+    {
+        readonly Func<IEnumerator<TEntity>> GetEnumeratorFunc;
+
+        public CommandResultIterator(Func<IEnumerator<TEntity>> getEnumerator)
+        {
+            this.GetEnumeratorFunc = getEnumerator;
+        }
+        public IEnumerator<TEntity> GetEnumerator()
+        {
+            return GetEnumeratorFunc();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumeratorFunc();
+        }
+    }
+
+    class Iterator<TSource> : 
+        IEnumerable<TSource>, 
+        IEnumerable
+    {        
+        protected Func<IEnumerator<TSource>> CreateNewEnumerator { get; private set; }
+
+        public Iterator(Func<IEnumerator<TSource>> createNewEnumerator)
+        {
+            this.CreateNewEnumerator = createNewEnumerator;
+        }
+
+        public IEnumerator<TSource> GetEnumerator()
+        {
+            return CreateNewEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return (IEnumerator)this.GetEnumerator();
+        }
+    }
+
+    class CommandResultEnumerator<TConnection, TCommand, TDataReader, TParameter, TEntity> : EnumeratorBase<TEntity>
+        where TConnection : DbConnection, new()
+        where TCommand : DbCommand
+        where TParameter : DbParameter
+        where TDataReader : DbDataReader
+    {
+        protected ConnectionFactory<TConnection> ConnectionFactory { get; private set; }
+        protected TConnection Connection { get; private set; }
+        protected string CommandText { get; private set; }
+        protected IEnumerable<TParameter> Parameters { get; private set; }
+        protected Func<TDataReader, TEntity> CreateEntity { get; private set; }
+        protected TCommand Command { get; private set; }
+        protected TDataReader DataReader { get; private set; }
+
+        public CommandResultEnumerator(
+            DataAccessService<TConnection, TCommand, TParameter, TDataReader> dataAccessService,
+            ConnectionFactory<TConnection> connectionFactory,
+            string commandText,
+            IEnumerable<TParameter> parameters,
+            Func<TDataReader, TEntity> createEntity)
+        {
+            try
+            {
+                this.ConnectionFactory = connectionFactory;
+                this.CommandText = commandText;
+                this.Parameters = parameters;
+                this.CreateEntity = createEntity;
+
+                this.Connection = connectionFactory.GetNewConnection();
+
+                Connection.Open();
+
+                this.Command = dataAccessService.PrepareCommand(Connection, CommandType.StoredProcedure, CommandText, parameters);
+
+                this.DataReader = (TDataReader) Command.ExecuteReader();
+            }
+            catch(Exception ex)
+            {
+                var ex_new = new Exception("Unable to intitialize command.", ex);
+
+                ex_new.TryAddContextData("connection factory", () => connectionFactory.ToString());
+                ex_new.TryAddContextData("command", () => commandText);
+                ex_new.TryAddContextData("parameters", () => parameters);
+                ex_new.TryAddContextData("connection", () => Connection);
+
+                throw ex_new;
+            }
+        }
+
+        public override void Reset()
+        {
+            throw new NotSupportedException();
+        }
+
+        public override bool MoveNext()
+        {
+            try
+            {
+                if (DataReader.Read())
+                {
+                    Current = CreateEntity(DataReader);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch(Exception ex)
+            {
+                var ex_new = new Exception("Failed during command execution.", ex);
+
+                ex_new.TryAddContextData("connection factory", () => ConnectionFactory.ToString());
+                ex_new.TryAddContextData("command", () => CommandText);
+                ex_new.TryAddContextData("parameters", () => Parameters);
+                ex_new.TryAddContextData("connection", () => Connection);
+
+                throw ex_new;
+            }
+        }
+
+        protected override void DisposeManagedResources()
+        {
+ 	         if(DataReader != null)
+             {
+                 DataReader.Dispose();
+                 DataReader = null;
+             }
+
+            if(Connection != null)
+            {
+                Connection.Dispose();
+                Connection = null;
             }
         }
     }

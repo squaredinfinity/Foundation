@@ -84,6 +84,9 @@
     <Compile Include="..\..\Common\Foundation.Common\Direction.cs">
       <Link>Direction.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\EnumeratorBase.cs">
+      <Link>EnumeratorBase.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\Microsoft.Win32\RegistryKey.extensions.cs">
       <Link>FrameworkExtensions\Microsoft.Win32\RegistryKey.extensions.cs</Link>
     </Compile>
@@ -388,6 +391,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Types\Description\Reflection\ReflectionBasedTypeMemberDescription.cs">
       <Link>Types\Description\Reflection\ReflectionBasedTypeMemberDescription.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Types\Description\TypeDescriptor.cs">
+      <Link>TypeDescriptor.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Types\Description\TypeMemberDescriptionCollection.cs">
       <Link>Types\Description\TypeMemberDescriptionCollection.cs</Link>

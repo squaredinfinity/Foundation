@@ -56,6 +56,7 @@
     <Compile Include="CommandHandlerEventArgs_T.cs" />
     <Compile Include="CompositeComparer_T.cs" />
     <Compile Include="DateTimeContext.cs" />
+    <Compile Include="EnumeratorBase.cs" />
     <Compile Include="IdentityComparer.cs" />
     <Compile Include="IIdentityEquatable.cs" />
     <Compile Include="InternalTrace.Foundation.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="Types\Description\ITypeMemberDescriptionCollection.cs" />
     <Compile Include="Types\Description\Reflection\ReflectionBasedEnumerableTypeDescription.cs" />
     <Compile Include="Types\Description\Reflection\ReflectionBasedTypeDescription.cs" />
+    <Compile Include="Types\Description\TypeDescriptor.cs" />
     <Compile Include="Types\Description\TypeMemberDescriptionCollection.cs" />
     <Compile Include="Types\Mapping\TypeMapper.TypeMappingStrategiesConcurrentDictionary.cs" />
     <Compile Include="Types\Mapping\ValueConverting\PreserveOriginalValueConverter.cs" />

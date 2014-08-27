@@ -118,9 +118,6 @@
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\DiagnosticLogger.static.cs">
       <Link>DiagnosticLogger.static.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\ExceptionContextData.cs">
-      <Link>ExceptionContextData.cs</Link>
-    </Compile>
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Filters\Filter.cs">
       <Link>Filters\Filter.cs</Link>
     </Compile>

@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Data
 {
@@ -25,6 +26,11 @@ namespace SquaredInfinity.Foundation.Data
             connection.ConnectionString = ConnectionString;
 
             return connection;
+        }
+
+        public override string ToString()
+        {
+            return ConnectionString.ToString(valueWhenNull: "NULL");
         }
     }
 }
