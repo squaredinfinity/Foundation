@@ -180,5 +180,27 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             Assert.AreEqual(2, deserialized[2]);
             Assert.AreEqual(4, deserialized[4]);
         }
+
+        [TestMethod]
+        public void CanSelectivlyOptOutMembersFromSerialization()
+        {
+            var x = new SimpleSerializableType
+            {
+                GuidProperty = Guid.NewGuid(),
+                IntProperty = 13,
+                NullableIntProperty = 14,
+                StringProperty = "text"
+            };
+
+            var s = new FlexiXmlSerializer();
+
+            s.GetOrCreateTypeSerializationStrategy<SimpleSerializableType>()
+                .IgnoreMember(_ => _.IntProperty);
+
+            var xml = s.Serialize(x);
+
+            Assert.IsNotNull(xml);
+            Assert.IsNull(xml.Attribute("IntProperty"));
+        }
     }
 }
