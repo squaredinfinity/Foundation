@@ -53,36 +53,43 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ChainOfCommand\TryHandle.tests.cs" />
+    <Compile Include="FrameworkExtensions\System.Collections\IEnumerable.ToNullIfEmpty.cs" />
+    <Compile Include="FrameworkExtensions\System.Collections\IEnumerable.TreeTraversal.cs" />
+    <Compile Include="FrameworkExtensions\System.Collections\IEnumerable.ToList.cs" />
     <Compile Include="FrameworkExtensions\System.Xml.Linq\XElement\GetAttributeValue.tests.cs" />
     <Compile Include="FrameworkExtensions\System.Xml.Linq\XObject\GetNameAndLocationForDebugging.tests.cs" />
-    <Compile Include="FrameworkExtensions\System\Double\AreClose.tests.cs" />
-    <Compile Include="FrameworkExtensions\System\Object\IsIn.tests.cs" />
-    <Compile Include="FrameworkExtensions\System\String\ExpandTabs.tests.cs">
+    <Compile Include="FrameworkExtensions\System\DateTime.cs" />
+    <Compile Include="FrameworkExtensions\System\DateTime.BeginingOfMonth.cs" />
+    <Compile Include="FrameworkExtensions\System\DateTime.BeginingOfWeek.cs" />
+    <Compile Include="FrameworkExtensions\System\DateTime.UnixEpochBegining.cs" />
+    <Compile Include="FrameworkExtensions\System\Double.AreClose.cs" />
+    <Compile Include="FrameworkExtensions\System\Object.IsIn.cs" />
+    <Compile Include="FrameworkExtensions\System\String.ExpandTabs.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FrameworkExtensions\System\String\FormatWith.tests.cs">
+    <Compile Include="FrameworkExtensions\System\String.FormatWith.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FrameworkExtensions\System\String\GetLengthWithExpandedTabs.tests.cs">
+    <Compile Include="FrameworkExtensions\System\String.GetLengthWithExpandedTabs.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FrameworkExtensions\System\String\GetLines.tests.cs">
+    <Compile Include="FrameworkExtensions\System\String.GetLines.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FrameworkExtensions\System\String\IsMultiline.tests.cs">
+    <Compile Include="FrameworkExtensions\System\String.IsMultiline.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FrameworkExtensions\System\String\IsNullOrEmpty.tests.cs">
+    <Compile Include="FrameworkExtensions\System\String.IsNullOrEmpty.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FrameworkExtensions\System\String\PrefixEachLine.tests.cs">
+    <Compile Include="FrameworkExtensions\System\String.PrefixEachLine.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FrameworkExtensions\System\String\Substring.tests.cs" />
-    <Compile Include="FrameworkExtensions\System\String\ToTitleCase.tests.cs" />
-    <Compile Include="FrameworkExtensions\System\String\TrimEachLine.tests.cs" />
-    <Compile Include="FrameworkExtensions\System\Type\ImplementsInterface.tests.cs" />
-    <Compile Include="FrameworkExtensions\System\Type\IsEqualTo.tests.cs" />
+    <Compile Include="FrameworkExtensions\System\String.Substring.cs" />
+    <Compile Include="FrameworkExtensions\System\String.ToTitleCase.cs" />
+    <Compile Include="FrameworkExtensions\System\String.TrimEachLine.cs" />
+    <Compile Include="FrameworkExtensions\System\Type.ImplementsInterface.cs" />
+    <Compile Include="FrameworkExtensions\System\Type.IsEqualTo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\FlexiXml\Repository\FlexiXmlSerialzier__Repository.tests.cs" />
     <Compile Include="Serialization\FlexiXml\Repository\_entities\Configuration.cs" />
@@ -123,9 +130,7 @@
     <Compile Include="Types\Mapping\TypeMapper.Map.tests.cs" />
     <Compile Include="WeakEvent.tests.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FrameworkExtensions\System.Collections\IEnumerable\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\Foundation.Common\Foundation.Common.csproj">
       <Project>{DFEAB4E6-D02D-448B-8649-2D12BE137191}</Project>

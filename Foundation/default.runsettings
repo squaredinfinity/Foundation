@@ -13,6 +13,8 @@
               <Exclude>
                 <ModulePath>.*UnitTests.Common.dll$</ModulePath>
                 <ModulePath>.*IntegrationTests.Common.dll$</ModulePath>
+                <ModulePath>.*UITests.Common.dll$</ModulePath>
+                <ModulePath>.*Walkthrough.Common.dll$</ModulePath>
                 <ModulePath>.*Benchmarks.Common.dll$</ModulePath>
               </Exclude>
             </ModulePaths>
