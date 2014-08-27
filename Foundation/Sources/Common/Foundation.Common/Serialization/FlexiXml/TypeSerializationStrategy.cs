@@ -791,8 +791,17 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         }
 
 
-        public ITypeSerializationStrategy<T> IgnoreMember(System.Linq.Expressions.Expression<Func<object>> memberExpression)
+        public ITypeSerializationStrategy<T> IgnoreMember(System.Linq.Expressions.Expression<Func<T, object>> memberExpression)
         {
+            var memberName = memberExpression.GetAccessedMemberName();
+
+            var strategy =
+                (from s in ContentSerializationStrategies
+                 where string.Equals(s.MemberName, memberName)
+                 select s).Single();
+
+            ContentSerializationStrategies.Remove(strategy);
+
             return this;
         }
         
@@ -801,11 +810,6 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             return this;
         }
 
-
-        public ITypeSerializationStrategy<T> IgnoreMember(System.Linq.Expressions.Expression<Func<T>> memberExpression)
-        {
-            return this;
-        }
 
         public ITypeSerializationStrategy<T> SerializeMember(System.Linq.Expressions.Expression<Func<T>> memberExpression)
         {

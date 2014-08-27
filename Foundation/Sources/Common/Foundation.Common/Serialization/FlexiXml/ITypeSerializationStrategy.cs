@@ -43,7 +43,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
     {
         ITypeSerializationStrategy<T> IgnoreAllMembers();
 
-        ITypeSerializationStrategy<T> IgnoreMember(Expression<Func<T>> memberExpression);
+        ITypeSerializationStrategy<T> IgnoreMember(Expression<Func<T, object>> memberExpression);
 
         ITypeSerializationStrategy<T> ResolveReferenceWith<TypeToResolve>(Action<ReferenceResolutionContext<T, TypeToResolve>> resolveReference);
 
