@@ -49,7 +49,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             if (options == null)
                 options = new SerializationOptions();
 
-            var cx = new SerializationContext(this, DefaultTypeDescriptor, TypeResolver, options, CustomCreateInstanceWith);
+            var cx = new SerializationContext(this, TypeDescriptor, TypeResolver, options, CustomCreateInstanceWith);
 
             var type = typeof(T);
 

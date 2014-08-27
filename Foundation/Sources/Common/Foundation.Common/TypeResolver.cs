@@ -12,6 +12,13 @@ namespace SquaredInfinity.Foundation
 {
     public class TypeResolver
     {
+        public static TypeResolver Default { get; private set; }
+
+        static TypeResolver()
+        {
+            Default = new TypeResolver();
+        }
+
         readonly ConcurrentDictionary<string, List<Type>> IgnoreCaseNameToTypeCache =
             new ConcurrentDictionary<string, List<Type>>();
 

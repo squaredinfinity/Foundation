@@ -16,8 +16,8 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors.Rules
 
         public bool ConvertExpectedValueToMemberType { get; set; }
 
-        static readonly ITypeDescriptor TypeDescriptor = new ReflectionBasedTypeDescriptor();
-        static readonly TypeResolver TypeResolver = new TypeResolver();
+        static readonly ITypeDescriptor TypeDescriptor = Types.Description.TypeDescriptor.Default;
+        static readonly TypeResolver TypeResolver = TypeResolver.Default;
 
         public MemberValueRule()
         {

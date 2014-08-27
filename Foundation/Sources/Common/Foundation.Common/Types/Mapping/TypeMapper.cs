@@ -18,11 +18,43 @@ namespace SquaredInfinity.Foundation.Types.Mapping
     public partial class TypeMapper : ITypeMapper
     {
         readonly TypeMappingStrategiesConcurrentDictionary TypeMappingStrategies = new TypeMappingStrategiesConcurrentDictionary();
-        readonly TypeResolver TypeResolver = new TypeResolver();
-        readonly ITypeDescriptor TypeDescriptor = new ILBasedTypeDescriptor();
+
+
+        TypeResolver _typeResolver;
+        TypeResolver TypeResolver
+        {
+            get 
+            {
+                if (_typeResolver == null)
+                    _typeResolver = TypeResolver.Default;
+
+                return _typeResolver; 
+            }
+        }
+
+        ITypeDescriptor _typeDescriptor;
+        ITypeDescriptor TypeDescriptor
+        {
+            get
+            {
+                if (_typeDescriptor == null)
+                    _typeDescriptor = Types.Description.TypeDescriptor.Default;
+
+                return _typeDescriptor;
+            }
+
+            set
+            {
+                _typeDescriptor = value;
+            }
+        }
    
         public TypeMapper()
+        { }
+
+        public TypeMapper(ITypeDescriptor typeDescriptor)
         {
+            TypeDescriptor = typeDescriptor;
         }
 
         #region Deep Clone

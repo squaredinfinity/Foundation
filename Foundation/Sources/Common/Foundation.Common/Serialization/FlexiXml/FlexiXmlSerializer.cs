@@ -21,10 +21,43 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
         readonly TypeSerializationStrategiesConcurrentDictionary TypeSerializationStrategies =
             new TypeSerializationStrategiesConcurrentDictionary();
+        
+        TypeResolver _typeResolver;
+        TypeResolver TypeResolver
+        {
+            get
+            {
+                if (_typeResolver == null)
+                    _typeResolver = SquaredInfinity.Foundation.TypeResolver.Default;
 
-        readonly TypeResolver TypeResolver = new TypeResolver();
+                return _typeResolver;
+            }
+        }
 
-        readonly ITypeDescriptor DefaultTypeDescriptor = new ILBasedTypeDescriptor();
+        ITypeDescriptor _typeDescriptor;
+        ITypeDescriptor TypeDescriptor
+        {
+            get
+            {
+                if (_typeDescriptor == null)
+                    _typeDescriptor = Types.Description.TypeDescriptor.Default;
+
+                return _typeDescriptor;
+            }
+
+            set
+            {
+                _typeDescriptor = value;
+            }
+        }
+
+        public FlexiXmlSerializer()
+        { }
+
+        public FlexiXmlSerializer(ITypeDescriptor typeDescriptor)
+        {
+            this.TypeDescriptor = typeDescriptor;
+        }
 
         public ITypeSerializationStrategy<T> GetOrCreateTypeSerializationStrategy<T>()
         {
@@ -51,7 +84,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         ITypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T>()
         {
             return CreateDefaultTypeSerializationStrategy<T>(
-                DefaultTypeDescriptor);
+                TypeDescriptor);
         }
         
         protected virtual ITypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T>(
@@ -67,7 +100,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
         ITypeSerializationStrategy CreateDefaultTypeSerializationStrategy(Type type)
         {
-            return CreateDefaultTypeSerializationStrategy(type, DefaultTypeDescriptor);
+            return CreateDefaultTypeSerializationStrategy(type, TypeDescriptor);
         }
 
         protected virtual ITypeSerializationStrategy CreateDefaultTypeSerializationStrategy(
