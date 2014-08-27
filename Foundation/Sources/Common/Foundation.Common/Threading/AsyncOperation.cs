@@ -12,7 +12,7 @@ namespace SquaredInfinity.Foundation.Threading
     {
         bool IsCompleted { get; }
         void Wait(bool ignoreCanceledExceptions);
-        void Wait(TimeSpan timeout, bool ignoreCanceledExceptions);
+        bool Wait(TimeSpan timeout, bool ignoreCanceledExceptions);
         void Cancel();
     }
 
@@ -43,9 +43,9 @@ namespace SquaredInfinity.Foundation.Threading
             Task.Wait(CancellationTokenSource.Token, ignoreCanceledExceptions);
         }
 
-        public void Wait(TimeSpan timeout, bool ignoreCanceledExceptions)
+        public bool Wait(TimeSpan timeout, bool ignoreCanceledExceptions)
         {
-            Task.Wait((int)timeout.TotalMilliseconds, CancellationTokenSource.Token, ignoreCanceledExceptions);
+            return Task.Wait((int)timeout.TotalMilliseconds, CancellationTokenSource.Token, ignoreCanceledExceptions);
         }
 
         public void Cancel()
