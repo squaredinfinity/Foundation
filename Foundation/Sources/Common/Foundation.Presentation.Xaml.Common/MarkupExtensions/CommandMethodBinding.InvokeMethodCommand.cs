@@ -22,7 +22,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
         {
             public event EventHandler CanExecuteChanged;
 
-            readonly object TargetObject;
+            readonly WeakReference<object> TargetObjectReference;
             readonly string ExecuteMethodName;
             readonly string CanExecuteTriggerPropertyName;
 
@@ -45,7 +45,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                 string canExecutePropertyName,
                 string canExecuteTriggerPropertyName)
             {
-                TargetObject = targetObject;
+                TargetObjectReference = new WeakReference<object>(targetObject, trackResurrection: false);
                 ExecuteMethodName = executeMethodName;
                 CanExecuteTriggerPropertyName = canExecuteTriggerPropertyName;
 
@@ -139,6 +139,11 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 
             public bool CanExecute(object parameter)
             {
+                var targetObject = (object)null;
+
+                if (!TargetObjectReference.TryGetTarget(out targetObject))
+                    return false;
+
                 if(parameter == null)
                 {
                     //# parameter is null
@@ -150,14 +155,14 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                     if(CanExecuteMethodInfo_OneParameter != null 
                         && !ParameterType.IsValueType)
                     {
-                        return (bool)CanExecuteMethodInfo_OneParameter.Invoke(TargetObject, new [] { parameter });
+                        return (bool)CanExecuteMethodInfo_OneParameter.Invoke(targetObject, new[] { parameter });
                     }
 
                     if(CanExecuteMethodInfo_NoParameters != null)
-                        return (bool)CanExecuteMethodInfo_NoParameters.Invoke(TargetObject, null);
+                        return (bool)CanExecuteMethodInfo_NoParameters.Invoke(targetObject, null);
 
                     if(CanExecutePropertyInfo != null)
-                        return (bool)CanExecutePropertyInfo.GetValue(TargetObject);
+                        return (bool)CanExecutePropertyInfo.GetValue(targetObject);
                 }
                 else
                 {
@@ -169,17 +174,17 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                         //  make sure to convert to compatible type first
                         var compatibleParameterValue = parameter.Convert(ParameterType);
 
-                        return (bool)CanExecuteMethodInfo_OneParameter.Invoke(TargetObject, new[] { compatibleParameterValue });
+                        return (bool)CanExecuteMethodInfo_OneParameter.Invoke(targetObject, new[] { compatibleParameterValue });
                     }
 
                     // we can get here if xaml specifies command parameter, but can execute does not exept it
                     // todo: log information
 
                     if(CanExecuteMethodInfo_NoParameters != null)
-                        return (bool)CanExecuteMethodInfo_NoParameters.Invoke(TargetObject, null);
+                        return (bool)CanExecuteMethodInfo_NoParameters.Invoke(targetObject, null);
 
                     if(CanExecutePropertyInfo != null)
-                        return (bool)CanExecutePropertyInfo.GetValue(TargetObject);
+                        return (bool)CanExecutePropertyInfo.GetValue(targetObject);
                 }
 
                 return true;
@@ -187,6 +192,11 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 
             public void Execute(object parameter)
             {
+                var targetObject = (object)null;
+
+                if (!TargetObjectReference.TryGetTarget(out targetObject))
+                    return;
+
                 if (parameter == null)
                 {
                     // if execute accepts reference type as parameter -> execute it passing null
@@ -200,13 +210,13 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                         //  make sure to convert to compatible type first
                         var compatibleParameterValue = parameter.Convert(ParameterType);
 
-                        ExecuteMethodInfo_OneParameter.Invoke(TargetObject, new[] { compatibleParameterValue });
+                        ExecuteMethodInfo_OneParameter.Invoke(targetObject, new[] { compatibleParameterValue });
                         return;
                     }
 
                     if (ExecuteMethodInfo_NoParameters != null)
                     {
-                        ExecuteMethodInfo_NoParameters.Invoke(TargetObject, null);
+                        ExecuteMethodInfo_NoParameters.Invoke(targetObject, null);
                         return;
                     }
                 }
@@ -218,7 +228,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                         //  make sure to convert to compatible type first
                         var compatibleParameterValue = parameter.Convert(ParameterType);
 
-                        ExecuteMethodInfo_OneParameter.Invoke(TargetObject, new[] { compatibleParameterValue });
+                        ExecuteMethodInfo_OneParameter.Invoke(targetObject, new[] { compatibleParameterValue });
                         return;
                     }
 
@@ -226,7 +236,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                     // todo: log warning or information
 
                     if (ExecuteMethodInfo_NoParameters != null)
-                        ExecuteMethodInfo_NoParameters.Invoke(TargetObject, null);;
+                        ExecuteMethodInfo_NoParameters.Invoke(targetObject, null); ;
                 }
             }
         }
