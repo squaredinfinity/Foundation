@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using SquaredInfinity.Foundation.Extensions;
 using System.Collections;
+using SquaredInfinity.Foundation.Threading;
 
 namespace SquaredInfinity.Foundation.Types.Description.Reflection
 {
@@ -26,35 +27,42 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
             FIELD_BindingFlags = TYPE_RuntimeFieldInfo.GetProperty("BindingFlags", BindingFlags.NonPublic | BindingFlags.Instance);
         }
 
-        readonly ConcurrentDictionary<string, ITypeDescription> TypeDescriptionCache = new ConcurrentDictionary<string, ITypeDescription>();
+        readonly Dictionary<string, ITypeDescription> TypeDescriptionCache = new Dictionary<string, ITypeDescription>();
+
+        readonly ILock TypeDescriptionCacheLock = new ReaderWriterLockSlimEx(System.Threading.LockRecursionPolicy.SupportsRecursion);
+
 
         public ITypeDescription DescribeType(Type type)
         {
-            bool isNew = false;
+            var memberTypeDescription = (ITypeDescription)null;
 
-            var memberTypeDescription =
-                TypeDescriptionCache.GetOrAdd(
-                type.AssemblyQualifiedName,
-                (_) =>
+            using (var readLock = TypeDescriptionCacheLock.AcquireReadLock())
+            {
+                if (TypeDescriptionCache.TryGetValue(type.AssemblyQualifiedName, out memberTypeDescription))
+                    return memberTypeDescription;
+            }
+
+            using (var writeLock = TypeDescriptionCacheLock.AcquireWriteLock())
+            {
+                if (TypeDescriptionCache.TryGetValue(type.AssemblyQualifiedName, out memberTypeDescription))
+                    return memberTypeDescription;
+
+                if (type.ImplementsInterface(typeof(IEnumerable)))
                 {
-                    isNew = true;
+                    memberTypeDescription = new ReflectionBasedEnumerableTypeDescription();
+                }
+                else
+                {
+                    memberTypeDescription = new ReflectionBasedTypeDescription();
+                }
 
-                    // create uninitialized version of type description (a prototype)
-                    // and finish initialization later
-                    // this is to avoid recursive initialization if some property somewhere deep inside type hierarchy is of this type
+                // memberTypeDescription is now a prototype only (not populated)
+                // add it to Type Description Cache, so if it's self refrencing it can be resolved
+                // Describe it in a separate step while still holding write lock
+                TypeDescriptionCache.Add(type.AssemblyQualifiedName, memberTypeDescription);
 
-                    if (type.ImplementsInterface(typeof(IEnumerable)))
-                    {
-                        return new ReflectionBasedEnumerableTypeDescription();
-                    }
-                    else
-                    {
-                        return new ReflectionBasedTypeDescription();
-                    }
-                });
-
-            if(isNew)
                 memberTypeDescription = DescribeTypeInternal(type, memberTypeDescription as ReflectionBasedTypeDescription);
+            }
 
             return memberTypeDescription;
         }
