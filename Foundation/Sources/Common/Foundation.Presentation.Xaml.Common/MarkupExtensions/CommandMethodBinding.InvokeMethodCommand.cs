@@ -239,6 +239,11 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                         ExecuteMethodInfo_NoParameters.Invoke(targetObject, null); ;
                 }
             }
+
+            ~InvokeMethodCommand()
+            {
+
+            }
         }
     }
 

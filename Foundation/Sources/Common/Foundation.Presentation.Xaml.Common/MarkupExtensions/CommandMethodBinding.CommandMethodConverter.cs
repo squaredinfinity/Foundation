@@ -52,6 +52,11 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
             {
                 return DependencyProperty.UnsetValue;
             }
+
+            ~CommandMethodConverter()
+            {
+
+            }
         }
     }
 

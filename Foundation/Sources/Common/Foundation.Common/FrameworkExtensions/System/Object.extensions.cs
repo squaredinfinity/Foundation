@@ -115,6 +115,7 @@ namespace SquaredInfinity.Foundation.Extensions
         /// <param name="source"></param>
         /// <returns></returns>
         public static WeakEventHandlerPrototype<TSource> CreateWeakEventHandler<TSource>(this TSource source)
+            where TSource : class
         {
             return new WeakEventHandlerPrototype<TSource>(source);
         }
