@@ -105,7 +105,23 @@ namespace SquaredInfinity.Foundation.Extensions
 
         public static TTarget DeepClone<TTarget>(this TTarget source)
         {
-            return DefaultTypeMapper.DeepClone<TTarget>(source);
+            var targetType = typeof(TTarget);
+
+            if (targetType.IsAbstract || targetType.IsInterface)
+            {
+                if (source != null && source is TTarget)
+                {
+                    return (TTarget)DefaultTypeMapper.DeepClone(source, source.GetType());
+                }
+                else
+                {
+                    throw new ArgumentException("Unable to clone to interface or abstract class.");
+                }
+            }
+            else
+            {
+                return DefaultTypeMapper.DeepClone(source);
+            }
         }
 
         /// <summary>
