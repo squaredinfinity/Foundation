@@ -57,6 +57,11 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
         {
             if (ParameterLessConstructorInfo == null)
             {
+                if(IsValueType)
+                {
+                    return Activator.CreateInstance(Type);
+                }
+
                 throw new InvalidOperationException("Type {0} does not have parameterless contructor".FormatWith(Type.FullName));
             }
 
