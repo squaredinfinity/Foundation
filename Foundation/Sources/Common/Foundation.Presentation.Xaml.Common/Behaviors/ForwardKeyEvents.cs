@@ -79,6 +79,9 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
             };
 
             target.RaiseEvent(new_e);
+
+            if (new_e.Handled)
+                e.Handled = true;
         }
 
         #endregion
