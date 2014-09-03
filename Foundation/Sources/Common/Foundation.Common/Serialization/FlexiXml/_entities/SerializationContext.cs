@@ -10,6 +10,28 @@ using System.Xml.Linq;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
+    public class ReferenceEqualityComparer : IEqualityComparer<object>
+    {
+        bool IEqualityComparer<object>.Equals(object x, object y)
+        {
+            if (x == null)
+                return false;
+
+            if (y == null)
+                return false;
+
+            return object.ReferenceEquals(x, y);
+        }
+
+        int IEqualityComparer<object>.GetHashCode(object obj)
+        {
+            if (obj == null)
+                return int.MinValue;
+
+            return obj.GetHashCode();
+        }
+    }
+
     /// <summary>
     /// Serialization Context sotres state used by serializer during serialization.
     /// </summary>
@@ -31,7 +53,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         public SerializationOptions Options { get; internal set ; }
 
         readonly ConcurrentDictionary<object, InstanceId> _objects_InstanceIdTracker = 
-            new ConcurrentDictionary<object, InstanceId>();
+            new ConcurrentDictionary<object, InstanceId>(new ReferenceEqualityComparer());
 
         public ConcurrentDictionary<object, InstanceId> Objects_InstanceIdTracker
         {
