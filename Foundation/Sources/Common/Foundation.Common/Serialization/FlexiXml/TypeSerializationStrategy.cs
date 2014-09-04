@@ -136,9 +136,13 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 return false;
 
             // if member is read-only, serialize it only if it's enumerable and not IReadOnlyList or IReadOnlyCollection
+            // and !string
             if (!member.CanSetValue)
             {
                 if (!typeof(IEnumerable).IsAssignableFrom(member.MemberType.Type))
+                    return false;
+
+                if (member.MemberType.Type == typeof(string))
                     return false;
 
                 if (member.MemberType.Type.IsGenericType)
@@ -769,12 +773,24 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                      where !el.IsAttached()
                      select el);
 
+                var bulkUpdatesCollection = targetList as Collections.IBulkUpdatesCollection;
+
+                IDisposable bulkUpdateOperation = (IDisposable)null;
+
+                if(bulkUpdatesCollection != null)
+                {
+                    bulkUpdateOperation = bulkUpdatesCollection.BeginBulkUpdate();
+                }
+
                 foreach (var item_el in itemElements)
                 {
                     var item = cx.Deserialize(item_el, targetListDefaultElementType, elementNameMayContainTargetTypeName: true);
 
                     targetList.Add(item);
                 }
+
+                if (bulkUpdateOperation != null)
+                    bulkUpdateOperation.Dispose();
             }
         }
     }
