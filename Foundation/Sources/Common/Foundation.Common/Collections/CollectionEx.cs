@@ -38,11 +38,15 @@ namespace SquaredInfinity.Foundation.Collections
 
         protected virtual void MoveItem(int oldIndex, int newIndex)
         {
-            TItem item = this[oldIndex];
+            using (CollectionLock.AcquireWriteLock())
+            {
+                TItem item = this[oldIndex];
 
-            base.RemoveItem(oldIndex);
+                base.RemoveItem(oldIndex);
 
-            base.InsertItem(newIndex, item);
+                base.InsertItem(newIndex, item);
+                OnVersionChangedInternal();
+            }
         }
 
         protected override void ClearItems()
@@ -143,6 +147,9 @@ namespace SquaredInfinity.Foundation.Collections
 
         protected virtual void OnVersionChanged() 
         {
+            if (State == STATE__BULKUPDATE)
+                return;
+
             var newVersion = Interlocked.Increment(ref _version);
 
             if (VersionChanged != null)
@@ -166,6 +173,63 @@ namespace SquaredInfinity.Foundation.Collections
 
                 return snapshot;
             }
+        }
+
+        const int STATE__NORMAL = 0;
+        const int STATE__BULKUPDATE = 1;
+
+        int State = STATE__NORMAL;
+
+        public IBulkUpdate BeginBulkUpdate()
+        {
+            if(Interlocked.CompareExchange(ref State, STATE__BULKUPDATE, STATE__NORMAL) != STATE__NORMAL)
+            {
+                throw new Exception("Bulk Update Operation has already started");
+            }
+
+            return new BulkUpdate(this);
+        }
+
+        public void EndBulkUpdate(IBulkUpdate bulkUpdate)
+        {
+            bulkUpdate.Dispose();
+
+            if (Interlocked.CompareExchange(ref State, STATE__NORMAL, STATE__BULKUPDATE) != STATE__BULKUPDATE)
+            {
+                throw new Exception("Bulk Update Operation has already ended");
+            }
+
+            OnVersionChangedInternal();
+        }
+
+        public void AddRange(IEnumerable items)
+        {
+            AddRange(items.Cast<TItem>());
+        }
+
+        public void Reset(IEnumerable newItems)
+        {
+            Reset(newItems.Cast<TItem>());
+        }
+    }
+
+    class BulkUpdate : IBulkUpdate
+    {
+        readonly IBulkUpdatesCollection Owner;
+        bool HasFinished = false;
+
+        public BulkUpdate(IBulkUpdatesCollection owner)
+        {
+            this.Owner = owner;
+        }
+
+        public void Dispose()
+        {
+            if (HasFinished)
+                return;
+
+            HasFinished = true;
+            Owner.EndBulkUpdate(this);
         }
     }
 }
