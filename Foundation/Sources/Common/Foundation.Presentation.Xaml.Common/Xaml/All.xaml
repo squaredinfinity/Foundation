@@ -2,13 +2,21 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:selectors="clr-namespace:SquaredInfinity.Foundation.Presentation.DataTemplateSelectors"
                     xmlns:p="clr-namespace:SquaredInfinity.Foundation.Presentation"
-                    xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" >
+                    xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+                    xmlns:media="clr-namespace:SquaredInfinity.Foundation.Presentation.Media">
 
     <ResourceDictionary.MergedDictionaries>
+
         <p:SharedResourceDictionary DictionaryName="Foundation.Converters"
                                     Source="{p:ResourceFromThisAssembly RelativePath=/Xaml/Converters.xaml}" />
 
         <p:SharedResourceDictionary DictionaryName="Foundation.DataTemplateSelectors"
                                     Source="{p:ResourceFromThisAssembly RelativePath=/Xaml/DataTemplateSelectors.xaml}" />
     </ResourceDictionary.MergedDictionaries>
+    
+    
+    <ObjectDataProvider MethodName="GetPredefined"
+                        ObjectType="{x:Type media:Colors}"
+                        x:Key="Colors.Predefined">
+    </ObjectDataProvider>
 </ResourceDictionary>

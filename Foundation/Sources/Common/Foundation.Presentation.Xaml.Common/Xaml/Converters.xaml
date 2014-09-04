@@ -36,7 +36,9 @@
     <converters:EnumToBoolConverter x:Key="Converters.FlagToBool" TreatAsFlag="True" />
     
     <converters:EnumToValuesConverter x:Key="Converters.EnumToValues" />
-    
+
+    <converters:ToEnumerableConverter x:Key="Converters.ToEnumerable" />
+
     <converters:AddNumberConverter x:Key="Converters.IncrementByOne" NumberToAdd="1" />
     <converters:AddNumberConverter x:Key="Converters.DecrementByOne" NumberToAdd="-1" />
     
