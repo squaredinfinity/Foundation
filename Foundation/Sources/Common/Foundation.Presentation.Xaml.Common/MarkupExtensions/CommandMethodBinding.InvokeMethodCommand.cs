@@ -23,6 +23,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
             public event EventHandler CanExecuteChanged;
 
             readonly WeakReference<object> TargetObjectReference;
+
             readonly string ExecuteMethodName;
             readonly string CanExecuteTriggerPropertyName;
 
@@ -46,6 +47,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                 string canExecuteTriggerPropertyName)
             {
                 TargetObjectReference = new WeakReference<object>(targetObject, trackResurrection: false);
+
                 ExecuteMethodName = executeMethodName;
                 CanExecuteTriggerPropertyName = canExecuteTriggerPropertyName;
 
@@ -103,7 +105,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                 if(inpc != null)
                 {
                     CanExecuteNotifyPropertyChangedSubscription =
-                        inpc.CreateWeakEventHandler()
+                        (targetObject as INotifyPropertyChanged).CreateWeakEventHandler()
                         .ForEvent<PropertyChangedEventHandler, PropertyChangedEventArgs>(
                         (s, h) => s.PropertyChanged += h,
                         (s, h) => s.PropertyChanged -= h)

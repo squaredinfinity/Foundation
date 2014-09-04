@@ -39,7 +39,11 @@ namespace SquaredInfinity.Foundation.Collections
         bool MonitorElementsForChanges { get; set; }
 
         public ObservableCollectionEx()
-            : this(21, GetMainThreadDispatcher(), monitorElementsForChanges:true)
+            : this(21, GetMainThreadDispatcher(), monitorElementsForChanges:false)
+        { }
+
+        public ObservableCollectionEx(bool monitorElementsForChanges)
+            : this(21, GetMainThreadDispatcher(), monitorElementsForChanges)
         { }
 
         public ObservableCollectionEx(

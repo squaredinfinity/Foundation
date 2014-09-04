@@ -10,7 +10,7 @@ namespace SquaredInfinity.Foundation.Extensions
 {
     public static class ObjectExtensions
     {
-        public static object GetValueOrDefault<T>(this T obj, T defaultValue)
+        public static T GetValueOrDefault<T>(this T obj, T defaultValue)
         {
             if (obj == null)
                 return defaultValue;
@@ -18,7 +18,7 @@ namespace SquaredInfinity.Foundation.Extensions
             return obj;
         }
 
-        public static object GetValueOrDefault<T>(this T obj, Func<T> defaultValue)
+        public static T GetValueOrDefault<T>(this T obj, Func<T> defaultValue)
         {
             if (obj == null)
                 return defaultValue();
@@ -124,16 +124,9 @@ namespace SquaredInfinity.Foundation.Extensions
             }
         }
 
-        /// <summary>
-        /// Create a weak event handler (subscription) for an event on source object.
-        /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static WeakEventHandlerPrototype<TSource> CreateWeakEventHandler<TSource>(this TSource source)
-            where TSource : class
+        public static IEventSubscriptionPrototype<TEventSource> CreateWeakEventHandler<TEventSource>(this TEventSource eventSource)
         {
-            return new WeakEventHandlerPrototype<TSource>(source);
+            return new EventSubscriptionPrototype<TEventSource>(eventSource);
         }
 
         public static bool TryConvert(this object obj, Type targetType, out object result)

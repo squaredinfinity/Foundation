@@ -53,12 +53,14 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
                 (s, h) => s.PreviewKeyDown -= h)
                 .Subscribe((_s, _e) => 
                     {
+                        var selector = _s as Selector;
+
                         // ListBox handles Space itself and will only raise PreviewKeyDow (i.e. KeyDown will not be raised)
                         // so handle it here
                         if (_s is ListBox)
                         {
                             if (_e.Key == Key.Space)
-                                ToggleCheckedStateIfItemSelected(_s, target);
+                                ToggleCheckedStateIfItemSelected(selector, target);
                         }
                     });
 
@@ -70,8 +72,10 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
                 (s, h) => s.KeyDown -= h)
                 .Subscribe((_s, _e) => 
                     {
+                        var selector = _s as Selector;
+
                         if (_e.Key == Key.Space)
-                            ToggleCheckedStateIfItemSelected(_s, target);
+                            ToggleCheckedStateIfItemSelected(selector, target);
                     });
 
             eventSubscriptions.Add(previewKeyDownSubscription);

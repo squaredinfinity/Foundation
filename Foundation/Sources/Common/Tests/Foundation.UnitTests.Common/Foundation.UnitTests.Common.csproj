@@ -53,6 +53,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ChainOfCommand\TryHandle.tests.cs" />
+    <Compile Include="Collections\CollectionEx.BulkUpdates.cs" />
     <Compile Include="FrameworkExtensions\System.Collections\IEnumerable.ToNullIfEmpty.cs" />
     <Compile Include="FrameworkExtensions\System.Collections\IEnumerable.TreeTraversal.cs" />
     <Compile Include="FrameworkExtensions\System.Collections\IEnumerable.ToList.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="FrameworkExtensions\System\DateTime.BeginingOfWeek.cs" />
     <Compile Include="FrameworkExtensions\System\DateTime.UnixEpochBegining.cs" />
     <Compile Include="FrameworkExtensions\System\Double.AreClose.cs" />
+    <Compile Include="FrameworkExtensions\System\Object.CreateWeakEventHandler.cs" />
     <Compile Include="FrameworkExtensions\System\Object.IsIn.cs" />
     <Compile Include="FrameworkExtensions\System\String.ExpandTabs.cs">
       <SubType>Code</SubType>
@@ -113,7 +115,8 @@
     <Compile Include="Serialization\FlexiXml\FlexiXmlSerializer__Serialize.tests.cs" />
     <Compile Include="TestEntities\LinkedListNode.cs" />
     <Compile Include="TestEntities\TypeWithEvent.cs" />
-    <Compile Include="Threading\AsyncOperation.tests.cs" />
+    <Compile Include="Threading\AsyncLoop.bugs.cs" />
+    <Compile Include="Threading\AsyncLoop.tests.cs" />
     <Compile Include="Threading\ReaderWriterLockSlimEx.tests.cs" />
     <Compile Include="Types\Description\Reflection\ReflectionBasedTypeDescriptor._BugFixes.cs" />
     <Compile Include="Types\Description\Reflection\ReflectionBasedTypeDescriptor.DescribeType.tests.cs" />
@@ -128,9 +131,12 @@
     <Compile Include="Types\Mapping\TypeMapper._BugFixes.cs" />
     <Compile Include="Types\Mapping\TypeMapper.DeepClone.tests.cs" />
     <Compile Include="Types\Mapping\TypeMapper.Map.tests.cs" />
+    <Compile Include="WeakEvent.bugs.cs" />
     <Compile Include="WeakEvent.tests.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Collections\CollectionEx.VersionChanged.cs" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Foundation.Common\Foundation.Common.csproj">
       <Project>{DFEAB4E6-D02D-448B-8649-2D12BE137191}</Project>

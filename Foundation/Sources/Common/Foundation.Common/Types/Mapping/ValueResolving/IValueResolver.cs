@@ -11,7 +11,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping.ValueResolving
         Type ToType { get; }
 
         bool AreFromAndToTypesSame { get; }
-        bool AreFromAndToImmutable { get; }
+        //bool AreFromAndToImmutable { get; }
         bool AreFromAndToValueType { get; }
 
         bool CanCopyValueWithoutMapping { get; }

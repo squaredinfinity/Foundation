@@ -6,61 +6,312 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Windows;
 using SquaredInfinity.Foundation.Extensions;
+using System.Diagnostics;
 
 namespace SquaredInfinity.Foundation
 {
-    public interface IWeakEventHandler<TSource, TDelegate, TEventArgs> : IDisposable
+    public class WeakDelegate<TDelegate>
+    //where TDelegate : class
     {
-        IWeakEventHandler<TSource, TDelegate, TEventArgs> Throttle(TimeSpan timespan);
-        IDisposable Subscribe(Action<TSource, TEventArgs> onEvent);
+        bool IsStatic;
+        MethodInfo ActionMethod;
+
+        WeakReference<object> TargetReference;
+        WeakReference<object> OwnerReference;
+
+        object TargetInstance;
+
+
+        public WeakDelegate(object owner, TDelegate action, bool keepTargetAlive = false)
+        {
+            var actionDelegate = (action as Delegate);
+            this.ActionMethod = actionDelegate.Method;
+            this.IsStatic = ActionMethod.IsStatic;
+
+            if (actionDelegate.Target != null)
+            {
+                this.TargetReference = new WeakReference<object>(actionDelegate.Target, trackResurrection: false);
+
+                if (keepTargetAlive)
+                {
+                    this.TargetInstance = actionDelegate.Target;
+                }
+            }
+
+            if (owner != null)
+                this.OwnerReference = new WeakReference<object>(owner, trackResurrection: false);
+        }
+
+        static readonly object[] EmptyParameters = new object[] { };
+
+        public bool TryExecute()
+        {
+            var result = (object)null;
+
+            return TryExecute(out result, EmptyParameters);
+        }
+
+        public bool TryExecute(object[] parameters)
+        {
+            var result = (object)null;
+
+            return TryExecute(out result, parameters);
+        }
+
+        public bool TryExecute(out object result)
+        {
+            return TryExecute(out result, EmptyParameters);
+        }
+
+        public bool TryExecute(out object result, object[] parameters)
+        {
+            result = null;
+
+            if (IsDisposed)
+                return false;
+
+            var target = (object)null;
+
+            var owner = (object)null;
+
+            if (!OwnerReference.TryGetTarget(out owner))
+            {
+                // Owner instance is gone
+                // This Action should no longer execute
+                return false;
+            }
+
+            if (IsStatic)
+            {
+                result = ActionMethod.Invoke(null, parameters);
+                return true;
+            }
+            else
+            {
+                if (!TargetReference.TryGetTarget(out target))
+                {
+                    // Action delegate points to an instance method
+                    // but the instance is gone
+                    // This Action should no longer execute
+                    return false;
+                }
+
+                result = ActionMethod.Invoke(target, parameters);
+
+                return true;
+            }
+        }
+
+        #region IDisposable
+
+        bool IsDisposed = false;
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+
+            GC.SuppressFinalize(this);
+        }
+
+        ~WeakDelegate()
+        {
+            Dispose(disposing: false);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            TargetInstance = null;
+            IsDisposed = true;
+        }
+
+        #endregion
     }
 
-    class InstanceWeakEventHandler<TSource, TDelegate, TEventArgs> : IWeakEventHandler<TSource, TDelegate, TEventArgs>
+    public interface IEventSubscriptionPrototype<TEventSource>
     {
-        TDelegate del;
+        IEventSubscription<TEventSource, TDelegate, TEventArgs> ForEvent<TDelegate, TEventArgs>(
+            Action<TEventSource, TDelegate> addHandler,
+            Action<TEventSource, TDelegate> removeHandler);
 
-        TSource source;
-        Action<TSource, TDelegate> addHandler;
-        Action<TSource, TDelegate> removeHandler;
-        Action<TSource, TEventArgs> onEvent;
+        IEventSubscription<TEventSource, EventHandler<TEventArgs>, TEventArgs> ForEvent<TEventArgs>(
+            Action<TEventSource, EventHandler<TEventArgs>> addHandler,
+            Action<TEventSource, EventHandler<TEventArgs>> removeHandler);
 
-        public InstanceWeakEventHandler(TSource source, Action<TSource, TDelegate> addHandler, Action<TSource, TDelegate> removeHandler)
+        IEventSubscription<TEventSource, EventHandler, EventArgs> ForEvent(
+            Action<TEventSource, EventHandler> addHandler,
+            Action<TEventSource, EventHandler> removeHandler);
+    }
+
+    class EventSubscriptionPrototype<TEventSource> : IEventSubscriptionPrototype<TEventSource>
+    {
+        TEventSource EventSource;
+
+        public EventSubscriptionPrototype(TEventSource eventSource)
         {
-            this.source = source;
-            this.addHandler = addHandler;
-            this.removeHandler = removeHandler;
+            this.EventSource = eventSource;
         }
 
-        public IWeakEventHandler<TSource, TDelegate, TEventArgs> Throttle(TimeSpan timespan)
+        public IEventSubscription<TEventSource, TDelegate, TEventArgs> ForEvent<TDelegate, TEventArgs>(
+            Action<TEventSource, TDelegate> addHandler,
+            Action<TEventSource, TDelegate> removeHandler)
         {
-            return this;
+            var subscription = new EventSubscription<TEventSource, TDelegate, TEventArgs>(EventSource, addHandler, removeHandler);
+
+            return subscription;
         }
 
-        public IDisposable Subscribe(Action<TSource, TEventArgs> onEvent)
+        public IEventSubscription<TEventSource, EventHandler<TEventArgs>, TEventArgs> ForEvent<TEventArgs>(
+            Action<TEventSource, EventHandler<TEventArgs>> addHandler,
+            Action<TEventSource, EventHandler<TEventArgs>> removeHandler)
         {
-            var x = new Action<object, TEventArgs>(OnEvent);
+            var subscription = new EventSubscription<TEventSource, EventHandler<TEventArgs>, TEventArgs>(EventSource, addHandler, removeHandler);
 
-            del = ReflectionUtils.CreateDelegate<TDelegate>(x, x.GetType().GetMethod("Invoke"));
+            return subscription;
+        }
 
-            addHandler(source, del);
+        public IEventSubscription<TEventSource, EventHandler, EventArgs> ForEvent(
+            Action<TEventSource, EventHandler> addHandler,
+            Action<TEventSource, EventHandler> removeHandler)
+        {
+            var subscription = new EventSubscription<TEventSource, EventHandler, EventArgs>(EventSource, addHandler, removeHandler);
 
-            this.onEvent = onEvent;
+            return subscription;
+        }
+    }
 
-            return this;
+    public interface IEventSubscription<TEventSource, TDelegate, TEventArgs> : IDisposable
+    {
+        IDisposable Subscribe(TDelegate onEvent);
+    }
+
+    internal interface IWeakEventHandler<TDelegate>
+    {
+        TDelegate Handler { get; }
+    }
+
+    public class EventSubscription<TEventSource, TDelegate, TEventArgs> : IEventSubscription<TEventSource, TDelegate, TEventArgs>
+    {
+        IWeakEventHandler<TDelegate> WeakEventHandler;
+
+        TEventSource EventSource;
+
+        Action<TEventSource, TDelegate> AddHandler;
+        Action<TEventSource, TDelegate> RemoveHandler;
+
+        object EventSubscriberStrongReference;
+
+        public EventSubscription(TEventSource EventSource, Action<TEventSource, TDelegate> addHandler, Action<TEventSource, TDelegate> removeHandler)
+        {
+            this.EventSource = EventSource;
+            this.AddHandler = addHandler;
+            this.RemoveHandler = removeHandler;
         }
         
-        void OnEvent(object sender, TEventArgs args)
+        public IDisposable Subscribe(TDelegate onEvent)
         {
-            onEvent((TSource)sender, args);
+            // cast to Delegate so we can extract Method
+            // NOTE: currently where TDelegate : Delegate generic constraint is not supported by C#
+            var onEventDelegate = onEvent as Delegate;
+
+            // keep reference to delegate target alive
+            // for as long as this subscription is not being collected by Garbage Collector
+            EventSubscriberStrongReference = onEventDelegate.Target;
+
+            // Create new instance of Weak Event Handler
+            Type TYPE_WeakEventHandler =
+                typeof(WeakEventHandler<,,,>)
+                .MakeGenericType(
+                onEventDelegate.Method.DeclaringType,
+                typeof(TEventSource),
+                typeof(TDelegate),
+                typeof(TEventArgs));
+
+            ConstructorInfo wehConstructor =
+                TYPE_WeakEventHandler
+                .GetConstructors()
+                .First();
+
+            var constructorParameters =
+                new object[] { EventSource, onEvent };
+
+            WeakEventHandler = wehConstructor.Invoke(constructorParameters) as IWeakEventHandler<TDelegate>;
+
+            AddHandler(EventSource, WeakEventHandler.Handler);
+
+            return this;
+        }
+
+        #region IDisposable
+
+        ~EventSubscription()
+        {
+            Dispose();
         }
 
         public void Dispose()
         {
-            if(removeHandler != null && del != null)
-                removeHandler(source, del);
+            RemoveHandler(EventSource, WeakEventHandler.Handler);
+
+            GC.SuppressFinalize(this);
         }
+
+        #endregion
     }
 
+    /// <summary>
+    /// Provides a layer between Event Subscriber and Event Provider.
+    /// Normally using EventProvider.Event += EventSubscriber.EventHandler; would create a strong reference from EventProvider to EventSubscriber.
+    /// This strong reference would prevent EventSubscriber from Garbage Collection.
+    /// 
+    /// WeakEventHandler holds a Weak-Reference to EventSubscriber allowing it to be Garbage Collected when needed.
+    /// </summary>
+    /// <typeparam name="TEventSubscriber"></typeparam>
+    /// <typeparam name="TEventSource"></typeparam>
+    /// <typeparam name="TDelegate"></typeparam>
+    /// <typeparam name="TEventArgs"></typeparam>
+    class WeakEventHandler<TEventSubscriber, TEventSource, TDelegate, TEventArgs> : IWeakEventHandler<TDelegate>
+        where TEventSubscriber : class
+        where TEventSource : class
+        where TEventArgs : EventArgs
+    {
+        delegate void OpenEventHandler(TEventSubscriber eventSubscriber, object sender, TEventArgs e);
+
+        OpenEventHandler OpenHandler;
+
+        public TDelegate Handler { get; private set; }
+
+        WeakReference<TEventSubscriber> EventSubscriber_ref;
+        
+        public WeakEventHandler(
+            TEventSource eventSource,
+            TDelegate onEvent)
+        {
+            Handler = ReflectionUtils.CreateDelegate<TDelegate>(this, typeof(WeakEventHandler<TEventSubscriber, TEventSource, TDelegate, TEventArgs>).GetMethod("Invoke"));
+
+            var onEventDelegate = onEvent as Delegate;
+
+            OpenHandler = (OpenEventHandler)Delegate.CreateDelegate(typeof(OpenEventHandler), null, onEventDelegate.Method);
+
+            EventSubscriber_ref = new WeakReference<TEventSubscriber>(onEventDelegate.Target as TEventSubscriber);
+        }
+
+        public void Invoke(object sender, TEventArgs e)
+        {
+            if (OpenHandler == null)
+                return;
+
+            var eventSubscriber = (TEventSubscriber)null;
+
+            if (EventSubscriber_ref.TryGetTarget(out eventSubscriber))
+            {
+                OpenHandler(eventSubscriber, sender, e);
+            }
+            else
+            {
+                OpenHandler = null;
+            }
+        }
+    }
 
     internal static class ReflectionUtils
     {
@@ -172,34 +423,6 @@ namespace SquaredInfinity.Foundation
         public static EventInfo GetEventInfo(this Type type, string eventName, bool isStatic)
         {
             return type.GetEvent(eventName, isStatic ? BindingFlags.Static | BindingFlags.Public : BindingFlags.Instance | BindingFlags.Public);
-        }
-    }
-
-    public class WeakEventHandlerPrototype<TSource>
-    {
-        internal TSource Source;
-
-        public WeakEventHandlerPrototype(TSource source)
-        {
-            this.Source = source;
-        }
-
-        public IWeakEventHandler<TSource, TDelegate, TEventArgs> ForEvent<TDelegate, TEventArgs>(
-            Action<TSource, TDelegate> addHandler,
-            Action<TSource, TDelegate> removeHandler)
-        {
-            var x = new InstanceWeakEventHandler<TSource, TDelegate, TEventArgs>(Source, addHandler, removeHandler);
-
-            return x;
-        }
-
-        public IWeakEventHandler<TSource, EventHandler<TEventArgs>, TEventArgs> ForEvent<TEventArgs>(
-            Action<TSource, EventHandler<TEventArgs>> addHandler,
-            Action<TSource, EventHandler<TEventArgs>> removeHandler)
-        {
-            var x = new InstanceWeakEventHandler<TSource, EventHandler<TEventArgs>, TEventArgs>(Source, addHandler, removeHandler);
-
-            return x;
         }
     }
 }

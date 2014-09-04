@@ -14,6 +14,30 @@ namespace SquaredInfinity.Foundation.Threading
         TimeSpan TEST_DefaultTimeout = TimeSpan.FromMilliseconds(50);
 
         [TestMethod]
+        public void XXX()
+        {
+            //var l = new ReaderWriterLockSlimEx();
+
+            //using (l.AcquireReadLock())
+            //{
+            //    // access lock here so it's not optimized-away after release build
+            //    Assert.IsNotNull(l);
+            //}
+
+            var l = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+
+            l.EnterWriteLock();
+
+            Assert.IsTrue(l.IsWriteLockHeld);
+
+            Task.Factory.StartNew(() =>
+            {
+                Assert.IsFalse(l.IsWriteLockHeld);
+            }).Wait();
+            
+        }
+
+        [TestMethod]
         public void CanAcquireAndReleaseReadLock()
         {
             var l = new ReaderWriterLockSlimEx();
@@ -84,6 +108,18 @@ namespace SquaredInfinity.Foundation.Threading
         }
 
         [TestMethod]
+        public void WriteLockIsHeld__xxx()
+        {
+            var l = new ReaderWriterLockSlimEx(LockRecursionPolicy.SupportsRecursion);
+
+            using (l.AcquireWriteLock())
+            {
+                var acquisition = l.TryAcquireReadLock(TEST_DefaultTimeout);
+                Assert.IsFalse(acquisition.IsSuccesfull);
+            }
+        }
+
+        [TestMethod]
         public void ReadLockIsHeld__AnotherThreadDoesNotBlockOnReadLockAcquisition()
         {
             var l = new ReaderWriterLockSlimEx();
@@ -145,6 +181,7 @@ namespace SquaredInfinity.Foundation.Threading
                 {
                     var acquisition = l.TryAcquireUpgradeableReadLock(TEST_DefaultTimeout);
 
+                    // try acquire failed, meaning that this thread has to wait for lock to be released
                     Assert.IsFalse(acquisition.IsSuccesfull);
                 }).Wait();
             }

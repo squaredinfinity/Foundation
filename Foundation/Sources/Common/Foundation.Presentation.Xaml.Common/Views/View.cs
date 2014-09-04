@@ -258,7 +258,7 @@ namespace SquaredInfinity.Foundation.Presentation.Views
                     .ForEvent<AfterViewModelEventRaisedArgs>(
                     (vm, h) => vm.AfterViewModelEventRaised += h,
                     (vm, h) => vm.AfterViewModelEventRaised -= h)
-                    .Subscribe((vm, args) => OnAfterViewModelEventRaised(vm, args.Event, args.RoutingStrategy));
+                    .Subscribe((vm, args) => OnAfterViewModelEventRaised(vm as ViewModel, args.Event, args.RoutingStrategy));
             }
 
             OnBeforeNewViewModelAdded(newDataContext, newViewModel);

@@ -14,7 +14,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
         class CommandMethodConverter : IValueConverter
         {
 
-            ICommand InvokeMethodCommand;
+            //ICommand InvokeMethodCommand;
             readonly string ExecuteMethodName;
             readonly string CanExecuteMethodName;
             readonly string CanExecutePropertyName;
@@ -35,17 +35,20 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
             public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
             {
                 if (value == null)
+                {
+                    //InvokeMethodCommand = null;
                     return DependencyProperty.UnsetValue;
+                }
                 
-                InvokeMethodCommand = 
-                    new InvokeMethodCommand(
+                //InvokeMethodCommand = 
+                    return new InvokeMethodCommand(
                         value, 
                         ExecuteMethodName, 
                         CanExecuteMethodName, 
                         CanExecutePropertyName,
                         CanExecuteTriggerPropertyName);
 
-                return InvokeMethodCommand;
+                //return InvokeMethodCommand;
             }
 
             public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

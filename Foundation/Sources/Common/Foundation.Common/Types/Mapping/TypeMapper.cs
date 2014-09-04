@@ -270,6 +270,15 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                     // target list is read-only
                 }
 
+                var bulkUpdatesCollection = targetList as Collections.IBulkUpdatesCollection;
+                
+                IDisposable bulkUpdateOperation = (IDisposable)null;
+
+                if (bulkUpdatesCollection != null)
+                {
+                    bulkUpdateOperation = bulkUpdatesCollection.BeginBulkUpdate();
+                }
+
                 if (options.ReuseTargetCollectionItemsWhenPossible && targetList.Count != 0 && sourceList.Count != 0)
                 {
                     DeepCloneListElements(
@@ -292,6 +301,9 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                         options,
                         cx);
                 }
+
+                if (bulkUpdateOperation != null)
+                    bulkUpdateOperation.Dispose();
             }
 
             foreach(var kvp in ms.TargetMembersMappings)

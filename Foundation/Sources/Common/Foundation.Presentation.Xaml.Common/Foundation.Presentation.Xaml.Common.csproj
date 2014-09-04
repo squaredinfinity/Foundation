@@ -69,6 +69,7 @@
     <Compile Include="Behaviors\DialogHost.MinWidth.cs" />
     <Compile Include="Behaviors\ForwardKeyEvents.cs" />
     <Compile Include="Behaviors\ForwardTextInput.cs" />
+    <Compile Include="Behaviors\Hyperlink.OpenInDefaultBrowser.cs" />
     <Compile Include="Behaviors\Selector.ItemDoubleClick.cs" />
     <Compile Include="Behaviors\Control.DoubleClick.cs" />
     <Compile Include="Behaviors\Selector.MultiSelection.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Converters\FirstBindingConverter.cs" />
     <Compile Include="Converters\MultiplyNumberConverter.cs" />
     <Compile Include="Converters\AddNumberConverter.cs" />
+    <Compile Include="Converters\ToEnumerableConverter.cs" />
     <Compile Include="DataTemplateSelectors\ContextAwareDataTemplateSelector.cs" />
     <Compile Include="DataTemplateSelectors\ContextAwareDataTemplateSelectorService.cs" />
     <Compile Include="DataTemplateSelectors\IContextAwareDataTemplateProvider.cs" />
@@ -106,6 +108,7 @@
     <Compile Include="DataTemplateSelectors\Rules\MemberValueRule.cs" />
     <Compile Include="FrameworkExtensions\System.Windows.Media\Color.extensions.cs" />
     <Compile Include="MarkupExtensions\CompareMethodBinding.cs" />
+    <Compile Include="Media\Colors.cs" />
     <Compile Include="SharedResourceDictionary.cs" />
     <Compile Include="ViewModels\AfterViewModelEventRaisedArgs.cs" />
     <Compile Include="ViewModels\IViewModelEvent.cs" />

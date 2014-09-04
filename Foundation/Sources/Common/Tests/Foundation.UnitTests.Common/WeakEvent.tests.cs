@@ -18,22 +18,25 @@ namespace SquaredInfinity.Foundation
         {
             TypeWithEvent t = new TypeWithEvent();
 
+            int subscribe_count = 0;
+            int add_count = 0;
+            int remove_count = 0;
+
             var subscription = 
                 t.CreateWeakEventHandler().ForEvent<EventHandler<TypeWithEvent.RandomNumberEventArgs>, TypeWithEvent.RandomNumberEventArgs>(
                 (s,h) => 
                     {
-                        // todo: assert called only once
+                        add_count++;
                         s.AfterRandomNumberGenerated += h;
                     },
                 (s, h) => 
                     {
-                        // todo: assert called only once
+                        remove_count++;
                         s.AfterRandomNumberGenerated -= h;
                     })
                 .Subscribe((s, args) =>
                 {
-                    // todo: assert called 3 times
-                    Trace.WriteLine(":)");
+                    subscribe_count++;
                 });
 
             t.GenerateNumber();
@@ -42,6 +45,19 @@ namespace SquaredInfinity.Foundation
 
 
             subscription.Dispose();
+
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
+            GC.WaitForPendingFinalizers();
+
+            Assert.AreEqual(3, subscribe_count);
+            Assert.AreEqual(1, add_count);
+            Assert.AreEqual(1, remove_count);
+
+            t.GenerateNumber();
+
+            Assert.AreEqual(3, subscribe_count);
+            Assert.AreEqual(1, add_count);
+            Assert.AreEqual(1, remove_count);
         }
     }
 }
