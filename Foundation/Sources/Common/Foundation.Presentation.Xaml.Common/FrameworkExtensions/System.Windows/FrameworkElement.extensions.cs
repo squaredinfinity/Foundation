@@ -6,12 +6,29 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 
 namespace SquaredInfinity.Foundation.Extensions
 {
     public static class FrameworkElementExtensions
     {
+        /// <summary>
+        /// BindingOperation.ClearBinding alternative which handles Data Template scenarios
+        /// see details: http://social.msdn.microsoft.com/Forums/vstudio/en-US/e45c7a9d-840d-4508-8c81-ef40f1c74c10/bindingoperationsclearbinding-reverting-to-data-template-binding?forum=wpf
+        /// </summary>
+        /// <param name="depObj"></param>
+        /// <param name="depProp"></param>
+        public static void ClearBindingOrReplaceWithDummyValue(this FrameworkElement depObj, DependencyProperty depProp)
+        {
+            BindingOperations.ClearBinding(depObj, depProp);
+
+            // if binding was set in Data Template, ClearBinding may not work
+            // replace binding with a dummy value
+            if (BindingOperations.IsDataBound(depObj, depProp))
+                depObj.SetBinding(depProp, "[binding_removed]");
+        }
+
         public static bool IsInViewport(this FrameworkElement fe, Window parentWindow)
         {
             if (parentWindow == null)
