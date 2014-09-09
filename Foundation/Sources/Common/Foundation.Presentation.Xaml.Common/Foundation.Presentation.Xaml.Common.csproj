@@ -72,6 +72,7 @@
     <Compile Include="Behaviors\Hyperlink.OpenInDefaultBrowser.cs" />
     <Compile Include="Behaviors\Selector.ItemDoubleClick.cs" />
     <Compile Include="Behaviors\Control.DoubleClick.cs" />
+    <Compile Include="Behaviors\Selector.ItemsSourceWithPreserveSelection.cs" />
     <Compile Include="Behaviors\Selector.MultiSelection.cs" />
     <Compile Include="Behaviors\ColumnHeaders.Visibility.cs" />
     <Compile Include="Behaviors\TextBoxBase.ClearButton.cs" />

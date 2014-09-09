@@ -89,6 +89,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\Selector.ItemDoubleClick.cs">
       <Link>Behaviors\Selector.ItemDoubleClick.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\Selector.ItemsSourceWithPreserveSelection.cs">
+      <Link>Behaviors\Selector.ItemsSourceWithPreserveSelection.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\Selector.MultiSelection.cs">
       <Link>Behaviors\Selector.MultiSelection.cs</Link>
     </Compile>
