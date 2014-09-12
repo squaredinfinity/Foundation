@@ -23,5 +23,10 @@ namespace SquaredInfinity.Foundation.Presentation.Views
         }
 
         #endregion
+
+        protected override IHostAwareViewModel ResolveViewModel(Type viewType, object newDatacontext)
+        {
+            return Activator.CreateInstance<TViewModel>();
+        }
     }
 }

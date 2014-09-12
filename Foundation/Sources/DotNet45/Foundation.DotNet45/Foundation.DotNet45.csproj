@@ -69,6 +69,33 @@
     <Compile Include="..\..\Common\Foundation.Common\Collections\PriorityQueue.cs">
       <Link>Collections\PriorityQueue.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\Trees\_BooleanExpressionTree\BooleanExpressionTree.cs">
+      <Link>Collections\Trees\_BooleanExpressionTree\BooleanExpressionTree.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\Trees\_BooleanExpressionTree\BooleanExpressionTreeNode.cs">
+      <Link>Collections\Trees\_BooleanExpressionTree\BooleanExpressionTreeNode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\Trees\_BooleanExpressionTree\BooleanExpressionTreeTraversingCollection.cs">
+      <Link>Collections\Trees\_BooleanExpressionTree\BooleanExpressionTreeTraversingCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\Trees\_BooleanExpressionTree\ChildNodePosition.cs">
+      <Link>Collections\Trees\_BooleanExpressionTree\ChildNodePosition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\Trees\_BooleanExpressionTree\IBooleanExpressionTreeNode.cs">
+      <Link>Collections\Trees\_BooleanExpressionTree\IBooleanExpressionTreeNode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\Trees\_BooleanExpressionTree\PredicateConnectiveMode.cs">
+      <Link>Collections\Trees\_BooleanExpressionTree\PredicateConnectiveMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\Trees\_BooleanExpressionTree\PredicateConnectiveNode.cs">
+      <Link>Collections\Trees\_BooleanExpressionTree\PredicateConnectiveNode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\Trees\_BooleanExpressionTree\PredicateNode.cs">
+      <Link>Collections\Trees\_BooleanExpressionTree\PredicateNode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\VirtualizingCollection.cs">
+      <Link>Collections\VirtualizingCollection.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\CommandHandlerEventArgs.cs">
       <Link>CommandHandlerEventArgs.cs</Link>
     </Compile>

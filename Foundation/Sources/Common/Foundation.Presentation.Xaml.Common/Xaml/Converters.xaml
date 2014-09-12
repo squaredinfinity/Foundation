@@ -61,6 +61,11 @@
         <converters:BoolToVisibilityConverter Mode="HiddenWhenTrue" />
     </converters:CompositeConverter>
 
+    <converters:CompositeConverter x:Key="Converters.CollapsedWhen0">
+        <converters:ValueToBoolConverter ExpectedValue="0" />
+        <converters:BoolToVisibilityConverter Mode="CollapsedWhenTrue" />
+    </converters:CompositeConverter>
+
     <converters:CompositeConverter x:Key="Converters.VisibleWhen0">
         <converters:ValueToBoolConverter ExpectedValue="0" />
         <converters:BoolToVisibilityConverter Mode="VisibleWhenTrue" />

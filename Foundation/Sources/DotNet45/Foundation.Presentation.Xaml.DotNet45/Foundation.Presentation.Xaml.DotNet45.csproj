@@ -143,6 +143,12 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Controls\TabControl.cs">
       <Link>Controls\TabControl.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Controls\Trees\_BooleanExpressionTrees\BooleanExpressionTreeControl.cs">
+      <Link>Controls\Trees\_BooleanExpressionTrees\BooleanExpressionTreeControl.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Controls\Trees\_BooleanExpressionTrees\BooleanExpressionTreeNodeControl.cs">
+      <Link>Controls\Trees\_BooleanExpressionTrees\BooleanExpressionTreeNodeControl.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Controls\ZoomableListView.cs">
       <Link>Controls\ZoomableListView.cs</Link>
     </Compile>
@@ -190,6 +196,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\GetTypeConverter.cs">
       <Link>Converters\GetTypeConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\IndentToLeftMarginConverter.cs">
+      <Link>Converters\IndentToLeftMarginConverter.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\InvertBoolConverter.cs">
       <Link>Converters\InvertBoolConverter.cs</Link>
@@ -403,6 +412,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\NotifyPropertyChangedObject.cs">
       <Link>NotifyPropertyChangedObject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\NotifyPropertyChangedObjectWrapper.cs">
+      <Link>NotifyPropertyChangedObjectWrapper.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Resources.cs">
       <Link>Resources.cs</Link>
