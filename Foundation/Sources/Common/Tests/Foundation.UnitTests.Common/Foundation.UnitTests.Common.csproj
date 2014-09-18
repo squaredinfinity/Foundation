@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="ChainOfCommand\TryHandle.tests.cs" />
     <Compile Include="Collections\CollectionEx.BulkUpdates.cs" />
+    <Compile Include="Collections\Trees\BooleanExpresionTree.operations.cs" />
     <Compile Include="FrameworkExtensions\System.Collections\IEnumerable.ToNullIfEmpty.cs" />
     <Compile Include="FrameworkExtensions\System.Collections\IEnumerable.TreeTraversal.cs" />
     <Compile Include="FrameworkExtensions\System.Collections\IEnumerable.ToList.cs" />
