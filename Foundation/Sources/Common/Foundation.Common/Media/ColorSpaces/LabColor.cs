@@ -19,7 +19,7 @@ namespace SquaredInfinity.Foundation.Media.ColorSpaces
             : base(KnownColorSpaces.Lab)
         {
             this.Alpha = new ColorChannel(KnownColorSpaces.Lab.Alpha, alpha);
-            this.L = new ColorChannel(KnownColorSpaces.Lab.Lightness, L);
+            this.L = new ColorChannel(KnownColorSpaces.Lab.Lightness, L % 100);
             this.a = new ColorChannel(KnownColorSpaces.Lab.a, a);
             this.b = new ColorChannel(KnownColorSpaces.Lab.b, b);
 
