@@ -15,6 +15,29 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
 {
     public class ItemsSourceWithPreserveSelection
     {
+
+
+
+        #region SelectedValueBinding_RestoreAfterInitialization
+
+        public static readonly DependencyProperty SelectedValueBinding_RestoreAfterInitializationProperty =
+            DependencyProperty.RegisterAttached(
+            "SelectedValueBinding_RestoreAfterInitialization",
+            typeof(Binding),
+            typeof(ItemsSourceWithPreserveSelection));
+
+        public static void SetSelectedValueBinding_RestoreAfterInitialization(Selector element, Binding value)
+        {
+            element.SetValue(SelectedValueBinding_RestoreAfterInitializationProperty, value);
+        }
+
+        public static Binding GetSelectedValueBinding_RestoreAfterInitialization(Selector element)
+        {
+            return (Binding)element.GetValue(SelectedValueBinding_RestoreAfterInitializationProperty);
+        }
+
+        #endregion
+
         #region ItemsSource
 
         public static readonly DependencyProperty ItemsSourceProperty =
@@ -51,15 +74,36 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
             try
             {
                 sel.ItemsSource = e.NewValue as IEnumerable;
+
+                if (!sel.IsInitialized)
+                {
+                    sel.Initialized += sel_Initialized;
+
+                    SetSelectedValueBinding_RestoreAfterInitialization(sel, selectedValeBinding);
+                }
             }
             finally
             {
                 //# restore original SelectedValue binding
 
-                sel.SelectedItem = null;
+                //sel.SelectedItem = null;
 
-                if (selectedValeBinding != null)
+                if (sel.IsInitialized && selectedValeBinding != null)
                     BindingOperations.SetBinding(sel, Selector.SelectedValueProperty, selectedValeBinding);
+            }
+        }
+
+        static void sel_Initialized(object sender, EventArgs e)
+        {
+            var sel = sender as Selector;
+
+            sel.Initialized -= sel_Initialized;
+
+            var selectedValeBinding = GetSelectedValueBinding_RestoreAfterInitialization(sel);
+
+            if (selectedValeBinding != null)
+            {
+                BindingOperations.SetBinding(sel, Selector.SelectedValueProperty, selectedValeBinding);
             }
         }
 
