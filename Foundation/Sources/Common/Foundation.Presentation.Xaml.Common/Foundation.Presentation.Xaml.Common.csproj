@@ -82,6 +82,7 @@
     <Compile Include="Collections\ObservableCollectionEx.INotifyCollectionChanged.cs" />
     <Compile Include="Collections\ObservableCollectionEx.INotifyPropertyChanged.cs" />
     <Compile Include="Collections\ObservableCollectionEx.Version.cs" />
+    <Compile Include="Collections\ObservableVirtualizingCollection.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Commands\DelegateCommandBase.WeakEventHandlerManager.cs" />
     <Compile Include="Commands\DelegateCommandBase.cs" />
@@ -89,9 +90,12 @@
     <Compile Include="Controls\AdornerWithVisual.cs" />
     <Compile Include="Controls\BackgroundLoadingListView.cs" />
     <Compile Include="Controls\Canvas.cs" />
+    <Compile Include="Controls\Trees\_BooleanExpressionTrees\BooleanExpressionTreeControl.cs" />
     <Compile Include="Controls\ZoomableListView.cs" />
     <Compile Include="Converters\EnumToValuesConverter.cs" />
     <Compile Include="Converters\GetTypeConverter.cs" />
+    <Compile Include="Converters\IndentToLeftMarginConverter.cs" />
+    <Compile Include="Converters\IndexToBrushConverter.cs" />
     <Compile Include="Converters\IsOfTypeConverter.cs" />
     <Compile Include="Converters\FirstBindingConverter.cs" />
     <Compile Include="Converters\MultiplyNumberConverter.cs" />
@@ -110,6 +114,7 @@
     <Compile Include="FrameworkExtensions\System.Windows.Media\Color.extensions.cs" />
     <Compile Include="MarkupExtensions\CompareMethodBinding.cs" />
     <Compile Include="Media\Colors.cs" />
+    <Compile Include="NotifyPropertyChangedObjectWrapper.cs" />
     <Compile Include="SharedResourceDictionary.cs" />
     <Compile Include="ViewModels\AfterViewModelEventRaisedArgs.cs" />
     <Compile Include="ViewModels\IViewModelEvent.cs" />

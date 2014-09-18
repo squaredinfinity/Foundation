@@ -137,4 +137,13 @@
 
     <converters:FirstBindingConverter x:Key="Converters.FirstBindingValue" />
     
+    <converters:IndexToBrushConverter x:Key="Converters.IndexToBrush">
+        <SolidColorBrush Color="#4F81BD" po:Freeze="True" />
+        <SolidColorBrush Color="#C0504D" po:Freeze="True" />
+        <SolidColorBrush Color="#9BBB59" po:Freeze="True" />
+        <SolidColorBrush Color="#8064A2" po:Freeze="True" />
+        <SolidColorBrush Color="#4BACC6" po:Freeze="True" />
+        <SolidColorBrush Color="#F79646" po:Freeze="True" />
+    </converters:IndexToBrushConverter>
+    
 </ResourceDictionary>
