@@ -26,7 +26,7 @@ namespace SquaredInfinity.Foundation.Extensions
             // if binding was set in Data Template, ClearBinding may not work
             // replace binding with a dummy value
             if (BindingOperations.IsDataBound(depObj, depProp))
-                depObj.SetBinding(depProp, "[binding_removed]");
+                depObj.SetBinding(depProp, "<binding_removed__ignore_this_message>");
         }
 
         public static bool IsInViewport(this FrameworkElement fe, Window parentWindow)
