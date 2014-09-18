@@ -18,5 +18,15 @@ namespace SquaredInfinity.Foundation.Extensions
         {
             return System.Windows.Media.Color.FromScRgb((float)color.Alpha, (float)color.R, (float)color.G, (float)color.B);
         }
+
+        public static System.Windows.Media.Color ToWindowsMediaColor(this LabColor color)
+        {
+            var xyz = KnownColorSpaces.Lab.ToXYZColor(color) as XYZColor;
+
+            var scrgb = KnownColorSpaces.scRGB.FromXYZColor(xyz) as ScRBGColor;
+
+
+            return System.Windows.Media.Color.FromScRgb((float)scrgb.Alpha, (float)scrgb.R, (float)scrgb.G, (float)scrgb.B);
+        }
     }
 }
