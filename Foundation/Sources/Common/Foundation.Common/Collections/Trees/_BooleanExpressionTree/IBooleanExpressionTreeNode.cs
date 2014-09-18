@@ -87,6 +87,9 @@ namespace SquaredInfinity.Foundation.Collections.Trees
         /// <param name="position"></param>
         void AssignChild(IBooleanExpressionTreeNode childNode, ChildNodePosition position);
 
+
+        bool IsDescendantOf(IBooleanExpressionTreeNode potentialAncestor);
+
         void RaiseTreeChanged();
     }
 }

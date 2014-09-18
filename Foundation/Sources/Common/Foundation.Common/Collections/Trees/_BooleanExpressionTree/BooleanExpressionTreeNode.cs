@@ -249,5 +249,20 @@ namespace SquaredInfinity.Foundation.Collections.Trees
             Left = right;
             Right = left;
         }
+
+        public bool IsDescendantOf(IBooleanExpressionTreeNode potentialAncestor)
+        {
+            var ancestor = (IBooleanExpressionTreeNode)Parent;
+
+            while (ancestor != null)
+            {
+                if (ancestor == potentialAncestor)
+                    return true;
+
+                ancestor = ancestor.Parent;
+            }
+
+            return false;
+        }
     }
 }

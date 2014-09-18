@@ -92,6 +92,26 @@ namespace SquaredInfinity.Foundation.Collections.Trees
                 return FindRoot();
             }
 
+            bool targetIsDescendantOfThis = target.IsDescendantOf(this);
+
+            //# if target is a descendant of this node,
+            //  make target parent = this.parent
+            if (targetIsDescendantOfThis)
+            {
+                var targetGrandParent = targetParent.Parent;
+
+                if (targetGrandParent != null)
+                    targetGrandParent.ClearChildAssignment(targetParent);
+
+                targetParent.AssignParent(Parent);
+
+                if (Parent != null)
+                {
+                    var thisPosition = Parent.GetChildPosition(this);
+                    Parent.AssignChild(targetParent, thisPosition);
+                }
+            }
+
             //# replace target with Connective Node
             //  add target as left
             //  add this as right
@@ -99,7 +119,8 @@ namespace SquaredInfinity.Foundation.Collections.Trees
             var targetPosition = targetParent.GetChildPosition(target);
 
             var newConnective = new PredicateConnectiveNode();
-            newConnective.Mode = PredicateConnectiveMode.OR;
+            
+            newConnective.Mode = this.Mode;
 
             newConnective.AssignChild(target, ChildNodePosition.Left);
             newConnective.AssignChild(this, ChildNodePosition.Right);
