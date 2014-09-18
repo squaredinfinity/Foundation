@@ -17,6 +17,8 @@ namespace SquaredInfinity.Foundation.Presentation.Converters
     /// </summary>
     public class MixedCompositeConverter : IMultiValueConverter
     {
+        public bool IgnoreUnsetValues { get; set; }
+
         /// <summary>
         /// Contains one IMultiValueConverter (first) followed by one or more IValueConverters
         /// </summary>
@@ -38,7 +40,12 @@ namespace SquaredInfinity.Foundation.Presentation.Converters
 
             foreach (var converter in Converters.Skip(1).Cast<IValueConverter>())
             {
-                result = converter.Convert(result, targetType, parameter, culture);
+                var new_result = converter.Convert(result, targetType, parameter, culture);
+
+                if (IgnoreUnsetValues && new_result == DependencyProperty.UnsetValue)
+                    continue;
+
+                result = new_result;
             }
 
             return result;
