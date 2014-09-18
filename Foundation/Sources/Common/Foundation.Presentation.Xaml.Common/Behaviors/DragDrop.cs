@@ -280,7 +280,7 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
                 return;
             }
 
-            _dragInfo = DragInfo.CreateFromMouseButtonEvent(sender, e);
+            _dragInfo = DragInfo.CreateFromEvent(sender, e);
 
             if (_dragInfo == null)
                 return;
@@ -523,9 +523,20 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
 
         private static void DropTarget_PreviewDrop(object sender, DragEventArgs e)
         {
-            var dropInfo = new DropInfo(sender, e, _dragInfo);
+            var local_dragInfo = _dragInfo;
+
+            if (local_dragInfo == null)
+            {
+                //NOTE: internal drag info may be null if drag operation did not originate from control using this DragDrop implementation
+                //      (e.g. outside of wpf app)
+                //      In that case convert DragEventArgs to DragInfo representation and then use it
+
+                local_dragInfo = DragInfo.CreateFromEvent(sender, e);
+            }
+
+            var dropInfo = new DropInfo(sender, e, local_dragInfo);
             var dropHandler = GetDropHandler((UIElement)sender) ?? DefaultDropTarget;
-            var dragHandler = GetDragSource(_dragInfo, sender as UIElement);
+            var dragHandler = GetDragSource(local_dragInfo, sender as UIElement);
 
             DragAdorner = null;
             EffectAdorner = null;
