@@ -229,7 +229,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             var item_as_string = (string)null;
 
             //# Check if instance type supports conversion to and from string
-            if (TryConvertToStringIfTypeSupports(instance, out item_as_string))
+            if (TryConvertToStringIfTypeSupports(instance.GetType(), instance, out item_as_string))
             {
                 el.Add(new XText(item_as_string));
 
@@ -276,7 +276,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                 return wrapper;
             }
-            else if (TryConvertToStringIfTypeSupports(memberValue, out val_as_string))
+            else if (TryConvertToStringIfTypeSupports(strategy.MemberDescription.MemberType.Type, memberValue, out val_as_string))
             {
                 // member value supports converting to and from string
                 //
@@ -488,9 +488,9 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             return false;
         }
 
-        protected virtual bool TryConvertToStringIfTypeSupports(object obj, out string result)
+        protected virtual bool TryConvertToStringIfTypeSupports(Type objType, object obj, out string result)
         {
-            var typeConverter = System.ComponentModel.TypeDescriptor.GetConverter(obj);
+            var typeConverter = System.ComponentModel.TypeDescriptor.GetConverter(objType);
 
             if (typeConverter == null
                 // what is serialized will need to be deserialized
@@ -746,11 +746,28 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             var list = instance as IEnumerable;
 
-            foreach (var item in list)
+            try
             {
-                var el_item = cx.Serialize(item);
+                // it is possible for GetEnumerator() to throw exception here
+                // (e.g. NotImplemented or NotSupported)
 
-                el.Add(el_item);
+                foreach (var item in list)
+                {
+                    try
+                    {
+                        var el_item = cx.Serialize(item);
+
+                        el.Add(el_item);
+                    }
+                    catch(Exception ex)
+                    {
+                        // todo: log error
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                // todo: log
             }
 
             return el;
