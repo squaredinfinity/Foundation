@@ -27,6 +27,31 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 
         public object ConverterParameter { get; set; }
 
+        bool IsTargetNullValueSet;
+
+        object _targetNullValue;
+        public object TargetNullValue 
+        {
+            get { return _targetNullValue; }
+            set 
+            {
+                _targetNullValue = value;
+                IsTargetNullValueSet = true;
+            }
+        }
+
+        bool IsFallbackValueSet;
+        object _fallbackValue;
+        public object FallbackValue 
+        {
+            get { return _fallbackValue; }
+            set
+            {
+                _fallbackValue = value;
+                IsFallbackValueSet = true;
+            }
+        }
+
         public int Delay { get; set; }
 
         public UpdateSourceTrigger UpdateSourceTrigger { get; set; }
@@ -44,6 +69,12 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 
             if(RelativeSource != null)
                 binding.RelativeSource = RelativeSource;
+
+            if(IsTargetNullValueSet)
+                binding.TargetNullValue = TargetNullValue;
+
+            if(IsFallbackValueSet)
+                binding.FallbackValue = FallbackValue;
         }
 
         protected static void UpdateBindingFromSource(Binding binding, string source)
