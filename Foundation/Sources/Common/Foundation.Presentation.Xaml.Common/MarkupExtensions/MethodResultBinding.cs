@@ -13,42 +13,96 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
         public object Parameter { get; set; }
         public Binding ParameterBinding { get; set; }
 
-        public MethodResultBinding()
-        { }
+        public string NotifySourceChangedTriggerPropertyName { get; set; }
 
-        public MethodResultBinding(string methodName)
+        public MethodResultBinding()
         {
-            MethodName = methodName;
+            Mode = BindingMode.OneWay;
+        }
+
+        public MethodResultBinding(string methodNameOrFullSourcePath)
+        {
+            Mode = BindingMode.OneWay;
+
+            var ix_last_dot = methodNameOrFullSourcePath.LastIndexOf('.');
+
+            if (ix_last_dot < 0)
+            {
+                MethodName = methodNameOrFullSourcePath;
+            }
+            else
+            {
+                MethodName = methodNameOrFullSourcePath.Substring(ix_last_dot + 1);
+
+                Source = methodNameOrFullSourcePath.Substring(0, ix_last_dot);
+            }
         }
 
         protected override BindingBase InitialiseBinding(IServiceProvider serviceProvider)
         {
             var multiBinding = new MultiBinding();
 
+            multiBinding.Mode = BindingMode.OneWay;
+
             var contextBinding = new Binding();
             UpdateBindingFromSource(contextBinding);
-            multiBinding.Bindings.Add(contextBinding);  
+            multiBinding.Bindings.Add(contextBinding);
+
+            int nonParameterBindingsCount = 1;
+
+            if(NotifySourceChangedTriggerPropertyName != null)
+            {
+                var sourceChangedTriggerBinding = new Binding();
+                UpdateBindingFromSource(sourceChangedTriggerBinding);
+
+                var path = sourceChangedTriggerBinding.Path.Path;
+
+                if (path != null && path.Length > 0)
+                {
+                    sourceChangedTriggerBinding.Path = new System.Windows.PropertyPath(path + "." + NotifySourceChangedTriggerPropertyName);
+                }
+                else
+                {
+                    sourceChangedTriggerBinding.Path = new System.Windows.PropertyPath(NotifySourceChangedTriggerPropertyName);
+                }
+
+                multiBinding.Bindings.Add(sourceChangedTriggerBinding);
+
+                nonParameterBindingsCount++;
+            }
 
             if (ParameterBinding != null)
             {
                 multiBinding.Bindings.Add(ParameterBinding);
-                multiBinding.Converter = new MixedCompositeConverter(
-                    new MethodWithParametersResultConverter(MethodName, null), 
+
+                var converter = 
+                    new MixedCompositeConverter(
+                    new MethodWithParametersResultConverter(MethodName, nonParameterBindingsCount, hardParameters: null), 
                     Converter);
+
+                converter.IgnoreUnsetValues = true;
+
+                multiBinding.Converter = converter;
             }
             else
             {
                 if (Parameter == null)
                 {
-                    multiBinding.Converter = new MixedCompositeConverter(
-                        new MethodWithParametersResultConverter(MethodName, null), 
+                    var converter =
+                        new MixedCompositeConverter(
+                        new MethodWithParametersResultConverter(MethodName, nonParameterBindingsCount, hardParameters: null),
                         Converter);
+                    converter.IgnoreUnsetValues = true;
+                    multiBinding.Converter = converter;
                 }
                 else
                 {
-                    multiBinding.Converter = new MixedCompositeConverter(
-                        new MethodWithParametersResultConverter(MethodName, new object[] { Parameter }), 
+                    var converter =
+                        new MixedCompositeConverter(
+                        new MethodWithParametersResultConverter(MethodName, nonParameterBindingsCount, hardParameters: new object[] { Parameter }),
                         Converter);
+                    converter.IgnoreUnsetValues = true;
+                    multiBinding.Converter = converter;
                 }
             }
 

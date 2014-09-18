@@ -15,11 +15,13 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
         {
             readonly string MethodName;
             readonly object[] HardParameters;
+            readonly int NonParameterBindingsCount;
             MethodInfo MethodInfo;
 
-            public MethodWithParametersResultConverter(string methodName, IEnumerable<object> hardParameters)
+            public MethodWithParametersResultConverter(string methodName, int nonParameterBindingsCount, IEnumerable<object> hardParameters)
             {
                 this.MethodName = methodName;
+                this.NonParameterBindingsCount = nonParameterBindingsCount;
 
                 if (hardParameters != null && hardParameters.Any())
                 {
@@ -32,7 +34,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                 try
                 {
                     var value = values.FirstOrDefault();
-                    var parameters = values.Skip(1);
+                    var parameters = values.Skip(NonParameterBindingsCount);
 
                     if (MethodName == null)
                         return DependencyProperty.UnsetValue;
