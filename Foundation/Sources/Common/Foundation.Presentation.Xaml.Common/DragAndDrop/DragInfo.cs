@@ -12,7 +12,7 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
     public class DragInfo : IDragInfo
     {
 
-        public static IDragInfo CreateFromMouseButtonEvent(object sender, MouseButtonEventArgs e)
+        public static IDragInfo CreateFromEvent(object sender, MouseButtonEventArgs e)
         {
             var dragInfo = new DragInfo();
 
@@ -74,6 +74,79 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
             dragInfo.DragStartPosition = e.GetPosition((IInputElement)sender);
             dragInfo.AllowedEffects = DragDropEffects.None;
             dragInfo.MouseButton = e.ChangedButton;
+            dragInfo.VisualSource = sender as UIElement;
+
+            if (dragInfo.SourceItems == null)
+            {
+                dragInfo.SourceItems = Enumerable.Empty<object>();
+            }
+
+            return dragInfo;
+        }
+
+        public static IDragInfo CreateFromEvent(object sender, DragEventArgs e)
+        {
+            var dragInfo = new DragInfo();
+
+            var itemsControl = sender as ItemsControl;
+
+            if (itemsControl != null)
+            {
+                dragInfo.VisualSourceFlowDirection = itemsControl.GetItemsPanelFlowDirection();
+
+                if (e.OriginalSource != null)
+                {
+                    var draggedUIElement = e.OriginalSource as UIElement;
+
+                    if (draggedUIElement == null && e.OriginalSource is DependencyObject)
+                        draggedUIElement = (e.OriginalSource as DependencyObject).FindLogicalParent<UIElement>();
+
+                    if (draggedUIElement != null)
+                    {
+                        //# try to get dragged item container
+                        UIElement draggedItemContainer = itemsControl.GetItemContainer(draggedUIElement);
+
+                        if (draggedItemContainer == null)
+                            draggedItemContainer = itemsControl.GetItemContainerAt(e.GetPosition(itemsControl), itemsControl.GetItemsPanelOrientation());
+
+                        if (draggedItemContainer == null)
+                            return null;
+
+                        dragInfo.PositionInDraggedItem = e.GetPosition(draggedItemContainer);
+
+                        var itemParent = ItemsControl.ItemsControlFromItemContainer(draggedItemContainer);
+
+                        if (itemParent != null)
+                        {
+                            dragInfo.SourceCollection = itemParent.ItemsSource ?? itemParent.Items.SourceCollection;
+                            dragInfo.SourceIndex = itemParent.ItemContainerGenerator.IndexFromContainer(draggedItemContainer);
+                            dragInfo.SourceItem = itemParent.ItemContainerGenerator.ItemFromContainer(draggedItemContainer);
+                        }
+
+                        if (itemsControl != null)
+                        {
+                            dragInfo.SourceItems = itemsControl.GetSelectedItems();
+
+                            // Some controls (I'm looking at you TreeView!) haven't updated their
+                            // SelectedItem by this point. Check to see if there 1 or less item in 
+                            // the SourceItems collection, and if so, override the control's 
+                            // SelectedItems with the clicked item.
+
+                            // TreeView will not update source items at this point,
+                            // reuse previously found source item
+                            if (dragInfo.SourceItems.Cast<object>().Count() < 1)
+                            {
+                                dragInfo.SourceItems = Enumerable.Repeat(dragInfo.SourceItem, 1);
+                            }
+                        }
+
+                        dragInfo.VisualSourceItem = draggedItemContainer;
+                    }
+                }
+            }
+
+            dragInfo.DragStartPosition = e.GetPosition((IInputElement)sender);
+            dragInfo.AllowedEffects = DragDropEffects.None;
             dragInfo.VisualSource = sender as UIElement;
 
             if (dragInfo.SourceItems == null)
