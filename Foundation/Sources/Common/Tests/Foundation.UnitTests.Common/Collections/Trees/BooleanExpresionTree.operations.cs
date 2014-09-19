@@ -56,7 +56,7 @@ namespace SquaredInfinity.Foundation.Collections.Trees
         }
 
         [TestMethod]
-        public void InjectInto__Insert__FunctionNode_Into_LeftFunctionNode()
+        public void InjectInto__Insert__FunctionNode_Into_RightFunctionNode()
         {
             // start:
             //      (c1)
@@ -109,7 +109,7 @@ namespace SquaredInfinity.Foundation.Collections.Trees
         }
 
         [TestMethod]
-        public void InjectInto__Insert__FunctionNode_Into_RightFunctionNode()
+        public void InjectInto__Insert__FunctionNode_Into_LeftFunctionNode()
         {
             // start:
             //      (c1)
@@ -140,13 +140,13 @@ namespace SquaredInfinity.Foundation.Collections.Trees
             tree.InjectInto(f4, f2);
 
             // end:
-            //      (c1)
+            //        (c1)
+            //       /    \
+            //      (c2)  (f1)
             //     /    \
-            //    (c2)  (f1)
-            //   /    \
-            //  (c3)  (f3)
-            // /   \
-            //(f2) (f4)
+            //    (c3)  (f3)
+            //    /   \
+            //  (f4) (f2)
 
             Assert.AreSame(tree.Root, c1);
             Assert.AreSame(c1.Left, c2);
@@ -156,8 +156,8 @@ namespace SquaredInfinity.Foundation.Collections.Trees
             var c3 = c2.Left;
 
             Assert.IsNotNull(c3);
-            Assert.AreSame(c3.Left, f2);
-            Assert.AreSame(c3.Right, f4);
+            Assert.AreSame(c3.Left, f4);
+            Assert.AreSame(c3.Right, f2);
 
         }
 
