@@ -264,5 +264,15 @@ namespace SquaredInfinity.Foundation.Collections.Trees
 
             return false;
         }
+
+        public IBooleanExpressionTreeNode FindRoot()
+        {
+            var root_candidate = (IBooleanExpressionTreeNode)this;
+
+            while (root_candidate.Parent != null)
+                root_candidate = root_candidate.Parent;
+
+            return root_candidate;
+        }
     }
 }

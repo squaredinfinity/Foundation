@@ -82,44 +82,77 @@ namespace SquaredInfinity.Foundation.Collections.Trees
 
         IBooleanExpressionTreeNode InjectInto(PredicateNode target)
         {
+            var source = this;
+
             var targetParent = target.Parent;
 
+            //# target is child of source, do nothing
+            if (object.Equals(target.Parent, source))
+                return FindRoot();
+
             //# target and this are children of same parent -> swap places
-            if(targetParent != null && targetParent == this.Parent)
+            if(targetParent != null && object.Equals(targetParent, source.Parent))
             {
                 targetParent.SwapChildren();
 
                 return FindRoot();
             }
 
-            bool targetIsDescendantOfThis = target.IsDescendantOf(this);
+            var originalTargetPosition = default(ChildNodePosition);
 
-            //# if target is a descendant of this node,
-            //  make target parent = this.parent
-            if (targetIsDescendantOfThis)
+            if(targetParent != null)
             {
+                originalTargetPosition = targetParent.GetChildPosition(target);
+            }
+
+            bool targetIsDescendantOfSource = target.IsDescendantOf(source);
+
+            if(targetIsDescendantOfSource)
+            {
+                // target is a descendant of source
+                // before source is injected into a parent of a target (because target is a Predicate Node, source cannot be injected into it directly)
+                // attach target parent to parent of source
+
                 var targetGrandParent = targetParent.Parent;
 
-                if (targetGrandParent != null)
-                    targetGrandParent.ClearChildAssignment(targetParent);
+                targetGrandParent.ClearChildAssignment(targetParent);
+                targetParent.AssignParent(source.Parent);
 
-                targetParent.AssignParent(Parent);
-
-                if (Parent != null)
+                if(source.Parent != null)
+                    source.Parent.ReplaceChildNode(source, targetParent);
+            }
+            else
+            {
+                if (source.Parent != null)
                 {
-                    var thisPosition = Parent.GetChildPosition(this);
-                    Parent.AssignChild(targetParent, thisPosition);
+                    source.Parent.ClearChildAssignment(source);
+                    source.AssignParent(null);
                 }
             }
 
-            //# replace target with Connective Node
-            //  add target as left
-            //  add this as right
+            //# check if source has an empty child slot
+            if(source.Left == null || source.Right == null)
+            {
+                // connect target to source
+                // connect source to target parent
 
-            var targetPosition = targetParent.GetChildPosition(target);
+                source.AssignParent(targetParent);
+                targetParent.ReplaceChildNode(target, source);
+
+                target.AssignParent(source);
+
+                if (source.Left == null)
+                    source.AssignChild(target, ChildNodePosition.Left);
+                else
+                    source.AssignChild(target, ChildNodePosition.Right);
+
+                return FindRoot();
+            }
+
+            //# source has both children, create a new connective mode to link target parent, target and source
 
             var newConnective = new PredicateConnectiveNode();
-            
+
             newConnective.Mode = this.Mode;
 
             newConnective.AssignChild(target, ChildNodePosition.Left);
@@ -127,11 +160,11 @@ namespace SquaredInfinity.Foundation.Collections.Trees
 
             target.AssignParent(newConnective);
 
-            targetParent.AssignChild(newConnective, targetPosition);
+            targetParent.AssignChild(newConnective, originalTargetPosition);
             newConnective.AssignParent(targetParent);
 
             //# update this parent
-            if(this.Parent != null)
+            if (this.Parent != null)
             {
                 this.Parent.ClearChildAssignment(this);
             }
@@ -139,16 +172,6 @@ namespace SquaredInfinity.Foundation.Collections.Trees
             this.AssignParent(newConnective);
 
             return FindRoot();
-        }
-
-        IBooleanExpressionTreeNode FindRoot()
-        {
-            var root_candidate = (IBooleanExpressionTreeNode) this;
-            
-            while (root_candidate.Parent != null)
-                root_candidate = root_candidate.Parent;
-
-            return root_candidate;
         }
     }
 }

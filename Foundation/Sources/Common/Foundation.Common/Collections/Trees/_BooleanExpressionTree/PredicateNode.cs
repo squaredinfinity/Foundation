@@ -39,6 +39,13 @@ namespace SquaredInfinity.Foundation.Collections.Trees
 
             var targetParent = targetPredicate.Parent;
 
+            if(Parent != null && targetParent != null && object.ReferenceEquals(Parent, targetParent))
+            {
+                Parent.SwapChildren();
+                return FindRoot();
+
+            }
+
             if(targetParent == null)
             {
                 // create a parent for a target
@@ -81,6 +88,7 @@ namespace SquaredInfinity.Foundation.Collections.Trees
                 throw new NotSupportedException();
             }
         }
+
 
         /// <summary>
         /// 

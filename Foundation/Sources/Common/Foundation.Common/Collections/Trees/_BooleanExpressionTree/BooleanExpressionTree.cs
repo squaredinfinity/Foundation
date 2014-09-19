@@ -74,11 +74,11 @@ namespace SquaredInfinity.Foundation.Collections.Trees
 
                 var connectiveNode = node as PredicateConnectiveNode;
 
-                //# Connective Node with both children | do nothing
+                //# Connective Node with both children => do nothing
                 if (connectiveNode.Left != null && connectiveNode.Right != null)
                     continue;
 
-                //# Connective Node without any children | REMOVE
+                //# Connective Node without any children => REMOVE
                 if (connectiveNode.Left == null && connectiveNode.Right == null)
                 {
                     if (connectiveNode.Parent == null)
@@ -94,7 +94,7 @@ namespace SquaredInfinity.Foundation.Collections.Trees
                     }
                 }
 
-                //# Connective Node with only one child | replace connective node with the child
+                //# Connective Node with only one child => replace connective node with the child
                 if (connectiveNode.Left == null)
                 {
                     if (connectiveNode.Parent == null)
@@ -137,6 +137,10 @@ namespace SquaredInfinity.Foundation.Collections.Trees
 
             if (target == null)
                 throw new ArgumentNullException("target");
+
+            //# cannot insert parent into its child
+            if (target.Parent == source)
+                return;
 
             Root = source.InjectInto(target);
 
