@@ -255,6 +255,9 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop.Utilities
 
             if (uiElement != null)
             {
+                if (!itemsControl.IsAncestorOf(uiElement))
+                    continue;
+
                 var p = uiElement.TransformToAncestor(itemsControl).Transform(new Point(0, 0));
 
                 var distance = double.MaxValue;
