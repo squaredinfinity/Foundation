@@ -18,6 +18,14 @@
     <converters:BoolToVisibilityConverter x:Key="Converters.VisibleWhenTrueHiddenWhenFalse"
                                           Mode="VisibleWhenTrueHiddenWhenFalse" />
 
+    <!-- Short-name version of Converters.VisibleWhenTrueHiddenWhenFalse -->
+    <converters:BoolToVisibilityConverter x:Key="Converters.HiddenWhenFalse"
+                                          Mode="VisibleWhenTrueHiddenWhenFalse" />
+
+    <!-- Alternative-name version of Converters.VisibleWhenTrue -->
+    <converters:BoolToVisibilityConverter x:Key="Converters.CollapsedWhenFalse"
+                                          Mode="VisibleWhenTrue" />
+
     <converters:CollectionPositionToBoolConverter x:Key="Converters.TrueWhenFirst"
                                                   Mode="TrueWhenFirst" />
 
