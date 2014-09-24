@@ -34,6 +34,10 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                 try
                 {
                     var value = values.FirstOrDefault();
+
+                    if (value == null)
+                        return DependencyProperty.UnsetValue;
+
                     var parameters = values.Skip(NonParameterBindingsCount);
 
                     if (MethodName == null)
