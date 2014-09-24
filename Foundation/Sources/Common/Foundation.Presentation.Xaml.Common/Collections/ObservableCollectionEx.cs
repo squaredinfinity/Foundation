@@ -26,6 +26,8 @@ namespace SquaredInfinity.Foundation.Collections
 
         readonly Dispatcher Dispatcher;
 
+        int InitialHashCode;
+
         object IList.this[int index] { get { return this[index]; } set { this[index] = (TItem)value; } }
 
         static Dispatcher GetMainThreadDispatcher()
@@ -61,6 +63,8 @@ namespace SquaredInfinity.Foundation.Collections
             {
                 MonitorElementsForChanges = monitorElementsForChanges;
             }
+
+            InitialHashCode = GetHashCode();
 
             BindingOperations.EnableCollectionSynchronization(this, context: null, synchronizationCallback: BindingSync);
         }

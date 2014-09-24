@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using SquaredInfinity.Foundation.Extensions;
+using System.Windows.Data;
 
 namespace SquaredInfinity.Foundation.Collections
 {
@@ -27,9 +28,7 @@ namespace SquaredInfinity.Foundation.Collections
                 RaisePropertyChanged("Count");
             }
 
-
-            if (CollectionChanged != null)
-                CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, newItem, oldItem, index));
+            TryRaiseCollectionChanged(new NotifyCollectionChangedEventArgs(action, newItem, oldItem, index));
 
             RaisePropertyChanged("Version");
         }
@@ -48,8 +47,7 @@ namespace SquaredInfinity.Foundation.Collections
                 RaisePropertyChanged("Count");
             }
 
-            if (CollectionChanged != null)
-                CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, item, index));
+            TryRaiseCollectionChanged(new NotifyCollectionChangedEventArgs(action, item, index));
 
             if(raiseVersionChanged)
                 RaisePropertyChanged("Version");
@@ -69,8 +67,7 @@ namespace SquaredInfinity.Foundation.Collections
                 RaisePropertyChanged("Count");
             }
 
-            if (CollectionChanged != null)
-                CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, item, index, oldIndex));
+            TryRaiseCollectionChanged(new NotifyCollectionChangedEventArgs(action, item, index, oldIndex));
 
             RaisePropertyChanged("Version");
         }
@@ -79,14 +76,42 @@ namespace SquaredInfinity.Foundation.Collections
         {
             IncrementVersion();
 
-            if (CollectionChanged != null)
-            {
-                CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-            }
+            TryRaiseCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
             RaisePropertyChanged("Count");
             RaisePropertyChanged("Item[]");
             RaisePropertyChanged("Version");
+        }
+
+        void TryRaiseCollectionChanged(NotifyCollectionChangedEventArgs args)
+        {
+            if (CollectionChanged == null)
+                return;
+
+            try
+            {
+                CollectionChanged(this, args);
+            }
+            catch(NotSupportedException ex)
+            {
+                if(InitialHashCode != GetHashCode())
+                {
+                    //! Not Supported Exception can still sometimes be thrown by CollectionView
+                    //  even when BindingOperations.EnableCollectionSynchronization() has been used
+                    //
+                    //  one scenario that I am aware of is when source collection overrides GetHashCode() method
+                    //  in such way that hash code is not immutable anymore (e.g. it may change when items in collection change)
+                    //  this will cause Binding Engine to lose track of the collection (it assumes hash code to be immutable)
+
+                    var _ex = new NotSupportedException(
+                        "GetHashCode() method on type {0} should return immutable value for it to work with XAML."
+                        .FormatWith(GetType().FullName));
+
+                    throw _ex;
+                }
+
+                throw;
+            }
         }
     }
 }
