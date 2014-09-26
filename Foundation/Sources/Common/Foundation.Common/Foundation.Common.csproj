@@ -66,8 +66,9 @@
     <Compile Include="CompositeComparer_T.cs" />
     <Compile Include="DateTimeContext.cs" />
     <Compile Include="EnumeratorBase.cs" />
-    <Compile Include="IdentityComparer.cs" />
-    <Compile Include="IIdentityEquatable.cs" />
+    <Compile Include="FrameworkExtensions\System\Boolean.extensions.cs" />
+    <Compile Include="CloneComparer.cs" />
+    <Compile Include="ICloneEquatable.cs" />
     <Compile Include="InternalTrace.Foundation.cs" />
     <Compile Include="InternalTrace.cs" />
     <Compile Include="Direction.cs" />

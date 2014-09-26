@@ -42,6 +42,9 @@
     <Compile Include="..\..\Common\Foundation.Common\ChainOfCommand.cs">
       <Link>ChainOfCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\CloneComparer.cs">
+      <Link>CloneComparer.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Collections\CollectionContentChangedEventArgs.cs">
       <Link>Collections\CollectionContentChangedEventArgs.cs</Link>
     </Compile>
@@ -174,6 +177,9 @@
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System.Xml\XmlDocument.extensions.cs">
       <Link>FrameworkExtensions\System.Xml\XmlDocument.extensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\Boolean.extensions.cs">
+      <Link>FrameworkExtensions\System\Boolean.extensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\Char.extensions.cs">
       <Link>FrameworkExtensions\System\Char.extensions.cs</Link>
     </Compile>
@@ -216,17 +222,14 @@
     <Compile Include="..\..\Common\Foundation.Common\GCMemoryUsagePressure.cs">
       <Link>GCMemoryUsagePressure.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\ICloneEquatable.cs">
+      <Link>ICloneEquatable.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\IDateTimeContext.cs">
       <Link>IDateTimeContext.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\IdentityComparer.cs">
-      <Link>IdentityComparer.cs</Link>
-    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\IFreezable.cs">
       <Link>IFreezable.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\IIdentityEquatable.cs">
-      <Link>IIdentityEquatable.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\ILGeneration\IL.cs">
       <Link>ILGeneration\IL.cs</Link>

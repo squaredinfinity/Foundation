@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation
 {
-    public class IdentityComparer<T>
-        where T : IIdentityEquatable<T>
+    public class CloneEqualityComparer<T>
+        where T : ICloneEquatable<T>
     {
         static IEqualityComparer<T> _default = null;
 
@@ -18,27 +18,27 @@ namespace SquaredInfinity.Foundation
             {
                 if(_default == null)
                 {
-                    _default = new DefaultIdentityComparer<T>();
+                    _default = new DefaultCloneComparer<T>();
                 }
 
                 return _default;
             }
         }
 
-        private class DefaultIdentityComparer<T> : IEqualityComparer<T>
-            where T : IIdentityEquatable<T>
+        private class DefaultCloneComparer<T> : IEqualityComparer<T>
+            where T : ICloneEquatable<T>
         {
             public bool Equals(T x, T y)
             {
                 if (x == null || y == null)
                     return false;
 
-                return x.IdentityEquals(y);
+                return x.IsCloneOf(y);
             }
 
             public int GetHashCode(T obj)
             {
-                return obj.GetIdentityHashCode();
+                return obj.GetHashCode();
             }
         }
     }

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 {
@@ -64,10 +66,17 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 
                     var filterMethodInfo = target.GetMethod(MethodName);
 
-                    Compare = new Func<object, object, int>((x, y) =>
+                    if (filterMethodInfo == null)
                     {
-                        return (int)filterMethodInfo.Invoke(value, new object[] { x, y });
-                    });
+                        Trace.WriteLine("Unable to find filter method '{0}'".FormatWith(MethodName));
+                    }
+                    else
+                    {
+                        Compare = new Func<object, object, int>((x, y) =>
+                        {
+                            return (int)filterMethodInfo.Invoke(value, new object[] { x, y });
+                        });
+                    }
                 }
 
                 return Compare;
