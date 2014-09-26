@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Collections.Trees
 {
-    public class BooleanExpressionTreeTraversingCollection : VirtualizingCollection<IBooleanExpressionTreeNode>
+    public class ExpressionTreeTraversingCollection : VirtualizingCollection<IExpressionTreeNode>
     {
-        IBooleanExpressionTreeNode Root;
-        IList<IBooleanExpressionTreeNode> Flattened;
+        IExpressionTreeNode Root;
+        IList<IExpressionTreeNode> Flattened;
 
-        public BooleanExpressionTreeTraversingCollection()
+        public ExpressionTreeTraversingCollection()
         {
-            Flattened = new List<IBooleanExpressionTreeNode>(capacity: 0);
+            Flattened = new List<IExpressionTreeNode>(capacity: 0);
         }
 
-        public void UpdateRoot(IBooleanExpressionTreeNode root, Func<IBooleanExpressionTreeNode, bool> filter = null)
+        public void UpdateRoot(IExpressionTreeNode root, Func<IExpressionTreeNode, bool> filter = null)
         {
             this.Root = root;
 
@@ -45,22 +45,22 @@ namespace SquaredInfinity.Foundation.Collections.Trees
             throw new NotSupportedException();
         }
 
-        protected override IBooleanExpressionTreeNode GetItem(int index)
+        protected override IExpressionTreeNode GetItem(int index)
         {
             return Flattened[index];
         }
 
-        public override bool Contains(IBooleanExpressionTreeNode item)
+        public override bool Contains(IExpressionTreeNode item)
         {
             return Flattened.Contains(item);
         }
 
-        public override int IndexOf(IBooleanExpressionTreeNode item)
+        public override int IndexOf(IExpressionTreeNode item)
         {
             return Flattened.IndexOf(item);
         }
 
-        public override IEnumerator<IBooleanExpressionTreeNode> GetEnumerator()
+        public override IEnumerator<IExpressionTreeNode> GetEnumerator()
         {
             for (int i = 0; i < Count; i++)
             {

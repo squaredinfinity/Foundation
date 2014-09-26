@@ -14,16 +14,16 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.Trees
     {
         #region Tree
 
-        public BooleanExpressionTree Tree
+        public ExpressionTree Tree
         {
-            get { return (BooleanExpressionTree)GetValue(TreeProperty); }
+            get { return (ExpressionTree)GetValue(TreeProperty); }
             set { SetValue(TreeProperty, value); }
         }
 
         public static readonly DependencyProperty TreeProperty =
             DependencyProperty.Register(
             "Tree",
-            typeof(BooleanExpressionTree),
+            typeof(ExpressionTree),
             typeof(BooleanExpressionTreeControl),
             new PropertyMetadata(null, new PropertyChangedCallback(OnTreeChanged)));
 
@@ -50,18 +50,18 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.Trees
 
         #region Flattened Tree
 
-        public BooleanExpressionTreeTraversingCollection FlattenedTree
+        public ExpressionTreeTraversingCollection FlattenedTree
         {
-            get { return (BooleanExpressionTreeTraversingCollection)GetValue(FlattenedTreeProperty); }
+            get { return (ExpressionTreeTraversingCollection)GetValue(FlattenedTreeProperty); }
             set { SetValue(FlattenedTreeProperty, value); }
         }
 
         public static readonly DependencyProperty FlattenedTreeProperty =
             DependencyProperty.Register(
             "FlattenedTree",
-            typeof(BooleanExpressionTreeTraversingCollection),
+            typeof(ExpressionTreeTraversingCollection),
             typeof(BooleanExpressionTreeControl),
-            new PropertyMetadata(new BooleanExpressionTreeTraversingCollection()));
+            new PropertyMetadata(new ExpressionTreeTraversingCollection()));
 
         #endregion
 
@@ -75,12 +75,12 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.Trees
 
         void IDropTarget.Drop(IDropInfo dropInfo)
         {
-            var target = dropInfo.TargetItem as IBooleanExpressionTreeNode;
+            var target = dropInfo.TargetItem as IExpressionTreeNode;
 
             if (target == null)
                 return;
 
-            var source = dropInfo.Data as IBooleanExpressionTreeNode;
+            var source = dropInfo.Data as IExpressionTreeNode;
 
             if (source == null)
                 return;
@@ -97,7 +97,7 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.Trees
 
             // todo: do this as XamlVirutalizingCollection
 
-            var ft = new BooleanExpressionTreeTraversingCollection();
+            var ft = new ExpressionTreeTraversingCollection();
             ft.UpdateRoot(Tree.Root);
             FlattenedTree = ft;
             //FlattenedTree.UpdateRoot(Tree.Root);

@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Collections.Trees
 {
-    public interface IBooleanExpressionTreeNode
+    public interface IExpressionTreeNode
     {
         event EventHandler<EventArgs> AfterTreeChanged;
 
-        IBooleanExpressionTreeNode Parent { get; }
-        IBooleanExpressionTreeNode Left { get; }
-        IBooleanExpressionTreeNode Right { get; }
+        IExpressionTreeNode Parent { get; }
+        IExpressionTreeNode Left { get; }
+        IExpressionTreeNode Right { get; }
 
         bool Evaluate(object payload);
 
@@ -21,28 +21,28 @@ namespace SquaredInfinity.Foundation.Collections.Trees
         /// </summary>
         int GetPrecedence();
 
-        IEnumerable<IBooleanExpressionTreeNode> TraverseTreeInOrder();
-        IEnumerable<IBooleanExpressionTreeNode> TraverseTreePostOrder();
+        IEnumerable<IExpressionTreeNode> TraverseTreeInOrder();
+        IEnumerable<IExpressionTreeNode> TraverseTreePostOrder();
 
         /// <summary>
         /// Inserts specified node as a Left child of this node.
         /// Steps will be taken to ensure tree correctness after this operation.
         /// </summary>
         /// <param name="leftNode"></param>
-        void InsertLeft(IBooleanExpressionTreeNode leftNode);
+        void InsertLeft(IExpressionTreeNode leftNode);
 
         /// <summary>
         /// Inserts specified node as a Right child of this node.
         /// Steps will be taken to ensure tree correctness after this operation.
         /// </summary>
         /// <param name="rightNode"></param>
-        void InsertRight(IBooleanExpressionTreeNode rightNode);
+        void InsertRight(IExpressionTreeNode rightNode);
 
         /// <summary>
         /// Injects this node into tree hierarchy of specified node.
         /// </summary>
         /// <param name="node"></param>
-        IBooleanExpressionTreeNode InjectInto(IBooleanExpressionTreeNode node);
+        IExpressionTreeNode InjectInto(IExpressionTreeNode node, Func<IPredicateConnectiveNode> createConnectiveNode);
 
         /// <summary>
         /// Replaces old child node with a new child node.
@@ -51,7 +51,7 @@ namespace SquaredInfinity.Foundation.Collections.Trees
         /// </summary>
         /// <param name="oldNode"></param>
         /// <param name="newNode"></param>
-        void ReplaceChildNode(IBooleanExpressionTreeNode oldNode, IBooleanExpressionTreeNode newNode);
+        void ReplaceChildNode(IExpressionTreeNode oldNode, IExpressionTreeNode newNode);
 
         void SwapChildren();
 
@@ -60,7 +60,7 @@ namespace SquaredInfinity.Foundation.Collections.Trees
         /// No further action will be taken to ensure tree correctness.
         /// </summary>
         /// <param name="newParent"></param>
-        void AssignParent(IBooleanExpressionTreeNode newParent);
+        void AssignParent(IExpressionTreeNode newParent);
 
         /// <summary>
         /// Removes the specified child from this node.
@@ -68,16 +68,16 @@ namespace SquaredInfinity.Foundation.Collections.Trees
         /// No further action will be taken to ensure tree correctenss.
         /// </summary>
         /// <param name="existingChild"></param>
-        void ClearChildAssignment(IBooleanExpressionTreeNode existingChild, out ChildNodePosition childPosition);
+        void ClearChildAssignment(IExpressionTreeNode existingChild, out ChildNodePosition childPosition);
 
-        void ClearChildAssignment(IBooleanExpressionTreeNode existingChild);
+        void ClearChildAssignment(IExpressionTreeNode existingChild);
 
         /// <summary>
         /// Returns the position (Left or Right) of a child in this node.
         /// </summary>
         /// <param name="existingChild"></param>
         /// <returns></returns>
-        ChildNodePosition GetChildPosition(IBooleanExpressionTreeNode existingChild);
+        ChildNodePosition GetChildPosition(IExpressionTreeNode existingChild);
 
         /// <summary>
         /// Assigns the node to Left or Right child position slot.
@@ -85,10 +85,10 @@ namespace SquaredInfinity.Foundation.Collections.Trees
         /// </summary>
         /// <param name="childNode"></param>
         /// <param name="position"></param>
-        void AssignChild(IBooleanExpressionTreeNode childNode, ChildNodePosition position);
+        void AssignChild(IExpressionTreeNode childNode, ChildNodePosition position);
 
 
-        bool IsDescendantOf(IBooleanExpressionTreeNode potentialAncestor);
+        bool IsDescendantOf(IExpressionTreeNode potentialAncestor);
 
         void RaiseTreeChanged();
     }

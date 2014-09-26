@@ -7,14 +7,14 @@ using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Collections.Trees
 {
-    public class BooleanExpressionTree
+    public abstract class ExpressionTree
     {
         public event EventHandler<EventArgs> AfterTreeChanged;
 
         IDisposable TreeChangedSubscription;
 
-        IBooleanExpressionTreeNode _root;
-        public IBooleanExpressionTreeNode Root 
+        IExpressionTreeNode _root;
+        public IExpressionTreeNode Root 
         {
             get { return _root; }
             set
@@ -130,7 +130,7 @@ namespace SquaredInfinity.Foundation.Collections.Trees
             RaiseTreeChanged();
         }
 
-        public void InjectInto(IBooleanExpressionTreeNode source, IBooleanExpressionTreeNode target)
+        public void InjectInto(IExpressionTreeNode source, IExpressionTreeNode target)
         {
             if (source == null)
                 throw new ArgumentNullException("source");
@@ -142,14 +142,14 @@ namespace SquaredInfinity.Foundation.Collections.Trees
             if (target.Parent == source)
                 return;
 
-            Root = source.InjectInto(target);
+            Root = source.InjectInto(target, GetDefaultConnectiveNode);
 
             CleanUpTreeStructure();
 
             RaiseTreeChanged();
         }
 
-        public void RemoveNode(IBooleanExpressionTreeNode node)
+        public void RemoveNode(IExpressionTreeNode node)
         {
             var nodeAsPredicate = node as PredicateNode;
 
@@ -177,11 +177,25 @@ namespace SquaredInfinity.Foundation.Collections.Trees
             nodeParent.AssignChild(null, position);
         }
 
-        public void ReplaceRootAndSubtree(IBooleanExpressionTreeNode newRootAndSubTree)
+        public void ReplaceRootAndSubtree(IExpressionTreeNode newRootAndSubTree)
         {
             Root = newRootAndSubTree;
             CleanUpTreeStructure();
             RaiseTreeChanged();
         }
+
+        public void AppendNode(IExpressionTreeNode newNode)
+        {
+            if (Root == null)
+            {
+                ReplaceRootAndSubtree(newNode);
+            }
+            else
+            {
+                InjectInto(newNode, Root);
+            }
+        }
+
+        public abstract IPredicateConnectiveNode GetDefaultConnectiveNode();
     }
 }

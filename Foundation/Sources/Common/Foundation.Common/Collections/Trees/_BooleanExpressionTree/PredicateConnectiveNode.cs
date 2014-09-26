@@ -8,79 +8,53 @@ using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Collections.Trees
 {
-    [DebuggerDisplay("{DebuggerDisplay}")]
-    public class PredicateConnectiveNode : BooleanExpressionTreeNode
+    public interface IBinaryOperator
     {
-        PredicateConnectiveMode _mode;
-        public PredicateConnectiveMode Mode 
-        {
-            get { return _mode; }
-            set 
-            {
-                if (_mode == value)
-                    return;
+        bool Evaluate(object payload, IExpressionTreeNode left, IExpressionTreeNode right);
 
-                _mode = value;
+        IBinaryOperator DeepClone();
+    }
 
-                RaiseTreeChanged();
-            }
-        }
+    public interface IPredicateConnectiveNode : IExpressionTreeNode
+    {
+        IBinaryOperator Operator { get; set; }
+    }
 
-        public override int GetPrecedence()
-        {
-            if (Mode == PredicateConnectiveMode.AND)
-            {
-                return 2;
-            }
-            else
-            {
-                return 3;
-            }
-        }
+    [DebuggerDisplay("{DebuggerDisplay}")]
+    public abstract class PredicateConnectiveNode : ExpressionTreeNode, IPredicateConnectiveNode
+    {
+        public IBinaryOperator Operator { get; set; }
 
         public override bool Evaluate(object payload)
         {
-            if (Mode == PredicateConnectiveMode.AND)
-            {
-                return
-                    Left.Evaluate(payload)
-                    &&
-                    Right.Evaluate(payload);
-            }
-            else
-            {
-                return
-                    Left.Evaluate(payload)
-                    ||
-                    Right.Evaluate(payload);
-            }
+            return Operator.Evaluate(payload, Left, Right);
         }
 
         public string DebuggerDisplay
         {
-            get { return "{0}".FormatWith(Mode); }
+            get { return "{0}".FormatWith(Operator.ToString(valueWhenNull: "[Null]")); }
         }
 
-        public override IBooleanExpressionTreeNode InjectInto(IBooleanExpressionTreeNode targetNode)
+        public override IExpressionTreeNode InjectInto(IExpressionTreeNode targetNode, Func<IPredicateConnectiveNode> createConnectiveNode)
         {
             if (targetNode is PredicateNode)
             {
-                return InjectInto(targetNode as PredicateNode);
+                return InjectInto(targetNode as PredicateNode, createConnectiveNode);
             }
             else
             {
-                return InjectInto(targetNode as PredicateConnectiveNode);
+                return InjectInto(targetNode as PredicateConnectiveNode, createConnectiveNode);
             }
         }
 
-        IBooleanExpressionTreeNode InjectInto(PredicateConnectiveNode targetConnective)
+        IExpressionTreeNode InjectInto(PredicateConnectiveNode targetConnective, Func<IPredicateConnectiveNode> createConnectiveNode)
         {
             // todo:
 
             return FindRoot();
         }
 
-        IBooleanExpressionTreeNode InjectInto(PredicateNode target)
+        IExpressionTreeNode InjectInto(PredicateNode target, Func<IPredicateConnectiveNode> createConnectiveNode)
         {
             var source = this;
 
@@ -151,9 +125,9 @@ namespace SquaredInfinity.Foundation.Collections.Trees
 
             //# source has both children, create a new connective mode to link target parent, target and source
 
-            var newConnective = new PredicateConnectiveNode();
+            var newConnective = createConnectiveNode();
 
-            newConnective.Mode = this.Mode;
+            newConnective.Operator = this.Operator.DeepClone();
 
             newConnective.AssignChild(target, ChildNodePosition.Left);
             newConnective.AssignChild(this, ChildNodePosition.Right);

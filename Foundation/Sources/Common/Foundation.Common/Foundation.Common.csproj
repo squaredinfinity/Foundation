@@ -56,8 +56,7 @@
     <Compile Include="Collections\Trees\_BooleanExpressionTree\BooleanExpressionTreeNode.cs" />
     <Compile Include="Collections\Trees\_BooleanExpressionTree\BooleanExpressionTreeTraversingCollection.cs" />
     <Compile Include="Collections\Trees\_BooleanExpressionTree\ChildNodePosition.cs" />
-    <Compile Include="Collections\Trees\_BooleanExpressionTree\IBooleanExpressionTreeNode.cs" />
-    <Compile Include="Collections\Trees\_BooleanExpressionTree\PredicateConnectiveMode.cs" />
+    <Compile Include="Collections\Trees\_BooleanExpressionTree\IExpressionTreeNode.cs" />
     <Compile Include="Collections\Trees\_BooleanExpressionTree\PredicateConnectiveNode.cs" />
     <Compile Include="Collections\Trees\_BooleanExpressionTree\PredicateNode.cs" />
     <Compile Include="Collections\VirtualizingCollection.cs" />

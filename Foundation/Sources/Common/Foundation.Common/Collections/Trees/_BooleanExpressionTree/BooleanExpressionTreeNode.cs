@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Collections.Trees
 {
-    public abstract class BooleanExpressionTreeNode : IBooleanExpressionTreeNode
+    public abstract class ExpressionTreeNode : IExpressionTreeNode
     {
-        public IBooleanExpressionTreeNode Parent { get; set; }
+        public IExpressionTreeNode Parent { get; set; }
 
-        public IBooleanExpressionTreeNode Left { get; set; }
+        public IExpressionTreeNode Left { get; set; }
 
-        public IBooleanExpressionTreeNode Right { get; set; }
+        public IExpressionTreeNode Right { get; set; }
 
         public virtual int GetPrecedence() { return 0; }
 
         public abstract bool Evaluate(object payload);
 
-        public virtual void ReplaceChildNode(IBooleanExpressionTreeNode oldNode, IBooleanExpressionTreeNode newNode)
+        public virtual void ReplaceChildNode(IExpressionTreeNode oldNode, IExpressionTreeNode newNode)
         {
             if (Left == oldNode)
             {
@@ -40,7 +40,7 @@ namespace SquaredInfinity.Foundation.Collections.Trees
         }
 
 
-        public virtual void InsertLeft(IBooleanExpressionTreeNode leftNode)
+        public virtual void InsertLeft(IExpressionTreeNode leftNode)
         {
             if (leftNode == null)
                 throw new ArgumentNullException("leftNode");
@@ -54,7 +54,7 @@ namespace SquaredInfinity.Foundation.Collections.Trees
             RaiseTreeChanged();
         }
 
-        public virtual void InsertRight(IBooleanExpressionTreeNode rightNode)
+        public virtual void InsertRight(IExpressionTreeNode rightNode)
         {
             if (rightNode == null)
                 throw new ArgumentNullException("rightNode");
@@ -69,21 +69,21 @@ namespace SquaredInfinity.Foundation.Collections.Trees
         }
 
 
-        public void AssignParent(IBooleanExpressionTreeNode newParent)
+        public void AssignParent(IExpressionTreeNode newParent)
         {
             Parent = newParent;
         }
 
-        public abstract IBooleanExpressionTreeNode InjectInto(IBooleanExpressionTreeNode node);
+        public abstract IExpressionTreeNode InjectInto(IExpressionTreeNode node, Func<IPredicateConnectiveNode> createConnectiveNode);
 
-        public void ClearChildAssignment(IBooleanExpressionTreeNode existingChild)
+        public void ClearChildAssignment(IExpressionTreeNode existingChild)
         {
             ChildNodePosition childPosition_ignored = default(ChildNodePosition);
 
             ClearChildAssignment(existingChild, out childPosition_ignored);
         }
 
-        public void ClearChildAssignment(IBooleanExpressionTreeNode existingChild, out ChildNodePosition childPosition)
+        public void ClearChildAssignment(IExpressionTreeNode existingChild, out ChildNodePosition childPosition)
         {
             if (object.Equals(Left, existingChild))
             {
@@ -102,7 +102,7 @@ namespace SquaredInfinity.Foundation.Collections.Trees
         }
 
 
-        public ChildNodePosition GetChildPosition(IBooleanExpressionTreeNode existingChild)
+        public ChildNodePosition GetChildPosition(IExpressionTreeNode existingChild)
         {
             if (object.Equals(Left, existingChild))
             {
@@ -118,7 +118,7 @@ namespace SquaredInfinity.Foundation.Collections.Trees
             }
         }
 
-        public void AssignChild(IBooleanExpressionTreeNode childNode, ChildNodePosition position)
+        public void AssignChild(IExpressionTreeNode childNode, ChildNodePosition position)
         {
             if(position == ChildNodePosition.Left)
             {
@@ -130,11 +130,11 @@ namespace SquaredInfinity.Foundation.Collections.Trees
             }
         }
 
-        public IEnumerable<IBooleanExpressionTreeNode> TraverseTreeInOrder()
+        public IEnumerable<IExpressionTreeNode> TraverseTreeInOrder()
         {
-            Stack<IBooleanExpressionTreeNode> workQueue = new Stack<IBooleanExpressionTreeNode>();
+            Stack<IExpressionTreeNode> workQueue = new Stack<IExpressionTreeNode>();
 
-            IBooleanExpressionTreeNode node = this;
+            IExpressionTreeNode node = this;
 
             while (workQueue.Count != 0 || node != null)
             {
@@ -153,12 +153,12 @@ namespace SquaredInfinity.Foundation.Collections.Trees
             }
         }
 
-        public IEnumerable<IBooleanExpressionTreeNode> TraverseTreePostOrder()
+        public IEnumerable<IExpressionTreeNode> TraverseTreePostOrder()
         {
-            Stack<IBooleanExpressionTreeNode> workQueue = new Stack<IBooleanExpressionTreeNode>();
+            Stack<IExpressionTreeNode> workQueue = new Stack<IExpressionTreeNode>();
 
-            IBooleanExpressionTreeNode node = this;
-            IBooleanExpressionTreeNode lastVisited = null;
+            IExpressionTreeNode node = this;
+            IExpressionTreeNode lastVisited = null;
 
             while (workQueue.Count != 0 || node != null)
             {
@@ -191,7 +191,7 @@ namespace SquaredInfinity.Foundation.Collections.Trees
             int finalIndentLevel = 0;
 
             var parent = Parent;
-            var lastVisitedParent = (IBooleanExpressionTreeNode)this;
+            var lastVisitedParent = (IExpressionTreeNode)this;
 
             while (parent != null)
             {
@@ -207,7 +207,7 @@ namespace SquaredInfinity.Foundation.Collections.Trees
                 {
                     finalIndentLevel++;
                 }
-                else if(lastVisitedParentAsConnective != null && parentAsConnective != null && lastVisitedParentAsConnective.Mode != parentAsConnective.Mode)
+                else if(lastVisitedParentAsConnective != null && parentAsConnective != null && lastVisitedParentAsConnective.Operator.GetType() != parentAsConnective.Operator.GetType())
                 {
                     finalIndentLevel++;
                 }
@@ -250,9 +250,9 @@ namespace SquaredInfinity.Foundation.Collections.Trees
             Right = left;
         }
 
-        public bool IsDescendantOf(IBooleanExpressionTreeNode potentialAncestor)
+        public bool IsDescendantOf(IExpressionTreeNode potentialAncestor)
         {
-            var ancestor = (IBooleanExpressionTreeNode)Parent;
+            var ancestor = (IExpressionTreeNode)Parent;
 
             while (ancestor != null)
             {
@@ -265,9 +265,9 @@ namespace SquaredInfinity.Foundation.Collections.Trees
             return false;
         }
 
-        public IBooleanExpressionTreeNode FindRoot()
+        public IExpressionTreeNode FindRoot()
         {
-            var root_candidate = (IBooleanExpressionTreeNode)this;
+            var root_candidate = (IExpressionTreeNode)this;
 
             while (root_candidate.Parent != null)
                 root_candidate = root_candidate.Parent;

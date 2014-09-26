@@ -8,29 +8,29 @@ using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Collections.Trees
 {
-    public abstract class PredicateNode : BooleanExpressionTreeNode
+    public abstract class PredicateNode : ExpressionTreeNode
     {
-        public override IBooleanExpressionTreeNode InjectInto(IBooleanExpressionTreeNode node)
+        public override IExpressionTreeNode InjectInto(IExpressionTreeNode node, Func<IPredicateConnectiveNode> createConnectiveNode)
         {
             if(node is PredicateNode)
             {
-                return InjectInto(node as PredicateNode);
+                return InjectInto(node as PredicateNode, createConnectiveNode);
             }
             else
             {
-                return InjectInto(node as PredicateConnectiveNode);
+                return InjectInto(node as PredicateConnectiveNode, createConnectiveNode);
             }
         }
 
-        IBooleanExpressionTreeNode InjectInto(PredicateConnectiveNode targetConnective)
+        IExpressionTreeNode InjectInto(PredicateConnectiveNode targetConnective, Func<IPredicateConnectiveNode> createConnectiveNode)
         {
             if (targetConnective == null)
                 throw new ArgumentNullException("node");
             
-            return InjectInto(this, targetConnective);
+            return InjectInto(this, targetConnective, createConnectiveNode);
         }
 
-        IBooleanExpressionTreeNode InjectInto(PredicateNode targetPredicate)
+        IExpressionTreeNode InjectInto(PredicateNode targetPredicate, Func<IPredicateConnectiveNode> createConnectiveNode)
         {
             if (targetPredicate == null)
                 throw new ArgumentNullException("targetPredicate");
@@ -49,7 +49,7 @@ namespace SquaredInfinity.Foundation.Collections.Trees
             if(targetParent == null)
             {
                 // create a parent for a target
-                var newParent = new PredicateConnectiveNode();
+                var newParent = createConnectiveNode();
                 newParent.AssignChild(targetPredicate, ChildNodePosition.Right);
                 targetPredicate.AssignParent(newParent);
 
@@ -60,7 +60,7 @@ namespace SquaredInfinity.Foundation.Collections.Trees
             //  injection will be handled differently depending on type of the sibling
             var targetPosition = targetParent.GetChildPosition(targetPredicate);
 
-            var targetSibling = (IBooleanExpressionTreeNode)null;
+            var targetSibling = (IExpressionTreeNode)null;
 
             if (targetPosition == ChildNodePosition.Left)
                 targetSibling = targetParent.Right;
@@ -74,14 +74,14 @@ namespace SquaredInfinity.Foundation.Collections.Trees
                 // (if sibling was a connective node itself then injecting another connective node would create bracket in logic, which we don't want)
                 // (node with two connective node children is treated as a bracket, e.g: AND.l = [a OR b], AND.l = [c OR d] => ((a OR b) AND (c OR d))
 
-                return InjectInto(this, targetPredicate);
+                return InjectInto(this, targetPredicate, createConnectiveNode);
             }
             else if (targetSibling is PredicateConnectiveNode)
             {
                 // target sibling is a Predicate Connective Node
                 // predicate will be injected in a new Predicate Connective Node above target parent
 
-                return InjectInto(this, targetParent as PredicateConnectiveNode);
+                return InjectInto(this, targetParent as PredicateConnectiveNode, createConnectiveNode);
             }
             else
             {
@@ -94,13 +94,13 @@ namespace SquaredInfinity.Foundation.Collections.Trees
         /// </summary>
         /// <param name="source">Node to be injected</param>
         /// <param name="target">Target Node which will be replaced by Source, and joined with source's new sub-tree</param>
-        static IBooleanExpressionTreeNode InjectInto(IBooleanExpressionTreeNode source, IBooleanExpressionTreeNode target)
+        static IExpressionTreeNode InjectInto(IExpressionTreeNode source, IExpressionTreeNode target, Func<IPredicateConnectiveNode> createConnectiveNode)
         {
             var sourceParent = source.Parent;
 
             var sourceParentAsConnective = sourceParent as PredicateConnectiveNode;
 
-            var sourceSibling = (IBooleanExpressionTreeNode)null;
+            var sourceSibling = (IExpressionTreeNode)null;
 
             if (sourceParentAsConnective != null)
             {
@@ -117,7 +117,7 @@ namespace SquaredInfinity.Foundation.Collections.Trees
 
             var targetParentAsConnective = targetParent as PredicateConnectiveNode;
 
-            var targetSibling = (IBooleanExpressionTreeNode)null;
+            var targetSibling = (IExpressionTreeNode)null;
 
             var targetPosition = ChildNodePosition.Right; // default should be right, if target has no parent
 
@@ -136,7 +136,7 @@ namespace SquaredInfinity.Foundation.Collections.Trees
 
             var targetSiblingAsConnective = targetSibling as PredicateConnectiveNode;
 
-            var newConnective = new PredicateConnectiveNode();
+            var newConnective = createConnectiveNode();
 
             if (targetParent != null)
             {
@@ -161,9 +161,9 @@ namespace SquaredInfinity.Foundation.Collections.Trees
 
             //# copy connective mode from target parent (if exists)
             if (targetParentAsConnective != null)
-                newConnective.Mode = targetParentAsConnective.Mode;
+                newConnective.Operator = targetParentAsConnective.Operator.DeepClone();
             else if (targetSiblingAsConnective != null)
-                newConnective.Mode = targetSiblingAsConnective.Mode;
+                newConnective.Operator = targetSiblingAsConnective.Operator.DeepClone();
 
             target.AssignParent(newConnective);
 
@@ -181,7 +181,7 @@ namespace SquaredInfinity.Foundation.Collections.Trees
                 sourceParent.ClearChildAssignment(source, out sourcePosition);
 
                 //# get other source parent child
-                var oldSibling = (IBooleanExpressionTreeNode)null;
+                var oldSibling = (IExpressionTreeNode)null;
                 if (sourcePosition == ChildNodePosition.Left)
                     oldSibling = sourceParent.Right;
                 else
@@ -196,7 +196,7 @@ namespace SquaredInfinity.Foundation.Collections.Trees
 
             //# get new root element of a tree
 
-            var root_candidate = (IBooleanExpressionTreeNode)newConnective;
+            var root_candidate = (IExpressionTreeNode)newConnective;
             while (root_candidate.Parent != null)
                 root_candidate = root_candidate.Parent;
 

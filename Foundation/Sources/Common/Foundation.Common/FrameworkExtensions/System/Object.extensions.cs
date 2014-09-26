@@ -124,6 +124,11 @@ namespace SquaredInfinity.Foundation.Extensions
             }
         }
 
+        public static object DeepClone(this object source, Type sourceType)
+        {
+            return DefaultTypeMapper.DeepClone(source, sourceType);
+        }
+
         public static IEventSubscriptionPrototype<TEventSource> CreateWeakEventHandler<TEventSource>(this TEventSource eventSource)
         {
             return new EventSubscriptionPrototype<TEventSource>(eventSource);
