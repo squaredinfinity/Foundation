@@ -77,7 +77,9 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
                 }
             }
 
-            return null;
+            //! Returning null here may cause StackOverflowException in WPF framework
+            //  Return empty dataTemplate instead
+            return new DataTemplate();
         }
     }
 }
