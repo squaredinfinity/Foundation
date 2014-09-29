@@ -63,8 +63,13 @@ namespace SquaredInfinity.Foundation.Threading
 
         Action ActionToExecute { get; set; }
         Action<CancellationToken> CancellableActionToExecute { get; set; }
-                
+        
         public IAsyncOperationRequest RequestExecute()
+        {
+            return RequestExecute(beforeExecute: null, afterExecute: null);
+        }
+        
+        public IAsyncOperationRequest RequestExecute(Action<CancellationToken> beforeExecute, Action<CancellationToken> afterExecute)
         {
             using (Lock.AcquireWriteLock())
             {
@@ -74,6 +79,24 @@ namespace SquaredInfinity.Foundation.Threading
 
                 var task = (Task)null;
 
+
+                //# Before Execute
+
+                if (beforeExecute != null)
+                {
+                    task =
+                        new Task(() => beforeExecute(cts.Token), cts.Token);
+
+                    // ContinueWith() returns a continuation task, which may be ignored
+                    task.ContinueWith(_prevTask => task, cts.Token);
+                }
+                else
+                {
+                    task = new Task(() => { }, cts.Token);
+                }
+
+                //# Execute
+
                 if (CancellableActionToExecute != null)
                 {
                     task =
@@ -81,12 +104,46 @@ namespace SquaredInfinity.Foundation.Threading
                             CancellableActionToExecute(cts.Token),
                             cts.Token);
                 }
+
+                if (CancellableActionToExecute != null)
+                {
+                    if (task == null)
+                    {
+                        task =
+                           new Task(() =>
+                               CancellableActionToExecute(cts.Token),
+                               cts.Token);
+                    }
+                    else
+                    {
+                        task.ContinueWith(_prevTask => CancellableActionToExecute(cts.Token), cts.Token);
+                    }
+                }
                 else
                 {
-                    task =
-                        new Task(() =>
-                            ActionToExecute(),
-                            cts.Token);
+                    if (task == null)
+                    {
+                        task =
+                            new Task(() =>
+                                ActionToExecute(),
+                                cts.Token);
+                    }
+                    else
+                    {
+                        task.ContinueWith(_prevTask => 
+                            {
+                                if(!cts.IsCancellationRequested)
+                                    ActionToExecute();
+
+                            }, cts.Token);
+                    }
+                }
+
+                //# After Execute
+
+                if(afterExecute != null)
+                {
+                    task.ContinueWith(_prevTask => afterExecute(cts.Token), cts.Token);
                 }
 
                 var op = new AsyncOperationRequest(task, cts);
