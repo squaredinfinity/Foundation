@@ -31,11 +31,20 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
 
             // then try all visual parents
 
-            var parent = container_frameworkElement;
+            var parent = (DependencyObject) container_frameworkElement;
 
-            while ((parent = parent.FindVisualParent<FrameworkElement>()) != null)
+            // navigate up visual (first) and logical tree (second) to find the resource
+            // logical jump is required in cases where child elements are rendered in a popup (e.g. in ComboBox)
+            // otherwise visual tree would end at the popup root and resources from combobox itself would never be checked
+
+            while ((parent = parent.GetVisualOrLogicalParent()) != null)
             {
-                if (TryFindDataTemplate(parent.Resources, parent, container, item, itemType, out result))
+                var parent_frameworkElement = parent as FrameworkElement;
+
+                if (parent_frameworkElement == null)
+                    continue;
+
+                if (TryFindDataTemplate(parent_frameworkElement.Resources, parent_frameworkElement, container, item, itemType, out result))
                     return result;
             }
 
