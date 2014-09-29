@@ -73,6 +73,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\ComboBoxView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\ZoomableListViewTestsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -97,6 +101,8 @@
     <Compile Include="Behaviors\WatermarkTestsView.xaml.cs">
       <DependentUpon>WatermarkTestsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ComboBoxView.cs" />
+    <Compile Include="Controls\ComboBoxViewModel.cs" />
     <Compile Include="Controls\ControlsTestsView.xaml.cs">
       <DependentUpon>ControlsTestsView.xaml</DependentUpon>
     </Compile>

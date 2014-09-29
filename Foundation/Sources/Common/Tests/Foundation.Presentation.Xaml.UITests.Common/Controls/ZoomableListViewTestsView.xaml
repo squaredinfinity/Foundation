@@ -4,7 +4,7 @@
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                     xmlns:controls="http://schemas.squaredinfinity.com/foundation/controls"
                     xmlns:behaviors="http://schemas.squaredinfinity.com/foundation/behaviors"
-                    xmlns:controlsTests="clr-namespace:Foundation.Presentation.Xaml.UITests.Common.Controls"
+                    xmlns:controlsTests="clr-namespace:Foundation.Presentation.Xaml.UITests.Controls"
                     mc:Ignorable="d" >
 
     <Style TargetType="{x:Type controlsTests:ZommableListViewTestsView}">

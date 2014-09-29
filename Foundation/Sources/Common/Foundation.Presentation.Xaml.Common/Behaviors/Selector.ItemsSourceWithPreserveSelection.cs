@@ -23,17 +23,17 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
         public static readonly DependencyProperty SelectedValueBinding_RestoreAfterInitializationProperty =
             DependencyProperty.RegisterAttached(
             "SelectedValueBinding_RestoreAfterInitialization",
-            typeof(Binding),
+            typeof(BindingBase),
             typeof(ItemsSourceWithPreserveSelection));
 
-        public static void SetSelectedValueBinding_RestoreAfterInitialization(Selector element, Binding value)
+        public static void SetSelectedValueBinding_RestoreAfterInitialization(Selector element, BindingBase value)
         {
             element.SetValue(SelectedValueBinding_RestoreAfterInitializationProperty, value);
         }
 
-        public static Binding GetSelectedValueBinding_RestoreAfterInitialization(Selector element)
+        public static BindingBase GetSelectedValueBinding_RestoreAfterInitialization(Selector element)
         {
-            return (Binding)element.GetValue(SelectedValueBinding_RestoreAfterInitializationProperty);
+            return (BindingBase)element.GetValue(SelectedValueBinding_RestoreAfterInitializationProperty);
         }
 
         #endregion
@@ -66,7 +66,7 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
 
             //# preserve original SelectedValue binding
             
-            var selectedValeBinding = BindingOperations.GetBinding(sel, Selector.SelectedValueProperty);
+            var selectedValeBinding = BindingOperations.GetBindingBase(sel, Selector.SelectedValueProperty);
 
             //# clear SelectedValue binding (so that underlying bound property won't be wrongly updated when ItemsSource changes)
             sel.ClearBindingOrReplaceWithDummyValue(Selector.SelectedValueProperty);

@@ -279,7 +279,14 @@ namespace SquaredInfinity.Foundation.Presentation.Views
 
         protected virtual IHostAwareViewModel ResolveViewModel(Type viewType, object newDatacontext)
         {
-            return null;
+            var vmTypeName = viewType.FullName + "Model";
+
+            var vmType = viewType.Assembly.GetType(vmTypeName);
+
+            if (vmType == null)
+                return null;
+
+            return Activator.CreateInstance(vmType) as IHostAwareViewModel;
         }
     }
 }

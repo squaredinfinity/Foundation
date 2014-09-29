@@ -1,0 +1,33 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                    xmlns:controls="http://schemas.squaredinfinity.com/foundation/controls"
+                    xmlns:behaviors="http://schemas.squaredinfinity.com/foundation/behaviors"
+                    xmlns:controlsTests="clr-namespace:Foundation.Presentation.Xaml.UITests.Controls"
+                    mc:Ignorable="d" >
+
+    <Style TargetType="{x:Type controlsTests:ComboBoxView}">
+        <Style.Setters>
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type controlsTests:ComboBoxView}">
+                        <TabControl>
+                            <TabItem Header="Items Source (default behavior)">
+                                <StackPanel Orientation="Vertical">
+                                    
+                                    <TextBlock Text="VM.SelectedValue == 13, but after binding this is reset to first item in the list" />                                    
+                                    
+                                    <ComboBox ItemsSource="{TemplatedParentBinding ViewModel.SelectedNumber, Converter={StaticResource Converters.EnumToValues}}"
+                                              SelectedValue="{TemplatedParentBinding ViewModel.SelectedNumber}" />
+                                </StackPanel>
+                            </TabItem>
+                        </TabControl>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+</ResourceDictionary>

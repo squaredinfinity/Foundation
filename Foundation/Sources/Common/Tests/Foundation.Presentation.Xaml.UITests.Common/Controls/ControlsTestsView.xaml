@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:controlsTests="clr-namespace:Foundation.Presentation.Xaml.UITests.Common.Controls"
+             xmlns:controlsTests="clr-namespace:Foundation.Presentation.Xaml.UITests.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
@@ -11,8 +11,8 @@
             <TabItem Header="Zoomable List View">
                 <controlsTests:ZommableListViewTestsView />
             </TabItem>
-            <TabItem Header="..">
-              
+            <TabItem Header="ComboBox">
+                <controlsTests:ComboBoxView />
             </TabItem>
         </TabControl>
     </Grid>

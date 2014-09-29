@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Presentation.ViewModels;
+﻿using SquaredInfinity.Foundation.Presentation.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace Foundation.Presentation.Xaml.UITests.Controls
 {
-    public class ZoomableListViewTestsViewModel : ViewModel
+    public class ComboBoxView : View
     {
-        
     }
 }

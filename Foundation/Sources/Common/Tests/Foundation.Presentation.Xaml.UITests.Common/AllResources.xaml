@@ -4,6 +4,7 @@
         <ResourceDictionary Source="{ResourceFromThisAssembly /Behaviors/DragAndDropTestsView.xaml}" />
 
         <ResourceDictionary Source="{ResourceFromThisAssembly /Controls/ZoomableListViewTestsView.xaml}" />
+        <ResourceDictionary Source="{ResourceFromThisAssembly /Controls/ComboBoxView.xaml}" />
 
         <ResourceDictionary Source="{ResourceFromThisAssembly /MVVM/ViewModelEvents/TestView.xaml}" />
     </ResourceDictionary.MergedDictionaries>

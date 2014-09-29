@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Foundation.Presentation.Xaml.UITests.Common.Controls
+namespace Foundation.Presentation.Xaml.UITests.Controls
 {
     public class ZommableListViewTestsView : View
     {
