@@ -134,7 +134,7 @@ namespace SquaredInfinity.Foundation.Presentation.Views
         protected virtual void OnViewModelEvent(ViewModelEventArgs args)
         { }
 
-        protected virtual void OnViewModelEventInternal(ViewModelEventArgs args)
+        internal protected virtual void OnViewModelEventInternal(ViewModelEventArgs args)
         {
             OnViewModelEvent(args);
 
@@ -229,6 +229,8 @@ namespace SquaredInfinity.Foundation.Presentation.Views
             {
                 ViewModel.Dispose();
             }
+
+            
 
             ViewModel = newVM;
         }

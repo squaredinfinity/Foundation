@@ -19,12 +19,14 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
         XElement Serialize(
             object instance, 
-            ISerializationContext cx);
+            ISerializationContext cx,
+            out bool hasAlreadyBeenSerialized);
 
         XElement Serialize(
             object instance, 
             ISerializationContext serializationContext, 
-            string rootElementName);
+            string rootElementName,
+            out bool hasAlreadyBeenSerialized);
         
         object Deserialize(
             XElement xml, 
@@ -65,6 +67,14 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         /// <param name="shouldSerializeMember"></param>
         /// <returns></returns>
         ITypeSerializationStrategy<T> SerializeMember(Expression<Func<T, object>> memberExpression, Func<T, bool> shouldSerializeMember);
+
+        /// <summary>
+        /// Enables serialization of a specified member (even if its serialization has been disabled before).
+        /// </summary>
+        /// <param name="memberExpression"></param>
+        /// <param name="shouldSerializeMember"></param>
+        /// <returns></returns>
+        ITypeSerializationStrategy<T> SerializeMember(Expression<Func<T, object>> memberExpression);
 
         /// <summary>
         /// Enables serialization of all members which have not been explicitly ignored before.

@@ -15,23 +15,20 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
 {
     public class ItemsSourceWithPreserveSelection
     {
-
-
-
         #region SelectedValueBinding_RestoreAfterInitialization
 
-        public static readonly DependencyProperty SelectedValueBinding_RestoreAfterInitializationProperty =
+        static readonly DependencyProperty SelectedValueBinding_RestoreAfterInitializationProperty =
             DependencyProperty.RegisterAttached(
             "SelectedValueBinding_RestoreAfterInitialization",
             typeof(BindingBase),
             typeof(ItemsSourceWithPreserveSelection));
 
-        public static void SetSelectedValueBinding_RestoreAfterInitialization(Selector element, BindingBase value)
+        static void SetSelectedValueBinding_RestoreAfterInitialization(Selector element, BindingBase value)
         {
             element.SetValue(SelectedValueBinding_RestoreAfterInitializationProperty, value);
         }
 
-        public static BindingBase GetSelectedValueBinding_RestoreAfterInitialization(Selector element)
+        static BindingBase GetSelectedValueBinding_RestoreAfterInitialization(Selector element)
         {
             return (BindingBase)element.GetValue(SelectedValueBinding_RestoreAfterInitializationProperty);
         }

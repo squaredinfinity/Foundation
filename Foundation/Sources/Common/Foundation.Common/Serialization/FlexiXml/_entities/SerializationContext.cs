@@ -134,7 +134,9 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             var strategy = GetTypeSerializationStrategy(instance.GetType());
 
-            var result_el = strategy.Serialize(instance, this, rootElementName);
+            bool hasAlreadyBeenSerialized = false;
+
+            var result_el = strategy.Serialize(instance, this, rootElementName, out hasAlreadyBeenSerialized);
 
             return result_el;
         }

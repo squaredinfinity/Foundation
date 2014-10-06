@@ -190,12 +190,12 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             return strategy;
         }
 
-        public XElement Serialize(object instance, ISerializationContext cx)
+        public XElement Serialize(object instance, ISerializationContext cx, out bool hasAlreadyBeenSerialized)
         {
-            return Serialize(instance, cx, rootElementName: null);
+            return Serialize(instance, cx, rootElementName: null, hasAlreadyBeenSerialized: out hasAlreadyBeenSerialized);
         }
         
-        public virtual XElement Serialize(object instance, ISerializationContext cx, string rootElementName)
+        public virtual XElement Serialize(object instance, ISerializationContext cx, string rootElementName, out bool hasAlreadyBeenSerialized)
         {
             if (instance == null)
                 throw new ArgumentNullException("instance");
@@ -212,6 +212,8 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                     return new InstanceId(cx.GetNextUniqueId());
                 });
+
+            hasAlreadyBeenSerialized = !isNewReference;
 
             var strategy = cx.GetTypeSerializationStrategy(instance.GetType());
             var result_el = (XElement)null;
@@ -771,9 +773,13 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             : base(type, typeDescriptor)
         { }
 
-        public override XElement Serialize(object instance, ISerializationContext cx, string rootElementName)
+        public override XElement Serialize(object instance, ISerializationContext cx, string rootElementName, out bool hasAlreadyBeenSerialized)
         {
-            var el = base.Serialize(instance, cx, rootElementName);
+            var el = base.Serialize(instance, cx, rootElementName, out hasAlreadyBeenSerialized);
+
+            // if this instance has already been serialized, then there's nothing else left to do
+            if (hasAlreadyBeenSerialized)
+                return el;
 
             var list = instance as IEnumerable;
 
@@ -875,8 +881,13 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             return this;
         }
 
+        public ITypeSerializationStrategy<T> SerializeMember(System.Linq.Expressions.Expression<Func<T, object>> memberExpression)
+        {
+            return SerializeMember(memberExpression, shouldSerializeMember: null);
+        }
 
-        public ITypeSerializationStrategy<T> SerializeMember(System.Linq.Expressions.Expression<Func<T, object>> memberExpression, Func<T, bool> shouldSerializeMember = null)
+
+        public ITypeSerializationStrategy<T> SerializeMember(System.Linq.Expressions.Expression<Func<T, object>> memberExpression, Func<T, bool> shouldSerializeMember)
         {
             var memberName = memberExpression.GetAccessedMemberName();
 
@@ -905,10 +916,14 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 throw ex;
             }
 
-            strategy.ShouldSerializeMember = new Func<object, bool>((_target) =>
-                {
-                    return shouldSerializeMember((T)_target);
-                });
+            if (shouldSerializeMember != null)
+            {
+                strategy.ShouldSerializeMember = new Func<object, bool>((_target) =>
+                    {
+                        var local = shouldSerializeMember;
+                        return local((T)_target);
+                    });
+            }
 
             if(shouldAddToActual)
                 ActualContentSerializationStrategies.Add(strategy);
