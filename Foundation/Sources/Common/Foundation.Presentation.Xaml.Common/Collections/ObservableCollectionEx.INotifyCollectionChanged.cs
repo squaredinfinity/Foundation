@@ -16,6 +16,9 @@ namespace SquaredInfinity.Foundation.Collections
 
         protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object newItem, object oldItem, int index)
         {
+            if (State == STATE__BULKUPDATE)
+                return;
+
             IncrementVersion();
 
             if (action.IsIn(NotifyCollectionChangedAction.Move, NotifyCollectionChangedAction.Replace))
@@ -35,6 +38,9 @@ namespace SquaredInfinity.Foundation.Collections
 
         protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object item, int index, bool raiseVersionChanged = true)
         {
+            if (State == STATE__BULKUPDATE)
+                return;
+
             IncrementVersion();
 
             if (action.IsIn(NotifyCollectionChangedAction.Move, NotifyCollectionChangedAction.Replace))
@@ -55,6 +61,9 @@ namespace SquaredInfinity.Foundation.Collections
 
         protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object item, int index, int oldIndex)
         {
+            if (State == STATE__BULKUPDATE)
+                return;
+
             IncrementVersion();
 
             if (action.IsIn(NotifyCollectionChangedAction.Move, NotifyCollectionChangedAction.Replace))
@@ -74,6 +83,9 @@ namespace SquaredInfinity.Foundation.Collections
 
         protected void RaiseCollectionReset()
         {
+            if (State == STATE__BULKUPDATE)
+                return;
+
             IncrementVersion();
 
             TryRaiseCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));

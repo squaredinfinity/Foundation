@@ -146,7 +146,7 @@ namespace SquaredInfinity.Foundation.Collections
                 throw new Exception("Bulk Update Operation has already ended");
             }
 
-            //OnVersionChangedInternal();
+            RaiseCollectionReset();            
         }
 
         public void AddRange(IEnumerable items)

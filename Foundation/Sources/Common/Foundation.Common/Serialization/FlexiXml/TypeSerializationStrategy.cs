@@ -21,13 +21,16 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
         bool CanSetValue();
         void SetValue(object memberOwner, object newValue);
+
+        Func<object, bool> ShouldSerializeMember { get; set; }
     }
 
     public class MemberSerializationStrategy : IMemberSerializationStrategy
     {
         public string MemberName { get; private set; }
         public ITypeMemberDescription MemberDescription { get; private set; }
-        
+        public Func<object, bool> ShouldSerializeMember { get; set; }
+                
         public MemberSerializationStrategy(ITypeMemberDescription memberDescription)
         {
             this.MemberDescription = memberDescription;
@@ -95,12 +98,20 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             Initialize();
         }
 
-        readonly List<IMemberSerializationStrategy> _contentSerializationStrategies = 
+        readonly List<IMemberSerializationStrategy> _originalContentSerializationStrategies = 
             new List<IMemberSerializationStrategy>();
 
-        protected List<IMemberSerializationStrategy> ContentSerializationStrategies 
+        protected List<IMemberSerializationStrategy> OriginalContentSerializationStrategies 
         {
-            get { return _contentSerializationStrategies; }
+            get { return _originalContentSerializationStrategies; }
+        }
+
+        readonly List<IMemberSerializationStrategy> _actualContentSerializationStrategies =
+            new List<IMemberSerializationStrategy>();
+
+        protected List<IMemberSerializationStrategy> ActualContentSerializationStrategies
+        {
+            get { return _actualContentSerializationStrategies; }
         }
 
         protected void Initialize()
@@ -117,8 +128,10 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             {
                 var strategy = CreateSerializationStrategyForMember(member);
 
-                ContentSerializationStrategies.Add(strategy);
+                OriginalContentSerializationStrategies.Add(strategy);
             }
+
+            ActualContentSerializationStrategies.AddRange(OriginalContentSerializationStrategies);
         }
 
         protected virtual bool CanSerializeMember(ITypeMemberDescription member)
@@ -237,11 +250,13 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             }
 
             //# Process all content to be serialized (this may include members but also custom content to be added to serialization output)
-            foreach(var r in ContentSerializationStrategies)
+            foreach(var r in ActualContentSerializationStrategies)
             {
-                var serializedMember = SerializeMember(cx, el, instance, r);
-
-                el.Add(serializedMember);
+                var serializedMember = (XObject)null;
+                if (TrySerializeMember(cx, el, instance, r, out serializedMember))
+                {
+                    el.Add(serializedMember);
+                }
             }
 
             el.Add(new XAttribute(cx.Options.UniqueIdAttributeName, id.Id));
@@ -250,12 +265,25 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             return el;
         }
 
-        protected virtual XObject SerializeMember(
+        protected virtual bool TrySerializeMember(
             ISerializationContext cx, 
             XElement parentElement, 
             object parentInstance,
-            IMemberSerializationStrategy strategy)
+            IMemberSerializationStrategy strategy,
+            out XObject serializedContent)
         {
+            serializedContent = null;
+
+            if (strategy.ShouldSerializeMember != null)
+            {
+                var shouldSerialize = strategy.ShouldSerializeMember(parentInstance);
+
+                if (!shouldSerialize)
+                {
+                    return false;
+                }
+            }
+
             var memberValue = strategy.GetValue(parentInstance);
 
             var val_as_string = (string)null;
@@ -274,7 +302,8 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                 wrapper.Add(nullEl);
 
-                return wrapper;
+                serializedContent = wrapper;
+                return true;
             }
             else if (TryConvertToStringIfTypeSupports(strategy.MemberDescription.MemberType.Type, memberValue, out val_as_string))
             {
@@ -289,7 +318,8 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                 var attributeEl = new XAttribute(attributeName, val_as_string);
 
-                return attributeEl;
+                serializedContent = attributeEl;
+                return true;
             }
             else
             {
@@ -320,7 +350,8 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                     wrapperElement.Add(childEl);
 
-                    return wrapperElement;
+                    serializedContent = wrapperElement;
+                    return true;
                 }
             }
         }
@@ -626,7 +657,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             ISerializationContext cx)
         {
             //# Process all members to be deserialized
-            foreach (var r in ContentSerializationStrategies)
+            foreach (var r in ActualContentSerializationStrategies)
             {
                 var memberInstance = (object)null;
 
@@ -820,20 +851,21 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
         public ITypeSerializationStrategy<T> IgnoreAllMembers()
         {
+            ActualContentSerializationStrategies.Clear();
+
             return this;
         }
-
 
         public ITypeSerializationStrategy<T> IgnoreMember(System.Linq.Expressions.Expression<Func<T, object>> memberExpression)
         {
             var memberName = memberExpression.GetAccessedMemberName();
 
             var strategy =
-                (from s in ContentSerializationStrategies
+                (from s in ActualContentSerializationStrategies
                  where string.Equals(s.MemberName, memberName)
                  select s).Single();
 
-            ContentSerializationStrategies.Remove(strategy);
+            ActualContentSerializationStrategies.Remove(strategy);
 
             return this;
         }
@@ -844,8 +876,54 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         }
 
 
-        public ITypeSerializationStrategy<T> SerializeMember(System.Linq.Expressions.Expression<Func<T>> memberExpression)
+        public ITypeSerializationStrategy<T> SerializeMember(System.Linq.Expressions.Expression<Func<T, object>> memberExpression, Func<T, bool> shouldSerializeMember = null)
         {
+            var memberName = memberExpression.GetAccessedMemberName();
+
+            bool shouldAddToActual = false;
+
+            var strategy =
+                    (from s in ActualContentSerializationStrategies
+                     where string.Equals(s.MemberName, memberName)
+                     select s).FirstOrDefault();
+
+            if (strategy == null)
+            {
+                strategy =
+                    (from s in OriginalContentSerializationStrategies
+                     where string.Equals(s.MemberName, memberName)
+                     select s).FirstOrDefault();
+
+                shouldAddToActual = true;
+            }
+
+            if(strategy == null)
+            {
+                var ex = new ArgumentException("Unable to find Serialization Strategy.");
+                // todo: ex.addcontext(member, type)
+
+                throw ex;
+            }
+
+            strategy.ShouldSerializeMember = new Func<object, bool>((_target) =>
+                {
+                    return shouldSerializeMember((T)_target);
+                });
+
+            if(shouldAddToActual)
+                ActualContentSerializationStrategies.Add(strategy);
+
+            return this;
+        }
+
+        public ITypeSerializationStrategy<T> SerializeAllRemainingMembers()
+        {
+            var ignoredMembersStrategies =
+                (from ss in OriginalContentSerializationStrategies.Except(ActualContentSerializationStrategies)
+                 select ss);
+
+            ActualContentSerializationStrategies.AddRange(ignoredMembersStrategies);
+
             return this;
         }
     }
