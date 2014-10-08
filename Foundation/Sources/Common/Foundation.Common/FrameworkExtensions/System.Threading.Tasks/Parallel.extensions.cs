@@ -34,6 +34,11 @@ namespace SquaredInfinity.Foundation.Extensions
 
         public static ParallelLoopResult ForEach<TSource>(IEnumerable<TSource> source, Action<TSource> body)
         {
+            return ForEach(source, DefaultParallelOptions, body);
+        }
+
+        public static ParallelLoopResult ForEach<TSource>(IEnumerable<TSource> source, ParallelOptions options, Action<TSource> body)
+        {
             var collection = source as ICollection;
 
             if (collection != null)
@@ -48,7 +53,7 @@ namespace SquaredInfinity.Foundation.Extensions
                 }
             }
 
-            return Parallel.ForEach(source, body);
+            return Parallel.ForEach(source, options, body);
         }
 
         public static void ForEachNoWait<TSource>(IEnumerable<TSource> source, Action<TSource> body)
@@ -78,7 +83,7 @@ namespace SquaredInfinity.Foundation.Extensions
                 //Diagnostics.Error(ex);
 
                 // reflection failed, run empty loop to get completed result
-                var result = Parallel.For(0, 0, (i) => { });
+                var result = Parallel.For(0, 0, DefaultParallelOptions, (i) => { });
 
                 return result;
             }
