@@ -19,6 +19,8 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 
         public string Source { get; set; }
 
+        public bool? IsAsync { get; set; }
+
         public BindingMode? Mode { get; set; }
 
         public RelativeSource RelativeSource { get; set; }
@@ -75,6 +77,9 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 
             if(IsFallbackValueSet)
                 binding.FallbackValue = FallbackValue;
+
+            if (IsAsync.HasValue)
+                binding.IsAsync = IsAsync.Value;
         }
 
         protected static void UpdateBindingFromSource(Binding binding, string source)
