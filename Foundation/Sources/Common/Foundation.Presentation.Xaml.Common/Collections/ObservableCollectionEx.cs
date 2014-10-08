@@ -17,6 +17,26 @@ using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Collections
 {
+    public class AfterItemAddedEventArgs<TItem> : EventArgs
+    {
+        public TItem AddedItem { get; private set; }
+
+        public AfterItemAddedEventArgs(TItem addedItem)
+        {
+            this.AddedItem = addedItem;
+        }
+    }
+
+    public class AfterItemRemovedEventArgs<TItem> : EventArgs
+    {
+        public TItem RemovedItem { get; private set; }
+
+        public AfterItemRemovedEventArgs(TItem removedItem)
+        {
+            this.RemovedItem = removedItem;
+        }
+    }
+
     public partial class ObservableCollectionEx<TItem> : 
         Collection<TItem>, 
         ICollectionEx<TItem>,
@@ -145,11 +165,24 @@ namespace SquaredInfinity.Foundation.Collections
                     {
                         StopItemChangeMonitoring(obj);
                     }
+
+                    OnItemRemoved(obj);
                 }
 
                 this.RaiseCollectionChanged(NotifyCollectionChangedAction.Remove, (object)obj, index);
             }
         }
+
+        public event EventHandler<AfterItemRemovedEventArgs<TItem>> AfterItemRemoved;
+
+        void OnItemRemoved(TItem item)
+        {
+            if (AfterItemRemoved != null)
+                AfterItemRemoved(this, new AfterItemRemovedEventArgs<TItem>(item));
+        }
+
+
+        public event EventHandler<AfterItemAddedEventArgs<TItem>> AfterItemAdded;
 
         protected override void InsertItem(int index, TItem item)
         {
@@ -165,6 +198,12 @@ namespace SquaredInfinity.Foundation.Collections
 
                 this.RaiseCollectionChanged(NotifyCollectionChangedAction.Add, (object)item, index);
             }
+        }
+
+        void OnAfterItemAdded(TItem item)
+        {
+            if (AfterItemAdded != null)
+                AfterItemAdded(this, new AfterItemAddedEventArgs<TItem>(item));
         }
 
         protected override void SetItem(int index, TItem item)
