@@ -108,13 +108,13 @@ namespace SquaredInfinity.Foundation.Threading
         }
 
         [TestMethod]
-        public void WriteLockIsHeld__xxx()
+        public void ReadLockIsHeld__CannotAcquireUpgradeableReadLock()
         {
-            var l = new ReaderWriterLockSlimEx(LockRecursionPolicy.SupportsRecursion);
+            var l = new ReaderWriterLockSlimEx();
 
-            using (l.AcquireWriteLock())
+            using (var rl = l.AcquireReadLock())
             {
-                var acquisition = l.TryAcquireReadLock(TEST_DefaultTimeout);
+                var acquisition = l.TryAcquireUpgradeableReadLock(TEST_DefaultTimeout);
                 Assert.IsFalse(acquisition.IsSuccesfull);
             }
         }

@@ -71,8 +71,11 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                     var valueToFormat = val1 as IFormattable;
                     var formatString = val2 as string;
 
-                    if (valueToFormat == null || formatString == null)
+                    if (valueToFormat == null)
                         return DependencyProperty.UnsetValue;
+
+                    if(formatString == null || formatString == string.Empty)
+                        return valueToFormat.ToString();
 
                     var result = valueToFormat.ToString(formatString, NumberFormatInfo.CurrentInfo);
 

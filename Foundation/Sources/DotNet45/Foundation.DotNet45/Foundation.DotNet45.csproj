@@ -329,6 +329,9 @@
     <Compile Include="..\..\Common\Foundation.Common\Serialization\IXmlSerializer.cs">
       <Link>Serialization\IXmlSerializer.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Text\UnicodeCharacters.cs">
+      <Link>Text\UnicodeCharacters.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Threading\AsyncLoop.cs">
       <Link>Threading\AsyncLoop.cs</Link>
     </Compile>
