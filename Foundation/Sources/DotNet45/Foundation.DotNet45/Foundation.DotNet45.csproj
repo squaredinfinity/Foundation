@@ -291,6 +291,21 @@
     <Compile Include="..\..\Common\Foundation.Common\Media\ColorSpaces\XyzColorSpace.cs">
       <Link>Media\ColorSpaces\XyzColorSpace.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\ObjectExtensibility\Extension.cs">
+      <Link>ObjectExtensibility\Extension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\ObjectExtensibility\ExtensionCollection.cs">
+      <Link>ObjectExtensibility\ExtensionCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\ObjectExtensibility\IExtensibleObject.cs">
+      <Link>ObjectExtensibility\IExtensibleObject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\ObjectExtensibility\IExtension.cs">
+      <Link>ObjectExtensibility\IExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\ObjectExtensibility\IExtensionCollection.cs">
+      <Link>ObjectExtensibility\IExtensionCollection.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\FlexiXmlSerializer.cs">
       <Link>Serialization\FlexiXml\FlexiXmlSerializer.cs</Link>
     </Compile>

@@ -416,6 +416,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\NotifyPropertyChangedObjectWrapper.cs">
       <Link>NotifyPropertyChangedObjectWrapper.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ObjectExtensibility\NotifyPropertyChangedObjectExtension.cs">
+      <Link>ObjectExtensibility\NotifyPropertyChangedObjectExtension.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Resources.cs">
       <Link>Resources.cs</Link>
     </Compile>

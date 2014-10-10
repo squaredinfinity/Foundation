@@ -115,6 +115,7 @@
     <Compile Include="MarkupExtensions\CompareMethodBinding.cs" />
     <Compile Include="Media\Colors.cs" />
     <Compile Include="NotifyPropertyChangedObjectWrapper.cs" />
+    <Compile Include="ObjectExtensibility\NotifyPropertyChangedObjectExtension.cs" />
     <Compile Include="SharedResourceDictionary.cs" />
     <Compile Include="ViewModels\AfterViewModelEventRaisedArgs.cs" />
     <Compile Include="ViewModels\IViewModelEvent.cs" />

@@ -68,6 +68,10 @@
     <Compile Include="FrameworkExtensions\System\Boolean.extensions.cs" />
     <Compile Include="CloneComparer.cs" />
     <Compile Include="ICloneEquatable.cs" />
+    <Compile Include="ObjectExtensibility\Extension.cs" />
+    <Compile Include="ObjectExtensibility\ExtensionCollection.cs" />
+    <Compile Include="ObjectExtensibility\IExtensibleObject.cs" />
+    <Compile Include="ObjectExtensibility\IExtensionCollection.cs" />
     <Compile Include="InternalTrace.Foundation.cs" />
     <Compile Include="InternalTrace.cs" />
     <Compile Include="Direction.cs" />
@@ -128,6 +132,7 @@
     <Compile Include="Media\ColorSpaces\xyYColorSpace.cs" />
     <Compile Include="Media\ColorSpaces\XYZColor.cs" />
     <Compile Include="Media\ColorSpaces\XyzColorSpace.cs" />
+    <Compile Include="ObjectExtensibility\IExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\FlexiXml\FlexiXmlSerializer.TypeSerializationStrategiesConcurrentDictionary.cs" />
     <Compile Include="Serialization\FlexiXml\FlexiXmlSerializer.Deserialization.cs" />
