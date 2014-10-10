@@ -17,16 +17,31 @@ namespace SquaredInfinity.Foundation.Collections
         INotifyCollectionContentChanged,
         System.Collections.IList
     {
-        readonly protected ILock CollectionLock = new ReaderWriterLockSlimEx(LockRecursionPolicy.SupportsRecursion);
+        readonly protected ILock CollectionLock;
 
         object IList.this[int index] { get { return this[index]; } set { this[index] = (TItem) value; } }
 
         public CollectionEx()
-        { }
+        {
+            CollectionLock = new ReaderWriterLockSlimEx(LockRecursionPolicy.NoRecursion);
+        }
 
         public CollectionEx(IList<TItem> items)
             : base(items)
-        { }
+        {
+            CollectionLock = new ReaderWriterLockSlimEx(LockRecursionPolicy.NoRecursion);
+        }
+
+        public CollectionEx(LockRecursionPolicy recursionPolicy)
+        {
+            CollectionLock = new ReaderWriterLockSlimEx(recursionPolicy);
+        }
+
+        public CollectionEx(LockRecursionPolicy recursionPolicy, IList<TItem> items)
+            : base(items)
+        {
+            CollectionLock = new ReaderWriterLockSlimEx(recursionPolicy);
+        }
 
         public void Move(int oldIndex, int newIndex)
         {
