@@ -9,7 +9,7 @@ using System.Windows.Data;
 
 namespace SquaredInfinity.Foundation.Presentation.Converters
 {
-    public class BoolToVisibilityConverter : IValueConverter
+    public class BoolToVisibilityConverter : IValueConverter, IMultiValueConverter
     {
         public BoolToVisibilityConverterMode Mode { get; set; }
 
@@ -41,6 +41,37 @@ namespace SquaredInfinity.Foundation.Presentation.Converters
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            // all values should be boolean
+            // if any value is UnSet, then by default ignore it (this behavior may need to be configurable later)
+
+            var result = (bool?) null;
+
+            foreach(var val in values)
+            {
+                if (val == DependencyProperty.UnsetValue)
+                    continue;
+
+                var bool_val = System.Convert.ToBoolean(val);
+
+                if (result.HasValue)
+                    result = result.Value && bool_val;
+                else
+                    result = bool_val;
+            }
+
+            if (result.HasValue)
+                return result.Value;
+            else
+                return DependencyProperty.UnsetValue;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
