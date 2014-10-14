@@ -110,7 +110,7 @@ namespace SquaredInfinity.Foundation
 
             if (!success)
             {
-                throw new AggregateException("Operation failed to execute {0} times.", failedAttempts);
+                throw new AggregateException("Operation failed to execute {0} times.".FormatWith(failedAttempts.Count), failedAttempts);
             }
 
             return result;

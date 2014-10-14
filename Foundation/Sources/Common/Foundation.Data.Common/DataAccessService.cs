@@ -258,6 +258,11 @@ namespace SquaredInfinity.Foundation.Data
                     using (var command = PrepareCommand(connection, CommandType.StoredProcedure, procName, parameters.EmptyIfNull()))
                     {
                         command.ExecuteNonQuery();
+
+                        // NOTE:    reference to parameters may be held up the call stack
+                        //          which will prevent command from being disposed properly and parameters from being reused.
+                        //          we will now clear command's parameters to prevent this from happening
+                        command.Parameters.Clear();
                     }
                 }
             }
@@ -308,13 +313,12 @@ namespace SquaredInfinity.Foundation.Data
         {
             var result = ExecuteScalarInternalWithRetry(ConnectionFactory, procName, new List<TParameter>());
 
-
             if (result == null && !typeof(T).IsNullable())
                 throw new InvalidCastException(
                     "{0} stored procedure returned NULL but expected type is non-nullable {1}"
                     .FormatWith(procName, typeof(T).Name));
 
-            return (T) result;
+            return MapToClrValue<T>(result);
         }
 
         public Task<T> ExecuteScalarAsync<T>(string procName)
@@ -324,7 +328,14 @@ namespace SquaredInfinity.Foundation.Data
 
         public T ExecuteScalar<T>(string procName, IEnumerable<TParameter> parameters)
         {
-            return (T)ExecuteScalarInternalWithRetry(ConnectionFactory, procName, parameters);
+            var result = ExecuteScalarInternalWithRetry(ConnectionFactory, procName, parameters);
+
+            if (result == null && !typeof(T).IsNullable())
+                throw new InvalidCastException(
+                    "{0} stored procedure returned NULL but expected type is non-nullable {1}"
+                    .FormatWith(procName, typeof(T).Name));
+
+            return MapToClrValue<T>(result);
         }
 
         public Task<T> ExecuteScalarAsync<T>(string procName, IEnumerable<TParameter> parameters)
@@ -355,10 +366,17 @@ namespace SquaredInfinity.Foundation.Data
             using (var connection = connectionFactory.GetNewConnection())
             {
                 connection.Open();
-
+                
                 using (var command = PrepareCommand(connection, CommandType.StoredProcedure, procname, parameters))
                 {
-                    return command.ExecuteScalar();
+                    var result = command.ExecuteScalar();
+
+                    // NOTE:    reference to parameters may be held up the call stack
+                    //          which will prevent command from being disposed properly and parameters from being reused.
+                    //          we will now clear command's parameters to prevent this from happening
+                    command.Parameters.Clear();
+
+                    return result;
                 }
             }
         }
@@ -611,6 +629,17 @@ namespace SquaredInfinity.Foundation.Data
             {
                 Connection.Dispose();
                 Connection = null;
+            }
+
+            if (Command != null)
+            {
+                // NOTE:    reference to parameters may be held up the call stack
+                //          which will prevent command from being disposed properly and parameters from being reused.
+                //          we will now clear command's parameters to prevent this from happening
+                Command.Parameters.Clear();
+
+                Command.Dispose();
+                Command = null;
             }
         }
     }
