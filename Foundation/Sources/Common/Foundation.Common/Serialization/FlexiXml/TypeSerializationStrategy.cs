@@ -261,7 +261,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 }
             }
 
-            el.Add(new XAttribute(cx.Options.UniqueIdAttributeName, id.Id));
+            //el.Add(new XAttribute(cx.Options.UniqueIdAttributeName, id.Id));
             el.AddAnnotation(id);
 
             return el;
@@ -288,24 +288,75 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             var memberValue = strategy.GetValue(parentInstance);
 
+            //# check if member instance has been serialized before
+
+            var instanceId = (InstanceId) null;
+
+            var hasBeenSerializedBefore = false;
+
+            if (memberValue != null)
+            {
+                hasBeenSerializedBefore = 
+                    cx.Objects_InstanceIdTracker.TryGetValue(memberValue, out instanceId);
+            }
+
             var val_as_string = (string)null;
 
-            if (memberValue == null)
+            if(hasBeenSerializedBefore)
             {
+                // add to parent element as ref attribute
+
+                var refAttributeName = strategy.MemberDescription.Name + cx.Options.UniqueIdReferenceAttributeSuffix;
+
+                var idrefAttribute = new XAttribute(refAttributeName, value: "");
+
+                var instanceIdRef = new InstanceIdRef(instanceId);
+
+                idrefAttribute.AddAnnotation(instanceIdRef);
+
+                serializedContent = idrefAttribute;
+
+                return true;
+            }
+            else if (memberValue == null)
+            {
+                var attributeName = strategy.MemberDescription.Name;
+                var value = cx.Options.NullAttributeMarkupExtension;
+
+                var attributeEl = new XAttribute(attributeName, value);
+
+                serializedContent = attributeEl;
+                return true;
+
+
+                // NOTE:    Code below is no longer used.
+                //          It used to serialize null values to an element
+                //          Example:
+                //          <Object>
+                //              <Object.PropertyOne>
+                //                  <NULL serialization:null="true" />
+                //              </Object.PropertyOne/>
+                //          </Object>
+                //
+                //          but default behavior has been changed to serialize members to an xml attribute with markup extension
+                //          (over 50% more space efficient)
+                //          Example:
+                //          <Object propertyOne="{serialization:null}" />
+
                 // value is null
                 //
                 // => create wrapper element
                 // => add serialization:null attribute to the element
 
-                var wrapperElementName = parentElement.Name + "." + strategy.MemberDescription.Name;
-                var wrapper = new XElement(wrapperElementName);
+                //var wrapperElementName = parentElement.Name + "." + strategy.MemberDescription.Name;
+                //var wrapper = new XElement(wrapperElementName);
 
-                var nullEl = cx.Serialize(memberValue);
+                //var nullEl = cx.Serialize(memberValue);
 
-                wrapper.Add(nullEl);
+                //wrapper.Add(nullEl);
 
-                serializedContent = wrapper;
-                return true;
+                //serializedContent = wrapper;
+                //return true;
             }
             else if (TryConvertToStringIfTypeSupports(strategy.MemberDescription.MemberType.Type, memberValue, out val_as_string))
             {
@@ -481,6 +532,20 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                         }
                         else
                         {
+                            //# keep track of target instance for future use
+                            var id_attrib = memberElement.Attribute(cx.Options.UniqueIdAttributeName);
+
+                            if (id_attrib != null)
+                            {
+                                var instanceId = new InstanceId(id_attrib.Value);
+
+                                if (!cx.Objects_ById.TryAdd(instanceId, memberInstance))
+                                {
+                                    // todo: log, this is most likely xml corruption (two elements with same id)
+                                    throw new Exception("Unable to update instance reference. Same Instance Id already exists.");
+                                }
+                            }
+
                             cx.Deserialize(memberElement, memberInstance);
                         }
 
@@ -498,6 +563,33 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 return false;
             }
             
+            //# look for member reference attribute (membername.ref by default)
+
+            var memberReferenceAttributeName = strategy.MemberName + cx.Options.UniqueIdReferenceAttributeSuffix;
+
+            var memberReferenceAttribute =
+                (from a in parentElement.Attributes()
+                 where string.Equals(a.Name.LocalName, memberReferenceAttributeName, StringComparison.InvariantCultureIgnoreCase)
+                 select a).FirstOrDefault();
+
+            if(memberReferenceAttribute != null)
+            {
+                var instanceId = new InstanceId(memberReferenceAttribute.Value);
+
+                var target = (object)null;
+
+                if (cx.Objects_ById.TryGetValue(instanceId, out target))
+                {
+                    memberInstance = target;
+                    return true;
+                }
+                else
+                {
+                    // todo: log, this should always resolve unless serialization xml is corrupted
+                    throw new InvalidOperationException();
+                }
+            }
+
             var memberAttribute =
                 (from a in parentElement.Attributes()
                  where string.Equals(a.Name.LocalName, strategy.MemberName, StringComparison.InvariantCultureIgnoreCase)
@@ -507,7 +599,16 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             {
                 //# deserialize from attribute
 
-                if(TryConvertFromStringIfTypeSupports(memberAttribute.Value, memberTypeCandidate, out memberInstance))
+                if(cx.Options.IsAttributeValueSerializationExtension(memberAttribute))
+                {
+                    if(memberAttribute.Value == cx.Options.NullAttributeMarkupExtension)
+                    {
+                        memberInstance = null;
+                        return true;
+                    }
+                }
+
+                if(TryConvertFromStringIfTypeSupports(cx.Options, memberAttribute.Value, memberTypeCandidate, out memberInstance))
                 {
                     return true;
                 }
@@ -540,7 +641,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             return true;
         }
 
-        protected virtual bool TryConvertFromStringIfTypeSupports(string stringRepresentation, Type resultType, out object result)
+        protected virtual bool TryConvertFromStringIfTypeSupports(SerializationOptions options, string stringRepresentation, Type resultType, out object result)
         {
             var typeConverter = System.ComponentModel.TypeDescriptor.GetConverter(resultType);
 
@@ -623,7 +724,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             var innerText = xml.InnerText();
 
-            if(!xml.HasElements && !innerText.IsNullOrEmpty() && TryConvertFromStringIfTypeSupports(innerText, targetType, out target))
+            if(!xml.HasElements && !innerText.IsNullOrEmpty() && TryConvertFromStringIfTypeSupports(cx.Options, innerText, targetType, out target))
             {
                 return target;
             }

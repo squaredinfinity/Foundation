@@ -51,14 +51,35 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
 
     public class Click
     {
+        #region CommandParameters
+
+        public static void SetCommandParameter(UIElement element, object value)
+        {
+            element.SetValue(CommandParameterProperty, value);
+        }
+
+        public static object GetCommandParameter(UIElement element)
+        {
+            return (object)element.GetValue(CommandParameterProperty);
+        }
+
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.RegisterAttached(
+            "CommandParameter",
+            typeof(object),
+            typeof(Click),
+            new PropertyMetadata(null));
+
+        #endregion
+
         #region Command
 
-        public static void SetCommand(Control element, ICommand value)
+        public static void SetCommand(UIElement element, ICommand value)
         {
             element.SetValue(CommandProperty, value);
         }
 
-        public static ICommand GetCommand(Control element)
+        public static ICommand GetCommand(UIElement element)
         {
             return (ICommand)element.GetValue(CommandProperty);
         }
@@ -72,7 +93,7 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
 
         static void OnCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var c = d as Control;
+            var c = d as UIElement;
 
             if (c == null)
                 return;
@@ -89,16 +110,18 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
 
         static void c_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            var c = sender as Control;
+            var c = sender as UIElement;
 
             if (c == null)
                 return;
 
             var command = GetCommand(c);
 
-            if (command != null && command.CanExecute(null))
+            var parameter = GetCommandParameter(c);
+
+            if (command != null && command.CanExecute(parameter))
             {
-                command.Execute(null);
+                command.Execute(parameter);
             }
 
             e.Handled = true;

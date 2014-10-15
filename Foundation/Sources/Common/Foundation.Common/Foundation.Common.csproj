@@ -68,6 +68,7 @@
     <Compile Include="FrameworkExtensions\System\Boolean.extensions.cs" />
     <Compile Include="CloneComparer.cs" />
     <Compile Include="ICloneEquatable.cs" />
+    <Compile Include="InvocationThrottle.cs" />
     <Compile Include="ObjectExtensibility\Extension.cs" />
     <Compile Include="ObjectExtensibility\ExtensionCollection.cs" />
     <Compile Include="ObjectExtensibility\IExtensibleObject.cs" />

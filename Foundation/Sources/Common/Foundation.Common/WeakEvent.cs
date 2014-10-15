@@ -181,6 +181,8 @@ namespace SquaredInfinity.Foundation
 
     public interface IEventSubscription<TEventSource, TDelegate, TEventArgs> : IDisposable
     {
+        IEventSubscription<TEventSource, TDelegate, TEventArgs> Throttle(TimeSpan min);
+        IEventSubscription<TEventSource, TDelegate, TEventArgs> Throttle(TimeSpan min, TimeSpan max);
         IDisposable Subscribe(TDelegate onEvent);
     }
 
@@ -206,7 +208,17 @@ namespace SquaredInfinity.Foundation
             this.AddHandler = addHandler;
             this.RemoveHandler = removeHandler;
         }
-        
+
+        public IEventSubscription<TEventSource, TDelegate, TEventArgs> Throttle(TimeSpan min)
+        {
+            return this;
+        }
+
+        public IEventSubscription<TEventSource, TDelegate, TEventArgs> Throttle(TimeSpan min, TimeSpan max)
+        {
+            return this;
+        }
+
         public IDisposable Subscribe(TDelegate onEvent)
         {
             // cast to Delegate so we can extract Method

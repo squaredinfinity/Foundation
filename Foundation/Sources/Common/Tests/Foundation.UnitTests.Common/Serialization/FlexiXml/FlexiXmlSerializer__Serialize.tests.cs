@@ -153,6 +153,20 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         }
 
         [TestMethod]
+        public void Property_With_Null_Value__SerialziedToAttribute()
+        {
+            var x = new SimpleSerializableType();
+
+            var s = new FlexiXml.FlexiXmlSerializer();
+
+            var xml = s.Serialize(x);
+
+
+            var a = s.Deserialize<SimpleSerializableType>(xml);
+
+        }
+
+        [TestMethod]
         public void CollectionWithNullableValueTypeItems__CanSerialize()
         {
             var list = new List<int?>();

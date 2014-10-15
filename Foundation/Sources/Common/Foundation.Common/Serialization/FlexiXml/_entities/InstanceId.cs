@@ -8,6 +8,39 @@ using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
+    public class InstanceIdRef : IEquatable<InstanceIdRef>
+    {
+        public InstanceId InstanceId { get; private set; }
+
+        public InstanceIdRef(InstanceId instanceId)
+        {
+            this.InstanceId = instanceId;
+            InstanceId.IncrementReferenceCount();
+        }
+
+        public override int GetHashCode()
+        {
+            return InstanceId.GetHashCode();
+        }
+
+        public override bool Equals(object other)
+        {
+            return Equals(other as InstanceIdRef);
+        }
+
+        public bool Equals(InstanceIdRef other)
+        {
+            if (other == null)
+                return false;
+
+            if (object.ReferenceEquals(this, other))
+                return true;
+
+            return 
+                object.Equals(this.InstanceId, other.InstanceId);
+        }
+    }
+
     /// <summary>
     /// Uniquely identifies instance of object participating in serialization.
     /// This is used to deal with circular references.
@@ -90,9 +123,17 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         public bool Equals(InstanceId other)
         {
             return
-                this.Id == other.Id
+                long.Equals(this.Id,other.Id)
                 &&
-                this.Name == other.Name;
+                string.Equals(Name, other.Name);
+        }
+
+        public override string ToString()
+        {
+            if (Name != null)
+                return Name;
+
+            return Id.ToString();
         }
     }
 }

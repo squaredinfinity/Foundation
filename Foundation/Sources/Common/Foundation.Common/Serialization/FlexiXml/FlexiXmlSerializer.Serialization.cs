@@ -36,9 +36,11 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             var cx = new SerializationContext(this, TypeDescriptor, TypeResolver, options);
 
-            cx.RootElement = cx.Serialize(obj, rootElementName);            
+            cx.RootElement = cx.Serialize(obj, rootElementName);
 
-            //# remove serialization attributes where not needed            
+            bool hasAnySerializationAttributes = false;
+
+            //# Expand Instance Id and Id-Ref attributes where needed
             
             var idNodes =
                 (from e in cx.RootElement.DescendantsAndSelf()
@@ -48,24 +50,55 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             {
                 var instanceId = node.Annotation<InstanceId>();
 
-                if(instanceId == null)
-                    continue;
-
-                if(instanceId.ReferenceCount == 0)
+                if (instanceId != null)
                 {
-                    node.Attribute(options.UniqueIdAttributeName).Remove();
+                    if (instanceId.ReferenceCount == 0)
+                    {
+                        // nothing to do here
+                    }
+                    else
+                    {
+                        var idAttribute = new XAttribute(options.UniqueIdAttributeName, instanceId.Id);
+                        node.Add(idAttribute);
+
+                        hasAnySerializationAttributes = true;
+                    }
+                }
+
+                // process attributes
+                foreach(var attribute in node.Attributes())
+                {
+                    var instanceIdRef = attribute.Annotation<InstanceIdRef>();
+
+                    if(instanceIdRef != null)
+                    {
+                        if(!attribute.Value.IsNullOrEmpty())
+                        {
+                            // todo: this should never happen
+                        }
+                        else
+                        {
+                            attribute.Value = instanceIdRef.InstanceId.ToString();
+                        }
+                    }
                 }
             }
 
-            var hasAnySerializationAttributes =
-                    (from e in cx.RootElement.DescendantsAndSelf()
-                     from a in e.Attributes()
-                     where a.Name.NamespaceName == XmlNamespace
-                     select a).Any();
+            if (!hasAnySerializationAttributes)
+            {
+                hasAnySerializationAttributes =
+                        (from e in cx.RootElement.DescendantsAndSelf()
+                         from a in e.Attributes()
+                         where
+                            a.Name.NamespaceName == XmlNamespace
+                            ||
+                            cx.Options.IsAttributeValueSerializationExtension(a)
+                         select a).Any();
+            }
 
             if(hasAnySerializationAttributes)
             {
-                var nsAttribute = new XAttribute(XNamespace.Xmlns.GetName("serialization"), XmlNamespace);
+                var nsAttribute = new XAttribute(XNamespace.Xmlns.GetName(options.SerializationNamespaceName), XmlNamespace);
                 cx.RootElement.Add(nsAttribute);
             }
 
