@@ -209,13 +209,20 @@ namespace SquaredInfinity.Foundation
             this.RemoveHandler = removeHandler;
         }
 
+        TimeSpan? ThrottleMin = null;
+        TimeSpan? ThrottleMax = null;
+
         public IEventSubscription<TEventSource, TDelegate, TEventArgs> Throttle(TimeSpan min)
         {
+            ThrottleMin = min;
+
             return this;
         }
 
         public IEventSubscription<TEventSource, TDelegate, TEventArgs> Throttle(TimeSpan min, TimeSpan max)
         {
+            ThrottleMin = min;
+            ThrottleMax = max;
             return this;
         }
 
@@ -244,7 +251,7 @@ namespace SquaredInfinity.Foundation
                 .First();
 
             var constructorParameters =
-                new object[] { EventSource, onEvent };
+                new object[] { EventSource, onEvent, ThrottleMin, ThrottleMax };
 
             WeakEventHandler = wehConstructor.Invoke(constructorParameters) as IWeakEventHandler<TDelegate>;
 
@@ -293,18 +300,48 @@ namespace SquaredInfinity.Foundation
         public TDelegate Handler { get; private set; }
 
         WeakReference<TEventSubscriber> EventSubscriber_ref;
-        
+
+        InvocationThrottle Throttle = null;
+
         public WeakEventHandler(
             TEventSource eventSource,
-            TDelegate onEvent)
+            TDelegate onEvent,
+            TimeSpan? throttleMin,
+            TimeSpan? throttleMax)
         {
-            Handler = ReflectionUtils.CreateDelegate<TDelegate>(this, typeof(WeakEventHandler<TEventSubscriber, TEventSource, TDelegate, TEventArgs>).GetMethod("Invoke"));
+            if (throttleMin != null)
+            {
+                if (throttleMax != null)
+                    Throttle = new InvocationThrottle(throttleMin.Value, throttleMax.Value);
+                else
+                    Throttle = new InvocationThrottle(throttleMin.Value);
+
+                Initialize(onEvent, "InvokeWithThrottle");
+            }
+            else
+            {
+                Initialize(onEvent, "Invoke");
+            }
+        }
+
+        void Initialize(TDelegate onEvent, string invokeMethodName)
+        {
+            Handler =
+                ReflectionUtils
+                .CreateDelegate<TDelegate>(this, typeof(WeakEventHandler<TEventSubscriber, TEventSource, TDelegate, TEventArgs>)
+                .GetMethod(invokeMethodName));
 
             var onEventDelegate = onEvent as Delegate;
 
             OpenHandler = (OpenEventHandler)Delegate.CreateDelegate(typeof(OpenEventHandler), null, onEventDelegate.Method);
 
             EventSubscriber_ref = new WeakReference<TEventSubscriber>(onEventDelegate.Target as TEventSubscriber);
+        }
+
+
+        public void InvokeWithThrottle(object sender, TEventArgs e)
+        {
+            Throttle.Invoke(() => Invoke(sender, e));
         }
 
         public void Invoke(object sender, TEventArgs e)
