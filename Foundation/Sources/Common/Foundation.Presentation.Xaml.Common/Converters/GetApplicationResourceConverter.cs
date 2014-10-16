@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SquaredInfinity.Foundation.Presentation.Resources;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace SquaredInfinity.Foundation.Presentation.Converters
             switch (Mode)
             {
                 case GetApplicationResourceConverterMode.LoadImageFromMainAssembly:
-                    return Resources.LoadImageFromEntryAssembly(value as string);
+                    return ResourcesManager.LoadImageFromEntryAssembly(value as string);
                 default:
                     // todo
                     //Logger.LogUnexpectedEnumValue(Mode);

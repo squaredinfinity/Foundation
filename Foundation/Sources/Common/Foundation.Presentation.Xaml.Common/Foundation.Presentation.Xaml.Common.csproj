@@ -112,10 +112,14 @@
     <Compile Include="DataTemplateSelectors\Rules\ItemValueRule.cs" />
     <Compile Include="DataTemplateSelectors\Rules\MemberValueRule.cs" />
     <Compile Include="FrameworkExtensions\System.Windows.Media\Color.extensions.cs" />
+    <Compile Include="Resources\IXamlResourcesProvider.cs" />
     <Compile Include="MarkupExtensions\CompareMethodBinding.cs" />
     <Compile Include="Media\Colors.cs" />
     <Compile Include="NotifyPropertyChangedObjectWrapper.cs" />
     <Compile Include="ObjectExtensibility\NotifyPropertyChangedObjectExtension.cs" />
+    <Compile Include="Resources\IXamlResourcesProviderMetadata.cs" />
+    <Compile Include="Resources\XamlResourcesImporter.cs" />
+    <Compile Include="Resources\XamlResourcesProviderMetadataAttribute.cs" />
     <Compile Include="SharedResourceDictionary.cs" />
     <Compile Include="ViewModels\AfterViewModelEventRaisedArgs.cs" />
     <Compile Include="ViewModels\IViewModelEvent.cs" />
@@ -199,7 +203,7 @@
     <Compile Include="NotifyPropertyChangedObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IUIService.cs" />
-    <Compile Include="Resources.cs" />
+    <Compile Include="Resources\ResourcesManager.cs" />
     <Compile Include="UIService.cs" />
     <Compile Include="UserInteractionOutcome.cs" />
     <Compile Include="ViewModels\AlertViewModel.cs" />
@@ -207,7 +211,7 @@
     <Compile Include="ViewModels\ViewModel.IHostAwareViewModel.cs" />
     <Compile Include="ViewModelState.cs" />
     <Compile Include="Views\View.cs" />
-    <Compile Include="Xaml\All.cs" />
+    <Compile Include="XamlResources.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Foundation.Common\Foundation.Common.csproj">

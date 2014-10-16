@@ -11,11 +11,22 @@ using System.IO;
 using SquaredInfinity.Foundation;
 
 using SquaredInfinity.Foundation.Extensions;
+using System.ComponentModel.Composition;
 
-namespace SquaredInfinity.Foundation.Presentation
+namespace SquaredInfinity.Foundation.Presentation.Resources
 {
-    public static class Resources
+    public static class ResourcesManager
     {
+        static XamlResourcesImporter XamlResourcesImporter = new XamlResourcesImporter();
+
+        public static void ImportAndLoadAllResources(ICompositionService compositionService)
+        {
+            if (compositionService == null)
+                throw new ArgumentNullException("compositionService");
+
+            XamlResourcesImporter.ImportAnLoadAllResources(compositionService);
+        }
+
         /// <summary>
         /// Loads a compiled (BAML) resource dictionary.
         /// </summary>

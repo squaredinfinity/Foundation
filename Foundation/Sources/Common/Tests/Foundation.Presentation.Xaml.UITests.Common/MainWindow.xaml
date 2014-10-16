@@ -4,6 +4,8 @@
         xmlns:behaviorsTests="clr-namespace:Foundation.Presentation.Xaml.UITests.Common.Behaviors"
         xmlns:controlsTests="clr-namespace:Foundation.Presentation.Xaml.UITests.Common.Controls"
         xmlns:mvvmTests="clr-namespace:Foundation.Presentation.Xaml.UITests.Common.MVVM"
+        xmlns:uiExamples="clr-namespace:Foundation.Presentation.Xaml.UITests.UIExamples"
+        xmlns:converters="clr-namespace:Foundation.Presentation.Xaml.UITests.Converters"
         Title="MainWindow" 
         WindowState="Maximized">
     
@@ -11,12 +13,21 @@
         <TabItem Header="Behaviors">
             <behaviorsTests:BehaviorsTestsView />
         </TabItem>
+        
+        <TabItem Header="Converters">
+            <converters:ConvertersView />
+        </TabItem>
+        
         <TabItem Header="Controls">
             <controlsTests:ControlsTestsView />
         </TabItem>
 
         <TabItem Header="MVVM">
             <mvvmTests:MVVMTestsView />
+        </TabItem>
+        
+        <TabItem Header="UI Examples">
+            <uiExamples:UIExamplesView />
         </TabItem>
     </TabControl>
 </Window>

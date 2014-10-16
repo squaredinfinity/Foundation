@@ -1,6 +1,7 @@
-﻿using SquaredInfinity.Foundation.Presentation.Xaml;
+﻿using SquaredInfinity.Foundation.Presentation.Resources;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition.Hosting;
 using System.Configuration;
 using System.Data;
 using System.Linq;
@@ -18,10 +19,17 @@ namespace Foundation.Presentation.Xaml.UITests.Common
         {
             base.OnStartup(e);
 
-            All.LoadAndMergeResourcesFromThisAssembly();
+            //# Initialize MEF
+            var applicationCatalog = new ApplicationCatalog();
+            var compositionContainer = new CompositionContainer(applicationCatalog);
+            compositionContainer.Compose(new CompositionBatch());
 
-            SquaredInfinity.Foundation.Presentation.Resources
-                .LoadAndMergeCompiledResourceDictionaryFromThisAssembly(@"AllResources.xaml");
+            //# Import Xaml Resources
+            ResourcesManager.ImportAndLoadAllResources(compositionContainer);
+
+            //# Alternative way to load default SquaredInfinity.Presentation.Foundation resources (without MEF)
+            // var resources = new SquaredInfinity.Foundation.Presentation.XamlResources();
+            // resources.LoadAndMergeResources();
         }
     }
 }

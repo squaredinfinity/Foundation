@@ -7,5 +7,8 @@
         <ResourceDictionary Source="{ResourceFromThisAssembly /Controls/ComboBoxView.xaml}" />
 
         <ResourceDictionary Source="{ResourceFromThisAssembly /MVVM/ViewModelEvents/TestView.xaml}" />
+
+        <ResourceDictionary Source="{ResourceFromThisAssembly /Converters/ConvertersView.xaml}" />
+        <ResourceDictionary Source="{ResourceFromThisAssembly /UIExamples/UIExamplesView.xaml}" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SquaredInfinity.Foundation.Presentation.Resources;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
         
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            return Resources.LoadImageFromEntryAssembly(RelativeUri as string);
+            return ResourcesManager.LoadImageFromEntryAssembly(RelativeUri as string);
         }
     }
 }

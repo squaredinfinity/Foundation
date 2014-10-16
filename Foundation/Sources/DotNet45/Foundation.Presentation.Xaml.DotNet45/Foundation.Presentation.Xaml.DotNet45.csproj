@@ -419,8 +419,20 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ObjectExtensibility\NotifyPropertyChangedObjectExtension.cs">
       <Link>ObjectExtensibility\NotifyPropertyChangedObjectExtension.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Resources.cs">
-      <Link>Resources.cs</Link>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Resources\IXamlResourcesProvider.cs">
+      <Link>Resources\IXamlResourcesProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Resources\IXamlResourcesProviderMetadata.cs">
+      <Link>Resources\IXamlResourcesProviderMetadata.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Resources\ResourcesManager.cs">
+      <Link>Resources\ResourcesManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Resources\XamlResourcesImporter.cs">
+      <Link>Resources\XamlResourcesImporter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Resources\XamlResourcesProviderMetadataAttribute.cs">
+      <Link>Resources\XamlResourcesProviderMetadataAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\SharedResourceDictionary.cs">
       <Link>SharedResourceDictionary.cs</Link>
@@ -472,9 +484,6 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Windows\ViewHostWindow.IViewModelHost.cs">
       <Link>Windows\ViewHostWindow.IViewModelHost.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Xaml\All.cs">
-      <Link>Xaml\All.cs</Link>
     </Compile>
     <Compile Include="FrameworkExtensions\System.Collections\IEnumerable.extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

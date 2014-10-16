@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Markup;
 using SquaredInfinity.Foundation.Extensions;
 using System.Xaml;
+using SquaredInfinity.Foundation.Presentation.Resources;
 
 namespace SquaredInfinity.Foundation.Presentation
 {
@@ -56,7 +57,7 @@ namespace SquaredInfinity.Foundation.Presentation
 
                 _source = value;
 
-                var dict = Resources.LoadCompiledResourceDictionary(_source);
+                var dict = ResourcesManager.LoadCompiledResourceDictionary(_source);
 
                 AddOrUpdateSharedDictionary(DictionaryName, dict);
 
@@ -137,7 +138,7 @@ namespace SquaredInfinity.Foundation.Presentation
 
             
 
-            return Resources.LoadImage(new Uri(pack, UriKind.Absolute));
+            return ResourcesManager.LoadImage(new Uri(pack, UriKind.Absolute));
         }
     }
 }

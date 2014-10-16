@@ -4,6 +4,8 @@
                     xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" >
 
     <converters:ColorToSolidColorBrushConverter     x:Key="Converters.ColorToSolidColorBrush" />
+    <!-- Alterantive name for Converters.ColorToSolidColorBrush -->
+    <converters:ColorToSolidColorBrushConverter     x:Key="Converters.ColorToBrush" />
     <converters:InvertBoolConverter                 x:Key="Converters.InvertBool" />
 
     <converters:BoolToVisibilityConverter x:Key="Converters.VisibleWhenTrue"

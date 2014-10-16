@@ -15,6 +15,9 @@ namespace SquaredInfinity.Foundation.Presentation.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null)
+                return DependencyProperty.UnsetValue;
+
             Visibility trueValue = Visibility.Visible;
             Visibility falseValue = Visibility.Collapsed;
 
