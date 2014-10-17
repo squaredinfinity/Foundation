@@ -147,6 +147,8 @@
 
     <converters:FirstBindingConverter x:Key="Converters.FirstBindingValue" />
     
+    <converters:SplitCamelCaseConverter x:Key="Converters.SplitCamelCase" />
+    
     <converters:IndexToBrushConverter x:Key="Converters.IndexToBrush">
         <SolidColorBrush Color="#4F81BD" po:Freeze="True" />
         <SolidColorBrush Color="#C0504D" po:Freeze="True" />

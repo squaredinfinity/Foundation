@@ -12,6 +12,33 @@ namespace SquaredInfinity.Foundation.Extensions
 {
     public static class StringExtensions
     {
+        public static string SplitCamelCase(this string str)
+        {
+            var sb = new StringBuilder();
+            
+            for (int i = 0; i < str.Length; i++)
+            {
+                var c = str[i];
+
+                if (Char.IsLetter(c))
+                {
+                    if (Char.IsUpper(c))
+                    {
+                        if (i < str.Length - 1 && Char.IsLower(str[i + 1]))
+                        {
+                            // insert SPACE before this upper case character, because it is followed by lower case character
+                            sb.Append(" ");
+                        }
+                    }
+
+                    sb.Append(c);
+                    continue;
+                }
+            }
+
+            return sb.ToString();
+        }
+
         public static string InjectZeroWidthSpaces(this string str, bool splitCamelCase)
         {
             var sb = new StringBuilder();
@@ -51,6 +78,7 @@ namespace SquaredInfinity.Foundation.Extensions
 
             return sb.ToString();
         }
+
         public static string[] Split(this string str, char separator, StringSplitOptions options = StringSplitOptions.None)
         {
             return str.Split(new char[] { separator }, options);

@@ -221,6 +221,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\SizeToRectConverter.cs">
       <Link>Converters\SizeToRectConverter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\SplitCamelCaseConverter.cs">
+      <Link>Converters\SplitCamelCaseConverter.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\TextFlattenAndTrimConverter.cs">
       <Link>Converters\TextFlattenAndTrimConverter.cs</Link>
     </Compile>
@@ -484,6 +487,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Windows\ViewHostWindow.IViewModelHost.cs">
       <Link>Windows\ViewHostWindow.IViewModelHost.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\XamlResources.cs">
+      <Link>XamlResources.cs</Link>
     </Compile>
     <Compile Include="FrameworkExtensions\System.Collections\IEnumerable.extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
