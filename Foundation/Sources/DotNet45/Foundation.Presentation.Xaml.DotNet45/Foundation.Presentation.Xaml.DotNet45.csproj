@@ -170,6 +170,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\CollectionPositionToBoolConverter.cs">
       <Link>Converters\CollectionPositionToBoolConverter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\ColorToGradientBrushConverter.cs">
+      <Link>Converters\ColorToGradientBrushConverter.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\ColorToSolidColorBrushConverter.cs">
       <Link>Converters\ColorToSolidColorBrushConverter.cs</Link>
     </Compile>

@@ -157,5 +157,7 @@
         <SolidColorBrush Color="#4BACC6" po:Freeze="True" />
         <SolidColorBrush Color="#F79646" po:Freeze="True" />
     </converters:IndexToBrushConverter>
-    
+
+    <converters:ColorToGradientBrushConverter x:Key="Converters.ColorToGradientBrush" />
+
 </ResourceDictionary>
