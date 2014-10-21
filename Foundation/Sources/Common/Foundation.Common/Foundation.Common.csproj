@@ -64,6 +64,7 @@
     <Compile Include="CommandHandlerEventArgs_T.cs" />
     <Compile Include="CompositeComparer_T.cs" />
     <Compile Include="DateTimeContext.cs" />
+    <Compile Include="DynamicComparer_T.cs" />
     <Compile Include="EnumeratorBase.cs" />
     <Compile Include="FrameworkExtensions\System\Boolean.extensions.cs" />
     <Compile Include="CloneComparer.cs" />

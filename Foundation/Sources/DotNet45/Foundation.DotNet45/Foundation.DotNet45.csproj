@@ -111,6 +111,9 @@
     <Compile Include="..\..\Common\Foundation.Common\Direction.cs">
       <Link>Direction.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\DynamicComparer_T.cs">
+      <Link>DynamicComparer_T.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\EnumeratorBase.cs">
       <Link>EnumeratorBase.cs</Link>
     </Compile>

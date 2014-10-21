@@ -108,6 +108,26 @@ namespace SquaredInfinity.Foundation.Collections
             }
         }
 
+        public void Sort(IComparer<TItem> comparer)
+        {
+            using(CollectionLock.AcquireWriteLock())
+            {
+                var copy = GetSnapshot();
+
+                (base.Items as List<TItem>).Sort(comparer);
+
+                for(int i = 0; i < copy.Count; i++)
+                {
+                    var ix_new = Items.IndexOf(copy[i]);
+
+                    if(ix_new != i)
+                    {
+                        RaiseCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedAction.Move, copy[i], ix_new, i);
+                    }
+                }
+            }
+        }
+
         public virtual void Replace(TItem oldItem, TItem newItem)
         {
             using (CollectionLock.AcquireUpgradeableReadLock())
