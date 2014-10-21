@@ -50,6 +50,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Diagnostics.UnitTests.Common", "Sources\Common\Tests\Foundation.Diagnostics.UnitTests.Common\Foundation.Diagnostics.UnitTests.Common.csproj", "{E198D2AB-90D6-46C2-B30C-288B973DD8BA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".documentation", ".documentation", "{2571A7F4-6A81-421E-AC34-50BA59DB6417}"
+	ProjectSection(SolutionItems) = preProject
+		..\LICENSE = ..\LICENSE
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Diagnostics", "Documentation\Foundation.Diagnostics\Foundation.Diagnostics.csproj", "{E673F697-FEB4-49FB-9F0C-8F5C45F5E19A}"
 EndProject
