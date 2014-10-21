@@ -63,8 +63,12 @@
     <Folder Include="src\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="lib\45\Foundation.Diagnostics.Infrastructure.DotNet45.dll" />
-    <Content Include="lib\45\SquaredInfinity.Foundation.DotNet45.dll" />
+    <Content Include="..\..\Sources\DotNet45\Foundation.DotNet45\bin\Release\Foundation.Diagnostics.Infrastructure.DotNet45.dll">
+      <Link>lib\45\Foundation.Diagnostics.Infrastructure.DotNet45.dll</Link>
+    </Content>
+    <Content Include="..\..\Sources\DotNet45\Foundation.DotNet45\bin\Release\SquaredInfinity.Foundation.DotNet45.dll">
+      <Link>lib\45\SquaredInfinity.Foundation.DotNet45.dll</Link>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
