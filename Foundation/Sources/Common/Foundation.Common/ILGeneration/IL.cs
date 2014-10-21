@@ -9,7 +9,7 @@ using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.ILGeneration
 {
-    public class IL : IILGenerator
+    internal class IL : IILGenerator
     {
         readonly ILGenerator Generator;
 

@@ -116,6 +116,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Collections\ObservableCollectionEx.Version.cs">
       <Link>Collections\ObservableCollectionEx.Version.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Collections\XamlVirtualizingCollection.cs">
+      <Link>Collections\XamlVirtualizingCollection.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Commands\DelegateCommand.cs">
       <Link>Commands\DelegateCommand.cs</Link>
     </Compile>
@@ -415,12 +418,6 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Media\Colors.cs">
       <Link>Media\Colors.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\NotifyPropertyChangedObject.cs">
-      <Link>NotifyPropertyChangedObject.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\NotifyPropertyChangedObjectWrapper.cs">
-      <Link>NotifyPropertyChangedObjectWrapper.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ObjectExtensibility\NotifyPropertyChangedObjectExtension.cs">
       <Link>ObjectExtensibility\NotifyPropertyChangedObjectExtension.cs</Link>

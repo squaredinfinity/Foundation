@@ -52,6 +52,7 @@
     <Compile Include="Collections\IBulkUpdatesCollection.cs" />
     <Compile Include="Collections\OrderedDictionary.cs" />
     <Compile Include="Collections\PriorityQueue.cs" />
+    <Compile Include="Collections\ProviderBasedVirtualizingCollection.cs" />
     <Compile Include="Collections\Trees\_BooleanExpressionTree\BooleanExpressionTree.cs" />
     <Compile Include="Collections\Trees\_BooleanExpressionTree\BooleanExpressionTreeNode.cs" />
     <Compile Include="Collections\Trees\_BooleanExpressionTree\BooleanExpressionTreeTraversingCollection.cs" />
@@ -70,6 +71,8 @@
     <Compile Include="CloneComparer.cs" />
     <Compile Include="ICloneEquatable.cs" />
     <Compile Include="InvocationThrottle.cs" />
+    <Compile Include="NotifyPropertyChangedObject.cs" />
+    <Compile Include="NotifyPropertyChangedObjectWrapper.cs" />
     <Compile Include="ObjectExtensibility\Extension.cs" />
     <Compile Include="ObjectExtensibility\ExtensionCollection.cs" />
     <Compile Include="ObjectExtensibility\IExtensibleObject.cs" />

@@ -83,6 +83,7 @@
     <Compile Include="Collections\ObservableCollectionEx.INotifyPropertyChanged.cs" />
     <Compile Include="Collections\ObservableCollectionEx.Version.cs" />
     <Compile Include="Collections\ObservableVirtualizingCollection.cs" />
+    <Compile Include="Collections\XamlVirtualizingCollection.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Commands\DelegateCommandBase.WeakEventHandlerManager.cs" />
     <Compile Include="Commands\DelegateCommandBase.cs" />
@@ -117,7 +118,6 @@
     <Compile Include="Resources\IXamlResourcesProvider.cs" />
     <Compile Include="MarkupExtensions\CompareMethodBinding.cs" />
     <Compile Include="Media\Colors.cs" />
-    <Compile Include="NotifyPropertyChangedObjectWrapper.cs" />
     <Compile Include="ObjectExtensibility\NotifyPropertyChangedObjectExtension.cs" />
     <Compile Include="Resources\IXamlResourcesProviderMetadata.cs" />
     <Compile Include="Resources\XamlResourcesImporter.cs" />
@@ -202,7 +202,6 @@
     <Compile Include="MarkupExtensions\StringFormatBinding.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="NotifyPropertyChangedObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IUIService.cs" />
     <Compile Include="Resources\ResourcesManager.cs" />
