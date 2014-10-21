@@ -1,0 +1,660 @@
+ public interface IVirtualizedDataItem<TDataItem>
+        where TDataItem : class
+    {
+        int Index { get; set; }
+        bool IsLoading { get; set; }
+        TDataItem DataItem { get; set; }
+    }
+
+    public class VirtualizedDataItem<TDataItem> : NotifyPropertyChangedObject, IVirtualizedDataItem<TDataItem>
+        where TDataItem : class
+    {
+        int _index;
+        /// <summary>
+        /// Index of underlying Data Item in collection being virtualized.
+        /// </summary>
+        public int Index
+        {
+            get { return _index; }
+            set { _index = value; }
+        }
+
+        bool _isLoading = false;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { TrySetThisPropertyValue(ref _isLoading, value); }
+        }
+
+        TDataItem _dataItem;
+        /// <summary>
+        /// Underlying Data Item
+        /// </summary>
+        public TDataItem DataItem
+        {
+            get { return _dataItem; }
+            set
+            {
+                if(TrySetThisPropertyValue(ref _dataItem, value))
+                {
+                    IsLoading = _dataItem == null;
+                }
+            }
+        }
+
+        public VirtualizedDataItem(int index)
+        {
+            this.Index = index;
+        }
+    }
+
+    public interface IVirtualizedDataItemsProvider<TDataItem>
+    {
+        event EventHandler AfterDataChanged;
+
+        /// <summary>
+        /// Returns a total number of all items in an underlying collection being virtualized
+        /// </summary>
+        /// <returns></returns>
+        int GetTotalItemsCount();
+
+        IReadOnlyList<TDataItem> GetItems(int startIndex, int numberOfItems);
+    }
+
+    public class VirtualizedDataItemsPage<TDataItem>
+        where TDataItem: class
+    {
+        IList<IVirtualizedDataItem<TDataItem>> _items;
+        public IList<IVirtualizedDataItem<TDataItem>> Items
+        {
+            get { return _items; }
+            private set { _items = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="startIndex">start index of first item on this page in relation to a whole underlying collection being virtualized</param>
+        /// <param name="pageSize">number of items in this page</param>
+        public VirtualizedDataItemsPage(int startIndex, int pageSize)
+        {
+            Items = new List<IVirtualizedDataItem<TDataItem>>(capacity: pageSize);
+
+            for(int i = 0; i < pageSize; i++)
+            {
+                Items.Add(new VirtualizedDataItem<TDataItem>(index: i));
+            }
+        }
+
+        /// <summary>
+        /// Updates this page with new items.
+        /// </summary>
+        /// <param name="newItems"></param>
+        public void ReloadItems(IReadOnlyList<TDataItem> newItems)
+        {
+            //# Replace any existing items
+
+            var to_count = Math.Min(newItems.Count, Items.Count);
+
+            for(int i = 0; i < to_count; i++)
+            {
+                if(!object.Equals(Items[i], newItems[i]))
+                    Items[i].DataItem = newItems[i];
+            }
+
+            //# Add new items
+
+            var dataItem_index = Items[to_count - 1].Index;
+
+            for(int i = to_count; i < newItems.Count; i++)
+            {
+                var di = new VirtualizedDataItem<TDataItem>(dataItem_index + i);
+                di.DataItem = newItems[i];
+
+                Items.Add(di);
+            }
+
+            //# Remove remaining old items
+            for(int i = Items.Count - 1; i >= newItems.Count; i--)
+            {
+                Items.RemoveAt(i);
+            }
+        }
+    }
+
+    public class PageCollection<TDataItem> : ConcurrentDictionary<int, VirtualizedDataItemsPage<TDataItem>>
+        where TDataItem : class
+    { }
+
+    public class XamlVirtualizingCollection<TDataItem> : 
+        VirtualizingCollection<TDataItem>,
+        INotifyCollectionChanged, 
+        INotifyPropertyChanged
+        where TDataItem : class
+    {
+        readonly protected ILock CollectionLock = new ReaderWriterLockSlimEx(LockRecursionPolicy.SupportsRecursion);
+        readonly Dispatcher Dispatcher;
+
+        static Dispatcher GetMainThreadDispatcher()
+        {
+            if (Application.Current != null && Application.Current.Dispatcher != null)
+                return Application.Current.Dispatcher;
+
+            return Dispatcher.CurrentDispatcher;
+        }
+
+        public XamlVirtualizingCollection(IVirtualizedDataItemsProvider<TDataItem> itemsProvider)
+            : base(itemsProvider)
+        {
+            Dispatcher = GetMainThreadDispatcher();
+
+            BindingOperations.EnableCollectionSynchronization(this, context: null, synchronizationCallback: BindingSync);
+        }
+
+        void BindingSync(IEnumerable collection, object context, Action accessMethod, bool writeAccess)
+        {
+            var lockAcquisition = (IDisposable)null;
+
+            if (writeAccess)
+            {
+                lockAcquisition = CollectionLock.AcquireWriteLock();
+            }
+            else
+            {
+                lockAcquisition = CollectionLock.AcquireReadLock();
+            }
+
+            using(lockAcquisition)
+            { 
+                accessMethod();
+            }
+        }
+
+        protected override void HandleUnderlyingDataChange()
+        {
+            using (CollectionLock.AcquireWriteLock())
+            {
+                //# remove pages which are no longer used
+                CleanUp();
+
+                //# for each item which is still in use,
+                //# update it to the current value if needed
+
+                //foreach (var kvp in Pages)
+                //{
+                //    foreach (var item in kvp.Value.Items)
+                //    {
+                //        // raise item changed
+                //        //item.Index;
+
+                //    }
+                //}
+
+                var oldCount = Count;
+
+                Count = -1;
+
+                RaiseCollectionReset();
+            }
+        }
+
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
+
+        protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object newItem, object oldItem, int index)
+        {
+            if (action.IsIn(NotifyCollectionChangedAction.Move, NotifyCollectionChangedAction.Replace))
+            {
+                RaisePropertyChanged("Item[]");
+            }
+            else
+            {
+                RaisePropertyChanged("Item[]");
+                RaisePropertyChanged("Count");
+            }
+
+            if (CollectionChanged != null)
+                CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, newItem, oldItem, index));
+        }
+
+        protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object item, int index)
+        {
+            if (action.IsIn(NotifyCollectionChangedAction.Move, NotifyCollectionChangedAction.Replace))
+            {
+                RaisePropertyChanged("Item[]");
+            }
+            else
+            {
+                RaisePropertyChanged("Item[]");
+                RaisePropertyChanged("Count");
+            }
+
+            if (CollectionChanged != null)
+                CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, item, index));
+        }
+
+        protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object item, int index, int oldIndex)
+        {
+            if (action.IsIn(NotifyCollectionChangedAction.Move, NotifyCollectionChangedAction.Replace))
+            {
+                RaisePropertyChanged("Item[]");
+            }
+            else
+            {
+                RaisePropertyChanged("Item[]");
+                RaisePropertyChanged("Count");
+            }
+
+            if (CollectionChanged != null)
+                CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, item, index, oldIndex));
+        }
+
+        protected void RaiseCollectionReset()
+        {
+            RaisePropertyChanged("Count");
+            RaisePropertyChanged("Item[]");
+
+            if (CollectionChanged != null)
+            {
+                CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        void RaiseThisPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        void RaisePropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+    
+
+    public class VirtualizingCollection<TDataItem> : IList<IVirtualizedDataItem<TDataItem>>, IList
+        where TDataItem : class
+    {
+        readonly PageCollection<TDataItem> _pages = new PageCollection<TDataItem>();
+        protected PageCollection<TDataItem> Pages
+        {
+            get { return _pages; }
+        }
+
+        VirtualizedDataItemsPage<TDataItem> EnsurePage(int pageNumber)
+        {            
+            var isNew = false;
+
+            var page = 
+                Pages.GetOrAdd(pageNumber, (_) =>
+                {
+                    isNew = true;
+
+                    var newPage = new VirtualizedDataItemsPage<TDataItem>(pageNumber * PageSize, PageSize);
+
+                    return newPage;
+                });
+
+            if (isNew)
+            {
+                var pageItems = ItemsProvider.GetItems(pageNumber * PageSize, PageSize);
+
+                page.ReloadItems(pageItems);
+            }
+
+            return page;
+        }
+
+        public IVirtualizedDataItemsProvider<TDataItem> ItemsProvider { get; private set; }
+        public int PageSize { get; private set; }
+        public TimeSpan PageLoadTimeout { get; private set; }
+
+        IDisposable SUBSCRIPTION_ItemsProvider_AfterDataChanged;
+
+        public VirtualizingCollection(IVirtualizedDataItemsProvider<TDataItem> itemsProvider)
+            : this(itemsProvider, pageSize: 1, pageLoadTimeout: TimeSpan.FromSeconds(5))
+        { }
+
+        public VirtualizingCollection(IVirtualizedDataItemsProvider<TDataItem> itemsProvider, int pageSize, TimeSpan pageLoadTimeout)
+        {
+            this.ItemsProvider = itemsProvider;
+            this.PageSize = pageSize;
+            this.PageLoadTimeout = pageLoadTimeout;
+
+            SUBSCRIPTION_ItemsProvider_AfterDataChanged =
+                ItemsProvider
+                .CreateWeakEventHandler()
+                .ForEvent(
+                (s, h) => s.AfterDataChanged += h,
+                (s, h) => s.AfterDataChanged -= h)
+                .Subscribe(new EventHandler((_s, _args1) =>
+                {
+                    HandleUnderlyingDataChange();
+                }));
+        }
+
+        protected virtual void HandleUnderlyingDataChange()
+        { }
+
+        protected virtual void CleanUp()
+        {
+            Pages.Clear();
+        }
+
+        #region IList<IVirtualizedDataItem<TDataItem>>
+
+        public int IndexOf(IVirtualizedDataItem<TDataItem> item)
+        {
+            foreach(var kvp in Pages)
+            {
+                var index_onPage = kvp.Value.Items.IndexOf(item);
+
+                if(index_onPage >= 0)
+                {
+                    return (kvp.Key * PageSize) + index_onPage;
+                }
+            }
+
+            return -1;
+        }
+
+        public void Insert(int index, IVirtualizedDataItem<TDataItem> item)
+        {
+            throw new NotSupportedException();
+        }
+
+        public void RemoveAt(int index)
+        {
+            throw new NotSupportedException();
+        }
+
+        public IVirtualizedDataItem<TDataItem> this[int index]
+        {
+            get
+            {
+                // get the page number from item index
+                var pageNumber = index / PageSize;
+                
+                // get the index on the page
+                var index_onPage = index % PageSize;
+
+                // load the page
+                var page = EnsurePage(pageNumber);
+                
+                // TODO: load next / previous page (using Cache Length property, may need to be added)
+
+                // update count (in case it changed)
+                Count = ItemsProvider.GetTotalItemsCount();
+
+                // TODO: remove pages which are no longer used                
+
+                return page.Items[index_onPage];
+            }
+            set 
+            {
+                throw new NotSupportedException(); 
+            }
+        }
+
+        public void Add(IVirtualizedDataItem<TDataItem> item)
+        {
+            throw new NotSupportedException();
+        }
+
+        public void Clear()
+        {
+            throw new NotSupportedException();
+        }
+
+        public bool Contains(IVirtualizedDataItem<TDataItem> item)
+        {
+            foreach(var page in Pages.Values)
+            {
+                if (page.Items.Contains(item))
+                    return true;
+            }
+
+            return false;
+        }
+
+        public void CopyTo(IVirtualizedDataItem<TDataItem>[] array, int arrayIndex)
+        {
+            var copy = this.ItemsProvider.GetItems(0, ItemsProvider.GetTotalItemsCount());
+            Array.Copy(copy.ToArray(), array, copy.Count);
+
+            //var copy = new List<IVirtualizedDataItem<TDataItem>>(capacity: array.Length);
+
+            //for(int i = 0; i < array.Length; i++)
+            //{
+            //    var item = (IVirtualizedDataItem<TDataItem>) this[i + arrayIndex];
+
+            //    copy.Add(item);
+            //}
+
+            //Array.Copy(copy.ToArray(), array, copy.Count);
+        }
+
+        int _count = -1;
+
+        public int Count
+        {
+            get 
+            {
+                if(_count < 0)
+                {
+                    _count = ItemsProvider.GetTotalItemsCount();
+                }
+
+                return _count;
+            }
+
+            protected set
+            {
+                _count = value;
+            }
+        }
+
+        public bool IsReadOnly
+        {
+            get { return true; }
+        }
+
+        public bool Remove(IVirtualizedDataItem<TDataItem> item)
+        {
+            throw new NotSupportedException();
+        }
+
+        public IEnumerator<IVirtualizedDataItem<TDataItem>> GetEnumerator()
+        {
+            yield break;
+
+            //for(int i = 0; i < Count; i++)
+            //{
+            //    yield return this[i];
+            //}
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        #endregion
+
+        #region IList
+
+        int IList.Add(object value)
+        {
+            throw new NotSupportedException();
+        }
+
+        void IList.Clear()
+        {
+            throw new NotSupportedException();
+        }
+
+        bool IList.Contains(object value)
+        {
+            return Contains(value as IVirtualizedDataItem<TDataItem>);
+        }
+
+        int IList.IndexOf(object value)
+        {
+            return IndexOf(value as IVirtualizedDataItem<TDataItem>);
+        }
+
+        void IList.Insert(int index, object value)
+        {
+            throw new NotSupportedException();
+        }
+
+        bool IList.IsFixedSize
+        {
+            get { return false; }
+        }
+
+        bool IList.IsReadOnly
+        {
+            get { return true; }
+        }
+
+        void IList.Remove(object value)
+        {
+            throw new NotSupportedException();
+        }
+
+        void IList.RemoveAt(int index)
+        {
+            throw new NotSupportedException();
+        }
+
+        object IList.this[int index]
+        {
+            get
+            {
+                return this[index];
+            }
+            set
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        void ICollection.CopyTo(Array array, int index)
+        {
+            var copy = this.ItemsProvider.GetItems(0, ItemsProvider.GetTotalItemsCount());
+            Array.Copy(copy.ToArray(), array, copy.Count);
+
+            //var copy = new List<IVirtualizedDataItem<TDataItem>>(capacity: array.Length);
+
+            //for(int i = 0; i < array.Length; i++)
+            //{
+            //    var item = (IVirtualizedDataItem<TDataItem>) this[i + index];
+
+            //    copy.Add(item);
+            //}
+
+            //Array.Copy(copy.ToArray(), array, copy.Count);
+        }
+
+        int ICollection.Count
+        {
+            get { return Count; }
+        }
+
+        bool ICollection.IsSynchronized
+        {
+            get { return false; }
+        }
+
+        object ICollection.SyncRoot
+        {
+            get { return this; }
+        }
+
+        #endregion
+    }
+
+
+    public class GradientBrushFromSolidColor : MarkupExtension
+    {
+        public System.Windows.Media.Color BaseColor { get; set; }
+
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            var color = System.Windows.Media.Color.FromArgb(BaseColor.A, BaseColor.R, BaseColor.G, BaseColor.B);
+
+
+            var scrgb = color.ToScRGBColor();
+
+            var xyz = KnownColorSpaces.scRGB.ToXYZColor(scrgb);
+
+            var lab = KnownColorSpaces.Lab.FromXYZColor(xyz) as LabColor;
+
+            var l_base = lab.L;
+
+            var gradientStops = new GradientStopCollection();
+
+            var _lab = new LabColor(0xff, l_base * 1.1, lab.a, lab.b);
+            var _c = _lab.ToWindowsMediaColor();
+
+            gradientStops.Add(new GradientStop(_c, 0.5));
+
+
+            _lab = new LabColor(0xff, l_base * .9, lab.a, lab.b);
+            _c = _lab.ToWindowsMediaColor();
+
+            gradientStops.Add(new GradientStop(_c, 1));
+
+
+            var result = new LinearGradientBrush(gradientStops, 90);
+
+            return result;
+        }
+    }
+
+    public class ColorToGradientBrushConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null)
+                return DependencyProperty.UnsetValue;
+
+            var color = (System.Windows.Media.Color)value;
+
+            var scrgb = color.ToScRGBColor();
+
+            var xyz = KnownColorSpaces.scRGB.ToXYZColor(scrgb);
+
+            var lab = KnownColorSpaces.Lab.FromXYZColor(xyz) as LabColor;
+
+            var l_base = lab.L;
+
+            var gradientStops = new GradientStopCollection();
+
+            var _lab = new LabColor(0xff, l_base * 1.07, lab.a, lab.b);
+            var _c = _lab.ToWindowsMediaColor();
+
+            gradientStops.Add(new GradientStop(_c, 0.5));
+
+
+            _lab = new LabColor(0xff, l_base * .93, lab.a, lab.b);
+            _c = _lab.ToWindowsMediaColor();
+
+            gradientStops.Add(new GradientStop(_c, 1));
+
+
+            var result = new LinearGradientBrush(gradientStops, 90);
+
+            return result;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
