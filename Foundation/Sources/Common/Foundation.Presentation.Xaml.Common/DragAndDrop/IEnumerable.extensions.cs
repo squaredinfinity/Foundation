@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -20,6 +21,14 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
             {
                 return list as IList;
             }
+        }
+
+        public static IEnumerable<TItem> ToArrayIfDebug<TItem>(this IEnumerable<TItem> list)
+        {
+            if (!Debugger.IsAttached)
+                return list;
+
+            return list.ToArray();
         }
     }
 }

@@ -33,6 +33,25 @@ namespace Foundation.Presentation.Xaml.UITests.Common
         {
             DataContext = this;
 
+            var l = new List<int> { 1, 2, 3, 4, 5, 6, 7 };
+
+            var odd =
+                (from n in l
+                 where n % 2 == 0
+                 select n)
+                 .ToArrayIfDebug();
+
+
+            var oddlessthan5 =
+                (from n in odd
+                 where n < 5
+                 select n)
+                 .ToArrayIfDebug();
+
+
+            var x = oddlessthan5.Count();
+
+            Console.WriteLine(x);
             //var tree = new BooleanExpressionTree();
 
             //var or_1 = new PredicateConnectiveNode { Mode = PredicateConnectiveMode.OR };
