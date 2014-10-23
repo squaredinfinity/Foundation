@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation
 {
-    class InvocationThrottle
+    public class InvocationThrottle
     {
         TimeSpan TimeSpanMin;
         TimeSpan? TimeSpanMax;

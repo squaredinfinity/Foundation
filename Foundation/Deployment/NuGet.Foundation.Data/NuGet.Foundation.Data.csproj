@@ -63,9 +63,7 @@
     <Folder Include="src\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\Sources\DotNet45\Foundation.Data.DotNet45\bin\Release\SquaredInfinity.Foundation.Data.DotNet45.dll">
-      <Link>lib\45\SquaredInfinity.Foundation.Data.DotNet45.dll</Link>
-    </Content>
+    <Content Include="lib\45\SquaredInfinity.Foundation.Data.DotNet45.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
