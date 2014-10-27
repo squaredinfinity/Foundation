@@ -172,13 +172,54 @@ namespace SquaredInfinity.Foundation.Extensions
             }
 
             var converter = TypeDescriptor.GetConverter(obj);
-            if(converter != null && converter.CanConvertTo(targetType))
+
+            var cx = new ConverterContext(obj);
+
+            if(converter != null && converter.CanConvertTo(cx, targetType))
             {
                 result = converter.ConvertTo(obj, targetType);
                 return true;
             }
 
             return false;
+        }
+
+        class ConverterContext : ITypeDescriptorContext
+        {
+            public IContainer Container
+            {
+                get { return null; }
+            }
+
+            object _instance;
+            public object Instance
+            {
+                get { return _instance; }
+                private set { _instance = value; }
+            }
+
+            public ConverterContext(object instance)
+            {
+                this.Instance = instance;
+            }
+
+            public void OnComponentChanged()
+            { }
+
+            public bool OnComponentChanging()
+            {
+                return true;
+            }
+
+            public PropertyDescriptor PropertyDescriptor
+            {
+                get { return null; }
+            }
+
+            public object GetService(Type serviceType)
+            {
+                return null;
+            }
         }
 
         public static object Convert(this object obj, Type targetType)
