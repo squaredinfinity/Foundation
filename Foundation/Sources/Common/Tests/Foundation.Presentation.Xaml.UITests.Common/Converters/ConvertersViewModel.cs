@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 
 namespace Foundation.Presentation.Xaml.UITests.Converters
@@ -37,6 +38,22 @@ namespace Foundation.Presentation.Xaml.UITests.Converters
                 true,
                 false
             };
+
+            
+        }
+
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+
+            Window w;
+
+            TryFindDataContextInVisualTree<Window>(out w);
+        }
+
+        protected override void OnAfterDataContextChanged(object newDataContext)
+        {
+            base.OnAfterDataContextChanged(newDataContext);
         }
     }
 }

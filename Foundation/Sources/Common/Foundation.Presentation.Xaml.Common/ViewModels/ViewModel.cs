@@ -1,4 +1,6 @@
 ﻿using SquaredInfinity.Foundation.Presentation.Commands;
+using SquaredInfinity.Foundation;
+using SquaredInfinity.Foundation.Extensions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -73,6 +75,37 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
         protected virtual void OnAfterDataContextChanged(object newDataContext)
         {
 
+        }
+
+        public void Initialize()
+        {
+            OnInitialized();
+        }
+
+        protected virtual void OnInitialized()
+        { }
+
+        public class FindDataContextInVisualTreeEventArgs : CommandHandlerEventArgs
+        {
+            public Type DataContextType { get; set; }
+            public object DataContext { get; set; }
+        }
+
+        internal event EventHandler<FindDataContextInVisualTreeEventArgs> TryFindDataContext;
+
+        public bool TryFindDataContextInVisualTree<TDataContext>(out TDataContext dataContext)
+        {
+            var args = new FindDataContextInVisualTreeEventArgs();
+            args.DataContextType = typeof(TDataContext);
+
+            if (TryFindDataContext.TryHandle(args))
+            {
+                dataContext = (TDataContext)args.DataContext;
+                return true;
+            }
+            
+            dataContext = default(TDataContext);
+            return false;
         }
 
 

@@ -11,5 +11,7 @@ namespace SquaredInfinity.Foundation.Presentation
         object DataContext { get; set; }
 
         ViewModelState State { get; set; }
+
+        void Initialize();
     }
 }

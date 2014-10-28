@@ -182,6 +182,14 @@ namespace SquaredInfinity.Foundation.Presentation.Views
 
             PreviewViewModelEvent += View_ViewModelMessage;
             ViewModelEvent += View_ViewModelMessage;
+
+            this.Initialized += View_Initialized;
+        }
+
+        void View_Initialized(object sender, EventArgs e)
+        {
+            if(ViewModel != null)
+                ViewModel.Initialize();
         }
 
         void View_ViewModelMessage(object sender, ViewModelEventRoutedEventArgs args)
@@ -221,8 +229,6 @@ namespace SquaredInfinity.Foundation.Presentation.Views
 
             var newVM = ResolveViewModel(this.GetType(), newDataContext);
 
-            newVM.DataContext = newDataContext;
-
             OnBeforeNewViewModelAddedInternal(newDataContext, newVM);
 
             if(ViewModel != null && !object.ReferenceEquals(ViewModel, newVM))
@@ -230,7 +236,7 @@ namespace SquaredInfinity.Foundation.Presentation.Views
                 ViewModel.Dispose();
             }
 
-            
+            newVM.DataContext = newDataContext;            
 
             ViewModel = newVM;
         }
@@ -248,19 +254,62 @@ namespace SquaredInfinity.Foundation.Presentation.Views
         protected virtual void OnBeforeOldViewModelRemoved(object oldDataContext, IHostAwareViewModel oldViewModel)
         { }
 
-        IDisposable AfterViewModelRaisedSubscription;
+        IDisposable SUBSCRIPTION_AfterViewModelRaised;
+        IDisposable SUBSCRIPTION_FindDataContextInVisualTree;
 
         void OnBeforeNewViewModelAddedInternal(object newDataContext, IHostAwareViewModel newViewModel)
         {
             if(newViewModel != null)
             {
-                AfterViewModelRaisedSubscription =
+                if (SUBSCRIPTION_AfterViewModelRaised != null)
+                    SUBSCRIPTION_AfterViewModelRaised.Dispose();
+
+                SUBSCRIPTION_AfterViewModelRaised =
                 (newViewModel as ViewModel) // todo: update IViewModel interface
                     .CreateWeakEventHandler()
                     .ForEvent<AfterViewModelEventRaisedArgs>(
                     (vm, h) => vm.AfterViewModelEventRaised += h,
                     (vm, h) => vm.AfterViewModelEventRaised -= h)
                     .Subscribe((vm, args) => OnAfterViewModelEventRaised(vm as ViewModel, args.Event, args.RoutingStrategy));
+
+
+                if (SUBSCRIPTION_FindDataContextInVisualTree != null)
+                    SUBSCRIPTION_FindDataContextInVisualTree.Dispose();
+
+                SUBSCRIPTION_FindDataContextInVisualTree =
+                    (newViewModel as ViewModel)
+                    .CreateWeakEventHandler()
+                    .ForEvent<SquaredInfinity.Foundation.Presentation.ViewModels.ViewModel.FindDataContextInVisualTreeEventArgs>(
+                    (vm, h) => vm.TryFindDataContext += h,
+                    (vm, h) => vm.TryFindDataContext -= h)
+                    .Subscribe((_s, _e) =>
+                        {
+                            var vp = this.GetVisualOrLogicalParent();
+
+                            while(vp != null)
+                            {
+                                var fe = vp as FrameworkElement;
+
+                                if(fe != null)
+                                {
+                                    var dx = fe.DataContext;
+
+                                    if(dx != null)
+                                    {
+                                        var result = (object) null;
+
+                                        if(dx.TryConvert(_e.DataContextType, out result))
+                                        {
+                                            _e.DataContext = result;
+                                            _e.Handle();
+                                            return;
+                                        }
+                                    }
+                                }
+
+                                vp = vp.GetVisualParent();
+                            }
+                        });
             }
 
             OnBeforeNewViewModelAdded(newDataContext, newViewModel);
