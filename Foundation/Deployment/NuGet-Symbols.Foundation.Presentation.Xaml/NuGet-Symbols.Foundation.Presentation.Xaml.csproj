@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{63D3DE62-1E8D-46F7-9D44-DD70AFE2EE7E}</ProjectGuid>
+    <ProjectGuid>{B5264024-BE97-4D7A-86A0-A3920523B280}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NuGet.Foundation</RootNamespace>
-    <AssemblyName>NuGet.Foundation</AssemblyName>
+    <RootNamespace>NuGet_Symbols.Foundation.Presentation.Xaml</RootNamespace>
+    <AssemblyName>NuGet-Symbols.Foundation.Presentation.Xaml</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>

@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SquaredInfinity.Foundation.Data</id>
-    <version>1.0.3</version>
+    <version>1.0.5</version>
     <title>SquaredInfinity.Foundation.Data</title>
     <authors>Jarek Kardas</authors>
     <owners></owners>
@@ -22,14 +22,15 @@
     <copyright>Copyright  2014</copyright>
     <dependencies>
       <group targetFramework="net45">
-        <dependency id="SquaredInfinity.Foundation" version="1.0.3" />
+        <dependency id="SquaredInfinity.Foundation" version="1.0.5" />
       </group>
     </dependencies>
     <references></references>
     <tags></tags>
   </metadata>
   <files>
-    <file src="lib\" target="lib" />
+    <file src="..\..\Sources\DotNet45\Foundation.Data.Xaml.DotNet45\bin\Release\SquaredInfinity.Foundation.Data.DotNet45.dll" target="lib\net45"  />
+    <file src="..\..\Sources\DotNet45\Foundation.Data.Xaml.DotNet45\bin\Release\SquaredInfinity.Foundation.Data.DotNet45.xml" target="lib\net45"  />
     <file src="tools\" target="tools" />
     <file src="content\" target="content" />
   </files>
