@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>SquaredInfinity.Foundation.Presentation.Xaml</id>
-    <version>1.0.5</version>
-    <title>SquaredInfinity.Foundation.Presentation.Xaml</title>
+    <id>SquaredInfinity.Foundation.Data</id>
+    <version>1.0.7</version>
+    <title>SquaredInfinity.Foundation.Data</title>
     <authors>Jarek Kardas</authors>
     <owners></owners>
     <description>
-      SquaredInfinity.Foundation.Presentation.Xaml
+      SquaredInfinity.Foundation.Data
     </description>
     <releaseNotes>
     </releaseNotes>
     <summary>
-      SquaredInfinity.Foundation.Presentation.Xaml
+      SquaredInfinity.Foundation.Data
     </summary>
     <language>en-US</language>
     <projectUrl>https://nuget.org/packages/SquaredInfinity.Foundation</projectUrl>
@@ -22,17 +22,17 @@
     <copyright>Copyright  2014</copyright>
     <dependencies>
       <group targetFramework="net45">
-        <dependency id="SquaredInfinity.Foundation" version="1.0.5" />
+        <dependency id="SquaredInfinity.Foundation" version="1.0.7" />
       </group>
     </dependencies>
     <references></references>
     <tags></tags>
   </metadata>
   <files>
-    <file src="..\..\Sources\DotNet45\Foundation.Presentation.Xaml.DotNet45\bin\Release\SquaredInfinity.Foundation.Presentation.Xaml.DotNet45.dll" target="lib\net45"  />
-    <file src="..\..\Sources\DotNet45\Foundation.Presentation.Xaml.DotNet45\bin\Release\SquaredInfinity.Foundation.Presentation.Xaml.DotNet45.pdb" target="lib\net45"  />
+    <file src="..\..\Sources\DotNet45\Foundation.Data.DotNet45\bin\Release\SquaredInfinity.Foundation.Data.DotNet45.dll" target="lib\net45"  />
+    <file src="..\..\Sources\DotNet45\Foundation.Data.DotNet45\bin\Release\SquaredInfinity.Foundation.Data.DotNet45.xml" target="lib\net45"  />
+    <file src="..\..\Sources\DotNet45\Foundation.Data.DotNet45\bin\Release\SquaredInfinity.Foundation.Data.DotNet45.pdb" target="lib\net45"  />
     <file src="..\..\Sources\**\*.cs" target="src"  />
-    <file src="..\..\Sources\**\*.xaml" target="src"  />
     <file src="tools\" target="tools" />
     <file src="content\" target="content" />
   </files>

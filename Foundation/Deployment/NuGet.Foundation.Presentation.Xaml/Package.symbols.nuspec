@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>SquaredInfinity.Foundation.Data</id>
+    <id>SquaredInfinity.Foundation.Presentation.Xaml</id>
     <version>1.0.7</version>
-    <title>SquaredInfinity.Foundation.Data</title>
+    <title>SquaredInfinity.Foundation.Presentation.Xaml</title>
     <authors>Jarek Kardas</authors>
     <owners></owners>
     <description>
-      SquaredInfinity.Foundation.Data
+      SquaredInfinity.Foundation.Presentation.Xaml
     </description>
     <releaseNotes>
     </releaseNotes>
     <summary>
-      SquaredInfinity.Foundation.Data
+      SquaredInfinity.Foundation.Presentation.Xaml
     </summary>
     <language>en-US</language>
     <projectUrl>https://nuget.org/packages/SquaredInfinity.Foundation</projectUrl>
@@ -29,8 +29,11 @@
     <tags></tags>
   </metadata>
   <files>
-    <file src="..\..\Sources\DotNet45\Foundation.Data.DotNet45\bin\Release\SquaredInfinity.Foundation.Data.DotNet45.dll" target="lib\net45"  />
-    <file src="..\..\Sources\DotNet45\Foundation.Data.DotNet45\bin\Release\SquaredInfinity.Foundation.Data.DotNet45.xml" target="lib\net45"  />
+    <file src="..\..\Sources\DotNet45\Foundation.Presentation.Xaml.DotNet45\bin\Release\SquaredInfinity.Foundation.Presentation.Xaml.DotNet45.dll" target="lib\net45"  />
+    <file src="..\..\Sources\DotNet45\Foundation.Presentation.Xaml.DotNet45\bin\Release\SquaredInfinity.Foundation.Presentation.Xaml.DotNet45.xml" target="lib\net45"  />
+    <file src="..\..\Sources\DotNet45\Foundation.Presentation.Xaml.DotNet45\bin\Release\SquaredInfinity.Foundation.Presentation.Xaml.DotNet45.pdb" target="lib\net45"  />
+    <file src="..\..\Sources\**\*.cs" target="src"  />
+    <file src="..\..\Sources\**\*.xaml" target="src"  />
     <file src="tools\" target="tools" />
     <file src="content\" target="content" />
   </files>

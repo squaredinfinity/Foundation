@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SquaredInfinity.Foundation</id>
-    <version>1.0.0</version>
+    <version>1.0.7</version>
     <title>SquaredInfinity.Foundation</title>
     <authors>Jarek Kardas</authors>
     <owners></owners>
@@ -21,15 +21,16 @@
     <licenseUrl>http://vscommands.squaredinfinity.com</licenseUrl>
     <copyright>Copyright  2014</copyright>
     <dependencies>
-        <group targetFramework="net40">
-          <dependency id="log4net" version="1.2.10" />
-        </group>
     </dependencies>
     <references></references>
     <tags></tags>
   </metadata>
   <files>
-    <file src="lib\" target="lib" />
+    <file src="..\..\Sources\DotNet45\Foundation.DotNet45\bin\Release\SquaredInfinity.Foundation.DotNet45.dll" target="lib\net45"  />
+    <file src="..\..\Sources\DotNet45\Foundation.DotNet45\bin\Release\SquaredInfinity.Foundation.DotNet45.xml" target="lib\net45"  />
+    <file src="..\..\Sources\DotNet45\Foundation.DotNet45\bin\Release\SquaredInfinity.Foundation.DotNet45.pdb" target="lib\net45"  />
+    <file src="..\..\Sources\**\*.cs" target="src"  />
+    <file src="..\..\Sources\**\*.xaml" target="src"  />
     <file src="tools\" target="tools" />
     <file src="content\" target="content" />
   </files>
