@@ -647,7 +647,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 {
                     last_sourceItemType = sourceItemType;
 
-                    ms = GetOrCreateTypeMappingStrategy(sourceItemType, defaultConcreteItemType);
+                    ms = GetOrCreateTypeMappingStrategy(sourceItemType, sourceItemType);
 
                     canAcceptItemType = targetTypeDescription.CanAcceptItemType(sourceItemType);
                 }

@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SquaredInfinity.Foundation.Presentation.Xaml</id>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
     <title>SquaredInfinity.Foundation.Presentation.Xaml</title>
     <authors>Jarek Kardas</authors>
     <owners></owners>
@@ -22,7 +22,7 @@
     <copyright>Copyright  2014</copyright>
     <dependencies>
       <group targetFramework="net45">
-        <dependency id="SquaredInfinity.Foundation" version="1.0.7" />
+        <dependency id="SquaredInfinity.Foundation" version="1.0.8" />
       </group>
     </dependencies>
     <references></references>
