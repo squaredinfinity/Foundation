@@ -94,7 +94,26 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
                 foreach (var item in data)
                 {
                     if (dropInfo.ActualDropEffect == DragDropEffects.Move)
-                        sourceList.Remove(item);
+                    {
+                        try
+                        {
+                            sourceList.Remove(item);
+                        }
+                        catch(NotImplementedException ex)
+                        {
+                            // this is a valid case when source collection does not implement Remove.
+
+                            // todo: add context data to exception ?
+                            // log internal warning
+                        }
+                        catch(NotSupportedException ex)
+                        {
+                            // this is a valid case when source collection does not support Remove.
+
+                            // todo: add context data to exception ?
+                            // log internal warning
+                        }
+                    }
 
                     targetList.Insert(rawInsertIndex, item);
                 }
