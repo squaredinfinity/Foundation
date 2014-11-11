@@ -28,7 +28,7 @@ namespace SquaredInfinity.Foundation.Media.ColorSpaces
         /// <summary>
         /// 0.206896
         /// </summary>
-        public const double Sigma = 6 / 29;
+        public const double Sigma = (double) 6 / 29;
 
         /// <summary>
         /// 0.008856
