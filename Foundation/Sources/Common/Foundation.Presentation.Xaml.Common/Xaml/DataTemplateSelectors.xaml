@@ -5,5 +5,6 @@
 
     <selectors:TypeNameToResourceKeyMappingDataTemplateSelector x:Key="DataTemplateSelectors.TypeNameToResourceKey" />
     <selectors:ContextAwareDataTemplateSelector x:Key="DataTemplateSelectors.ContextAware" />
+    <selectors:ContextAwareDataTemplateSelector x:Key="DataTemplateSelectors.ContextAware.Tooltip" IsTooltip="True" />
     
 </ResourceDictionary>
