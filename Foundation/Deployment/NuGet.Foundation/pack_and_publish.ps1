@@ -59,6 +59,15 @@ function PrepareEnvironment
         
         Log(& $nuget_fullPath "update" "-Self")
         Log "NuGet Updated" -Foreground Green
+
+		# Remove output directory to make sure that nothing is left over from last execution
+		$symbols_outputPath = $output_fullPath + "\NuGet-Symbols"
+
+		if((Test-Path -Path $symbols_outputPath))
+        {
+			$pathToRemove = "{0}\*" -f, $symbols_outputPath
+			Remove-Item $pathToRemove
+        }
         
     }    
     end {}
@@ -71,21 +80,12 @@ function CreatePackages
     {
         Log "Executing NuGet Pack" -Foreground 'Yellow'
 
-        $nuget_outputPath = $output_fullPath + "\NuGet"
         $symbols_outputPath = $output_fullPath + "\NuGet-Symbols"
-        
-        if(!(Test-Path -Path $nuget_outputPath ))
-        {
-            New-Item -ItemType directory -Path $nuget_outputPath
-        }
         
         if(!(Test-Path -Path $symbols_outputPath ))
         {
             New-Item -ItemType directory -Path $symbols_outputPath
         }
-        
-
-        Log(& $nuget_fullPath "pack" "Package.nuspec" "-OutputDirectory" $nuget_outputPath -Verbosity Detailed)
         
         Log(& $nuget_fullPath "pack" "Package.symbols.nuspec" "-OutputDirectory" $symbols_outputPath -Symbols -Verbosity Detailed)
     }
@@ -99,13 +99,7 @@ function PublishPackages
     {
         Log "Publishing NuGet Packckages" -Foreground 'Yellow'
 
-        $nuget_outputPath = $output_fullPath + "\NuGet"
         $symbols_outputPath = $output_fullPath + "\NuGet-Symbols"
-        
-        if(!(Test-Path -Path $nuget_outputPath ))
-        {
-            New-Item -ItemType directory -Path $nuget_outputPath
-        }
         
         if(!(Test-Path -Path $symbols_outputPath ))
         {

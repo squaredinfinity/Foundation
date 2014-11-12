@@ -241,6 +241,9 @@
     <Compile Include="..\..\Common\Foundation.Common\ILGeneration\IL.cs">
       <Link>ILGeneration\IL.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\IndexInAnotherListComparer.cs">
+      <Link>IndexInAnotherListComparer.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\INotifyVersionChangedObject.cs">
       <Link>INotifyVersionChangedObject.cs</Link>
     </Compile>

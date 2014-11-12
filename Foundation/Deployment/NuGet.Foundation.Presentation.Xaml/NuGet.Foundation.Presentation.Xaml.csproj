@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Package.symbols.nuspec" />
-    <None Include="Package.nuspec" />
     <None Include="pack_and_publish.ps1" />
     <None Include="tools\init.ps1" />
     <None Include="tools\install.ps1" />
