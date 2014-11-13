@@ -7,6 +7,8 @@
     <!-- Alterantive name for Converters.ColorToSolidColorBrush -->
     <converters:ColorToSolidColorBrushConverter     x:Key="Converters.ColorToBrush" />
     <converters:InvertBoolConverter                 x:Key="Converters.InvertBool" />
+    
+    <converters:ToDoubleConverter x:Key="Converters.ToDouble" />
 
     <converters:BoolToVisibilityConverter x:Key="Converters.VisibleWhenTrue"
                                           Mode="VisibleWhenTrue" />

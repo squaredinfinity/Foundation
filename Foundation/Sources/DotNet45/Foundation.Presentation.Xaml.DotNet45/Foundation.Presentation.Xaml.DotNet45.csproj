@@ -237,6 +237,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\TextFlattenAndTrimConverter.cs">
       <Link>Converters\TextFlattenAndTrimConverter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\ToDoubleConverter.cs">
+      <Link>Converters\ToDoubleConverter.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\ToEnumerableConverter.cs">
       <Link>Converters\ToEnumerableConverter.cs</Link>
     </Compile>

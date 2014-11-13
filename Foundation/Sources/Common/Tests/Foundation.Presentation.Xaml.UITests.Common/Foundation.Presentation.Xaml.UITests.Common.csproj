@@ -180,7 +180,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="MVVM\Introduction\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Foundation.Common\Foundation.Common.csproj">
       <Project>{dfeab4e6-d02d-448b-8649-2d12be137191}</Project>

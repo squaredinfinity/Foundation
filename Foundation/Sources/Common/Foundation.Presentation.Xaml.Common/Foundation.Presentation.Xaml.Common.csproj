@@ -103,6 +103,7 @@
     <Compile Include="Converters\MultiplyNumberConverter.cs" />
     <Compile Include="Converters\AddNumberConverter.cs" />
     <Compile Include="Converters\SplitCamelCaseConverter.cs" />
+    <Compile Include="Converters\ToDoubleConverter.cs" />
     <Compile Include="Converters\ToEnumerableConverter.cs" />
     <Compile Include="DataTemplateSelectors\ContextAwareDataTemplateSelector.cs" />
     <Compile Include="DataTemplateSelectors\ContextAwareDataTemplateSelectorService.cs" />
