@@ -44,6 +44,8 @@ namespace SquaredInfinity.Foundation.Presentation.Converters
 
             var result = new LinearGradientBrush(gradientStops, 90);
 
+            result.Freeze();
+
             return result;
         }
 
