@@ -113,7 +113,6 @@
     <Compile Include="FrameworkExtensions\System\Long.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\Object.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\String.extensions.cs" />
-    <Compile Include="FrameworkExtensions\System\Type.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\ULong.extensions.cs" />
     <Compile Include="Freezable.cs" />
     <Compile Include="GCMemoryUsagePressure.cs" />
