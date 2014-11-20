@@ -69,6 +69,7 @@
     <Compile Include="EnumeratorBase.cs" />
     <Compile Include="FrameworkExtensions\System\Boolean.extensions.cs" />
     <Compile Include="CloneComparer.cs" />
+    <Compile Include="FrameworkExtensions\System\Type.extensions.cs" />
     <Compile Include="ICloneEquatable.cs" />
     <Compile Include="IndexInAnotherListComparer.cs" />
     <Compile Include="InvocationThrottle.cs" />
