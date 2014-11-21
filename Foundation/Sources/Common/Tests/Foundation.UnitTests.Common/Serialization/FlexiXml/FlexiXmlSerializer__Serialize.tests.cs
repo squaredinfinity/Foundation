@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
@@ -57,6 +58,38 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 FirstItem = items.First();
             }
         }
+
+        [TestMethod]
+        public void Bug002__CollectionWithItemsOfTypeString__ItemsAreSerializedAsSeparateCharactersInsteadOfOneString()
+        {
+            var list = new List<string>()
+            {
+                "one",
+                "two"
+            };
+
+
+            var s = new FlexiXmlSerializer();
+
+            var xml = s.Serialize(list);
+
+            var expected =
+@"<List Capacity=""4"">
+  <String>one</String>
+  <String>two</String>
+</List>";
+
+            Assert.AreEqual(expected, xml.ToString());
+            
+            var list2 = s.Deserialize<List<string>>(xml);
+
+            Assert.AreEqual(2, list2.Count);
+            Assert.AreEqual("one", list2[0]);
+            Assert.AreEqual("two", list2[1]);
+
+        }
+
+        
     }
 
     [TestClass]

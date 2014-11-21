@@ -28,7 +28,7 @@ namespace SquaredInfinity.Foundation.Threading
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
             GC.WaitForPendingFinalizers();
 
-            if (are.WaitOne(TimeSpan.FromMilliseconds(100)))
+            if (are.WaitOne(TimeSpan.FromMilliseconds(250)))
             {
                 Assert.Fail("are was signaled, but loop should have finished.");
             }

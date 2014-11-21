@@ -7,8 +7,8 @@
     <ProjectGuid>{AB8007F5-AD2A-42B8-9375-98AE0AD89F80}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Foundation.Diagnostics.DotNet45</RootNamespace>
-    <AssemblyName>Foundation.Diagnostics.DotNet45</AssemblyName>
+    <RootNamespace>SquaredInfinity.Foundation.Diagnostics</RootNamespace>
+    <AssemblyName>SquaredInfinity.Foundation.Diagnostics.DotNet45</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -28,7 +28,7 @@
     <DefineConstants>TRACE;SIGN</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Foundation.Diagnostics.DotNet45.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\SquaredInfinity.Foundation.Diagnostics.DotNet45.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -73,6 +73,15 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Configuration\KnownConfigNames.cs">
       <Link>Configuration\KnownConfigNames.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Configuration\Providers\DefaultConfigurationProvider.cs">
+      <Link>Configuration\Providers\DefaultConfigurationProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Configuration\Providers\EmbeddedResourceXmlConfigurationProvider.cs">
+      <Link>Configuration\Providers\EmbeddedResourceXmlConfigurationProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Configuration\Providers\XmlStringConfigurationProvider.cs">
+      <Link>Configuration\Providers\XmlStringConfigurationProvider.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\ContextDataCollectors\CompositeContextDataCollector.cs">
       <Link>ContextDataCollectors\CompositeContextDataCollector.cs</Link>

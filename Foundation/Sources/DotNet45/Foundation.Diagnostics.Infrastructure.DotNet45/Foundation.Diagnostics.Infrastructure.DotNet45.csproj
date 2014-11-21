@@ -7,8 +7,8 @@
     <ProjectGuid>{231D0BB0-926B-47CE-B7B1-9E8E49DCE51E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Foundation.Diagnostics.Infrastructure.DotNet45</RootNamespace>
-    <AssemblyName>Foundation.Diagnostics.Infrastructure.DotNet45</AssemblyName>
+    <RootNamespace>SquaredInfinity.Foundation.Diagnostics.Infrastructure</RootNamespace>
+    <AssemblyName>SquaredInfinity.Foundation.Diagnostics.Infrastructure.DotNet45</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -28,7 +28,7 @@
     <DefineConstants>TRACE;SIGN</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Foundation.Diagnostics.Infrastructure.DotNet45.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\SquaredInfinity.Foundation.Diagnostics.Infrastructure.DotNet45.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

@@ -13,6 +13,16 @@ namespace Foundation.Diagnostics.Walkthrough.Common
     {
         static void Main(string[] args)
         {
+            //#     DiagnosticLogger can be used quickly without any configuration.
+            //      By default diagnostic data will be logged to "Logs" directory.
+
+            DiagnosticLogger.Global.Information("This required no configuration at all.");
+
+            //#     Custom configuration can be applied from xml file
+
+//            var config = SquaredInfinity.Foundation.Diagnostics.Configuration.XmlConfigurationProvider
+
+
             var config = DiagnosticLogger.Global.GetConfigurationClone();
 
             var fileSink = new FileSink();
