@@ -1,8 +1,10 @@
 ﻿using SquaredInfinity.Foundation.Diagnostics;
 using SquaredInfinity.Foundation.Diagnostics.Formatters;
 using SquaredInfinity.Foundation.Diagnostics.Sinks.File;
+using SquaredInfinity.Foundation.Serialization.FlexiXml;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,9 +29,10 @@ namespace Foundation.Diagnostics.Walkthrough.Common
 
             var fileSink = new FileSink();
             fileSink.FileNamePattern = "log.txt";
-            fileSink.FileLocationPattern = AppDomain.CurrentDomain.BaseDirectory + @"\Logs\";
+            fileSink.FileLocationPattern = @"{AppDomain.CurrentDomain.BaseDirectory}\Logs\";
             fileSink.Formatter = new PatternFormatter() { Pattern = 
-            @" {NewLine}
+            @"
+        {NewLine}
             --
         {NewLine}
         [{Event.Level}{?Event.HasCategory=>'\:'}{?Event.HasCategory=>Event.Category} thread:{Thread.Id}] {?Event.HasMessage=>Event.Message}
@@ -47,6 +50,10 @@ namespace Foundation.Diagnostics.Walkthrough.Common
 
 
             config.Sinks.Add(fileSink);
+
+            var serializer = new FlexiXmlSerializer();
+            var xml = serializer.Serialize(config);
+            File.WriteAllText("1.config", xml.ToString());
 
             DiagnosticLogger.Global.ApplyConfiguration(config);
 

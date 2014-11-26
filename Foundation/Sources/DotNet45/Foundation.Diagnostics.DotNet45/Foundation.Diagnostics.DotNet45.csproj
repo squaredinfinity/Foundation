@@ -68,9 +68,6 @@
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Configuration\IChangeMonitoringConfigurationProvider.cs">
       <Link>Configuration\IChangeMonitoringConfigurationProvider.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Configuration\IConfigurationProvider.cs">
-      <Link>Configuration\IConfigurationProvider.cs</Link>
-    </Compile>
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Configuration\KnownConfigNames.cs">
       <Link>Configuration\KnownConfigNames.cs</Link>
     </Compile>
@@ -80,8 +77,8 @@
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Configuration\Providers\EmbeddedResourceXmlConfigurationProvider.cs">
       <Link>Configuration\Providers\EmbeddedResourceXmlConfigurationProvider.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Configuration\Providers\XmlStringConfigurationProvider.cs">
-      <Link>Configuration\Providers\XmlStringConfigurationProvider.cs</Link>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Configuration\Providers\XmlConfigurationProvider.cs">
+      <Link>Configuration\Providers\XmlConfigurationProvider.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\ContextDataCollectors\CompositeContextDataCollector.cs">
       <Link>ContextDataCollectors\CompositeContextDataCollector.cs</Link>

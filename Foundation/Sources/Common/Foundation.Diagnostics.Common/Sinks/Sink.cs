@@ -54,16 +54,12 @@ namespace SquaredInfinity.Foundation.Diagnostics.Sinks
         }
 
 
+        IList<string> _tags = new List<string>();
+
         public IList<string> Tags
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { return _tags; }
+            set { _tags = value; }
         }
     }
 }

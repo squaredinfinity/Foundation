@@ -1,112 +1,113 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using SquaredInfinity.Foundation.Extensions;
+using System.Reflection;
+using System.IO;
 
-//namespace SquaredInfinity.Foundation.Diagnostics.Configuration.Providers
-//{
-//    public class DefaultConfigurationProvider : IConfigurationProvider
-//    {
-//        ILogger Diagnostics = InternalDiagnosticLogger.CreateLoggerForType<DefaultConfigurationProvider>();
+namespace SquaredInfinity.Foundation.Diagnostics.Configuration.Providers
+{
+    public class DefaultConfigurationProvider : IConfigurationProvider
+    {
+        readonly string RequestedEnvironmentName;
 
-//        readonly string RequestedEnvironmentName;
+        public DefaultConfigurationProvider()
+        {
+            this.RequestedEnvironmentName = null;
+        }
 
-//        public DefaultConfigurationProvider()
-//        {
-//            this.RequestedEnvironmentName = null;
-//        }
+        public DefaultConfigurationProvider(string environmentName)
+        {
+            this.RequestedEnvironmentName = environmentName;
+        }
 
-//        public DefaultConfigurationProvider(string environmentName)
-//        {
-//            this.RequestedEnvironmentName = environmentName;
-//        }
+        public IDiagnosticsConfiguration LoadConfiguration()
+        {
+            var environmentName = (string)null;
 
-//        public DiagnosticsConfiguration LoadConfiguration()
-//        {
-//            var environmentName = (string)null;
+            if (!RequestedEnvironmentName.IsNullOrEmpty())
+            {
+                environmentName = RequestedEnvironmentName;
+            }
+            else
+            {
+                if (!TryDetectEnvironment(out environmentName))
+                {
+                    environmentName = "unspecified";
+                    InternalTrace.Warning(() => "Unable to detect environment in which this code is running. Loading environment-agnostic settings.");
+                }
+            }
 
-//            if (!RequestedEnvironmentName.IsNullOrEmpty())
-//            {
-//                environmentName = RequestedEnvironmentName;
-//            }
-//            else
-//            {
-//                if (!TryDetectEnvironment(out environmentName))
-//                {
-//                    environmentName = "unspecified";
-//                    Diagnostics.Warning(() => "Unable to detect environment in which this code is running. Loading environment-agnostic settings.");
-//                }
-//            }
+            //# get default config from resource in this assemly
+            var asm = Assembly.GetExecutingAssembly();
+            var resourceName = @"SquaredInfinity.Diagnostics.Resources.Default_Configs.config.{0}.xml".FormatWith(environmentName);
 
-//            //# get default config from resource in this assemly
-//            var asm = Assembly.GetExecutingAssembly();
-//            var resourceName = @"SquaredInfinity.Diagnostics.Resources.Default_Configs.config.{0}.xml".FormatWith(environmentName);
+            using (var configStream = asm.GetManifestResourceStream(resourceName))
+            {
+                using (StreamReader sr = new StreamReader(configStream))
+                {
+                    var configXml = sr.ReadToEnd();
 
-//            using (var configStream = asm.GetManifestResourceStream(resourceName))
-//            {
-//                using (StreamReader sr = new StreamReader(configStream))
-//                {
-//                    var configXml = sr.ReadToEnd();
+                    var xmlConfigProvider = new XmlConfigurationProvider(configXml);
 
-//                    var xmlConfigProvider = new XmlConfigurationProvider(configXml);
+                    return xmlConfigProvider.LoadConfiguration();
+                }
+            }
+        }
 
-//                    return xmlConfigProvider.LoadConfiguration();
-//                }
-//            }
-//        }
+        /// <summary>
+        /// Detects if current environment is desktop, windows rt, winfows phone, azure, asp.net, etc.
+        /// </summary>
+        /// <param name="environmentName"></param>
+        /// <returns></returns>
+        bool TryDetectEnvironment(out string environmentName)
+        {
+            environmentName = "unspecified";
 
-//        /// <summary>
-//        /// Detects if current environment is desktop, windows rt, winfows phone, azure, asp.net, etc.
-//        /// </summary>
-//        /// <param name="environmentName"></param>
-//        /// <returns></returns>
-//        bool TryDetectEnvironment(out string environmentName)
-//        {
-//            environmentName = "unspecified";
+            //# Unit Test
 
-//            //# Unit Test
+            var entryAssembly = Assembly.GetEntryAssembly();
+            if (entryAssembly == null)
+            {
+                var domainName = AppDomain.CurrentDomain.FriendlyName;
 
-//            var entryAssembly = Assembly.GetEntryAssembly();
-//            if (entryAssembly == null)
-//            {
-//                var domainName = AppDomain.CurrentDomain.FriendlyName;
+                if (domainName.StartsWith("UnitTestAdapter"))
+                {
+                    environmentName = "unit-test";
+                    return true;
+                }
+            }
 
-//                if (domainName.StartsWith("UnitTestAdapter"))
-//                {
-//                    environmentName = "unit-test";
-//                    return true;
-//                }
-//            }
+            //# Console
+            if (Console.In != System.IO.TextReader.Null)
+            {
+                environmentName = "windows.console";
+                return true;
+            }
 
-//            //# Console
-//            if (Console.In != System.IO.TextReader.Null)
-//            {
-//                environmentName = "windows.console";
-//                return true;
-//            }
+            //# WPF
 
-//            //# WPF
+            //if (System.Windows.Application.Current != null)
+            //{
+            //    environmentName = "wpf";
+            //    return true;
+            //}
 
-//            if (System.Windows.Application.Current != null)
-//            {
-//                environmentName = "wpf";
-//                return true;
-//            }
+            //# WinForms 
 
-//            //# WinForms 
+            //# Windows Phone
 
-//            //# Windows Phone
+            //# Azure (Web?)
 
-//            //# Azure (Web?)
+            //# ASP.Net
 
-//            //# ASP.Net
+            //# Windows Service
 
-//            //# Windows Service
+            //# Click Once 
 
-//            //# Click Once 
-
-//            return false;
-//        }
-//    }
-//}
+            return false;
+        }
+    }
+}

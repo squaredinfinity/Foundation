@@ -249,5 +249,24 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             Assert.IsNotNull(xml);
             Assert.IsNull(xml.Attribute("IntProperty"));
         }
+
+        [TestMethod]
+        public void MemberIsMultiLineString__SerializedAsCData()
+        {
+            var x = new SimpleSerializableType();
+            x.StringProperty =
+@"
+this is
+multi-line
+string";
+
+            var s = new FlexiXmlSerializer();
+
+            var xml = s.Serialize(x);
+            
+            var x2 = s.Deserialize<SimpleSerializableType>(xml);
+
+            Assert.AreSame(x.StringProperty, x2.StringProperty);
+        }
     }
 }

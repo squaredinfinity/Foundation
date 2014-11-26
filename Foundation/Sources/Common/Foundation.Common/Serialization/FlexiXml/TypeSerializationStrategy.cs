@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using SquaredInfinity.Foundation.Extensions;
+using System.Diagnostics;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
@@ -362,16 +363,26 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             {
                 // member value supports converting to and from string
                 //
-                // => create attribute which will store member value
+                // => create attribute which will store member value (if value is a single line)
+                // => create attached property which will store member value (if value is multi-line)
 
-                // todo:    what if conversion to string produces text which isn't valid for attribute value?
-                //          should it be stored in CDATA element instead?
-                //          or perhaps escaped? or configurable?
-                var attributeName = strategy.MemberDescription.Name;
+                if (val_as_string.Contains(Environment.NewLine))
+                {
+                    var wrapperElementName = SanitizeParentElementName(parentElement) + "." + strategy.MemberDescription.Name;
+                    var wrapperElement = new XElement(wrapperElementName);
 
-                var attributeEl = new XAttribute(attributeName, val_as_string);
+                    wrapperElement.Add(new XCData(val_as_string));
 
-                serializedContent = attributeEl;
+                    serializedContent = wrapperElement;
+                }
+                else
+                {
+                    var attributeName = strategy.MemberDescription.Name;
+
+                    var attributeEl = new XAttribute(attributeName, val_as_string);
+
+                    serializedContent = attributeEl;
+                }
                 return true;
             }
             else
@@ -449,6 +460,17 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             if(memberAttachedProperty != null)
             {
+                if(memberTypeCandidate == typeof(string))
+                {
+                    var cdata = memberAttachedProperty.Nodes().OfType<XCData>().FirstOrDefault();
+
+                    if(cdata != null)
+                    {
+                        memberInstance = cdata.Value;
+                        return true;
+                    }
+                }
+
                 var memberAttachedProeprtyInnerText = memberAttachedProperty.InnerText();
 
                 //# deserialize from attached elment (XML VALUE)
@@ -899,6 +921,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                     }
                     catch(Exception ex)
                     {
+                        InternalTrace.Warning(ex, () => "Failed to serialize collection item.");
                         // todo: log error
                     }
                 }

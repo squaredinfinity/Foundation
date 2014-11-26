@@ -38,6 +38,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Foundation.Common\InternalTrace.cs">
@@ -51,10 +52,9 @@
     <Compile Include="Configuration\DiagnosticsConfiguration.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Configuration\IConfigurationProvider.cs" />
     <Compile Include="Configuration\Providers\DefaultConfigurationProvider.cs" />
     <Compile Include="Configuration\Providers\EmbeddedResourceXmlConfigurationProvider.cs" />
-    <Compile Include="Configuration\Providers\XmlStringConfigurationProvider.cs" />
+    <Compile Include="Configuration\Providers\XmlConfigurationProvider.cs" />
     <Compile Include="ContextDataCollectors\CompositeContextDataCollector.cs" />
     <Compile Include="ContextDataCollectors\ContextDataCollector.cs" />
     <Compile Include="ContextDataCollectors\ContextDataCollectorCollection.cs" />
