@@ -15,13 +15,18 @@ namespace SquaredInfinity.Foundation.Presentation.Converters
         {
             if(value is Color)
             {
-                var scb = new SolidColorBrush((Color)value);
-                scb.Freeze();
-
-                return scb;
+                return Convert((Color)value);
             }
 
             return DependencyProperty.UnsetValue;
+        }
+
+        public static Brush Convert(System.Windows.Media.Color color)
+        {
+            var brush = new SolidColorBrush(color);
+            brush.Freeze();
+
+            return brush;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

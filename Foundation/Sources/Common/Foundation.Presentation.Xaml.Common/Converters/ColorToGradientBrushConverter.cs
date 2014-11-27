@@ -20,6 +20,11 @@ namespace SquaredInfinity.Foundation.Presentation.Converters
 
             var color = (System.Windows.Media.Color)value;
 
+            return Convert(color);
+        }
+
+        public static GradientBrush Convert(System.Windows.Media.Color color)
+        {
             var scrgb = color.ToScRGBColor();
 
             var xyz = KnownColorSpaces.scRGB.ToXYZColor(scrgb);
