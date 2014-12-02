@@ -426,8 +426,23 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Media\Colors.cs">
       <Link>Media\Colors.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ObjectExtensibility\Extensions\ListItemExtension.cs">
+      <Link>ObjectExtensibility\Extensions\ListItemExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ObjectExtensibility\Extensions\SingleSelectionExtension.cs">
+      <Link>ObjectExtensibility\Extensions\SingleSelectionExtension.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ObjectExtensibility\NotifyPropertyChangedObjectExtension.cs">
       <Link>ObjectExtensibility\NotifyPropertyChangedObjectExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ObjectExtensibility\ObservableExtensionCollection.cs">
+      <Link>ObjectExtensibility\ObservableExtensionCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ObjectExtensibility\PresentationWrapper.cs">
+      <Link>ObjectExtensibility\PresentationWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ObjectExtensibility\PresentationWrapperCollection.cs">
+      <Link>ObjectExtensibility\PresentationWrapperCollection.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Resources\IXamlResourcesProvider.cs">
       <Link>Resources\IXamlResourcesProvider.cs</Link>

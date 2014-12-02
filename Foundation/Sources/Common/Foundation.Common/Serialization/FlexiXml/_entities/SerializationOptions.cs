@@ -67,5 +67,12 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             return true;
         }
+
+        bool _serializeNonPublicTypes = true;
+        public bool SerializeNonPublicTypes 
+        {
+            get { return _serializeNonPublicTypes; }
+            set { _serializeNonPublicTypes = value; }
+        }
     }
 }

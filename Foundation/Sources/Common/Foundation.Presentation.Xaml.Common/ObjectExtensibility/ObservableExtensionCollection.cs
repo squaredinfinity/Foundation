@@ -1,20 +1,21 @@
 ﻿using SquaredInfinity.Foundation.Collections;
+using SquaredInfinity.Foundation.ObjectExtensibility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.ObjectExtensibility
+namespace SquaredInfinity.Foundation.Presentation.ObjectExtensibility
 {
-    public class ExtensionCollection<TOwner> :
-           CollectionEx<IExtension<TOwner>>,
-           IExtensionCollection<TOwner>
-           where TOwner : IExtensibleObject<TOwner>
+    public class ObservableExtensionCollection<TOwner> :
+               ObservableCollectionEx<IExtension<TOwner>>,
+               IExtensionCollection<TOwner>
+               where TOwner : IExtensibleObject<TOwner>
     {
         readonly TOwner Owner;
 
-        public ExtensionCollection(TOwner owner)
+        public ObservableExtensionCollection(TOwner owner)
         {
             this.Owner = owner;
         }

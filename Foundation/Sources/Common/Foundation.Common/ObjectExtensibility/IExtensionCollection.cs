@@ -12,6 +12,7 @@ namespace SquaredInfinity.Foundation.ObjectExtensibility
         where TOwner : IExtensibleObject<TOwner>
     {
         TExtension GetOrAdd<TExtension>(Func<TExtension> createValue) where TExtension : IExtension<TOwner>;
+        TExtension GetByType<TExtension>();
 
         object this[Type extensionType] { get; }
         object this[string extensionTypeFullOrPartialName] { get; }

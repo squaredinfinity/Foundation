@@ -9,6 +9,8 @@ namespace SquaredInfinity.Foundation.ObjectExtensibility
     public interface IExtension<TOwner>
             where TOwner : IExtensibleObject<TOwner>
     {
+        TOwner Owner { get; }
+
         void Attach(TOwner owner);
         void Detach(TOwner owner);
     }

@@ -52,6 +52,7 @@ namespace Foundation.Diagnostics.Walkthrough.Common
             config.Sinks.Add(fileSink);
 
             var serializer = new FlexiXmlSerializer();
+
             var xml = serializer.Serialize(config);
             File.WriteAllText("1.config", xml.ToString());
 

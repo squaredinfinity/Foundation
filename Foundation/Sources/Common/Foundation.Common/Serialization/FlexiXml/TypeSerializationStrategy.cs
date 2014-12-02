@@ -297,6 +297,11 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             if (memberValue != null)
             {
+                if(memberValue.GetType().IsNotPublic && !cx.Options.SerializeNonPublicTypes)
+                {
+                    return false;
+                }
+
                 hasBeenSerializedBefore = 
                     cx.Objects_InstanceIdTracker.TryGetValue(memberValue, out instanceId);
             }

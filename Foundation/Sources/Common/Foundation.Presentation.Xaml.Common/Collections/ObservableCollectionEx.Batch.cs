@@ -40,6 +40,8 @@ namespace SquaredInfinity.Foundation.Collections
 
                         Items.Add(item);
 
+                        OnAfterItemAdded(item);
+
                         if (MonitorElementsForChanges)
                             BeginItemChangeMonitoring(item);
 
@@ -70,6 +72,8 @@ namespace SquaredInfinity.Foundation.Collections
                         TItem item = Items[index];
                         objArray[index1] = item;
                         Items.RemoveAt(index);
+
+                        OnAfterItemRemoved(item);
 
                         if (MonitorElementsForChanges)
                             StopItemChangeMonitoring(item);

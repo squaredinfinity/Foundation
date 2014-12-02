@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace SquaredInfinity.Foundation.Diagnostics.Configuration.Providers
 {
@@ -11,16 +12,33 @@ namespace SquaredInfinity.Foundation.Diagnostics.Configuration.Providers
     {
         IDiagnosticsConfiguration Configuration { get; set; }
 
+        FlexiXmlSerializer Serializer = new FlexiXmlSerializer();
+
+        public XmlConfigurationProvider()
+        {
+            InitializeSerializer();
+        }
+
+        void InitializeSerializer()
+        {
+        }
+
         public XmlConfigurationProvider(string configurationXml)
         {
-            FlexiXmlSerializer serializer = new FlexiXmlSerializer();
-
-            this.Configuration = serializer.Deserialize<IDiagnosticsConfiguration>(configurationXml);
+            this.Configuration = Serializer.Deserialize<IDiagnosticsConfiguration>(configurationXml);
         }
 
         public IDiagnosticsConfiguration LoadConfiguration()
         {
             return Configuration;
+        }
+
+        public XElement SaveConfiguration(IDiagnosticsConfiguration configuration)
+        {
+            SerializationOptions o = new SerializationOptions();
+            o.SerializeNonPublicTypes = false;
+
+            return Serializer.Serialize(configuration);
         }
     }
 }

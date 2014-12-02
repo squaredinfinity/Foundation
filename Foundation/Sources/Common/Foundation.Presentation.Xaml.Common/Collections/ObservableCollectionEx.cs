@@ -186,7 +186,7 @@ namespace SquaredInfinity.Foundation.Collections
                         StopItemChangeMonitoring(obj);
                     }
 
-                    OnItemRemoved(obj);
+                    OnAfterItemRemoved(obj);
                 }
 
                 this.RaiseCollectionChanged(NotifyCollectionChangedAction.Remove, (object)obj, index);
@@ -195,7 +195,7 @@ namespace SquaredInfinity.Foundation.Collections
 
         public event EventHandler<AfterItemRemovedEventArgs<TItem>> AfterItemRemoved;
 
-        void OnItemRemoved(TItem item)
+        void OnAfterItemRemoved(TItem item)
         {
             if (AfterItemRemoved != null)
                 AfterItemRemoved(this, new AfterItemRemovedEventArgs<TItem>(item));
@@ -211,6 +211,8 @@ namespace SquaredInfinity.Foundation.Collections
                 using(readLock.AcquireWriteLock())
                 {
                     base.InsertItem(index, item);
+
+                    OnAfterItemAdded(item);
 
                     if (MonitorElementsForChanges)
                         BeginItemChangeMonitoring(item);

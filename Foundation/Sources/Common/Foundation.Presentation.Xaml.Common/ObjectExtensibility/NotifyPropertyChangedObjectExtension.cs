@@ -12,7 +12,7 @@ namespace SquaredInfinity.Foundation.Presentation.ObjectExtensibility
         IExtension<TOwner>
         where TOwner : IExtensibleObject<TOwner>
     {
-        TOwner Owner { get; set; }
+        public TOwner Owner { get; private set; }
 
         public void Attach(TOwner owner)
         {

@@ -116,6 +116,11 @@
     <Compile Include="DataTemplateSelectors\Rules\ItemValueRule.cs" />
     <Compile Include="DataTemplateSelectors\Rules\MemberValueRule.cs" />
     <Compile Include="FrameworkExtensions\System.Windows.Media\Color.extensions.cs" />
+    <Compile Include="ObjectExtensibility\Extensions\ListItemExtension.cs" />
+    <Compile Include="ObjectExtensibility\Extensions\SingleSelectionExtension.cs" />
+    <Compile Include="ObjectExtensibility\ObservableExtensionCollection.cs" />
+    <Compile Include="ObjectExtensibility\PresentationWrapper.cs" />
+    <Compile Include="ObjectExtensibility\PresentationWrapperCollection.cs" />
     <Compile Include="Resources\IXamlResourcesProvider.cs" />
     <Compile Include="MarkupExtensions\CompareMethodBinding.cs" />
     <Compile Include="Media\Colors.cs" />
