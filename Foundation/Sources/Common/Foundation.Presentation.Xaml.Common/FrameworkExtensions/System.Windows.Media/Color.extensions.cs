@@ -25,8 +25,24 @@ namespace SquaredInfinity.Foundation.Extensions
 
             var scrgb = KnownColorSpaces.scRGB.FromXYZColor(xyz) as ScRBGColor;
 
-
             return System.Windows.Media.Color.FromScRgb((float)scrgb.Alpha, (float)scrgb.R, (float)scrgb.G, (float)scrgb.B);
+        }
+
+        /// <summary>
+        /// Returns new color based on existing color with modified lightness component.
+        /// </summary>
+        /// <param name="color"></param>
+        /// <param name="lightnessMultiplier">0.5 to reduce lightness by 50%, 1.5 to increase lightness by 50%</param>
+        /// <returns></returns>
+        public static System.Windows.Media.Color ChangeLighthness(this System.Windows.Media.Color color, double lightnessMultiplier)
+        {
+            var scRGB = color.ToScRGBColor();
+            var xyz = KnownColorSpaces.scRGB.ToXYZColor(scRGB);
+            var lab = (LabColor) KnownColorSpaces.Lab.FromXYZColor(xyz);
+
+            var newColor = new LabColor(lab.Alpha, lab.L * lightnessMultiplier, lab.a, lab.b);
+
+            return newColor.ToWindowsMediaColor();
         }
     }
 }
