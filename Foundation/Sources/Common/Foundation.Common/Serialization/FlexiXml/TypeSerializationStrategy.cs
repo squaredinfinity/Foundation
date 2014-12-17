@@ -297,7 +297,12 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             if (memberValue != null)
             {
-                if(memberValue.GetType().IsNotPublic && !cx.Options.SerializeNonPublicTypes)
+                var memberValueType = memberValue.GetType();
+
+                var isNonPublic = !memberValueType.IsNested && !memberValueType.IsPublic;
+                var isNonPublicNested = memberValueType.IsNested && !memberValueType.IsNestedPublic;
+
+                if((isNonPublic || isNonPublicNested) && !cx.Options.SerializeNonPublicTypes)
                 {
                     return false;
                 }
