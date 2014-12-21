@@ -95,6 +95,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Win32Api.DotNet4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGet.Foundation.Win32Api", "Deployment\NuGet.Foundation.Win32Api\NuGet.Foundation.Win32Api.csproj", "{4089A67A-B628-40DC-A3A0-AD1CA32062B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Unsafe.Common", "Sources\Common\Foundation.Unsafe.Common\Foundation.Unsafe.Common.csproj", "{A5591E51-A4D0-4CEA-B7B0-A8033749D07B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -188,6 +190,10 @@ Global
 		{7EAC6223-18DB-415D-8393-071D83FB0D9D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4089A67A-B628-40DC-A3A0-AD1CA32062B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4089A67A-B628-40DC-A3A0-AD1CA32062B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5591E51-A4D0-4CEA-B7B0-A8033749D07B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5591E51-A4D0-4CEA-B7B0-A8033749D07B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5591E51-A4D0-4CEA-B7B0-A8033749D07B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5591E51-A4D0-4CEA-B7B0-A8033749D07B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -218,5 +224,6 @@ Global
 		{05687CDC-ECD4-4AE2-A579-3C1BB1AA49F8} = {3E3D143E-A6C5-4DED-8927-AEACF1F0784A}
 		{7EAC6223-18DB-415D-8393-071D83FB0D9D} = {D95634A3-6069-430C-A3B5-97347AE8EF5F}
 		{4089A67A-B628-40DC-A3A0-AD1CA32062B5} = {FE5524BE-5B37-4D2A-9081-CB156FD55B10}
+		{A5591E51-A4D0-4CEA-B7B0-A8033749D07B} = {3E3D143E-A6C5-4DED-8927-AEACF1F0784A}
 	EndGlobalSection
 EndGlobal
