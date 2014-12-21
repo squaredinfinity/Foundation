@@ -170,9 +170,6 @@
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Framework Extensions\System\Object.extensions.cs">
       <Link>Framework Extensions\System\Object.extensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\InternalTrace.Diagnostics.cs">
-      <Link>InternalTrace.Diagnostics.cs</Link>
-    </Compile>
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\LinkTypes.cs">
       <Link>LinkTypes.cs</Link>
     </Compile>

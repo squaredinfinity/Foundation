@@ -932,13 +932,12 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                     catch(Exception ex)
                     {
                         InternalTrace.Warning(ex, () => "Failed to serialize collection item.");
-                        // todo: log error
                     }
                 }
             }
             catch(Exception ex)
             {
-                // todo: log
+                InternalTrace.Warning(ex, "Failed to serialize collection items.");
             }
 
             return el;

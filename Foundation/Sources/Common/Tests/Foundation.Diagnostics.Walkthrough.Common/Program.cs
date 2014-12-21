@@ -1,6 +1,7 @@
 ﻿using SquaredInfinity.Foundation.Diagnostics;
 using SquaredInfinity.Foundation.Diagnostics.Formatters;
 using SquaredInfinity.Foundation.Diagnostics.Sinks.File;
+using SquaredInfinity.Foundation.Extensions;
 using SquaredInfinity.Foundation.Serialization.FlexiXml;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Foundation.Diagnostics.Walkthrough.Common
 {
@@ -15,6 +17,13 @@ namespace Foundation.Diagnostics.Walkthrough.Common
     {
         static void Main(string[] args)
         {
+
+            var xml_1 = "some shit";
+
+            var xdoc = (XDocument) null;
+
+            XDocumentExtensions.TryParse(xml_1, System.Xml.Linq.LoadOptions.None, out xdoc);
+
             //#     DiagnosticLogger can be used quickly without any configuration.
             //      By default diagnostic data will be logged to "Logs" directory.
 
@@ -53,7 +62,10 @@ namespace Foundation.Diagnostics.Walkthrough.Common
 
             var serializer = new FlexiXmlSerializer();
 
-            var xml = serializer.Serialize(config);
+            var so = new SerializationOptions();
+            so.SerializeNonPublicTypes = false;
+
+            var xml = serializer.Serialize(config, so);
             File.WriteAllText("1.config", xml.ToString());
 
             DiagnosticLogger.Global.ApplyConfiguration(config);

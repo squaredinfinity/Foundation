@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{23CEADC1-A877-465A-9549-35C2C80A0460}</ProjectGuid>
+    <ProjectGuid>{05687CDC-ECD4-4AE2-A579-3C1BB1AA49F8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SquaredInfinity.Foundation.Data</RootNamespace>
-    <AssemblyName>SquaredInfinity.Foundation.Data.Common</AssemblyName>
+    <RootNamespace>SquaredInfinity.Foundation.Win32Api</RootNamespace>
+    <AssemblyName>SquaredInfinity.Foundation.Win32Api.Common</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,34 +30,29 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Foundation.Common\InternalTrace.cs">
-      <Link>InternalTrace.cs</Link>
+    <Compile Include="..\..\..\AssemblyInfo.shared.cs">
+      <Link>Properties\AssemblyInfo.shared.cs</Link>
     </Compile>
-    <Compile Include="Class1.cs" />
-    <Compile Include="ConnectionFactory.cs" />
-    <Compile Include="DataAccessService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sql\SqlDataAccessService.cs" />
-    <Compile Include="Sql\SqlTransientFaultFilter.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Foundation.Common\Foundation.Common.csproj">
-      <Project>{dfeab4e6-d02d-448b-8649-2d12be137191}</Project>
-      <Name>Foundation.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Foundation.Diagnostics.Infrastructure.Common\Foundation.Diagnostics.Infrastructure.Common.csproj">
-      <Project>{09913c58-684f-471c-a1bb-6e80f6c33862}</Project>
-      <Name>Foundation.Diagnostics.Infrastructure.Common</Name>
-    </ProjectReference>
+    <Compile Include="user32.cs" />
+    <Compile Include="user32.entities.cs" />
+    <Compile Include="user32.externs.cs" />
+    <Compile Include="windows.h.entities.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

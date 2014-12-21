@@ -13,8 +13,17 @@ namespace SquaredInfinity.Foundation
     {
         public static readonly SourceSwitch Switch;
 
+        static string Name { get; set; }
+
         static InternalTrace()
         {
+            string asmName = typeof(InternalTrace).Assembly.GetName().Name;
+
+            // assemblies are name using xx.xx.xx.platform pattern
+            // remove last part of the name
+
+            Name = asmName.Substring(0, asmName.LastIndexOf('.'));
+
 #if DEBUG
             Switch = new SourceSwitch(Name, "Information");
 #else
@@ -97,6 +106,14 @@ namespace SquaredInfinity.Foundation
         #endregion
 
         #region Information
+
+        public static void Information(Exception ex, string message)
+        {
+            if (!Switch.ShouldTrace(TraceEventType.Information))
+                return;
+
+            ProcessDiagnosticEvent(TraceEventType.Information, message, ex);
+        }
 
         public static void Information(string message)
         {

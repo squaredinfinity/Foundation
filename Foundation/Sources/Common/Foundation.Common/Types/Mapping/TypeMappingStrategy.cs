@@ -208,7 +208,8 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             }
             catch (Exception ex)
             {
-                // todo: internal logging
+                ex.TryAddContextData("type", () => targetTypeDescription.AssemblyQualifiedName);
+                InternalTrace.Warning(ex, "Failed to create instance of type");
             }
 
             return false;

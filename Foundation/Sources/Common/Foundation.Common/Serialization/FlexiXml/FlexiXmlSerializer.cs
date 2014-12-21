@@ -143,7 +143,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                     }
                     catch(Exception ex)
                     {
-                        // todo: log
+                        throw;
                     }
                 }
                 
@@ -163,7 +163,8 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             }
             catch (Exception ex)
             {
-                // todo: internal logging
+                ex.TryAddContextData("target type", () => targetType.FullName);
+                InternalTrace.Information(ex, "Failed to create instance of type.");
             }
 
             return false;

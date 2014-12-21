@@ -62,6 +62,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Foundation.Common\InternalTrace.cs">
+      <Link>InternalTrace.cs</Link>
+    </Compile>
     <Compile Include="BackgroundRenderingService.cs" />
     <Compile Include="Behaviors\CheckBoxInListItem.cs" />
     <Compile Include="Behaviors\Control.Click.cs" />

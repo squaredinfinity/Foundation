@@ -65,8 +65,10 @@
     <Compile Include="CommandHandlerEventArgs_T.cs" />
     <Compile Include="CompositeComparer_T.cs" />
     <Compile Include="DateTimeContext.cs" />
+    <Compile Include="Diagnostics\ExceptionContextData.cs" />
     <Compile Include="DynamicComparer_T.cs" />
     <Compile Include="EnumeratorBase.cs" />
+    <Compile Include="FrameworkExtensions\System\Exception.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\Boolean.extensions.cs" />
     <Compile Include="CloneComparer.cs" />
     <Compile Include="FrameworkExtensions\System\Type.extensions.cs" />
@@ -79,7 +81,6 @@
     <Compile Include="ObjectExtensibility\ExtensionCollection.cs" />
     <Compile Include="ObjectExtensibility\IExtensibleObject.cs" />
     <Compile Include="ObjectExtensibility\IExtensionCollection.cs" />
-    <Compile Include="InternalTrace.Foundation.cs" />
     <Compile Include="InternalTrace.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="FrameworkExtensions\Microsoft.Win32\RegistryKey.extensions.cs" />

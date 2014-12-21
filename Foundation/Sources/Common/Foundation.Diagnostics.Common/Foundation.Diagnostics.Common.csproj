@@ -84,7 +84,6 @@
     <Compile Include="Formatters\RawFormatter.cs" />
     <Compile Include="Framework Extensions\SquaredInfinity.Foundation.Diagnostics\ILogger.extensions.cs" />
     <Compile Include="Framework Extensions\System\Object.extensions.cs" />
-    <Compile Include="InternalTrace.Diagnostics.cs" />
     <Compile Include="LinkTypes.cs" />
     <Compile Include="LoggerName.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

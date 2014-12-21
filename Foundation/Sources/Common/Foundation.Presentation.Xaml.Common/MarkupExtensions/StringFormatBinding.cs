@@ -83,8 +83,6 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                 }
                 catch (Exception ex)
                 {
-                    //todo
-                    // Logger.LogException(ex);
                     return DependencyProperty.UnsetValue;
                 }
             }

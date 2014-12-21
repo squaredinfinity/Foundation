@@ -116,6 +116,9 @@
     <Compile Include="..\..\Common\Foundation.Common\DateTimeContext.cs">
       <Link>DateTimeContext.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Diagnostics\ExceptionContextData.cs">
+      <Link>Diagnostics\ExceptionContextData.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Direction.cs">
       <Link>Direction.cs</Link>
     </Compile>
@@ -200,6 +203,9 @@
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\Enum.extensions.cs">
       <Link>FrameworkExtensions\System\Enum.extensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\Exception.extensions.cs">
+      <Link>FrameworkExtensions\System\Exception.extensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\System\Int32.extensions.cs">
       <Link>FrameworkExtensions\System\Int32.extensions.cs</Link>
     </Compile>
@@ -250,9 +256,6 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\InternalTrace.cs">
       <Link>InternalTrace.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\InternalTrace.Foundation.cs">
-      <Link>InternalTrace.Foundation.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\InvocationThrottle.cs">
       <Link>InvocationThrottle.cs</Link>
@@ -560,12 +563,6 @@
       <Link>_RetryPolicy\TransientFaultFilter.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Foundation.Diagnostics.Infrastructure.DotNet45\Foundation.Diagnostics.Infrastructure.DotNet45.csproj">
-      <Project>{231d0bb0-926b-47ce-b7b1-9e8e49dce51e}</Project>
-      <Name>Foundation.Diagnostics.Infrastructure.DotNet45</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

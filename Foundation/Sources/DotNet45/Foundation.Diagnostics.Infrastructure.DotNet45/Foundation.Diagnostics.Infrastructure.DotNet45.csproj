@@ -67,9 +67,6 @@
     <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\ContextDataCollectors\IDataRequestCollection.cs">
       <Link>ContextDataCollectors\IDataRequestCollection.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\ExceptionContextData.cs">
-      <Link>ExceptionContextData.cs</Link>
-    </Compile>
     <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\Filters\FilterMode.cs">
       <Link>Filters\FilterMode.cs</Link>
     </Compile>
@@ -84,9 +81,6 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\Formatters\IFormatterCollection.cs">
       <Link>Formatters\IFormatterCollection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\Framework Extensions\System\Exception.extensions.cs">
-      <Link>Framework Extensions\System\Exception.extensions.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Diagnostics.Infrastructure.Common\IAttachedObject.cs">
       <Link>IAttachedObject.cs</Link>

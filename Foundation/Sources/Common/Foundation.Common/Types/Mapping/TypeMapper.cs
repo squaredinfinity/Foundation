@@ -439,7 +439,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 }
                 catch (Exception ex)
                 {
-                    // todo: internally log mapping error
+                    throw;
                 }
             }
         }

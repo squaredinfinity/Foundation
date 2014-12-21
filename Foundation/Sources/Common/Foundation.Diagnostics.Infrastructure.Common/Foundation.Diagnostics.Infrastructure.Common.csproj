@@ -47,13 +47,11 @@
     <Compile Include="ContextDataCollectors\IDataCollectionContext.cs" />
     <Compile Include="ContextDataCollectors\IDataRequest.cs" />
     <Compile Include="ContextDataCollectors\IDataRequestCollection.cs" />
-    <Compile Include="ExceptionContextData.cs" />
     <Compile Include="Filters\FilterMode.cs" />
     <Compile Include="Filters\IFilter.cs" />
     <Compile Include="Filters\IFilterCollection.cs" />
     <Compile Include="Formatters\IFormatter.cs" />
     <Compile Include="Formatters\IFormatterCollection.cs" />
-    <Compile Include="Framework Extensions\System\Exception.extensions.cs" />
     <Compile Include="IAttachedObject.cs" />
     <Compile Include="IAttachedObjectCollection.cs" />
     <Compile Include="IDiagnosticEvent.cs" />

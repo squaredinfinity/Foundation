@@ -50,10 +50,11 @@ namespace SquaredInfinity.Foundation.Threading
                     Task.Delay(loopIterationDelay, cancellationToken).Wait();
                 }
                 catch (ThreadAbortException)
-                { }
+                { /* expected */ }
                 catch (Exception ex)
                 {
-                    // notify about error via event
+                    InternalTrace.Warning(ex, "Failed executing operation loop");
+                    // TODO notify about error via event (?)
                 }
             }
         }

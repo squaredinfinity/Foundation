@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>SquaredInfinity.Foundation.Data</id>
+    <id>SquaredInfinity.Foundation.Win32Api</id>
     <version>1.0.17</version>
-    <title>SquaredInfinity.Foundation.Data</title>
+    <title>SquaredInfinity.Foundation.Win32Apo</title>
     <authors>Jarek Kardas</authors>
     <owners></owners>
     <description>
-      SquaredInfinity.Foundation.Data
+      SquaredInfinity.Foundation.Win32Api
     </description>
     <releaseNotes>
     </releaseNotes>
     <summary>
-      SquaredInfinity.Foundation.Data
+      SquaredInfinity.Foundation.Win32Api
     </summary>
     <language>en-US</language>
     <projectUrl>https://nuget.org/packages/SquaredInfinity.Foundation</projectUrl>
@@ -29,10 +29,11 @@
     <tags></tags>
   </metadata>
   <files>
-    <file src="..\..\Sources\DotNet45\Foundation.Data.DotNet45\bin\Release\SquaredInfinity.Foundation.Data.DotNet45.dll" target="lib\net45"  />
-    <file src="..\..\Sources\DotNet45\Foundation.Data.DotNet45\bin\Release\SquaredInfinity.Foundation.Data.DotNet45.xml" target="lib\net45"  />
-    <file src="..\..\Sources\DotNet45\Foundation.Data.DotNet45\bin\Release\SquaredInfinity.Foundation.Data.DotNet45.pdb" target="lib\net45"  />
+    <file src="..\..\Sources\DotNet45\Foundation.Win32Api.DotNet45\bin\Release\SquaredInfinity.Foundation.Win32Api.DotNet45.dll" target="lib\net45"  />
+    <file src="..\..\Sources\DotNet45\Foundation.Win32Api.DotNet45\bin\Release\SquaredInfinity.Foundation.Win32Api.DotNet45.xml" target="lib\net45"  />
+    <file src="..\..\Sources\DotNet45\Foundation.Win32Api.DotNet45\bin\Release\SquaredInfinity.Foundation.Win32Api.DotNet45.pdb" target="lib\net45"  />
     <file src="..\..\Sources\**\*.cs" target="src"  />
+    <file src="..\..\Sources\**\*.xaml" target="src"  />
     <file src="tools\" target="tools" />
     <file src="content\" target="content" />
   </files>

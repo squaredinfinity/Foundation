@@ -16,336 +16,336 @@ using System.Windows.Threading;
 
 namespace SquaredInfinity.Foundation.Presentation.Controls
 {
-    public class BackgroundLoadingListView : ListView
-    {
-        internal ScrollViewer ScrollViewer { get; set; }
+    //public class BackgroundLoadingListView : ListView
+    //{
+    //    internal ScrollViewer ScrollViewer { get; set; }
 
-        IDisposable ContainerGeneratorStatusChangedSubscription;
-        IDisposable SizeChangedSubscription;
-        IDisposable IsVisibleChangedSubscription;
+    //    IDisposable ContainerGeneratorStatusChangedSubscription;
+    //    IDisposable SizeChangedSubscription;
+    //    IDisposable IsVisibleChangedSubscription;
 
-        public BackgroundLoadingListView()
-        {
-            //IsVisibleChangedSubscription =
-            //    Observable.FromEvent<DependencyPropertyChangedEventHandler, DependencyPropertyChangedEventArgs>(
-            //     h =>
-            //     {
-            //         DependencyPropertyChangedEventHandler x = (sender, e) => h(e);
-            //         return x;
-            //     },
-            //        h => this.IsVisibleChanged += h,
-            //        h => this.IsVisibleChanged -= h)
-            //        .Throttle(TimeSpan.FromMilliseconds(250))
-            //        .ObserveOnDispatcher()
-            //        .Subscribe(args =>
-            //        {
-            //            if ((bool)args.NewValue == false)
-            //                return;
+    //    public BackgroundLoadingListView()
+    //    {
+    //        //IsVisibleChangedSubscription =
+    //        //    Observable.FromEvent<DependencyPropertyChangedEventHandler, DependencyPropertyChangedEventArgs>(
+    //        //     h =>
+    //        //     {
+    //        //         DependencyPropertyChangedEventHandler x = (sender, e) => h(e);
+    //        //         return x;
+    //        //     },
+    //        //        h => this.IsVisibleChanged += h,
+    //        //        h => this.IsVisibleChanged -= h)
+    //        //        .Throttle(TimeSpan.FromMilliseconds(250))
+    //        //        .ObserveOnDispatcher()
+    //        //        .Subscribe(args =>
+    //        //        {
+    //        //            if ((bool)args.NewValue == false)
+    //        //                return;
 
-            //            if (VirtualizingPanel.GetIsVirtualizing(this))
-            //                return;
+    //        //            if (VirtualizingPanel.GetIsVirtualizing(this))
+    //        //                return;
 
-            //            RenderItemsInView();
-            //            RenderAllItems();
-            //        });
+    //        //            RenderItemsInView();
+    //        //            RenderAllItems();
+    //        //        });
 
-            //SizeChangedSubscription =
-            //    Observable.FromEvent<SizeChangedEventHandler, SizeChangedEventArgs>(
-            //     h =>
-            //     {
-            //         SizeChangedEventHandler x = (sender, e) => h(e);
-            //         return x;
-            //     },
-            //        h => this.SizeChanged += h,
-            //        h => this.SizeChanged -= h)
-            //        .Throttle(TimeSpan.FromMilliseconds(250))
-            //        .ObserveOnDispatcher()
-            //        .Subscribe(args =>
-            //        {
-            //            if (VirtualizingPanel.GetIsVirtualizing(this))
-            //                return;
+    //        //SizeChangedSubscription =
+    //        //    Observable.FromEvent<SizeChangedEventHandler, SizeChangedEventArgs>(
+    //        //     h =>
+    //        //     {
+    //        //         SizeChangedEventHandler x = (sender, e) => h(e);
+    //        //         return x;
+    //        //     },
+    //        //        h => this.SizeChanged += h,
+    //        //        h => this.SizeChanged -= h)
+    //        //        .Throttle(TimeSpan.FromMilliseconds(250))
+    //        //        .ObserveOnDispatcher()
+    //        //        .Subscribe(args =>
+    //        //        {
+    //        //            if (VirtualizingPanel.GetIsVirtualizing(this))
+    //        //                return;
 
-            //            RenderAllItems(forceRender: true);
-            //        });
+    //        //            RenderAllItems(forceRender: true);
+    //        //        });
 
-            //ContainerGeneratorStatusChangedSubscription = 
-            //    Observable.FromEvent<EventHandler, EventArgs>(
-            //     h =>
-            //        {
-            //            EventHandler x = (sender, e) => h(e);
-            //            return x;
-            //        },
-            //        h => ItemContainerGenerator.StatusChanged += h,
-            //        h => ItemContainerGenerator.StatusChanged -= h)
-            //        .Throttle(TimeSpan.FromMilliseconds(250))
-            //        .ObserveOnDispatcher()
-            //        .Subscribe(args =>
-            //        {
-            //            if (ItemContainerGenerator.Status == System.Windows.Controls.Primitives.GeneratorStatus.ContainersGenerated)
-            //            {
-            //                if (VirtualizingPanel.GetIsVirtualizing(this))
-            //                    return;
+    //        //ContainerGeneratorStatusChangedSubscription = 
+    //        //    Observable.FromEvent<EventHandler, EventArgs>(
+    //        //     h =>
+    //        //        {
+    //        //            EventHandler x = (sender, e) => h(e);
+    //        //            return x;
+    //        //        },
+    //        //        h => ItemContainerGenerator.StatusChanged += h,
+    //        //        h => ItemContainerGenerator.StatusChanged -= h)
+    //        //        .Throttle(TimeSpan.FromMilliseconds(250))
+    //        //        .ObserveOnDispatcher()
+    //        //        .Subscribe(args =>
+    //        //        {
+    //        //            if (ItemContainerGenerator.Status == System.Windows.Controls.Primitives.GeneratorStatus.ContainersGenerated)
+    //        //            {
+    //        //                if (VirtualizingPanel.GetIsVirtualizing(this))
+    //        //                    return;
 
-            //                RenderAllItems(forceRender: true);
-            //            }
-            //        }); 
-        }
+    //        //                RenderAllItems(forceRender: true);
+    //        //            }
+    //        //        }); 
+    //    }
 
-        IDisposable ScrollChangedSubscription;
+    //    IDisposable ScrollChangedSubscription;
 
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
+    //    public override void OnApplyTemplate()
+    //    {
+    //        base.OnApplyTemplate();
 
-            ScrollViewer = this.FindVisualDescendant<ScrollViewer>();
+    //        ScrollViewer = this.FindVisualDescendant<ScrollViewer>();
 
-            //ScrollChangedSubscription = Observable.FromEvent<ScrollChangedEventHandler, ScrollChangedEventArgs>(
-            //    h =>
-            //        {
-            //            ScrollChangedEventHandler x = (sender, e) => h(e);
-            //            return x;
-            //        },
-            //        h => ScrollViewer.ScrollChanged += h,
-            //        h => ScrollViewer.ScrollChanged -= h)
-            //        .Throttle(TimeSpan.FromMilliseconds(250))
-            //        .ObserveOnDispatcher()
-            //        .Subscribe(args =>
-            //        {
-            //            RenderItemsInView();
-            //        }); 
-        }
+    //        //ScrollChangedSubscription = Observable.FromEvent<ScrollChangedEventHandler, ScrollChangedEventArgs>(
+    //        //    h =>
+    //        //        {
+    //        //            ScrollChangedEventHandler x = (sender, e) => h(e);
+    //        //            return x;
+    //        //        },
+    //        //        h => ScrollViewer.ScrollChanged += h,
+    //        //        h => ScrollViewer.ScrollChanged -= h)
+    //        //        .Throttle(TimeSpan.FromMilliseconds(250))
+    //        //        .ObserveOnDispatcher()
+    //        //        .Subscribe(args =>
+    //        //        {
+    //        //            RenderItemsInView();
+    //        //        }); 
+    //    }
 
-        void RenderAllItems(bool forceRender = false)
-        {
-            if (!Dispatcher.CheckAccess())
-            {
-                Dispatcher.BeginInvoke(new Action(() => RenderAllItems(forceRender)), DispatcherPriority.DataBind);
-                return;
-            }
+    //    void RenderAllItems(bool forceRender = false)
+    //    {
+    //        if (!Dispatcher.CheckAccess())
+    //        {
+    //            Dispatcher.BeginInvoke(new Action(() => RenderAllItems(forceRender)), DispatcherPriority.DataBind);
+    //            return;
+    //        }
 
-            if (VirtualizingPanel.GetIsVirtualizing(this))
-                return;
+    //        if (VirtualizingPanel.GetIsVirtualizing(this))
+    //            return;
 
-            var itemsToRender = new List<FrameworkElement>();
+    //        var itemsToRender = new List<FrameworkElement>();
 
-            for (int i = 0; i < this.ItemContainerGenerator.Items.Count; i++)
-            {
-                var c = ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;
+    //        for (int i = 0; i < this.ItemContainerGenerator.Items.Count; i++)
+    //        {
+    //            var c = ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;
 
-                if (c == null)
-                    continue;
+    //            if (c == null)
+    //                continue;
 
-                var sbr = c as ISupportsBackgroundRendering;
+    //            var sbr = c as ISupportsBackgroundRendering;
 
-                if (sbr != null)
-                {
-                    if (forceRender)
-                    {
-                        sbr.BackgroundRenderingComplete = false;
-                        sbr.HighestScheduledPriority = RenderingPriority.BackgroundLow;
-                        sbr.ScheduledForBackgroundRendering = false;
-                    }
-                    else if(sbr.BackgroundRenderingComplete)
-                        continue;
-                }
+    //            if (sbr != null)
+    //            {
+    //                if (forceRender)
+    //                {
+    //                    sbr.BackgroundRenderingComplete = false;
+    //                    sbr.HighestScheduledPriority = RenderingPriority.BackgroundLow;
+    //                    sbr.ScheduledForBackgroundRendering = false;
+    //                }
+    //                else if(sbr.BackgroundRenderingComplete)
+    //                    continue;
+    //            }
 
-                itemsToRender.Add(c);
-            }
+    //            itemsToRender.Add(c);
+    //        }
 
-            itemsToRender.Reverse();
+    //        itemsToRender.Reverse();
 
-            BackgroundRenderingService.RequestRender(RenderingPriority.ParentVisible, itemsToRender);
-        }
+    //        BackgroundRenderingService.RequestRender(RenderingPriority.ParentVisible, itemsToRender);
+    //    }
 
-        void RenderItemsInView()
-        {
-            if (!Dispatcher.CheckAccess())
-            {
-                Dispatcher.BeginInvoke(new Action(() => RenderItemsInView()), DispatcherPriority.DataBind);
-                return;
-            }
+    //    void RenderItemsInView()
+    //    {
+    //        if (!Dispatcher.CheckAccess())
+    //        {
+    //            Dispatcher.BeginInvoke(new Action(() => RenderItemsInView()), DispatcherPriority.DataBind);
+    //            return;
+    //        }
 
-            if (VirtualizingPanel.GetIsVirtualizing(this))
-                return;
+    //        if (VirtualizingPanel.GetIsVirtualizing(this))
+    //            return;
 
-            if (ScrollViewer == null)
-                return;
+    //        if (ScrollViewer == null)
+    //            return;
 
-            if (!ScrollViewer.IsLoaded)
-                return;
+    //        if (!ScrollViewer.IsLoaded)
+    //            return;
 
-            var parentWindow = this.FindVisualParent<Window>();
+    //        var parentWindow = this.FindVisualParent<Window>();
 
-            var itemsToRender = new List<FrameworkElement>();
+    //        var itemsToRender = new List<FrameworkElement>();
 
-            for (int i = 0; i < this.ItemContainerGenerator.Items.Count; i++)
-            {
-                var c = ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;
+    //        for (int i = 0; i < this.ItemContainerGenerator.Items.Count; i++)
+    //        {
+    //            var c = ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;
 
-                if (c == null)
-                    continue;
+    //            if (c == null)
+    //                continue;
 
-                var sbr = c as ISupportsBackgroundRendering;
+    //            var sbr = c as ISupportsBackgroundRendering;
 
-                if (sbr != null && sbr.BackgroundRenderingComplete)
-                    continue;
+    //            if (sbr != null && sbr.BackgroundRenderingComplete)
+    //                continue;
 
-                if (!c.IsInViewport(parentWindow))
-                    continue;
+    //            if (!c.IsInViewport(parentWindow))
+    //                continue;
 
-                itemsToRender.Add(c);
-            }
+    //            itemsToRender.Add(c);
+    //        }
 
-            itemsToRender.Reverse();
+    //        itemsToRender.Reverse();
 
-            BackgroundRenderingService.RequestRender(RenderingPriority.ImmediatelyVisible, itemsToRender);
-        }
+    //        BackgroundRenderingService.RequestRender(RenderingPriority.ImmediatelyVisible, itemsToRender);
+    //    }
 
-        protected override void OnItemsSourceChanged(System.Collections.IEnumerable oldValue, System.Collections.IEnumerable newValue)
-        {
-            base.OnItemsSourceChanged(oldValue, newValue);
+    //    protected override void OnItemsSourceChanged(System.Collections.IEnumerable oldValue, System.Collections.IEnumerable newValue)
+    //    {
+    //        base.OnItemsSourceChanged(oldValue, newValue);
 
-            var cc_old = oldValue as INotifyCollectionChanged;
+    //        var cc_old = oldValue as INotifyCollectionChanged;
 
-            if (cc_old != null)
-            {
-                cc_old.CollectionChanged -= cc_CollectionChanged;
-            }
+    //        if (cc_old != null)
+    //        {
+    //            cc_old.CollectionChanged -= cc_CollectionChanged;
+    //        }
 
-            var cc_new = newValue as INotifyCollectionChanged;
+    //        var cc_new = newValue as INotifyCollectionChanged;
 
-            if (cc_new != null)
-            {
-                cc_new.CollectionChanged += cc_CollectionChanged;
-            }
-
-
-            //var pc_old = oldValue as INotifyPropertyChanged;
-
-            //if (pc_old != null)
-            //{
-            //    pc_old.PropertyChanged -= pc_PropertyChanged;
-            //}
-
-            //var pc_new = newValue as INotifyPropertyChanged;
-
-            //if (pc_new != null)
-            //{
-            //    pc_new.PropertyChanged += pc_PropertyChanged;
-            //}
-
-            if (VirtualizingPanel.GetIsVirtualizing(this))
-                return;
-
-            var priority = IsVisible ? RenderingPriority.ParentVisible : RenderingPriority.BackgroundLow;
-
-            BackgroundRenderingService.RequestRender(priority, this);
-        }
+    //        if (cc_new != null)
+    //        {
+    //            cc_new.CollectionChanged += cc_CollectionChanged;
+    //        }
 
 
+    //        //var pc_old = oldValue as INotifyPropertyChanged;
 
-        void cc_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            return;
+    //        //if (pc_old != null)
+    //        //{
+    //        //    pc_old.PropertyChanged -= pc_PropertyChanged;
+    //        //}
 
-            if (e.Action == NotifyCollectionChangedAction.Remove)
-                return;
+    //        //var pc_new = newValue as INotifyPropertyChanged;
 
-            if (e.Action == NotifyCollectionChangedAction.Reset)
-            {
-                RenderAllItems(forceRender: true);
-                RenderItemsInView();
-                return;
-            }
+    //        //if (pc_new != null)
+    //        //{
+    //        //    pc_new.PropertyChanged += pc_PropertyChanged;
+    //        //}
 
-            RenderAllItems();
-            RenderItemsInView();
-        }
+    //        if (VirtualizingPanel.GetIsVirtualizing(this))
+    //            return;
 
-        protected override Size MeasureOverride(Size constraint)
-        {
-            return base.MeasureOverride(constraint);
-        }
+    //        var priority = IsVisible ? RenderingPriority.ParentVisible : RenderingPriority.BackgroundLow;
 
-        protected override Size ArrangeOverride(Size arrangeBounds)
-        {
-            return base.ArrangeOverride(arrangeBounds);
-        }
-
-        protected override System.Windows.DependencyObject GetContainerForItemOverride()
-        {
-            return new BackgroundLoadingListViewItem();
-        }
-    }
+    //        BackgroundRenderingService.RequestRender(priority, this);
+    //    }
 
 
-    public class BackgroundLoadingListViewItem : ListViewItem, ISupportsBackgroundRendering
-    {
-        public bool BackgroundRenderingComplete { get; set; }
-        public bool ScheduledForBackgroundRendering { get; set; }
-        public RenderingPriority HighestScheduledPriority { get; set; }
+
+    //    void cc_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //    {
+    //        return;
+
+    //        if (e.Action == NotifyCollectionChangedAction.Remove)
+    //            return;
+
+    //        if (e.Action == NotifyCollectionChangedAction.Reset)
+    //        {
+    //            RenderAllItems(forceRender: true);
+    //            RenderItemsInView();
+    //            return;
+    //        }
+
+    //        RenderAllItems();
+    //        RenderItemsInView();
+    //    }
+
+    //    protected override Size MeasureOverride(Size constraint)
+    //    {
+    //        return base.MeasureOverride(constraint);
+    //    }
+
+    //    protected override Size ArrangeOverride(Size arrangeBounds)
+    //    {
+    //        return base.ArrangeOverride(arrangeBounds);
+    //    }
+
+    //    protected override System.Windows.DependencyObject GetContainerForItemOverride()
+    //    {
+    //        return new BackgroundLoadingListViewItem();
+    //    }
+    //}
 
 
-        public Size SizeWhileBackgroundLoading
-        {
-            get { return (Size)GetValue(SizeWhileBackgroundLoadingProperty); }
-            set { SetValue(SizeWhileBackgroundLoadingProperty, value); }
-        }
+    //public class BackgroundLoadingListViewItem : ListViewItem, ISupportsBackgroundRendering
+    //{
+    //    public bool BackgroundRenderingComplete { get; set; }
+    //    public bool ScheduledForBackgroundRendering { get; set; }
+    //    public RenderingPriority HighestScheduledPriority { get; set; }
 
-        public static readonly DependencyProperty SizeWhileBackgroundLoadingProperty =
-            DependencyProperty.Register("SizeWhileBackgroundLoading", typeof(Size), typeof(BackgroundLoadingListViewItem), new PropertyMetadata(new Size(1, 20)));
+
+    //    public Size SizeWhileBackgroundLoading
+    //    {
+    //        get { return (Size)GetValue(SizeWhileBackgroundLoadingProperty); }
+    //        set { SetValue(SizeWhileBackgroundLoadingProperty, value); }
+    //    }
+
+    //    public static readonly DependencyProperty SizeWhileBackgroundLoadingProperty =
+    //        DependencyProperty.Register("SizeWhileBackgroundLoading", typeof(Size), typeof(BackgroundLoadingListViewItem), new PropertyMetadata(new Size(1, 20)));
 
         
 
-        public BackgroundLoadingListViewItem()
-        { }
+    //    public BackgroundLoadingListViewItem()
+    //    { }
         
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-        }
+    //    public override void OnApplyTemplate()
+    //    {
+    //        base.OnApplyTemplate();
+    //    }
 
-        protected override System.Windows.Size MeasureOverride(System.Windows.Size constraint)
-        {
-            if (!BackgroundRenderingComplete)
-            {
-                var parentListView = this.VisualParent.FindVisualParent<BackgroundLoadingListView>();
+    //    protected override System.Windows.Size MeasureOverride(System.Windows.Size constraint)
+    //    {
+    //        if (!BackgroundRenderingComplete)
+    //        {
+    //            var parentListView = this.VisualParent.FindVisualParent<BackgroundLoadingListView>();
 
-                if (VisualParent is VirtualizingPanel && VirtualizingPanel.GetIsVirtualizing(parentListView))
-                {
-                    return base.MeasureOverride(constraint);
-                }
+    //            if (VisualParent is VirtualizingPanel && VirtualizingPanel.GetIsVirtualizing(parentListView))
+    //            {
+    //                return base.MeasureOverride(constraint);
+    //            }
 
-                if (!constraint.IsInfinite())
-                    return constraint;
+    //            if (!constraint.IsInfinite())
+    //                return constraint;
                 
-                return SizeWhileBackgroundLoading;
-            }
-            else
-            {
-                var result = base.MeasureOverride(constraint);
+    //            return SizeWhileBackgroundLoading;
+    //        }
+    //        else
+    //        {
+    //            var result = base.MeasureOverride(constraint);
 
-                return result;
-            }
-        }
+    //            return result;
+    //        }
+    //    }
 
-        protected override System.Windows.Size ArrangeOverride(System.Windows.Size arrangeBounds)
-        {
-            if (!BackgroundRenderingComplete)
-            {
-                var parentListView = this.VisualParent.FindVisualParent<BackgroundLoadingListView>();
+    //    protected override System.Windows.Size ArrangeOverride(System.Windows.Size arrangeBounds)
+    //    {
+    //        if (!BackgroundRenderingComplete)
+    //        {
+    //            var parentListView = this.VisualParent.FindVisualParent<BackgroundLoadingListView>();
 
-                if (VisualParent is VirtualizingPanel && VirtualizingPanel.GetIsVirtualizing(parentListView))
-                {
-                    return base.ArrangeOverride(arrangeBounds);
-                }
+    //            if (VisualParent is VirtualizingPanel && VirtualizingPanel.GetIsVirtualizing(parentListView))
+    //            {
+    //                return base.ArrangeOverride(arrangeBounds);
+    //            }
 
-                return arrangeBounds;
-            }
-            else
-            {
-                return base.ArrangeOverride(arrangeBounds);
-            }
-        }
-    }
+    //            return arrangeBounds;
+    //        }
+    //        else
+    //        {
+    //            return base.ArrangeOverride(arrangeBounds);
+    //        }
+    //    }
+    //}
 }

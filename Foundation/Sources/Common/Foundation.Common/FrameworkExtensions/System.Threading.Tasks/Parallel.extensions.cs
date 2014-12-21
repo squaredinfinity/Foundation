@@ -28,7 +28,7 @@ namespace SquaredInfinity.Foundation.Extensions
             }
             catch (Exception ex)
             {
-             //   Diagnostics.Error(ex);
+                throw;
             }
         }
 
@@ -79,8 +79,7 @@ namespace SquaredInfinity.Foundation.Extensions
             }
             catch (Exception ex)
             {
-                // TODO
-                //Diagnostics.Error(ex);
+                InternalTrace.Error(ex, "Error creating completed parallel loop result");
 
                 // reflection failed, run empty loop to get completed result
                 var result = Parallel.For(0, 0, DefaultParallelOptions, (i) => { });

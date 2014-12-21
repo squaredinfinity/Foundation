@@ -27,6 +27,7 @@ namespace SquaredInfinity.Foundation.Extensions
                     using (XmlTextReader xmlReader = new XmlTextReader(stringReader))
                     {
                         xmlReader.WhitespaceHandling = WhitespaceHandling.All;
+
                         xmlReader.DtdProcessing = DtdProcessing.Ignore;
 
                         // ! overloaded method below will process all other LoadOptions
@@ -42,6 +43,8 @@ namespace SquaredInfinity.Foundation.Extensions
             }
             catch (Exception ex)
             {
+                ex.TryAddContextData("xml string", () => xmlString);
+                InternalTrace.Information(ex, "failed parsing xml document");
                 return false;
             }
         }
