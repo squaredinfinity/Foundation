@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>SquaredInfinity.Foundation.Data</id>
+    <id>SquaredInfinity.Foundation.Diagnostics.Infrastructure</id>
     <version>1.0.19</version>
-    <title>SquaredInfinity.Foundation.Data</title>
+    <title>SquaredInfinity.Foundation.Diagnostics.Infrastructure</title>
     <authors>Jarek Kardas</authors>
     <owners></owners>
     <description>
-      SquaredInfinity.Foundation.Data
+      SquaredInfinity.Foundation.Diagnostics.Infrastructure
     </description>
     <releaseNotes>
     </releaseNotes>
     <summary>
-      SquaredInfinity.Foundation.Data
+      SquaredInfinity.Foundation.Diagnostics.Infrastructure
     </summary>
     <language>en-US</language>
     <projectUrl>https://nuget.org/packages/SquaredInfinity.Foundation</projectUrl>
@@ -23,17 +23,17 @@
     <dependencies>
       <group targetFramework="net45">
         <dependency id="SquaredInfinity.Foundation" version="1.0.19" />
-        <dependency id="SquaredInfinity.Foundation.Diagnostics.Infrastructure" version="1.0.19" />
       </group>
     </dependencies>
     <references></references>
     <tags></tags>
   </metadata>
   <files>
-    <file src="..\..\Sources\DotNet45\Foundation.Data.DotNet45\bin\Release\SquaredInfinity.Foundation.Data.DotNet45.dll" target="lib\net45"  />
-    <file src="..\..\Sources\DotNet45\Foundation.Data.DotNet45\bin\Release\SquaredInfinity.Foundation.Data.DotNet45.xml" target="lib\net45"  />
-    <file src="..\..\Sources\DotNet45\Foundation.Data.DotNet45\bin\Release\SquaredInfinity.Foundation.Data.DotNet45.pdb" target="lib\net45"  />
+    <file src="..\..\Sources\DotNet45\Foundation.Diagnostics.Infrastructure.DotNet45\bin\Release\SquaredInfinity.Foundation.Diagnostics.Infrastructure.DotNet45.dll" target="lib\net45"  />
+    <file src="..\..\Sources\DotNet45\Foundation.Diagnostics.Infrastructure.DotNet45\bin\Release\SquaredInfinity.Foundation.Diagnostics.Infrastructure.DotNet45.xml" target="lib\net45"  />
+    <file src="..\..\Sources\DotNet45\Foundation.Diagnostics.Infrastructure.DotNet45\bin\Release\SquaredInfinity.Foundation.Diagnostics.Infrastructure.DotNet45.pdb" target="lib\net45"  />
     <file src="..\..\Sources\**\*.cs" target="src"  />
+    <file src="..\..\Sources\**\*.xaml" target="src"  />
     <file src="tools\" target="tools" />
     <file src="content\" target="content" />
   </files>

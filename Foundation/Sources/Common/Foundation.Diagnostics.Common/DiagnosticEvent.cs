@@ -77,7 +77,11 @@ namespace SquaredInfinity.Foundation.Diagnostics
             }
         }
 
-        public IDiagnosticEventPropertyCollection AdditionalContextData { get; set; }
+        IDiagnosticEventPropertyCollection _additionalContextData = new DiagnosticEventPropertyCollection();
+        public IDiagnosticEventPropertyCollection AdditionalContextData
+        {
+            get { return _additionalContextData; }
+        }
 
         /// <summary>
         /// Collection of additional objects which will have their representation sent to sinks.
@@ -132,6 +136,11 @@ namespace SquaredInfinity.Foundation.Diagnostics
         {
             Properties.AddOrUpdate("Event.HasAdditionalContextData", HasAdditionalContextData);
             Properties.AddOrUpdate("Event.AdditionalContextData", AdditionalContextData);
+
+            foreach(var property in AdditionalContextData)
+            {
+                Properties.AddOrUpdate(property);
+            }
         }
 
         public void EvaluateAndPinAllDataIfNeeded()

@@ -1,4 +1,6 @@
-﻿using SquaredInfinity.Foundation.Diagnostics;
+﻿using SquaredInfinity.Foundation.ContextDataCollectors;
+using SquaredInfinity.Foundation.Diagnostics;
+using SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors;
 using SquaredInfinity.Foundation.Diagnostics.Formatters;
 using SquaredInfinity.Foundation.Diagnostics.Sinks.File;
 using SquaredInfinity.Foundation.Extensions;
@@ -17,13 +19,6 @@ namespace Foundation.Diagnostics.Walkthrough.Common
     {
         static void Main(string[] args)
         {
-
-            var xml_1 = "some shit";
-
-            var xdoc = (XDocument) null;
-
-            XDocumentExtensions.TryParse(xml_1, System.Xml.Linq.LoadOptions.None, out xdoc);
-
             //#     DiagnosticLogger can be used quickly without any configuration.
             //      By default diagnostic data will be logged to "Logs" directory.
 
@@ -35,6 +30,17 @@ namespace Foundation.Diagnostics.Walkthrough.Common
 
 
             var config = DiagnosticLogger.Global.GetConfigurationClone();
+
+            var edc = new EnvironmentDataCollector();
+
+            edc.RequestedData.Add(new DataRequest() { Data = "Application.Version", IsAsync = false, IsCached = true });
+            edc.RequestedData.Add(new DataRequest() { Data = "Thread.Id", IsAsync = false, IsCached = false });
+            edc.RequestedData.Add(new DataRequest() { Data = "Thread.Name", IsAsync = false, IsCached = false });
+            edc.RequestedData.Add(new DataRequest() { Data = "Thread.ThreadState", IsAsync = false, IsCached = false });
+            edc.RequestedData.Add(new DataRequest() { Data = "Thread.IsBackground", IsAsync = false, IsCached = false });
+            
+
+            config.AdditionalContextDataCollectors.Add(edc);
 
             var fileSink = new FileSink();
             fileSink.FileNamePattern = "log.txt";

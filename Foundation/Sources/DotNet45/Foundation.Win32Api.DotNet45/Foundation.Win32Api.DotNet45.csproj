@@ -7,8 +7,8 @@
     <ProjectGuid>{7EAC6223-18DB-415D-8393-071D83FB0D9D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Foundation.Win32Api.DotNet45</RootNamespace>
-    <AssemblyName>Foundation.Win32Api.DotNet45</AssemblyName>
+    <RootNamespace>SquaredInfinity.Foundation.Win32Api.DotNet45</RootNamespace>
+    <AssemblyName>SquaredInfinity.Foundation.Win32Api.DotNet45</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -28,6 +28,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\SquaredInfinity.Foundation.Win32Api.DotNet45.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />

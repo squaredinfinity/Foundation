@@ -156,8 +156,8 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             {
                 var targetMember = targetDescription.Members[i_member];
 
-                if (!targetMember.CanSetValue)
-                    continue;
+                //if (!targetMember.CanSetValue)
+                //    continue;
 
                 for (int i = 0; i < matchingRules.Count; i++)
                 {

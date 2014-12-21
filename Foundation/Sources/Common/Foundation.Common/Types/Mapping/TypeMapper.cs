@@ -317,21 +317,24 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                     var valueResolver = kvp.Value;
                     var mappedValueCandidate = valueResolver.ResolveValue(source);
 
-                    if(mappedValueCandidate != null && valueResolver.CanCopyValueWithoutMapping)
+                    if (targetMemberDescription.CanSetValue)
                     {
-                        targetMemberDescription.SetValue(target, mappedValueCandidate);
-                        continue;
+                        if (mappedValueCandidate != null && valueResolver.CanCopyValueWithoutMapping)
+                        {
+                            targetMemberDescription.SetValue(target, mappedValueCandidate);
+                            continue;
+                        }
+
+                        // check if there exists value converter for source / target types
+                        if (!valueResolver.AreFromAndToTypesSame)
+                        {
+                            //var converter = ms.TryGetValueConverter(valueResolver.ToType, targetMemberType);
+
+                            //val = converter.Convert(val);
+                        }
                     }
 
-                    // check if there exists value converter for source / target types
-                    if (!valueResolver.AreFromAndToTypesSame)
-                    {
-                        //var converter = ms.TryGetValueConverter(valueResolver.ToType, targetMemberType);
-
-                        //val = converter.Convert(val);
-                    }
-
-                    if (mappedValueCandidate == null || options.Mode == MappingMode.Copy)
+                    if (targetMemberDescription.CanSetValue && (mappedValueCandidate == null || options.Mode == MappingMode.Copy))
                     {
                         // if value is null and options are set to igonre nulls, then just skip this member and continue
                         if(options.IgnoreNulls)
@@ -346,8 +349,8 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
                         var sourceValType = mappedValueCandidate.GetType();
                         var targetValType = (Type)null;
-                        
-                        if(targetMemberValue == null)
+
+                        if (targetMemberDescription.CanSetValue && targetMemberValue == null)
                         {
                             // target value is null
                             // if source type and target type are compatible, clone source value
@@ -371,7 +374,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                                 }
                             }
                         }
-                        else if(targetMemberDescription.MemberType.IsValueType)
+                        else if(targetMemberDescription.CanSetValue && targetMemberDescription.MemberType.IsValueType)
                         {
                             mappedValueCandidate = MapInternal(mappedValueCandidate, targetMemberDescription.MemberType.Type, options, cx);
                             targetMemberDescription.SetValue(target, mappedValueCandidate);
