@@ -74,6 +74,7 @@
     <Compile Include="FrameworkExtensions\System\Type.extensions.cs" />
     <Compile Include="ICloneEquatable.cs" />
     <Compile Include="IndexInAnotherListComparer.cs" />
+    <Compile Include="IndexInListComparer.cs" />
     <Compile Include="InvocationThrottle.cs" />
     <Compile Include="NotifyPropertyChangedObject.cs" />
     <Compile Include="NotifyPropertyChangedObjectWrapper.cs" />

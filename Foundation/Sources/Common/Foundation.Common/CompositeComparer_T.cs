@@ -8,7 +8,7 @@ namespace SquaredInfinity.Foundation
     public class CompositeComparer<T> : IComparer<T>
     {
         public readonly List<Comparison<T>> Comparisons = new List<Comparison<T>>();
-
+        
         public void AddDefaultNullCheckComparison()
         {
             Comparisons.Add((x, y) =>

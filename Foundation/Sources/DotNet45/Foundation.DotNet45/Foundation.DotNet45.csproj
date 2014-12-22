@@ -251,6 +251,9 @@
     <Compile Include="..\..\Common\Foundation.Common\IndexInAnotherListComparer.cs">
       <Link>IndexInAnotherListComparer.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\IndexInListComparer.cs">
+      <Link>IndexInListComparer.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\INotifyVersionChangedObject.cs">
       <Link>INotifyVersionChangedObject.cs</Link>
     </Compile>
