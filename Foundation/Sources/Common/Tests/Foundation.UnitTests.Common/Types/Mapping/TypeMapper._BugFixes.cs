@@ -49,7 +49,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
 
         [TestMethod]
         [Description("mapping fails when target property (of concrete type) in null and source is of interface type")]
-        public void Bug001__MapToInterfaceProperty_WhereTargetInterfaceIsDifferentThanSourceType()
+        public void Bug002__MapToInterfaceProperty_WhereTargetInterfaceIsDifferentThanSourceType()
         {
             var c1 = new Bug002_Class_One();
             c1.Id = 1;
@@ -82,6 +82,38 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         {
             public int Id { get; set; }
             public Bug002_Class_Two Property { get; set; }
+        }
+
+        #endregion
+
+        #region BUG 003
+
+        [TestMethod]
+        [Description("mapping fails when source has read-only property with Null value")]
+        public void Bug003_MappingFailsWhenSourceHasReadOnlyPropertyWithNullValue()
+        {
+            var c1 = new Bug003_Class_One();
+            
+            var tm = new TypeMapper();
+
+            var clone = tm.Map<Bug003_Class_One>(c1);
+
+            Assert.IsNotNull(clone);
+            Assert.AreEqual(clone.Id, c1.Id);
+        }
+
+        public class Bug003_Class_One
+        {
+            int? _id;
+            public int? Id
+            {
+                get { return _id; }
+            }
+
+            public Bug003_Class_One()
+            {
+                _id = null;
+            }
         }
 
         #endregion

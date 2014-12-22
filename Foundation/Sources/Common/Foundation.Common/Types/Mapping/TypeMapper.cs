@@ -317,81 +317,132 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                     var valueResolver = kvp.Value;
                     var mappedValueCandidate = valueResolver.ResolveValue(source);
 
-                    if (targetMemberDescription.CanSetValue)
+                    //# Check if simple assignment of a value from source to target can be made
+                    //  e.g. when value is a value type without reference type properties / fields
+
+                    if (targetMemberDescription.CanSetValue && mappedValueCandidate != null && valueResolver.CanCopyValueWithoutMapping)
                     {
-                        if (mappedValueCandidate != null && valueResolver.CanCopyValueWithoutMapping)
-                        {
-                            targetMemberDescription.SetValue(target, mappedValueCandidate);
-                            continue;
-                        }
-
-                        // check if there exists value converter for source / target types
-                        if (!valueResolver.AreFromAndToTypesSame)
-                        {
-                            //var converter = ms.TryGetValueConverter(valueResolver.ToType, targetMemberType);
-
-                            //val = converter.Convert(val);
-                        }
+                        targetMemberDescription.SetValue(target, mappedValueCandidate);
+                        continue;
                     }
 
+
+                    //// check if there exists value converter for source / target types
+                    //if (!valueResolver.AreFromAndToTypesSame)
+                    //{
+                    //    //var converter = ms.TryGetValueConverter(valueResolver.ToType, targetMemberType);
+
+                    //    //val = converter.Convert(val);
+                    //}
+
+
+                    //# mapping is not possible (source is null) or mapping mode is COPY
                     if (targetMemberDescription.CanSetValue && (mappedValueCandidate == null || options.Mode == MappingMode.Copy))
                     {
                         // if value is null and options are set to igonre nulls, then just skip this member and continue
-                        if(options.IgnoreNulls)
+                        if (options.IgnoreNulls)
                             continue;
 
                         targetMemberDescription.SetValue(target, mappedValueCandidate);
                         continue;
                     }
-                    else
+
+                    var targetMemberValue = targetMemberDescription.GetValue(target);
+
+                    //# if source is null and was not handled before, this property cannot be mapped
+                    if(mappedValueCandidate == null)
                     {
-                        var targetMemberValue = targetMemberDescription.GetValue(target);
-
-                        var sourceValType = mappedValueCandidate.GetType();
-                        var targetValType = (Type)null;
-
-                        if (targetMemberDescription.CanSetValue && targetMemberValue == null)
+                        if(targetMemberValue == null)
                         {
-                            // target value is null
-                            // if source type and target type are compatible, clone source value
-                            if (ms.IsToTypeAssignableFromFromType)
-                            {
-                                mappedValueCandidate = MapInternal(mappedValueCandidate, sourceValType, options, cx);
-                                targetMemberDescription.SetValue(target, mappedValueCandidate);
-                            }
-                            else
-                            {
-                                if(targetMemberDescription.MemberType.Type.IsInterface)
-                                {
-                                    // todo: log warning, unable to map source interface to target interface (don't which concrete type to use)
-                                }
-                                else
-                                {
-                                    targetType = targetMemberDescription.MemberType.Type;
-
-                                    mappedValueCandidate = MapInternal(mappedValueCandidate, targetType, options, cx);
-                                    targetMemberDescription.SetValue(target, mappedValueCandidate);
-                                }
-                            }
+                            // target is already null, can just skip
+                            continue;
                         }
-                        else if(targetMemberDescription.CanSetValue && targetMemberDescription.MemberType.IsValueType)
+
+                        if(!targetMemberDescription.CanSetValue)
                         {
-                            mappedValueCandidate = MapInternal(mappedValueCandidate, targetMemberDescription.MemberType.Type, options, cx);
+                            InternalTrace.Information(
+                                () => 
+                                    "Unable to map property {0} on type {1}. target property is read-only"
+                                    .FormatWith(targetMemberDescription.Name, targetMemberDescription.DeclaringType.Name));
+                        }
+
+                        InternalTrace.Information(
+                                () =>
+                                    "Unable to map property {0} on type {1}."
+                                    .FormatWith(targetMemberDescription.Name, targetMemberDescription.DeclaringType.Name));
+
+                        // skip mapping of this property
+                        continue;
+                    }
+
+                    var sourceValType = mappedValueCandidate.GetType();
+                    var targetValType = (Type)null;
+
+                    if (targetMemberDescription.CanSetValue && targetMemberValue == null)
+                    {
+                        // target value is null
+                        // if source type and target type are compatible, clone source value
+                        if (ms.IsToTypeAssignableFromFromType)
+                        {
+                            mappedValueCandidate = MapInternal(mappedValueCandidate, sourceValType, options, cx);
                             targetMemberDescription.SetValue(target, mappedValueCandidate);
                         }
                         else
                         {
-                            // map
-                            targetValType = targetMemberValue.GetType();
-
-                            var _key = new TypeMappingStrategyKey(sourceValType, targetValType);
-                            var _ms = TypeMappingStrategies.GetOrAdd(_key, (_) => CreateDefaultTypeMappingStrategy(sourceValType, targetValType));
-
-                            var targetMemberValueAsIList = targetMemberValue as IList;
-
-                            if (targetMemberValueAsIList != null)
+                            if (targetMemberDescription.MemberType.Type.IsInterface)
                             {
-                                if (options.ReuseTargetCollectionsWhenPossible && !targetMemberValueAsIList.IsReadOnly)
+                                // todo: log warning, unable to map source interface to target interface (don't which concrete type to use)
+                            }
+                            else
+                            {
+                                targetType = targetMemberDescription.MemberType.Type;
+
+                                mappedValueCandidate = MapInternal(mappedValueCandidate, targetType, options, cx);
+                                targetMemberDescription.SetValue(target, mappedValueCandidate);
+                            }
+                        }
+                    }
+                    else if (targetMemberDescription.CanSetValue && targetMemberDescription.MemberType.IsValueType)
+                    {
+                        mappedValueCandidate = MapInternal(mappedValueCandidate, targetMemberDescription.MemberType.Type, options, cx);
+                        targetMemberDescription.SetValue(target, mappedValueCandidate);
+                    }
+                    else
+                    {
+                        // map
+                        targetValType = targetMemberValue.GetType();
+
+                        var _key = new TypeMappingStrategyKey(sourceValType, targetValType);
+                        var _ms = TypeMappingStrategies.GetOrAdd(_key, (_) => CreateDefaultTypeMappingStrategy(sourceValType, targetValType));
+
+                        var targetMemberValueAsIList = targetMemberValue as IList;
+
+                        if (targetMemberValueAsIList != null)
+                        {
+                            if (options.ReuseTargetCollectionsWhenPossible && !targetMemberValueAsIList.IsReadOnly)
+                            {
+                                MapInternal(mappedValueCandidate, targetMemberValue, sourceValType, targetValType, _ms, options, cx);
+                            }
+                            else
+                            {
+                                if (!targetMemberDescription.CanSetValue)
+                                {
+                                    // cannot set value and target list is readonly
+                                    // nothing we can do here
+                                    // todo: log information
+                                }
+                                else
+                                {
+                                    // can set value, do not reuse target collection and recreate it instead
+                                    MapInternal(mappedValueCandidate, targetValType, options, cx, _ms);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (targetMemberDescription.MemberType.Type.ImplementsInterface<IList>()) // or Icollection ?
+                            {
+                                if (options.ReuseTargetCollectionsWhenPossible)
                                 {
                                     MapInternal(mappedValueCandidate, targetMemberValue, sourceValType, targetValType, _ms, options, cx);
                                 }
@@ -399,9 +450,8 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                                 {
                                     if (!targetMemberDescription.CanSetValue)
                                     {
-                                        // cannot set value and target list is readonly
-                                        // nothing we can do here
-                                        // todo: log information
+                                        // cannot set value, resue target collection then
+                                        MapInternal(mappedValueCandidate, targetMemberValue, sourceValType, targetValType, _ms, options, cx);
                                     }
                                     else
                                     {
@@ -412,30 +462,7 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                             }
                             else
                             {
-                                if (targetMemberDescription.MemberType.Type.ImplementsInterface<IList>()) // or Icollection ?
-                                {
-                                    if (options.ReuseTargetCollectionsWhenPossible)
-                                    {
-                                        MapInternal(mappedValueCandidate, targetMemberValue, sourceValType, targetValType, _ms, options, cx);
-                                    }
-                                    else
-                                    {
-                                        if (!targetMemberDescription.CanSetValue)
-                                        {
-                                            // cannot set value, resue target collection then
-                                            MapInternal(mappedValueCandidate, targetMemberValue, sourceValType, targetValType, _ms, options, cx);
-                                        }
-                                        else
-                                        {
-                                            // can set value, do not reuse target collection and recreate it instead
-                                            MapInternal(mappedValueCandidate, targetValType, options, cx, _ms);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    MapInternal(mappedValueCandidate, targetMemberValue, sourceValType, targetValType, _ms, options, cx);
-                                }
+                                MapInternal(mappedValueCandidate, targetMemberValue, sourceValType, targetValType, _ms, options, cx);
                             }
                         }
                     }
