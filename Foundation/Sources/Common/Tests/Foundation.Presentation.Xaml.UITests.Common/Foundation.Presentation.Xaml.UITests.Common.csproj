@@ -56,6 +56,10 @@
     </ApplicationDefinition>
     <Compile Include="Converters\ConvertersView.cs" />
     <Compile Include="Converters\ConvertersViewModel.cs" />
+    <Compile Include="UIExamples\ToolTipView.cs" />
+    <Compile Include="UIExamples\ToolTipViewModel.cs" />
+    <Compile Include="UIExamples\ToolTip\ExampleTooltipView.cs" />
+    <Compile Include="UIExamples\ToolTip\ExampleTooltipViewModel.cs" />
     <Compile Include="UIExamples\UIExamplesView.cs" />
     <Compile Include="UIExamples\UIExamplesViewModel.cs" />
     <Compile Include="XamlResources.cs" />
@@ -134,6 +138,16 @@
     <Page Include="MVVM\ViewModelEvents\ViewModelEventsTests.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UIExamples\ToolTipView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="UIExamples\ToolTip\ExampleTooltipView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Page>
     <Page Include="XamlResources.xaml">
       <SubType>Designer</SubType>

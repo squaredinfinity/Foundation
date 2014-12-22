@@ -1,0 +1,40 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:local="clr-namespace:Foundation.Presentation.Xaml.UITests.UIExamples"
+                    xmlns:localtp="clr-namespace:Foundation.Presentation.Xaml.UITests.UIExamples.ToolTip">
+    <Style TargetType="{x:Type local:ToolTipView}">
+        <Style.Resources>
+            <localtp:ExampleTooltipView x:Key="tooltip_template" />
+        </Style.Resources>
+        <Style.Setters>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type local:ToolTipView}">
+                        <TabControl>
+                            <TabItem Header="General">
+                                <ListView>
+                                    <ListViewItem Content="{Binding}" ToolTip="{StaticResource tooltip_template}">
+                                        <ListViewItem.DataContext>
+                                            <sys:String>ONE</sys:String>
+                                        </ListViewItem.DataContext>
+                                    </ListViewItem>
+                                    <ListViewItem Content="{Binding}" ToolTip="{StaticResource tooltip_template}">
+                                        <ListViewItem.DataContext>
+                                            <sys:String>TWO</sys:String>
+                                        </ListViewItem.DataContext>
+                                    </ListViewItem>
+                                    <ListViewItem Content="{Binding}" ToolTip="{StaticResource tooltip_template}">
+                                        <ListViewItem.DataContext>
+                                            <sys:String>THREE</sys:String>
+                                        </ListViewItem.DataContext>
+                                    </ListViewItem>
+                                </ListView>
+                            </TabItem>
+                        </TabControl>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+</ResourceDictionary>

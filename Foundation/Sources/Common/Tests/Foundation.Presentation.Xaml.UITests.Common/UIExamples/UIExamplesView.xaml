@@ -13,6 +13,10 @@
                                               SelectedValue="{TemplatedParentBinding ViewModel.SelectedFontWeight}" />
                                 </StackPanel>
                             </TabItem>
+                            <TabItem Header="Tool Tip">
+                                <local:ToolTipView HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"/>
+                            </TabItem>
                         </TabControl>
                     </ControlTemplate>
                 </Setter.Value>

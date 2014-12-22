@@ -10,5 +10,7 @@
 
         <ResourceDictionary Source="{ResourceFromThisAssembly /Converters/ConvertersView.xaml}" />
         <ResourceDictionary Source="{ResourceFromThisAssembly /UIExamples/UIExamplesView.xaml}" />
+        <ResourceDictionary Source="{ResourceFromThisAssembly /UIExamples/ToolTipView.xaml}" />
+        <ResourceDictionary Source="{ResourceFromThisAssembly /UIExamples/ToolTip/ExampleTooltipView.xaml}" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

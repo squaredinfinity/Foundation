@@ -284,6 +284,31 @@ namespace SquaredInfinity.Foundation.Extensions
             return null;
         }
 
+        /// <summary>
+        /// Find top most parent visual for this element.
+        /// </summary>
+        /// <param name="me"></param>
+        /// <returns></returns>
+        public static DependencyObject FindVisualRoot(this DependencyObject me)
+        {
+            me = me.FindNearestVisual();
+
+            DependencyObject result = me.GetVisualParent();
+
+            if (result == null)
+                return null;
+
+            var nextParent = result.GetVisualParent();
+
+            while (nextParent != null)
+            {
+                result = nextParent;
+                nextParent = nextParent.GetVisualParent();
+            }
+
+            return result;
+        }
+
 
            public static TParent FindLogicalParent<TParent>(this DependencyObject me)
             where TParent : DependencyObject

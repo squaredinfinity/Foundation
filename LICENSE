@@ -1,19 +1,4 @@
-
-
-        public class IndexInAnotherListComparer2<TItem> : CompositeComparer<TItem>
-        {
-            public IndexInAnotherListComparer2(IList<TItem> listToSort, IList<TItem> anotherList)
-            {
-                var toSortComparer = new IndexInListComparer<TItem>(listToSort);
-                var anotherComparer = new IndexInListComparer<TItem>(anotherList);
-
-                Comparisons.Add((x, y) => anotherComparer.Compare(x, y));
-                Comparisons.Add((x, y) => toSortComparer.Compare(x, y));
-            }
-        }
-        
-        
-        
+       
             public static class Highlight
     {
 
@@ -121,7 +106,12 @@
             typeof(Highlight));
 
         public static void AddAfterHoverHighlightBrushChangedHandler(DependencyObject d, RoutedEventHandler handler)
-        {
+        
+		{
+
+		// todo: check if this and d have common ancestor?
+		// if not, then this may be inside popup?
+
             UIElement uie = d as UIElement;
             if (uie != null)
             {
