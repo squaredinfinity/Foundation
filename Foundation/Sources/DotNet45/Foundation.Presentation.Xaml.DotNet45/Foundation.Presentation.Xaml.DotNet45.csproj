@@ -84,6 +84,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\ForwardTextInput.cs">
       <Link>Behaviors\ForwardTextInput.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\Highlight.cs">
+      <Link>Behaviors\Highlight.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\Hyperlink.OpenInDefaultBrowser.cs">
       <Link>Behaviors\Hyperlink.OpenInDefaultBrowser.cs</Link>
     </Compile>
@@ -104,6 +107,18 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\TextBoxBase.Watermark.cs">
       <Link>Behaviors\TextBoxBase.Watermark.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\TreeView.behaviors.cs">
+      <Link>Behaviors\TreeView.behaviors.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\TreeView.MultiSelection.cs">
+      <Link>Behaviors\TreeView.MultiSelection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\TreeView.PreventAutomaticScrolling.cs">
+      <Link>Behaviors\TreeView.PreventAutomaticScrolling.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\TreeView.SelectionChangedInhibitor.cs">
+      <Link>Behaviors\TreeView.SelectionChangedInhibitor.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Collections\ObservableCollectionEx.Batch.cs">
       <Link>Collections\ObservableCollectionEx.Batch.cs</Link>

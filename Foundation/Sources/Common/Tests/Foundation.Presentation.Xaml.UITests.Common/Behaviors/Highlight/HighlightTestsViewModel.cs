@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Foundation.Presentation.Xaml.UITests.UIExamples
+namespace Foundation.Presentation.Xaml.UITests.Behaviors.Highlight
 {
-    public class ToolTipViewModel : ViewModel
+    public class HighlightTestsViewModel : ViewModel
     {
-
     }
 }

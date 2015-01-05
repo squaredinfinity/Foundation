@@ -3,6 +3,13 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:local="clr-namespace:Foundation.Presentation.Xaml.UITests.UIExamples"
                     xmlns:localtp="clr-namespace:Foundation.Presentation.Xaml.UITests.UIExamples.ToolTip">
+    
+    <!--
+    Defining Tooltips as a resource increases performance, when tooltips are complex and displayed on many elements (e.g. table cells).
+    this is because tooltip control is loaded only once and only Data Context changes when displaying tooltip for different element
+    this also allows for tooltip information to be loaded asyncronously and on demand, when tooltip has its own View Model (created when Data Context changes)
+    -->
+    
     <Style TargetType="{x:Type local:ToolTipView}">
         <Style.Resources>
             <localtp:ExampleTooltipView x:Key="tooltip_template" />

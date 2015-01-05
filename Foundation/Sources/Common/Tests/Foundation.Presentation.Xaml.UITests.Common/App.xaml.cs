@@ -30,6 +30,10 @@ namespace Foundation.Presentation.Xaml.UITests.Common
             //# Alternative way to load default SquaredInfinity.Presentation.Foundation resources (without MEF)
             // var resources = new SquaredInfinity.Foundation.Presentation.XamlResources();
             // resources.LoadAndMergeResources();
+
+            var modern_style_resources = new SquaredInfinity.Foundation.Presentation.Styles.Modern.XamlResources();
+            modern_style_resources.LoadAndMergeResources();
+            modern_style_resources.ApplyAllStyles();
         }
     }
 }

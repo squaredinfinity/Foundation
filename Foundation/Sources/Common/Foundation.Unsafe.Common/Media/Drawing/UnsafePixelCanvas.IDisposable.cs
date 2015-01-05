@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Media
+namespace SquaredInfinity.Foundation.Media.Drawing
 {
-    public unsafe partial class FastWriteableBitmap
+    public partial class UnsafePixelCanvas
     {
         public void Dispose()
         {
@@ -14,7 +14,7 @@ namespace SquaredInfinity.Foundation.Media
             GC.SuppressFinalize(this);
         }
 
-        ~FastWriteableBitmap()
+        ~UnsafePixelCanvas()
         {
             Dispose(false);
         }
@@ -33,13 +33,6 @@ namespace SquaredInfinity.Foundation.Media
         { }
 
         void DisposeManagedResources()
-        {
-            if (image != null)
-            {
-                image.UnlockBits(imageData);
-                image.Dispose();
-                image = null;
-            }
-        }
+        { }
     }
 }

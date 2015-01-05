@@ -72,6 +72,7 @@
     <Compile Include="Behaviors\DialogHost.MinWidth.cs" />
     <Compile Include="Behaviors\ForwardKeyEvents.cs" />
     <Compile Include="Behaviors\ForwardTextInput.cs" />
+    <Compile Include="Behaviors\Highlight.cs" />
     <Compile Include="Behaviors\Hyperlink.OpenInDefaultBrowser.cs" />
     <Compile Include="Behaviors\Selector.ItemDoubleClick.cs" />
     <Compile Include="Behaviors\Control.DoubleClick.cs" />
@@ -80,6 +81,10 @@
     <Compile Include="Behaviors\ColumnHeaders.Visibility.cs" />
     <Compile Include="Behaviors\TextBoxBase.ClearButton.cs" />
     <Compile Include="Behaviors\TextBoxBase.Watermark.cs" />
+    <Compile Include="Behaviors\TreeView.behaviors.cs" />
+    <Compile Include="Behaviors\TreeView.MultiSelection.cs" />
+    <Compile Include="Behaviors\TreeView.PreventAutomaticScrolling.cs" />
+    <Compile Include="Behaviors\TreeView.SelectionChangedInhibitor.cs" />
     <Compile Include="Collections\ObservableCollectionEx.Batch.cs" />
     <Compile Include="Collections\ObservableCollectionEx.cs" />
     <Compile Include="Collections\ObservableCollectionEx.INotifyCollectionChanged.cs" />

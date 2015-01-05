@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:views="clr-namespace:Foundation.Presentation.Xaml.UITests.Common.Behaviors"
+             xmlns:highlight="clr-namespace:Foundation.Presentation.Xaml.UITests.Behaviors.Highlight"
              xmlns:behaviors="http://schemas.squaredinfinity.com/foundation/behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -16,6 +17,9 @@
         </TabItem>
         <TabItem Header="Multiselection">
             <views:MultiSelectionTestsView />
+        </TabItem>
+        <TabItem Header="Highlight">
+            <highlight:HighlightTestsView />
         </TabItem>
     </TabControl>
 </UserControl>

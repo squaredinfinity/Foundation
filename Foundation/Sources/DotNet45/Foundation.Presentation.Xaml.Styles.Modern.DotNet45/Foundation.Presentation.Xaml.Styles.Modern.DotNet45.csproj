@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E74AA52F-639C-45AD-A395-351BDE0558C1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern</RootNamespace>
+    <AssemblyName>SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.DotNet45</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\Button.xaml">
+      <Link>Styles\Button.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\CheckBox.xaml">
+      <Link>Styles\CheckBox.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\ComboBox.xaml">
+      <Link>Styles\ComboBox.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\Expander.xaml">
+      <Link>Styles\Expander.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\FocusVisual.xaml">
+      <Link>Styles\FocusVisual.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\GridViewColumnHeader.xaml">
+      <Link>Styles\GridViewColumnHeader.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\GridViewColumnHeaderGripper.xaml">
+      <Link>Styles\GridViewColumnHeaderGripper.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\GroupBox.xaml">
+      <Link>Styles\GroupBox.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\Hyperlink.xaml">
+      <Link>Styles\Hyperlink.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\Label.xaml">
+      <Link>Styles\Label.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\ListBox.xaml">
+      <Link>Styles\ListBox.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\ListView.xaml">
+      <Link>Styles\ListView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\ListViewItem.xaml">
+      <Link>Styles\ListViewItem.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\Menu.xaml">
+      <Link>Styles\Menu.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\MenuItem.xaml">
+      <Link>Styles\MenuItem.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\RadioButton.xaml">
+      <Link>Styles\RadioButton.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\ScrollBar.xaml">
+      <Link>Styles\ScrollBar.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\TabControl.xaml">
+      <Link>Styles\TabControl.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\TextBlock.xaml">
+      <Link>Styles\TextBlock.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\TextBox.xaml">
+      <Link>Styles\TextBox.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\ToggleButton.xaml">
+      <Link>Styles\ToggleButton.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\TreeView.xaml">
+      <Link>Styles\TreeView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\TreeViewItem.xaml">
+      <Link>Styles\TreeViewItem.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\Window.xaml">
+      <Link>Styles\Window.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Foundation.DotNet45\Foundation.DotNet45.csproj">
+      <Project>{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}</Project>
+      <Name>Foundation.DotNet45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundation.Presentation.Xaml.DotNet45\Foundation.Presentation.Xaml.DotNet45.csproj">
+      <Project>{48e58f39-a7b8-44d9-afbf-7985e42208c9}</Project>
+      <Name>Foundation.Presentation.Xaml.DotNet45</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

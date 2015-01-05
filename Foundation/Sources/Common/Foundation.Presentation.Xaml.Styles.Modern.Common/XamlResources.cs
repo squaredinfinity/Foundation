@@ -1,0 +1,44 @@
+﻿using SquaredInfinity.Foundation.Presentation;
+using SquaredInfinity.Foundation.Presentation.Resources;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+
+namespace  SquaredInfinity.Foundation.Presentation.Styles.Modern
+{
+    public class XamlResources
+    {
+        public void LoadAndMergeResources()
+        {
+            ResourcesManager.LoadAndMergeCompiledResourceDictionaryFromThisAssembly(@"All.xaml");
+        }
+
+        public void ApplyAllStyles()
+        {
+            Application.Current.Resources[typeof(Button)] = Application.Current.Resources["Styles.Button"];
+            Application.Current.Resources[typeof(CheckBox)] = Application.Current.Resources["Styles.CheckBox"];
+            Application.Current.Resources[typeof(ComboBox)] = Application.Current.Resources["Styles.ComboBox"];
+            Application.Current.Resources[typeof(Expander)] = Application.Current.Resources["Styles.Expander"];
+            Application.Current.Resources[typeof(Menu)] = Application.Current.Resources["Styles.Menu"];
+            Application.Current.Resources[typeof(MenuItem)] = Application.Current.Resources["Styles.MenuItem"];
+            Application.Current.Resources[typeof(ListView)] = Application.Current.Resources["Styles.ListView"];
+            Application.Current.Resources[typeof(ListViewItem)] = Application.Current.Resources["Styles.ListViewItem"];
+            Application.Current.Resources[typeof(RadioButton)] = Application.Current.Resources["Styles.RadioButton"];
+            Application.Current.Resources[typeof(ScrollBar)] = Application.Current.Resources["Styles.ScrollBar"];
+            Application.Current.Resources[typeof(TabControl)] = Application.Current.Resources["Styles.TabControl"];
+
+
+
+
+
+
+
+
+        }
+    }
+}

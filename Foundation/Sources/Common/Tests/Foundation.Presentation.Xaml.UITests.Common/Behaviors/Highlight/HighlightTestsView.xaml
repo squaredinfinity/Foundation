@@ -1,0 +1,52 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:local="clr-namespace:Foundation.Presentation.Xaml.UITests.Behaviors.Highlight">
+    <Style TargetType="{x:Type local:HighlightTestsView}">
+        <Style.Setters>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type local:HighlightTestsView}">
+                        <StackPanel Orientation="Vertical">
+                            <Menu>
+                                <MenuItem Header="{Binding}" ToolTip="{Binding}">
+                                    <MenuItem.DataContext>
+                                        <sys:String>ONE</sys:String>
+                                    </MenuItem.DataContext>
+                                </MenuItem>
+                                <MenuItem Header="{Binding}" ToolTip="{Binding}">
+                                    <MenuItem.DataContext>
+                                        <sys:String>TWO</sys:String>
+                                    </MenuItem.DataContext>
+                                    <MenuItem Header="{Binding}" ToolTip="{Binding}">
+                                        <MenuItem.DataContext>
+                                            <sys:String>TWO | SUB ITEM</sys:String>
+                                        </MenuItem.DataContext>
+                                    </MenuItem>
+                                </MenuItem>
+                            </Menu>
+                            
+                            <ListView>
+                                <ListViewItem Content="{Binding}" ToolTip="{Binding}">
+                                    <ListViewItem.DataContext>
+                                        <sys:String>ONE</sys:String>
+                                    </ListViewItem.DataContext>
+                                </ListViewItem>
+                                <ListViewItem Content="{Binding}" ToolTip="{Binding}">
+                                    <ListViewItem.DataContext>
+                                        <sys:String>TWO</sys:String>
+                                    </ListViewItem.DataContext>
+                                </ListViewItem>
+                                <ListViewItem Content="{Binding}" ToolTip="{Binding}">
+                                    <ListViewItem.DataContext>
+                                        <sys:String>THREE</sys:String>
+                                    </ListViewItem.DataContext>
+                                </ListViewItem>
+                            </ListView>
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+</ResourceDictionary>

@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace  xxx.Foundation.Presentation.Views
+namespace CompositeApplication.Shell
 {
     /// <summary>
-    /// Interaction logic for DefaultAlertView.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class DefaultAlertView : UserControl
+    public partial class MainWindow : Window
     {
-        public DefaultAlertView()
+        public MainWindow()
         {
             InitializeComponent();
         }
