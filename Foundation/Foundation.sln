@@ -99,6 +99,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Unsafe.Common", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Presentation.Xaml.Styles.Modern.DotNet45", "Sources\DotNet45\Foundation.Presentation.Xaml.Styles.Modern.DotNet45\Foundation.Presentation.Xaml.Styles.Modern.DotNet45.csproj", "{E74AA52F-639C-45AD-A395-351BDE0558C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGet.Foundation.Unsafe", "Deployment\NuGet.Foundation.Unsafe\NuGet.Foundation.Unsafe.csproj", "{3D7262AD-A213-4DAE-971C-F60ABDBF4F83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGet.Foundation.Presentation.Xaml.Styles.Modern", "Deployment\NuGet.Foundation.Presentation.Xaml.Styles.Modern\NuGet.Foundation.Presentation.Xaml.Styles.Modern.csproj", "{3F869AD2-C74E-4E60-B0B5-5BCBBA56834F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".tools", ".tools", "{F74B9A84-30AE-494C-8296-01178FBDBC6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuget.DeployAllProjects", "tools\Nuget.DeployAllProjects\Nuget.DeployAllProjects.csproj", "{4A26D813-6EBA-4D59-9E45-A8210ACD6AA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Unsafe.DotNet45", "Sources\DotNet45\Foundation.Unsafe.DotNet45\Foundation.Unsafe.DotNet45.csproj", "{D434072A-9AC1-49C0-9FFB-BC602A58CB02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -200,6 +210,19 @@ Global
 		{E74AA52F-639C-45AD-A395-351BDE0558C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E74AA52F-639C-45AD-A395-351BDE0558C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E74AA52F-639C-45AD-A395-351BDE0558C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D7262AD-A213-4DAE-971C-F60ABDBF4F83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D7262AD-A213-4DAE-971C-F60ABDBF4F83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D7262AD-A213-4DAE-971C-F60ABDBF4F83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F869AD2-C74E-4E60-B0B5-5BCBBA56834F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F869AD2-C74E-4E60-B0B5-5BCBBA56834F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F869AD2-C74E-4E60-B0B5-5BCBBA56834F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A26D813-6EBA-4D59-9E45-A8210ACD6AA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A26D813-6EBA-4D59-9E45-A8210ACD6AA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A26D813-6EBA-4D59-9E45-A8210ACD6AA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D434072A-9AC1-49C0-9FFB-BC602A58CB02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D434072A-9AC1-49C0-9FFB-BC602A58CB02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D434072A-9AC1-49C0-9FFB-BC602A58CB02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D434072A-9AC1-49C0-9FFB-BC602A58CB02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -232,5 +255,9 @@ Global
 		{4089A67A-B628-40DC-A3A0-AD1CA32062B5} = {FE5524BE-5B37-4D2A-9081-CB156FD55B10}
 		{A5591E51-A4D0-4CEA-B7B0-A8033749D07B} = {3E3D143E-A6C5-4DED-8927-AEACF1F0784A}
 		{E74AA52F-639C-45AD-A395-351BDE0558C1} = {D95634A3-6069-430C-A3B5-97347AE8EF5F}
+		{3D7262AD-A213-4DAE-971C-F60ABDBF4F83} = {FE5524BE-5B37-4D2A-9081-CB156FD55B10}
+		{3F869AD2-C74E-4E60-B0B5-5BCBBA56834F} = {FE5524BE-5B37-4D2A-9081-CB156FD55B10}
+		{4A26D813-6EBA-4D59-9E45-A8210ACD6AA5} = {F74B9A84-30AE-494C-8296-01178FBDBC6A}
+		{D434072A-9AC1-49C0-9FFB-BC602A58CB02} = {D95634A3-6069-430C-A3B5-97347AE8EF5F}
 	EndGlobalSection
 EndGlobal

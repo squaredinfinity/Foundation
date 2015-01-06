@@ -1,16 +1,15 @@
-<?xml version="1.0"?>
-<package >
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package>
   <metadata>
     <id>SquaredInfinity.Foundation.Presentation.Xaml</id>
-    <version>1.0.20</version>
+    <version>1.0.23.0-beta</version>
     <title>SquaredInfinity.Foundation.Presentation.Xaml</title>
     <authors>Jarek Kardas</authors>
     <owners></owners>
     <description>
       SquaredInfinity.Foundation.Presentation.Xaml
     </description>
-    <releaseNotes>
-    </releaseNotes>
+    <releaseNotes></releaseNotes>
     <summary>
       SquaredInfinity.Foundation.Presentation.Xaml
     </summary>
@@ -22,18 +21,18 @@
     <copyright>Copyright  2014</copyright>
     <dependencies>
       <group targetFramework="net45">
-        <dependency id="SquaredInfinity.Foundation" version="1.0.20" />
+        <dependency id="SquaredInfinity.Foundation" version="1.0.23.0-beta" />
       </group>
     </dependencies>
     <references></references>
     <tags></tags>
   </metadata>
   <files>
-    <file src="..\..\Sources\DotNet45\Foundation.Presentation.Xaml.DotNet45\bin\Release\SquaredInfinity.Foundation.Presentation.Xaml.DotNet45.dll" target="lib\net45"  />
-    <file src="..\..\Sources\DotNet45\Foundation.Presentation.Xaml.DotNet45\bin\Release\SquaredInfinity.Foundation.Presentation.Xaml.DotNet45.xml" target="lib\net45"  />
-    <file src="..\..\Sources\DotNet45\Foundation.Presentation.Xaml.DotNet45\bin\Release\SquaredInfinity.Foundation.Presentation.Xaml.DotNet45.pdb" target="lib\net45"  />
-    <file src="..\..\Sources\**\*.cs" target="src"  />
-    <file src="..\..\Sources\**\*.xaml" target="src"  />
+    <file src="..\..\Sources\DotNet45\Foundation.Presentation.Xaml.DotNet45\bin\Release\SquaredInfinity.Foundation.Presentation.Xaml.DotNet45.dll" target="lib\net45" />
+    <file src="..\..\Sources\DotNet45\Foundation.Presentation.Xaml.DotNet45\bin\Release\SquaredInfinity.Foundation.Presentation.Xaml.DotNet45.xml" target="lib\net45" />
+    <file src="..\..\Sources\DotNet45\Foundation.Presentation.Xaml.DotNet45\bin\Release\SquaredInfinity.Foundation.Presentation.Xaml.DotNet45.pdb" target="lib\net45" />
+    <file src="..\..\Sources\**\*.cs" target="src" />
+    <file src="..\..\Sources\**\*.xaml" target="src" />
     <file src="tools\" target="tools" />
     <file src="content\" target="content" />
   </files>

@@ -1,0 +1,26 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Nuget.DeployAllProjects">
+    <Style TargetType="{x:Type local:MainView}">
+        <Style.Setters>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Nuget Packages Version Number:" />
+                                <TextBox Text="{TemplatedParentBinding ViewModel.VersionNumber}" />
+                                <Button Content="Update All Nuget Package Projects"
+                                        Margin="10"
+                                        Command="{CommandMethodBinding @TemplatedParent.ViewModel.UpdateAllProjects}"/>
+                                <Button Content="Publish All Nuget Package Projects"
+                                        Margin="10"
+                                        Command="{CommandMethodBinding @TemplatedParent.ViewModel.PublishAll}"/>                                
+                            </StackPanel>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+</ResourceDictionary>
