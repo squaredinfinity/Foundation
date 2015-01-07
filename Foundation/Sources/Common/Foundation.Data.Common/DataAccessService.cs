@@ -644,3 +644,102 @@ namespace SquaredInfinity.Foundation.Data
         }
     }
 }
+
+    public interface IDatabaseObjectNameResolver
+    {
+        string GetActualStoredProcedureName(string storedProcedureName);
+        string GetActualScalarFunctionName(string scalarFunctionName);
+    }
+
+    public class SqlDatabaseObjectNameResolver : IDatabaseObjectNameResolver
+    {
+        SqlDataAccessService2 _dataAccessService;
+        protected SqlDataAccessService2 DataAccessService
+        {
+            get { return _dataAccessService; }
+            private set { _dataAccessService = value; }
+        }
+
+        public SqlDatabaseObjectNameResolver(SqlDataAccessService2 dataAccessService)
+        {
+            this.DataAccessService = dataAccessService;
+        }
+
+        public virtual string GetActualStoredProcedureName(string storedProcedureName)
+        {
+            return storedProcedureName;
+        }
+
+        public virtual string GetActualScalarFunctionName(string scalarFunction)
+        {
+            return scalarFunction;
+        }
+    }
+
+    // todo: make connection factory protected
+
+    public class SqlDataAccessService_TEMP : SqlDataAccessService
+    {
+        IDatabaseObjectNameResolver _databaseObjectNameResolver;
+        public IDatabaseObjectNameResolver DatabaseObjectNameResolver
+        {
+            get { return _databaseObjectNameResolver; }
+            set { _databaseObjectNameResolver = value; }
+        }
+
+        public bool CheckStoredProcedureExists(string storedProcedureName)
+        {
+            // "P" means Stored Procedure, see http://msdn.microsoft.com/en-us/library/ms190324.aspx
+            return CheckDatabaseObjectExists(storedProcedureName, "P");
+        }
+
+        public bool CheckScalarFunctionExists(string functionName)
+        {
+            // "FN" means Scalar Function, see http://msdn.microsoft.com/en-us/library/ms190324.aspx
+            return CheckDatabaseObjectExists(functionName, "FN");
+        }
+
+        public bool CheckViewExists(string viewName)
+        {
+            // "V" means View, see http://msdn.microsoft.com/en-us/library/ms190324.aspx
+            return CheckDatabaseObjectExists(viewName, "V");
+        }
+
+        /// <summary>
+        /// see http://msdn.microsoft.com/en-us/library/ms190324.aspx
+        /// </summary>
+        /// <param name="objectName"></param>
+        /// <param name="objectType"></param>
+        /// <returns></returns>
+        public bool CheckDatabaseObjectExists(string objectName, string objectType = null)
+        {
+            if (objectType == null)
+            {
+                return ExecuteScalarText<bool>("select case when OBJECT_ID('{0}') IS NULL then 0 else 1 end".FormatWith(objectName));
+            }
+            else
+            {
+                return ExecuteScalarText<bool>("select case when OBJECT_ID('{0}', '{1}') IS NULL then 0 else 1 end".FormatWith(objectName, objectType));
+            }
+        }
+
+        public T ExecuteScalarText<T>(string sql) { }
+
+        // todo: ExecuteScalarTextInternalWithRetry and ExecuteScalarTextInternal, instead of new method, make CommandType a parameter
+        // also make protected
+
+        protected override SqlCommand PrepareCommand(SqlConnection connection, CommandType commandType, string commandText, IEnumerable<SqlParameter> parameters)
+        {
+            var nameResolver = DatabaseObjectNameResolver;
+
+            if (nameResolver != null)
+            {
+                if (commandType == CommandType.StoredProcedure)
+                {
+                    commandText = nameResolver.GetActualStoredProcedureName(commandText);
+                }
+            }
+
+            return base.PrepareCommand(connection, commandType, commandText, parameters);
+        }
+    }
