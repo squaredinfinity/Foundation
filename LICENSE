@@ -343,3 +343,78 @@
         
         <Setter Property="local:Highlight.SelectionHighlightBrush" Value="{DynamicResource Brushes.ListItem.Selected.Background}" />
         
+
+1. blit
+2. conversion to writablebitmap
+3. perhaps expose pixels array (e.g. via GetPixels())
+
+row size = http://en.wikipedia.org/wiki/BMP_file_format
+
+ var bmp = new WriteableBitmap((int)rd.Width, (int)rd.Height, 96, 96, PixelFormats.Pbgra32, palette: null);
+
+                using (var cx = bmp.GetBitmapContext(ReadWriteMode.ReadWrite))
+                {
+                    BitmapContext.BlockCopy((int[])rd.Pixels, 0, cx, 0, rd.Pixels.Count);
+                }
+
+                bmp.Freeze();
+
+
+                 // #    Overview
+            //      ARGB channels have 1 byte each
+            //      RGB channels are pre-multiplied by A, to improve performance of certain operations that use transparency
+
+#if NOT_OPTIMIZED
+
+            //# Below is a non-optimized version of conversion algorithm
+
+            // get Alpha value as a fraction of maximum channel value
+            var a_fraction = color.A / 255;
+
+            // construct final 32bit color by moving each channel value to appropriate place
+            // BITS:        xxxx|xxxx|xxxx|xxxx
+            // CHANNELS:      A | R' | G' | B'      (note: R',G',B' are pre-multiplied channels)
+            var color32 =
+                (color.A << 24)
+                // R,G,B channels must be premultiplied by Alpha
+                | (color.R * a_fraction) << 16
+                | (color.G * a_fraction) << 8
+                | (color.B * a_fraction);
+#else
+            // NOTE:    This is an optimized version of algorithm above
+            //          It avoids floating point arithmetics for faster execution
+
+
+            // add 1 to original alpha
+            // this will make sure that after multiplication by 
+            // channel all significant bits are stored in a first byte of the result
+
+            // for example:
+            //  A: 255
+            //  R: 255
+            //      non-optimized way: 
+            //          A/255 = 255/255 = 1
+            //          R * 1 = 255 | 1111 1111
+            //      optimized way (if '1' not added)
+            //          255 * 255 = 65025 | 1111 1110 0000 0001 <- notice 8th bit is 0 instead of 1
+            //      optimized way ('1' added)
+            //          256 * 255 = 65280 | 1111 1111 0000 0000 <- all significant bits have correct values
+            //
+            //  R: 51
+            //      non-optimized way: 
+            //          A/255 = 255/255 = 1
+            //          R * 1 = 51 | 0011 0011
+            //      optimized way (if '1' not added)
+            //          255 * 51 = 13005 | 0011 0010 1100 1101 <- <- notice 8th bit is 0 instead of 1
+            //      optimized way ('1' added)
+            //          256 * 51 = 13056 | 0011 0011 0000 0000 <- all significant bits have correct values
+            var a = color.A + 1;
+
+            var color32 =
+                (color.A << 24)
+                // R,G,B channels must be premultiplied by Alpha
+                // shift right by 8 bits to keep only most significant byte of the multiplication result
+                | ((color.R * a) >> 8) << 16
+                | ((color.G * a) >> 8) << 8
+                | ((color.B * a) >> 8);
+#endif
