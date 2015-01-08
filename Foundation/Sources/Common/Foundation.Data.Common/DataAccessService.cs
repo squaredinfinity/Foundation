@@ -22,7 +22,14 @@ namespace SquaredInfinity.Foundation.Data
     {
         protected ILogger Logger { get; private set; }
 
-        ConnectionFactory<TConnection> ConnectionFactory { get; set; }
+        protected ConnectionFactory<TConnection> ConnectionFactory { get; set; }
+
+        IDatabaseObjectNameResolver _databaseObjectNameResolver;
+        public IDatabaseObjectNameResolver DatabaseObjectNameResolver
+        {
+            get { return _databaseObjectNameResolver; }
+            set { _databaseObjectNameResolver = value; }
+        }
 
         public TimeSpan DefaultCommandTimeout { get; set; }
 
@@ -286,7 +293,7 @@ namespace SquaredInfinity.Foundation.Data
             var parameters = new List<TParameter>();
             parameters.Add(resultParameter);
 
-            ExecuteScalarInternalWithRetry(ConnectionFactory, functionName, parameters);
+            ExecuteScalarInternalWithRetry(ConnectionFactory, CommandType.StoredProcedure, functionName, parameters);
 
             var result = resultParameter.Value;
 
@@ -302,7 +309,7 @@ namespace SquaredInfinity.Foundation.Data
 
             all_parameters.Add(resultParameter);
 
-            ExecuteScalarInternalWithRetry(ConnectionFactory, functionName, all_parameters);
+            ExecuteScalarInternalWithRetry(ConnectionFactory, CommandType.StoredProcedure, functionName, all_parameters);
 
             var result = resultParameter.Value;
 
@@ -311,7 +318,7 @@ namespace SquaredInfinity.Foundation.Data
 
         public T ExecuteScalar<T>(string procName)
         {
-            var result = ExecuteScalarInternalWithRetry(ConnectionFactory, procName, new List<TParameter>());
+            var result = ExecuteScalarInternalWithRetry(ConnectionFactory, CommandType.StoredProcedure, procName, new List<TParameter>());
 
             if (result == null && !typeof(T).IsNullable())
                 throw new InvalidCastException(
@@ -328,7 +335,7 @@ namespace SquaredInfinity.Foundation.Data
 
         public T ExecuteScalar<T>(string procName, IEnumerable<TParameter> parameters)
         {
-            var result = ExecuteScalarInternalWithRetry(ConnectionFactory, procName, parameters);
+            var result = ExecuteScalarInternalWithRetry(ConnectionFactory, CommandType.StoredProcedure, procName, parameters);
 
             if (result == null && !typeof(T).IsNullable())
                 throw new InvalidCastException(
@@ -345,7 +352,8 @@ namespace SquaredInfinity.Foundation.Data
 
         object ExecuteScalarInternalWithRetry(
             ConnectionFactory<TConnection> connectionFactory, 
-            string procname, 
+            CommandType commandType,
+            string commandText, 
             IEnumerable<TParameter> parameters)
         {
             return RetryPolicy
@@ -353,21 +361,23 @@ namespace SquaredInfinity.Foundation.Data
                 {
                     return ExecuteScalarInternal(
                         connectionFactory,
-                        procname,
+                        commandType,
+                        commandText,
                         parameters);
                 });
         }
 
-        object ExecuteScalarInternal(
-            ConnectionFactory<TConnection> connectionFactory, 
-            string procname, 
+        protected object ExecuteScalarInternal(
+            ConnectionFactory<TConnection> connectionFactory,
+            CommandType commandType,
+            string commandText,
             IEnumerable<TParameter> parameters)
         {
             using (var connection = connectionFactory.GetNewConnection())
             {
                 connection.Open();
-                
-                using (var command = PrepareCommand(connection, CommandType.StoredProcedure, procname, parameters))
+
+                using (var command = PrepareCommand(connection, commandType, commandText, parameters))
                 {
                     var result = command.ExecuteScalar();
 
@@ -381,8 +391,30 @@ namespace SquaredInfinity.Foundation.Data
             }
         }
 
+        public T ExecuteScalarText<T>(string sql)
+        {
+            var result = ExecuteScalarInternalWithRetry(ConnectionFactory, CommandType.Text, sql, new List<TParameter>());
+
+            if (result == null && !typeof(T).IsNullable())
+                throw new InvalidCastException(
+                    "{0} command returned NULL but expected type is non-nullable {1}"
+                    .FormatWith(sql, typeof(T).Name));
+
+            return MapToClrValue<T>(result);
+        }
+
         protected internal virtual TCommand PrepareCommand(TConnection connection, CommandType commandType, string commandText, IEnumerable<TParameter> parameters)
         {
+            var nameResolver = DatabaseObjectNameResolver;
+
+            if (nameResolver != null)
+            {
+                if (commandType == CommandType.StoredProcedure)
+                {
+                    commandText = nameResolver.GetActualStoredProcedureName(commandText);
+                }
+            }
+
             var command = connection.CreateCommand();
 
             command.CommandType = commandType;
@@ -493,6 +525,47 @@ namespace SquaredInfinity.Foundation.Data
                 // todo: add context data AssemblyQName
             }
         }
+
+
+        #region Check XXX Exists
+
+        public bool CheckStoredProcedureExists(string storedProcedureName)
+        {
+            // "P" means Stored Procedure, see http://msdn.microsoft.com/en-us/library/ms190324.aspx
+            return CheckDatabaseObjectExists(storedProcedureName, "P");
+        }
+
+        public bool CheckScalarFunctionExists(string functionName)
+        {
+            // "FN" means Scalar Function, see http://msdn.microsoft.com/en-us/library/ms190324.aspx
+            return CheckDatabaseObjectExists(functionName, "FN");
+        }
+
+        public bool CheckViewExists(string viewName)
+        {
+            // "V" means View, see http://msdn.microsoft.com/en-us/library/ms190324.aspx
+            return CheckDatabaseObjectExists(viewName, "V");
+        }
+
+        /// <summary>
+        /// see http://msdn.microsoft.com/en-us/library/ms190324.aspx
+        /// </summary>
+        /// <param name="objectName"></param>
+        /// <param name="objectType"></param>
+        /// <returns></returns>
+        public bool CheckDatabaseObjectExists(string objectName, string objectType = null)
+        {
+            if (objectType == null)
+            {
+                return ExecuteScalarText<bool>("select case when OBJECT_ID('{0}') IS NULL then 0 else 1 end".FormatWith(objectName));
+            }
+            else
+            {
+                return ExecuteScalarText<bool>("select case when OBJECT_ID('{0}', '{1}') IS NULL then 0 else 1 end".FormatWith(objectName, objectType));
+            }
+        }
+
+        #endregion
     }
 
     class CommandResultIterator<TEntity> : IEnumerable<TEntity>
@@ -644,102 +717,3 @@ namespace SquaredInfinity.Foundation.Data
         }
     }
 }
-
-    public interface IDatabaseObjectNameResolver
-    {
-        string GetActualStoredProcedureName(string storedProcedureName);
-        string GetActualScalarFunctionName(string scalarFunctionName);
-    }
-
-    public class SqlDatabaseObjectNameResolver : IDatabaseObjectNameResolver
-    {
-        SqlDataAccessService2 _dataAccessService;
-        protected SqlDataAccessService2 DataAccessService
-        {
-            get { return _dataAccessService; }
-            private set { _dataAccessService = value; }
-        }
-
-        public SqlDatabaseObjectNameResolver(SqlDataAccessService2 dataAccessService)
-        {
-            this.DataAccessService = dataAccessService;
-        }
-
-        public virtual string GetActualStoredProcedureName(string storedProcedureName)
-        {
-            return storedProcedureName;
-        }
-
-        public virtual string GetActualScalarFunctionName(string scalarFunction)
-        {
-            return scalarFunction;
-        }
-    }
-
-    // todo: make connection factory protected
-
-    public class SqlDataAccessService_TEMP : SqlDataAccessService
-    {
-        IDatabaseObjectNameResolver _databaseObjectNameResolver;
-        public IDatabaseObjectNameResolver DatabaseObjectNameResolver
-        {
-            get { return _databaseObjectNameResolver; }
-            set { _databaseObjectNameResolver = value; }
-        }
-
-        public bool CheckStoredProcedureExists(string storedProcedureName)
-        {
-            // "P" means Stored Procedure, see http://msdn.microsoft.com/en-us/library/ms190324.aspx
-            return CheckDatabaseObjectExists(storedProcedureName, "P");
-        }
-
-        public bool CheckScalarFunctionExists(string functionName)
-        {
-            // "FN" means Scalar Function, see http://msdn.microsoft.com/en-us/library/ms190324.aspx
-            return CheckDatabaseObjectExists(functionName, "FN");
-        }
-
-        public bool CheckViewExists(string viewName)
-        {
-            // "V" means View, see http://msdn.microsoft.com/en-us/library/ms190324.aspx
-            return CheckDatabaseObjectExists(viewName, "V");
-        }
-
-        /// <summary>
-        /// see http://msdn.microsoft.com/en-us/library/ms190324.aspx
-        /// </summary>
-        /// <param name="objectName"></param>
-        /// <param name="objectType"></param>
-        /// <returns></returns>
-        public bool CheckDatabaseObjectExists(string objectName, string objectType = null)
-        {
-            if (objectType == null)
-            {
-                return ExecuteScalarText<bool>("select case when OBJECT_ID('{0}') IS NULL then 0 else 1 end".FormatWith(objectName));
-            }
-            else
-            {
-                return ExecuteScalarText<bool>("select case when OBJECT_ID('{0}', '{1}') IS NULL then 0 else 1 end".FormatWith(objectName, objectType));
-            }
-        }
-
-        public T ExecuteScalarText<T>(string sql) { }
-
-        // todo: ExecuteScalarTextInternalWithRetry and ExecuteScalarTextInternal, instead of new method, make CommandType a parameter
-        // also make protected
-
-        protected override SqlCommand PrepareCommand(SqlConnection connection, CommandType commandType, string commandText, IEnumerable<SqlParameter> parameters)
-        {
-            var nameResolver = DatabaseObjectNameResolver;
-
-            if (nameResolver != null)
-            {
-                if (commandType == CommandType.StoredProcedure)
-                {
-                    commandText = nameResolver.GetActualStoredProcedureName(commandText);
-                }
-            }
-
-            return base.PrepareCommand(connection, commandType, commandText, parameters);
-        }
-    }

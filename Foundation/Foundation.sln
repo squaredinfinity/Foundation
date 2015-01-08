@@ -109,6 +109,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuget.DeployAllProjects", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Unsafe.DotNet45", "Sources\DotNet45\Foundation.Unsafe.DotNet45\Foundation.Unsafe.DotNet45.csproj", "{D434072A-9AC1-49C0-9FFB-BC602A58CB02}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Data.UnitTests.Common", "Sources\Common\Tests\Foundation.Data.UnitTests.Common\Foundation.Data.UnitTests.Common.csproj", "{1A75C3D1-C7F5-46FD-A1FC-39DBFC1A4299}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -223,6 +225,10 @@ Global
 		{D434072A-9AC1-49C0-9FFB-BC602A58CB02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D434072A-9AC1-49C0-9FFB-BC602A58CB02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D434072A-9AC1-49C0-9FFB-BC602A58CB02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A75C3D1-C7F5-46FD-A1FC-39DBFC1A4299}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A75C3D1-C7F5-46FD-A1FC-39DBFC1A4299}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A75C3D1-C7F5-46FD-A1FC-39DBFC1A4299}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A75C3D1-C7F5-46FD-A1FC-39DBFC1A4299}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -259,5 +265,6 @@ Global
 		{3F869AD2-C74E-4E60-B0B5-5BCBBA56834F} = {FE5524BE-5B37-4D2A-9081-CB156FD55B10}
 		{4A26D813-6EBA-4D59-9E45-A8210ACD6AA5} = {F74B9A84-30AE-494C-8296-01178FBDBC6A}
 		{D434072A-9AC1-49C0-9FFB-BC602A58CB02} = {D95634A3-6069-430C-A3B5-97347AE8EF5F}
+		{1A75C3D1-C7F5-46FD-A1FC-39DBFC1A4299} = {9B4D9910-B430-4643-8C5F-DF5844C1A45A}
 	EndGlobalSection
 EndGlobal

@@ -49,8 +49,14 @@
     <Compile Include="..\..\Common\Foundation.Data.Common\DataAccessService.cs">
       <Link>DataAccessService.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Data.Common\IDatabaseObjectNameResolver.cs">
+      <Link>IDatabaseObjectNameResolver.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Data.Common\Sql\SqlDataAccessService.cs">
       <Link>Sql\SqlDataAccessService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Data.Common\Sql\SqlDatabaseObjectNameResolver.cs">
+      <Link>Sql\SqlDatabaseObjectNameResolver.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Data.Common\Sql\SqlTransientFaultFilter.cs">
       <Link>Sql\SqlTransientFaultFilter.cs</Link>
