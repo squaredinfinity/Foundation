@@ -12,6 +12,14 @@ namespace SquaredInfinity.Foundation.Win32Api
 {
     public partial class user32
     {
+        public static bool IsAnyKeyPressed()
+        {
+            var keyboardState = GetKeyboardState();
+            
+            // skip mouse related states
+            return keyboardState.Skip(8).Any(state => (state & 0x80) != 0);
+        }
+
         /// <summary>
         /// Flash the spacified Window until it recieves focus.
         /// </summary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -10,9 +11,29 @@ namespace SquaredInfinity.Foundation.Win32Api
 {
     public partial class user32
     {
+        [DllImport("user32.dll", EntryPoint = "GetKeyboardState", SetLastError = true)]
+        public static extern bool NativeGetKeyboardState([Out] byte[] keyStates);
+
+        public static bool TryGetKeyboardState(out byte[] keyStates)
+        {
+            keyStates = new byte[256];
+
+            return NativeGetKeyboardState(keyStates);
+        }
+
+        public static byte[] GetKeyboardState()
+        {
+            byte[] keyStates;
+
+            if (!TryGetKeyboardState(out keyStates))
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+
+            return keyStates;
+        }
+
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool FlashWindowEx(ref FLASHWINFO pwfi);
+        static extern bool FlashWindowEx(ref FLASHWINFO pwfi);
 
         [DllImport("user32.dll")]
         public static extern bool PostMessage(IntPtr hWnd, uint Msg, int wParam, int lParam);

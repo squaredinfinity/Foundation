@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("Squared Infinity Limited")]
 [assembly: AssemblyCopyright("Copyright © 2014")]
 
-[assembly: AssemblyVersion("1.0.24.0")]
+[assembly: AssemblyVersion("1.0.27.0")]
 
 
 #if SIGN
