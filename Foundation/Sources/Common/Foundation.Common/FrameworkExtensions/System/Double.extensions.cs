@@ -241,5 +241,31 @@ namespace SquaredInfinity.Foundation.Extensions
 
             return d;
         }
+
+        /// <summary>
+        /// Returns next double value
+        /// </summary>
+        /// <param name="d"></param>
+        /// <returns></returns>
+        public static double NextDouble(this double d)
+        {
+            var bits = BitConverter.DoubleToInt64Bits(d);
+
+            long next_bits;
+
+            // if Int64 constructed from double bits is non-negative, then we can just add '1' to go to the next double number
+            if (bits >= 0)
+                next_bits = bits + 1;
+
+            // if Int64 constructed from double is equal long.MinValue (-0) then next available double representation is the same as (In64)1
+            else if (bits == long.MinValue)
+                next_bits = 1;
+            
+            // number is negative, we must substract Int64 representation by '1' in order for double to be increased by '1 step'
+            else  // number is negative, so decrement to go "up"
+                next_bits = bits - 1;
+
+            return BitConverter.Int64BitsToDouble(next_bits);
+        }
     }
 }
