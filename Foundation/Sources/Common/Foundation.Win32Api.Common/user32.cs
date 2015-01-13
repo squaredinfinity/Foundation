@@ -12,6 +12,10 @@ namespace SquaredInfinity.Foundation.Win32Api
 {
     public partial class user32
     {
+        /// <summary>
+        /// Returns true if any keyboard key is pressed, false otherwise
+        /// </summary>
+        /// <returns></returns>
         public static bool IsAnyKeyPressed()
         {
             var keyboardState = GetKeyboardState();
