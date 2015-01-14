@@ -81,6 +81,13 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 .GetOrAdd(type, createDefault());
         }
 
+        public ITypeSerializationStrategy GetOrCreateTypeSerializationStrategy(
+            Type type)
+        {
+            return (ITypeSerializationStrategy)TypeSerializationStrategies
+                .GetOrAdd(type, CreateDefaultTypeSerializationStrategy(type));
+        }
+
         ITypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T>()
         {
             return CreateDefaultTypeSerializationStrategy<T>(
@@ -93,6 +100,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             // todo:
             var result =
                 new TypeSerializationStrategy<T>(
+                    this,
                     typeDescriptor);
 
             return result;
@@ -110,14 +118,14 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             if(typeof(IEnumerable).IsAssignableFrom(type) && !(type == typeof(string)))
             {
                 var result =
-                    new EnumerableTypeSerializationStrategy(type, typeDescriptor);
+                    new EnumerableTypeSerializationStrategy(this, type, typeDescriptor);
 
                 return result;
             }
             else
             {
                 var result =
-                    new TypeSerializationStrategy(type, typeDescriptor);
+                    new TypeSerializationStrategy(this, type, typeDescriptor);
 
                 return result;
             }

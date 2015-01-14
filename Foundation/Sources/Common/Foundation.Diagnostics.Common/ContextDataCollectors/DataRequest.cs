@@ -14,9 +14,19 @@ namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
         public bool IsAsync { get; set; }
         public bool IsCached { get; set; }
 
+        public DataRequest()
+        { }
+
+        public DataRequest(string data, bool isAsync = false, bool isCached = false)
+        {
+            this.Data = data;
+            this.IsAsync = isAsync;
+            this.IsCached = isCached;
+        }
+
         public static implicit operator DataRequest(string data)
         {
-            return new DataRequest { Data = data, IsAsync = false, IsCached = false };
+            return new DataRequest (data, isAsync:false, isCached:false );
         }
 
         public override int GetHashCode()

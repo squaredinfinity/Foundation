@@ -81,16 +81,19 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
     public class TypeSerializationStrategy : ITypeSerializationStrategy
     {
-        public Version Version { get; set; }
+        public Version Version { get; private set; }
 
-        public Type Type { get; set; }
+        public Type Type { get; private set; }
 
-        public Types.Description.ITypeDescription TypeDescription { get; set; }
+        public Types.Description.ITypeDescription TypeDescription { get; private set; }
 
-        public Types.Description.ITypeDescriptor TypeDescriptor { get; set; }
+        public Types.Description.ITypeDescriptor TypeDescriptor { get; private set; }
 
-        public TypeSerializationStrategy(Type type, Types.Description.ITypeDescriptor typeDescriptor)
+        public FlexiXmlSerializer Serializer { get; private set; }
+
+        public TypeSerializationStrategy(FlexiXmlSerializer serializer, Type type, Types.Description.ITypeDescriptor typeDescriptor)
         {
+            this.Serializer = serializer;
             this.Type = type;
             this.TypeDescriptor = typeDescriptor;
 
@@ -109,10 +112,16 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
         readonly List<IMemberSerializationStrategy> _actualContentSerializationStrategies =
             new List<IMemberSerializationStrategy>();
+        private FlexiXmlSerializer flexiXmlSerializer;
 
         protected List<IMemberSerializationStrategy> ActualContentSerializationStrategies
         {
             get { return _actualContentSerializationStrategies; }
+        }
+
+        public IReadOnlyList<IMemberSerializationStrategy> GetContentSerializationStrategies()
+        {
+            return ActualContentSerializationStrategies;
         }
 
         protected void Initialize()
@@ -234,11 +243,13 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 return result_el;
             }
 
+            var instance_type = instance.GetType();
+
             //# Construct element to which instance content will be serialized
             var el_name = rootElementName;
             
             if(el_name == null)
-                el_name = ConstructElementNameForType(instance.GetType());
+                el_name = ConstructElementNameForType(instance_type);
             
             var el = new XElement(el_name);
 
@@ -250,6 +261,20 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 el.Add(new XText(item_as_string));
 
                 return el;
+            }
+
+            var typeInformation = cx.Options.TypeInformation;
+
+            if (typeInformation == TypeInformation.LookupOnly)
+            {
+                cx.TryAddKnownType(el, instance_type);
+            }
+            else if(typeInformation == TypeInformation.Detailed)
+            {
+                throw new NotSupportedException("TypeInformation.Detailed is not supported");
+
+                var typeAttribute = new XAttribute(cx.Options.TypeHintAttributeName, "alias");
+                el.Add(typeAttribute);
             }
 
             //# Process all content to be serialized (this may include members but also custom content to be added to serialization output)
@@ -902,8 +927,8 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
     public class EnumerableTypeSerializationStrategy : TypeSerializationStrategy
     {
-        public EnumerableTypeSerializationStrategy(Type type, ITypeDescriptor typeDescriptor)
-            : base(type, typeDescriptor)
+        public EnumerableTypeSerializationStrategy(FlexiXmlSerializer serializer, Type type, ITypeDescriptor typeDescriptor)
+            : base(serializer, type, typeDescriptor)
         { }
 
         public override XElement Serialize(object instance, ISerializationContext cx, string rootElementName, out bool hasAlreadyBeenSerialized)
@@ -984,8 +1009,8 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
     public class TypeSerializationStrategy<T> : TypeSerializationStrategy, ITypeSerializationStrategy<T>
     {
-        public TypeSerializationStrategy(Types.Description.ITypeDescriptor typeDescriptor)
-            : base(typeof(T), typeDescriptor)
+        public TypeSerializationStrategy(FlexiXmlSerializer serializer, Types.Description.ITypeDescriptor typeDescriptor)
+            : base(serializer, typeof(T), typeDescriptor)
         { }
 
         public ITypeSerializationStrategy<T> IgnoreAllMembers()
@@ -1072,6 +1097,21 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             ActualContentSerializationStrategies.AddRange(ignoredMembersStrategies);
 
+            return this;
+        }
+
+
+        public ITypeSerializationStrategy<T> CopySerializationSetupFromBaseClass()
+        {
+            var baseType = Type.BaseType;
+
+            if(baseType == null)
+                return this;
+
+            var base_strategy = Serializer.GetOrCreateTypeSerializationStrategy(baseType);
+
+            ActualContentSerializationStrategies.AddRange(base_strategy.GetContentSerializationStrategies());
+            
             return this;
         }
     }

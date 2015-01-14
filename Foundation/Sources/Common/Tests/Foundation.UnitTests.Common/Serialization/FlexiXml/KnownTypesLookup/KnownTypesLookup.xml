@@ -1,0 +1,13 @@
+﻿<root xmlns:serialization="http://schemas.squaredinfinity.com/serialization/flexixml">
+  <serialization:Internal>
+    <serialization:KnownTypes>
+      <serialization:KnownType serialization:alias="TestEntityA" 
+                               serialization:assemblyQualifiedName="SquaredInfinity.Foundation.Serialization.FlexiXml.KnownTypesLookup.TestEntityB, SquaredInfinity.Foundation.UnitTests.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+    </serialization:KnownTypes>
+  </serialization:Internal>
+  <root.Entity>
+    <!-- NOTE: Test Entity A alias has been set up to return Test Entity B (see known types element)-->
+    <TestEntityA id="13"></TestEntityA>
+  </root.Entity>
+</root>
+

@@ -69,5 +69,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         long GetNextUniqueId();
 
         TypeResolver TypeResolver { get; }
+
+        bool TryAddKnownType(XElement el, Type instance_type);
     }
 }

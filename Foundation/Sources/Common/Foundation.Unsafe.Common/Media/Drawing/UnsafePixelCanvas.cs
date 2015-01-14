@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Media.Drawing
 {
-    public unsafe partial class UnsafePixelCanvas : IPixelCanvas, IGdiPixelCanvas
+    public unsafe partial class UnsafePixelCanvas : IPixelCanvas
     {
         int _length;
         /// <summary>
@@ -50,6 +50,18 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         {
             get { return _height; }
             private set { _height = value; }
+        }
+
+        public int[] Pixels
+        {
+            get
+            {
+                var result = new int[_length];
+
+                Marshal.Copy(new IntPtr((void*)(pixelsPointer)), result, 0, _length);
+
+                return result;
+            }
         }
 
         Bitmap image;
@@ -126,12 +138,12 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         }
 
 
-        System.Drawing.Color IGdiPixelCanvas.GetColor(int color)
+        public System.Drawing.Color GetColor(int color)
         {
             return Color.FromArgb(color);
         }
 
-        int IGdiPixelCanvas.GetColor(System.Drawing.Color color)
+        public int GetColor(System.Drawing.Color color)
         {
             return color.ToArgb();
         }

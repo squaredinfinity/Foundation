@@ -57,7 +57,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             var x = x1;
             var y = y1;            
 
-            for (int i = 0; i < steps; i++)
+            for (int i = 0; i <= steps; i++)
             {
                 if (y < _height && y >= 0 && x < _width && x >= 0)
                 {                    

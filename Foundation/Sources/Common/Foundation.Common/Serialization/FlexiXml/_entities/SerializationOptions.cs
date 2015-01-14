@@ -19,13 +19,19 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
         /// <summary>
         /// Value of an attribute which will represent CLR NULL value.
-        /// Default is 'null'.
+        /// Default is '{serialization:null}'.
         /// </summary>
-        public string NullAttributeMarkupExtension { get; private set; }
+        public string NullAttributeMarkupExtension { get; set; }
 
         public XName UniqueIdAttributeName { get; set; }
         public XName UniqueIdReferenceAttributeName { get; set; }
         public string UniqueIdReferenceAttributeSuffix { get; set; }
+
+
+        /// <summary>
+        /// TODO: this will be used for DETAILED Type Information, not supported at the moment
+        /// </summary>
+        public XName TypeHintAttributeName { get; set; }
 
         public string SerializationNamespaceName { get; set; }
 
@@ -38,6 +44,10 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             UniqueIdAttributeName = FlexiXmlSerializer.XmlNamespace.GetName("id");
             UniqueIdReferenceAttributeName = FlexiXmlSerializer.XmlNamespace.GetName("id-ref");
             UniqueIdReferenceAttributeSuffix = ".ref";
+
+            TypeHintAttributeName = FlexiXmlSerializer.XmlNamespace.GetName("type");
+
+
             //NamespaceAttributeName = FlexiXmlSerializer.XmlNamespace.GetName("ns");
 
             NullAttributeMarkupExtension = 
@@ -74,5 +84,26 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             get { return _serializeNonPublicTypes; }
             set { _serializeNonPublicTypes = value; }
         }
+
+
+        TypeInformation _typeInformation = TypeInformation.None;
+        /// <summary>
+        /// Specifies how much type information should be included in output stream.
+        /// None - no information will be included
+        /// LookupOnly - lookup information of known types will be included, this offers balance between speed of deserialization and size of output stream
+        /// Detailed - detailed type information will be included. This provides quickest deserialization but also adds to output stream length
+        /// </summary>
+        public TypeInformation TypeInformation
+        {
+            get { return _typeInformation; }
+            set { _typeInformation = value; }
+        }
+    }
+
+    public enum TypeInformation
+    {
+        None = 0,
+        LookupOnly,
+        Detailed
     }
 }

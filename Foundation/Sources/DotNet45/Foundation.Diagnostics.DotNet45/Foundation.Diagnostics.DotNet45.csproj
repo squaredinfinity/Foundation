@@ -59,6 +59,9 @@
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Configuration\ConfigurationCache.cs">
       <Link>Configuration\ConfigurationCache.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Configuration\ConfigurationRepository.cs">
+      <Link>Configuration\ConfigurationRepository.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Configuration\DiagnosticsConfiguration.cs">
       <Link>Configuration\DiagnosticsConfiguration.cs</Link>
     </Compile>
@@ -149,8 +152,17 @@
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Filters\SeverityFilter.cs">
       <Link>Filters\SeverityFilter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Fluent\ApplicationLifecycleEvent.cs">
+      <Link>Fluent\ApplicationLifecycleEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Fluent\DiagnosticEventBuilder.cs">
+      <Link>Fluent\DiagnosticEventBuilder.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Fluent\IHideObjectInheritedMembers.cs">
       <Link>Fluent\IHideObjectInheritedMembers.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Fluent\SecurityEvent.cs">
+      <Link>Fluent\SecurityEvent.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\Formatters\FormatterCollection.cs">
       <Link>Formatters\FormatterCollection.cs</Link>

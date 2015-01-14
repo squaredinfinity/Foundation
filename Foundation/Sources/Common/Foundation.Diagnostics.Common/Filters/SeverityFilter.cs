@@ -12,7 +12,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.Filters
     /// 2. FlomSeveritty and ToSeverity
     /// 3. ExclusiveFromSeverity and ExclusiveToSeverity
     /// </summary>
-    public sealed class SeverityFilter : Filter
+    public class SeverityFilter : Filter
     {
         /// <summary>
         /// Severity that will be matched by this filter

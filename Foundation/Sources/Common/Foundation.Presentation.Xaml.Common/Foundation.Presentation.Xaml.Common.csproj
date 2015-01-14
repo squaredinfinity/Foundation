@@ -124,6 +124,7 @@
     <Compile Include="DataTemplateSelectors\Rules\ItemValueRule.cs" />
     <Compile Include="DataTemplateSelectors\Rules\MemberValueRule.cs" />
     <Compile Include="FrameworkExtensions\System.Windows.Media\Color.extensions.cs" />
+    <Compile Include="Media\Drawing\WpfPixelCanvasWrapper.cs" />
     <Compile Include="ObjectExtensibility\Extensions\ListItemExtension.cs" />
     <Compile Include="ObjectExtensibility\Extensions\SingleSelectionExtension.cs" />
     <Compile Include="ObjectExtensibility\ObservableExtensionCollection.cs" />

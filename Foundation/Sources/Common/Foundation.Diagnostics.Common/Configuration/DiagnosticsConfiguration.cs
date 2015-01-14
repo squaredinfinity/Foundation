@@ -10,9 +10,11 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Diagnostics.Configuration
 {
+
+
     public class DiagnosticsConfiguration : IDiagnosticsConfiguration
     {
-        internal List<DataRequest> RequestedContextDataCache = new List<DataRequest>();
+        public IConfigurationRepository Repository { get; set; }
 
         public GlobalSettings Settings { get; set; }
         
@@ -49,6 +51,8 @@ namespace SquaredInfinity.Foundation.Diagnostics.Configuration
             this.AdditionalContextDataCollectors = new ContextDataCollectorCollection();
 
             this.Sinks = new SinkCollection();
+
+            this.Repository = new ConfigurationRepository();
         }
     }
 }

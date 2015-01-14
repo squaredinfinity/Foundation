@@ -48,6 +48,7 @@
     <Compile Include="Cache\ICacheService.cs" />
     <Compile Include="Cache\ISupportsCaching.cs" />
     <Compile Include="ChainOfCommand.cs" />
+    <Compile Include="Charting\Axis\PrettyTicksProvider.cs" />
     <Compile Include="Collections\CollectionEx.cs" />
     <Compile Include="Collections\CollectionContentChangedEventArgs.cs" />
     <Compile Include="Collections\Concurrent\ConcurrentHashSet.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Collections\ICollectionEx.cs" />
     <Compile Include="Collections\INotifyCollectionContentChanged.cs" />
     <Compile Include="Collections\IBulkUpdatesCollection.cs" />
+    <Compile Include="Collections\MultiMap.cs" />
     <Compile Include="Collections\OrderedDictionary.cs" />
     <Compile Include="Collections\PriorityQueue.cs" />
     <Compile Include="Collections\ProviderBasedVirtualizingCollection.cs" />
@@ -81,11 +83,11 @@
     <Compile Include="IndexInAnotherListComparer.cs" />
     <Compile Include="IndexInListComparer.cs" />
     <Compile Include="InvocationThrottle.cs" />
+    <Compile Include="Media\Drawing\PixelCanvas.Blit.cs" />
     <Compile Include="Media\Drawing\PixelCanvas.DrawLine.cs" />
     <Compile Include="Media\Drawing\PixelCanvas.IDisposable.cs" />
     <Compile Include="Media\Drawing\PixelCanvas.cs" />
     <Compile Include="Media\Drawing\IPixelCanvas.cs" />
-    <Compile Include="Media\Drawing\IGdiPixelCanvas.cs" />
     <Compile Include="NotifyPropertyChangedObject.cs" />
     <Compile Include="NotifyPropertyChangedObjectWrapper.cs" />
     <Compile Include="ObjectExtensibility\Extension.cs" />

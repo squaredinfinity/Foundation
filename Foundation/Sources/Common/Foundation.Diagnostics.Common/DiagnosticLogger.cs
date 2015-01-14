@@ -91,7 +91,6 @@ namespace SquaredInfinity.Foundation.Diagnostics
         void ProcessDiagnosticEventInternal(IDiagnosticEvent de, DiagnosticsConfiguration config_ref)
         {
             // NOTE:    This method is *performance critical* and should be optimized for quickest execution even at cost of readability
-            //          This method is static because it should not use any instance members of DiagnosticLogger
 
             try
             {

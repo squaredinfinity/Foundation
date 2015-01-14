@@ -1,14 +1,17 @@
 ﻿using SquaredInfinity.Foundation.ContextDataCollectors;
 using SquaredInfinity.Foundation.Diagnostics;
 using SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors;
+using SquaredInfinity.Foundation.Diagnostics.Filters;
 using SquaredInfinity.Foundation.Diagnostics.Formatters;
 using SquaredInfinity.Foundation.Diagnostics.Sinks.File;
 using SquaredInfinity.Foundation.Extensions;
 using SquaredInfinity.Foundation.Serialization.FlexiXml;
+using SquaredInfinity.Foundation.Types.Description.Reflection;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -31,16 +34,112 @@ namespace Foundation.Diagnostics.Walkthrough.Common
 
             var config = DiagnosticLogger.Global.GetConfigurationClone();
 
+            //# add default filters
+
+            // exclude everything
+            config.Repository.Filters.Add(new LoggerNameFilter { Name = "exclude-all", Mode = FilterMode.Exclude });
+
+            // include everything
+            config.Repository.Filters.Add(new LoggerNameFilter { Name = "include-all", Mode = FilterMode.Include });
+
+            // Include messages with specific Severity Level
+            config.Repository.Filters.Add(new SeverityFilter { Name = "critical", Mode = FilterMode.Include, Severity = KnownSeverityLevels.Critical });
+            config.Repository.Filters.Add(new SeverityFilter { Name = "error", Mode = FilterMode.Include, Severity = KnownSeverityLevels.Error });
+            config.Repository.Filters.Add(new SeverityFilter { Name = "warning", Mode = FilterMode.Include, Severity = KnownSeverityLevels.Warning });
+            config.Repository.Filters.Add(new SeverityFilter { Name = "information", Mode = FilterMode.Include, Severity = KnownSeverityLevels.Information });
+            config.Repository.Filters.Add(new SeverityFilter { Name = "verbose", Mode = FilterMode.Include, Severity = KnownSeverityLevels.Verbose });
+
+            // Exclude messages with specific Severity Level
+            config.Repository.Filters.Add(new SeverityFilter { Name = "!critical", Mode = FilterMode.Exclude, Severity = KnownSeverityLevels.Critical });
+            config.Repository.Filters.Add(new SeverityFilter { Name = "!error", Mode = FilterMode.Exclude, Severity = KnownSeverityLevels.Error });
+            config.Repository.Filters.Add(new SeverityFilter { Name = "!warning", Mode = FilterMode.Exclude, Severity = KnownSeverityLevels.Warning });
+            config.Repository.Filters.Add(new SeverityFilter { Name = "!information", Mode = FilterMode.Exclude, Severity = KnownSeverityLevels.Information });
+            config.Repository.Filters.Add(new SeverityFilter { Name = "!verbose", Mode = FilterMode.Exclude, Severity = KnownSeverityLevels.Verbose });
+
+            //
+            //      Include only messages from specific Severity Level ranges
+            //      Naming Convention:
+            //        [a,b] - closed interval from a (included) to b (included)
+            //        (a,b] - left half-open interval from a (excluded) to b (included)
+            //        [a,b) - right half-open interval from a (included) to b (excluded)
+            //        (a,b) - open interval from a (excluded) to b (excluded)
+
+            config.Repository.Filters.Add(new SeverityFilter { Name = "[warning,error]", Mode = FilterMode.Include, From = KnownSeverityLevels.Warning, To = KnownSeverityLevels.Error });
+            config.Repository.Filters.Add(new SeverityFilter { Name = "[warning,error)", Mode = FilterMode.Include, From = KnownSeverityLevels.Error, ExclusiveTo = KnownSeverityLevels.Error });
+
+            config.Repository.Filters.Add(new SeverityFilter { Name = "(warning,max]", Mode = FilterMode.Include, ExclusiveFrom = KnownSeverityLevels.Warning });
+            config.Repository.Filters.Add(new SeverityFilter { Name = "[warning,max]", Mode = FilterMode.Include, From = KnownSeverityLevels.Warning });
+
+            config.Repository.Filters.Add(new SeverityFilter { Name = "(information,max]", Mode = FilterMode.Include, ExclusiveFrom = KnownSeverityLevels.Information });
+            config.Repository.Filters.Add(new SeverityFilter { Name = "[information,max]", Mode = FilterMode.Include, From = KnownSeverityLevels.Information });
+
+            config.Repository.Filters.Add(new SeverityFilter { Name = "(verbose,max]", Mode = FilterMode.Include, ExclusiveFrom = KnownSeverityLevels.Verbose });
+            config.Repository.Filters.Add(new SeverityFilter { Name = "[verbose,max]", Mode = FilterMode.Include, From = KnownSeverityLevels.Verbose });
+
+            config.Repository.Filters.Add(new SeverityFilter { Name = "[min,max]", Mode = FilterMode.Include, From = KnownSeverityLevels.Minimum });
+
+            //      Include messages based on property values
+            config.Repository.Filters.Add(new PropertyFilter { Name = "contains-raw-message", Mode = FilterMode.Include, Property = "Event.HasRawMessage", Value = "true" });
+            config.Repository.Filters.Add(new PropertyFilter { Name = "!contains-raw-message", Mode = FilterMode.Exclude, Property = "Event.HasRawMessage", Value = "true" });
+
+            // Filter events based on event source!!
+            // messages logged using System.Diagnostics namespace (e.g. Trace.WriteLine)
+            config.Repository.Filters.Add(new PropertyFilter { Name = "system.diagnostics.trace", Mode = FilterMode.Include, Property = "Event.Source", Value = "System.Diagnostics.Trace" });
+            config.Repository.Filters.Add(new PropertyFilter { Name = "system.diagnostics.debug", Mode = FilterMode.Include, Property = "Event.Source", Value = "System.Diagnostics.Debug" });
+
+            config.Repository.Filters.Add(new PropertyFilter { Name = "system.diagnostics", Mode = FilterMode.Include, Property = "Event.Source", Value = "System.Diagnostics" });
+            config.Repository.Filters.Add(new PropertyFilter { Name = "!system.diagnostics", Mode = FilterMode.Exclude, Property = "Event.Source", Value = "System.Diagnostics" });
+
+            // internal
+            config.Repository.Filters.Add(new PropertyFilter { Name = "internal", Mode = FilterMode.Include, Property = "Event.Source", Value = "SquaredInfinity.Foundation.Diagnostics.*" });
+            config.Repository.Filters.Add(new PropertyFilter { Name = "!internal", Mode = FilterMode.Exclude, Property = "Event.Source", Value = "SquaredInfinity.Foundation.Diagnostics.*" });
+
+            //    Filters based on event category
+            config.Repository.Filters.Add(new PropertyFilter { Name = "application-lifecycle", Mode = FilterMode.Include, Property = "Event.Category", Value = "Application-Lifecycle.*" });
+            config.Repository.Filters.Add(new PropertyFilter { Name = "!application-lifecycle", Mode = FilterMode.Exclude, Property = "Event.Category", Value = "Application-Lifecycle.*" });
+
+            config.Repository.Filters.Add(new PropertyFilter { Name = "application-lifecycle.install", Mode = FilterMode.Include, Property = "Event.Category", Value = "Application-Lifecycle.Install" });
+            config.Repository.Filters.Add(new PropertyFilter { Name = "!application-lifecycle.install", Mode = FilterMode.Exclude, Property = "Event.Category", Value = "Application-Lifecycle.Install" });
+
+            // add common data collectors
+            // those will be used if referenced from sinks
             var edc = new EnvironmentDataCollector();
+            config.ContextDataCollectors.Add(edc);
+           
+            // add additional data collectors
+            // those will be used if specific event occurs
 
-            edc.RequestedData.Add(new DataRequest() { Data = "Application.Version", IsAsync = false, IsCached = true });
-            edc.RequestedData.Add(new DataRequest() { Data = "Thread.Id", IsAsync = false, IsCached = false });
-            edc.RequestedData.Add(new DataRequest() { Data = "Thread.Name", IsAsync = false, IsCached = false });
-            edc.RequestedData.Add(new DataRequest() { Data = "Thread.ThreadState", IsAsync = false, IsCached = false });
-            edc.RequestedData.Add(new DataRequest() { Data = "Thread.IsBackground", IsAsync = false, IsCached = false });
-            
+            var edc_application_lifecycle = new EnvironmentDataCollector();
+            //edc_application_lifecycle.Filter = config.Repository.Filters
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.ApplicationVersion);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.ThreadUICulture);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.ThreadCulture);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.EnvironmentUserDomainName);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.EnvironmentUserName);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.EnvironmentMachineName);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.EnvironmentOsVersion);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.EnvironmentOsVersionPlatform);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.EnvironmentOsVersionVersion);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.EnvironmentOsVersionServicePack);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.EnvironmentVersion);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.EnvironmentCurrentDirectory);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.EnvironmentSystemDirectory);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.EnvironmentIs64BitOperatingSystem);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.EnvironmentIs64BitProcess);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.EnvironmentProcessorCount);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.EnvironmentCommandLineArgs);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.EnvironmentUserInteractive);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.DeploymentIsNetworkDeplyed);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.DeploymentActivationUri);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.DeploymentCurrentVersion);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.DeploymentDataDirectory);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.DeploymentIsFirstRun);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.DeploymentTimeOfLastUpdateCheck);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.DeploymentUpdatedApplicationFullName);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.DeploymentUpdatedVersion);
+            edc_application_lifecycle.RequestedData.Add(EnvironmentData.DeploymentUpdateLocation);
 
-            config.AdditionalContextDataCollectors.Add(edc);
+            config.AdditionalContextDataCollectors.Add(edc_application_lifecycle);
 
             var fileSink = new FileSink();
             fileSink.FileNamePattern = "log.txt";
@@ -66,10 +165,39 @@ namespace Foundation.Diagnostics.Walkthrough.Common
 
             config.Sinks.Add(fileSink);
 
-            var serializer = new FlexiXmlSerializer();
+            var serializer = new FlexiXmlSerializer(new ReflectionBasedTypeDescriptor());
+
+            serializer.GetOrCreateTypeSerializationStrategy<Filter>()
+                .IgnoreAllMembers()
+                .SerializeMember(x => x.Name, x => x.Name != null)
+                .SerializeMember(x => x.Mode, x => x.Mode != null);
+
+            serializer.GetOrCreateTypeSerializationStrategy<LoggerNameFilter>()
+                .IgnoreAllMembers()
+                .CopySerializationSetupFromBaseClass()
+                .SerializeMember(x => x.Pattern, x => x.Pattern != null);
+
+            serializer.GetOrCreateTypeSerializationStrategy<PropertyFilter>()
+                .IgnoreAllMembers()
+                .CopySerializationSetupFromBaseClass()
+                .SerializeMember(x => x.Property, x => x.Property != null)
+                .SerializeMember(x => x.Value, x => x.Value != null);
+
+            serializer.GetOrCreateTypeSerializationStrategy<SeverityFilter>()
+                .IgnoreAllMembers()
+                .CopySerializationSetupFromBaseClass()
+                .SerializeMember(x => x.Severity, x => x.Severity != null) // todo SerializeMember as specific value, read back
+                .SerializeMember(x => x.To, x => x.To != null)
+                .SerializeMember(x => x.From, x => x.From != null)
+                .SerializeMember(x => x.ExclusiveTo, x => x.ExclusiveTo != null)
+                .SerializeMember(x => x.ExclusiveFrom, x => x.ExclusiveFrom != null);
+
 
             var so = new SerializationOptions();
             so.SerializeNonPublicTypes = false;
+            so.TypeInformation = TypeInformation.LookupOnly;
+
+
 
             var xml = serializer.Serialize(config, so);
             File.WriteAllText("1.config", xml.ToString());
@@ -79,6 +207,17 @@ namespace Foundation.Diagnostics.Walkthrough.Common
             DiagnosticLogger.Global.Information("Let's start!");
             DiagnosticLogger.Global.Warning("Let's start!");
             DiagnosticLogger.Global.Critical("Let's start!");
+
+            DiagnosticLogger.Global
+                .AsInformation()
+                .ApplicationLifecycleEvent
+                .Startup();
+
+
+            DiagnosticLogger.Global
+                .AsInformation()
+                .ApplicationLifecycleEvent
+                .Shutdown();
         }
     }
 }

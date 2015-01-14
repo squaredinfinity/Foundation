@@ -266,5 +266,11 @@ namespace SquaredInfinity.Foundation.Diagnostics.Loggers
         {
             throw new NotSupportedException();
         }
+
+
+        public void ProcessDiagnosticEvent(IDiagnosticEvent de)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -35,10 +35,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -54,6 +58,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ChainOfCommand\TryHandle.tests.cs" />
+    <Compile Include="Charting\Axis\PrettyTicksProvider.tests.cs" />
     <Compile Include="Collections\CollectionEx.BulkUpdates.cs" />
     <Compile Include="Collections\Trees\BooleanExpresionTree.operations.cs" />
     <Compile Include="FrameworkExtensions\System.Collections\IEnumerable.ToNullIfEmpty.cs" />
@@ -94,8 +99,12 @@
     <Compile Include="FrameworkExtensions\System\String.TrimEachLine.cs" />
     <Compile Include="FrameworkExtensions\System\Type.ImplementsInterface.cs" />
     <Compile Include="FrameworkExtensions\System\Type.IsEqualTo.cs" />
+    <Compile Include="Media\Drawing\PerformanceOptimizations.cs" />
+    <Compile Include="Media\Drawing\PixelCanvas.Blit.tests.cs" />
     <Compile Include="Media\Drawing\PixelCanvas.DrawLine.tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\FlexiXml\KnownTypesLookup\KnownTypesLookup.tests.cs" />
+    <Compile Include="Serialization\FlexiXml\KnownTypesLookup\TestEntity.cs" />
     <Compile Include="Serialization\FlexiXml\Repository\FlexiXmlSerialzier__Repository.tests.cs" />
     <Compile Include="Serialization\FlexiXml\Repository\_entities\Configuration.cs" />
     <Compile Include="Serialization\FlexiXml\Repository\_entities\CustomFormatter.cs" />
@@ -145,6 +154,10 @@
       <Project>{DFEAB4E6-D02D-448B-8649-2D12BE137191}</Project>
       <Name>Foundation.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Foundation.Presentation.Xaml.Common\Foundation.Presentation.Xaml.Common.csproj">
+      <Project>{6d246254-bf79-47c6-ae0e-2fda3e9467a4}</Project>
+      <Name>Foundation.Presentation.Xaml.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Serialization\FlexiXml\Repository\Resources\repository.xml">
@@ -181,7 +194,11 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Serialization\FlexiXml\KnownTypesLookup\KnownTypesLookup.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>

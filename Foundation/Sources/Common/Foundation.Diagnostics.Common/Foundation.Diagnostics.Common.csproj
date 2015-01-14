@@ -48,6 +48,7 @@
     <Compile Include="AttachedObject.cs" />
     <Compile Include="AttachedObjectCollection.cs" />
     <Compile Include="Configuration\ConfigurationCache.cs" />
+    <Compile Include="Configuration\ConfigurationRepository.cs" />
     <Compile Include="Configuration\DiagnosticsConfigurationWithCache.cs" />
     <Compile Include="Configuration\DiagnosticsConfiguration.cs">
       <SubType>Code</SubType>
@@ -78,7 +79,10 @@
     <Compile Include="Filters\PatternEvaluation\WildcardPatternEvaluator.cs" />
     <Compile Include="Filters\PropertyFilter.cs" />
     <Compile Include="Filters\SeverityFilter.cs" />
+    <Compile Include="Fluent\ApplicationLifecycleEvent.cs" />
+    <Compile Include="Fluent\DiagnosticEventBuilder.cs" />
     <Compile Include="Fluent\IHideObjectInheritedMembers.cs" />
+    <Compile Include="Fluent\SecurityEvent.cs" />
     <Compile Include="Formatters\FormatterCollection.cs" />
     <Compile Include="Formatters\PatternFormatter.cs" />
     <Compile Include="Formatters\RawFormatter.cs" />

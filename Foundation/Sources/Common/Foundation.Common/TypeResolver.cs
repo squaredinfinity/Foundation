@@ -190,11 +190,18 @@ namespace SquaredInfinity.Foundation
                 assembliesToCheck = asms;
             }
 
-            var results =
+            var candidates =
                 (from asm in assembliesToCheck
                  from t in asm.GetTypes()
                  where string.Equals(t.Name, typePartialName, StringComparison.InvariantCultureIgnoreCase)
-                 select t).ToList();
+                 select t);
+
+            return ResolveTypes(candidates, baseTypes);
+        }
+
+        public static IReadOnlyList<Type> ResolveTypes(IEnumerable<Type> candidates, IReadOnlyList<Type> baseTypes)
+        {
+            var results = candidates.ToList();
 
             if (baseTypes != null)
             {

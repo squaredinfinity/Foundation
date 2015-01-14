@@ -11,6 +11,8 @@ namespace SquaredInfinity.Foundation.Diagnostics.Configuration
 {
     public interface IDiagnosticsConfiguration
     {
+        IConfigurationRepository Repository { get; }
+
         GlobalSettings Settings { get; }
 
         /// <summary>

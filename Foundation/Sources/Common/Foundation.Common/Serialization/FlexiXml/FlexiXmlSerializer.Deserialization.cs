@@ -51,6 +51,33 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             var cx = new SerializationContext(this, TypeDescriptor, TypeResolver, options, CustomCreateInstanceWith);
 
+            // internal settings should always be first child
+            var internalSettings = xml.Elements().First();
+
+            if(internalSettings == null || internalSettings.Name != FlexiXmlSerializer.XmlNamespace.GetName("Internal"))
+                internalSettings = null;
+
+
+            if(internalSettings != null && options.TypeInformation != TypeInformation.None)
+            {
+                // find known types element
+                
+                // add known types element
+                var knownTypes_element = internalSettings.Element(FlexiXmlSerializer.XmlNamespace.GetName("KnownTypes"));
+
+                if (knownTypes_element != null)
+                {
+                    foreach (var ke in knownTypes_element.Elements(FlexiXmlSerializer.XmlNamespace.GetName("KnownType")))
+                    {
+                        var alias = ke.Attribute(FlexiXmlSerializer.XmlNamespace.GetName("alias")).Value;
+                        var assemblyQualifiedName = ke.Attribute(FlexiXmlSerializer.XmlNamespace.GetName("assemblyQualifiedName")).Value;
+
+                        cx.KnownTypes.Add(XName.Get(alias), Type.GetType(assemblyQualifiedName));
+                    }
+                }
+            }
+
+
             var type = typeof(T);
 
             var root = cx.Deserialize(xml, type, elementNameMayContainTargetTypeName: true);

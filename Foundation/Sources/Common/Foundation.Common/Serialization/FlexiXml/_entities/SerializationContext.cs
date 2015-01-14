@@ -1,4 +1,6 @@
-﻿using SquaredInfinity.Foundation.Types.Description;
+﻿using SquaredInfinity.Foundation.Collections;
+using SquaredInfinity.Foundation.Types.Description;
+using SquaredInfinity.Foundation.Extensions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -162,20 +164,30 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 }
             }
 
-            // todo: check if member has serialization attribute suggesting which type to deserialize to
-
             //# try to derive member type from element name
             var suggestedMemberTypeName = xml.Name.LocalName;
 
             if (elementNameMayContainTargetTypeName && !string.Equals(suggestedMemberTypeName, targetType.Name))
             {
                 //# try to find type with suggested name
+                var typeCandidate = (Type)null;
+                
+                //# first look in KnownTypes map
+                typeCandidate =
+                        TypeResolver.ResolveTypes(
+                        candidates: KnownTypes.GetValues(XName.Get(suggestedMemberTypeName)).EmptyIfNull(),
+                        baseTypes: new Type[] { targetType }).FirstOrDefault();
 
-                var typeCandidate =
-                    TypeResolver.ResolveType(
-                    suggestedMemberTypeName,
-                    ignoreCase: true,
-                    baseTypes: new Type[] { targetType });
+
+                //# then try to find in loaded assemblies (slower than lookup)
+                if (typeCandidate == null)
+                {
+                    typeCandidate =
+                        TypeResolver.ResolveType(
+                        suggestedMemberTypeName,
+                        ignoreCase: true,
+                        baseTypes: new Type[] { targetType });
+                }
 
                 if (typeCandidate != null)
                 {
@@ -198,6 +210,17 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         public ITypeSerializationStrategy GetTypeSerializationStrategy(Type type)
         {
             return Serializer.GetTypeSerializationStrategy(type);
+        }
+
+        MultiMap<XName, Type> _knownTypes = new MultiMap<XName, Type>();
+        public MultiMap<XName, Type> KnownTypes
+        {
+            get { return _knownTypes; }
+        }
+
+        public bool TryAddKnownType(XElement el, Type type)
+        {
+            return KnownTypes.Add(el.Name, type);
         }
     }
 }

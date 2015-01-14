@@ -48,6 +48,9 @@
     <Compile Include="..\..\Common\Foundation.Common\ChainOfCommand.cs">
       <Link>ChainOfCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Charting\Axis\PrettyTicksProvider.cs">
+      <Link>Charting\Axis\PrettyTicksProvider.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\CloneComparer.cs">
       <Link>CloneComparer.cs</Link>
     </Compile>
@@ -71,6 +74,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Collections\INotifyCollectionContentChanged.cs">
       <Link>Collections\INotifyCollectionContentChanged.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\MultiMap.cs">
+      <Link>Collections\MultiMap.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Collections\OrderedDictionary.cs">
       <Link>Collections\OrderedDictionary.cs</Link>
@@ -314,9 +320,6 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Media\ColorSpaces\XyzColorSpace.cs">
       <Link>Media\ColorSpaces\XyzColorSpace.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Media\Drawing\IGdiPixelCanvas.cs">
-      <Link>Media\Drawing\IGdiPixelCanvas.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Media\Drawing\IPixelCanvas.cs">
       <Link>Media\Drawing\IPixelCanvas.cs</Link>

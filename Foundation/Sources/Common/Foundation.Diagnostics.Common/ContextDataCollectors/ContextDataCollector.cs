@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SquaredInfinity.Foundation.Extensions;
+using System.Collections.Concurrent;
 
 namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
 {
@@ -38,9 +39,9 @@ namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
             get { return _requestedData; }
         }
 
-        readonly Dictionary<IDataRequest, IDiagnosticEventProperty> _dataRequestCache
-            = new Dictionary<IDataRequest, IDiagnosticEventProperty>();
-        protected Dictionary<IDataRequest, IDiagnosticEventProperty> DataRequestCache
+        readonly ConcurrentDictionary<IDataRequest, IDiagnosticEventProperty> _dataRequestCache
+            = new ConcurrentDictionary<IDataRequest, IDiagnosticEventProperty>();
+        protected ConcurrentDictionary<IDataRequest, IDiagnosticEventProperty> DataRequestCache
         {
             get { return _dataRequestCache; }
         }
@@ -89,7 +90,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
 
                     // add to cache if needed
                     if (item.IsCached && !DataRequestCache.ContainsKey(item))
-                        DataRequestCache.Add(item, property);
+                        DataRequestCache.AddOrUpdate(item, property);
                 }
             }
 

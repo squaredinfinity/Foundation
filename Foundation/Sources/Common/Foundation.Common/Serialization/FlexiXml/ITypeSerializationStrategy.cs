@@ -39,6 +39,8 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             ISerializationContext cx);
 
         string ConstructElementNameForType(Type type);
+
+        IReadOnlyList<IMemberSerializationStrategy> GetContentSerializationStrategies();
     }
 
     public interface ITypeSerializationStrategy<T> : ITypeSerializationStrategy
@@ -81,6 +83,12 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         /// </summary>
         /// <returns></returns>
         ITypeSerializationStrategy<T> SerializeAllRemainingMembers();
+
+        /// <summary>
+        /// Copies member serialization setup from base class
+        /// </summary>
+        /// <returns></returns>
+        ITypeSerializationStrategy<T> CopySerializationSetupFromBaseClass();
     }
 
     public class ReferenceResolutionContext<TRoot, TypeToResolve>

@@ -94,6 +94,8 @@ namespace SquaredInfinity.Foundation.Diagnostics
         void Event(SeverityLevel severity, string category);
         void Event(SeverityLevel severity, string category, params object[] attachedObjects);
 
+        void ProcessDiagnosticEvent(IDiagnosticEvent de);
+
 
         IDiagnosticEventPropertyCollection GlobalProperties { get; }
 

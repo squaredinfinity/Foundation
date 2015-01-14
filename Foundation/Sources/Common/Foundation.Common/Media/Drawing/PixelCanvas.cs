@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Media.Drawing
 {
-    public partial class PixelCanvas : IPixelCanvas, IGdiPixelCanvas
+    public partial class PixelCanvas : IPixelCanvas
     {
         int _length;
         /// <summary>
@@ -51,17 +51,30 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         }
 
         int[] _pixels;
+        public int[] Pixels
+        {
+            get { return _pixels; }
+        }
 
+        Rectangle _bounds;
+        public Rectangle Bounds
+        {
+            get { return _bounds; }
+            private set { _bounds = value; }
+        }
+        
         public PixelCanvas(int width, int height)
         {
             Width = width;
             Height = height;
 
-            Stride = Width;
+            Stride = Width * 4;
 
-            Length = Stride * Height;
+            Length = Width * Height;
 
             _pixels = new int[width * height];
+
+            _bounds = new Rectangle(0, 0, _width, _height);
         }
 
         public int this[int x, int y]
@@ -101,14 +114,19 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             Array.Copy(pixels, 0, _pixels, row * _width, _width);
         }
 
-        System.Drawing.Color IGdiPixelCanvas.GetColor(int color)
+        public System.Drawing.Color GetColor(int color)
         {
             return Color.FromArgb(color);
         }
 
-        int IGdiPixelCanvas.GetColor(System.Drawing.Color color)
+        public int GetColor(System.Drawing.Color color)
         {
             return color.ToArgb();
+        }
+
+        public bool IntersectsWith(System.Drawing.Rectangle rect)
+        {
+            return _bounds.IntersectsWith(rect);
         }
     }
 }

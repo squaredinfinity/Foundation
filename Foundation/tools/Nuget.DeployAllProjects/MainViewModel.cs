@@ -72,7 +72,7 @@ namespace Nuget.DeployAllProjects
                 application: @"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe",
                 arguments: "\"{0}\" /rebuild Release".FormatWith(solution_file_path),
                 showUi: true,
-                continueAfterExecution:false,
+                continueAfterExecution:true,
                 waitForExit: true);
         }
 
@@ -106,14 +106,14 @@ namespace Nuget.DeployAllProjects
                application: @"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe",
                arguments: "\"{0}\" /rebuild Release /project {1} Release".FormatWith(solution_file_path, projectName),
                showUi: true,
-               continueAfterExecution:false,
+               continueAfterExecution:true,
                waitForExit: true);
         }
 
         public void ExecuteApplicationUsingCommandLine(
             string application, 
             string arguments, 
-            string workingDirectory = "",
+            string                                           workingDirectory = "",
             bool showUi = true, 
             bool continueAfterExecution = true,
             bool runAsAdmin = false, 
@@ -123,7 +123,12 @@ namespace Nuget.DeployAllProjects
 
             if (showUi)
             {
-                psi = new ProcessStartInfo("cmd", "/K \"\"{0}\" {1}\"".FormatWith(application, arguments));
+                var arg_txt = "\"\"{0}\" {1}\"".FormatWith(application, arguments);
+
+                if (continueAfterExecution)
+                    arg_txt = "/K " + arg_txt;
+
+                psi = new ProcessStartInfo("cmd", arg_txt);
             }
             else
             {

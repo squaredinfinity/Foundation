@@ -297,12 +297,7 @@ namespace SquaredInfinity.Foundation.ContextDataCollectors
                     return true;
                 }
 
-                if (request.Data == "Process.MaxWorkingSet (MB)")
-                {
-                    result = cx.CurrentProcess.MaxWorkingSet.ToInt64().ToMegaBytes();
-                    return true;
-                }
-
+                
                 if (request.Data == "Process.NonpagedSystemMemorySize (MiB)")
                 {
                     result = cx.CurrentProcess.NonpagedSystemMemorySize64.ToMebiBytes();
@@ -554,6 +549,61 @@ namespace SquaredInfinity.Foundation.ContextDataCollectors
         [return: MarshalAs(UnmanagedType.Bool)]
         internal extern static bool GlobalMemoryStatusEx([In, Out] MEMORYSTATUSEX lpBuffer);
 
+    }
+
+    public static class EnvironmentData
+    {
+        public static readonly IDataRequest ApplicationVersion = new DataRequest ("Application.Version", isCached: true);
+        public static readonly IDataRequest ThreadId = new DataRequest("Thread.Id");
+        public static readonly IDataRequest ThreadName = new DataRequest("Thread.Name");
+        public static readonly IDataRequest ThreadState = new DataRequest("Thread.State");
+        public static readonly IDataRequest ThreadIsBackground = new DataRequest("Thread.IsBackground");
+        public static readonly IDataRequest ThreadUICulture = new DataRequest("Thread.UICulture");
+        public static readonly IDataRequest ThreadCulture = new DataRequest("Thread.Culture");
+        public static readonly IDataRequest DateTimeUtc = new DataRequest("DateTime.Utc");
+        public static readonly IDataRequest DateTimeLocal = new DataRequest("DateTime.Local");
+        public static readonly IDataRequest EnvironmentCommandLineArgs = new DataRequest("Environment.CommandLineArgs");
+        public static readonly IDataRequest EnvironmentVersion = new DataRequest("Environment.Version");
+        public static readonly IDataRequest EnvironmentHasShutdownStarted = new DataRequest("Environment.HasShutdownStarted");
+        public static readonly IDataRequest EnvironmentOsVersion = new DataRequest("Environment.OSVersion");
+        public static readonly IDataRequest EnvironmentOsVersionPlatform = new DataRequest("Environment.OSVersion.Platform");
+        public static readonly IDataRequest EnvironmentOsVersionServicePack = new DataRequest("Environment.OSVersion.ServicePack");
+        public static readonly IDataRequest EnvironmentOsVersionVersion = new DataRequest("Environment.OSVersion.Version");
+        public static readonly IDataRequest EnvironmentCurrentDirectory = new DataRequest("Environment.CurrentDirectory");
+        public static readonly IDataRequest EnvironmentSystemDirectory = new DataRequest("Environment.SystemDirectory");
+        public static readonly IDataRequest EnvironmentIs64BitOperatingSystem = new DataRequest("Environment.Is64BitOperatingSystem");
+        public static readonly IDataRequest EnvironmentIs64BitProcess = new DataRequest("Environment.Is64BitProcess");
+        public static readonly IDataRequest EnvironmentMachineName = new DataRequest("Environment.MachineName");
+        public static readonly IDataRequest EnvironmentProcessorCount = new DataRequest("Environment.ProcessorCount");
+        public static readonly IDataRequest EnvironmentSystemPageSizeMB = new DataRequest("Environment.SystemPageSizeMB");
+        public static readonly IDataRequest EnvironmentUserDomainName = new DataRequest("Environment.UserDomainName");
+        public static readonly IDataRequest EnvironmentUserName = new DataRequest("Environment.UserName");
+        public static readonly IDataRequest EnvironmentUserInteractive = new DataRequest("Environment.UserInteractive");
+        public static readonly IDataRequest ProcessPagedMemorySize = new DataRequest("Process.PagedMemorySize (MB)");
+        public static readonly IDataRequest ProcessMaxWorkingSet = new DataRequest("Process.MaxWorkingSet (MB)");
+        public static readonly IDataRequest ProcessNonpagedSystemMemorySize = new DataRequest("Process.NonpagedSystemMemorySize (MB)");
+        public static readonly IDataRequest ProcessPagedSystemMemorySize = new DataRequest("Process.PagedSystemMemorySize (MB)");
+        public static readonly IDataRequest ProcessPrivateMemorySize = new DataRequest("Process.PrivateMemorySize (MB)");
+        public static readonly IDataRequest ProcessVirtualMemorySize = new DataRequest("Process.VirtualMemorySize (MB)");
+        public static readonly IDataRequest ProcessWorkingSet = new DataRequest("Process.WorkingSet (MB)");
+        public static readonly IDataRequest MemoryStatusMemoryLoad = new DataRequest("MemoryStatus.MemoryLoad");
+        public static readonly IDataRequest MemoryStatusAvailablePageFile = new DataRequest("MemoryStatus.AvailablePageFile (MB)");
+        public static readonly IDataRequest MemoryStatusAvailablePhysical = new DataRequest("MemoryStatus.AvailablePhysical (MB)");
+        public static readonly IDataRequest MemoryStatusAvailableVirtual = new DataRequest("MemoryStatus.AvailableVirtual (MB)");
+        public static readonly IDataRequest MemoryStatusTotalPageFile = new DataRequest("MemoryStatus.TotalPageFile (MB)");
+        public static readonly IDataRequest MemoryStatusTotalPhysical = new DataRequest("MemoryStatus.TotalPhysical (MB)");
+        public static readonly IDataRequest MemoryStatusTotalVirtual = new DataRequest("MemoryStatus.TotalVirtual (MB)");
+        public static readonly IDataRequest ProcessUpTime = new DataRequest("Process.UpTime");
+        public static readonly IDataRequest DeploymentIsNetworkDeplyed = new DataRequest("Deployment.IsNetworkDeployed");
+        public static readonly IDataRequest DeploymentActivationUri = new DataRequest("Deployment.ActivationUri");
+        public static readonly IDataRequest DeploymentCurrentVersion = new DataRequest("Deployment.CurrentVersion");
+        public static readonly IDataRequest DeploymentDataDirectory = new DataRequest("Deployment.DataDirectory");
+        public static readonly IDataRequest DeploymentIsFirstRun = new DataRequest("Deployment.IsFirstRun");
+        public static readonly IDataRequest DeploymentTimeOfLastUpdateCheck = new DataRequest("Deployment.TimeOfLastUpdateCheck");
+        public static readonly IDataRequest DeploymentUpdatedApplicationFullName = new DataRequest("Deployment.UpdatedApplicationFullName");
+        public static readonly IDataRequest DeploymentUpdatedVersion = new DataRequest("Deployment.UpdatedVersion");
+        public static readonly IDataRequest DeploymentUpdateLocation = new DataRequest("Deployment.UpdateLocation");
+        public static readonly IDataRequest SystemTop10ProcessesByMemory = new DataRequest("System.Processes (Top 10 by Memory)");
     }
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]

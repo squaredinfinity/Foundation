@@ -1,4 +1,5 @@
 ﻿using SquaredInfinity.Foundation.Diagnostics;
+using SquaredInfinity.Foundation.Diagnostics.Fluent;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -71,49 +72,49 @@ namespace SquaredInfinity.Foundation.Extensions
         #endregion
 
 
-        //public static FluentSyntax.DiagnosticEventBuilder AsCritical(this ILogger logger)
-        //{
-        //    var builder = new FluentSyntax.DiagnosticEventBuilder(logger);
+        public static DiagnosticEventBuilder AsCritical(this ILogger logger)
+        {
+            var builder = new DiagnosticEventBuilder(logger);
 
-        //    builder.EventToBuild.Severity = SeverityLevels.Critical;
+            builder.EventToBuild.Severity = KnownSeverityLevels.Critical;
 
-        //    return builder;
-        //}
+            return builder;
+        }
 
-        //public static FluentSyntax.DiagnosticEventBuilder AsError(this ILogger logger)
-        //{
-        //    var builder = new FluentSyntax.DiagnosticEventBuilder(logger);
+        public static DiagnosticEventBuilder AsError(this ILogger logger)
+        {
+            var builder = new DiagnosticEventBuilder(logger);
 
-        //    builder.EventToBuild.Severity = SeverityLevels.Error;
+            builder.EventToBuild.Severity = KnownSeverityLevels.Error;
 
-        //    return builder;
-        //}
+            return builder;
+        }
 
-        //public static FluentSyntax.DiagnosticEventBuilder AsWarning(this ILogger logger)
-        //{
-        //    var builder = new FluentSyntax.DiagnosticEventBuilder(logger);
+        public static DiagnosticEventBuilder AsWarning(this ILogger logger)
+        {
+            var builder = new DiagnosticEventBuilder(logger);
 
-        //    builder.EventToBuild.Severity = SeverityLevels.Warning;
+            builder.EventToBuild.Severity = KnownSeverityLevels.Warning;
 
-        //    return builder;
-        //}
+            return builder;
+        }
 
-        //public static FluentSyntax.DiagnosticEventBuilder AsInformation(this ILogger logger)
-        //{
-        //    var builder = new FluentSyntax.DiagnosticEventBuilder(logger);
+        public static DiagnosticEventBuilder AsInformation(this ILogger logger)
+        {
+            var builder = new DiagnosticEventBuilder(logger);
 
-        //    builder.EventToBuild.Severity = SeverityLevels.Information;
+            builder.EventToBuild.Severity = KnownSeverityLevels.Information;
 
-        //    return builder;
-        //}
+            return builder;
+        }
 
-        //public static FluentSyntax.DiagnosticEventBuilder AsVerbose(this ILogger logger)
-        //{
-        //    var builder = new FluentSyntax.DiagnosticEventBuilder(logger);
+        public static DiagnosticEventBuilder AsVerbose(this ILogger logger)
+        {
+            var builder = new DiagnosticEventBuilder(logger);
 
-        //    builder.EventToBuild.Severity = SeverityLevels.Verbose;
+            builder.EventToBuild.Severity = KnownSeverityLevels.Verbose;
 
-        //    return builder;
-        //}
+            return builder;
+        }
     }
 }

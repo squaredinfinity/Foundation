@@ -50,7 +50,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             cx.RootElement = cx.Serialize(obj, rootElementName);
 
-            bool hasAnySerializationAttributes = false;
+            bool hasAnySerializationAttributesOrElements = false;
 
             //# Expand Instance Id and Id-Ref attributes where needed
             
@@ -73,7 +73,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                         var idAttribute = new XAttribute(options.UniqueIdAttributeName, instanceId.Id);
                         node.Add(idAttribute);
 
-                        hasAnySerializationAttributes = true;
+                        hasAnySerializationAttributesOrElements = true;
                     }
                 }
 
@@ -96,9 +96,46 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 }
             }
 
-            if (!hasAnySerializationAttributes)
+            var internalSettingsElement = new XElement(FlexiXmlSerializer.XmlNamespace.GetName("Internal"));
+            var hasInternalSettings = false;
+
+            if (options.TypeInformation == TypeInformation.LookupOnly)
             {
-                hasAnySerializationAttributes =
+                // add known types element
+                var knownTypes_element = new XElement(FlexiXmlSerializer.XmlNamespace.GetName("KnownTypes"));
+
+                var knownTypeElementName = FlexiXmlSerializer.XmlNamespace.GetName("KnownType");
+                var aliasAttributeName = FlexiXmlSerializer.XmlNamespace.GetName("alias");
+                var assemblyQualifiedNameAttributeName = FlexiXmlSerializer.XmlNamespace.GetName("assemblyQualifiedName");
+
+                foreach(var kt in cx.KnownTypes)
+                {
+                    foreach (var t in kt.Value)
+                    {
+                        var kt_el = new XElement(knownTypeElementName);
+
+                        kt_el.AddAttribute(aliasAttributeName, kt.Key.ToString());
+                        kt_el.AddAttribute(assemblyQualifiedNameAttributeName, t.AssemblyQualifiedName);
+
+                        knownTypes_element.Add(kt_el);
+                    }
+                }
+
+                internalSettingsElement.Add(knownTypes_element);
+                hasInternalSettings = true;
+            }
+
+            if(hasInternalSettings)
+            {
+                hasAnySerializationAttributesOrElements = true;
+
+                // internal settings should always be the first child for quicker lookup during deserialization
+                cx.RootElement.AddFirst(internalSettingsElement);
+            }
+
+            if (!hasAnySerializationAttributesOrElements)
+            {
+                hasAnySerializationAttributesOrElements =
                         (from e in cx.RootElement.DescendantsAndSelf()
                          from a in e.Attributes()
                          where
@@ -108,7 +145,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                          select a).Any();
             }
 
-            if(hasAnySerializationAttributes)
+            if(hasAnySerializationAttributesOrElements)
             {
                 var nsAttribute = new XAttribute(XNamespace.Xmlns.GetName(options.SerializationNamespaceName), XmlNamespace);
                 cx.RootElement.Add(nsAttribute);

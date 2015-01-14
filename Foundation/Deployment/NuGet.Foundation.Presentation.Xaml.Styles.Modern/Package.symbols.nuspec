@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern</id>
+    <version>1.0.27.0</version>
+    <title>SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern</title>
+    <authors>Jarek Kardas</authors>
+    <owners></owners>
+    <description>
+      SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern
+    </description>
+    <releaseNotes></releaseNotes>
+    <summary>
+      SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern
+    </summary>
+    <language>en-US</language>
+    <projectUrl>https://nuget.org/packages/SquaredInfinity.Foundation</projectUrl>
+    <iconUrl>https://nuget.org/Content/Images/packageDefaultIcon-50x50.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>http://vscommands.squaredinfinity.com</licenseUrl>
+    <copyright>Copyright 2014</copyright>
+    <dependencies>
+      <group targetFramework="net45">
+        <dependency id="SquaredInfinity.Foundation" version="1.0.27.0" />
+      </group>
+    </dependencies>
+    <references></references>
+    <tags></tags>
+  </metadata>
+  <files>
+    <file src="..\..\Sources\DotNet45\Foundation.Presentation.Xaml.Styles.Modern.DotNet45\bin\Release\SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.DotNet45.dll" target="lib\net45" />
+    <file src="..\..\Sources\DotNet45\Foundation.Presentation.Xaml.Styles.Modern.DotNet45\bin\Release\SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.DotNet45.xml" target="lib\net45" />
+    <file src="..\..\Sources\DotNet45\Foundation.Presentation.Xaml.Styles.Modern.DotNet45\bin\Release\SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.DotNet45.pdb" target="lib\net45" />
+    <file src="..\..\Sources\**\*.cs" target="src" />
+    <file src="..\..\Sources\**\*.xaml" target="src" />
+    <file src="tools\" target="tools" />
+    <file src="content\" target="content" />
+  </files>
+</package>

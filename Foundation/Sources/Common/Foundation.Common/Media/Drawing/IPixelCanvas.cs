@@ -17,6 +17,8 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         int Width { get; }
         int Height { get; }
 
+        int[] Pixels { get; }
+
         /// <summary>
         /// Gets or sets color of a pixel at a give position
         /// </summary>
@@ -35,6 +37,10 @@ namespace SquaredInfinity.Foundation.Media.Drawing
 
         int[] GetRow(int row);
         void SetRow(int row, int[] pixels);
+
+        System.Drawing.Color GetColor(int color);
+
+        int GetColor(System.Drawing.Color color);
 
         void DrawLineDDA(int x1, int y1, int x2, int y2, int color);
     }
