@@ -1,0 +1,1189 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SquaredInfinity.Foundation.DotNet45</name>
+    </assembly>
+    <members>
+        <member name="T:SquaredInfinity.Foundation.ChainOfCommand">
+            <summary>
+            Provides an implementation of Chain Of Command pattern based on event handlers.
+            Event handlers will be fired in a sequence.
+            If event handler can handle given command it should set args.Handled = true when done.
+            </summary>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.ChainOfCommand.TryHandle``1(System.EventHandler{``0},``0)">
+            <summary>
+            Provides an implementation of Chain Of Command pattern based on event handlers.
+            Event handlers will be fired in a sequence.
+            If event handler can handle given command it should set args.Handled = true when done.
+            </summary>
+            <typeparam name="TEventArgs"></typeparam>
+            <param name="eventHandler"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="E:SquaredInfinity.Foundation.Collections.INotifyCollectionContentChanged.VersionChanged">
+            <summary>
+            Occurs when content of any item in the collection has changed (but no items have been added / removed / moved).
+            </summary>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.Trees.ExpressionTree.CleanUpTreeStructure">
+            <summary>
+            Cleans up the tree structure to ensure that all Connective Nodes have both children assigned.
+            If a Connective has no children assigned, it will be removed.
+            If a Connective has one child assigned, it will be removed and child moved in its place.
+            </summary>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.Trees.IExpressionTreeNode.GetPrecedence">
+            <summary>
+            Node with lower precedence is evaluated first
+            </summary>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.Trees.IExpressionTreeNode.InsertLeft(SquaredInfinity.Foundation.Collections.Trees.IExpressionTreeNode)">
+            <summary>
+            Inserts specified node as a Left child of this node.
+            Steps will be taken to ensure tree correctness after this operation.
+            </summary>
+            <param name="leftNode"></param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.Trees.IExpressionTreeNode.InsertRight(SquaredInfinity.Foundation.Collections.Trees.IExpressionTreeNode)">
+            <summary>
+            Inserts specified node as a Right child of this node.
+            Steps will be taken to ensure tree correctness after this operation.
+            </summary>
+            <param name="rightNode"></param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.Trees.IExpressionTreeNode.InjectInto(SquaredInfinity.Foundation.Collections.Trees.IExpressionTreeNode,System.Func{SquaredInfinity.Foundation.Collections.Trees.IPredicateConnectiveNode})">
+            <summary>
+            Injects this node into tree hierarchy of specified node.
+            </summary>
+            <param name="node"></param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.Trees.IExpressionTreeNode.ReplaceChildNode(SquaredInfinity.Foundation.Collections.Trees.IExpressionTreeNode,SquaredInfinity.Foundation.Collections.Trees.IExpressionTreeNode)">
+            <summary>
+            Replaces old child node with a new child node.
+            Steps will be taken to ensure tree correctness after this operation.
+            Old node will be completely removed from the tree.
+            </summary>
+            <param name="oldNode"></param>
+            <param name="newNode"></param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.Trees.IExpressionTreeNode.AssignParent(SquaredInfinity.Foundation.Collections.Trees.IExpressionTreeNode)">
+            <summary>
+            Assigns a new Parent (or null) to this Node.
+            No further action will be taken to ensure tree correctness.
+            </summary>
+            <param name="newParent"></param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.Trees.IExpressionTreeNode.ClearChildAssignment(SquaredInfinity.Foundation.Collections.Trees.IExpressionTreeNode,SquaredInfinity.Foundation.Collections.Trees.ChildNodePosition@)">
+            <summary>
+            Removes the specified child from this node.
+            Autmatically determines if child is a Left or Right node.
+            No further action will be taken to ensure tree correctenss.
+            </summary>
+            <param name="existingChild"></param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.Trees.IExpressionTreeNode.GetChildPosition(SquaredInfinity.Foundation.Collections.Trees.IExpressionTreeNode)">
+            <summary>
+            Returns the position (Left or Right) of a child in this node.
+            </summary>
+            <param name="existingChild"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.Trees.IExpressionTreeNode.AssignChild(SquaredInfinity.Foundation.Collections.Trees.IExpressionTreeNode,SquaredInfinity.Foundation.Collections.Trees.ChildNodePosition)">
+            <summary>
+            Assigns the node to Left or Right child position slot.
+            No further action will be taken to ensure tree correctness.
+            </summary>
+            <param name="childNode"></param>
+            <param name="position"></param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.Trees.PredicateNode.InjectInto(SquaredInfinity.Foundation.Collections.Trees.IExpressionTreeNode,SquaredInfinity.Foundation.Collections.Trees.IExpressionTreeNode,System.Func{SquaredInfinity.Foundation.Collections.Trees.IPredicateConnectiveNode})">
+            <summary>
+            
+            </summary>
+            <param name="source">Node to be injected</param>
+            <param name="target">Target Node which will be replaced by Source, and joined with source's new sub-tree</param>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.NotifyPropertyChangedObject">
+            <summary> 
+            Implements INotifyPropertyChanged
+            </summary> 
+        </member>
+        <member name="M:SquaredInfinity.Foundation.NotifyPropertyChangedObject.RaisePropertyChanged(System.Linq.Expressions.Expression{System.Func{System.Object}})">
+            <summary> 
+            Raises the property changed event. 
+            </summary> 
+            <param name="expression">The expression (i.e. () => this.MyProperty).</param> 
+        </member>
+        <member name="M:SquaredInfinity.Foundation.NotifyPropertyChangedObject.RaisePropertyChanged(System.String)">
+            <summary> 
+            Raises the property changed event. 
+            </summary> 
+            <param name="propertyName">Name of a property.</param> 
+        </member>
+        <member name="M:SquaredInfinity.Foundation.NotifyPropertyChangedObject.RaiseIndexerChanged">
+            <summary> 
+            Raises the property changed event for indexer (all indexes) 
+            </summary> 
+        </member>
+        <member name="M:SquaredInfinity.Foundation.NotifyPropertyChangedObject.RaiseIndexerChanged(System.String)">
+            <summary> 
+            Raises the property changed event for indexer (specific index) 
+            </summary> 
+        </member>
+        <member name="M:SquaredInfinity.Foundation.NotifyPropertyChangedObject.RaiseIndexerChanged(System.Int32)">
+            <summary> 
+            Raises the property changed event for indexer (specific index) 
+            </summary> 
+        </member>
+        <member name="M:SquaredInfinity.Foundation.NotifyPropertyChangedObject.RaiseAllPropertiesChanged">
+            <summary>
+            Raises the property changed event for all properties by providing string.Empty as a property name
+            </summary>
+            <remarks>
+            http://msdn.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged.propertychanged.aspx
+            </remarks>
+        </member>
+        <member name="E:SquaredInfinity.Foundation.NotifyPropertyChangedObject.PropertyChanged">
+            <summary> 
+            Occurs when [property changed]. 
+            </summary> 
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Collections.VirtualizedDataItem`1.Index">
+            <summary>
+            Index of underlying Data Item in collection being virtualized.
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Collections.VirtualizedDataItem`1.DataItem">
+            <summary>
+            Underlying Data Item
+            </summary>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.IVirtualizedDataItemsProvider`1.GetTotalItemsCount">
+            <summary>
+            Returns a total number of all items in an underlying collection being virtualized
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.VirtualizedDataItemsPage`1.#ctor(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="startIndex">start index of first item on this page in relation to a whole underlying collection being virtualized</param>
+            <param name="pageSize">number of items in this page</param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.VirtualizedDataItemsPage`1.ReloadItems(System.Collections.Generic.IReadOnlyList{`0})">
+            <summary>
+            Updates this page with new items.
+            </summary>
+            <param name="newItems"></param>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.DateTimeContext">
+            <summary>
+            Provides a DateTime context.
+            Should be used instead of DateTime.Now for unit testing purposes.
+            </summary>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.IDateTimeContext">
+            <summary>
+            Provides a DateTime context.
+            Should be used instead of DateTime.Now for unit testing purposes.
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.IDateTimeContext.Now">
+            <summary>
+            Gets the current DateTime
+            </summary>
+            <value>The now.</value>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.DateTimeContext.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SquaredInfinity.Foundation.DateTimeContext"/> class.
+            Current time will always result same value as DateTime.Now.
+            </summary>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.DateTimeContext.#ctor(System.Func{System.DateTime})">
+            <summary>
+            Initializes a new instance of the <see cref="T:SquaredInfinity.Foundation.DateTimeContext"/> class.
+            Current time can be calculated in a function.
+            For example, to 'move seven days back in time' we can call: 
+            new DateTimeContext(() =&gt; return DateTime.Now.Subtract(TimeSpan.FromDays(7)));
+            </summary>
+            <param name="now">The now.</param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.DateTimeContext.FromString(System.String)">
+            <summary>
+            Sets the DateTimeContext to a static value represented by the string.
+            e.g. DateTimeContext.FromString("06/13/2008 01:01:01.0");
+            NOTE: InvariantCulture will be used, so date format is MM/dd/yyyy
+            </summary>
+            <param name="dateTimeString">The date time string.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.DateTimeContext.FromString(System.String,System.Globalization.CultureInfo)">
+            <summary>
+            Sets the DateTimeContext to a static value represented by the string.
+            </summary>
+            <param name="dateTimeString">The date time string.</param>
+            <param name="cultureInfo">The culture info.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.DateTimeContext.SetDefaultContext(SquaredInfinity.Foundation.IDateTimeContext)">
+            <summary>
+            Sets the default context.
+            WARNING: This will affect ALL code that uses default context and should be used for UnitTesting ONLY!
+            </summary>
+            <param name="newDefaultContext">The new default context.</param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.DateTimeContext.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.DateTimeContext.Now">
+            <summary>
+            Gets the current DateTime
+            </summary>
+            <value>The now.</value>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.DateTimeContext.Default">
+            <summary>
+            Gets the default DateTime context.
+            This should be used instead of DateTime.Now for unit testing purposes.
+            </summary>
+            <value>The default.</value>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.Diagnostics.ExceptionContextData">
+            <summary>
+            Provides additional data for the exception.
+            It will be stored securely inside exception object.
+            </summary>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.Direction">
+            <summary>
+            *Cardinal Directions*
+            North (N), East (E), South (S), West (W), 
+            *Ordinal (Intercardinal) Directions*
+            Northeast (NE), Southeast (SE), Southwest (SW), Northwest (NW)
+            </summary>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.ICollectionExtensions.ToReadOnly``1(System.Collections.Generic.ICollection{``0})">
+            <summary>
+            Returns Read-Only copy of current collection.
+            Unline AsReadonly() this creates a copy of collection, not just a wrapper.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="collection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.IEnumerableExtensions.GetCompatibleItemsTypes(System.Collections.IEnumerable)">
+            <summary>
+            Returns minimum base types of items accepted by the enumerable.
+            Note that Enumerable class may actually implement several generic IEnumerable interfaces and accept several different item types
+            (e.g. by doing conversions internally)
+            </summary>
+            <param name="list"></param>
+            <param name="listItemCandidate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.IEnumerableExtensions.ToNullIfEmpty``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Returns *null* if list is null or empty, otherwise returns the input list.
+            </summary>
+            <param name="byteArray"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.IEnumerableExtensions.DepthFirstTreeTraversal``1(``0,System.Func{``0,System.Collections.Generic.IEnumerable{``0}})">
+            <summary>
+            Uses Depth-First algorithm to traverse the tree.
+            http://en.wikipedia.org/wiki/Depth-first_search
+            </summary>
+            <param name="root"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.IEnumerableExtensions.BreadthFirstTreeTraversal``1(``0,System.Func{``0,System.Collections.Generic.IEnumerable{``0}})">
+            <summary>
+            Uses Breadth-First algorithm to traverse the tree.
+            http://en.wikipedia.org/wiki/Breadth-first_traversal
+            </summary>
+            <param name="me"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.IEnumerableExtensions.BottomUpTreeTraversal``1(``0,System.Func{``0,System.Collections.Generic.IEnumerable{``0}})">
+            <summary>
+            Returns nodes starting from leafes and working its way up in layers.
+            a node of depth n won't be returned unless all nodes with depth n+1 have been returned
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="me"></param>
+            <param name="getChildrenFunc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.IEnumerableExtensions.ToList``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
+            <summary>
+            Creates new List from enumerable.
+            </summary>
+            <param name="source">enumerable to create a List from</param>
+            <param name="capacity">initial capacity of the list</param>
+            <returns>List that contains elements from source.</returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.IListExtensions.CanAcceptItem(System.Collections.IList,System.Object,System.Collections.Generic.IReadOnlyList{System.Type})">
+            <summary>
+            Checks if specified item candidate is compatible with this list.
+            </summary>
+            <param name="list"></param>
+            <param name="listItemCandidate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.IReadOnlyListExtensions.GetCompatibleItemsTypes(System.Collections.IList)">
+            <summary>
+            Returns minimum base types of items accepted by the list.
+            Note tha IList class may actually implement several generic IList interfaces and accept several different item types
+            (e.g. by doing conversions internally)
+            </summary>
+            <param name="list"></param>
+            <param name="listItemCandidate"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.Extensions.PropertyChangedHandler`1">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.Extensions.INotifyPropertyChangedExtensions">
+            <summary>
+            Extensions for INotifyPropertyChanged interface.
+            </summary>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.INotifyPropertyChangedExtensions.Notify(System.ComponentModel.PropertyChangedEventHandler,System.Linq.Expressions.Expression{System.Func{System.Object}})">
+            <summary>
+            Notifies the specified event handler.
+            </summary>
+            <param name="eventHandler">The event handler.</param>
+            <param name="expression">The expression.</param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.INotifyPropertyChangedExtensions.SubscribeToChange``1(``0,System.Linq.Expressions.Expression{System.Func{System.Object}},SquaredInfinity.Foundation.Extensions.PropertyChangedHandler{``0})">
+            <summary>
+            Subscribes to change.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="objectThatNotifies">The object that notifies.</param>
+            <param name="expression">The expression.</param>
+            <param name="handler">The handler.</param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.INotifyPropertyChangedExtensions.SubscribeToChange(System.ComponentModel.INotifyPropertyChanged,System.Linq.Expressions.Expression{System.Func{System.Object}},SquaredInfinity.Foundation.Extensions.PropertyChangedHandler{System.ComponentModel.INotifyPropertyChanged})">
+            <summary>
+            Subscribes to change.
+            </summary>
+            <param name="objectThatNotifies">The object that notifies.</param>
+            <param name="expression">The expression.</param>
+            <param name="handler">The handler.</param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.INotifyPropertyChangedExtensions.SubscribeToChange(System.ComponentModel.INotifyPropertyChanged,System.String,SquaredInfinity.Foundation.Extensions.PropertyChangedHandler{System.ComponentModel.INotifyPropertyChanged})">
+            <summary>
+            Subscribes to change.
+            </summary>
+            <param name="objectThatNotifies">The object that notifies.</param>
+            <param name="propertyName">Name of the property.</param>
+            <param name="handler">The handler.</param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.ExpressionExtensions.GetAccessedMemberName(System.Linq.Expressions.Expression)">
+            <summary>
+            Gets the name of a property or field passed as an expression
+            </summary>
+            <param name="me">Me.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.ExpressionExtensions.GetAccessedMemberName(System.Linq.Expressions.Expression,System.Object@)">
+            <summary>
+            Gets the name and value of a property or field passed as an expression
+            </summary>
+            <param name="me">Me.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.ParallelExtensions.CreateCompletedParallelLoopResult">
+            <summary>
+            ParallelLoopResult does not expose public setters.
+            Must use reflection to create Completed Result without overhead of Parallel.XXX
+            </summary>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.Extensions.XContainerExtensions">
+            <summary>
+            Extensions for XContainer calss
+            </summary>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.XElementExtensions.AttachedElements(System.Xml.Linq.XElement)">
+            <summary>
+            Returns all attached elements of this element.
+            </summary>
+            <param name="element"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.XElementExtensions.FindAttachedElement(System.Xml.Linq.XElement,System.String,System.Boolean)">
+            <summary>
+            Finds an attached elements with a specified name
+            </summary>
+            <param name="element"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.XElementExtensions.GetAttributeValue(System.Xml.Linq.XElement,System.Xml.Linq.XName,System.String)">
+            <summary>
+            Returns a value of specified attribute.
+            When value does not exist or does not have a value, *defaultValue* value will be returned (null by default)
+            </summary>
+            <param name="element">XElement</param>
+            <param name="attributeName">name of the attribute</param>
+            <param name="defaultValue">default value to use when attribute does not exist or does not have a value</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.XElementExtensions.AddAttribute(System.Xml.Linq.XElement,System.Xml.Linq.XName,System.String)">
+            <summary>
+            Adds the attribute with a specified value.
+            </summary>
+            <param name="me">Me.</param>
+            <param name="name">The name.</param>
+            <param name="value">The value.</param>
+            <returns>Newly created element</returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.XElementExtensions.AddElement(System.Xml.Linq.XElement,System.Xml.Linq.XName)">
+            <summary>
+            Adds the element with a specifed name.
+            </summary>
+            <param name="me">Me.</param>
+            <param name="name">The name.</param>
+            <returns>Newly created element</returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.XElementExtensions.AddElement(System.Xml.Linq.XElement,System.Xml.Linq.XName,System.Object)">
+            <summary>
+            Adds the element with a specified name and content.
+            </summary>
+            <param name="me">Me.</param>
+            <param name="name">The name.</param>
+            <param name="content">The content.</param>
+            <returns>Newly created element</returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.XElementExtensions.AddElement(System.Xml.Linq.XElement,System.Xml.Linq.XName,System.Object[])">
+            <summary>
+            Adds the element with a specified element and content.
+            </summary>
+            <param name="me">Me.</param>
+            <param name="name">The name.</param>
+            <param name="content">The content.</param>
+            <returns>Newly created element</returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.XElementExtensions.GetQName(System.Xml.Linq.XElement)">
+            <summary>
+            Gets Qualified Name of XElement
+            </summary>
+            <param name="element"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.XElementExtensions.NameWithPredicate(System.Xml.Linq.XElement)">
+            <summary>
+            Element[0] - returns element + its position
+            </summary>
+            <param name="element"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.Extensions.XNodeExtensions">
+            <summary>
+            Extensions for XNode calss
+            </summary>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.XNodeExtensions.OuterXml(System.Xml.Linq.XNode)">
+            <summary>
+            Note, this will remove any line breaks between attributes. This is limitation of .Net (XmlReader/XmlTextReader)
+            </summary>
+            <param name="node"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.XNodeExtensions.InnerXml(System.Xml.Linq.XNode)">
+            <summary>
+            Note, this will remove any line breaks between attributes. This is limitation of .Net (XmlReader/XmlTextReader)
+            </summary>
+            <param name="node"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.XObjectExtensions.GetAbsoluteXPath(System.Xml.Linq.XObject)">
+            <summary>
+            Get the absolute XPath to a given XElement
+            (e.g. "/people/person[6]/name[1]/last[1]").
+            </summary>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.XObjectExtensions.IndexPosition(System.Xml.Linq.XObject)">
+            <summary>
+            Get the index of the given XElement relative to its
+            siblings with identical names. If the given element is
+            the root, -1 is returned.
+            </summary>
+            <param name="xObject">
+            The element to get the index of.
+            </param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.DateTimeExtensions.ToInvariantDateString(System.DateTime)">
+            <summary>
+            DateTime.ToString("dd/MM/yyyy") will return date in different format depending on current culture:
+                EN: 23/11/2011
+                DE: 23.11.2011
+                CN: 23-11-2011
+            
+            This method will automatically use invariant culture to return date in format of dd/MM/yyyy
+            i.e. not replacing '/' with a culture specific seprator
+            </summary>
+            <param name="dt"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.Extensions.DoubleExtensions">
+            <summary>
+            Extensions of a Double type.
+            </summary>
+        </member>
+        <member name="F:SquaredInfinity.Foundation.Extensions.DoubleExtensions.DefaultPrecision">
+            <summary>
+            Default precision used when comparing two double numbers.
+            It is a very small (the smallest possible) number for which 1.0 + DefaultPrecision != 1.0
+            The distance from 1.0 to the next largest double-precision number, that is eps = 2^(-52). 
+            Double Mantissa is 52 bits long.
+            http://msdn.microsoft.com/en-us/library/System.Double(v=vs.110).aspx
+            </summary>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.DoubleExtensions.AreClose(System.Double,System.Double)">
+            <summary>
+            Checks if two double precision numbers are equal given the precision of [DoubleExtensions.DefaultPrecision]
+            For example: 0.01 != 0.1 * 0.1 due to floating point accuracy problems [http://en.wikipedia.org/wiki/Floating_point#Accuracy_problems] (0.1 * 0.1 == 0.010000000000000002)
+            </summary>
+            <param name="d1">The d1.</param>
+            <param name="d2">The d2.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.DoubleExtensions.AreClose(System.Double,System.Double,System.Double)">
+            <summary>
+            Checks if two double precision numbers are equal given some precision.
+            For example: 0.01 != 0.1 * 0.1 due to floating point accuracy problems [http://en.wikipedia.org/wiki/Floating_point#Accuracy_problems] (0.1 * 0.1 == 0.010000000000000002)
+            </summary>
+            <param name="d1">The d1.</param>
+            <param name="d2">The d2.</param>
+            <param name="precision">The precision.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.DoubleExtensions.IsCloseTo(System.Double,System.Double)">
+            <summary>
+            Checks if double precision number is equal to another double precision number given the precision of [DoubleExtensions.DefaultPrecision].
+            For example: 0.01 != 0.1 * 0.1 due to floating point accuracy problems [http://en.wikipedia.org/wiki/Floating_point#Accuracy_problems] (0.1 * 0.1 == 0.010000000000000002)
+            </summary>
+            <param name="d1">The d1.</param>
+            <param name="d2">The d2.</param>
+            <param name="precision">The precision.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.DoubleExtensions.IsCloseTo(System.Double,System.Double,System.Double)">
+            <summary>
+            Checks if double precision number is equal to another double precision number given some precision.
+            For example: 0.01 != 0.1 * 0.1 due to floating point accuracy problems [http://en.wikipedia.org/wiki/Floating_point#Accuracy_problems] (0.1 * 0.1 == 0.010000000000000002)
+            </summary>
+            <param name="d1">The d1.</param>
+            <param name="d2">The d2.</param>
+            <param name="precision">The precision.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.DoubleExtensions.IsLessThan(System.Double,System.Double)">
+            <summary>
+            Checks if double precision number is less than another double precision number given the precision of [DoubleExtensions.DefaultPrecision].
+            For example: 0.01 != 0.1 * 0.1 due to floating point accuracy problems [http://en.wikipedia.org/wiki/Floating_point#Accuracy_problems] (0.1 * 0.1 == 0.010000000000000002)
+            </summary>
+            <param name="d1">The d1.</param>
+            <param name="d2">The d2.</param>
+            <param name="precision">The precision.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.DoubleExtensions.IsLessThan(System.Double,System.Double,System.Double)">
+            <summary>
+            Checks if double precision number is less than another double precision number given some precision.
+            For example: 0.01 != 0.1 * 0.1 due to floating point accuracy problems [http://en.wikipedia.org/wiki/Floating_point#Accuracy_problems] (0.1 * 0.1 == 0.010000000000000002)
+            </summary>
+            <param name="d1">The d1.</param>
+            <param name="d2">The d2.</param>
+            <param name="precision">The precision.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.DoubleExtensions.IsGreaterThan(System.Double,System.Double)">
+            <summary>
+            Checks if double precision number is greater than another double precision number given the precision of [DoubleExtensions.DefaultPrecision].
+            For example: 0.01 != 0.1 * 0.1 due to floating point accuracy problems [http://en.wikipedia.org/wiki/Floating_point#Accuracy_problems] (0.1 * 0.1 == 0.010000000000000002)
+            </summary>
+            <param name="d1">The d1.</param>
+            <param name="d2">The d2.</param>
+            <param name="precision">The precision.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.DoubleExtensions.IsGreaterThan(System.Double,System.Double,System.Double)">
+            <summary>
+            Checks if double precision number is greater than another double precision number given some precision.
+            For example: 0.01 != 0.1 * 0.1 due to floating point accuracy problems [http://en.wikipedia.org/wiki/Floating_point#Accuracy_problems] (0.1 * 0.1 == 0.010000000000000002)
+            </summary>
+            <param name="d1">The d1.</param>
+            <param name="d2">The d2.</param>
+            <param name="precision">The precision.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.DoubleExtensions.IsLessThanOrClose(System.Double,System.Double)">
+            <summary>
+            Checks if double precision number is less than or equal to another double precision number given the precision of [DoubleExtensions.DefaultPrecision].
+            For example: 0.01 != 0.1 * 0.1 due to floating point accuracy problems [http://en.wikipedia.org/wiki/Floating_point#Accuracy_problems] (0.1 * 0.1 == 0.010000000000000002)
+            </summary>
+            <param name="d1">The d1.</param>
+            <param name="d2">The d2.</param>
+            <param name="precision">The precision.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.DoubleExtensions.IsLessThanOrClose(System.Double,System.Double,System.Double)">
+            <summary>
+            Checks if double precision number is less than or equal to another double precision number given some precision.
+            For example: 0.01 != 0.1 * 0.1 due to floating point accuracy problems [http://en.wikipedia.org/wiki/Floating_point#Accuracy_problems] (0.1 * 0.1 == 0.010000000000000002)
+            </summary>
+            <param name="d1">The d1.</param>
+            <param name="d2">The d2.</param>
+            <param name="precision">The precision.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.DoubleExtensions.IsGreaterThanOrClose(System.Double,System.Double)">
+            <summary>
+            Checks if double precision number is greater than or equal to another double precision number given the precision of [DoubleExtensions.DefaultPrecision].
+            For example: 0.01 != 0.1 * 0.1 due to floating point accuracy problems [http://en.wikipedia.org/wiki/Floating_point#Accuracy_problems] (0.1 * 0.1 == 0.010000000000000002)
+            </summary>
+            <param name="d1">The d1.</param>
+            <param name="d2">The d2.</param>
+            <param name="precision">The precision.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.DoubleExtensions.IsGreaterThanOrClose(System.Double,System.Double,System.Double)">
+            <summary>
+            Checks if double precision number is greater than or equal to another double precision number given some precision.
+            For example: 0.01 != 0.1 * 0.1 due to floating point accuracy problems [http://en.wikipedia.org/wiki/Floating_point#Accuracy_problems] (0.1 * 0.1 == 0.010000000000000002)
+            </summary>
+            <param name="d1">The d1.</param>
+            <param name="d2">The d2.</param>
+            <param name="precision">The precision.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.DoubleExtensions.IsInfinityOrNaN(System.Double)">
+            <summary>
+            Returns True if double is Infinity (positive or negative) or NaN
+            </summary>
+            <param name="d"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.DoubleExtensions.IsInfinity(System.Double)">
+            <summary>
+            Returns True if double is Infinity (positive or negative)
+            </summary>
+            <param name="d"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.Extensions.EnumExtensions">
+            <summary>
+            Extensions for Enum types.
+            </summary>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.EnumExtensions.IsFlagSet(System.Enum,System.Enum)">
+            <summary>
+            Determines whether [is flag set].
+            </summary>
+            <param name="me">The enum.</param>
+            <param name="bitFlag">The bit flag.</param>
+            <returns>
+            	<c>true</c> if [is flag set]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.ExceptionExtensions.AddContextData``1(System.Exception,System.String,``0)">
+            <summary>
+            Tries to add the specified context data to the exception.
+            It's is safer to call it than to add data directly to Exception.Data dictionary (guid key will be used to avoid duplicate keys).
+            ! this method is private because TryAddContextData() should be used instead
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="ex"></param>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.ExceptionExtensions.TryAddContextData``1(System.Exception,System.String,System.Func{``0})">
+            <summary>
+            Adds the specified context data to the exception.
+            It's is safer to call it than to add data directly to Exception.Data dictionary.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="ex"></param>
+            <param name="key"></param>
+            <param name="getValue"></param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.ObjectExtensions.IsIn``1(``0,``0[])">
+            <summary>
+            Determines whether the specified object (value) is in a list.
+            </summary>
+            <returns>
+            	<c>true</c> if the specified me is in the list; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.ObjectExtensions.IsIn``1(``0,System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Determines whether the specified object (value) is in a list.
+            </summary>
+            <returns>
+            	<c>true</c> if the specified me is in the list; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.ObjectExtensions.IsIn``1(``0,System.Collections.Generic.IEqualityComparer{``0},``0[])">
+            <summary>
+            Determines whether the specified object (value) is in a list.
+            </summary>
+            <returns>
+            	<c>true</c> if the specified me is in the list; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.ObjectExtensions.IsIn``1(``0,System.Collections.Generic.IEqualityComparer{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Determines whether the specified object (value) is in a list.
+            </summary>
+            <returns>
+            	<c>true</c> if the specified me is in the list; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.StringExtensions.Substring(System.String,System.String)">
+            <summary>
+            Returns the substring using regex pattern.
+            </summary>
+            <param name="str">Input string</param>
+            <param name="regexPattern">The regex pattern.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.StringExtensions.Substring(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Returns the substring using regex pattern.
+            The substring is a value captured by named group
+            </summary>
+            <param name="str">input string</param>
+            <param name="regexPattern">The regex pattern.</param>
+            <param name="capturingGroupName">Name of the capturing group.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.StringExtensions.GetLengthWithExpandedTabs(System.String,System.UInt16)">
+            <summary>
+            Returns length of the string with expanded tabs (if tabs were replaced with spaces ' ');
+            For example, assuming default tabSize == 4,
+              "a\t"    = 4
+              "aa\t"   = 4
+              "aaa\t"  = 4
+              "aaaa\t" = 8
+              "\ta"    = 5
+              "\ta\t"  = 8
+            </summary>
+            <param name="str"></param>
+            <param name="tabSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.StringExtensions.ExpandTabs(System.String,System.UInt16)">
+            <summary>
+            Exapnds tabs replacing them with spaces.
+            For example, assuming default tabSize == 4,
+              "a\t"    => "a   "
+              "aa\t"   => "aa  "
+              "aaa\t"  => "aaa "
+              "aaaa\t" => "aaaa    "
+              "\ta"    => "    a"
+              "\ta\t"  => "    a   "
+            </summary>
+            <param name="str"></param>
+            <param name="tabSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.StringExtensions.FormatWith(System.String,System.Object[])">
+            <summary>
+            Uses specified string as format template for string.Format()
+            </summary>
+            <param name="str"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.StringExtensions.IsNullOrEmpty(System.String,System.Boolean)">
+            <summary>
+            Determines whether the specified string [is null or empty].
+            </summary>
+            <param name="str">input string</param>
+            <returns>
+            	<c>true</c> if the specified string [is null or empty]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.StringExtensions.ToValidFileName(System.String,System.Char)">
+            <summary>
+            Converts the string to a valid file name.
+            Replaces all characters that are invalid in a filename with '-'.
+            </summary>
+            <param name="me">Me.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.StringExtensions.GetLines(System.String,System.Boolean)">
+            <summary>
+            Gets the lines.
+            </summary>
+            <param name="str">string</param>
+            <param name="keepLineBreaks">when true, line breaks will be included in returned lines</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.TypeExtensions.GetCompatibleItemTypes(System.Type)">
+            <summary>
+            When type implements IEnumerable,
+            this will return the minimum list of compatible types supported as elements.
+            (other types may still be supported if they implement or inherit from types in this list).
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.TypeExtensions.ImplementsInterface``1(System.Type)">
+            <summary>
+            Returns true if given type implements specified interface.
+            </summary>
+            <typeparam name="TInterfaceType"></typeparam>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.TypeExtensions.ImplementsInterface(System.Type,System.Type)">
+            <summary>
+            Returns true if given type implements specified interface.
+            </summary>
+            <typeparam name="TInterfaceType"></typeparam>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.TypeExtensions.ImplementsInterface(System.Type,System.String)">
+            <summary>
+            Returns true if given type implements specified interface.
+            </summary>
+            <typeparam name="TInterfaceType"></typeparam>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.TypeExtensions.IsTypeEquivalentTo(System.Type,System.Type,System.Boolean,System.Boolean)">
+            <summary>
+            Returns true if types are equivalent.
+            Optionaly can treat nullable version of a non-nullable type T as equivalent to T.
+            </summary>
+            <param name="type"></param>
+            <param name="otherType">other type</param>
+            <param name="allowNullable">When set to true, Nullable T (where T is the same type as *type* parameter) will be treated as equivalent.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.IndexInListComparer`1">
+            <summary>
+            Compares indexes of items in the list.
+            Any subsequent changes to the list will not be reflected (i.e. indexes of items are chached internally when instance of this class is created)
+            </summary>
+            <typeparam name="TItem"></typeparam>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Media.ColorSpaces.IColor.ColorSpace">
+            <summary>
+            Returns the color space for which this color is defined.
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Media.ColorSpaces.IColorSpace.Name">
+            <summary>
+            Name of this color space
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Media.ColorSpaces.LabColor.L">
+            <summary>
+            [0..100]
+            </summary>
+        </member>
+        <member name="F:SquaredInfinity.Foundation.Media.ColorSpaces.LabColorSpace.Sigma">
+            <summary>
+            0.206896
+            </summary>
+        </member>
+        <member name="F:SquaredInfinity.Foundation.Media.ColorSpaces.LabColorSpace.CubicSigma">
+            <summary>
+            0.008856
+            </summary>
+        </member>
+        <member name="F:SquaredInfinity.Foundation.Media.ColorSpaces.LabColorSpace.ToLabConversionConstant">
+            <summary>
+            7.787037 = (1/3 * (29/6)^2
+            </summary>
+        </member>
+        <member name="F:SquaredInfinity.Foundation.Media.ColorSpaces.LabColorSpace.ToXYZConversionConstant">
+            <summary>
+            0.128418
+            </summary>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Media.ColorSpaces.LabColorSpace.f_forward_conversion(System.Double,System.Double)">
+            <summary>
+            transformation function used for conversion from XYZ to LAB
+            </summary>
+            <param name="t">value of X, Y or Z color channel</param>
+            <param name="tn">value of white point of X, Y or Z color channel</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Media.ColorSpaces.LabColorSpace.f_reverse_conversion(System.Double)">
+            <summary>
+            transformation function used for conversion from LAB to XYZ
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Media.ColorSpaces.RGBColorSpace.M_XYZToRGB">
+            <summary>
+            M Matrix which transfroms from XYZ space to RGB space
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Media.ColorSpaces.RGBColorSpace.M_RGBToXYZ">
+            <summary>
+            M Matrix which transfroms from RGB space to XYZ space
+            </summary>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.Media.ColorSpaces.scRGBColorSpace">
+            <summary>
+            http://en.wikipedia.org/wiki/ScRGB (D65)
+            </summary>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.Media.ColorSpaces.XYZColorSpace">
+            <summary>
+            CIE 1931 XYZ color space
+            http://en.wikipedia.org/wiki/CIE_1931_color_space
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Media.ColorSpaces.XYZColorSpace.WhitePoint">
+            <summary>
+            The white reference illuminant, XYZ values scaled so that Y = 1 (2°, D65)
+            </summary>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Serialization.FlexiXml.ITypeSerializationStrategy`1.IgnoreAllMembers">
+            <summary>
+            All members will be ignored during serialization (unless explicitly enabled later).
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Serialization.FlexiXml.ITypeSerializationStrategy`1.IgnoreMember(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Specified member will not be serialized (unless explicitly enabled later)
+            </summary>
+            <param name="memberExpression"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Serialization.FlexiXml.ITypeSerializationStrategy`1.SerializeMember(System.Linq.Expressions.Expression{System.Func{`0,System.Object}},System.Func{`0,System.Boolean})">
+            <summary>
+            Enables serialization of a specified member (even if its serialization has been disabled before).
+            </summary>
+            <param name="memberExpression"></param>
+            <param name="shouldSerializeMember"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Serialization.FlexiXml.ITypeSerializationStrategy`1.SerializeMember(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Enables serialization of a specified member (even if its serialization has been disabled before).
+            </summary>
+            <param name="memberExpression"></param>
+            <param name="shouldSerializeMember"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Serialization.FlexiXml.ITypeSerializationStrategy`1.SerializeAllRemainingMembers">
+            <summary>
+            Enables serialization of all members which have not been explicitly ignored before.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.Serialization.FlexiXml.InstanceId">
+            <summary>
+            Uniquely identifies instance of object participating in serialization.
+            This is used to deal with circular references.
+            Individual instances are identified by auto-increasing Id number, or by unique name
+            </summary>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.Serialization.FlexiXml.ISerializationContext">
+            <summary>
+            Serialization Context holds state information of current serialization / deserialization operation
+            </summary>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Serialization.FlexiXml.ISerializationContext.Deserialize(System.Xml.Linq.XElement,System.Type,System.Boolean)">
+            <summary>
+            Deserialize xml to specified target type.
+            Note that xml may provide additional deserialization information which will result in instance of different type being returned.
+            Target Type Candidate will always be assignable from resulting instance.
+            </summary>
+            <param name="xml">xml containing serialization information</param>
+            <param name="targetTypeCandidate">minimum type to which xml will be deserialized (min base type)</param>
+            <returns>deserialized instance</returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Serialization.FlexiXml.ISerializationContext.Deserialize(System.Xml.Linq.XElement,System.Object)">
+            <summary>
+            Deserialize xml to specified object instance.
+            Members of specified target will be populated using data from xml.
+            </summary>
+            <param name="xml"></param>
+            <param name="target"></param>
+            <param name="cx"></param>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Serialization.FlexiXml.ISerializationContext.TypeDescriptor">
+            <summary>
+            Type
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Serialization.FlexiXml.ISerializationContext.RootInstance">
+            <summary>
+            Instance of root object being serialized
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Serialization.FlexiXml.ISerializationContext.RootElement">
+            <summary>
+            Root xml element of xml document being serialized / deserialized
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Serialization.FlexiXml.ISerializationContext.Options">
+            <summary>
+            Serialization Options
+            </summary>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.Serialization.FlexiXml.SerializationContext">
+            <summary>
+            Serialization Context sotres state used by serializer during serialization.
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Serialization.FlexiXml.SerializationContext.RootInstance">
+            <summary>
+            Instance of root object being serialized
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Serialization.FlexiXml.SerializationOptions.NullValueAttributeName">
+            <summary>
+            Name of attribute in Serialization namespace which will signify that XML Element represents CLR NULL value.
+            Default is 'null'.
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Serialization.FlexiXml.SerializationOptions.NullAttributeMarkupExtension">
+            <summary>
+            Value of an attribute which will represent CLR NULL value.
+            Default is 'null'.
+            </summary>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.Text.UnicodeCharacters.Specials.Control">
+            <summary>
+            http://www.unicode.org/charts/PDF/U0000.pdf
+            http://unicode.org/charts/PDF/U0080.pdf
+            </summary>
+        </member>
+        <member name="F:SquaredInfinity.Foundation.Text.UnicodeCharacters.Specials.Control.NoBreakSpace">
+            <summary>
+            http://en.wikipedia.org/wiki/Non-breaking_space
+            </summary>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.Text.UnicodeCharacters.Specials.LayoutControls">
+            <summary>
+            http://unicode.org/charts/PDF/U2000.pdf
+            </summary>
+        </member>
+        <member name="F:SquaredInfinity.Foundation.Text.UnicodeCharacters.Specials.LayoutControls.ZeroWidthSpace">
+            <summary>
+            http://en.wikipedia.org/wiki/Zero-width_space
+            </summary>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.TreeTraversalMode">
+            <summary>
+            Tree traversal mode (Breadth First, Depth First, Bottom Up)
+            </summary>
+        </member>
+        <member name="F:SquaredInfinity.Foundation.TreeTraversalMode.BreadthFirst">
+            <summary>
+            Start at root and explore all neightboring nodes, 
+            then explore each neightbor node in turn folowing same rule (neightboring nodes first)
+            </summary>
+        </member>
+        <member name="F:SquaredInfinity.Foundation.TreeTraversalMode.DepthFirst">
+            <summary>
+            Start at root and explore as far as possible along each branch before backgracking.
+            </summary>
+        </member>
+        <member name="F:SquaredInfinity.Foundation.TreeTraversalMode.BottomUp">
+            <summary>
+            Start at the leaf nodes and explore by moving up the tree
+            </summary>
+        </member>
+        <member name="F:SquaredInfinity.Foundation.TreeTraversalMode.Default">
+            <summary>
+            Breadth First is the Default
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Types.Description.Reflection.ReflectionBasedTypeDescription.FullName">
+            <summary>
+            Namespace.Name
+            </summary>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Types.Mapping.ITypeMapper.DeepClone``1(``0)">
+            <summary>
+            Creates a deep clone of *source*.
+            The clone will be of *TTarget* type.
+            </summary>
+            <typeparam name="TTarget"></typeparam>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Types.Mapping.ITypeMapper.DeepClone``1(``0,SquaredInfinity.Foundation.Types.Mapping.MappingOptions)">
+            <summary>
+            Creates a deep clone of *source*.
+            The clone will be of *TTarget* type.
+            </summary>
+            <typeparam name="TTarget"></typeparam>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Types.Mapping.ITypeMapper.DeepClone(System.Object)">
+            <summary>
+            Creates a deep clone of *source*.
+            The clone will be of the same type as the *source*.
+            </summary>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Types.Mapping.ITypeMapper.DeepClone(System.Object,System.Type)">
+            <summary>
+            Creates a deep clone of *source*.
+            The clone will be of *targetType* type.
+            </summary>
+            <param name="source"></param>
+            <param name="targetType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Types.Mapping.ITypeMapper.Map``1(System.Object,``0)">
+            <summary>
+            Maps *source* to *target*.
+            Only members of *TTarget* type will be mapped.
+            </summary>
+            <typeparam name="TTarget"></typeparam>
+            <param name="source"></param>
+            <param name="target"></param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Types.Mapping.ITypeMapper.Map(System.Object,System.Object,System.Type)">
+            <summary>
+            Clones *source* into *target*.
+            Only members of *targetType* will be mapped.
+            </summary>
+            <param name="source"></param>
+            <param name="target"></param>
+            <param name="targetType"></param>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Types.Mapping.MappingOptions.IgnoreNulls">
+            <summary>
+            When *true*, source members with NULL value will not be mapped (original value of the target will be preserved)
+            </summary>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.WeakEventHandler`4">
+            <summary>
+            Provides a layer between Event Subscriber and Event Provider.
+            Normally using EventProvider.Event += EventSubscriber.EventHandler; would create a strong reference from EventProvider to EventSubscriber.
+            This strong reference would prevent EventSubscriber from Garbage Collection.
+            
+            WeakEventHandler holds a Weak-Reference to EventSubscriber allowing it to be Garbage Collected when needed.
+            </summary>
+            <typeparam name="TEventSubscriber"></typeparam>
+            <typeparam name="TEventSource"></typeparam>
+            <typeparam name="TDelegate"></typeparam>
+            <typeparam name="TEventArgs"></typeparam>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,45 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/ xxx.Foundation.Presentation;Component/Themes/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/ xxx.Foundation.Presentation;Component/Themes/Converters.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
+
+    
+    <DataTemplate x:Key="DataTemplates.TabularData.CellTemplate">
+            <Border Background="{Binding Formatting.Background, Converter={StaticResource Converters.ColorToSolidColorBrush}}"
+                    ToolTipService.ShowDuration="10000"
+                    BorderThickness="0,0,0,0"
+                    Padding="3,2,3,2"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
+                <Border.ToolTip>
+                    <ContentControl ContentTemplate="{Binding ColumnDefinition.CellToolTipTemplate}" 
+                                    Content="{Binding}" />
+                </Border.ToolTip>
+
+            <ContentControl Content="{Binding}"
+                            ContentTemplate="{Binding ColumnDefinition.CellValueTemplate}" />
+
+            <!--<TextBlock Foreground="{Binding Formatting.Foreground, Converter={StaticResource Converters.ColorToSolidColorBrush}}"
+                           FontWeight="{Binding Formatting.FontWeight}"
+                           HorizontalAlignment="Center"
+                           TextTrimming="CharacterEllipsis">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource Converters.TabularDataCell.DisplayValueConverter}">
+                            <Binding Path="Value" />
+                            <Binding Path="ColumnDefinition.DisplayValueConverter" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>-->
+            </Border>
+    </DataTemplate>
+
+    <DataTemplate x:Key="DataTemplates.TabularData.Header.ToolTip">
+        <TextBlock Text="{Binding Header}" FontWeight="Bold" />
+    </DataTemplate>
+
+</ResourceDictionary>

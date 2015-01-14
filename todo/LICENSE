@@ -343,123 +343,217 @@
         
         <Setter Property="local:Highlight.SelectionHighlightBrush" Value="{DynamicResource Brushes.ListItem.Selected.Background}" />
         
+ if (alpha == 0)
+                return;
 
-1. blit
-2. conversion to writablebitmap
-3. perhaps expose pixels array (e.g. via GetPixels())
+            if (!IntersectsWith(destination_rect))
+                return;
 
-row size = http://en.wikipedia.org/wiki/BMP_file_format
+            int dw = (int)destRect.Width;
+            int dh = (int)destRect.Height;
 
- var bmp = new WriteableBitmap((int)rd.Width, (int)rd.Height, 96, 96, PixelFormats.Pbgra32, palette: null);
-
-                using (var cx = bmp.GetBitmapContext(ReadWriteMode.ReadWrite))
+            //using (var srcContext = source.GetBitmapContext(ReadWriteMode.ReadOnly))
+            {
+               // using (var destContext = bmp.GetBitmapContext())
                 {
-                    BitmapContext.BlockCopy((int[])rd.Pixels, 0, cx, 0, rd.Pixels.Count);
+                    // tinted if color is not opaque white
+                    var is_tinted = alpha != 255 || red != 255 || green != 255 || blue != 255;
+
+                    int sourceWidth = srcContext.Width;
+                    int dpw = destContext.Width;
+                    int dph = destContext.Height;
+
+                    var sourcePixels = srcContext.Pixels;
+                    var destPixels = destContext.Pixels;
+                    int sourceLength = srcContext.Length;
+                    int destLength = destContext.Length;
+                    int sourceIdx = -1;
+                    int px = (int)destRect.X;
+                    int py = (int)destRect.Y;
+                    int right = px + dw;
+                    int bottom = py + dh;
+                    int x;
+                    int y;
+                    int idx;
+                    double ii;
+                    double jj;
+                    int sr = 0;
+                    int sg = 0;
+                    int sb = 0;
+                    int dr, dg, db;
+                    int sourcePixel;
+                    int sa = 0;
+                    int da;
+                    int ca = color.A;
+                    int cr = color.R;
+                    int cg = color.G;
+                    int cb = color.B;
+                    var sw = (int)sourceRect.Width;
+                    var sdx = sourceRect.Width / destRect.Width;
+                    var sdy = sourceRect.Height / destRect.Height;
+                    int sourceStartX = (int)sourceRect.X;
+                    int sourceStartY = (int)sourceRect.Y;
+                    int lastii, lastjj;
+                    lastii = -1;
+                    lastjj = -1;
+                    jj = sourceStartY;
+                    y = py;
+                    for (int j = 0; j < dh; j++)
+                    {
+                        if (y >= 0 && y < dph)
+                        {
+                            ii = sourceStartX;
+                            idx = px + y * dpw;
+                            x = px;
+                            sourcePixel = sourcePixels[0];
+
+
+                            if (blendMode == BlendMode.None && !is_tinted)
+                            {
+                                sourceIdx = (int)ii + (int)jj * sourceWidth;
+                                var offset = x < 0 ? -x : 0;
+                                var xx = x + offset;
+                                var wx = sourceWidth - offset;
+                                var len = xx + wx < dpw ? wx : dpw - xx;
+                                if (len > sw) len = sw;
+                                if (len > dw) len = dw;
+                                BitmapContext.BlockCopy(srcContext, (sourceIdx + offset) * 4, destContext, (idx + offset) * 4, len * 4);
+                            }
+
+                            // Pixel by pixel copying
+                            else
+                            {
+                                for (int i = 0; i < dw; i++)
+                                {
+                                    if (x >= 0 && x < dpw)
+                                    {
+                                        if ((int)ii != lastii || (int)jj != lastjj)
+                                        {
+                                            sourceIdx = (int)ii + (int)jj * sourceWidth;
+                                            if (sourceIdx >= 0 && sourceIdx < sourceLength)
+                                            {
+                                                sourcePixel = sourcePixels[sourceIdx];
+                                                sa = ((sourcePixel >> 24) & 0xff);
+                                                sr = ((sourcePixel >> 16) & 0xff);
+                                                sg = ((sourcePixel >> 8) & 0xff);
+                                                sb = ((sourcePixel) & 0xff);
+                                                if (tinted && sa != 0)
+                                                {
+                                                    sa = (((sa * ca) * 0x8081) >> 23);
+                                                    sr = ((((((sr * cr) * 0x8081) >> 23) * ca) * 0x8081) >> 23);
+                                                    sg = ((((((sg * cg) * 0x8081) >> 23) * ca) * 0x8081) >> 23);
+                                                    sb = ((((((sb * cb) * 0x8081) >> 23) * ca) * 0x8081) >> 23);
+                                                    sourcePixel = (sa << 24) | (sr << 16) | (sg << 8) | sb;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                sa = 0;
+                                            }
+                                        }
+                                        if (blendMode == BlendMode.None)
+                                        {
+                                            destPixels[idx] = sourcePixel;
+                                        }
+                                        else if (blendMode == BlendMode.ColorKeying)
+                                        {
+                                            sr = ((sourcePixel >> 16) & 0xff);
+                                            sg = ((sourcePixel >> 8) & 0xff);
+                                            sb = ((sourcePixel) & 0xff);
+
+                                            if (sr != color.R || sg != color.G || sb != color.B)
+                                            {
+                                                destPixels[idx] = sourcePixel;
+                                            }
+
+                                        }
+                                        else if (blendMode == BlendMode.Mask)
+                                        {
+                                            int destPixel = destPixels[idx];
+                                            da = ((destPixel >> 24) & 0xff);
+                                            dr = ((destPixel >> 16) & 0xff);
+                                            dg = ((destPixel >> 8) & 0xff);
+                                            db = ((destPixel) & 0xff);
+                                            destPixel = ((((da * sa) * 0x8081) >> 23) << 24) |
+                                                        ((((dr * sa) * 0x8081) >> 23) << 16) |
+                                                        ((((dg * sa) * 0x8081) >> 23) << 8) |
+                                                        ((((db * sa) * 0x8081) >> 23));
+                                            destPixels[idx] = destPixel;
+                                        }
+                                        else if (sa > 0)
+                                        {
+                                            int destPixel = destPixels[idx];
+                                            da = ((destPixel >> 24) & 0xff);
+                                            if ((sa == 255 || da == 0) &&
+                                               blendMode != BlendMode.Additive
+                                               && blendMode != BlendMode.Subtractive
+                                               && blendMode != BlendMode.Multiply
+                                               )
+                                            {
+                                                destPixels[idx] = sourcePixel;
+                                            }
+                                            else
+                                            {
+                                                dr = ((destPixel >> 16) & 0xff);
+                                                dg = ((destPixel >> 8) & 0xff);
+                                                db = ((destPixel) & 0xff);
+                                                if (blendMode == BlendMode.Alpha)
+                                                {
+                                                    var isa = 255 - sa;
+
+                                                    destPixel = ((da & 0xff) << 24) |
+                                                                (((((sr << 8) + isa * dr) >> 8) & 0xff) << 16) |
+                                                                (((((sg << 8) + isa * dg) >> 8) & 0xff) << 8) |
+                                                                 ((((sb << 8) + isa * db) >> 8) & 0xff);
+                                                }
+                                                else if (blendMode == BlendMode.Additive)
+                                                {
+                                                    int a = (255 <= sa + da) ? 255 : (sa + da);
+                                                    destPixel = (a << 24) |
+                                                       (((a <= sr + dr) ? a : (sr + dr)) << 16) |
+                                                       (((a <= sg + dg) ? a : (sg + dg)) << 8) |
+                                                       (((a <= sb + db) ? a : (sb + db)));
+                                                }
+                                                else if (blendMode == BlendMode.Subtractive)
+                                                {
+                                                    int a = da;
+                                                    destPixel = (a << 24) |
+                                                       (((sr >= dr) ? 0 : (sr - dr)) << 16) |
+                                                       (((sg >= dg) ? 0 : (sg - dg)) << 8) |
+                                                       (((sb >= db) ? 0 : (sb - db)));
+                                                }
+                                                else if (blendMode == BlendMode.Multiply)
+                                                {
+                                                    // Faster than a division like (s * d) / 255 are 2 shifts and 2 adds
+                                                    int ta = (sa * da) + 128;
+                                                    int tr = (sr * dr) + 128;
+                                                    int tg = (sg * dg) + 128;
+                                                    int tb = (sb * db) + 128;
+
+                                                    int ba = ((ta >> 8) + ta) >> 8;
+                                                    int br = ((tr >> 8) + tr) >> 8;
+                                                    int bg = ((tg >> 8) + tg) >> 8;
+                                                    int bb = ((tb >> 8) + tb) >> 8;
+
+                                                    destPixel = (ba << 24) |
+                                                                ((ba <= br ? ba : br) << 16) |
+                                                                ((ba <= bg ? ba : bg) << 8) |
+                                                                ((ba <= bb ? ba : bb));
+                                                }
+
+                                                destPixels[idx] = destPixel;
+                                            }
+                                        }
+                                    }
+                                    x++;
+                                    idx++;
+                                    ii += sdx;
+                                }
+                            }
+                        }
+                        jj += sdy;
+                        y++;
+                    }
                 }
-
-                bmp.Freeze();
-
-
-                 // #    Overview
-            //      ARGB channels have 1 byte each
-            //      RGB channels are pre-multiplied by A, to improve performance of certain operations that use transparency
-
-#if NOT_OPTIMIZED
-
-            //# Below is a non-optimized version of conversion algorithm
-
-            // get Alpha value as a fraction of maximum channel value
-            var a_fraction = color.A / 255;
-
-            // construct final 32bit color by moving each channel value to appropriate place
-            // BITS:        xxxx|xxxx|xxxx|xxxx
-            // CHANNELS:      A | R' | G' | B'      (note: R',G',B' are pre-multiplied channels)
-            var color32 =
-                (color.A << 24)
-                // R,G,B channels must be premultiplied by Alpha
-                | (color.R * a_fraction) << 16
-                | (color.G * a_fraction) << 8
-                | (color.B * a_fraction);
-#else
-            // NOTE:    This is an optimized version of algorithm above
-            //          It avoids floating point arithmetics for faster execution
-
-
-            // add 1 to original alpha
-            // this will make sure that after multiplication by 
-            // channel all significant bits are stored in a first byte of the result
-
-            // for example:
-            //  A: 255
-            //  R: 255
-            //      non-optimized way: 
-            //          A/255 = 255/255 = 1
-            //          R * 1 = 255 | 1111 1111
-            //      optimized way (if '1' not added)
-            //          255 * 255 = 65025 | 1111 1110 0000 0001 <- notice 8th bit is 0 instead of 1
-            //      optimized way ('1' added)
-            //          256 * 255 = 65280 | 1111 1111 0000 0000 <- all significant bits have correct values
-            //
-            //  R: 51
-            //      non-optimized way: 
-            //          A/255 = 255/255 = 1
-            //          R * 1 = 51 | 0011 0011
-            //      optimized way (if '1' not added)
-            //          255 * 51 = 13005 | 0011 0010 1100 1101 <- <- notice 8th bit is 0 instead of 1
-            //      optimized way ('1' added)
-            //          256 * 51 = 13056 | 0011 0011 0000 0000 <- all significant bits have correct values
-            var a = color.A + 1;
-
-            var color32 =
-                (color.A << 24)
-                // R,G,B channels must be premultiplied by Alpha
-                // shift right by 8 bits to keep only most significant byte of the multiplication result
-                | ((color.R * a) >> 8) << 16
-                | ((color.G * a) >> 8) << 8
-                | ((color.B * a) >> 8);
-#endif
-
-public static double NextDouble(double value)
-        {
-
-            // Get the long representation of value:
-            var longRep = BitConverter.DoubleToInt64Bits(value);
-
-            long nextLong;
-            if (longRep >= 0) // number is positive, so increment to go "up"
-                nextLong = longRep + 1L;
-            else if (longRep == long.MinValue) // number is -0
-                nextLong = 1L;
-            else  // number is negative, so decrement to go "up"
-                nextLong = longRep - 1L;
-
-            return BitConverter.Int64BitsToDouble(nextLong);
-        }
-
-
-                [DllImport("user32.dll", EntryPoint = "GetKeyboardState", SetLastError = true)]
-        private static extern bool NativeGetKeyboardState([Out] byte[] keyStates);
-
-        private static bool GetKeyboardState(byte[] keyStates)
-        {
-            if (keyStates == null)
-                throw new ArgumentNullException("keyState");
-            if (keyStates.Length != 256)
-                throw new ArgumentException("The buffer must be 256 bytes long.", "keyState");
-            return NativeGetKeyboardState(keyStates);
-        }
-
-        private static byte[] GetKeyboardState()
-        {
-            byte[] keyStates = new byte[256];
-            if (!GetKeyboardState(keyStates))
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-            return keyStates;
-        }
-
-        private static bool AnyKeyPressed()
-        {
-            byte[] keyState = GetKeyboardState();
-            // skip the mouse buttons
-            return keyState.Skip(8).Any(state => (state & 0x80) != 0);
-        }
+            }
+        }            
