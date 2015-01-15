@@ -89,6 +89,14 @@ namespace SquaredInfinity.Foundation.Presentation.Windows
             this.LayoutUpdated += DefaultDialogWindow_LayoutUpdated;
 
             PreviewViewModelEvent += ViewHostWindow_PreviewViewModelEvent;
+
+            Initialized += ViewHostWindow_Initialized;
+        }
+
+        void ViewHostWindow_Initialized(object sender, EventArgs e)
+        {
+            if (ViewModel != null)
+                ViewModel.Initialize();
         }
 
         void RefreshViewModel(object oldDataContext, object newDataContext)
