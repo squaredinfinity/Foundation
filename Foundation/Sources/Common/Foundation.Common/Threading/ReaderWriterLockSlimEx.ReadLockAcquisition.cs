@@ -13,54 +13,45 @@ namespace SquaredInfinity.Foundation.Threading
         {
             ReaderWriterLockSlimEx Owner;
 
-            public ReadLockAcquisition(ReaderWriterLockSlimEx owner, bool isSuccesfull)
+            public ReadLockAcquisition(ReaderWriterLockSlimEx owner)
             {
                 this.Owner = owner;
-                this.IsSuccesfull = isSuccesfull;
             }
 
             public IWriteLockAcquisition AcquireWriteLock()
             {
-                if (!IsSuccesfull)
-                    throw new InvalidOperationException("Cannot acquire Write Lock using unsuccesfull Read Lock Acquisition.");
-
                 Owner.InternalLock.EnterWriteLock();
 
-                return new WriteLockAcquisition(Owner, isSuccesfull: true);
+                return new WriteLockAcquisition(Owner);
             }
 
-            public IWriteLockAcquisition TryAcquireWriteLock(TimeSpan timeout)
+            public bool TryAcquireWriteLock(TimeSpan timeout, out IWriteLockAcquisition writeLockAcquisition)
             {
-                if (!IsSuccesfull)
-                    throw new InvalidOperationException("Cannot acquire Write Lock using unsuccesfull Read Lock Acquisition.");
-
                 if (Owner.InternalLock.RecursionPolicy == LockRecursionPolicy.NoRecursion && 
                     (Owner.InternalLock.IsReadLockHeld || Owner.InternalLock.IsUpgradeableReadLockHeld || Owner.InternalLock.IsWriteLockHeld))
                 {
-                    return new WriteLockAcquisition(Owner, isSuccesfull: false);
+                    writeLockAcquisition = null;
+                    return false;
                 }
 
                 if (Owner.InternalLock.RecursionPolicy == LockRecursionPolicy.SupportsRecursion && 
                     !(Owner.InternalLock.IsUpgradeableReadLockHeld || Owner.InternalLock.IsWriteLockHeld))
                 {
-                    return new WriteLockAcquisition(Owner, isSuccesfull: false);
+                    writeLockAcquisition = null;
+                    return false;
                 }
 
                 var ok = Owner.InternalLock.TryEnterWriteLock(timeout);
 
-                return new WriteLockAcquisition(Owner, isSuccesfull: ok);
+                writeLockAcquisition = new WriteLockAcquisition(Owner);
+                return true;
             }
 
             public void Dispose()
             {
-                if (!IsSuccesfull)
-                    return;
-
                 if (Owner.InternalLock.IsReadLockHeld)
                     Owner.InternalLock.ExitReadLock();
             }
-
-            public bool IsSuccesfull { get; private set; }
         }
     }
 }

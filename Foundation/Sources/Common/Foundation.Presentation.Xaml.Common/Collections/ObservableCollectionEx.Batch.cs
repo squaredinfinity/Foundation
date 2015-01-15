@@ -94,7 +94,7 @@ namespace SquaredInfinity.Foundation.Collections
                 TItem[] oldItems = new TItem[Items.Count];
                 Items.CopyTo(oldItems, 0);
 
-                using(readLock.AcquireWriteLock())
+                using(readLock.UpgradeToWriteLock())
                 {
                     if (hadAnyItemsBefore)
                     {

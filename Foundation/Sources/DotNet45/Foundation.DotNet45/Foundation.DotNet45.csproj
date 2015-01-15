@@ -419,6 +419,9 @@
     <Compile Include="..\..\Common\Foundation.Common\Threading\IReadLockAcquisition.cs">
       <Link>Threading\IReadLockAcquisition.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Threading\IUpgradeableReadLockAcquisition.cs">
+      <Link>Threading\IUpgradeableReadLockAcquisition.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Threading\IWriteLockAcquisition.cs">
       <Link>Threading\IWriteLockAcquisition.cs</Link>
     </Compile>

@@ -12,24 +12,27 @@ namespace SquaredInfinity.Foundation.Presentation.Media.Drawing
 {
     public class WpfPixelCanvas : PixelCanvas
     {
-        Int32Rect _bounds;
-        public Int32Rect Bounds
+        Int32Rect _boundsAsInt32Rect;
+        /// <summary>
+        /// Used as a parameter for Writeable Bitmap
+        /// </summary>
+        public Int32Rect BoundsAsInt32Rect
         {
-            get { return _bounds; }
-            private set { _bounds = value; }
+            get { return _boundsAsInt32Rect; }
+            private set { _boundsAsInt32Rect = value; }
         }
 
         public WpfPixelCanvas(int width, int height)
             : base (width, height)
         {
-            _bounds = new Int32Rect(0, 0, width, height);
+            _boundsAsInt32Rect = new Int32Rect(0, 0, width, height);
         }
         
         public WriteableBitmap ToWriteableBitmap()
         {
             var wb = new WriteableBitmap(Width, Height, 96, 96, PixelFormats.Pbgra32, palette: null);
 
-            wb.WritePixels(Bounds, Pixels, Stride, 0);
+            wb.WritePixels(BoundsAsInt32Rect, Pixels, Stride, 0);
 
             return wb;
         }
@@ -41,6 +44,11 @@ namespace SquaredInfinity.Foundation.Presentation.Media.Drawing
             wb.Freeze();
 
             return wb;
+        }
+
+        public void DrawLine(int x1, int y1, int x2, int y2, System.Windows.Media.Color color)
+        {
+            base.DrawLineDDA(x1, y1, x2, y2, GetColor(color));
         }
 
         public void DrawLineDDA(int x1, int y1, int x2, int y2, System.Windows.Media.Color color)
@@ -75,7 +83,7 @@ namespace SquaredInfinity.Foundation.Presentation.Media.Drawing
             //          It avoids floating point arithmetics for faster execution
             //          In tests it's about 2x faster
 
-            var a = color.A;
+            var a = color.A + 1;
 
             // alpha is 0, pre-multiplied channels will also be 0
             if (a == 0)

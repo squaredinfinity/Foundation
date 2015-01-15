@@ -150,7 +150,7 @@ namespace SquaredInfinity.Foundation.Collections
             {
                 var obj = default(TItem);
 
-                using(readLock.AcquireWriteLock())
+                using(readLock.UpgradeToWriteLock())
                 {
                     obj = this[oldIndex];
                     base.RemoveItem(oldIndex);
@@ -176,7 +176,7 @@ namespace SquaredInfinity.Foundation.Collections
             {
                 var obj = default(TItem);
 
-                using(readLock.AcquireWriteLock())
+                using(readLock.UpgradeToWriteLock())
                 {
                     obj = this[index];
                     base.RemoveItem(index);
@@ -208,7 +208,7 @@ namespace SquaredInfinity.Foundation.Collections
         {
             using(var readLock = CollectionLock.AcquireUpgradeableReadLock())
             { 
-                using(readLock.AcquireWriteLock())
+                using(readLock.UpgradeToWriteLock())
                 {
                     base.InsertItem(index, item);
 

@@ -9,12 +9,16 @@ namespace SquaredInfinity.Foundation.Threading
     public interface ILock
     {
         IReadLockAcquisition AcquireReadLock();
-        IReadLockAcquisition TryAcquireReadLock(TimeSpan timeout);
+        bool TryAcquireReadLock(TimeSpan timeout, out IReadLockAcquisition readLockAcquisition);
 
-        IReadLockAcquisition AcquireUpgradeableReadLock();
-        IReadLockAcquisition TryAcquireUpgradeableReadLock(TimeSpan timeout);
+        IUpgradeableReadLockAcquisition AcquireUpgradeableReadLock();
+        bool TryAcquireUpgradeableReadLock(TimeSpan timeout, out IUpgradeableReadLockAcquisition upgradeableReadLockAcquisition);
 
         IWriteLockAcquisition AcquireWriteLock();
-        IWriteLockAcquisition TryAcquireWriteLock(TimeSpan timeout);
+        bool TryAcquireWriteLock(TimeSpan timeout, out IWriteLockAcquisition writeLockAcquisition);
+
+        bool IsReadLockHeld { get; }
+        bool IsUpgradeableReadLockHeld { get; }
+        bool IsWriteLockHeld { get; }
     }
 }

@@ -13,22 +13,16 @@ namespace SquaredInfinity.Foundation.Threading
         {
             ReaderWriterLockSlimEx Owner;
 
-            public WriteLockAcquisition(ReaderWriterLockSlimEx owner, bool isSuccesfull)
+            public WriteLockAcquisition(ReaderWriterLockSlimEx owner)
             {
                 this.Owner = owner;
-                this.IsSuccesfull = isSuccesfull;
             }
 
             public void Dispose()
             {
-                if (!IsSuccesfull)
-                    return;
-
                 if (Owner.InternalLock.IsWriteLockHeld)
                     Owner.InternalLock.ExitWriteLock();
             }
-
-            public bool IsSuccesfull { get; private set; }
         }
     }
 }

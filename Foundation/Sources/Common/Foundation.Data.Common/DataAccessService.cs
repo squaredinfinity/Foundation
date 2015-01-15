@@ -403,7 +403,7 @@ namespace SquaredInfinity.Foundation.Data
             return MapToClrValue<T>(result);
         }
 
-        protected virtual TCommand PrepareCommand(TConnection connection, CommandType commandType, string commandText, IEnumerable<TParameter> parameters)
+        protected internal virtual TCommand PrepareCommand(TConnection connection, CommandType commandType, string commandText, IEnumerable<TParameter> parameters)
         {
             var nameResolver = DatabaseObjectNameResolver;
 

@@ -8,59 +8,58 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Foundation.Threading
 {
     public partial class ReaderWriterLockSlimEx
-    {        
-        class UpgradeableReadLockAcquisition : IReadLockAcquisition
+    {
+        class UpgradeableReadLockAcquisition : IUpgradeableReadLockAcquisition
         {
             ReaderWriterLockSlimEx Owner;
 
-            public UpgradeableReadLockAcquisition(ReaderWriterLockSlimEx owner, bool isSuccesfull)
+            public UpgradeableReadLockAcquisition(ReaderWriterLockSlimEx owner)
             {
                 this.Owner = owner;
-                this.IsSuccesfull = isSuccesfull;
             }
 
-            public IWriteLockAcquisition AcquireWriteLock()
+            public IReadLockAcquisition DowngradeToReadLock()
             {
-                if (!IsSuccesfull)
-                    throw new InvalidOperationException("Cannot acquire Write Lock using unsuccesfull Read Lock Acquisition.");
+                Owner.InternalLock.EnterReadLock();
 
+                return new ReadLockAcquisition(Owner);
+            }
+
+            public bool TryDowngradeToReadLock(TimeSpan timeout, out IReadLockAcquisition readLockAcquisition)
+            {
+                if(Owner.InternalLock.TryEnterReadLock(timeout.Milliseconds))
+                {
+                    readLockAcquisition = new ReadLockAcquisition(Owner);
+
+                    return true;
+                }
+                else
+                {
+                    readLockAcquisition = null;
+                    return false;
+                }
+            }
+
+            public IWriteLockAcquisition UpgradeToWriteLock()
+            {
                 Owner.InternalLock.EnterWriteLock();
 
-                return new WriteLockAcquisition(Owner, isSuccesfull: true);
+                Owner.InternalLock.ExitUpgradeableReadLock();
+
+                return new WriteLockAcquisition(Owner);
             }
 
-            public IWriteLockAcquisition TryAcquireWriteLock(TimeSpan timeout)
+            public bool TryUpgradeToWriteLock(TimeSpan timeout, out IWriteLockAcquisition writeLockAcquisition)
             {
-                if (!IsSuccesfull)
-                    throw new InvalidOperationException("Cannot acquire Write Lock using unsuccesfull Read Lock Acquisition.");
-
-                if (Owner.InternalLock.RecursionPolicy == LockRecursionPolicy.NoRecursion && 
-                    (Owner.InternalLock.IsReadLockHeld || Owner.InternalLock.IsUpgradeableReadLockHeld || Owner.InternalLock.IsWriteLockHeld))
-                {
-                    return new WriteLockAcquisition(Owner, isSuccesfull: false);
-                }
-
-                if (Owner.InternalLock.RecursionPolicy == LockRecursionPolicy.SupportsRecursion && 
-                !(Owner.InternalLock.IsUpgradeableReadLockHeld || Owner.InternalLock.IsWriteLockHeld))
-                {
-                    return new WriteLockAcquisition(Owner, isSuccesfull: false);
-                }
-
-                var ok = Owner.InternalLock.TryEnterWriteLock(timeout);
-
-                return new WriteLockAcquisition(Owner, isSuccesfull: ok);
+                throw new NotImplementedException();
             }
+
 
             public void Dispose()
             {
-                if (!IsSuccesfull)
-                    return;
-
                 if (Owner.InternalLock.IsUpgradeableReadLockHeld)
                     Owner.InternalLock.ExitUpgradeableReadLock();
             }
-            
-            public bool IsSuccesfull { get; private set; }
         }
     }
 }

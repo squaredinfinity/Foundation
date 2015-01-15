@@ -170,6 +170,7 @@
     <Compile Include="Threading\ILock.cs" />
     <Compile Include="Threading\IAsyncOperation.cs" />
     <Compile Include="Threading\IReadLockAcquisition.cs" />
+    <Compile Include="Threading\IUpgradeableReadLockAcquisition.cs" />
     <Compile Include="Threading\IWriteLockAcquisition.cs" />
     <Compile Include="Threading\IAsyncLoop.cs" />
     <Compile Include="Threading\AsyncLoop.cs" />

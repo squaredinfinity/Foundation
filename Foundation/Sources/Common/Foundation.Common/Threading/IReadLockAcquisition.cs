@@ -9,8 +9,6 @@ namespace SquaredInfinity.Foundation.Threading
     public interface IReadLockAcquisition : IDisposable
     {
         IWriteLockAcquisition AcquireWriteLock();
-        IWriteLockAcquisition TryAcquireWriteLock(TimeSpan timeout);
-
-        bool IsSuccesfull { get; }
+        bool TryAcquireWriteLock(TimeSpan timeout, out IWriteLockAcquisition writeLockAcquisition);
     }
 }

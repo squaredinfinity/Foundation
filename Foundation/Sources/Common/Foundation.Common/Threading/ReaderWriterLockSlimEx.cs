@@ -10,6 +10,10 @@ namespace SquaredInfinity.Foundation.Threading
     public partial class ReaderWriterLockSlimEx : ILock
     {
         readonly internal ReaderWriterLockSlim InternalLock;
+
+        public bool IsReadLockHeld { get { return InternalLock.IsReadLockHeld; } }
+        public bool IsUpgradeableReadLockHeld { get { return InternalLock.IsUpgradeableReadLockHeld; } }
+        public bool IsWriteLockHeld { get { return InternalLock.IsWriteLockHeld; } }
         
         public ReaderWriterLockSlimEx(LockRecursionPolicy recursionPolicy = LockRecursionPolicy.NoRecursion)
             : this(new ReaderWriterLockSlim(recursionPolicy))
@@ -24,73 +28,99 @@ namespace SquaredInfinity.Foundation.Threading
         {
             InternalLock.EnterReadLock();
 
-            return new ReadLockAcquisition(owner: this, isSuccesfull: true);
+            return new ReadLockAcquisition(owner: this);
         }
 
-        public IReadLockAcquisition TryAcquireReadLock(TimeSpan timeout)
+        public bool TryAcquireReadLock(TimeSpan timeout, out IReadLockAcquisition readLockAcquisition)
         {
-            if (InternalLock.RecursionPolicy == LockRecursionPolicy.NoRecursion && 
+            if (InternalLock.RecursionPolicy == LockRecursionPolicy.NoRecursion &&
                 (InternalLock.IsReadLockHeld || InternalLock.IsUpgradeableReadLockHeld || InternalLock.IsWriteLockHeld))
             {
-                return new ReadLockAcquisition(owner: this, isSuccesfull: false);
+                readLockAcquisition = null;
+                return false;
             }
 
-            bool ok = InternalLock.TryEnterReadLock(timeout);
-            
-            return new ReadLockAcquisition(owner: this, isSuccesfull: ok);
+            if (InternalLock.TryEnterReadLock(timeout))
+            {
+                readLockAcquisition = new ReadLockAcquisition(owner: this);
+                return true;
+            }
+            else
+            {
+                readLockAcquisition = null;
+                return false;
+            }
             
         }
 
-        public IReadLockAcquisition AcquireUpgradeableReadLock()
+        public IUpgradeableReadLockAcquisition AcquireUpgradeableReadLock()
         {
             InternalLock.EnterUpgradeableReadLock();
 
-            return new UpgradeableReadLockAcquisition(owner: this, isSuccesfull: true);
+            return new UpgradeableReadLockAcquisition(owner: this);
         }
 
-        public IReadLockAcquisition TryAcquireUpgradeableReadLock(TimeSpan timeout)
+        public bool TryAcquireUpgradeableReadLock(TimeSpan timeout, out IUpgradeableReadLockAcquisition upgradeableReadLockAcquisition)
         {
-            if (InternalLock.RecursionPolicy == LockRecursionPolicy.NoRecursion && 
+            if (InternalLock.RecursionPolicy == LockRecursionPolicy.NoRecursion &&
                 (InternalLock.IsReadLockHeld || InternalLock.IsUpgradeableReadLockHeld || InternalLock.IsWriteLockHeld))
             {
-                return new ReadLockAcquisition(owner: this, isSuccesfull: false);
+                upgradeableReadLockAcquisition = null;
+                return false;
             }
 
             if (InternalLock.RecursionPolicy == LockRecursionPolicy.SupportsRecursion &&
                 !(InternalLock.IsUpgradeableReadLockHeld || InternalLock.IsWriteLockHeld))
             {
-                return new ReadLockAcquisition(owner: this, isSuccesfull: false);
+                upgradeableReadLockAcquisition = null;
+                return false;
             }
 
-            var ok = InternalLock.TryEnterUpgradeableReadLock(timeout);
-
-            return new UpgradeableReadLockAcquisition(owner: this, isSuccesfull: ok);
+            if(InternalLock.TryEnterUpgradeableReadLock(timeout))
+            {
+                upgradeableReadLockAcquisition = new UpgradeableReadLockAcquisition(owner: this);
+                return true;
+            }
+            else
+            {
+                upgradeableReadLockAcquisition = null;
+                return false;
+            }
         }
 
         public IWriteLockAcquisition AcquireWriteLock()
         {
             InternalLock.EnterWriteLock();
 
-            return new WriteLockAcquisition(owner:this, isSuccesfull: true);
+            return new WriteLockAcquisition(owner:this);
         }
 
-        public IWriteLockAcquisition TryAcquireWriteLock(TimeSpan timeout)
+        public bool TryAcquireWriteLock(TimeSpan timeout, out IWriteLockAcquisition writeableLockAcquisition)
         {
-            if (InternalLock.RecursionPolicy == LockRecursionPolicy.NoRecursion && 
+            if (InternalLock.RecursionPolicy == LockRecursionPolicy.NoRecursion &&
                 (InternalLock.IsReadLockHeld || InternalLock.IsUpgradeableReadLockHeld || InternalLock.IsWriteLockHeld))
             {
-                return new WriteLockAcquisition(owner: this, isSuccesfull: false);
+                writeableLockAcquisition = null;
+                return false;
             }
 
             if (InternalLock.RecursionPolicy == LockRecursionPolicy.SupportsRecursion &&
                 !(InternalLock.IsUpgradeableReadLockHeld || InternalLock.IsWriteLockHeld))
             {
-                return new WriteLockAcquisition(owner: this, isSuccesfull: false);
+                writeableLockAcquisition = null;
+                return false;
             }
 
-            var ok = InternalLock.TryEnterWriteLock(timeout);
-
-            return new WriteLockAcquisition(owner: this, isSuccesfull: ok);
+            if (InternalLock.TryEnterWriteLock(timeout))
+            {
+                writeableLockAcquisition = new WriteLockAcquisition(owner: this);
+                return true;
+            }
+            else
+            {
+                writeableLockAcquisition = null;
+                return false;
+            }
         }
     }
 }

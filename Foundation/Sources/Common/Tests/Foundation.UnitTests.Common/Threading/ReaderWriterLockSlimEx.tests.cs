@@ -83,7 +83,7 @@ namespace SquaredInfinity.Foundation.Threading
                 // access lock here so it's not optimized-away after release build
                 Assert.IsNotNull(l);
 
-                using(rl.AcquireWriteLock())
+                using(rl.UpgradeToWriteLock())
                 {
                     // access lock here so it's not optimized-away after release build
                     Assert.IsNotNull(l);
@@ -100,9 +100,13 @@ namespace SquaredInfinity.Foundation.Threading
             {
                 Task.Factory.StartNew(() =>
                     {
-                        var acquisition = l.TryAcquireReadLock(TEST_DefaultTimeout);
-
-                        Assert.IsFalse(acquisition.IsSuccesfull);
+                        var acquisition = (IReadLockAcquisition)null;
+                        
+                        if(l.TryAcquireReadLock(TEST_DefaultTimeout, out acquisition))
+                        {
+                            // should not get here
+                            Assert.Fail();
+                        }
                     }).Wait();
             }
         }
@@ -114,8 +118,13 @@ namespace SquaredInfinity.Foundation.Threading
 
             using (var rl = l.AcquireReadLock())
             {
-                var acquisition = l.TryAcquireUpgradeableReadLock(TEST_DefaultTimeout);
-                Assert.IsFalse(acquisition.IsSuccesfull);
+                var acquisition = (IUpgradeableReadLockAcquisition)null;
+
+                if (l.TryAcquireUpgradeableReadLock(TEST_DefaultTimeout, out acquisition))
+                {
+                    // should not get here
+                    Assert.Fail();
+                }
             }
         }
 
@@ -128,9 +137,13 @@ namespace SquaredInfinity.Foundation.Threading
             {
                 Task.Factory.StartNew(() =>
                 {
-                    var acquisition = l.TryAcquireReadLock(TEST_DefaultTimeout);
+                    var acquisition = (IReadLockAcquisition)null;
 
-                    Assert.IsTrue(acquisition.IsSuccesfull);
+                    if (!l.TryAcquireReadLock(TEST_DefaultTimeout, out acquisition))
+                    {
+                        // should be able to acquire
+                        Assert.Fail();
+                    }
                 }).Wait();
             }
         }
@@ -144,9 +157,13 @@ namespace SquaredInfinity.Foundation.Threading
             {
                 Task.Factory.StartNew(() =>
                 {
-                    var acquisition = l.TryAcquireWriteLock(TEST_DefaultTimeout);
+                    var acquisition = (IWriteLockAcquisition)null;
 
-                    Assert.IsFalse(acquisition.IsSuccesfull);
+                    if (l.TryAcquireWriteLock(TEST_DefaultTimeout, out acquisition))
+                    {
+                        // should not acquire
+                        Assert.Fail();
+                    }
                 }).Wait();
             }
         }
@@ -160,9 +177,13 @@ namespace SquaredInfinity.Foundation.Threading
             {
                 Task.Factory.StartNew(() =>
                 {
-                    var acquisition = l.TryAcquireUpgradeableReadLock(TEST_DefaultTimeout);
+                    var acquisition = (IUpgradeableReadLockAcquisition)null;
 
-                    Assert.IsTrue(acquisition.IsSuccesfull);
+                    if (!l.TryAcquireUpgradeableReadLock(TEST_DefaultTimeout, out acquisition))
+                    {
+                        // should be able to acquire
+                        Assert.Fail();
+                    }
                 }).Wait();
             }
         }
@@ -179,10 +200,13 @@ namespace SquaredInfinity.Foundation.Threading
             {
                 Task.Factory.StartNew(() =>
                 {
-                    var acquisition = l.TryAcquireUpgradeableReadLock(TEST_DefaultTimeout);
+                    var acquisition = (IUpgradeableReadLockAcquisition)null;
 
-                    // try acquire failed, meaning that this thread has to wait for lock to be released
-                    Assert.IsFalse(acquisition.IsSuccesfull);
+                    if (l.TryAcquireUpgradeableReadLock(TEST_DefaultTimeout, out acquisition))
+                    {
+                        Assert.Fail();
+                    }
+
                 }).Wait();
             }
         }
@@ -192,14 +216,18 @@ namespace SquaredInfinity.Foundation.Threading
         {
             var l = new ReaderWriterLockSlimEx();
 
-            var a1 = l.AcquireReadLock();
-            var a2 = l.TryAcquireReadLock(TEST_DefaultTimeout);
-            var a3 = l.TryAcquireUpgradeableReadLock(TEST_DefaultTimeout);
-            var a4 = l.TryAcquireWriteLock(TEST_DefaultTimeout);
+            IReadLockAcquisition r;
+            IUpgradeableReadLockAcquisition ur;
+            IWriteLockAcquisition w;
 
-            Assert.IsFalse(a2.IsSuccesfull);
-            Assert.IsFalse(a3.IsSuccesfull);
-            Assert.IsFalse(a4.IsSuccesfull);
+            var a1 = l.AcquireReadLock();
+            var a2 = l.TryAcquireReadLock(TEST_DefaultTimeout, out r);
+            var a3 = l.TryAcquireUpgradeableReadLock(TEST_DefaultTimeout, out ur);
+            var a4 = l.TryAcquireWriteLock(TEST_DefaultTimeout, out w);
+
+            Assert.IsFalse(a2);
+            Assert.IsFalse(a3);
+            Assert.IsFalse(a4);
         }
 
         [TestMethod]
@@ -207,14 +235,18 @@ namespace SquaredInfinity.Foundation.Threading
         {
             var l = new ReaderWriterLockSlimEx();
 
-            var a1 = l.AcquireUpgradeableReadLock();
-            var a2 = l.TryAcquireReadLock(TEST_DefaultTimeout);
-            var a3 = l.TryAcquireUpgradeableReadLock(TEST_DefaultTimeout);
-            var a4 = l.TryAcquireWriteLock(TEST_DefaultTimeout);
+            IReadLockAcquisition r;
+            IUpgradeableReadLockAcquisition ur;
+            IWriteLockAcquisition w;
 
-            Assert.IsFalse(a2.IsSuccesfull);
-            Assert.IsFalse(a3.IsSuccesfull);
-            Assert.IsFalse(a4.IsSuccesfull);
+            var a1 = l.AcquireReadLock();
+            var a2 = l.TryAcquireReadLock(TEST_DefaultTimeout, out r);
+            var a3 = l.TryAcquireUpgradeableReadLock(TEST_DefaultTimeout, out ur);
+            var a4 = l.TryAcquireWriteLock(TEST_DefaultTimeout, out w);
+
+            Assert.IsFalse(a2);
+            Assert.IsFalse(a3);
+            Assert.IsFalse(a4);
         }
 
         [TestMethod]
@@ -222,14 +254,18 @@ namespace SquaredInfinity.Foundation.Threading
         {
             var l = new ReaderWriterLockSlimEx();
 
-            var a1 = l.AcquireWriteLock();
-            var a2 = l.TryAcquireReadLock(TEST_DefaultTimeout);
-            var a3 = l.TryAcquireUpgradeableReadLock(TEST_DefaultTimeout);
-            var a4 = l.TryAcquireWriteLock(TEST_DefaultTimeout);
+            IReadLockAcquisition r;
+            IUpgradeableReadLockAcquisition ur;
+            IWriteLockAcquisition w;
 
-            Assert.IsFalse(a2.IsSuccesfull);
-            Assert.IsFalse(a3.IsSuccesfull);
-            Assert.IsFalse(a4.IsSuccesfull);
+            var a1 = l.AcquireReadLock();
+            var a2 = l.TryAcquireReadLock(TEST_DefaultTimeout, out r);
+            var a3 = l.TryAcquireUpgradeableReadLock(TEST_DefaultTimeout, out ur);
+            var a4 = l.TryAcquireWriteLock(TEST_DefaultTimeout, out w);
+
+            Assert.IsFalse(a2);
+            Assert.IsFalse(a3);
+            Assert.IsFalse(a4);
         }
 
         [TestMethod]
@@ -237,14 +273,18 @@ namespace SquaredInfinity.Foundation.Threading
         {
             var l = new ReaderWriterLockSlimEx(LockRecursionPolicy.SupportsRecursion);
 
-            var a1 = l.AcquireReadLock();
-            var a2 = l.TryAcquireReadLock(TEST_DefaultTimeout);
-            var a3 = l.TryAcquireUpgradeableReadLock(TEST_DefaultTimeout);
-            var a4 = l.TryAcquireWriteLock(TEST_DefaultTimeout);
+            IReadLockAcquisition r;
+            IUpgradeableReadLockAcquisition ur;
+            IWriteLockAcquisition w;
 
-            Assert.IsTrue(a2.IsSuccesfull);
-            Assert.IsFalse(a3.IsSuccesfull);
-            Assert.IsFalse(a4.IsSuccesfull);
+            var a1 = l.AcquireReadLock();
+            var a2 = l.TryAcquireReadLock(TEST_DefaultTimeout, out r);
+            var a3 = l.TryAcquireUpgradeableReadLock(TEST_DefaultTimeout, out ur);
+            var a4 = l.TryAcquireWriteLock(TEST_DefaultTimeout, out w);
+
+            Assert.IsTrue(a2);
+            Assert.IsFalse(a3);
+            Assert.IsFalse(a4);
         }
 
         [TestMethod]
@@ -252,14 +292,19 @@ namespace SquaredInfinity.Foundation.Threading
         {
             var l = new ReaderWriterLockSlimEx(LockRecursionPolicy.SupportsRecursion);
 
-            var a1 = l.AcquireUpgradeableReadLock();
-            var a2 = l.TryAcquireReadLock(TEST_DefaultTimeout);
-            var a3 = l.TryAcquireUpgradeableReadLock(TEST_DefaultTimeout);
-            var a4 = l.TryAcquireWriteLock(TEST_DefaultTimeout);
+            IReadLockAcquisition r;
+            IUpgradeableReadLockAcquisition ur;
+            IWriteLockAcquisition w;
 
-            Assert.IsTrue(a2.IsSuccesfull);
-            Assert.IsTrue(a3.IsSuccesfull);
-            Assert.IsTrue(a4.IsSuccesfull);
+            var a1 = l.AcquireReadLock();
+            var a2 = l.TryAcquireReadLock(TEST_DefaultTimeout, out r);
+
+            var a3 = l.TryAcquireUpgradeableReadLock(TEST_DefaultTimeout, out ur);
+            var a4 = l.TryAcquireWriteLock(TEST_DefaultTimeout, out w);
+
+            Assert.IsTrue(a2);
+            Assert.IsFalse(a3);
+            Assert.IsFalse(a4);
         }
 
         [TestMethod]
@@ -267,14 +312,18 @@ namespace SquaredInfinity.Foundation.Threading
         {
             var l = new ReaderWriterLockSlimEx(LockRecursionPolicy.SupportsRecursion);
 
-            var a1 = l.AcquireWriteLock();
-            var a2 = l.TryAcquireReadLock(TEST_DefaultTimeout);
-            var a3 = l.TryAcquireUpgradeableReadLock(TEST_DefaultTimeout);
-            var a4 = l.TryAcquireWriteLock(TEST_DefaultTimeout);
+            IReadLockAcquisition r;
+            IUpgradeableReadLockAcquisition ur;
+            IWriteLockAcquisition w;
 
-            Assert.IsTrue(a2.IsSuccesfull);
-            Assert.IsTrue(a3.IsSuccesfull);
-            Assert.IsTrue(a4.IsSuccesfull);
+            var a1 = l.AcquireReadLock();
+            var a2 = l.TryAcquireReadLock(TEST_DefaultTimeout, out r);
+            var a3 = l.TryAcquireUpgradeableReadLock(TEST_DefaultTimeout, out ur);
+            var a4 = l.TryAcquireWriteLock(TEST_DefaultTimeout, out w);
+
+            Assert.IsTrue(a2);
+            Assert.IsFalse(a3);
+            Assert.IsFalse(a4);
         }
     }
 }

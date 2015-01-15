@@ -58,7 +58,7 @@ namespace SquaredInfinity.Foundation.Threading
                 }
             }
         }
-
+            
         ~AsyncLoop()
         {
 
