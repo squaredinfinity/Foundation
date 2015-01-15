@@ -44,12 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Foundation.Common\Media\Drawing\PixelCanvas.Blit.cs">
+      <Link>Media\Drawing\PixelCanvas.Blit.cs</Link>
+    </Compile>
+    <Compile Include="..\Foundation.Common\Media\Drawing\PixelCanvas.Clear.cs">
+      <Link>Media\Drawing\PixelCanvas.Clear.cs</Link>
+    </Compile>
     <Compile Include="..\Foundation.Common\Media\Drawing\PixelCanvas.DrawLine.cs">
       <Link>Media\Drawing\PixelCanvas.DrawLine.cs</Link>
     </Compile>
     <Compile Include="Media\Drawing\UnsafePixelCanvas.IDisposable.cs" />
     <Compile Include="Media\Drawing\UnsafePixelCanvas.cs" />
-    <Compile Include="Media\Drawing\IWpfPixelCanvas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

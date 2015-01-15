@@ -52,7 +52,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             var cx = new SerializationContext(this, TypeDescriptor, TypeResolver, options, CustomCreateInstanceWith);
 
             // internal settings should always be first child
-            var internalSettings = xml.Elements().First();
+            var internalSettings = xml.Elements().FirstOrDefault();
 
             if(internalSettings == null || internalSettings.Name != FlexiXmlSerializer.XmlNamespace.GetName("Internal"))
                 internalSettings = null;

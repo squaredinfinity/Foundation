@@ -52,6 +52,13 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             private set { _height = value; }
         }
 
+        Rectangle _bounds;
+        public Rectangle Bounds
+        {
+            get { return _bounds; }
+            private set { _bounds = value; }
+        }
+
         public int[] Pixels
         {
             get
@@ -88,6 +95,8 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             imageData.Stride = Width;
 
             pixelsPointer = (int*)imageData.Scan0;
+
+            _bounds = new Rectangle(0, 0, _width, _height);
         }
 
         /// <summary>
@@ -146,6 +155,11 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         public int GetColor(System.Drawing.Color color)
         {
             return color.ToArgb();
+        }
+
+        public bool IntersectsWith(System.Drawing.Rectangle rect)
+        {
+            return _bounds.IntersectsWith(rect);
         }
     }
 }

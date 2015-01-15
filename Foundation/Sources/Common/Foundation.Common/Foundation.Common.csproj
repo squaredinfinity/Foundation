@@ -83,6 +83,7 @@
     <Compile Include="IndexInAnotherListComparer.cs" />
     <Compile Include="IndexInListComparer.cs" />
     <Compile Include="InvocationThrottle.cs" />
+    <Compile Include="Media\Drawing\PixelCanvas.Clear.cs" />
     <Compile Include="Media\Drawing\PixelCanvas.Blit.cs" />
     <Compile Include="Media\Drawing\PixelCanvas.DrawLine.cs" />
     <Compile Include="Media\Drawing\PixelCanvas.IDisposable.cs" />

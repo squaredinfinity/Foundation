@@ -48,11 +48,14 @@
     <Compile Include="..\..\..\AssemblyInfo.shared.cs">
       <Link>Properties\AssemblyInfo.shared.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\Drawing\PixelCanvas.Blit.cs">
+      <Link>Media\Drawing\PixelCanvas.Blit.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\Drawing\PixelCanvas.Clear.cs">
+      <Link>Media\Drawing\PixelCanvas.Clear.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Media\Drawing\PixelCanvas.DrawLine.cs">
       <Link>Media\Drawing\PixelCanvas.DrawLine.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Unsafe.Common\Media\Drawing\IWpfPixelCanvas.cs">
-      <Link>Media\Drawing\IWpfPixelCanvas.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Unsafe.Common\Media\Drawing\UnsafePixelCanvas.cs">
       <Link>Media\Drawing\UnsafePixelCanvas.cs</Link>

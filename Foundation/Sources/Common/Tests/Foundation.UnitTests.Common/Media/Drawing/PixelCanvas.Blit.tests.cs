@@ -44,7 +44,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
                 fs.Close();
             }
 
-            pc_1.Blit(new System.Drawing.Rectangle(0, 0, 10, 10), pc_2, new System.Drawing.Rectangle(0,0,10,10), 255, 255, 255, 255, PixelCanvas.BlendMode.Alpha);
+            pc_1.Blit(new System.Drawing.Rectangle(0, 0, 10, 10), pc_2, new System.Drawing.Rectangle(0,0,10,10), 255, 255, 255, 255, BlendMode.Alpha);
 
             bmp = pc_1.ToFrozenWriteableBitmap();
 

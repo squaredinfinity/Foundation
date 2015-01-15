@@ -43,5 +43,20 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         int GetColor(System.Drawing.Color color);
 
         void DrawLineDDA(int x1, int y1, int x2, int y2, int color);
+
+        void Clear(int color);
+        void Clear();
+
+        void Blit(
+            System.Drawing.Rectangle destination_rect,
+            IPixelCanvas source,
+            System.Drawing.Rectangle source_rect,
+            byte alpha,
+            byte red,
+            byte green,
+            byte blue,
+            BlendMode blendMode);
+
+        bool IntersectsWith(System.Drawing.Rectangle rect);
     }
 }

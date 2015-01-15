@@ -123,7 +123,7 @@ namespace Nuget.DeployAllProjects
 
             if (showUi)
             {
-                var arg_txt = "\"\"{0}\" {1}\"".FormatWith(application, arguments);
+                var arg_txt = "\"\"{0}\" {1}\" & exit".FormatWith(application, arguments);
 
                 if (continueAfterExecution)
                     arg_txt = "/K " + arg_txt;

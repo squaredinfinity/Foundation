@@ -324,6 +324,12 @@
     <Compile Include="..\..\Common\Foundation.Common\Media\Drawing\IPixelCanvas.cs">
       <Link>Media\Drawing\IPixelCanvas.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\Drawing\PixelCanvas.Blit.cs">
+      <Link>Media\Drawing\PixelCanvas.Blit.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\Drawing\PixelCanvas.Clear.cs">
+      <Link>Media\Drawing\PixelCanvas.Clear.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Media\Drawing\PixelCanvas.cs">
       <Link>Media\Drawing\PixelCanvas.cs</Link>
     </Compile>
