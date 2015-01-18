@@ -187,6 +187,7 @@ namespace Foundation.Diagnostics.Walkthrough.Common
                 .IgnoreAllMembers()
                 .CopySerializationSetupFromBaseClass()
                 .SerializeMember(x => x.Severity, x => x.Severity != null) // todo SerializeMember as specific value, read back
+                .SerializeMember(x => x.Severity, x => x.Severity != null, x => x.Severity.ToString(), s => KnownSeverityLevels.Parse(s))
                 .SerializeMember(x => x.To, x => x.To != null)
                 .SerializeMember(x => x.From, x => x.From != null)
                 .SerializeMember(x => x.ExclusiveTo, x => x.ExclusiveTo != null)

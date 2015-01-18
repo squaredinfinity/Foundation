@@ -1089,6 +1089,59 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             return this;
         }
 
+        public ITypeSerializationStrategy<T> SerializeMember(
+            System.Linq.Expressions.Expression<Func<T, object>> memberExpression, 
+            Func<T, bool> shouldSerializeMember,
+            Func<T, string> serialize,
+            Func<string, T> deserialize)
+        {
+            throw new NotImplementedException();
+
+            //var memberName = memberExpression.GetAccessedMemberName();
+
+            //bool shouldAddToActual = false;
+
+            //var strategy =
+            //        (from s in ActualContentSerializationStrategies
+            //         where string.Equals(s.MemberName, memberName)
+            //         select s).FirstOrDefault();
+
+            //if (strategy == null)
+            //{
+            //    strategy =
+            //        (from s in OriginalContentSerializationStrategies
+            //         where string.Equals(s.MemberName, memberName)
+            //         select s).FirstOrDefault();
+
+            //    shouldAddToActual = true;
+            //}
+
+            //if (strategy == null)
+            //{
+            //    var ex = new ArgumentException("Unable to find Serialization Strategy.");
+            //    // todo: ex.addcontext(member, type)
+
+            //    throw ex;
+            //}
+
+            //if (shouldSerializeMember != null)
+            //{
+            //    strategy.ShouldSerializeMember = new Func<object, bool>((_target) =>
+            //    {
+            //        var local = shouldSerializeMember;
+            //        return local((T)_target);
+            //    });
+            //}
+
+            //strategy.CustomSerialize = serialize;
+            //strategy.CustomDeserialize = deserialize;
+
+            //if (shouldAddToActual)
+            //    ActualContentSerializationStrategies.Add(strategy);
+
+            //return this;
+        }
+
         public ITypeSerializationStrategy<T> SerializeAllRemainingMembers()
         {
             var ignoredMembersStrategies =
