@@ -93,17 +93,17 @@ namespace SquaredInfinity.Foundation.Presentation.Media.Drawing
             if(a == 255)
                 return (255 << 24)
                     // shift right by 8 bits to keep only most significant byte of the multiplication result
-                    | ((color.R) >> 8) << 16
-                    | ((color.G) >> 8) << 8
-                    | ((color.B) >> 8);
+                    | color.R << 16
+                    | color.G << 8
+                    | color.B;
 
             return
                 (a << 24)
                 // R,G,B channels must be premultiplied by Alpha
                 // shift right by 8 bits to keep only most significant byte of the multiplication result
-                | ((color.R * a) >> 8) << 16
-                | ((color.G * a) >> 8) << 8
-                | ((color.B * a) >> 8);
+                | (color.R * a) << 16
+                | (color.G * a) << 8
+                | (color.B * a);
 #endif
         }
     }
