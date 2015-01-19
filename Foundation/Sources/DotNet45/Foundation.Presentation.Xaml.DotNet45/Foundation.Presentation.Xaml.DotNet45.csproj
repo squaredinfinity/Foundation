@@ -357,6 +357,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DragAndDrop\Utilities\VisualTreeExtensions.cs">
       <Link>DragAndDrop\Utilities\VisualTreeExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\SquaredInfinity.Media.Drawing\PixelCanvas.extensions.cs">
+      <Link>FrameworkExtensions\SquaredInfinity.Media.Drawing\PixelCanvas.extensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows.Controls\ItemsControl.extensions.cs">
       <Link>FrameworkExtensions\System.Windows.Controls\ItemsControl.extensions.cs</Link>
     </Compile>
@@ -440,9 +443,6 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Media\Colors.cs">
       <Link>Media\Colors.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Media\Drawing\WpfPixelCanvas.cs">
-      <Link>Media\Drawing\WpfPixelCanvas.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ObjectExtensibility\Extensions\ListItemExtension.cs">
       <Link>ObjectExtensibility\Extensions\ListItemExtension.cs</Link>

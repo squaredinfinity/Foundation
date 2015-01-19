@@ -28,10 +28,13 @@ namespace SquaredInfinity.Foundation
 
         void OnVersionChangedInternal()
         {
-            OnVersionChanged();
+            RaiseVersionChanged();
         }
 
-        protected virtual void OnVersionChanged()
+        /// <summary>
+        /// Increments version and raises Version Changed event.
+        /// </summary>
+        protected virtual void RaiseVersionChanged()
         {
             var newVersion = Interlocked.Increment(ref _version);
 

@@ -321,6 +321,9 @@
     <Compile Include="..\..\Common\Foundation.Common\Media\ColorSpaces\XyzColorSpace.cs">
       <Link>Media\ColorSpaces\XyzColorSpace.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\Drawing\BlendMode.cs">
+      <Link>Media\Drawing\BlendMode.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Media\Drawing\IPixelCanvas.cs">
       <Link>Media\Drawing\IPixelCanvas.cs</Link>
     </Compile>

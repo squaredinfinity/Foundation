@@ -19,28 +19,6 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             Clear(0);
         }
 
-        public void Clear(int color)
-        {
-#if UNSAFE
-throw new NotImplementedException();
-#else
-
-            // fill first line ..
-
-            for(int w = 0; w < _width; w++)
-            {
-                this[w] = color;
-            }
-
-            // block copy first line to all remaining lines
-            var line = 1;
-
-            while (line < _height)
-            {
-                Array.ConstrainedCopy(_pixels, 0, _pixels, (_width * line), _width);
-                line++;
-            }
-#endif
-        }
+        public abstract void Clear(int color);
     }
 }

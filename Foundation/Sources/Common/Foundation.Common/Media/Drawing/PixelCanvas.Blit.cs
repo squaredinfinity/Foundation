@@ -6,49 +6,6 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Media.Drawing
 {
-#if !UNSAFE
-    public enum BlendMode
-    {
-        /// <summary>
-        /// Alpha blendiing uses the alpha channel to combine the source and destination. 
-        /// </summary>
-        Alpha,
-
-        /// <summary>
-        /// Additive blending adds the colors of the source and the destination.
-        /// </summary>
-        Additive,
-
-        /// <summary>
-        /// Subtractive blending subtracts the source color from the destination.
-        /// </summary>
-        Subtractive,
-
-        /// <summary>
-        /// Uses the source color as a mask.
-        /// </summary>
-        Mask,
-
-        /// <summary>
-        /// Multiplies the source color with the destination color.
-        /// </summary>
-        Multiply,
-
-        /// <summary>
-        /// Ignores the specified Color
-        /// </summary>
-        ColorKeying,
-
-        /// <summary>
-        /// No blending just copies the pixels from the source.
-        /// </summary>
-        None,
-
-        Debug
-    }
-
-#endif
-
     public partial class
 #if UNSAFE
         UnsafePixelCanvas

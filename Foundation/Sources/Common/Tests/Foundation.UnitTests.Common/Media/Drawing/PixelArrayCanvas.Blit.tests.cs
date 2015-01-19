@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SquaredInfinity.Foundation.Presentation.Media.Drawing;
 using System;
+using SquaredInfinity.Foundation.Extensions;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,15 +12,15 @@ using System.Windows.Media.Imaging;
 namespace SquaredInfinity.Foundation.Media.Drawing
 {
     [TestClass]
-    public class PixelCanvas__Blit
+    public class PixelArrayCanvas__Blit
     {
         [TestMethod]
         public void Blit()
         {
-            var pc_1 = new WpfPixelCanvas(10, 10);
+            var pc_1 = new PixelArrayCanvas(10, 10);
             pc_1.DrawLineDDA(1, 1, 9, 9, System.Windows.Media.Colors.DeepPink);
 
-            var pc_2 = new WpfPixelCanvas(10, 10);
+            var pc_2 = new PixelArrayCanvas(10, 10);
             pc_2.DrawLineDDA(1, 9, 9, 1, System.Windows.Media.Colors.DeepPink);
 
             var bmp = pc_1.ToFrozenWriteableBitmap();

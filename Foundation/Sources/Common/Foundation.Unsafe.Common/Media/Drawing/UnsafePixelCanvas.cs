@@ -9,66 +9,12 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Media.Drawing
 {
-    public unsafe partial class UnsafePixelCanvas : IPixelCanvas
+    public unsafe partial class UnsafePixelCanvas : PixelCanvas
     {
-        int _length;
-        /// <summary>
-        /// Returns total number of pixels in this bitmap
-        /// </summary>
-        public int Length
+        public override int[] GetPixels()
         {
-            get { return _length; }
-            private set { _length = value; }
-        }
-
-        int _stride;
-        /// <summary>
-        /// There's not padding used and Stride always equals Width at the moment.
-        /// </summary>
-        public int Stride
-        {
-            get { return _stride; }
-            private set { _stride = value; }
-        }
-
-        int _width;
-        /// <summary>
-        /// Width (in pixels) of the bitmap
-        /// </summary>
-        public int Width
-        {
-            get { return _width; }
-            private set { _width = value; }
-        }
-
-
-        int _height;
-        /// <summary>
-        /// Height (in pixels) of the bitmap
-        /// </summary>
-        public int Height
-        {
-            get { return _height; }
-            private set { _height = value; }
-        }
-
-        Rectangle _bounds;
-        public Rectangle Bounds
-        {
-            get { return _bounds; }
-            private set { _bounds = value; }
-        }
-
-        public int[] Pixels
-        {
-            get
-            {
-                var result = new int[_length];
-
-                Marshal.Copy(new IntPtr((void*)(pixelsPointer)), result, 0, _length);
-
-                return result;
-            }
+                throw new NotImplementedException();
+                //return (int[])(int*[]) pixelsPointer;
         }
 
         Bitmap image;
@@ -80,14 +26,8 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         int* pixelsPointer;
 
         public UnsafePixelCanvas(int width, int height)
+            : base(width, height)
         {
-            Width = width;
-            Height = height;
-
-            Stride = Width;
-
-            Length = Stride * Height;
-
             imageData = new BitmapData();
             imageData.Width = Width;
             imageData.Height = Height;
@@ -108,7 +48,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             get { return System.Drawing.Imaging.PixelFormat.Format32bppArgb; }
         }
 
-        public int this[int x, int y]
+        public override int this[int x, int y]
         {
             get
             {
@@ -120,7 +60,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             }
         }
 
-        public int this[int position]
+        public override int this[int position]
         {
             get
             {
@@ -132,7 +72,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             }
         }
 
-        public int[] GetRow(int row)
+        public override int[] GetRow(int row)
         {
             var result = new int[_width];
 
@@ -141,7 +81,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             return result;
         }
 
-        public void SetRow(int row, int[] pixels)
+        public override void SetRow(int row, int[] pixels)
         {
             Marshal.Copy(pixels, 0, new IntPtr((void*)(pixelsPointer + row * _width)), _width);
         }
@@ -160,6 +100,16 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         public bool IntersectsWith(System.Drawing.Rectangle rect)
         {
             return _bounds.IntersectsWith(rect);
+        }
+
+        public override void Clear(int color)
+        {
+
+        }
+
+        public override void ReplaceFromPixels(int[] pixels, int width, int height)
+        {
+            throw new NotImplementedException();
         }
     }
 }
