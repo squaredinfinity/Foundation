@@ -136,7 +136,7 @@ namespace SquaredInfinity.Foundation.Presentation.Controls
             ItemsPanel = ItemsPresenter.FindVisualDescendant<Panel>();
         }
 
-        protected override void OnPreviewMouseWheel(MouseWheelEventArgs e)
+        protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
             // ctrl -> zoom in/out
             if(Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
