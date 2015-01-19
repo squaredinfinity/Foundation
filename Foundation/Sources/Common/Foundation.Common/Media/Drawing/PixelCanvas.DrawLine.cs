@@ -85,7 +85,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             else
             {
                 x_step = dx / (float)steps;
-                y_step = (dy + 1) / (float)(steps + 1);
+                y_step = dy / (float)steps;
             }
 
             if (steps == 0)
@@ -96,7 +96,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             var y = (float)y1;
 
             
-            for (int i = 1; i <= steps; i++)
+            for (int i = 0; i <= steps; i++)
             {
                 if (y < _height && y >= 0 && x < _width && x >= 0)
                 {
