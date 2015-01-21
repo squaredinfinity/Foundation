@@ -1,3 +1,32 @@
+    [StructLayout(LayoutKind.Explicit)]
+    public struct pARGB
+    {
+        [FieldOffset(0)]
+        public Int32 Premultiplied;
+        [FieldOffset(0)]
+        public byte A;
+        [FieldOffset(1)]
+        public byte R;
+        [FieldOffset(2)]
+        public byte G;
+        [FieldOffset(3)]
+        public byte B;
+
+
+        public static implicit operator Int32(pARGB p)
+        {
+            return p.Premultiplied;
+        }
+
+        public static implicit operator pARGB(int i)
+        {
+            var x = new pARGB();
+            x.Premultiplied = i;
+
+            return x;
+        }
+    }
+
 var bg_a = bg >> 24 & 0xff;
                     var bg_r = bg >> 16 & 0xff;
                     var bg_g = bg >> 8 & 0xff;
