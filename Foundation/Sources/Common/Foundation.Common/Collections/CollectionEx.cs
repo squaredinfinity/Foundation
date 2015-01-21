@@ -60,7 +60,7 @@ namespace SquaredInfinity.Foundation.Collections
                 base.RemoveItem(oldIndex);
 
                 base.InsertItem(newIndex, item);
-                OnVersionChangedInternal();
+                RaiseVersionChanged();
             }
         }
 
@@ -70,7 +70,7 @@ namespace SquaredInfinity.Foundation.Collections
             {
                 base.ClearItems();
 
-                OnVersionChangedInternal();
+                RaiseVersionChanged();
             }
         }
 
@@ -80,7 +80,7 @@ namespace SquaredInfinity.Foundation.Collections
             {
                 base.InsertItem(index, item);
 
-                OnVersionChangedInternal();
+                RaiseVersionChanged();
             }
         }
 
@@ -90,7 +90,7 @@ namespace SquaredInfinity.Foundation.Collections
             {
                 base.RemoveItem(index);
 
-                OnVersionChangedInternal();
+                RaiseVersionChanged();
             }
         }
 
@@ -100,7 +100,7 @@ namespace SquaredInfinity.Foundation.Collections
             {
                 base.SetItem(index, item);
 
-                OnVersionChangedInternal();
+                RaiseVersionChanged();
             }
         }
 
@@ -114,7 +114,7 @@ namespace SquaredInfinity.Foundation.Collections
                 foreach (var item in items)
                     Items.Add(item);
 
-                OnVersionChangedInternal();
+                RaiseVersionChanged();
             }
         }
 
@@ -125,7 +125,7 @@ namespace SquaredInfinity.Foundation.Collections
                 for (int i = index; i < index + count; i++)
                     Items.RemoveAt(index);
 
-                OnVersionChangedInternal();
+                RaiseVersionChanged();
             }
         }
 
@@ -151,24 +151,24 @@ namespace SquaredInfinity.Foundation.Collections
                 foreach (var item in newItems)
                     Items.Add(item);
 
-                OnVersionChangedInternal();
+                RaiseVersionChanged();
             }
         }
 
-        void OnVersionChangedInternal()
-        {
-            OnVersionChanged();
-        }
-
-        protected virtual void OnVersionChanged() 
+        void RaiseVersionChanged()
         {
             if (State == STATE__BULKUPDATE)
                 return;
 
             var newVersion = Interlocked.Increment(ref _version);
 
+            OnVersionChanged();
+        }
+
+        protected virtual void OnVersionChanged() 
+        {
             if (VersionChanged != null)
-                VersionChanged(this, new CollectionContentChangedEventArgs(newVersion));
+                VersionChanged(this, new CollectionContentChangedEventArgs(Version));
         }
 
         public event EventHandler<CollectionContentChangedEventArgs> VersionChanged;
@@ -214,7 +214,7 @@ namespace SquaredInfinity.Foundation.Collections
                 throw new Exception("Bulk Update Operation has already ended");
             }
 
-            OnVersionChangedInternal();
+            RaiseVersionChanged();
         }
 
         public void AddRange(IEnumerable items)

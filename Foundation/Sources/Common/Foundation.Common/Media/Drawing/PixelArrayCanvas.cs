@@ -20,7 +20,6 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             : base(width, height)
         {
             _pixels = new int[width * height];
-            Clear(-1); // transparent background
         }
 
         public override int this[int x, int y]

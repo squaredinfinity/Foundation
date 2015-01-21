@@ -43,6 +43,11 @@ namespace SquaredInfinity.Foundation.Extensions
             pc.DrawLineDDA(x1, y1, x2, y2, pc.GetColor(color.A, color.R, color.G, color.B));
         }
 
+        public static int GetColor(this IPixelCanvas pc, System.Windows.Media.Color color)
+        {
+            return pc.GetColor(color.A, color.R, color.G, color.B);
+        }
+
 
         /// <summary>
         /// Replaces content of this Pixel Canvas with content from specified stream.

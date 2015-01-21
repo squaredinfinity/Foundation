@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         int Stride { get; }
         int Width { get; }
         int Height { get; }
+        Rectangle Bounds { get;  }
 
         int[] GetPixels();
 
@@ -45,6 +47,15 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         void Clear();
 
         int GetColor(int a, int r, int g, int b);
+
+        void Blit(IPixelCanvas source, BlendMode blendMode);
+
+        void Blit(
+            System.Drawing.Rectangle destination_rect,
+            IPixelCanvas source,
+            System.Drawing.Rectangle source_rect,
+            BlendMode blendMode
+            );
 
         void Blit(
             System.Drawing.Rectangle destination_rect,

@@ -12,6 +12,71 @@ namespace SquaredInfinity.Foundation.Media.Drawing
     [TestClass]
     public class PerformanceOptimizations
     {
+
+        // todo, calculate randb together
+        //      uint rb = (colora & 0xFF00FF) + (alpha * (colorb & 0xFF00FF)) >> 8;
+        //      uint g = (colora & 0x00FF00) + (alpha * (colorb & 0x00FF00)) >> 8;
+        //      return (rb & 0xFF00FF) + (g & 0x00FF00);
+
+
+        [TestMethod]
+        public void FastAlphaBlending()
+        {
+            // http://en.wikipedia.org/wiki/Alpha_compositing#Alpha_blending
+            // using premultiplied values
+            // out_a = a1 + a2 * (1 - a1)
+            // out_rgb = r1 + r2 * (1 - a1)
+
+            var c = new PixelArrayCanvas(0, 0);
+
+            var foreground = c.GetColor(System.Windows.Media.Colors.Green.ChangeAlpha(127));
+            var background = c.GetColor(System.Windows.Media.Colors.White.ChangeAlpha(127));
+
+            // get premultiplied components
+            var background_a = background >> 24 & 0xff;
+            var background_r = background >> 16 & 0xff;
+            var background_g = background >> 8 & 0xff;
+            var background_b = background & 0xff;
+
+            var foreground_a = foreground >> 24 & 0xff;
+            var foreground_r = foreground >> 16 & 0xff;
+            var foreground_g = foreground >> 8 & 0xff;
+            var foreground_b = foreground & 0xff;
+
+            var out_a = foreground_a + (1 - foreground_a) * background_a;
+            var out_r = foreground_r + (background_r) * (1 - foreground_a);// / out_a;
+            var out_g = foreground_g + (background_g) * (1 - foreground_a);// / out_a;
+            var out_b = foreground_b + (background_b) * (1 - foreground_a);// / out_a;
+
+            var pc = new PixelArrayCanvas(10, 10);
+            pc.DrawLineDDA(1, 1, 1, 8, foreground);
+            pc.DrawLineDDA(2, 1, 2, 8, background);
+            
+            pc.DrawLineDDA(4, 1, 4, 2, pc.GetColor((int)(out_a ),(int)(out_r ), (int)(out_g ),(int)(out_b )));
+
+            var pc3 = new PixelArrayCanvas(10,10);
+            pc3.DrawLineDDA(4,3,4,5, foreground);
+            pc.Blit(pc3, BlendMode.Alpha);
+
+
+//            out_a = source_a + target - asad;
+//rgb's = rgbsas; rgb'd = rgbdad;
+//rgb'f = rgb's + rgb'd(1-as); //src OVER dst
+//rgbf = rgb'f / af
+
+            out_a = foreground_a + (1 - foreground_a) * background_a;
+            out_r = foreground_r + (background_r) * (1 - foreground_a) / out_a;
+            out_g = foreground_g + (background_g) * (1 - foreground_a) / out_a;
+            out_b = foreground_b + (background_b) * (1 - foreground_a) / out_a;
+
+            pc.DrawLineDDA(4, 6, 4, 8, pc.GetColor((int)(out_a ), (int)(out_r ), (int)(out_g ), (int)(out_b )));
+            
+            pc.Save(@"c:\temp\blend_xxx.bmp");
+
+
+
+        }
+
         [TestMethod]
         public void FastAlphaMultiplication()
         {
@@ -52,7 +117,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
                     // which leaves us with
                     //
                     //  c' = ((ac << 8) + ac) >> 16)
-                    // NOTE that this produces slighr precision loss (+/- 1)
+                    // NOTE that this produces slight precision loss (+/- 1)
                     //
                     //
 

@@ -44,5 +44,10 @@ namespace SquaredInfinity.Foundation.Extensions
 
             return newColor.ToWindowsMediaColor();
         }
+
+        public static System.Windows.Media.Color ChangeAlpha(this System.Windows.Media.Color color, byte new_alpha)
+        {
+            return System.Windows.Media.Color.FromArgb(new_alpha, color.R, color.G, color.B);
+        }
     }
 }

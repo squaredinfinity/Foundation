@@ -26,22 +26,22 @@ namespace SquaredInfinity.Foundation
         [field: NonSerialized]
         public event EventHandler VersionChanged;
 
-        void OnVersionChangedInternal()
-        {
-            RaiseVersionChanged();
-        }
-
         /// <summary>
         /// Increments version and raises Version Changed event.
         /// </summary>
-        protected virtual void RaiseVersionChanged()
+        protected void IncrementVersion()
         {
             var newVersion = Interlocked.Increment(ref _version);
 
+            OnVersionChanged();
+        }
+        
+        protected void OnVersionChanged()
+        {
             if (VersionChanged != null)
                 VersionChanged(this, EventArgs.Empty);
         }
-        
+
         int _version;
         int INotifyVersionChangedObject.Version
         {
@@ -127,7 +127,7 @@ namespace SquaredInfinity.Foundation
             if (raisePropertyChanged)
                 RaisePropertyChanged(propertyName);
 
-            OnVersionChangedInternal();
+            IncrementVersion();
 
             return true;
         }

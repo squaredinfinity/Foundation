@@ -327,6 +327,9 @@
     <Compile Include="..\..\Common\Foundation.Common\Media\Drawing\IPixelCanvas.cs">
       <Link>Media\Drawing\IPixelCanvas.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Media\Drawing\PixelArrayCanvas.cs">
+      <Link>Media\Drawing\PixelArrayCanvas.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Media\Drawing\PixelCanvas.Blit.cs">
       <Link>Media\Drawing\PixelCanvas.Blit.cs</Link>
     </Compile>

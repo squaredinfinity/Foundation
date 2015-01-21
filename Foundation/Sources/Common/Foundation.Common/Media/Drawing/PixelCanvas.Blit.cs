@@ -13,6 +13,40 @@ namespace SquaredInfinity.Foundation.Media.Drawing
  PixelCanvas
 #endif
     {
+        public void Blit(IPixelCanvas source, BlendMode blendMode)
+        {
+            Blit(this.Bounds, source, source.Bounds, blendMode);
+        }
+
+        /// <summary>
+        /// http://en.wikipedia.org/wiki/Alpha_compositing
+        /// </summary>
+        /// <param name="destination_rect"></param>
+        /// <param name="source"></param>
+        /// <param name="source_rect"></param>
+        /// <param name="blendMode"></param>
+        public void Blit(
+            System.Drawing.Rectangle destination_rect,
+            IPixelCanvas source,
+            System.Drawing.Rectangle source_rect,
+            BlendMode blendMode
+            )
+        {
+            Blit(destination_rect, source, source_rect, 255, 255, 255, 255, blendMode);
+        }
+
+
+        /// <summary>
+        /// http://en.wikipedia.org/wiki/Alpha_compositing
+        /// </summary>
+        /// <param name="destination_rect"></param>
+        /// <param name="source"></param>
+        /// <param name="source_rect"></param>
+        /// <param name="alpha"></param>
+        /// <param name="red"></param>
+        /// <param name="green"></param>
+        /// <param name="blue"></param>
+        /// <param name="blendMode"></param>
         public void Blit(
             System.Drawing.Rectangle destination_rect,
             IPixelCanvas source,
@@ -23,6 +57,11 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             byte blue,
             BlendMode blendMode)
         {
+
+            // http://keithp.com/~keithp/porterduff/p253-porter.pdf
+            // http://en.wikipedia.org/wiki/Alpha_compositing
+
+            // tint with transparent color, nothing to do here, since this would make every source pixel transparent
             if (alpha == 0)
                 return;
 
@@ -106,20 +145,38 @@ namespace SquaredInfinity.Foundation.Media.Drawing
                                     // retrieve current source pixel and it's channels values
                                     source_pixel = source_pixels[sourceIdx];
 
-                                    source_alpha = ((source_pixel >> 24) & 0xff);
-                                    source_red = ((source_pixel >> 16) & 0xff);
-                                    source_green = ((source_pixel >> 8) & 0xff);
-                                    source_blue = ((source_pixel) & 0xff);
-
-                                    // tint the pixel if needed
-                                    if (is_tinted && source_alpha != 0)
+                                    if (blendMode == BlendMode.Copy)
                                     {
-                                        source_alpha = (((source_alpha * alpha) * 0x8081) >> 23);
-                                        source_red = ((((((source_red * red) * 0x8081) >> 23) * alpha) * 0x8081) >> 23);
-                                        source_green = ((((((source_green * green) * 0x8081) >> 23) * alpha) * 0x8081) >> 23);
-                                        source_blue = ((((((source_blue * blue) * 0x8081) >> 23) * alpha) * 0x8081) >> 23);
+                                        destination_pixels[idx] = source_pixel;
 
-                                        source_pixel = (source_alpha << 24) | (source_red << 16) | (source_green << 8) | source_blue;
+                                        current_x++;
+                                        idx++;
+                                        ii += sdx;
+
+                                        continue;
+                                    }
+
+                                    if (source_pixel != 0)
+                                    {
+                                        source_alpha = ((source_pixel >> 24) & 0xff);
+                                        source_red = ((source_pixel >> 16) & 0xff);
+                                        source_green = ((source_pixel >> 8) & 0xff);
+                                        source_blue = ((source_pixel) & 0xff);
+
+                                        // tint the pixel if needed
+                                        if (is_tinted && source_alpha != 0)
+                                        {
+                                            source_alpha = (((source_alpha * alpha) * 0x8081) >> 23);
+                                            source_red = ((((((source_red * red) * 0x8081) >> 23) * alpha) * 0x8081) >> 23);
+                                            source_green = ((((((source_green * green) * 0x8081) >> 23) * alpha) * 0x8081) >> 23);
+                                            source_blue = ((((((source_blue * blue) * 0x8081) >> 23) * alpha) * 0x8081) >> 23);
+
+                                            source_pixel = (source_alpha << 24) | (source_red << 16) | (source_green << 8) | source_blue;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        source_alpha = 0;
                                     }
                                 }
                                 else
@@ -127,41 +184,56 @@ namespace SquaredInfinity.Foundation.Media.Drawing
                                     source_alpha = 0;
                                 }
                             }
-                            if (blendMode == BlendMode.None)
+
+                            if (source_alpha == 0)
                             {
-                                destination_pixels[idx] = source_pixel;
+                                current_x++;
+                                idx++;
+                                ii += sdx;
+
+                                continue;
                             }
-                            else if (source_alpha > 0)
+                            else
                             {
+                                // get destination pixel
                                 int destPixel = destination_pixels[idx];
+
                                 destination_alpha = ((destPixel >> 24) & 0xff);
-                                if ((source_alpha == 255 || destination_alpha == 0) &&
-                                   blendMode != BlendMode.Additive
-                                   && blendMode != BlendMode.Subtractive
-                                   && blendMode != BlendMode.Multiply
-                                   )
+
+                                // destination is transparent or source is opaque,
+                                // just replace destination pixel with source pixel
+                                if (blendMode == BlendMode.Alpha && (source_alpha == 255 || destination_alpha == 0))
                                 {
                                     destination_pixels[idx] = source_pixel;
+
+                                    current_x++;
+                                    idx++;
+                                    ii += sdx;
+
+                                    continue;
+                                }
+
+                                // get destination pixel rgb values
+                                destination_red = ((destPixel >> 16) & 0xff);
+                                destination_green = ((destPixel >> 8) & 0xff);
+                                destination_blue = ((destPixel) & 0xff);
+
+                                if (blendMode == BlendMode.Alpha)
+                                {
+                                    var isa = 255 - source_alpha;
+
+                                    destPixel = ((destination_alpha & 0xff) << 24) |
+                                                (((((source_red << 8) + isa * destination_red) >> 8) & 0xff) << 16) |
+                                                (((((source_green << 8) + isa * destination_green) >> 8) & 0xff) << 8) |
+                                                 ((((source_blue << 8) + isa * destination_blue) >> 8) & 0xff);
                                 }
                                 else
-                                {
-                                    destination_red = ((destPixel >> 16) & 0xff);
-                                    destination_green = ((destPixel >> 8) & 0xff);
-                                    destination_blue = ((destPixel) & 0xff);
-                                    if (blendMode == BlendMode.Alpha)
-                                    {
-                                        var isa = 255 - source_alpha;
+                                    throw new NotSupportedException();
 
-                                        destPixel = ((destination_alpha & 0xff) << 24) |
-                                                    (((((source_red << 8) + isa * destination_red) >> 8) & 0xff) << 16) |
-                                                    (((((source_green << 8) + isa * destination_green) >> 8) & 0xff) << 8) |
-                                                     ((((source_blue << 8) + isa * destination_blue) >> 8) & 0xff);
-                                    }
-
-                                    destination_pixels[idx] = destPixel;
-                                }
+                                destination_pixels[idx] = destPixel;
                             }
                         }
+
                         current_x++;
                         idx++;
                         ii += sdx;
