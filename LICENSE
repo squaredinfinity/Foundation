@@ -1,3 +1,40 @@
+var bg_a = bg >> 24 & 0xff;
+                    var bg_r = bg >> 16 & 0xff;
+                    var bg_g = bg >> 8 & 0xff;
+                    var bg_b = bg & 0xff;
+
+                    var fg_a = fg >> 24 & 0xff;
+                    var fg_r = fg >> 16 & 0xff;
+                    var fg_g = fg >> 8 & 0xff;
+                    var fg_b = fg & 0xff;
+
+                    var ai = (255 - fg_a) + 1;
+
+                    var r = ((ai * bg_r) >> 8) + fg_r;
+                    var g = ((ai * bg_g) >> 8) + fg_g;
+                    var b = ((ai * bg_b) >> 8) + fg_b;
+                    var a = ((ai * bg_a) >> 8) + fg_a;
+
+                    var argb = a << 24 | r << 16 | g << 8 | b;
+                    
+                    var ai = (255 - (fg >> 24)) + 1;
+
+                    // remove unwanted channels (AARRGGBB & mask = 00RR00BB)
+                    var rb = bg & 0x00FF00FF;
+                    // results will be in high order bytes (RRxxBBxx), shift right (00RRxxBB)
+                    // mask away insignificant bytes (00RR00BB)
+                    var rb_1 = (int)((ai * rb) >> 8) & 0x00FF00FF;
+                    
+                    // shift A and G bytes right (AARRGGBB >> 8 = 00AARRGG)
+                    // remove unwanted channels (00AARRGG & mask = 00AA00GG)
+                    var ag = (bg >> 8) & 0x00FF00FF;
+                    // results will already be in correct bytes, no need to shift right (AAxxGGxx)
+                    // just mask insignificant bytes (xx)
+                    var ag_1 = (int)((ai * ag) & 0xFF00FF00);
+
+                    var argb = (rb_1 + ag_1 + fg);
+                    
+                    
        
             public static class Highlight
     {
