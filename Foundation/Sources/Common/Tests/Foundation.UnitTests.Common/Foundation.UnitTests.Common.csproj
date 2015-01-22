@@ -101,7 +101,6 @@
     <Compile Include="FrameworkExtensions\System\Type.IsEqualTo.cs" />
     <Compile Include="Media\Drawing\PerformanceOptimizations.cs" />
     <Compile Include="Media\Drawing\PixelArrayCanvas.Blit.tests.cs" />
-    <Compile Include="Media\Drawing\PixelArrayCanvas.DrawLine.tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\FlexiXml\KnownTypesLookup\KnownTypesLookup.tests.cs" />
     <Compile Include="Serialization\FlexiXml\KnownTypesLookup\TestEntity.cs" />

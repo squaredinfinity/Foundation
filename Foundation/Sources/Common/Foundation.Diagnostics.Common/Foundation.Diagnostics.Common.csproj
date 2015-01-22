@@ -41,7 +41,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Foundation.Common\InternalTrace.cs">
+    <Compile Include="..\InternalTrace.cs">
       <Link>InternalTrace.cs</Link>
     </Compile>
     <Compile Include="ApplicationLifecycleEvents.cs" />

@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\InternalTrace.cs">
+      <Link>InternalTrace.cs</Link>
+    </Compile>
     <Compile Include="Cache\CacheGroup.cs" />
     <Compile Include="Cache\CacheService.cs" />
     <Compile Include="Cache\ICacheService.cs" />
@@ -97,7 +100,6 @@
     <Compile Include="ObjectExtensibility\ExtensionCollection.cs" />
     <Compile Include="ObjectExtensibility\IExtensibleObject.cs" />
     <Compile Include="ObjectExtensibility\IExtensionCollection.cs" />
-    <Compile Include="InternalTrace.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="FrameworkExtensions\Microsoft.Win32\RegistryKey.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Collections\ICollection.Extensions.cs" />

@@ -44,9 +44,6 @@
     <Compile Include="..\..\..\AssemblyInfo.shared.cs">
       <Link>Properties\AssemblyInfo.shared.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\InternalTrace.cs">
-      <Link>InternalTrace.cs</Link>
-    </Compile>
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\ApplicationLifecycleEvents.cs">
       <Link>ApplicationLifecycleEvents.cs</Link>
     </Compile>
@@ -262,6 +259,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Diagnostics.Common\TextTemplates\TextTemplateProcessingContext.cs">
       <Link>TextTemplates\TextTemplateProcessingContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\InternalTrace.cs">
+      <Link>InternalTrace.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

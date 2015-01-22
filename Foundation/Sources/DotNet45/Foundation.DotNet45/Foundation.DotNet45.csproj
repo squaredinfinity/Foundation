@@ -264,9 +264,6 @@
     <Compile Include="..\..\Common\Foundation.Common\INotifyVersionChangedObject.cs">
       <Link>INotifyVersionChangedObject.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\InternalTrace.cs">
-      <Link>InternalTrace.cs</Link>
-    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\InvocationThrottle.cs">
       <Link>InvocationThrottle.cs</Link>
     </Compile>
@@ -598,6 +595,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\_RetryPolicy\TransientFaultFilter.cs">
       <Link>_RetryPolicy\TransientFaultFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\InternalTrace.cs">
+      <Link>InternalTrace.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

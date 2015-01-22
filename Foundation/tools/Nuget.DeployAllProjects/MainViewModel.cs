@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using System.Threading;
 
 namespace Nuget.DeployAllProjects
 {
@@ -90,6 +91,28 @@ namespace Nuget.DeployAllProjects
 
                 var srcRoot = Path.Combine(packageRoot, "src");
 
+                for (int i = 0; i < 10; i++ )
+                {
+                    try
+                    {
+                        if (Directory.Exists(srcRoot))
+                        {
+                            Directory.Delete(srcRoot, recursive: true);
+                            Thread.Sleep(50);
+                        }
+
+                        Directory.CreateDirectory(srcRoot);
+                        Directory.CreateDirectory(Path.Combine(srcRoot, "Common"));
+                        Directory.CreateDirectory(Path.Combine(srcRoot, "DotNet45"));
+
+                        break;
+                    }
+                    catch(Exception ex)
+                    {
+                        Trace.WriteLine(ex.ToString());
+                    }
+                }
+
                 // copy source code files specific to this project
                 var projectName = xml.XPathSelectElement("package/metadata/id").Value.Substring("SquaredInfinity.".Length);
 
@@ -97,7 +120,15 @@ namespace Nuget.DeployAllProjects
                 var solution_root = new DirectoryInfo("../../../../");
                 var sources_root = new DirectoryInfo("../../../../Sources");
 
+                // sources/common
                 var commonTargetDir = new DirectoryInfo(Path.Combine(sources_root.FullName, "Common"));
+
+                // copy files shared between all projects
+                var internalTraceSource = new FileInfo(Path.Combine(srcRoot, "Common", "InternalTrace.cs"));
+                File.Copy(Path.Combine(commonTargetDir.FullName, "InternalTrace.cs"), internalTraceSource.FullName);
+
+                // source/common/xxx.common
+                var commonProjectDir = new DirectoryInfo(Path.Combine(commonTargetDir.FullName, projectName + ".Common"));
 
                 foreach (var target_dir in sources_root.GetDirectories())
                 {
@@ -115,9 +146,11 @@ namespace Nuget.DeployAllProjects
                         {
                             // copy files from project.Common dir to project.target (e.g. foundation.Common => foundation.DotNet45)
                             // (e.g. files that are referenced as links)
-                            var commonProjectDir = new DirectoryInfo(Path.Combine(commonTargetDir.FullName, projectName + ".Common"));
                             CopyDirectoryRecursively(commonProjectDir, copy_target);
                         }
+
+                        // copy files shared between all projects
+                        File.Copy(Path.Combine(commonTargetDir.FullName, "InternalTrace.cs"), Path.Combine(copy_target.FullName, "InternalTrace.cs"));
                     }
                 }
             }

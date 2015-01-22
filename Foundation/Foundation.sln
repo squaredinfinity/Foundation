@@ -21,6 +21,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Presentation.Xaml.Common", "Sources\Common\Foundation.Presentation.Xaml.Common\Foundation.Presentation.Xaml.Common.csproj", "{6D246254-BF79-47C6-AE0E-2FDA3E9467A4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{3E3D143E-A6C5-4DED-8927-AEACF1F0784A}"
+	ProjectSection(SolutionItems) = preProject
+		Sources\Common\InternalTrace.cs = Sources\Common\InternalTrace.cs
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DotNet45", "DotNet45", "{D95634A3-6069-430C-A3B5-97347AE8EF5F}"
 EndProject
