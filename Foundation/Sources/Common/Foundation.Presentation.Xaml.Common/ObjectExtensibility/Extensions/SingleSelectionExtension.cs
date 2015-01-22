@@ -7,9 +7,22 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Presentation.ObjectExtensibility.Extensions
 {
+
+    public class AfterSelectedItemChangedArgs : EventArgs
+    {
+        public object OldItem { get; private set; }
+        public object NewItem { get; private set; }
+
+        public AfterSelectedItemChangedArgs(object oldItem, object newItem)
+        {
+            this.OldItem = oldItem;
+            this.NewItem = newItem;
+        }
+    }
+
     public class SingleSelectionExtension : NotifyPropertyChangedObjectExtension<PresentationWrapperCollection>
     {
-        public event EventHandler AfterSelectedItemChanged;
+        public event EventHandler<AfterSelectedItemChangedArgs> AfterSelectedItemChanged;
 
         PresentationWrapper _selectedItem;
         /// <summary>
@@ -20,10 +33,12 @@ namespace SquaredInfinity.Foundation.Presentation.ObjectExtensibility.Extensions
             get { return _selectedItem; }
             set
             {
+                var oldValue = _selectedItem;
+
                 if (TrySetThisPropertyValue(ref _selectedItem, value))
                 {
                     if (AfterSelectedItemChanged != null)
-                        AfterSelectedItemChanged(this, EventArgs.Empty);
+                        AfterSelectedItemChanged(this, new AfterSelectedItemChangedArgs(oldValue, value));
                 }
             }
         }
@@ -32,6 +47,16 @@ namespace SquaredInfinity.Foundation.Presentation.ObjectExtensibility.Extensions
         {
             base.OnAttached(owner);
 
+            // add handlers to existing items
+            foreach(var item in owner)
+            {
+                var listItemExtension = item.Extensions.GetOrAdd<ListItemExtension>(() => new ListItemExtension());
+
+                listItemExtension.AfterIsSelectedChanged -= listItemExtension_AfterIsSelectedChanged;
+                listItemExtension.AfterIsSelectedChanged += listItemExtension_AfterIsSelectedChanged;
+            }
+
+            // make sure future changes to collection are handled
             owner.AfterItemAdded += owner_AfterItemAdded;
             owner.AfterItemRemoved += owner_AfterItemRemoved;
         }
@@ -40,6 +65,7 @@ namespace SquaredInfinity.Foundation.Presentation.ObjectExtensibility.Extensions
         {
             var listItemExtension = e.AddedItem.Extensions.GetOrAdd<ListItemExtension>(() => new ListItemExtension());
 
+            listItemExtension.AfterIsSelectedChanged -= listItemExtension_AfterIsSelectedChanged;
             listItemExtension.AfterIsSelectedChanged += listItemExtension_AfterIsSelectedChanged;
         }
 
