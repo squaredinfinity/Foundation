@@ -59,11 +59,6 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             pc.Blit(pc3, BlendMode.Alpha);
 
 
-//            out_a = source_a + target - asad;
-//rgb's = rgbsas; rgb'd = rgbdad;
-//rgb'f = rgb's + rgb'd(1-as); //src OVER dst
-//rgbf = rgb'f / af
-
             out_a = foreground_a + (1 - foreground_a) * background_a;
             out_r = foreground_r + (background_r) * (1 - foreground_a) / out_a;
             out_g = foreground_g + (background_g) * (1 - foreground_a) / out_a;

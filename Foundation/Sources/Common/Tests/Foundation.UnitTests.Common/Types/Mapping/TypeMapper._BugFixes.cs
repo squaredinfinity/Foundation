@@ -117,5 +117,42 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         }
 
         #endregion
+
+        #region BUG 004
+
+        [TestMethod]
+        [Description("do not attempt to access read only properties")]
+        public void Bug004_CloneFailsOnTypeWithReadOnlyPropertiesWhichThrowException__ShouldNotAttemptToAccessReadOnlyPropertiesAnyway()
+        {
+            var c1 = new Bug004_Class_One();
+
+            var tm = new TypeMapper();
+
+            var clone = tm.Map<Bug004_Class_One>(c1);
+
+            Assert.IsNotNull(clone);
+            Assert.AreEqual(clone.Id, c1.Id);
+        }
+
+        public class Bug004_Class_One
+        {
+            int? _id;
+            public int? Id
+            {
+                get { return _id; }
+            }
+
+            public int ThrowMe
+            {
+                get { throw new Exception(); }
+            }
+
+            public Bug004_Class_One()
+            {
+                _id = null;
+            }
+        }
+
+        #endregion
     }
 }

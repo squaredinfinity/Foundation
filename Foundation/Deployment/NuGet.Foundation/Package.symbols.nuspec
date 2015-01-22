@@ -27,8 +27,9 @@
     <file src="..\..\Sources\DotNet45\Foundation.DotNet45\bin\Release\SquaredInfinity.Foundation.DotNet45.dll" target="lib\net45" />
     <file src="..\..\Sources\DotNet45\Foundation.DotNet45\bin\Release\SquaredInfinity.Foundation.DotNet45.xml" target="lib\net45" />
     <file src="..\..\Sources\DotNet45\Foundation.DotNet45\bin\Release\SquaredInfinity.Foundation.DotNet45.pdb" target="lib\net45" />
-    <file src="..\..\Sources\**\*.cs" target="src" />
-    <file src="..\..\Sources\**\*.xaml" target="src" />
+    <!--<file src="..\..\Sources\**\*.cs" target="src" />
+    <file src="..\..\Sources\**\*.xaml" target="src" />-->
+    <file src="src\" target="src" />
     <file src="tools\" target="tools" />
     <file src="content\" target="content" />
   </files>

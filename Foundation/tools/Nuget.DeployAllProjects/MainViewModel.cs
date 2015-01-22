@@ -35,10 +35,32 @@ namespace Nuget.DeployAllProjects
             VersionNumber = version_number.ToString() + "-beta";
         }
 
+        public static void CopyDirectoryRecursively(DirectoryInfo source, DirectoryInfo target) 
+        {
+            if (source.Name == "obj" || source.Name == "bin")
+                return;
+
+            if (!target.Exists)
+                target.Create();
+
+            foreach (DirectoryInfo dir in source.GetDirectories())
+            {
+                CopyDirectoryRecursively(dir, target.CreateSubdirectory(dir.Name));
+            }
+
+            foreach (FileInfo file in source.GetFiles())
+            {
+                if (file.Extension == "dll")
+                    continue;
+
+                file.CopyTo(Path.Combine(target.FullName, file.Name), overwrite:true);
+            }
+        }
+
         public void UpdateAllProjects()
         {
             // find all Package.symbols.nuspec files in solution under deployment project
-            foreach(var file in Directory.EnumerateFiles("../../../../Deployment", "Package.symbols.nuspec", SearchOption.AllDirectories))
+            foreach (var file in Directory.EnumerateFiles("../../../../Deployment", "Package.symbols.nuspec", SearchOption.AllDirectories))
             {
                 var xml = XDocument.Parse(File.ReadAllText(file));
 
@@ -50,9 +72,9 @@ namespace Nuget.DeployAllProjects
 
                 var dependencies = xml.XPathSelectElements("package/metadata/dependencies/group/dependency").ToArray();
 
-                if(dependencies.Length > 0)
+                if (dependencies.Length > 0)
                 {
-                    foreach(var dep in dependencies)
+                    foreach (var dep in dependencies)
                     {
                         if (!dep.Attribute("id").Value.StartsWith("SquaredInfinity."))
                             continue;
@@ -62,6 +84,42 @@ namespace Nuget.DeployAllProjects
                 }
 
                 xml.Save(file);
+
+                // ensure sources structure
+                var packageRoot = Path.GetDirectoryName(file);
+
+                var srcRoot = Path.Combine(packageRoot, "src");
+
+                // copy source code files specific to this project
+                var projectName = xml.XPathSelectElement("package/metadata/id").Value.Substring("SquaredInfinity.".Length);
+
+
+                var solution_root = new DirectoryInfo("../../../../");
+                var sources_root = new DirectoryInfo("../../../../Sources");
+
+                var commonTargetDir = new DirectoryInfo(Path.Combine(sources_root.FullName, "Common"));
+
+                foreach (var target_dir in sources_root.GetDirectories())
+                {
+                    // these will be common, dotnet45 etc
+                    foreach (var project_dir in target_dir.GetDirectories())
+                    {
+                        if (!(project_dir.Name == projectName + "." + target_dir.Name))
+                            continue;
+
+                        // copy files from project.target dir to project.target (e.g. foundation.DotNet45 => foundation.DotNet45)
+                        var copy_target = new DirectoryInfo(Path.Combine(srcRoot, target_dir.Name, projectName + "." +  target_dir.Name));
+                        CopyDirectoryRecursively(project_dir, copy_target);
+
+                        if(target_dir.Name != "Common")
+                        {
+                            // copy files from project.Common dir to project.target (e.g. foundation.Common => foundation.DotNet45)
+                            // (e.g. files that are referenced as links)
+                            var commonProjectDir = new DirectoryInfo(Path.Combine(commonTargetDir.FullName, projectName + ".Common"));
+                            CopyDirectoryRecursively(commonProjectDir, copy_target);
+                        }
+                    }
+                }
             }
 
             // build solution in release version
