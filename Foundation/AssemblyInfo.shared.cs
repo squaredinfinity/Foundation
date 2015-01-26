@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright © 2014")]
 
 [assembly: AssemblyVersion("1.0.35.0")]
+[assembly: AssemblyFileVersion("1.0.35.0")]
 
 
 #if SIGN
