@@ -12,6 +12,12 @@ namespace SquaredInfinity.Foundation.Collections
     {
         TItem this[int index] { get; }
         void Replace(TItem oldItem, TItem newItem);
+
+        /// <summary>
+        /// Removes old items and replaces them with new items in one, atomic operation
+        /// </summary>
+        /// <param name="newItems"></param>
+        void Reset(IEnumerable<TItem> newItems);
         IReadOnlyList<TItem> GetSnapshot();
     }
 
