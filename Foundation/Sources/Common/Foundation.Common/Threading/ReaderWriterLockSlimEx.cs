@@ -95,6 +95,16 @@ namespace SquaredInfinity.Foundation.Threading
             return new WriteLockAcquisition(owner:this);
         }
 
+        public IWriteLockAcquisition AcquireWriteLockIfNotHeld()
+        {
+            if (InternalLock.IsWriteLockHeld)
+                return null;
+
+            InternalLock.EnterWriteLock();
+
+            return new WriteLockAcquisition(owner: this);
+        }
+
         public bool TryAcquireWriteLock(TimeSpan timeout, out IWriteLockAcquisition writeableLockAcquisition)
         {
             if (InternalLock.RecursionPolicy == LockRecursionPolicy.NoRecursion &&

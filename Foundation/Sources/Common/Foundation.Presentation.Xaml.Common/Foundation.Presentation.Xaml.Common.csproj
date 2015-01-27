@@ -85,12 +85,7 @@
     <Compile Include="Behaviors\TreeView.MultiSelection.cs" />
     <Compile Include="Behaviors\TreeView.PreventAutomaticScrolling.cs" />
     <Compile Include="Behaviors\TreeView.SelectionChangedInhibitor.cs" />
-    <Compile Include="Collections\ObservableCollectionEx.Batch.cs" />
-    <Compile Include="Collections\ObservableCollectionEx.cs" />
-    <Compile Include="Collections\ObservableCollectionEx.INotifyCollectionChanged.cs" />
-    <Compile Include="Collections\ObservableCollectionEx.INotifyPropertyChanged.cs" />
-    <Compile Include="Collections\ObservableCollectionEx.Version.cs" />
-    <Compile Include="Collections\ObservableVirtualizingCollection.cs" />
+    <Compile Include="Collections\XamlObservableCollectionEx.cs" />
     <Compile Include="Collections\XamlVirtualizingCollection.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Commands\DelegateCommandBase.WeakEventHandlerManager.cs" />

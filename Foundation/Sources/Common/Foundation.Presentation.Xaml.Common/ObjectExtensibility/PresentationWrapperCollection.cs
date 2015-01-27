@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Foundation.Presentation.ObjectExtensibility
 {
     public class PresentationWrapperCollection :
-            ObservableCollectionEx<PresentationWrapper>,
+            XamlObservableCollectionEx<PresentationWrapper>,
             IExtensibleObject<PresentationWrapperCollection>
     {
         public PresentationWrapperCollection()

@@ -15,6 +15,8 @@ namespace SquaredInfinity.Foundation.Threading
         bool TryAcquireUpgradeableReadLock(TimeSpan timeout, out IUpgradeableReadLockAcquisition upgradeableReadLockAcquisition);
 
         IWriteLockAcquisition AcquireWriteLock();
+        IWriteLockAcquisition AcquireWriteLockIfNotHeld();
+
         bool TryAcquireWriteLock(TimeSpan timeout, out IWriteLockAcquisition writeLockAcquisition);
 
         bool IsReadLockHeld { get; }

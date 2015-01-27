@@ -54,8 +54,11 @@
     <Compile Include="..\..\Common\Foundation.Common\CloneComparer.cs">
       <Link>CloneComparer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Collections\CollectionContentChangedEventArgs.cs">
-      <Link>Collections\CollectionContentChangedEventArgs.cs</Link>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\AfterItemAddedEventArgs.cs">
+      <Link>Collections\AfterItemAddedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\AfterItemRemovedEventArgs.cs">
+      <Link>Collections\AfterItemRemovedEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Collections\CollectionEx.cs">
       <Link>Collections\CollectionEx.cs</Link>
@@ -72,11 +75,20 @@
     <Compile Include="..\..\Common\Foundation.Common\Collections\ICollectionEx.cs">
       <Link>Collections\ICollectionEx.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Collections\INotifyCollectionContentChanged.cs">
-      <Link>Collections\INotifyCollectionContentChanged.cs</Link>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\INotifyCollectionVersionChanged.cs">
+      <Link>Collections\INotifyCollectionVersionChanged.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Collections\MultiMap.cs">
       <Link>Collections\MultiMap.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\ObservableCollectionEx.cs">
+      <Link>Collections\ObservableCollectionEx.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\ObservableCollectionEx.INotifyCollectionChanged.cs">
+      <Link>Collections\ObservableCollectionEx.INotifyCollectionChanged.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\ObservableCollectionEx.INotifyPropertyChanged.cs">
+      <Link>Collections\ObservableCollectionEx.INotifyPropertyChanged.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Collections\OrderedDictionary.cs">
       <Link>Collections\OrderedDictionary.cs</Link>
@@ -580,6 +592,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Types\Mapping\ValueResolving\ValueResolverCollection.cs">
       <Link>Types\Mapping\ValueResolving\ValueResolverCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\VersionChangedEventArgs.cs">
+      <Link>VersionChangedEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\WeakEvent.cs">
       <Link>WeakEvent.cs</Link>

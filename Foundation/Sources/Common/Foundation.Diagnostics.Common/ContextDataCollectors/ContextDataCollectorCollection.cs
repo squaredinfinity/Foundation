@@ -63,9 +63,9 @@ namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
             return result;
         }
 
-        protected override void OnVersionChanged()
+        protected override void OnAfterVersionChanged(long newVersion)
         {
-            base.OnVersionChanged();
+            base.OnAfterVersionChanged(newVersion);
 
             RefreshCache();
         }

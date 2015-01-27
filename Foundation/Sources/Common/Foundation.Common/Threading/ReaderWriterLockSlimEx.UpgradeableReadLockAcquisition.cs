@@ -44,7 +44,7 @@ namespace SquaredInfinity.Foundation.Threading
             {
                 Owner.InternalLock.EnterWriteLock();
 
-                Owner.InternalLock.ExitUpgradeableReadLock();
+                //Owner.InternalLock.ExitUpgradeableReadLock();
 
                 return new WriteLockAcquisition(Owner);
             }

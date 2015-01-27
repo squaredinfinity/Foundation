@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Foundation.Presentation.ObjectExtensibility
 {
     public class ObservableExtensionCollection<TOwner> :
-               ObservableCollectionEx<IExtension<TOwner>>,
+               XamlObservableCollectionEx<IExtension<TOwner>>,
                IExtensionCollection<TOwner>
                where TOwner : IExtensibleObject<TOwner>
     {
