@@ -1,4 +1,61 @@
+    
+find out how to best monitor app performance over time
+serializemember<R>(x => x.m, shouldSerialze, providemembervalue<R>)
+execution statistics http://stackoverflow.com/questions/2108041/c-sharp-sqldatareader-execution-statistics-and-information
+ExecuteReaderInternal protected
+maptoclr -> i dbValue is type, return (T)
+specific methods for: map to any primitive type
+default config for logger
+invocation throttle tests
+observablecollectionex - get ireadonlyiist in constructor instead of ilist
+observablecollectionex - reset does not seem to work
+ public static T ToClrValue<T>(this object value)
+        {
+            if (value == DBNull.Value)
+                return default(T);
+
+            return (T)value;
+        }
+as warning().log() - overloads with ex etc.
+
+public class ToListConverter : IMultiValueConverter
+    {
+
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return new List<object>(values);
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ToMapConverter : IMultiValueConverter
+    {
+
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            var result = new Dictionary<string, object>(StringComparer.InvariantCultureIgnoreCase);
+
+            for(int i = 0; i < values.Length; i+= 2)
+            {
+                result.Add(values[i].ToString(), values[i + 1]);
+            }
+
+            return result;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    
     [StructLayout(LayoutKind.Explicit)]
+    
     public struct pARGB
     {
         [FieldOffset(0)]
