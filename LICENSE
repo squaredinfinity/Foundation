@@ -1,3 +1,21 @@
+xamlobservablecollection - constructor that takes items
+observablecollection - extension to allow multithreaded UI access, perhaps constructor could detect if synchronization context is not null ? but how? xamlobscol is in another project...
+unless some kind of static class is added to automatically detect environment and apply extensions
+extension would call binding operations .enablexxx
+
+ExecutionEnvironment.Current / SetCurrent
+.PrepareObservableCollectionEx(this)
+
+fonts - make shapes bigger and wider
+optimize for clear display at ~16
+
+IConvertibleType, ConvertibleTypeConverter
+
+observablecollectionex is potentially read-only by default? only in xaml? needs finding out
+
+onversionchanged should be invoked with lock in place, so that enumeration can be done safely
+
+IObservableCollectionEx : IVersionChanged(collectio thing)
     
 find out how to best monitor app performance over time
 serializemember<R>(x => x.m, shouldSerialze, providemembervalue<R>)
