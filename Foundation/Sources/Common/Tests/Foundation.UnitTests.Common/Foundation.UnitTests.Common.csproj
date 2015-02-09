@@ -59,12 +59,15 @@
   <ItemGroup>
     <Compile Include="ChainOfCommand\TryHandle.tests.cs" />
     <Compile Include="Charting\Axis\PrettyTicksProvider.tests.cs" />
+    <Compile Include="Collections\CollectionEx.GetSnapshot.cs" />
+    <Compile Include="Collections\CollectionEx.tests.cs" />
     <Compile Include="Collections\CollectionEx.BulkUpdates.cs" />
     <Compile Include="Collections\CollectionEx.Clear.cs" />
     <Compile Include="Collections\CollectionEx.AddRemoveRange.cs" />
     <Compile Include="Collections\CollectionEx.Replace.cs" />
     <Compile Include="Collections\CollectionEx.Move.cs" />
     <Compile Include="Collections\Trees\BooleanExpresionTree.operations.cs" />
+    <Compile Include="Collections\Trees\ObservableCollectionEx.tests.cs" />
     <Compile Include="FrameworkExtensions\System.Collections\IEnumerable.ToNullIfEmpty.cs" />
     <Compile Include="FrameworkExtensions\System.Collections\IEnumerable.TreeTraversal.cs" />
     <Compile Include="FrameworkExtensions\System.Collections\IEnumerable.ToList.cs" />

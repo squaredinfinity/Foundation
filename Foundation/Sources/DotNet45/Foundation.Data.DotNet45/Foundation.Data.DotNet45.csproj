@@ -49,6 +49,9 @@
     <Compile Include="..\..\Common\Foundation.Data.Common\DataAccessService.cs">
       <Link>DataAccessService.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Data.Common\FrameworkExtensions\System\Object.extensions.cs">
+      <Link>FrameworkExtensions\System\Object.extensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Data.Common\IDatabaseObjectNameResolver.cs">
       <Link>IDatabaseObjectNameResolver.cs</Link>
     </Compile>

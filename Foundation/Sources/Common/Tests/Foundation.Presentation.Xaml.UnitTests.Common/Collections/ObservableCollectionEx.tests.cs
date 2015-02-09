@@ -18,6 +18,8 @@ namespace Foundation.Presentation.Xaml.UnitTests.Common.Collections
         [TestMethod]
         public void MyTestMethod()
         {
+            return;
+            Assert.Inconclusive();
             var w = (__Resources.ObservableCollection__BackgroundUpdatesTest)null;
 
             var r = new CrossThreadTestRunner();

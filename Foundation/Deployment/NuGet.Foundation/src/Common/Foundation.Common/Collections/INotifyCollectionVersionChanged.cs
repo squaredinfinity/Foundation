@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Collections
 {
-    public interface INotifyCollectionContentChanged
+    public interface INotifyCollectionVersionChanged
     {
         /// <summary>
         /// Occurs when content of any item in the collection has changed (but no items have been added / removed / moved).
         /// </summary>
-        event EventHandler<CollectionContentChangedEventArgs> VersionChanged;
+        event EventHandler<VersionChangedEventArgs> VersionChanged;
 
-        int Version { get; }
+        long Version { get; }
     }
 }

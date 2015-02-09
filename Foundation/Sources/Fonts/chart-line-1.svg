@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
+<g>
+	<line fill="#FF0000" x1="486.5" y1="206" x2="731" y2="304.2"/>
+	
+		<rect x="477" y="245.1" transform="matrix(0.928 0.3727 -0.3727 0.928 138.9338 -208.5004)" fill="#E30613" width="263.5" height="20"/>
+</g>
+<g>
+	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="507.7503" y1="273.2" x2="720.7496" y2="273.2">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="0" style="stop-color:#AA0A12"/>
+	</linearGradient>
+	<line fill="url(#SVGID_1_)" x1="507.8" y1="474.9" x2="720.7" y2="71.5"/>
+	<polygon fill="#E30613" points="515.5,480.4 500,469.4 713,66 728.5,77 	"/>
+</g>
+<g>
+	<path fill="#FF0000" d="M241.8,575.8l244.5-369.5"/>
+	<polygon fill="#E30613" points="250.3,581.6 233.2,570 477.7,200.4 494.8,212 	"/>
+</g>
+<polygon fill="#E30613" points="466.7,492.6 250,319.2 260.3,299.8 476.9,473.2 "/>
+<ellipse fill="#E30613" cx="196.5" cy="622.2" rx="75" ry="75"/>
+<rect fill="#E30613" width="50" height="800"/>
+<rect y="750" fill="#E30613" width="800" height="50"/>
+<ellipse fill="#E30613" stroke="#FF0000" stroke-miterlimit="10" cx="196.5" cy="290.2" rx="75" ry="75"/>
+<ellipse fill="#E30613" cx="486.2" cy="506.6" rx="75" ry="75"/>
+<ellipse fill="#E30613" cx="486.5" cy="215.2" rx="75" ry="75"/>
+<ellipse fill="#E30613" cx="725" cy="304.2" rx="75" ry="75"/>
+<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="650" y1="75" x2="800" y2="75">
+	<stop  offset="1" style="stop-color:#E30613"/>
+	<stop  offset="1" style="stop-color:#AA0A12"/>
+</linearGradient>
+<ellipse fill="url(#SVGID_2_)" cx="725" cy="75" rx="75" ry="75"/>
+</svg>

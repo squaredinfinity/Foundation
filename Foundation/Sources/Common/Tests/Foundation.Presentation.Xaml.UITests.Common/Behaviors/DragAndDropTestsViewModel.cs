@@ -11,13 +11,13 @@ namespace Foundation.Presentation.Xaml.UITests.Common.Behaviors
 {
     public class DragAndDropTestsViewModel : ViewModel
     {
-        public ObservableCollectionEx<int> OddNumbers { get; set; }
-        public ObservableCollectionEx<int> EvenNumbers { get; set; }
+        public XamlObservableCollectionEx<int> OddNumbers { get; set; }
+        public XamlObservableCollectionEx<int> EvenNumbers { get; set; }
 
         public DragAndDropTestsViewModel()
         {
-            OddNumbers = new ObservableCollectionEx<int>();
-            EvenNumbers = new ObservableCollectionEx<int>();
+            OddNumbers = new XamlObservableCollectionEx<int>();
+            EvenNumbers = new XamlObservableCollectionEx<int>();
 
             for (int i = 0; i < 100; i += 2)
             {

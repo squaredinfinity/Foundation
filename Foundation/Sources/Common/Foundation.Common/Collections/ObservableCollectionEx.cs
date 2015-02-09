@@ -12,9 +12,13 @@ namespace SquaredInfinity.Foundation.Collections
     public partial class ObservableCollectionEx<TItem> : CollectionEx<TItem>
     {
         readonly int InitialHashCode;
-
+        
         public ObservableCollectionEx()
-            : this(monitorElementsForChanges: false, items: new List<TItem>())
+            : this(monitorElementsForChanges: false, items: new TItem[0])
+        { }
+
+        public ObservableCollectionEx(bool monitorElementsForChanges)
+            : this(monitorElementsForChanges, items: new TItem[0])
         { }
 
         public ObservableCollectionEx(bool monitorElementsForChanges, IList<TItem> items)
@@ -234,6 +238,11 @@ namespace SquaredInfinity.Foundation.Collections
         }
 
         #endregion
+
+        protected override void OnAfterCollectionReset()
+        {
+            RaiseCollectionReset();
+        }
 
         protected override void IncrementVersion()
         {

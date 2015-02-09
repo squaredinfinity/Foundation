@@ -35,7 +35,7 @@ namespace SquaredInfinity.Foundation.ContextDataCollectors
                 //  (once for each thread if entered before _applicationIsNetworkDeployed is assigned)
                 //  This is by design 
                 //      possible performance impact is tiny and short-lived 
-                //      compared to long-lived performance impact of introducing locking here
+                //      compared to long-lived performance impact of introducing locking here   
                 if (_applicationIsNetworkDeployed == null)
                     _applicationIsNetworkDeployed = ApplicationDeployment.IsNetworkDeployed;
 

@@ -116,6 +116,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Data.UnitTests.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Presentation.Xaml.UnitTests.Common", "Sources\Common\Tests\Foundation.Presentation.Xaml.UnitTests.Common\Foundation.Presentation.Xaml.UnitTests.Common.csproj", "{642B95B1-8638-4703-8EA5-41C2CAD6E4DF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".fonts", ".fonts", "{A3F7E958-D2E2-4EB3-910F-00FBED8942F9}"
+	ProjectSection(SolutionItems) = preProject
+		Sources\Fonts\chart-line-1.svg = Sources\Fonts\chart-line-1.svg
+		Sources\Fonts\chart-line-2.svg = Sources\Fonts\chart-line-2.svg
+		Sources\Fonts\fontsi.sfd = Sources\Fonts\fontsi.sfd
+		Sources\Fonts\fontsi.ttf = Sources\Fonts\fontsi.ttf
+		Sources\Fonts\grid-1.svg = Sources\Fonts\grid-1.svg
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

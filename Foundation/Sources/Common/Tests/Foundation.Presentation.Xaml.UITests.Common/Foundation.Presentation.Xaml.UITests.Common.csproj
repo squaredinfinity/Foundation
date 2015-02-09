@@ -58,6 +58,7 @@
     <Compile Include="Behaviors\Highlight\HighlightTestsViewModel.cs" />
     <Compile Include="Converters\ConvertersView.cs" />
     <Compile Include="Converters\ConvertersViewModel.cs" />
+    <Compile Include="Fonts\FontsiView.cs" />
     <Compile Include="UIExamples\ToolTipView.cs" />
     <Compile Include="UIExamples\ToolTipViewModel.cs" />
     <Compile Include="UIExamples\ToolTip\ExampleTooltipView.cs" />
@@ -102,6 +103,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Fonts\FontsiView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

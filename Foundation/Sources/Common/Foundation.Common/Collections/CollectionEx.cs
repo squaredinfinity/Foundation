@@ -240,7 +240,11 @@ namespace SquaredInfinity.Foundation.Collections
 
                 AddRange(newItems);
             }
+
+            OnAfterCollectionReset();
         }
+
+        protected virtual void OnAfterCollectionReset() { }
 
         #endregion
 
@@ -256,10 +260,23 @@ namespace SquaredInfinity.Foundation.Collections
 
         void OnVersionChanged(long newVersion) 
         {
-            if (VersionChanged != null)
-                VersionChanged(this, new VersionChangedEventArgs(newVersion));
+            if (!CollectionLock.IsReadLockHeld && !CollectionLock.IsUpgradeableReadLockHeld && !CollectionLock.IsWriteLockHeld)
+            {
+                using (CollectionLock.AcquireReadLock())
+                {
+                    if (VersionChanged != null)
+                        VersionChanged(this, new VersionChangedEventArgs(newVersion));
 
-            OnAfterVersionChanged(newVersion);
+                    OnAfterVersionChanged(newVersion);
+                }
+            }
+            else
+            {
+                if (VersionChanged != null)
+                    VersionChanged(this, new VersionChangedEventArgs(newVersion));
+
+                OnAfterVersionChanged(newVersion);
+            }
         }
 
         /// <summary>
@@ -279,7 +296,7 @@ namespace SquaredInfinity.Foundation.Collections
 
         public IReadOnlyList<TItem> GetSnapshot()
         {
-            using(CollectionLock.AcquireReadLock())
+            using(CollectionLock.AcquireReadLockIfNotHeld())
             {
                 var snapshot = this.ToArray();
 

@@ -71,17 +71,16 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         ITypeSerializationStrategy<T> SerializeMember(Expression<Func<T, object>> memberExpression, Func<T, bool> shouldSerializeMember);
 
 
-        ITypeSerializationStrategy<T> SerializeMember(
+        ITypeSerializationStrategy<T> SerializeMemberAsAttribute<TMember>(
             Expression<Func<T, object>> memberExpression, 
             Func<T, bool> shouldSerializeMember,
-            Func<T, string> serialize,
-            Func<string, T> deserialize);
+            Func<T, TMember, string> serialize,
+            Func<XAttribute, TMember> deserialize);
 
         /// <summary>
         /// Enables serialization of a specified member (even if its serialization has been disabled before).
         /// </summary>
         /// <param name="memberExpression"></param>
-        /// <param name="shouldSerializeMember"></param>
         /// <returns></returns>
         ITypeSerializationStrategy<T> SerializeMember(Expression<Func<T, object>> memberExpression);
 

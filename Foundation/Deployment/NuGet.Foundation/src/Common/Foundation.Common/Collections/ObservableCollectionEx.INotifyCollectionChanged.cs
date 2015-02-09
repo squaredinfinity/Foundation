@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using SquaredInfinity.Foundation.Extensions;
-using System.Windows.Data;
 
 namespace SquaredInfinity.Foundation.Collections
 {
@@ -19,44 +18,35 @@ namespace SquaredInfinity.Foundation.Collections
             if (State == STATE__BULKUPDATE)
                 return;
 
-            IncrementVersion();
-
             if (action.IsIn(NotifyCollectionChangedAction.Move, NotifyCollectionChangedAction.Replace))
             {
-                RaisePropertyChanged("Item[]");
+                RaiseIndexerChanged();
             }
             else
             {
-                RaisePropertyChanged("Item[]");
-                RaisePropertyChanged("Count");
+                RaiseIndexerChanged();
+                RaisePropertyChanged(() => Count);
             }
 
             TryRaiseCollectionChanged(new NotifyCollectionChangedEventArgs(action, newItem, oldItem, index));
-
-            RaisePropertyChanged("Version");
         }
 
-        protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object item, int index, bool raiseVersionChanged = true)
+        protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object item, int index)
         {
             if (State == STATE__BULKUPDATE)
                 return;
 
-            IncrementVersion();
-
             if (action.IsIn(NotifyCollectionChangedAction.Move, NotifyCollectionChangedAction.Replace))
             {
-                RaisePropertyChanged("Item[]");
+                RaiseIndexerChanged();
             }
             else
             {
-                RaisePropertyChanged("Item[]");
-                RaisePropertyChanged("Count");
+                RaiseIndexerChanged();
+                RaisePropertyChanged(() => Count);
             }
 
             TryRaiseCollectionChanged(new NotifyCollectionChangedEventArgs(action, item, index));
-
-            if(raiseVersionChanged)
-                RaisePropertyChanged("Version");
         }
 
         protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object item, int index, int oldIndex)
@@ -64,35 +54,28 @@ namespace SquaredInfinity.Foundation.Collections
             if (State == STATE__BULKUPDATE)
                 return;
 
-            IncrementVersion();
-
             if (action.IsIn(NotifyCollectionChangedAction.Move, NotifyCollectionChangedAction.Replace))
             {
-                RaisePropertyChanged("Item[]");
+                RaiseIndexerChanged();
             }
             else
             {
-                RaisePropertyChanged("Item[]");
-                RaisePropertyChanged("Count");
+                RaiseIndexerChanged();
+                RaisePropertyChanged(() => Count);
             }
 
             TryRaiseCollectionChanged(new NotifyCollectionChangedEventArgs(action, item, index, oldIndex));
-
-            RaisePropertyChanged("Version");
         }
 
         protected void RaiseCollectionReset()
         {
             if (State == STATE__BULKUPDATE)
                 return;
-
-            IncrementVersion();
-
+            
             TryRaiseCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
-            RaisePropertyChanged("Count");
-            RaisePropertyChanged("Item[]");
-            RaisePropertyChanged("Version");
+            RaiseIndexerChanged();
+            RaisePropertyChanged(() => Count);
         }
 
         void TryRaiseCollectionChanged(NotifyCollectionChangedEventArgs args)
@@ -104,9 +87,9 @@ namespace SquaredInfinity.Foundation.Collections
             {
                 CollectionChanged(this, args);
             }
-            catch(NotSupportedException ex)
+            catch (NotSupportedException ex)
             {
-                if(InitialHashCode != GetHashCode())
+                if (InitialHashCode != GetHashCode())
                 {
                     //! Not Supported Exception can still sometimes be thrown by CollectionView
                     //  even when BindingOperations.EnableCollectionSynchronization() has been used

@@ -432,6 +432,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Media\Colors.cs">
       <Link>Media\Colors.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Media\FontFamilies.cs">
+      <Link>Media\FontFamilies.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\ObjectExtensibility\Extensions\ListItemExtension.cs">
       <Link>ObjectExtensibility\Extensions\ListItemExtension.cs</Link>
     </Compile>
@@ -548,7 +551,11 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="..\..\Fonts\fontsi.ttf">
+      <Link>fonts\fontsi.ttf</Link>
+    </Resource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

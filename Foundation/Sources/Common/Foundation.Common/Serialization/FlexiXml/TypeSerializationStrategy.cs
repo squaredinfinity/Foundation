@@ -24,6 +24,10 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         void SetValue(object memberOwner, object newValue);
 
         Func<object, bool> ShouldSerializeMember { get; set; }
+
+        Func<object, object, string> CustomSerialize { get; set; }
+
+        Func<string, object> CustomDeserialize { get; set; }
     }
 
     public class MemberSerializationStrategy : IMemberSerializationStrategy
@@ -31,6 +35,10 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         public string MemberName { get; private set; }
         public ITypeMemberDescription MemberDescription { get; private set; }
         public Func<object, bool> ShouldSerializeMember { get; set; }
+
+        public Func<object, object, string> CustomSerialize { get; set; }
+
+        public Func<string, object> CustomDeserialize { get; set; }
                 
         public MemberSerializationStrategy(ITypeMemberDescription memberDescription)
         {
@@ -354,6 +362,20 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                 return true;
             }
+            
+                if(strategy.CustomDeserialize != null && strategy.CustomSerialize != null)
+                {
+                    var xo_str = strategy.CustomSerialize(parentInstance, memberValue);
+
+                    var attributeName = strategy.MemberDescription.Name;
+                    var value = xo_str;
+
+                    var attributeEl = new XAttribute(attributeName, value);
+
+                    serializedContent = attributeEl;
+                    return true;
+                }
+
             else if (memberValue == null)
             {
                 var attributeName = strategy.MemberDescription.Name;
@@ -394,65 +416,65 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 //serializedContent = wrapper;
                 //return true;
             }
-            else if (TryConvertToStringIfTypeSupports(strategy.MemberDescription.MemberType.Type, memberValue, out val_as_string))
-            {
-                // member value supports converting to and from string
-                //
-                // => create attribute which will store member value (if value is a single line)
-                // => create attached property which will store member value (if value is multi-line)
-
-                if (val_as_string.Contains(Environment.NewLine))
+                else if (TryConvertToStringIfTypeSupports(strategy.MemberDescription.MemberType.Type, memberValue, out val_as_string))
                 {
-                    var wrapperElementName = SanitizeParentElementName(parentElement) + "." + strategy.MemberDescription.Name;
-                    var wrapperElement = new XElement(wrapperElementName);
+                    // member value supports converting to and from string
+                    //
+                    // => create attribute which will store member value (if value is a single line)
+                    // => create attached property which will store member value (if value is multi-line)
 
-                    wrapperElement.Add(new XCData(val_as_string));
+                    if (val_as_string.Contains(Environment.NewLine))
+                    {
+                        var wrapperElementName = SanitizeParentElementName(parentElement) + "." + strategy.MemberDescription.Name;
+                        var wrapperElement = new XElement(wrapperElementName);
 
-                    serializedContent = wrapperElement;
+                        wrapperElement.Add(new XCData(val_as_string));
+
+                        serializedContent = wrapperElement;
+                    }
+                    else
+                    {
+                        var attributeName = strategy.MemberDescription.Name;
+
+                        var attributeEl = new XAttribute(attributeName, val_as_string);
+
+                        serializedContent = attributeEl;
+                    }
+                    return true;
                 }
                 else
                 {
-                    var attributeName = strategy.MemberDescription.Name;
+                    // member value must be serialized
+                    //
+                    // => create wrapper element
+                    // => add serialized member data
+                    //
+                    // member wrapper is an attached element with name <parent_element_name.member_name>
 
-                    var attributeEl = new XAttribute(attributeName, val_as_string);
+                    var wrapperElementName = SanitizeParentElementName(parentElement) + "." + strategy.MemberDescription.Name;
 
-                    serializedContent = attributeEl;
+                    var memberType = strategy.MemberDescription.MemberType.Type;
+
+                    //bool canCreateInstance = memberType.IsClass && !memberType.IsAbstract; // should probably check for public constructor (?)
+
+                    //if(!strategy.CanSetValue() && !canCreateInstance)
+                    //{
+                    //    var childEl = cx.Serialize(memberValue, wrapperElementName);
+
+                    //    return childEl;
+                    //}
+                    //else
+                    {
+                        var wrapperElement = new XElement(wrapperElementName);
+
+                        var childEl = cx.Serialize(memberValue);
+
+                        wrapperElement.Add(childEl);
+
+                        serializedContent = wrapperElement;
+                        return true;
+                    }
                 }
-                return true;
-            }
-            else
-            {
-                // member value must be serialized
-                //
-                // => create wrapper element
-                // => add serialized member data
-                //
-                // member wrapper is an attached element with name <parent_element_name.member_name>
-
-                var wrapperElementName = SanitizeParentElementName(parentElement) + "." + strategy.MemberDescription.Name;
-
-                var memberType = strategy.MemberDescription.MemberType.Type;
-
-                //bool canCreateInstance = memberType.IsClass && !memberType.IsAbstract; // should probably check for public constructor (?)
-
-                //if(!strategy.CanSetValue() && !canCreateInstance)
-                //{
-                //    var childEl = cx.Serialize(memberValue, wrapperElementName);
-
-                //    return childEl;
-                //}
-                //else
-                {
-                    var wrapperElement = new XElement(wrapperElementName);
-
-                    var childEl = cx.Serialize(memberValue);
-
-                    wrapperElement.Add(childEl);
-
-                    serializedContent = wrapperElement;
-                    return true;
-                }
-            }
         }
 
         string SanitizeParentElementName(XElement parentElement)
@@ -1089,57 +1111,57 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             return this;
         }
 
-        public ITypeSerializationStrategy<T> SerializeMember(
+        public ITypeSerializationStrategy<T> SerializeMemberAsAttribute<TMember>(
             System.Linq.Expressions.Expression<Func<T, object>> memberExpression, 
             Func<T, bool> shouldSerializeMember,
-            Func<T, string> serialize,
-            Func<string, T> deserialize)
+            Func<T, TMember, string> serialize,
+            Func<XAttribute, TMember> deserialize)
         {
-            throw new NotImplementedException();
+            var memberName = memberExpression.GetAccessedMemberName();
 
-            //var memberName = memberExpression.GetAccessedMemberName();
+            bool shouldAddToActual = false;
 
-            //bool shouldAddToActual = false;
+            var strategy =
+                    (from s in ActualContentSerializationStrategies
+                     where string.Equals(s.MemberName, memberName)
+                     select s).FirstOrDefault();
 
-            //var strategy =
-            //        (from s in ActualContentSerializationStrategies
-            //         where string.Equals(s.MemberName, memberName)
-            //         select s).FirstOrDefault();
+            if (strategy == null)
+            {
+                strategy =
+                    (from s in OriginalContentSerializationStrategies
+                     where string.Equals(s.MemberName, memberName)
+                     select s).FirstOrDefault();
 
-            //if (strategy == null)
-            //{
-            //    strategy =
-            //        (from s in OriginalContentSerializationStrategies
-            //         where string.Equals(s.MemberName, memberName)
-            //         select s).FirstOrDefault();
+                shouldAddToActual = true;
+            }
 
-            //    shouldAddToActual = true;
-            //}
+            if (strategy == null)
+            {
+                var ex = new ArgumentException("Unable to find Serialization Strategy.");
+                // todo: ex.addcontext(member, type)
 
-            //if (strategy == null)
-            //{
-            //    var ex = new ArgumentException("Unable to find Serialization Strategy.");
-            //    // todo: ex.addcontext(member, type)
+                throw ex;
+            }
 
-            //    throw ex;
-            //}
+            if (shouldSerializeMember != null)
+            {
+                strategy.ShouldSerializeMember = new Func<object, bool>((_target) =>
+                {
+                    var local = shouldSerializeMember;
+                    return local((T)_target);
+                });
+            }
 
-            //if (shouldSerializeMember != null)
-            //{
-            //    strategy.ShouldSerializeMember = new Func<object, bool>((_target) =>
-            //    {
-            //        var local = shouldSerializeMember;
-            //        return local((T)_target);
-            //    });
-            //}
 
-            //strategy.CustomSerialize = serialize;
-            //strategy.CustomDeserialize = deserialize;
 
-            //if (shouldAddToActual)
-            //    ActualContentSerializationStrategies.Add(strategy);
+            strategy.CustomSerialize = new Func<object, object,string>((owner, member) => serialize((T)owner, (TMember) member));
+            strategy.CustomDeserialize = new Func<object,object>(attrib => deserialize((XAttribute) attrib));
 
-            //return this;
+            if (shouldAddToActual)
+                ActualContentSerializationStrategies.Add(strategy);
+
+            return this;
         }
 
         public ITypeSerializationStrategy<T> SerializeAllRemainingMembers()

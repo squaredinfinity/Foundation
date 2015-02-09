@@ -6,6 +6,7 @@
         xmlns:mvvmTests="clr-namespace:Foundation.Presentation.Xaml.UITests.Common.MVVM"
         xmlns:uiExamples="clr-namespace:Foundation.Presentation.Xaml.UITests.UIExamples"
         xmlns:converters="clr-namespace:Foundation.Presentation.Xaml.UITests.Converters"
+        xmlns:fonts="clr-namespace:Foundation.Presentation.Xaml.UITests.Fonts"
         Title="MainWindow" 
         WindowState="Maximized">
     
@@ -28,6 +29,10 @@
         
         <TabItem Header="UI Examples">
             <uiExamples:UIExamplesView />
+        </TabItem>
+
+        <TabItem Header="Fonts">
+            <fonts:FontsiView />
         </TabItem>
     </TabControl>
 </Window>

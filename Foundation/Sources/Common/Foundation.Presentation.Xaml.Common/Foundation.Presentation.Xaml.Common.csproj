@@ -118,6 +118,7 @@
     <Compile Include="DataTemplateSelectors\RuleBasedDataTemplateSelector.cs" />
     <Compile Include="DataTemplateSelectors\Rules\ItemValueRule.cs" />
     <Compile Include="DataTemplateSelectors\Rules\MemberValueRule.cs" />
+    <Compile Include="Media\FontFamilies.cs" />
     <Compile Include="FrameworkExtensions\SquaredInfinity.Media.Drawing\PixelCanvas.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Windows.Media\Color.extensions.cs" />
     <Compile Include="ObjectExtensibility\Extensions\ListItemExtension.cs" />
@@ -247,6 +248,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\ListBoxItem.IsSelectible.cs" />
+    <Resource Include="..\..\Fonts\fontsi.ttf">
+      <Link>fonts\fontsi.ttf</Link>
+    </Resource>
     <None Include="packages.config" />
     <Compile Include="Windows\ViewHostWindow.IViewModelHost.cs" />
   </ItemGroup>

@@ -11,10 +11,10 @@ namespace Foundation.Presentation.Xaml.UITests.Common.Behaviors
 {
     public class MultiSelectionTestsViewModel : ViewModel
     {
-        public ObservableCollectionEx<int> AllItems { get; set; }
+        public XamlObservableCollectionEx<int> AllItems { get; set; }
 
-        ObservableCollectionEx<int> _selectedItems;
-        public ObservableCollectionEx<int> SelectedItems 
+        XamlObservableCollectionEx<int> _selectedItems;
+        public XamlObservableCollectionEx<int> SelectedItems 
         {
             get { return _selectedItems; }
             set 
@@ -26,8 +26,8 @@ namespace Foundation.Presentation.Xaml.UITests.Common.Behaviors
 
         public MultiSelectionTestsViewModel()
         {
-            AllItems = new ObservableCollectionEx<int>();
-            SelectedItems = new ObservableCollectionEx<int>();
+            AllItems = new XamlObservableCollectionEx<int>();
+            SelectedItems = new XamlObservableCollectionEx<int>();
 
             for (int i = 0; i < 100; i += 2)
             {

@@ -21,7 +21,7 @@ namespace SquaredInfinity.Foundation.Collections
         IReadOnlyList<TItem> GetSnapshot();
     }
 
-    public interface ICollectionEx
+    public interface ICollectionEx : IBulkUpdatesCollection
     {
         void Move(int oldIndex, int newIndex);
     }

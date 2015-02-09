@@ -31,6 +31,18 @@ namespace SquaredInfinity.Foundation.Threading
             return new ReadLockAcquisition(owner: this);
         }
 
+        public IReadLockAcquisition AcquireReadLockIfNotHeld()
+        {
+            var isAnyLockHeld = InternalLock.IsReadLockHeld || InternalLock.IsUpgradeableReadLockHeld || InternalLock.IsWriteLockHeld;
+
+            if(isAnyLockHeld)
+                return null;
+
+            InternalLock.EnterReadLock();
+
+            return new ReadLockAcquisition(owner: this);
+        }
+
         public bool TryAcquireReadLock(TimeSpan timeout, out IReadLockAcquisition readLockAcquisition)
         {
             if (InternalLock.RecursionPolicy == LockRecursionPolicy.NoRecursion &&

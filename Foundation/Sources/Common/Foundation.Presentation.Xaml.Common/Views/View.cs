@@ -236,7 +236,8 @@ namespace SquaredInfinity.Foundation.Presentation.Views
                 ViewModel.Dispose();
             }
 
-            newVM.DataContext = newDataContext;            
+            if(newVM != null)
+                newVM.DataContext = newDataContext;            
 
             ViewModel = newVM;
         }
