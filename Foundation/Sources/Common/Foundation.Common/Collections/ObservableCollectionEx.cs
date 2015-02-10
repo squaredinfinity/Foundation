@@ -225,20 +225,6 @@ namespace SquaredInfinity.Foundation.Collections
 
         #endregion
 
-        #region Snapshot
-
-        public IReadOnlyList<TItem> GetSnapshot()
-        {
-            using (CollectionLock.AcquireReadLock())
-            {
-                var snapshot = this.ToArray();
-
-                return snapshot;
-            }
-        }
-
-        #endregion
-
         protected override void OnAfterCollectionReset()
         {
             RaiseCollectionReset();

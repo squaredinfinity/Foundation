@@ -59,7 +59,9 @@
   <ItemGroup>
     <Compile Include="ChainOfCommand\TryHandle.tests.cs" />
     <Compile Include="Charting\Axis\PrettyTicksProvider.tests.cs" />
-    <Compile Include="Collections\CollectionEx.GetSnapshot.cs" />
+    <Compile Include="Collections\CollectionEx.GetSnapshot.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Collections\CollectionEx.tests.cs" />
     <Compile Include="Collections\CollectionEx.BulkUpdates.cs" />
     <Compile Include="Collections\CollectionEx.Clear.cs" />

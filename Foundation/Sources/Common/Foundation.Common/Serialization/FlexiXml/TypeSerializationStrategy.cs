@@ -118,6 +118,14 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             get { return _originalContentSerializationStrategies; }
         }
 
+        readonly List<IMemberSerializationStrategy> _originalNonSerialiableContentationStrategies =
+            new List<IMemberSerializationStrategy>();
+
+        protected List<IMemberSerializationStrategy> OriginalNonSerialiableContentSerializationStrategies
+        {
+            get { return _originalNonSerialiableContentationStrategies; }
+        }
+
         readonly List<IMemberSerializationStrategy> _actualContentSerializationStrategies =
             new List<IMemberSerializationStrategy>();
         private FlexiXmlSerializer flexiXmlSerializer;
@@ -150,6 +158,22 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             }
 
             ActualContentSerializationStrategies.AddRange(OriginalContentSerializationStrategies);
+
+
+            //# get all source members that cannot be serialized
+            var nonserializableMembers =
+               (from m in TypeDescription.Members
+                where !CanSerializeMember(m)
+                select m);
+
+            //# create default strategies for each serializable member
+
+            foreach (var member in nonserializableMembers)
+            {
+                var strategy = CreateSerializationStrategyForMember(member);
+
+                OriginalNonSerialiableContentSerializationStrategies.Add(strategy);
+            }
         }
 
         protected virtual bool CanSerializeMember(ITypeMemberDescription member)
@@ -1090,11 +1114,19 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             if(strategy == null)
             {
-                var ex = new ArgumentException("Unable to find Serialization Strategy.");
-                // todo: ex.addcontext(member, type)
+                strategy =
+                    (from s in OriginalNonSerialiableContentSerializationStrategies
+                     where string.Equals(s.MemberName, memberName)
+                     select s).FirstOrDefault();
 
-                throw ex;
+                shouldAddToActual = true;
             }
+
+            if (strategy == null)
+            {
+                throw new Exception("Unable to create serialization strategy for member {0}.".FormatWith(memberName));
+            }
+
 
             if (shouldSerializeMember != null)
             {

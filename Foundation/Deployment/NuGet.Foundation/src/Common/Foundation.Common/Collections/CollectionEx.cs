@@ -296,7 +296,7 @@ namespace SquaredInfinity.Foundation.Collections
 
         public IReadOnlyList<TItem> GetSnapshot()
         {
-            using(CollectionLock.AcquireReadLock())
+            using(CollectionLock.AcquireReadLockIfNotHeld())
             {
                 var snapshot = this.ToArray();
 
