@@ -12,67 +12,50 @@ using System.Collections.Concurrent;
 namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
 {
     public class ContextAwareDataTemplateSelectorService : IContextAwareDataTemplateSelectorService
-    {
-        ILock UpdateLock = new ReaderWriterLockSlimEx();
-                
+    {                
         readonly Dictionary<string, IList<IContextAwareDataTemplateProvider>> ByContext 
             = new Dictionary<string, IList<IContextAwareDataTemplateProvider>>();
-        
+
         public virtual void RegisterDataTemplateSelector(IContextAwareDataTemplateProvider selector, string context = null)
         {
-            if(context == null)
+            if (context == null)
                 context = "";
 
-            using (UpdateLock.AcquireWriteLock())
+            if (!ByContext.ContainsKey(context))
             {
-                if(!ByContext.ContainsKey(context))
-                {
-                    ByContext.Add(context, new List<IContextAwareDataTemplateProvider>());
-                }
-                
-                ByContext[context].Add(selector);
+                ByContext.Add(context, new List<IContextAwareDataTemplateProvider>());
             }
+
+            ByContext[context].Add(selector);
         }
 
         public virtual DataTemplate SelectTemplate(object item, DependencyObject container, string context, bool isTooltip)
         {
             var dt = (DataTemplate)null;
 
-            if (context == null)
-                context = "";
+            // check this context specific selectors first
 
-            using (UpdateLock.AcquireReadLock())
+            var selectors_by_context = (IList<IContextAwareDataTemplateProvider>)null;
+
+            if (ByContext.TryGetValue(context, out selectors_by_context))
             {
-                // check this context specific selectors first
-
-                if (ByContext.ContainsKey(context))
+                for (int i = 0; i < selectors_by_context.Count; i++)
                 {
-                    var selectors_by_context = ByContext[context];
-
-                    for (int i = 0; i < selectors_by_context.Count; i++)
+                    if (selectors_by_context[i].TrySelectTemplate(item, container, context, isTooltip, out dt))
                     {
-                        var selector = selectors_by_context[i];
-
-                        if (selector.TrySelectTemplate(item, container, context, isTooltip, out dt))
-                        {
-                            return dt;
-                        }
+                        return dt;
                     }
                 }
+            }
 
-                // check '*' selectors
-                if(ByContext.ContainsKey("*"))
+            // check '*' selectors
+            if (ByContext.TryGetValue("*", out selectors_by_context))
+            {
+                for (int i = 0; i < selectors_by_context.Count; i++)
                 {
-                    var selectors_by_context = ByContext["*"];
-
-                    for (int i = 0; i < selectors_by_context.Count; i++)
+                    if (selectors_by_context[i].TrySelectTemplate(item, container, context, isTooltip, out dt))
                     {
-                        var selector = selectors_by_context[i];
-
-                        if (selector.TrySelectTemplate(item, container, context, isTooltip, out dt))
-                        {
-                            return dt;
-                        }
+                        return dt;
                     }
                 }
             }
