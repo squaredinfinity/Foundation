@@ -1,0 +1,25 @@
+﻿<#@ template language="C#"#>
+
+
+<#
+	var accent				= "#4F2682";
+	var accent_subtle		= "#9248F2";
+	var accent_verysubtle	= "#F4EDFF";
+
+
+	var success = "#FF194D19";
+	var warning = "#FFFFAE00";
+	var error	= "#FFCC1100";
+
+	var text			= "#FF000000";
+	var text_subtle		= "#FF5C5C5C";
+	var text_emphasis	= "#FF4F2682";
+
+	var overlayWindow_background	= "#FFFFFF";
+	var overlayWindow_border		= "#FF9F9FA2";
+
+	var hyperlink_text			= "#203871";
+	var hyperlink_hover_text	= "#CC1C4A";
+	var hyperlink_pressed_text	= "#CC1C4A";
+	
+#>

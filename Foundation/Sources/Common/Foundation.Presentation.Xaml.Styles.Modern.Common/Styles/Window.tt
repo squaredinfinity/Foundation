@@ -1,5 +1,6 @@
-﻿
-
+﻿<#@ template language="C#"#>
+<#@ output extension="xaml" #>
+<#@ include file="../_Global.tt" #>
       
   <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

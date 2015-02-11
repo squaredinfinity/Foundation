@@ -31,7 +31,7 @@ namespace Foundation.Presentation.Xaml.UITests.Common
             // var resources = new SquaredInfinity.Foundation.Presentation.XamlResources();
             // resources.LoadAndMergeResources();
 
-            var modern_style_resources = new SquaredInfinity.Foundation.Presentation.Styles.Modern.XamlResources();
+            var modern_style_resources = new SquaredInfinity.Foundation.Presentation.Styles.Modern.DefaultXamlResources();
             modern_style_resources.LoadAndMergeResources();
             modern_style_resources.ApplyAllStyles();
         }
