@@ -255,6 +255,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\ContextAwareDataTemplateSelector.cs">
       <Link>DataTemplateSelectors\ContextAwareDataTemplateSelector.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\ContextAwareDataTemplateSelectorService.Cache.cs">
+      <Link>DataTemplateSelectors\ContextAwareDataTemplateSelectorService.Cache.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\DataTemplateSelectors\ContextAwareDataTemplateSelectorService.cs">
       <Link>DataTemplateSelectors\ContextAwareDataTemplateSelectorService.cs</Link>
     </Compile>

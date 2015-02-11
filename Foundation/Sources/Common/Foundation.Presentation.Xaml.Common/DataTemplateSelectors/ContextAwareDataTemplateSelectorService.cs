@@ -11,10 +11,12 @@ using System.Collections.Concurrent;
 
 namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
 {
-    public class ContextAwareDataTemplateSelectorService : IContextAwareDataTemplateSelectorService
+    public partial class ContextAwareDataTemplateSelectorService : IContextAwareDataTemplateSelectorService
     {                
         readonly Dictionary<string, IList<IContextAwareDataTemplateProvider>> ByContext 
             = new Dictionary<string, IList<IContextAwareDataTemplateProvider>>();
+
+        Cache InternalCache = new Cache();
 
         public virtual void RegisterDataTemplateSelector(IContextAwareDataTemplateProvider selector, string context = null)
         {
@@ -33,27 +35,37 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
         {
             var dt = (DataTemplate)null;
 
+            // Internal Cache is used to store last succesfull result.
+            // Reason for that is that often same selector is called many times in a row (e.g. when in list view)
+            
+            if (InternalCache.TrySelectTemplate(item, container, context, isTooltip, out dt))
+                return dt;
+
             // check this context specific selectors first
 
-            var selectors_by_context = (IList<IContextAwareDataTemplateProvider>)null;
+            var providers_by_context = (IList<IContextAwareDataTemplateProvider>)null;
 
-            if (ByContext.TryGetValue(context, out selectors_by_context))
+            if (ByContext.TryGetValue(context, out providers_by_context))
             {
-                for (int i = 0; i < selectors_by_context.Count; i++)
+                for (int i = 0; i < providers_by_context.Count; i++)
                 {
-                    if (selectors_by_context[i].TrySelectTemplate(item, container, context, isTooltip, out dt))
+                    var provider = providers_by_context[i];
+
+                    if (provider.TrySelectTemplate(item, container, context, isTooltip, out dt))
                     {
+                        InternalCache.Context = context;
+                        InternalCache.DataTemplateProvider = provider;
                         return dt;
                     }
                 }
             }
 
             // check '*' selectors
-            if (ByContext.TryGetValue("*", out selectors_by_context))
+            if (ByContext.TryGetValue("*", out providers_by_context))
             {
-                for (int i = 0; i < selectors_by_context.Count; i++)
+                for (int i = 0; i < providers_by_context.Count; i++)
                 {
-                    if (selectors_by_context[i].TrySelectTemplate(item, container, context, isTooltip, out dt))
+                    if (providers_by_context[i].TrySelectTemplate(item, container, context, isTooltip, out dt))
                     {
                         return dt;
                     }
