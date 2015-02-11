@@ -184,11 +184,11 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Brushes.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>Brushes.tt</DependentUpon>
       <SubType>Designer</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\Button.xaml">
       <Generator>MSBuild:Compile</Generator>
