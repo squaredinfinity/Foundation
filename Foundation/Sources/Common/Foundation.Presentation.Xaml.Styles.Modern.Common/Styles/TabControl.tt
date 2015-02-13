@@ -1,16 +1,20 @@
-﻿<#@ template language="C#"#>
-<#@ output extension=".xaml" #>
+<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ include file="../_Global.tt" #>
-      
-  <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".xaml" #>
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     
     <Style x:Key="Styles.TabControl" TargetType="{x:Type TabControl}">
         <Setter Property="OverridesDefaultStyle"    Value="True" />
         <Setter Property="SnapsToDevicePixels"      Value="True" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Brushes.Control.Border}" />
-        <Setter Property="Background" Value="{DynamicResource Brushes.Control.Background}" />
+        <Setter Property="BorderBrush" Value="<#=control_border#>" />
+        <Setter Property="Background" Value="<#=control_background#>" />
         <Setter Property="BorderThickness" Value="1,1,1,1" />
         <Setter Property="Padding" Value="5,10,5,5" />
         <Setter Property="Template">
@@ -115,18 +119,18 @@
                         <Trigger Property="IsSelected"
                                  Value="True">
                             <Setter Property="Panel.ZIndex" Value="100" />
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brushes.TabItem.Selected.Background}" />
+                            <Setter TargetName="Border" Property="Background" Value="<#=tabitem_selected_background#>" />
                             <Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Brushes.TabItem.Selected.Border}" />
-                            <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="{DynamicResource Brushes.TabItem.Selected.Text}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="<#=tabitem_selected_border#>" />
+                            <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="<#=tabitem_selected_text#>" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition SourceName="ContentSite" Property="IsMouseOver" Value="true" />
                                 <Condition Property="IsSelected" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brushes.TabItem.Hover.Background}"/>
-                            <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="{DynamicResource Brushes.TabItem.Hover.Text}" />
+                            <Setter TargetName="Border" Property="Background" Value="<#=tabitem_hover_background#>"/>
+                            <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="<#=tabitem_hover_text#>" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
