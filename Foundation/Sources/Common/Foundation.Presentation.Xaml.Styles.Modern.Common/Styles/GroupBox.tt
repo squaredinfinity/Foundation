@@ -1,19 +1,22 @@
-﻿<#@ template language="C#"#>
-<#@ output extension=".xaml" #>
+<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ include file="../_Global.tt" #>
-      
-  <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".xaml" #>
+
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
-    <BorderGapMaskConverter x:Key="VSC.BorderGapMaskConverter" />
-
     <Style TargetType="{x:Type GroupBox}"
            x:Key="Styles.GroupBox">
-        <Setter Property="BorderBrush"          Value="{DynamicResource Brushes.Control.Border}" />
+        <Setter Property="BorderBrush"          Value="<#=control_border#>" />
         <Setter Property="BorderThickness"      Value="1" />
         <Setter Property="Padding"              Value="2" />
         <Setter Property="MinWidth"             Value="300" />
-        <Setter Property="Foreground"           Value="{DynamicResource Brushes.Control.Text}" />
+        <Setter Property="Foreground"           Value="<#=control_text#>" />
         <Setter Property="UseLayoutRounding"    Value="True" />
         <Setter Property="SnapsToDevicePixels"  Value="True" />
         <Setter Property="Template">
