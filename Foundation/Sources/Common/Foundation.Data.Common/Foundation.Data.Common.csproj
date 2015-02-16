@@ -44,11 +44,13 @@
     </Compile>
     <Compile Include="ConnectionFactory.cs" />
     <Compile Include="DataAccessService.cs" />
+    <Compile Include="FrameworkExtensions\System.Data\IDataReader.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\Object.extensions.cs" />
     <Compile Include="IDatabaseObjectNameResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sql\SqlDataAccessService.cs" />
     <Compile Include="Sql\SqlDatabaseObjectNameResolver.cs" />
+    <Compile Include="Sql\SqlDataRecordEnumerableWrapper.cs" />
     <Compile Include="Sql\SqlTransientFaultFilter.cs" />
   </ItemGroup>
   <ItemGroup>

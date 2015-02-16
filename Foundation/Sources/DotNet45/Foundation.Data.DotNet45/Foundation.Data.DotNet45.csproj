@@ -49,6 +49,9 @@
     <Compile Include="..\..\Common\Foundation.Data.Common\DataAccessService.cs">
       <Link>DataAccessService.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Data.Common\FrameworkExtensions\System.Data\IDataReader.extensions.cs">
+      <Link>FrameworkExtensions\System.Data\IDataReader.extensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Data.Common\FrameworkExtensions\System\Object.extensions.cs">
       <Link>FrameworkExtensions\System\Object.extensions.cs</Link>
     </Compile>
@@ -60,6 +63,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Data.Common\Sql\SqlDatabaseObjectNameResolver.cs">
       <Link>Sql\SqlDatabaseObjectNameResolver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Data.Common\Sql\SqlDataRecordEnumerableWrapper.cs">
+      <Link>Sql\SqlDataRecordEnumerableWrapper.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Data.Common\Sql\SqlTransientFaultFilter.cs">
       <Link>Sql\SqlTransientFaultFilter.cs</Link>

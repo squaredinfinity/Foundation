@@ -1,17 +1,14 @@
-﻿
 
-      
-  
-  
-      <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
+
     <Style TargetType="{x:Type CheckBox}"
            x:Key="Styles.CheckBox" >
-        <Setter Property="FocusVisualStyle"     Value="{DynamicResource Styles.FocusVisual}" />
-        <Setter Property="Background"           Value="{DynamicResource Brushes.Control.Background}" />
-        <Setter Property="BorderBrush"          Value="{DynamicResource Brushes.Control.Border}" />
-        <Setter Property="Foreground"           Value="{DynamicResource Brushes.Control.Text}" />
+        <Setter Property="FocusVisualStyle"     Value="{StaticResource Styles.FocusVisual}" />
+        <Setter Property="Background"           Value="#FFFFFFFF" />
+        <Setter Property="BorderBrush"          Value="#CCCEDB" />
+        <Setter Property="Foreground"           Value="#266Fa0" />
         <Setter Property="BorderThickness"      Value="1" />
         <Setter Property="UseLayoutRounding"    Value="True" />
         <Setter Property="SnapsToDevicePixels"  Value="True" />
@@ -44,20 +41,20 @@
                     
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{DynamicResource Brushes.Control.Disabled.Text}" />
+                            <Setter Property="Foreground" Value="#FFA1A1A1" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="CheckMark" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brushes.Control.Hover.Background}" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Brushes.Control.Hover.Border}" />
-                            <Setter TargetName="CheckMark" Property="Fill" Value="{DynamicResource Brushes.Control.Hover.Text}" />
+                            <Setter TargetName="Border" Property="Background" Value="#FFFDFDFD" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#266Fa0" />
+                            <Setter TargetName="CheckMark" Property="Fill" Value="#266Fa0" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brushes.Control.Pressed.Background}" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Brushes.Control.Pressed.Border}" />
-                            <Setter TargetName="CheckMark" Property="Fill" Value="{DynamicResource Brushes.Control.Pressed.Text}" />
+                            <Setter TargetName="Border" Property="Background" Value="#266Fa0" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#266Fa0" />
+                            <Setter TargetName="CheckMark" Property="Fill" Value="#FFFFFFFF" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

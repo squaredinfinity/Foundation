@@ -1,5 +1,9 @@
 <#
 
+
+
+
+
 	// # Fonts
 	var fontFamily = "Segoe UI";
 	var fontSize = 11;
@@ -14,17 +18,12 @@
 
 	// # Brand Colors
 
-	var darkblue		= "#0D204A";
-	var red				= "#CC092F";
-	var yellow			= "#FFC930";
-	var silver			= "#84888B";
-	var grey			= "#84888B";
-	var infinitypurple	= "#502D7F";
+	// .. add custom colors and then override predefined colors below
 
 
 	// # Accent Colors
 	
-	var accent				= darkblue;
+	var accent				= "#266Fa0";
 	var accent_subtle		= "#464F80";
 	var accent_verysubtle	= "#BDC3FB";
 
@@ -186,4 +185,6 @@
 	var menu_background = "#FFFFFFFF";
 	var menu_foreground = "#FF000000";
 	var menu_border		= "#FFBABABA";
+
+
 #>

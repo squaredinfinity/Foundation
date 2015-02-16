@@ -8,6 +8,10 @@ using SquaredInfinity.Foundation.Extensions;
 using System.Xml.Linq;
 using System.Data.SqlTypes;
 using SquaredInfinity.Foundation.Diagnostics;
+using System.Data;
+using System.Collections;
+using System.Data.Common;
+using Microsoft.SqlServer.Server;
 
 namespace SquaredInfinity.Foundation.Data.Sql
 {
@@ -80,6 +84,40 @@ namespace SquaredInfinity.Foundation.Data.Sql
             }
 
             result.Value = clrValue;
+            return result;
+        }
+
+        public SqlParameter CreateOutParameter(string parameterName, SqlDbType  type)
+        {
+            var result = new SqlParameter();
+            result.ParameterName = parameterName;
+            result.SqlDbType = type;
+            result.Direction = System.Data.ParameterDirection.Output;
+
+            return result;
+        }
+
+        public SqlParameter CreateTableParameter(string parameterName, IEnumerable source, string columnName, SqlDbType columnType)
+        {
+            var result = new SqlParameter();
+            result.ParameterName = parameterName;
+            result.SqlDbType = SqlDbType.Structured;
+
+            var md = new SqlMetaData[1];
+            md[0] = new SqlMetaData(columnName, columnType);
+
+           result.Value = new SqlDataRecordEnumerableWrapper(source, md);
+
+           return result;
+        }
+
+        public override SqlParameter CreateOutParameter(string parameterName, DbType type)
+        {
+            var result = new SqlParameter();
+            result.ParameterName = parameterName;
+            result.DbType = type;
+            result.Direction = System.Data.ParameterDirection.Output;
+
             return result;
         }
     }

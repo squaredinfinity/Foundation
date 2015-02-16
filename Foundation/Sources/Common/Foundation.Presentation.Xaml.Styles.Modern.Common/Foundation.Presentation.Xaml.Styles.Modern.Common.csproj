@@ -164,6 +164,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ToggleButton.xaml</LastGenOutput>
     </None>
+    <None Include="Styles\ToolTip.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ToolTip.xaml</LastGenOutput>
+    </None>
     <None Include="Styles\TreeView.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TreeView.xaml</LastGenOutput>
@@ -335,6 +339,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ToggleButton.tt</DependentUpon>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\ToolTip.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ToolTip.tt</DependentUpon>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\TreeView.xaml">

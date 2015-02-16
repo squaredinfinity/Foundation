@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.UnitTests.Common", "Sources\Common\Tests\Foundation.UnitTests.Common\Foundation.UnitTests.Common.csproj", "{31859794-C6AE-447C-990D-CABFBAFD7E02}"
 EndProject
@@ -125,6 +125,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".fonts", ".fonts", "{A3F7E9
 		Sources\Fonts\grid-1.svg = Sources\Fonts\grid-1.svg
 	EndProjectSection
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Foundation.Data.UnitTests.Database", "Sources\Common\Tests\Foundation.Data.UnitTests.Database\Foundation.Data.UnitTests.Database.sqlproj", "{1CF345D4-6686-4019-8E16-38D55DBF8816}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -247,6 +249,12 @@ Global
 		{642B95B1-8638-4703-8EA5-41C2CAD6E4DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{642B95B1-8638-4703-8EA5-41C2CAD6E4DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{642B95B1-8638-4703-8EA5-41C2CAD6E4DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CF345D4-6686-4019-8E16-38D55DBF8816}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CF345D4-6686-4019-8E16-38D55DBF8816}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CF345D4-6686-4019-8E16-38D55DBF8816}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{1CF345D4-6686-4019-8E16-38D55DBF8816}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CF345D4-6686-4019-8E16-38D55DBF8816}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CF345D4-6686-4019-8E16-38D55DBF8816}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -285,5 +293,6 @@ Global
 		{D434072A-9AC1-49C0-9FFB-BC602A58CB02} = {D95634A3-6069-430C-A3B5-97347AE8EF5F}
 		{1A75C3D1-C7F5-46FD-A1FC-39DBFC1A4299} = {9B4D9910-B430-4643-8C5F-DF5844C1A45A}
 		{642B95B1-8638-4703-8EA5-41C2CAD6E4DF} = {9B4D9910-B430-4643-8C5F-DF5844C1A45A}
+		{1CF345D4-6686-4019-8E16-38D55DBF8816} = {9B4D9910-B430-4643-8C5F-DF5844C1A45A}
 	EndGlobalSection
 EndGlobal

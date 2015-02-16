@@ -1,21 +1,29 @@
-﻿
 
-      
-  <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:behaviors="http://schemas.squaredinfinity.com/foundation/behaviors">
     
     <Style x:Key="Styles.TextBlock"
            TargetType="{x:Type TextBlock}"
            BasedOn="{StaticResource {x:Type TextBlock}}">
-        <Setter Property="FontFamily"                           Value="{DynamicResource FontFamily}" />
+        <Setter Property="FontFamily"                           Value="Segoe UI" />
+        <Setter Property="FontSize"                             Value="11" />
         <Setter Property="UseLayoutRounding"                    Value="True" />
         <Setter Property="TextOptions.TextFormattingMode"       Value="Display" />
+        <Setter Property="behaviors:Highlight.TextForegroundRespondsToSelection" Value="true" />
+        
+        <!--<Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="local:ListViewItemBehaviors.TextForeground" Value="DeepPink"/>
+            </Trigger>
+        </Style.Triggers>-->
     </Style>
     
     <Style x:Key="Styles.TextBlock.Subtle"
            TargetType="{x:Type TextBlock}"
            BasedOn="{StaticResource Styles.TextBlock}">
-        <Setter Property="Foreground" Value="{DynamicResource Brushes.Text.Subtle}" />
+        <Setter Property="Foreground" Value="#FF5C5C5C" />
     </Style>
 
     <Style x:Key="Styles.TextBlock.SubtleOnCheckbox"
@@ -27,10 +35,10 @@
     <Style x:Key="Styles.TextBlock.Header"
            TargetType="{x:Type TextBlock}"
            BasedOn="{StaticResource Styles.TextBlock}">
-        <Setter Property="FontFamily"                           Value="{DynamicResource FontFamily.Header}" />
+        <Setter Property="FontFamily"                           Value="Segoe UI" />
         <Setter Property="FontWeight"                           Value="Bold" />
-        <Setter Property="Foreground"                           Value="{DynamicResource Brushes.Text.Emphasis}" />
-        <Setter Property="FontSize"                             Value="{DynamicResource FontSize.Header}" />
+        <Setter Property="Foreground"                           Value="#266Fa0" />
+        <Setter Property="FontSize"                             Value="11" />
         <Setter Property="Margin"                               Value="2,2,2,2" />
     </Style>
 

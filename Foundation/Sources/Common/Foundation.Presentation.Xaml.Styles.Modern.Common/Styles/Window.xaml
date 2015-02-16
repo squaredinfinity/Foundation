@@ -1,15 +1,17 @@
-﻿
 
-      
-  <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:windows="clr-namespace:Foundation.Presentation.Windows"
                     xmlns:behaviors="http://schemas.squaredinfinity.com/foundation/behaviors">
 
+					</ResourceDictionary>
+					<!--
     <Style x:Key="Styles.Window.Button"
            TargetType="{x:Type Button}">
-        <Setter Property="Foreground" Value="{DynamicResource Brushes.Window.Button.Foreground}" />
-        <Setter Property="Background" Value="{DynamicResource Brushes.Window.Button.Background}" />
+        <Setter Property="Foreground" Value="#FF000000" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Padding" Value="1" />
@@ -26,11 +28,11 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource Brushes.Window.Button.Hover.Background}" />
-                            <Setter Property="Foreground" Value="{DynamicResource Brushes.Window.Button.Hover.Foreground}" />
+                            <Setter Property="Background" Value="#502D7F" />
+                            <Setter Property="Foreground" Value="#FFFFFF" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource Brushes.Window.Button.Pressed.Background}" />
+                            <Setter Property="Background" Value="#DD052C" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter TargetName="contentPresenter" Property="Opacity" Value=".5" />
@@ -41,10 +43,10 @@
         </Setter>
     </Style>
     
-        <!--<Style x:Key="Styles.ModernWindow"
+        <Style x:Key="Styles.ModernWindow"
                TargetType="windows:ModernWindow">
-        <Setter Property="Foreground" Value="{DynamicResource Brushes.Window.Button.Foreground}" />
-            <Setter Property="Background" Value="{DynamicResource Brushes.Window.Background}"/>
+        <Setter Property="Foreground" Value="#FF000000" />
+            <Setter Property="Background" Value="Transparent"/>
             <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
             <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Padding" Value="0" />
@@ -60,7 +62,7 @@
                 <ControlTemplate TargetType="windows:ModernWindow">
                     <Border x:Name="WindowBorder" 
                                 Margin="{Binding Source={x:Static SystemParameters.WindowNonClientFrameThickness}}" 
-                                Background="{DynamicResource Brushes.Window.Background}">
+                                Background="#FFFFFFFF">
                         <Grid>
                             <Border BorderThickness="1">
                                 <AdornerDecorator>
@@ -78,9 +80,9 @@
                                             <ColumnDefinition Width="Auto" AutomationProperties.Name="Buttons" />
                                         </Grid.ColumnDefinitions>
 
-                                        --><!--# Title Bar Background --><!--
+                                        <!-# Title Bar Background ->
                                         <Rectangle x:Name="HeaderBackground" 
-                                                   Fill="{DynamicResource Brushes.Window.Background}"
+                                                   Fill="#FFFFFFFF"
                                                    VerticalAlignment="Stretch"
                                                    Grid.Row="0"/>
 
@@ -105,14 +107,14 @@
                                                    Grid.Column="1"
                                                    Grid.Row="0"/>
 
-                                        --><!--# Title Bar Additional Content --><!--
+                                        <!-# Title Bar Additional Content ->
                                         <ContentPresenter Content="{TemplatedParentBinding TitleBarAdditionalContent}"
                                                  x:Name="title_bar_additional_content"
                                                  Grid.Row="0"
                                                  Grid.Column="2"
                                                  VerticalAlignment="Center" />
 
-                                        --><!--# Buttons--><!--
+                                        <!-# Buttons->
                                         <StackPanel Orientation="Horizontal" 
                                                     HorizontalAlignment="Right"
                                                     VerticalAlignment="Top" 
@@ -197,7 +199,7 @@
                                             </Button>
                                         </StackPanel>
 
-                                        --><!--# WINDOW CONTENT --><!--
+                                        <!-# WINDOW CONTENT ->
                                         <ContentPresenter Grid.Row="1" 
                                                           Grid.RowSpan="2" 
                                                           Grid.Column="0"
@@ -213,7 +215,7 @@
                                                       Height="12"
                                                       Margin="1"
                                                       HorizontalAlignment="Right"
-                                                      Stroke="{DynamicResource Brushes.Accent}"
+                                                      Stroke="#266Fa0"
                                                       StrokeThickness="1" 
                                                       Stretch="None" 
                                                       Data="F1 M1,10 L3,10 M5,10 L7,10 M9,10 L11,10 M2,9 L2,11 M6,9 L6,11 M10,9 L10,11 M5,6 L7,6 M9,6 L11,6 M6,5 L6,7 M10,5 L10,7 M9,2 L11,2 M10,1 L10,3" />
@@ -221,7 +223,7 @@
                                     </Grid>
                                 </AdornerDecorator>
                             </Border>
-                            <Border BorderBrush="{DynamicResource Brushes.Accent}" 
+                            <Border BorderBrush="#266Fa0" 
                                         BorderThickness="1" 
                                         Visibility="{Binding IsActive, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource Converters.VisibleWhenTrue}}" />
                         </Grid>
@@ -231,7 +233,7 @@
                             <Setter Property="TitleHorizontalAlignment" Value="Center" />
                             <Setter TargetName="title_bar_additional_content" Property="Visibility" Value="Collapsed" />
                             
-                            --><!-- window title should be centered in dialog mode  --><!--
+                            <!- window title should be centered in dialog mode  ->
                             <Setter TargetName="window_title" Property="HorizontalAlignment" Value="Center" />
                             <Setter TargetName="window_title" Property="Grid.Column" Value="0" />
                             <Setter TargetName="window_title" Property="Grid.ColumnSpan" Value="99" />
@@ -261,6 +263,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>-->
+    </Style>
 
 </ResourceDictionary>
+-->

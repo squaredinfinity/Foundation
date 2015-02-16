@@ -391,6 +391,25 @@ namespace SquaredInfinity.Foundation.Data
             }
         }
 
+        public virtual void Execute(Action<TConnection> execute)
+        {
+            RetryPolicy
+                .Execute(() =>
+                {
+                    ExecuteInternal(execute);
+                });
+        }
+
+        public virtual void ExecuteInternal(Action<TConnection> execute)
+        {
+            using (var connection = ConnectionFactory.GetNewConnection())
+            {
+                connection.Open();
+
+                execute(connection);
+            }
+        }
+
         public T ExecuteScalarText<T>(string sql)
         {
             var result = ExecuteScalarInternalWithRetry(ConnectionFactory, CommandType.Text, sql, new List<TParameter>());
@@ -431,6 +450,8 @@ namespace SquaredInfinity.Foundation.Data
 
 
         public abstract TParameter CreateParameter(string parameterName, object clrValue);
+
+        public abstract TParameter CreateOutParameter(string parameterName, DbType type);
 
         public TTarget MapToClrValue<TTarget>(object dbValue, TTarget defaultValue = default(TTarget))
         {

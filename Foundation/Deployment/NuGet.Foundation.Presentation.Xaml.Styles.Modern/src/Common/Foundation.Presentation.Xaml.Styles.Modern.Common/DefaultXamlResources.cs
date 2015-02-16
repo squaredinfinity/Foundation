@@ -11,7 +11,7 @@ using System.Windows.Controls.Primitives;
 
 namespace  SquaredInfinity.Foundation.Presentation.Styles.Modern
 {
-    public class XamlResources
+    public partial class DefaultXamlResources
     {
         public void LoadAndMergeResources()
         {
@@ -31,14 +31,6 @@ namespace  SquaredInfinity.Foundation.Presentation.Styles.Modern
             Application.Current.Resources[typeof(RadioButton)] = Application.Current.Resources["Styles.RadioButton"];
             Application.Current.Resources[typeof(ScrollBar)] = Application.Current.Resources["Styles.ScrollBar"];
             Application.Current.Resources[typeof(TabControl)] = Application.Current.Resources["Styles.TabControl"];
-
-
-
-
-
-
-
-
         }
     }
 }

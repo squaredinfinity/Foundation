@@ -1,17 +1,16 @@
-﻿
 
-      
-  <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:behaviors="http://schemas.squaredinfinity.com/foundation/behaviors">
-    
+
     <Style x:Key="Styles.TextBoxBase"
            TargetType="{x:Type TextBoxBase}" 
            BasedOn="{x:Null}">
-        <Setter Property="FocusVisualStyle"                                 Value="{DynamicResource Styles.FocusVisual}"/>
-        <Setter Property="Foreground"                                       Value="{DynamicResource Brushes.Input.Text}"/>
-        <Setter Property="Background"                                       Value="{DynamicResource Brushes.Input.Background}"/>
-        <Setter Property="BorderBrush"                                      Value="{DynamicResource Brushes.Input.Border}"/>
+        <Setter Property="FocusVisualStyle"                                 Value="{StaticResource Styles.FocusVisual}"/>
+        <Setter Property="Foreground"                                       Value="#FF333333"/>
+        <Setter Property="Background"                                       Value="#FFFFFFFF"/>
+        <Setter Property="BorderBrush"                                      Value="#FFC0C0C0"/>
         <Setter Property="BorderThickness"                                  Value="1"/>
         <Setter Property="Padding"                                          Value="2,1,1,1"/>
         <Setter Property="AllowDrop"                                        Value="true"/>
@@ -19,7 +18,7 @@
         <Setter Property="Stylus.IsFlicksEnabled"                           Value="False"/>
         <Setter Property="VerticalScrollBarVisibility"                      Value="Auto"/>
         <Setter Property="HorizontalScrollBarVisibility"                    Value="Auto" />
-        <Setter Property="SelectionBrush"                                   Value="{DynamicResource Brushes.Accent}" />
+        <Setter Property="SelectionBrush"                                   Value="#266Fa0" />
         <Setter Property="behaviors:Watermark.Text"                         Value="{x:Null}" />
         <Setter Property="behaviors:ClearButton.IsVisible"       Value="False" />
         <Setter Property="Validation.ErrorTemplate">
@@ -27,7 +26,7 @@
                 <ControlTemplate>
                     <StackPanel Orientation="Horizontal">
                         <Border BorderThickness="1" 
-                                BorderBrush="{DynamicResource Brushes.Error}" 
+                                BorderBrush="#FFB00000" 
                                 VerticalAlignment="Top">
                             <Grid>
                                 <AdornedElementPlaceholder x:Name="ErrorAdorner" 
@@ -35,7 +34,7 @@
                             </Grid>
                         </Border>
                         <Border x:Name="ErrorBorder" 
-                                Background="{DynamicResource Brushes.Error}" 
+                                Background="#FFB00000" 
                                 Margin="8,0,0,0"
                                 Opacity="0" 
                                 CornerRadius="0"
@@ -43,7 +42,7 @@
                                 MinHeight="24" >
 
                             <TextBlock Text="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"
-                                       Foreground="{DynamicResource Brushes.Control.Text}"
+                                       Foreground="#FF000000"
                                        Margin="8,2,8,3"
                                        TextWrapping="Wrap" 
                                        VerticalAlignment="Center"/>
@@ -104,22 +103,22 @@
                             <Label x:Name="Watermark"
                                    Margin="{TemplateBinding Padding}"
                                    Content="{TemplateBinding behaviors:Watermark.Text}"
-                                   Foreground="{DynamicResource Brushes.Text.Subtle}"
+                                   Foreground="#FF5C5C5C"
                                    Background="{x:Null}"
                                    Visibility="{TemplateBinding behaviors:Watermark.IsVisible, Converter={StaticResource Converters.VisibleWhenTrue}}"/>
 
 
                                 <Button x:Name="PART_ClearButton" 
                                     Visibility="{TemplateBinding behaviors:ClearButton.IsVisible, Converter={StaticResource Converters.VisibleWhenTrue}}"
-                                    Style="{DynamicResource Styles.Button.TextBoxAction.Clear}"/>
+                                    Style="{StaticResource Styles.Button.TextBoxAction.Clear}"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="false"> 
-                            <Setter Property="Foreground" Value="{DynamicResource Brushes.Input.Disabled.Text}"/>
+                            <Setter Property="Foreground" Value="#FF919191"/>
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="true">
-                            <Setter Property="Foreground" Value="{DynamicResource Brushes.Input.Disabled.Text}"/>
+                            <Setter Property="Foreground" Value="#FF919191"/>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -127,9 +126,9 @@
                                 <Condition Property="IsEnabled" Value="True"/>
                                 <Condition Property="IsMouseOver" Value="True"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource Brushes.Input.Hover.Background}"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource Brushes.Input.Hover.Border}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource Brushes.Input.Hover.Text}"/>
+                            <Setter Property="Background" Value="#FFFFFFFF"/>
+                            <Setter Property="BorderBrush" Value="#FF999999"/>
+                            <Setter Property="Foreground" Value="#FF333333"/>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -148,7 +147,7 @@
         <Setter Property="IsReadOnly" Value="True" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource Brushes.Input.Text}" />
+        <Setter Property="Foreground" Value="#FF333333" />
     </Style>
 
 </ResourceDictionary>

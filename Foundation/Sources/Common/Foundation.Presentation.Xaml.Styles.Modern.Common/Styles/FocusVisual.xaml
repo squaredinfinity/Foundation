@@ -1,7 +1,6 @@
-﻿
 
-      
-  <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
     <Style x:Key="Styles.FocusVisual">
@@ -11,7 +10,7 @@
                     <Border>
                         <Rectangle Margin="0"
                                    StrokeThickness="1"
-                                   Stroke="{DynamicResource Brushes.Accent}"
+                                   Stroke="#266Fa0"
                                    StrokeDashArray="1 2" />
                     </Border>
                 </ControlTemplate>
