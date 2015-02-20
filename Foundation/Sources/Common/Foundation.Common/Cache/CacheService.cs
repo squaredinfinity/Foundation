@@ -1,166 +1,246 @@
-﻿//using SquaredInfinity.Foundation.Threading;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Runtime.Caching;
-//using System.Text;
-//using System.Threading;
-//using System.Threading.Tasks;
+    public interface IFeatureMetadata
+    {
+        // Summary:
+        //     Default: int.MaxValue => will be loaded last, after any other resources with
+        //     custom Import Order
+        [DefaultValue(2147483647)]
+        int ImportOrder { get; }
 
-//{
-//    class CacheObjectRetrivalTask : Task<object>
-//    { 
-//        public CacheObjectRetrivalTask(Func<object> getCacheItem)
-//            : base(getCacheItem)
-//        { }
-//    }
+        string BuildQuality { get; }
+    }
 
-//    public class CacheService : ICacheService
-//    {
-//        MemoryCache Cache = new MemoryCache("CacheService");
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    [MetadataAttribute]
+    public class FeatureExportMetadataAttribute : ExportAttribute, IFeatureMetadata
+    {
+        public FeatureExportMetadataAttribute() { }
 
-//        ILock CacheLock = new ReaderWriterLockSlimEx(LockRecursionPolicy.SupportsRecursion);
+        public int ImportOrder { get; set; }
 
-//        public bool IsCacheEnabled { get; set; }
+        public string BuildQuality { get; set; }
+    }
 
-//        public void Remove(string key)
-//        {
-//            Cache.Remove(key);
-//        }
+    public interface IConvertibleType
+    {
+        bool CanConvertTo(Type destinationType);
+        object ConvertTo(Type destinationType);
+    }
 
-//        public T GetOrAdd<T>(string key, Func<T> valueFactory)
-//        {
-//            return GetOrAdd(key, valueFactory, GetDefaultCachePolicy());
-//        }
+    public class ConvertibleTypeConverter : TypeConverter
+    {
+        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+        {
+            var typeConvertible = context.Instance as IConvertibleType;
 
-//        public T GetOrAdd<T>(string key, Func<T> valueFactory, CacheItemPolicy cacheItemPolicy)
-//        {
-//            if (!IsCacheEnabled)
-//                return valueFactory();
+            return typeConvertible.CanConvertTo(destinationType);
+        }
 
-//            var cachedObject_candidate = Cache.Get(key);
+        public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
+        {
+            var typeConvertible = value as IConvertibleType;
 
-//            var cachedObjectRetrivalTask = cachedObject_candidate as CacheObjectRetrivalTask;
+            return typeConvertible.ConvertTo(destinationType);
+        }
+    }
 
-//            if (cachedObject_candidate != null && cachedObjectRetrivalTask == null)
-//                return (T)cachedObject_candidate;
+       class CacheObjectRetrivalTask : Task<object>
+    { 
+        public CacheObjectRetrivalTask(Func<object> getCacheItem)
+            : base(getCacheItem)
+        { }
+    }
 
-//            if(cachedObjectRetrivalTask != null)
-//            {
-//                return (T) cachedObjectRetrivalTask.Result;
-//            }
+    public class CacheService : ICacheService
+    {
+        MemoryCache Cache = new MemoryCache("CacheService");
+        
+        ConcurrentDictionary<string, ILock> KeyLocks = new ConcurrentDictionary<string, ILock>(concurrencyLevel:64, capacity:2048);
 
-//            if (cachedObject_candidate == null || (cachedObjectRetrivalTask != null && cachedObjectRetrivalTask.IsCompleted))
-//            {
-//                var t = (CacheObjectRetrivalTask) null;
+        public bool IsCacheEnabled { get; set; }
 
-//                using (CacheLock.AcquireWriteLock())
-//                {
-//                    // check if cached object has been added by another thread (before write lock was requested)
-//                    cachedObject_candidate = Cache.Get(key);
+        public void Remove(string key)
+        {
+            Cache.Remove(key);
+        }
 
-//                    if(cachedObject_candidate is CacheObjectRetrivalTask)
-//                    {
-//                        t = (cachedObject_candidate as CacheObjectRetrivalTask);
-//                    }
-//                    else if (cachedObject_candidate != null)
-//                    {
-//                        var cachedObject = (T)cachedObject_candidate;
-//                        return cachedObject;
-//                    }
+        public T GetOrAdd<T>(string key, Func<T> valueFactory)
+        {
+            return GetOrAdd(key, valueFactory, GetDefaultCachePolicy());
+        }
 
-//                    if (t == null)
-//                    {
-//                        t = new CacheObjectRetrivalTask(() =>
-//                            {
-//                                var cachedObject = valueFactory();
+        public T GetOrAdd<T>(string key, Func<T> valueFactory, Predicate<ICacheItemDetails<T>> shouldForceCacheExpiration)
+        {
+            return GetOrAdd<T>(key, shouldForceCacheExpiration, valueFactory, GetDefaultCachePolicy());
+        }
 
-//                                // if null, just return without adding to cache (null cache values are not supported at the moment)
-//                                if (cachedObject == null)
-//                                {
-//                                    using (CacheLock.AcquireWriteLock())
-//                                    {
-//                                        Cache.Remove(key);
-//                                    }
+        public T GetOrAdd<T>(string key, Func<T> valueFactory, TimeSpan slidingExpiration, Predicate<ICacheItemDetails<T>> shouldForceCacheExpiration)
+        {
+            var policy = new CacheItemPolicy();
+            policy.SlidingExpiration = slidingExpiration;
 
-//                                    return cachedObject;
-//                                }
+            return GetOrAdd<T>(key, shouldForceCacheExpiration, valueFactory, policy);
+        }
 
-//                                Cache.Set(key, cachedObject, cacheItemPolicy);
+        public T GetOrAdd<T>(string key, Func<T> valueFactory, DateTimeOffset absoluteExpiration, Predicate<ICacheItemDetails<T>> shouldForceCacheExpiration)
+        {
+            var policy = new CacheItemPolicy();
+            policy.AbsoluteExpiration = absoluteExpiration;
 
-//                                return cachedObject;
-//                            });
+            return GetOrAdd<T>(key, shouldForceCacheExpiration, valueFactory, GetDefaultCachePolicy());
+        }
 
-//                        Cache.Set(key, t, new CacheItemPolicy() { AbsoluteExpiration = DateTimeOffset.MaxValue });
+        public T GetOrAdd<T>(string key, Func<T> valueFactory, DateTimeOffset absoluteExpiration)
+        {
+            var policy = new CacheItemPolicy();
+            policy.AbsoluteExpiration = absoluteExpiration;
 
-//                        t.Start();
-//                    }
-//                }
+            return GetOrAdd(key, valueFactory, policy);
+        }
 
-//                return (T)t.Result;
-//            }
+        public T GetOrAdd<T>(string key, Func<T> valueFactory, TimeSpan slidingExpiration)
+        {
+            var policy = new CacheItemPolicy();
+            policy.SlidingExpiration = slidingExpiration;
 
-//            // should never get this far
-//            throw new InvalidOperationException();
-//        }
+            return GetOrAdd(key, valueFactory, policy);
+        }
 
-//        public void AddOrUpdate<T>(string key, T value)
-//        {
-//            AddOrUpdate<T>(key, value, (k, oldValue) => value);
-//        }
+        public T GetOrAdd<T>(string key, Func<T> valueFactory, CacheItemPolicy cacheItemPolicy)
+        {
+            return GetOrAdd<T>(key, null, valueFactory, cacheItemPolicy);
+        }
 
-//        public void AddOrUpdate<T>(string key, T value, Func<string, T, T> updateValueFactory = null)
-//        {
-//            if (!IsCacheEnabled)
-//                return;
+        public bool TryGet__NOLOCK<T>(string key, out T result)
+        {
+            // get item from cache
+            var cachedObject_candidate = Cache.Get(key);
 
-//            var existingValue = (T)Cache.Get(key);
+            var cacheItemDetails = cachedObject_candidate as ICacheItemDetails<T>;
 
-//            if (existingValue == null)
-//            {
-//                Cache.Set(key, value, GetDefaultCachePolicy());
-//            }
-//            else
-//            {
-//                var newValue = updateValueFactory(key, existingValue);
-//                Cache.Set(key, newValue, GetDefaultCachePolicy());
-//            }
-//        }
+            if(cacheItemDetails == null)
+            {
+                // item IS NOT in cache
+                result = default(T);
+                return false;
+            }
+            else
+            {
+                // item IS in cache
+                result = (T)cacheItemDetails.Value;
 
-//        public void ClearAll()
-//        {
-//            var oldCache = Cache;
-//            Cache = new MemoryCache("CacheService");
+                if(result == null)
+                    return false;
+                else
+                    return true;
+            }
+        }
 
-//            oldCache.Dispose();
-//        }
+        public bool TryGetCacheItem__NOLOCK<T>(string key, out ICacheItemDetails<T> result)
+        {
+            // get item from cache
+            var cachedObject_candidate = Cache.Get(key);
 
-//        protected virtual CacheItemPolicy GetDefaultCachePolicy()
-//        {
-//            var policy = new CacheItemPolicy();
+            result = cachedObject_candidate as ICacheItemDetails<T>;
 
-//            policy.AbsoluteExpiration = DateTimeOffset.Now + TimeSpan.FromSeconds(15);
+            if (result == null)
+            {
+                // item IS NOT in cache
+                return false;
+            }
+            else
+            {
+                // item IS in cache
+                return true;
+            }
+        }
 
-//            return policy;
-//        }
+        public T GetOrAdd<T>(string key, Predicate<ICacheItemDetails<T>> shouldForceCacheExpiration, Func<T> valueFactory, CacheItemPolicy cacheItemPolicy)
+        {
+            if (!IsCacheEnabled)
+                return valueFactory();
 
-//        public ICacheService NewTransientCacheGroup()
-//        {
-//            return new CacheGroup(this);
-//        }
+            // we can do without lock if item is in cache and we don't have to check for forced item expiration
+            if (shouldForceCacheExpiration == null)
+            {
+                T result = default(T);
 
-//        public ICacheService NewCacheGroup(string groupName)
-//        {
-//            return new CacheGroup(this, groupName);
-//        }
+                if (TryGet__NOLOCK<T>(key, out result))
+                {
+                    return result;
+                }
 
-//        public CacheService()
-//            : this(isCacheEnabled : true)
-//        { }
+                shouldForceCacheExpiration = (x) => false;
+            }
+            
+            var keyLock = KeyLocks.GetOrAdd(key, (k) => new ReaderWriterLockSlimEx(LockRecursionPolicy.SupportsRecursion));
 
-//        public CacheService(bool isCacheEnabled)
-//        {
-//            IsCacheEnabled = isCacheEnabled;
-//        }
-//    }
-//}
+            // if we must check for forced expiration or item is not in cache we need lock
+            using (var readLock = keyLock.AcquireUpgradeableReadLock())
+            {
+                ICacheItemDetails<T> cacheItem = (ICacheItemDetails<T>)null;
+                if (TryGetCacheItem__NOLOCK<T>(key, out cacheItem))
+                {
+                    // cache item is in cache, check if it should expire
+                    var shouldExpire = shouldForceCacheExpiration(cacheItem);
+
+                    if (!shouldExpire)
+                    {
+                        // exit lock and return item
+                        readLock.Dispose();
+
+                        return cacheItem.Value;
+                    }
+                }
+
+                // get item
+                cacheItem = new AsyncCacheItemDetails<T>(valueFactory);
+                cacheItem.TimeAddedToCacheUtc = DateTime.UtcNow;
+
+                using (var writeLock = readLock.UpgradeToWriteLock())
+                {
+                    Cache.Set(key, cacheItem, cacheItemPolicy);
+                }
+
+                readLock.Dispose();
+
+                var r = cacheItem.Value;
+
+                return r;
+            }
+        }
+
+        public void ClearAll()
+        {
+            var oldCache = Cache;
+            Cache = new MemoryCache("CacheService");
+
+            oldCache.Dispose();
+        }
+
+        protected virtual CacheItemPolicy GetDefaultCachePolicy()
+        {
+            var policy = new CacheItemPolicy();
+
+            policy.AbsoluteExpiration = DateTimeOffset.Now + TimeSpan.FromMinutes(5);
+
+            return policy;
+        }
+
+        public ICacheService NewTransientCacheGroup()
+        {
+            return new CacheGroup(this);
+        }
+
+        public ICacheService NewCacheGroup(string groupName)
+        {
+            return new CacheGroup(this, groupName);
+        }
+
+        public CacheService()
+            : this(isCacheEnabled : true)
+        { }
+
+        public CacheService(bool isCacheEnabled)
+        {
+            IsCacheEnabled = isCacheEnabled;
+        }
