@@ -66,7 +66,9 @@
       <Link>InternalTrace.cs</Link>
     </Compile>
     <Compile Include="BackgroundRenderingService.cs" />
+    <Compile Include="Behaviors\Button.Image.cs" />
     <Compile Include="Behaviors\CheckBoxInListItem.cs" />
+    <Compile Include="Behaviors\Columns.cs" />
     <Compile Include="Behaviors\Control.Click.cs" />
     <Compile Include="Behaviors\DialogHost.MinHeight.cs" />
     <Compile Include="Behaviors\DialogHost.MinWidth.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="Behaviors\ForwardTextInput.cs" />
     <Compile Include="Behaviors\Highlight.cs" />
     <Compile Include="Behaviors\Hyperlink.OpenInDefaultBrowser.cs" />
+    <Compile Include="Behaviors\SelectionChanged.cs" />
     <Compile Include="Behaviors\Selector.ItemDoubleClick.cs" />
     <Compile Include="Behaviors\Control.DoubleClick.cs" />
     <Compile Include="Behaviors\Selector.ItemsSourceWithPreserveSelection.cs" />
@@ -97,6 +100,7 @@
     <Compile Include="Controls\Trees\_BooleanExpressionTrees\BooleanExpressionTreeControl.cs" />
     <Compile Include="Controls\ZoomableListView.cs" />
     <Compile Include="Converters\ColorToGradientBrushConverter.cs" />
+    <Compile Include="Converters\ColumnHeaderRoleToBorderConverter.cs" />
     <Compile Include="Converters\EnumToValuesConverter.cs" />
     <Compile Include="Converters\GetTypeConverter.cs" />
     <Compile Include="Converters\IndentToLeftMarginConverter.cs" />
@@ -108,6 +112,8 @@
     <Compile Include="Converters\SplitCamelCaseConverter.cs" />
     <Compile Include="Converters\ToDoubleConverter.cs" />
     <Compile Include="Converters\ToEnumerableConverter.cs" />
+    <Compile Include="Converters\ToListConverter.cs" />
+    <Compile Include="Converters\ToMapConverter.cs" />
     <Compile Include="DataTemplateSelectors\ContextAwareDataTemplateSelector.cs" />
     <Compile Include="DataTemplateSelectors\ContextAwareDataTemplateSelectorService.Cache.cs" />
     <Compile Include="DataTemplateSelectors\ContextAwareDataTemplateSelectorService.cs" />
@@ -142,6 +148,7 @@
     <Compile Include="ViewModels\ViewModelEventRoutingStrategy.cs" />
     <Compile Include="Views\View_T.cs" />
     <Compile Include="Views\ViewModelEventRoutedEventArgs.cs" />
+    <Compile Include="Windows\ModernWindow.cs" />
     <Compile Include="Windows\ViewHostWindow.cs" />
     <Compile Include="Controls\ISupportsBackgroundRendering.cs" />
     <Compile Include="Controls\TabControl.cs" />

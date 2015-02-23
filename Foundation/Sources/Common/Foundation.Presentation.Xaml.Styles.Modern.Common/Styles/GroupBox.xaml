@@ -3,6 +3,8 @@
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<BorderGapMaskConverter x:Key="Converters.BorderGapMaskConverter" />
     
     <Style TargetType="{x:Type GroupBox}"
            x:Key="Styles.GroupBox">
@@ -50,7 +52,7 @@
                                 Grid.RowSpan="3">
                             <Border.OpacityMask>
                                 <MultiBinding ConverterParameter="7"
-                                              Converter="{StaticResource VSC.BorderGapMaskConverter}">
+                                              Converter="{StaticResource Converters.BorderGapMaskConverter}">
                                     <Binding ElementName="Header"
                                              Path="ActualWidth" />
                                     <Binding Path="ActualWidth"

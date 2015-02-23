@@ -8,7 +8,7 @@
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Foundation.Presentation">
+                    xmlns:behaviors="http://schemas.squaredinfinity.com/foundation/behaviors">
     
     <Style x:Key="Styles.TextBlock"
            TargetType="{x:Type TextBlock}"
@@ -17,7 +17,7 @@
         <Setter Property="FontSize"                             Value="<#=fontSize#>" />
         <Setter Property="UseLayoutRounding"                    Value="True" />
         <Setter Property="TextOptions.TextFormattingMode"       Value="Display" />
-        <Setter Property="local:Highlight.TextForegroundRespondsToSelection" Value="true" />
+        <Setter Property="behaviors:Highlight.TextForegroundRespondsToSelection" Value="true" />
         
         <!--<Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true">

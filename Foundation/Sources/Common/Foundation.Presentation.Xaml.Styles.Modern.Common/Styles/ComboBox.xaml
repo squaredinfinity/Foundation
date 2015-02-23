@@ -115,7 +115,7 @@
 
     <Style x:Key="Styles.ComboBox" TargetType="{x:Type ComboBox}">
         <Setter Property="FocusVisualStyle"                                 Value="{StaticResource Styles.FocusVisual}" />
-        <Setter Property="Background"                                       Value="#FFBABABA"/>
+        <Setter Property="Background"                                       Value="#FFFFFFFF"/>
         <Setter Property="Foreground"                                       Value="#FF333333" />
         <Setter Property="BorderBrush"                                      Value="#FFBABABA" />
         <Setter Property="BorderThickness"                                  Value="1"/>
@@ -131,6 +131,7 @@
         <Setter Property="ScrollViewer.CanContentScroll"                    Value="true" />
         <Setter Property="MinWidth"                                         Value="120" />
         <Setter Property="MinHeight"                                        Value="20" />
+		<Setter Property="StaysOpenOnEdit"									Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 
@@ -316,7 +317,7 @@
 
     <Style x:Key="Styles.ComboBox.Inline" TargetType="{x:Type ComboBox}">
         <Setter Property="FocusVisualStyle"                                 Value="{StaticResource Styles.FocusVisual}" />
-        <Setter Property="Background"                                       Value="#FFBABABA"/>
+        <Setter Property="Background"                                       Value="#FFFFFFFF"/>
         <Setter Property="Foreground"                                       Value="#266Fa0" />
         <Setter Property="BorderBrush"                                      Value="#FFBABABA" />
         <Setter Property="BorderThickness"                                  Value="1"/>

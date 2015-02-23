@@ -34,8 +34,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,7 +49,9 @@
       <Link>InternalTrace.cs</Link>
     </Compile>
     <Compile Include="Cache\CacheGroup.cs" />
+    <Compile Include="Cache\CacheService.CacheObjectRetrivalTask.cs" />
     <Compile Include="Cache\CacheService.cs" />
+    <Compile Include="Cache\ICacheItemDetails.cs" />
     <Compile Include="Cache\ICacheService.cs" />
     <Compile Include="Cache\ISupportsCaching.cs" />
     <Compile Include="ChainOfCommand.cs" />
@@ -77,6 +81,10 @@
     <Compile Include="Collections\VirtualizingCollection.cs" />
     <Compile Include="CommandHandlerEventArgs.cs" />
     <Compile Include="CommandHandlerEventArgs_T.cs" />
+    <Compile Include="ComponentModel\ConvertibleTypeConverter.cs" />
+    <Compile Include="ComponentModel\IConvertibleType.cs" />
+    <Compile Include="Composition\FeatureExportMetadataAttribute.cs" />
+    <Compile Include="Composition\IFeatureMetadata.cs" />
     <Compile Include="CompositeComparer_T.cs" />
     <Compile Include="DateTimeContext.cs" />
     <Compile Include="Diagnostics\ExceptionContextData.cs" />
@@ -275,6 +283,7 @@
   <ItemGroup>
     <None Include="Media\RYB.pdf" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

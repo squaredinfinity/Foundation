@@ -1,8 +1,5 @@
+<#@ import namespace="System.IO" #>
 <#
-
-
-
-
 
 	// # Fonts
 	var fontFamily = "Segoe UI";
@@ -155,7 +152,7 @@
 
 	// # Combo Box
 
-	var combobox_popup_background	= "#FFBABABA";
+	var combobox_popup_background	= "#FFFFFFFF";
 	var combobox_popup_border		= "#FFBABABA";
 
 	var tabitem_selected_background = "#FFFFFF";
@@ -185,6 +182,5 @@
 	var menu_background = "#FFFFFFFF";
 	var menu_foreground = "#FF000000";
 	var menu_border		= "#FFBABABA";
-
 
 #>

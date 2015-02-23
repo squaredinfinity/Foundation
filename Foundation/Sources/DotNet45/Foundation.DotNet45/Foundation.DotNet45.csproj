@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
@@ -129,8 +130,20 @@
     <Compile Include="..\..\Common\Foundation.Common\CommandHandlerEventArgs_T.cs">
       <Link>CommandHandlerEventArgs_T.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\ComponentModel\ConvertibleTypeConverter.cs">
+      <Link>ComponentModel\ConvertibleTypeConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\ComponentModel\IConvertibleType.cs">
+      <Link>ComponentModel\IConvertibleType.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\CompositeComparer_T.cs">
       <Link>CompositeComparer_T.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Composition\FeatureExportMetadataAttribute.cs">
+      <Link>Composition\FeatureExportMetadataAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Composition\IFeatureMetadata.cs">
+      <Link>Composition\IFeatureMetadata.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\DateTimeContext.cs">
       <Link>DateTimeContext.cs</Link>

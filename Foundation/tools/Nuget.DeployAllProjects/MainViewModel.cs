@@ -184,7 +184,8 @@ namespace Nuget.DeployAllProjects
             PublishProject("NuGet.Foundation.Data");
             PublishProject("NuGet.Foundation.Diagnostics");
             PublishProject("NuGet.Foundation.Presentation.Xaml");
-            PublishProject("NuGet.Foundation.Presentation.Xaml.Styles.Modern");
+            // this will be published manually
+            //PublishProject("NuGet.Foundation.Presentation.Xaml.Styles.Modern");
             PublishProject("NuGet.Foundation.Unsafe");
             PublishProject("NuGet.Foundation.Win32Api");
         }

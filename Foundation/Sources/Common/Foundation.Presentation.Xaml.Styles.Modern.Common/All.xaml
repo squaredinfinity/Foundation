@@ -1,4 +1,6 @@
-﻿<ResourceDictionary
+﻿
+             
+<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
@@ -7,9 +9,7 @@
         <SharedResourceDictionary DictionaryName="Foundation.DataTemplateSelectors" />
 
         <SharedResourceDictionary DictionaryName="Foundation.Brushes"
-                                  Source="{ResourceFromThisAssembly /Brushes.xaml}"/>
-        
-        <!--<ResourceDictionary Source="{ResourceFromThisAssembly Converters.xaml}" />-->
+                                  Source="{ResourceFromThisAssembly Brushes.xaml}"/>
 
         <ResourceDictionary Source="{ResourceFromThisAssembly /Styles/Button.xaml}" />
         <ResourceDictionary Source="{ResourceFromThisAssembly /Styles/CheckBox.xaml}" />

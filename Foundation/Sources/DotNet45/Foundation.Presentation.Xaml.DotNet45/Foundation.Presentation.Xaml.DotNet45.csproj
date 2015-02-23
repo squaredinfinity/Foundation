@@ -54,11 +54,17 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\BackgroundRenderingService.cs">
       <Link>BackgroundRenderingService.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\Button.Image.cs">
+      <Link>Behaviors\Button.Image.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\CheckBoxInListItem.cs">
       <Link>Behaviors\CheckBoxInListItem.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\ColumnHeaders.Visibility.cs">
       <Link>Behaviors\ColumnHeaders.Visibility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\Columns.cs">
+      <Link>Behaviors\Columns.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\Control.Click.cs">
       <Link>Behaviors\Control.Click.cs</Link>
@@ -92,6 +98,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\ListBoxItem.IsSelectible.cs">
       <Link>Behaviors\ListBoxItem.IsSelectible.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\SelectionChanged.cs">
+      <Link>Behaviors\SelectionChanged.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\Selector.ItemDoubleClick.cs">
       <Link>Behaviors\Selector.ItemDoubleClick.cs</Link>
@@ -186,6 +195,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\ColorToSolidColorBrushConverter.cs">
       <Link>Converters\ColorToSolidColorBrushConverter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\ColumnHeaderRoleToBorderConverter.cs">
+      <Link>Converters\ColumnHeaderRoleToBorderConverter.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\ComObjectConverter.cs">
       <Link>Converters\ComObjectConverter.cs</Link>
     </Compile>
@@ -245,6 +257,12 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\ToEnumerableConverter.cs">
       <Link>Converters\ToEnumerableConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\ToListConverter.cs">
+      <Link>Converters\ToListConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\ToMapConverter.cs">
+      <Link>Converters\ToMapConverter.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\TreeViewItemLeftMarginConverter.cs">
       <Link>Converters\TreeViewItemLeftMarginConverter.cs</Link>
@@ -515,6 +533,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Views\View_T.cs">
       <Link>Views\View_T.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Windows\ModernWindow.cs">
+      <Link>Windows\ModernWindow.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Windows\ViewHostWindow.cs">
       <Link>Windows\ViewHostWindow.cs</Link>

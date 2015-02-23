@@ -162,4 +162,9 @@
 
     <converters:ColorToGradientBrushConverter x:Key="Converters.ColorToGradientBrush" />
 
+    <converters:ColumnHeaderRoleToBorderConverter x:Key="Converters.ColumnHeaderRoleToBorder" />
+    
+    <converters:ToListConverter x:Key="Converters.ToList" />
+    <converters:ToMapConverter x:Key="Converters.ToMap" />
+
 </ResourceDictionary>

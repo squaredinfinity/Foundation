@@ -28,12 +28,14 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.DotNet45.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -57,9 +59,436 @@
     <Compile Include="..\..\..\AssemblyInfo.shared.cs">
       <Link>Properties\AssemblyInfo.shared.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\DefaultXamlResources.cs">
+      <Link>DefaultXamlResources.cs</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\_Global.cs">
+      <Link>_Global.cs</Link>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_Global.tt</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\All.tt">
+      <Link>All.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>All.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Brushes.tt">
+      <Link>Brushes.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Brushes.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\Button.tt">
+      <Link>Styles\Button.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Button.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\CheckBox.tt">
+      <Link>Styles\CheckBox.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CheckBox.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\ComboBox.tt">
+      <Link>Styles\ComboBox.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ComboBox.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\Expander.tt">
+      <Link>Styles\Expander.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Expander.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\FocusVisual.tt">
+      <Link>Styles\FocusVisual.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FocusVisual.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\GridViewColumnHeader.tt">
+      <Link>Styles\GridViewColumnHeader.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GridViewColumnHeader.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\GridViewColumnHeaderGripper.tt">
+      <Link>Styles\GridViewColumnHeaderGripper.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GridViewColumnHeaderGripper.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\GroupBox.tt">
+      <Link>Styles\GroupBox.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GroupBox.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\Hyperlink.tt">
+      <Link>Styles\Hyperlink.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Hyperlink.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\Label.tt">
+      <Link>Styles\Label.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Label.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\ListBox.tt">
+      <Link>Styles\ListBox.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ListBox.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\ListView.tt">
+      <Link>Styles\ListView.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ListView.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\ListViewItem.tt">
+      <Link>Styles\ListViewItem.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ListViewItem.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\Menu.tt">
+      <Link>Styles\Menu.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Menu.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\MenuItem.tt">
+      <Link>Styles\MenuItem.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MenuItem.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\RadioButton.tt">
+      <Link>Styles\RadioButton.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RadioButton.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\ScrollBar.tt">
+      <Link>Styles\ScrollBar.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ScrollBar.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\TabControl.tt">
+      <Link>Styles\TabControl.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TabControl.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\TextBlock.tt">
+      <Link>Styles\TextBlock.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TextBlock.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\TextBox.tt">
+      <Link>Styles\TextBox.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TextBox.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\ToggleButton.tt">
+      <Link>Styles\ToggleButton.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ToggleButton.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\ToolTip.tt">
+      <Link>Styles\ToolTip.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ToolTip.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\TreeView.tt">
+      <Link>Styles\TreeView.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TreeView.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\TreeViewItem.tt">
+      <Link>Styles\TreeViewItem.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TreeViewItem.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\Window.tt">
+      <Link>Styles\Window.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Window.xaml</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\_Global.tt">
+      <Link>_Global.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_Global.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Styles\" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\All.xaml">
+      <Link>All.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>All.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Brushes.xaml">
+      <Link>Brushes.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Brushes.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\Button.xaml">
+      <Link>Styles\Button.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Button.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\CheckBox.xaml">
+      <Link>Styles\CheckBox.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CheckBox.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\ComboBox.xaml">
+      <Link>Styles\ComboBox.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ComboBox.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\Expander.xaml">
+      <Link>Styles\Expander.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Expander.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\FocusVisual.xaml">
+      <Link>Styles\FocusVisual.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FocusVisual.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\GridViewColumnHeader.xaml">
+      <Link>Styles\GridViewColumnHeader.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridViewColumnHeader.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\GridViewColumnHeaderGripper.xaml">
+      <Link>Styles\GridViewColumnHeaderGripper.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridViewColumnHeaderGripper.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\GroupBox.xaml">
+      <Link>Styles\GroupBox.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GroupBox.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\Hyperlink.xaml">
+      <Link>Styles\Hyperlink.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Hyperlink.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\Label.xaml">
+      <Link>Styles\Label.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Label.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\ListBox.xaml">
+      <Link>Styles\ListBox.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ListBox.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\ListView.xaml">
+      <Link>Styles\ListView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ListView.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\ListViewItem.xaml">
+      <Link>Styles\ListViewItem.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ListViewItem.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\Menu.xaml">
+      <Link>Styles\Menu.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Menu.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\MenuItem.xaml">
+      <Link>Styles\MenuItem.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MenuItem.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\RadioButton.xaml">
+      <Link>Styles\RadioButton.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RadioButton.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\ScrollBar.xaml">
+      <Link>Styles\ScrollBar.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ScrollBar.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\TabControl.xaml">
+      <Link>Styles\TabControl.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TabControl.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\TextBlock.xaml">
+      <Link>Styles\TextBlock.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextBlock.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\TextBox.xaml">
+      <Link>Styles\TextBox.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextBox.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\ToggleButton.xaml">
+      <Link>Styles\ToggleButton.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ToggleButton.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\ToolTip.xaml">
+      <Link>Styles\ToolTip.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ToolTip.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\TreeView.xaml">
+      <Link>Styles\TreeView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TreeView.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\TreeViewItem.xaml">
+      <Link>Styles\TreeViewItem.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TreeViewItem.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\Window.xaml">
+      <Link>Styles\Window.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Window.tt</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

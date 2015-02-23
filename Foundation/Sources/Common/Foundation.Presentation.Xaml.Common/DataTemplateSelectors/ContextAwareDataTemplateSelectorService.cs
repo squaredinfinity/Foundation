@@ -35,6 +35,9 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
         {
             var dt = (DataTemplate)null;
 
+            if (context == null)
+                context = "";
+
             // Internal Cache is used to store last succesfull result.
             // Reason for that is that often same selector is called many times in a row (e.g. when in list view)
             

@@ -38,6 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -70,6 +71,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="All.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>All.xaml</LastGenOutput>
+    </None>
     <None Include="Brushes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Brushes.xaml</LastGenOutput>
@@ -164,6 +169,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ToggleButton.xaml</LastGenOutput>
     </None>
+    <None Include="Styles\ToolTip.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ToolTip.xaml</LastGenOutput>
+    </None>
     <None Include="Styles\TreeView.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TreeView.xaml</LastGenOutput>
@@ -181,6 +190,9 @@
   <ItemGroup>
     <Page Include="All.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>All.tt</DependentUpon>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Brushes.xaml">
@@ -335,6 +347,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ToggleButton.tt</DependentUpon>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\ToolTip.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ToolTip.tt</DependentUpon>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\TreeView.xaml">
