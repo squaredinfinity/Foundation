@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace  xxx.Foundation.Presentation.Behaviors
+namespace SquaredInfinity.Foundation.Presentation.Behaviors
 {
     public static partial class ButtonBehaviors
     {
