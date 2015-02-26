@@ -1,0 +1,32 @@
+Enter file contents here if (value == null || value == DependencyProperty.UnsetValue) 
+	return DependencyProperty.UnsetValue;
+
+public class EnumerableCombiningConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if(values == null)
+                return DependencyProperty.UnsetValue;
+
+            var result = Enumerable.Empty<object>();
+
+            foreach(var enumerable in values.OfType<IEnumerable<object>>())
+            {
+                result = result.Concat(enumerable);
+            }
+
+            return result;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    f (ExecuteMethodInfo_OneParameter != null
+                        && !ParameterType.IsValueType)
+                    {
+                        //  make sure to convert to compatible type first
+                        // todo: check accepts null if parameter null
+                        var compatibleParameterValue = parameter.Convert(ParameterType);
