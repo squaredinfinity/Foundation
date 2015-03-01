@@ -43,6 +43,12 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         IReadOnlyList<IMemberSerializationStrategy> GetContentSerializationStrategies();
     }
 
+    public interface IEnumerableTypeSerializationStrategy<T, I> : ITypeSerializationStrategy<T>
+        where T : IEnumerable<I>
+    {
+        IEnumerableTypeSerializationStrategy<T, I> ElementFilter(Predicate<I> filterElement);
+    }
+
     public interface ITypeSerializationStrategy<T> : ITypeSerializationStrategy
     {
         /// <summary>
@@ -50,8 +56,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         /// </summary>
         /// <returns></returns>
         ITypeSerializationStrategy<T> IgnoreAllMembers();
-
-
+        
         /// <summary>
         /// Specified member will not be serialized (unless explicitly enabled later)
         /// </summary>

@@ -59,6 +59,12 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             this.TypeDescriptor = typeDescriptor;
         }
 
+        public IEnumerableTypeSerializationStrategy<T, I> GetOrCreateEnumerableTypeSerializationStrategy<T, I>()
+            where T : IEnumerable<I>
+        {
+            return (IEnumerableTypeSerializationStrategy<T, I>) GetOrCreateTypeSerializationStrategy<T>(() => CreateDefaultTypeSerializationStrategy<T, I>());
+        }
+
         public ITypeSerializationStrategy<T> GetOrCreateTypeSerializationStrategy<T>()
         {
             return GetOrCreateTypeSerializationStrategy<T>(() => CreateDefaultTypeSerializationStrategy<T>());
@@ -92,6 +98,24 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         {
             return CreateDefaultTypeSerializationStrategy<T>(
                 TypeDescriptor);
+        }
+
+        ITypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T, I>()
+        {
+            return CreateDefaultTypeSerializationStrategy<T>(
+                TypeDescriptor);
+        }
+
+        protected virtual ITypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T, I>(
+            ITypeDescriptor typeDescriptor)
+        {
+            // todo:
+            var result =
+                new TypeSerializationStrategy<T>(
+                    this,
+                    typeDescriptor);
+
+            return result;
         }
         
         protected virtual ITypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T>(

@@ -48,6 +48,7 @@
     <Compile Include="..\InternalTrace.cs">
       <Link>InternalTrace.cs</Link>
     </Compile>
+    <Compile Include="Cache\AsyncCacheItemDetails.cs" />
     <Compile Include="Cache\CacheGroup.cs" />
     <Compile Include="Cache\CacheService.CacheObjectRetrivalTask.cs" />
     <Compile Include="Cache\CacheService.cs" />

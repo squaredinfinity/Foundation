@@ -1053,6 +1053,25 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         }
     }
 
+    public class EnumerableTypeSerializationStrategy<T, I> : TypeSerializationStrategy<T>, IEnumerableTypeSerializationStrategy<T, I>
+        where T : IEnumerable<I>
+    {
+        Predicate<I> ElementFilterPredicate;
+
+        public EnumerableTypeSerializationStrategy(FlexiXmlSerializer serializer, ITypeDescriptor typeDescriptor)
+            : base(serializer, typeDescriptor)
+        {
+
+        }
+
+        public IEnumerableTypeSerializationStrategy<T, I> ElementFilter(Predicate<I> filterElement)
+        {
+            this.ElementFilterPredicate = filterElement;
+
+            return this;
+        }
+    }
+
     public class TypeSerializationStrategy<T> : TypeSerializationStrategy, ITypeSerializationStrategy<T>
     {
         public TypeSerializationStrategy(FlexiXmlSerializer serializer, Types.Description.ITypeDescriptor typeDescriptor)

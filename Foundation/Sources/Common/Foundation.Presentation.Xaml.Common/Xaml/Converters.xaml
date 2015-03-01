@@ -166,5 +166,6 @@
     
     <converters:ToListConverter x:Key="Converters.ToList" />
     <converters:ToMapConverter x:Key="Converters.ToMap" />
+    <converters:EnumerableCombiningConverter x:Key="Converters.Concat" />
 
 </ResourceDictionary>

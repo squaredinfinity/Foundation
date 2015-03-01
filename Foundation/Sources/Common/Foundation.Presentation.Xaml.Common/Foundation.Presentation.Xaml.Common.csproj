@@ -101,6 +101,7 @@
     <Compile Include="Controls\ZoomableListView.cs" />
     <Compile Include="Converters\ColorToGradientBrushConverter.cs" />
     <Compile Include="Converters\ColumnHeaderRoleToBorderConverter.cs" />
+    <Compile Include="Converters\EnumerableCombiningConverter.cs" />
     <Compile Include="Converters\EnumToValuesConverter.cs" />
     <Compile Include="Converters\GetTypeConverter.cs" />
     <Compile Include="Converters\IndentToLeftMarginConverter.cs" />

@@ -18,7 +18,7 @@ namespace  SquaredInfinity.Foundation.Presentation.Styles.Modern
     public partial class DefaultXamlResources : IXamlResourcesProvider
     {
         // Import Order is higher than Foundation.Presentation Import Order (on which resources from this assembly may depend)
-        public const int ImportOrder = SquaredInfinity.Foundation.Presentation.XamlResources.ImportOrder + 1;
+        public const int ImportOrder = SquaredInfinity.Foundation.Presentation.XamlResources.ImportOrder + 100;
 
         public void LoadAndMergeResources()
         {

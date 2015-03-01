@@ -209,10 +209,11 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                     if (ExecuteMethodInfo_OneParameter != null
                         && !ParameterType.IsValueType)
                     {
-                        //  make sure to convert to compatible type first
-                        var compatibleParameterValue = parameter.Convert(ParameterType);
+                        //  make sure to convert to compatible type first                        
+                        // NOTE: but parameter is null, so is casting still needed here?
+                        //var compatibleParameterValue = parameter.Convert(ParameterType);
 
-                        ExecuteMethodInfo_OneParameter.Invoke(targetObject, new[] { compatibleParameterValue });
+                        ExecuteMethodInfo_OneParameter.Invoke(targetObject, new[] { parameter });
                         return;
                     }
 

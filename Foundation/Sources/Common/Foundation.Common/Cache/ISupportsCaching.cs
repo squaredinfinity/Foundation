@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-//{
-//    public interface ISupportsCaching
-//    {
-//        bool IsCacheEnabled { get; set; }
-//        void ClearCache();
-//    }
-//}
+namespace SquaredInfinity.Foundation.Cache
+{
+    public interface ISupportsCaching
+    {
+        bool IsCacheEnabled { get; set; }
+        void ClearCache();
+    }
+}

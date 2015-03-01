@@ -204,6 +204,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\CompositeConverter.cs">
       <Link>Converters\CompositeConverter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\EnumerableCombiningConverter.cs">
+      <Link>Converters\EnumerableCombiningConverter.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Converters\EnumToBoolConverter.cs">
       <Link>Converters\EnumToBoolConverter.cs</Link>
     </Compile>

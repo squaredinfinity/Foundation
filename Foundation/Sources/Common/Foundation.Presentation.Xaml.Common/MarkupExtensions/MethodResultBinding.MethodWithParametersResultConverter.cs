@@ -35,7 +35,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                 {
                     var value = values.FirstOrDefault();
 
-                    if (value == null)
+                    if (value == null || value == DependencyProperty.UnsetValue)
                         return DependencyProperty.UnsetValue;
 
                     var parameters = values.Skip(NonParameterBindingsCount);
@@ -48,6 +48,12 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                         var target = value.GetType();
 
                         MethodInfo = target.GetMethod(MethodName);
+
+                        // still cannot find the method, return unset value
+                        if(MethodInfo == null)
+                        {
+                            return DependencyProperty.UnsetValue;
+                        }
                     }
 
                     if (HardParameters == null)

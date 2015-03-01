@@ -186,6 +186,7 @@ namespace Foundation.Diagnostics.Walkthrough.Common
             serializer.GetOrCreateTypeSerializationStrategy<SeverityFilter>()
                 .IgnoreAllMembers()
                 .CopySerializationSetupFromBaseClass()
+                //.SerializeMemberAsAttribute(x => x.Severity, x => x.Severity != null, (x, y) => x.Severity.ToString(), )
                 //.SerializeMember(x => x.Severity, x => x.Severity != null) // todo SerializeMember as specific value, read back
                 
                 .SerializeMemberAsAttribute(x => x.Severity, x => x.Severity != null, (x, y) => y.ToString(), s => KnownSeverityLevels.Parse(s.Value))
@@ -215,6 +216,9 @@ namespace Foundation.Diagnostics.Walkthrough.Common
                 .ApplicationLifecycleEvent
                 .Startup();
 
+            //using(var pdc = DiagnosticLogger.Global.BeginPerformanceDataCollection())
+            {
+            }
 
             DiagnosticLogger.Global
                 .AsInformation()

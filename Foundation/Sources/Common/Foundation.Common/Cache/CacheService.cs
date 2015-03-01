@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Cache
 {
-    public partial class CacheService// : ICacheService
+    public partial class CacheService : ICacheService
     {
         MemoryCache Cache = new MemoryCache("SquaredInfinity.Foundation.CacheService");
 
@@ -20,52 +20,52 @@ namespace SquaredInfinity.Foundation.Cache
             Cache.Remove(key);
         }
 
-        //public T GetOrAdd<T>(string key, Func<T> valueFactory)
-        //{
-        //    return GetOrAdd(key, valueFactory, GetDefaultCachePolicy());
-        //}
+        public T GetOrAdd<T>(string key, Func<T> valueFactory)
+        {
+            return GetOrAdd(key, valueFactory, GetDefaultCachePolicy());
+        }
 
-        //public T GetOrAdd<T>(string key, Func<T> valueFactory, Predicate<ICacheItemDetails<T>> shouldForceCacheExpiration)
-        //{
-        //    return GetOrAdd<T>(key, shouldForceCacheExpiration, valueFactory, GetDefaultCachePolicy());
-        //}
+        public T GetOrAdd<T>(string key, Func<T> valueFactory, Predicate<ICacheItemDetails<T>> shouldForceCacheExpiration)
+        {
+            return GetOrAdd<T>(key, shouldForceCacheExpiration, valueFactory, GetDefaultCachePolicy());
+        }
 
-        //public T GetOrAdd<T>(string key, Func<T> valueFactory, TimeSpan slidingExpiration, Predicate<ICacheItemDetails<T>> shouldForceCacheExpiration)
-        //{
-        //    var policy = new CacheItemPolicy();
-        //    policy.SlidingExpiration = slidingExpiration;
+        public T GetOrAdd<T>(string key, Func<T> valueFactory, TimeSpan slidingExpiration, Predicate<ICacheItemDetails<T>> shouldForceCacheExpiration)
+        {
+            var policy = new CacheItemPolicy();
+            policy.SlidingExpiration = slidingExpiration;
 
-        //    return GetOrAdd<T>(key, shouldForceCacheExpiration, valueFactory, policy);
-        //}
+            return GetOrAdd<T>(key, shouldForceCacheExpiration, valueFactory, policy);
+        }
 
-        //public T GetOrAdd<T>(string key, Func<T> valueFactory, DateTimeOffset absoluteExpiration, Predicate<ICacheItemDetails<T>> shouldForceCacheExpiration)
-        //{
-        //    var policy = new CacheItemPolicy();
-        //    policy.AbsoluteExpiration = absoluteExpiration;
+        public T GetOrAdd<T>(string key, Func<T> valueFactory, DateTimeOffset absoluteExpiration, Predicate<ICacheItemDetails<T>> shouldForceCacheExpiration)
+        {
+            var policy = new CacheItemPolicy();
+            policy.AbsoluteExpiration = absoluteExpiration;
 
-        //    return GetOrAdd<T>(key, shouldForceCacheExpiration, valueFactory, GetDefaultCachePolicy());
-        //}
+            return GetOrAdd<T>(key, shouldForceCacheExpiration, valueFactory, GetDefaultCachePolicy());
+        }
 
-        //public T GetOrAdd<T>(string key, Func<T> valueFactory, DateTimeOffset absoluteExpiration)
-        //{
-        //    var policy = new CacheItemPolicy();
-        //    policy.AbsoluteExpiration = absoluteExpiration;
+        public T GetOrAdd<T>(string key, Func<T> valueFactory, DateTimeOffset absoluteExpiration)
+        {
+            var policy = new CacheItemPolicy();
+            policy.AbsoluteExpiration = absoluteExpiration;
 
-        //    return GetOrAdd(key, valueFactory, policy);
-        //}
+            return GetOrAdd(key, valueFactory, policy);
+        }
 
-        //public T GetOrAdd<T>(string key, Func<T> valueFactory, TimeSpan slidingExpiration)
-        //{
-        //    var policy = new CacheItemPolicy();
-        //    policy.SlidingExpiration = slidingExpiration;
+        public T GetOrAdd<T>(string key, Func<T> valueFactory, TimeSpan slidingExpiration)
+        {
+            var policy = new CacheItemPolicy();
+            policy.SlidingExpiration = slidingExpiration;
 
-        //    return GetOrAdd(key, valueFactory, policy);
-        //}
+            return GetOrAdd(key, valueFactory, policy);
+        }
 
-        //public T GetOrAdd<T>(string key, Func<T> valueFactory, CacheItemPolicy cacheItemPolicy)
-        //{
-        //    return GetOrAdd<T>(key, null, valueFactory, cacheItemPolicy);
-        //}
+        T GetOrAdd<T>(string key, Func<T> valueFactory, CacheItemPolicy cacheItemPolicy)
+        {
+            return GetOrAdd<T>(key, null, valueFactory, cacheItemPolicy);
+        }
 
         bool TryGet__NOLOCK<T>(string key, out T result)
         {
@@ -111,60 +111,60 @@ namespace SquaredInfinity.Foundation.Cache
             }
         }
 
-        //public T GetOrAdd<T>(string key, Predicate<ICacheItemDetails<T>> shouldForceCacheExpiration, Func<T> valueFactory, CacheItemPolicy cacheItemPolicy)
-        //{
-        //    if (!IsCacheEnabled)
-        //        return valueFactory();
+        public T GetOrAdd<T>(string key, Predicate<ICacheItemDetails<T>> shouldForceCacheExpiration, Func<T> valueFactory, CacheItemPolicy cacheItemPolicy)
+        {
+            if (!IsCacheEnabled)
+                return valueFactory();
 
-        //    // we can do without lock if item is in cache and we don't have to check for forced item expiration
-        //    if (shouldForceCacheExpiration == null)
-        //    {
-        //        T result = default(T);
+            // we can do without lock if item is in cache and we don't have to check for forced item expiration
+            if (shouldForceCacheExpiration == null)
+            {
+                T result = default(T);
 
-        //        if (TryGet__NOLOCK<T>(key, out result))
-        //        {
-        //            return result;
-        //        }
+                if (TryGet__NOLOCK<T>(key, out result))
+                {
+                    return result;
+                }
 
-        //        shouldForceCacheExpiration = (x) => false;
-        //    }
+                shouldForceCacheExpiration = (x) => false;
+            }
 
-        //    var keyLock = KeyLocks.GetOrAdd(key, (k) => new ReaderWriterLockSlimEx(LockRecursionPolicy.SupportsRecursion));
+            var keyLock = KeyLocks.GetOrAdd(key, (k) => new ReaderWriterLockSlimEx(LockRecursionPolicy.SupportsRecursion));
 
-        //    // if we must check for forced expiration or item is not in cache we need lock
-        //    using (var readLock = keyLock.AcquireUpgradeableReadLock())
-        //    {
-        //        ICacheItemDetails<T> cacheItem = (ICacheItemDetails<T>)null;
-        //        if (TryGetCacheItem__NOLOCK<T>(key, out cacheItem))
-        //        {
-        //            // cache item is in cache, check if it should expire
-        //            var shouldExpire = shouldForceCacheExpiration(cacheItem);
+            // if we must check for forced expiration or item is not in cache we need lock
+            using (var readLock = keyLock.AcquireUpgradeableReadLock())
+            {
+                ICacheItemDetails<T> cacheItem = (ICacheItemDetails<T>)null;
+                if (TryGetCacheItem__NOLOCK<T>(key, out cacheItem))
+                {
+                    // cache item is in cache, check if it should expire
+                    var shouldExpire = shouldForceCacheExpiration(cacheItem);
 
-        //            if (!shouldExpire)
-        //            {
-        //                // exit lock and return item
-        //                readLock.Dispose();
+                    if (!shouldExpire)
+                    {
+                        // exit lock and return item
+                        readLock.Dispose();
 
-        //                return cacheItem.Value;
-        //            }
-        //        }
+                        return cacheItem.Value;
+                    }
+                }
 
-        //        // get item
-        //        cacheItem = new AsyncCacheItemDetails<T>(valueFactory);
-        //        cacheItem.TimeAddedToCacheUtc = DateTime.UtcNow;
+                // get item
+                cacheItem = new AsyncCacheItemDetails<T>(valueFactory);
+                cacheItem.TimeAddedToCacheUtc = DateTime.UtcNow;
 
-        //        using (var writeLock = readLock.UpgradeToWriteLock())
-        //        {
-        //            Cache.Set(key, cacheItem, cacheItemPolicy);
-        //        }
+                using (var writeLock = readLock.UpgradeToWriteLock())
+                {
+                    Cache.Set(key, cacheItem, cacheItemPolicy);
+                }
 
-        //        readLock.Dispose();
+                readLock.Dispose();
 
-        //        var r = cacheItem.Value;
+                var r = cacheItem.Value;
 
-        //        return r;
-        //    }
-        //}
+                return r;
+            }
+        }
 
         public void ClearAll()
         {
@@ -183,15 +183,15 @@ namespace SquaredInfinity.Foundation.Cache
             return policy;
         }
 
-        //public ICacheService NewTransientCacheGroup()
-        //{
-        //    return new CacheGroup(this);
-        //}
+        public ICacheService NewTransientCacheGroup()
+        {
+            return new CacheGroup(this);
+        }
 
-        //public ICacheService NewCacheGroup(string groupName)
-        //{
-        //    return new CacheGroup(this, groupName);
-        //}
+        public ICacheService NewCacheGroup(string groupName)
+        {
+            return new CacheGroup(this, groupName);
+        }
 
         public CacheService()
             : this(isCacheEnabled: true)

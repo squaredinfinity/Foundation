@@ -96,6 +96,18 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
     public class FlexiXmlSerialize__Serialize
     {
         [TestMethod]
+        public void CanFilterListElementsBeforeSerialization()
+        {
+            List<int> numbers = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+            var s = new FlexiXml.FlexiXmlSerializer();
+            s.GetOrCreateEnumerableTypeSerializationStrategy<List<int>, int>()
+                .ElementFilter(x => x % 2 == 0);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
         public void SerializeMultidimensionalArray()
         {
             var array = new double[2, 2];

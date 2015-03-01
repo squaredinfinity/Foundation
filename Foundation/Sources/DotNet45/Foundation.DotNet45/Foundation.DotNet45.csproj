@@ -36,6 +36,7 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,6 +46,27 @@
   <ItemGroup>
     <Compile Include="..\..\..\AssemblyInfo.shared.cs">
       <Link>Properties\AssemblyInfo.shared.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Cache\AsyncCacheItemDetails.cs">
+      <Link>Cache\AsyncCacheItemDetails.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Cache\CacheGroup.cs">
+      <Link>Cache\CacheGroup.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Cache\CacheService.CacheObjectRetrivalTask.cs">
+      <Link>Cache\CacheService.CacheObjectRetrivalTask.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Cache\CacheService.cs">
+      <Link>Cache\CacheService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Cache\ICacheItemDetails.cs">
+      <Link>Cache\ICacheItemDetails.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Cache\ICacheService.cs">
+      <Link>Cache\ICacheService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Cache\ISupportsCaching.cs">
+      <Link>Cache\ISupportsCaching.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\ChainOfCommand.cs">
       <Link>ChainOfCommand.cs</Link>

@@ -306,6 +306,27 @@ namespace SquaredInfinity.Foundation.Presentation.Views
                                             return;
                                         }
                                     }
+
+                                    // if fe is a View, try to convert view model to desired type
+
+                                    var v = fe as View;
+
+                                    if(v != null)
+                                    {
+                                        var vm = v.ViewModel;
+
+                                        if(vm != null)
+                                        {
+                                            var result = (object)null;
+
+                                            if(vm.TryConvert(_e.DataContextType, out result))
+                                            {
+                                                _e.DataContext = result;
+                                                _e.Handle();
+                                                return;
+                                            }
+                                        }
+                                    }
                                 }
 
                                 vp = vp.GetVisualParent();

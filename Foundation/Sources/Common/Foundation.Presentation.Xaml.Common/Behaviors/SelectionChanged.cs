@@ -10,14 +10,14 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
 {
     public partial class SelectionChanged
     {
-        #region Command
+       #region Command
 
-        public static void SetCommand(System.Windows.Controls.TreeView element, ICommand value)
+        public static void SetCommand(System.Windows.Controls.ItemsControl element, ICommand value)
         {
             element.SetValue(CommandProperty, value);
         }
 
-        public static ICommand GetCommand(System.Windows.Controls.TreeView element)
+        public static ICommand GetCommand(System.Windows.Controls.ItemsControl element)
         {
             return (ICommand)element.GetValue(CommandProperty);
         }
@@ -43,11 +43,90 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
                 {
                     tv.SelectedItemChanged -= tv_SelectedItemChanged;
                     tv.SelectedItemChanged += tv_SelectedItemChanged;
+
+                    tv.GotFocus -= OnGotFocus;
+                    tv.GotFocus += OnGotFocus;
                 }
                 else
                 {
                     tv.SelectedItemChanged -= tv_SelectedItemChanged;
+                    tv.GotFocus -= OnGotFocus;
                 }
+
+                return;
+            }
+
+            var selector = c as System.Windows.Controls.Primitives.Selector;
+            if(selector != null)
+            {
+                if ((ICommand)e.NewValue != null)
+                {
+                    selector.SelectionChanged -= selector_SelectionChanged;
+                    selector.SelectionChanged += selector_SelectionChanged;
+
+                    selector.GotFocus -= OnGotFocus;
+                    selector.GotFocus += OnGotFocus;
+                }
+                else
+                {
+                    selector.SelectionChanged -= selector_SelectionChanged;
+                    selector.GotFocus -= OnGotFocus;
+                }
+
+                return;
+            }
+        }
+
+        static void OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            var ic = sender as System.Windows.Controls.ItemsControl;
+            if (ic == null)
+                return;
+
+            var shouldContinue = GetReevaluateOnFocusChanged(ic);
+
+            if (!shouldContinue)
+                return;
+
+            var tv = sender as System.Windows.Controls.TreeView;
+            if (tv != null)
+            {
+                var command = GetCommand(tv);
+
+                if (command != null && command.CanExecute(tv.SelectedItem))
+                {
+                    command.Execute(tv.SelectedItem);
+                }
+
+                return;
+            }
+
+            var selector = sender as System.Windows.Controls.Primitives.Selector;
+            if(selector != null)
+            {
+                var command = GetCommand(selector);
+
+                if (command != null && command.CanExecute(selector.SelectedItem))
+                {
+                    command.Execute(selector.SelectedItem);
+                }
+
+                return;
+            }
+        }
+
+        static void selector_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            var selector = sender as System.Windows.Controls.Primitives.Selector;
+
+            if (selector == null)
+                return;
+
+            var command = GetCommand(selector);
+
+            if (command != null && command.CanExecute(selector.SelectedItem))
+            {
+                command.Execute(selector.SelectedItem);
             }
         }
 
@@ -68,5 +147,27 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
 
 
         #endregion
+
+        #region ReevaluateOnFocusChanged
+
+        public static void SetReevaluateOnFocusChanged(System.Windows.Controls.ItemsControl element, bool value)
+        {
+            element.SetValue(ReevaluateOnFocusChangedProperty, value);
+        }
+
+        public static bool GetReevaluateOnFocusChanged(System.Windows.Controls.ItemsControl element)
+        {
+            return (bool)element.GetValue(ReevaluateOnFocusChangedProperty);
+        }
+
+        public static readonly DependencyProperty ReevaluateOnFocusChangedProperty =
+            DependencyProperty.RegisterAttached(
+            "ReevaluateOnFocusChanged",
+            typeof(bool),
+            typeof(SelectionChanged),
+            new PropertyMetadata(true));
+
+        #endregion
+
     }
 }
