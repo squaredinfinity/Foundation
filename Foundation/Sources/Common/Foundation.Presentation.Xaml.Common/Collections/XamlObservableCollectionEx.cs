@@ -56,17 +56,17 @@ namespace SquaredInfinity.Foundation.Collections
              BindingOperations.EnableCollectionSynchronization(this, context: null, synchronizationCallback: BindingSync);
         }
 
-        void BindingSync(IEnumerable collection, object context, Action accessMethod, bool writeAccess)
+        protected virtual void BindingSync(IEnumerable collection, object context, Action accessMethod, bool writeAccess)
         {
             var lockAcquisition = (IDisposable)null;
 
             if (writeAccess)
             {
-                lockAcquisition = CollectionLock.AcquireWriteLock();
+                lockAcquisition = CollectionLock.AcquireWriteLockIfNotHeld();
             }
             else
             {
-                lockAcquisition = CollectionLock.AcquireReadLock();
+                lockAcquisition = CollectionLock.AcquireReadLockIfNotHeld();
             }
 
             using(lockAcquisition)
