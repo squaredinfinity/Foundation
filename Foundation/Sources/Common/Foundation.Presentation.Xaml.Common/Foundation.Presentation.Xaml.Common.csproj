@@ -126,6 +126,7 @@
     <Compile Include="DataTemplateSelectors\RuleBasedDataTemplateSelector.cs" />
     <Compile Include="DataTemplateSelectors\Rules\ItemValueRule.cs" />
     <Compile Include="DataTemplateSelectors\Rules\MemberValueRule.cs" />
+    <Compile Include="FrameworkExtensions\System.Windows\Window.extensions.cs" />
     <Compile Include="Media\FontFamilies.cs" />
     <Compile Include="FrameworkExtensions\SquaredInfinity.Media.Drawing\PixelCanvas.extensions.cs" />
     <Compile Include="FrameworkExtensions\System.Windows.Media\Color.extensions.cs" />

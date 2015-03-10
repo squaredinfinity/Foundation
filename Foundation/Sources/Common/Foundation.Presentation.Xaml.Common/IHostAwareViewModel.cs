@@ -17,6 +17,8 @@ namespace SquaredInfinity.Foundation.Presentation
 
         IViewModelHost ViewModelHost { get; set; }
 
+        bool IsHostedInDialogWindow { get; }
+
         void CompleteInteraction(UserInteractionOutcome interactionOutcome);
 
         void CompleteInteraction();

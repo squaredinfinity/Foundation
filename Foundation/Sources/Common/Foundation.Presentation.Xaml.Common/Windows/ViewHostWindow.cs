@@ -96,7 +96,18 @@ namespace SquaredInfinity.Foundation.Presentation.Windows
         void ViewHostWindow_Initialized(object sender, EventArgs e)
         {
             if (ViewModel != null)
-                ViewModel.Initialize();
+            {
+                var isHostedInDialogWindow = false;
+
+                var window = Window.GetWindow(this);
+
+                if (window != null)
+                {
+                    isHostedInDialogWindow = window.IsDialog();
+                }
+
+                ViewModel.Initialize(isHostedInDialogWindow);
+            }
         }
 
         void RefreshViewModel(object oldDataContext, object newDataContext)

@@ -77,8 +77,12 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
 
         }
 
-        public void Initialize()
+        public bool IsHostedInDialogWindow { get; private set; }
+
+        public void Initialize(bool isHostedInDialogWindow)
         {
+            this.IsHostedInDialogWindow = isHostedInDialogWindow;
+
             OnInitialized();
         }
 

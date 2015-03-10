@@ -405,6 +405,9 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows\Vector.extensions.cs">
       <Link>FrameworkExtensions\System.Windows\Vector.extensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\FrameworkExtensions\System.Windows\Window.extensions.cs">
+      <Link>FrameworkExtensions\System.Windows\Window.extensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\IHostAwareViewModel.cs">
       <Link>IHostAwareViewModel.cs</Link>
     </Compile>

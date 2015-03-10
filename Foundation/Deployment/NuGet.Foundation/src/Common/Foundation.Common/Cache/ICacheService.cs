@@ -14,7 +14,10 @@ namespace SquaredInfinity.Foundation.Cache
         T GetOrAdd<T>(string key, Func<T> valueFactory, DateTimeOffset absoluteExpiration, Predicate<ICacheItemDetails<T>> shouldForceCacheExpiration);
         T GetOrAdd<T>(string key, Func<T> valueFactory, DateTimeOffset absoluteExpiration);
         T GetOrAdd<T>(string key, Func<T> valueFactory, TimeSpan slidingExpiration);
-        T GetOrAdd<T>(string key, Func<T> valueFactory, CacheItemPolicy cacheItemPolicy);
+
+        ICacheService NewTransientCacheGroup();
+
+        ICacheService NewCacheGroup(string groupName);
 
         void ClearAll();
 

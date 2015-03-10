@@ -188,8 +188,19 @@ namespace SquaredInfinity.Foundation.Presentation.Views
 
         void View_Initialized(object sender, EventArgs e)
         {
-            if(ViewModel != null)
-                ViewModel.Initialize();
+            if (ViewModel != null)
+            {
+                var isHostedInDialogWindow = false;
+
+                var window = Window.GetWindow(this);
+
+                if(window != null)
+                {
+                    isHostedInDialogWindow = window.IsDialog();
+                }
+
+                ViewModel.Initialize(isHostedInDialogWindow);
+            }
         }
 
         void View_ViewModelMessage(object sender, ViewModelEventRoutedEventArgs args)
