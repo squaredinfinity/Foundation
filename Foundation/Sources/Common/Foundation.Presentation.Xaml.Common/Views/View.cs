@@ -340,7 +340,7 @@ namespace SquaredInfinity.Foundation.Presentation.Views
                                     }
                                 }
 
-                                vp = vp.GetVisualParent();
+                                vp = vp.GetVisualOrLogicalParent();
                             }
                         });
             }
