@@ -190,17 +190,22 @@ namespace SquaredInfinity.Foundation.Presentation.Views
         {
             if (ViewModel != null)
             {
-                var isHostedInDialogWindow = false;
-
-                var window = Window.GetWindow(this);
-
-                if(window != null)
-                {
-                    isHostedInDialogWindow = window.IsDialog();
-                }
-
-                ViewModel.Initialize(isHostedInDialogWindow);
+                ViewModel.Initialize(GetIsHostedInDialogWindow());
             }
+        }
+
+        public bool GetIsHostedInDialogWindow()
+        {
+            var isHostedInDialogWindow = false;
+
+            var window = Window.GetWindow(this);
+
+            if (window != null)
+            {
+                isHostedInDialogWindow = window.IsDialog();
+            }
+
+            return isHostedInDialogWindow;
         }
 
         void View_ViewModelMessage(object sender, ViewModelEventRoutedEventArgs args)
@@ -247,10 +252,17 @@ namespace SquaredInfinity.Foundation.Presentation.Views
                 ViewModel.Dispose();
             }
 
-            if(newVM != null)
-                newVM.DataContext = newDataContext;            
-
             ViewModel = newVM;
+
+            if (newVM != null)
+            {
+                newVM.DataContext = newDataContext;
+
+                if(IsLoaded)
+                {
+                    newVM.Initialize(GetIsHostedInDialogWindow());
+                }
+            }
         }
 
         protected virtual bool IsViewModelBound()
