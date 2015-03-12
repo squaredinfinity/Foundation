@@ -35,7 +35,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         #region BUG 002
 
         [TestMethod]
-        public void Bug001__readonly_properties_should_be_serializable_when_added_explicitly()
+        public void Bug002__readonly_properties_should_be_serializable_when_added_explicitly()
         {
             // todo: need to use something else here, (other than platform class) because it only can be modified in a constructor
 
@@ -71,6 +71,63 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             public Bug002_Class(OperatingSystem os)
             {
                 _os = os;
+            }
+        }
+
+        #endregion
+
+        #region BUG 003
+
+        [TestMethod]
+        public void Bug001__id_property_conflicts_with_serializationId()
+        {
+            // type contains Id property
+            // during deserialization xml attribute serialization:id is confused with attribute to actual Id
+
+            var c1 = new Bug003_Class();
+            var id = Guid.NewGuid();
+            c1.Id = id;
+
+            var c2 = new Bug003_Class();
+            c2.Id = id;
+            c2.Parent = c1;
+
+            c1.Parent = c2;
+
+            var s = new FlexiXmlSerializer();
+            
+            s.GetOrCreateTypeSerializationStrategy<Bug003_Class>()
+                .SerializeMember(x => x.Id);
+            
+            var xml = s.Serialize(c2);
+
+            // remove Id attribute (but keep serialization:Id)
+            xml.Attribute("Id").Remove();
+
+            // note: normally this would fail if xml does not have Id (Guid) attribute but does have serialization:Id attribute
+            // this is because serialization:Id (int) would be treated as Guid and fail to covnert
+
+            var c3 = s.Deserialize<Bug003_Class>(xml);
+
+            Assert.IsNotNull(c3);
+            Assert.AreEqual(Guid.Empty, c3.Id);
+            Assert.AreEqual(id, c3.Parent.Id);
+        }
+
+        public class Bug003_Class
+        {
+            Guid _id;
+            public Guid Id
+            {
+                get { return _id; }
+                set { _id = value; }
+            }
+
+            Bug003_Class _parent;
+            public Bug003_Class Parent
+            {
+                get { return _parent; }
+                set { _parent = value; }
             }
         }
 

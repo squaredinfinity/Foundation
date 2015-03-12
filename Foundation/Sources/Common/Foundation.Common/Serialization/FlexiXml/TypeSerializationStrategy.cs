@@ -695,7 +695,9 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             var memberAttribute =
                 (from a in parentElement.Attributes()
-                 where string.Equals(a.Name.LocalName, strategy.MemberName, StringComparison.InvariantCultureIgnoreCase)
+                 where  a.Name.Namespace == System.Xml.Linq.XNamespace.None 
+                        && 
+                        string.Equals(a.Name.LocalName, strategy.MemberName, StringComparison.InvariantCultureIgnoreCase)
                  select a).FirstOrDefault();
 
             if(memberAttribute != null)
