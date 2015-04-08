@@ -182,6 +182,9 @@
     <Compile Include="..\..\Common\Foundation.Common\EnumeratorBase.cs">
       <Link>EnumeratorBase.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\ExceptionEqualityComparer.cs">
+      <Link>ExceptionEqualityComparer.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\FrameworkExtensions\Microsoft.Win32\RegistryKey.extensions.cs">
       <Link>FrameworkExtensions\Microsoft.Win32\RegistryKey.extensions.cs</Link>
     </Compile>
@@ -409,6 +412,33 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\ObjectExtensibility\IExtensionCollection.cs">
       <Link>ObjectExtensibility\IExtensionCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\PropertySystem\CollectionExtendedProperty_T.cs">
+      <Link>PropertySystem\CollectionExtendedProperty_T.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\PropertySystem\CollectionInheritanceMode.cs">
+      <Link>PropertySystem\CollectionInheritanceMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\PropertySystem\ExtendedPropertyCollection.cs">
+      <Link>PropertySystem\ExtendedPropertyCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\PropertySystem\ExtendedPropertyContainer.cs">
+      <Link>PropertySystem\ExtendedPropertyContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\PropertySystem\ExtendedProperty_T.cs">
+      <Link>PropertySystem\ExtendedProperty_T.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\PropertySystem\IExtendedProperty.cs">
+      <Link>PropertySystem\IExtendedProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\PropertySystem\IExtendedPropertyCollection.cs">
+      <Link>PropertySystem\IExtendedPropertyCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\PropertySystem\IExtendedPropertyContainer.cs">
+      <Link>PropertySystem\IExtendedPropertyContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\PropertySystem\IExtendedProperty_T.cs">
+      <Link>PropertySystem\IExtendedProperty_T.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\FlexiXmlSerializer.cs">
       <Link>Serialization\FlexiXml\FlexiXmlSerializer.cs</Link>

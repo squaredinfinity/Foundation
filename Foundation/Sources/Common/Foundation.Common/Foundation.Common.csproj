@@ -91,6 +91,7 @@
     <Compile Include="Diagnostics\ExceptionContextData.cs" />
     <Compile Include="DynamicComparer_T.cs" />
     <Compile Include="EnumeratorBase.cs" />
+    <Compile Include="ExceptionEqualityComparer.cs" />
     <Compile Include="FrameworkExtensions\System\Exception.extensions.cs" />
     <Compile Include="FrameworkExtensions\System\Boolean.extensions.cs" />
     <Compile Include="CloneComparer.cs" />
@@ -172,6 +173,14 @@
     <Compile Include="Media\ColorSpaces\XyzColorSpace.cs" />
     <Compile Include="ObjectExtensibility\IExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertySystem\CollectionExtendedProperty_T.cs" />
+    <Compile Include="PropertySystem\CollectionInheritanceMode.cs" />
+    <Compile Include="PropertySystem\ExtendedPropertyCollection.cs" />
+    <Compile Include="PropertySystem\ExtendedPropertyContainer.cs" />
+    <Compile Include="PropertySystem\IExtendedProperty.cs" />
+    <Compile Include="PropertySystem\IExtendedPropertyCollection.cs" />
+    <Compile Include="PropertySystem\IExtendedPropertyContainer.cs" />
+    <Compile Include="PropertySystem\IExtendedProperty_T.cs" />
     <Compile Include="Serialization\FlexiXml\FlexiXmlSerializer.TypeSerializationStrategiesConcurrentDictionary.cs" />
     <Compile Include="Serialization\FlexiXml\FlexiXmlSerializer.Deserialization.cs" />
     <Compile Include="Serialization\FlexiXml\FlexiXmlSerializer.Serialization.cs" />
@@ -283,6 +292,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Media\RYB.pdf" />
+    <Compile Include="PropertySystem\ExtendedProperty_T.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

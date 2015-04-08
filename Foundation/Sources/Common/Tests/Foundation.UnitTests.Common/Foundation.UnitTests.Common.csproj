@@ -111,6 +111,8 @@
     <Compile Include="Media\Drawing\PerformanceOptimizations.cs" />
     <Compile Include="Media\Drawing\PixelArrayCanvas.Blit.tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertySystem\tests.cs" />
+    <Compile Include="PropertySystem\_Entities\TestPropertyContainer.cs" />
     <Compile Include="Serialization\FlexiXml\KnownTypesLookup\KnownTypesLookup.tests.cs" />
     <Compile Include="Serialization\FlexiXml\KnownTypesLookup\TestEntity.cs" />
     <Compile Include="Serialization\FlexiXml\Repository\FlexiXmlSerialzier__Repository.tests.cs" />
