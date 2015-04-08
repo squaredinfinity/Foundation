@@ -8,6 +8,6 @@ namespace SquaredInfinity.Foundation.Data
 {
     public interface IDatabaseObjectNameResolver
     {
-        string GetActualStoredProcedureName(string storedProcedureName);
+        string GetActualStoredProcedureOrFunctionName(string storedProcedureorFunctionName);
     }
 }

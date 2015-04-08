@@ -430,7 +430,7 @@ namespace SquaredInfinity.Foundation.Data
             {
                 if (commandType == CommandType.StoredProcedure)
                 {
-                    commandText = nameResolver.GetActualStoredProcedureName(commandText);
+                    commandText = nameResolver.GetActualStoredProcedureOrFunctionName(commandText);
                 }
             }
 
