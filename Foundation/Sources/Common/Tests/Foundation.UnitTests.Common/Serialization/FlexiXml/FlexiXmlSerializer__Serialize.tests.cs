@@ -104,7 +104,10 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             s.GetOrCreateEnumerableTypeSerializationStrategy<List<int>, int>()
                 .ElementFilter(x => x % 2 == 0);
 
-            Assert.Fail();
+            var xml = s.Serialize(numbers);
+
+            Assert.IsNotNull(xml);
+            Assert.AreEqual(5, xml.Descendants().Count());
         }
 
         [TestMethod]

@@ -998,6 +998,9 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 {
                     try
                     {
+                        if (!ShouldSerializeItem(item))
+                            continue;
+
                         var el_item = cx.Serialize(item);
 
                         el.Add(el_item);
@@ -1014,6 +1017,11 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             }
 
             return el;
+        }
+
+        protected virtual bool ShouldSerializeItem(object item)
+        {
+            return true;
         }
 
         public override void Deserialize(XElement xml, object target, ISerializationContext cx)
@@ -1055,13 +1063,13 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         }
     }
 
-    public class EnumerableTypeSerializationStrategy<T, I> : TypeSerializationStrategy<T>, IEnumerableTypeSerializationStrategy<T, I>
+    public class EnumerableTypeSerializationStrategy<T, I> : EnumerableTypeSerializationStrategy, IEnumerableTypeSerializationStrategy<T, I>
         where T : IEnumerable<I>
     {
-        Predicate<I> ElementFilterPredicate;
+        public Predicate<I> ElementFilterPredicate { get; private set; }
 
         public EnumerableTypeSerializationStrategy(FlexiXmlSerializer serializer, ITypeDescriptor typeDescriptor)
-            : base(serializer, typeDescriptor)
+            : base(serializer, typeof(T), typeDescriptor)
         {
 
         }
@@ -1071,6 +1079,51 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             this.ElementFilterPredicate = filterElement;
 
             return this;
+        }
+
+        protected override bool ShouldSerializeItem(object item)
+        {
+            return ElementFilterPredicate((I)item);
+        }
+
+        public ITypeSerializationStrategy<T> IgnoreAllMembers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ITypeSerializationStrategy<T> IgnoreMember(System.Linq.Expressions.Expression<Func<T, object>> memberExpression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ITypeSerializationStrategy<T> ResolveReferenceWith<TypeToResolve>(Action<ReferenceResolutionContext<T, TypeToResolve>> resolveReference)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ITypeSerializationStrategy<T> SerializeMember(System.Linq.Expressions.Expression<Func<T, object>> memberExpression, Func<T, bool> shouldSerializeMember)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ITypeSerializationStrategy<T> SerializeMemberAsAttribute<TMember>(System.Linq.Expressions.Expression<Func<T, object>> memberExpression, Func<T, bool> shouldSerializeMember, Func<T, TMember, string> serialize, Func<XAttribute, TMember> deserialize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ITypeSerializationStrategy<T> SerializeMember(System.Linq.Expressions.Expression<Func<T, object>> memberExpression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ITypeSerializationStrategy<T> SerializeAllRemainingMembers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ITypeSerializationStrategy<T> CopySerializationSetupFromBaseClass()
+        {
+            throw new NotImplementedException();
         }
     }
 
