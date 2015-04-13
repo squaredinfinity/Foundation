@@ -1,0 +1,640 @@
+public class CollectionExtendedProperty<TItem> : ExtendedProperty<IList<TItem>>, ICollectionExtendedProperty
+    {
+        CollectionInheritanceMode _inheritanceMode = CollectionInheritanceMode.Merge;
+        public CollectionInheritanceMode InheritanceMode
+        {
+            get { return _inheritanceMode; }
+            set { _inheritanceMode = value; }
+        }
+
+        public CollectionExtendedProperty(IExtendedPropertyCollection owner, IExtendedPropertyDefinition propertyDefinition, Func<IList<TItem>> getDefaultValue)
+            : this(owner, propertyDefinition, getDefaultValue, CollectionInheritanceMode.Merge)
+        { }
+
+        public CollectionExtendedProperty(IExtendedPropertyCollection owner, IExtendedPropertyDefinition propertyDefinition, Func<IList<TItem>> getDefaultValue, CollectionInheritanceMode inheritanceMode)
+             : base(owner, propertyDefinition, getDefaultValue)
+        {
+            this.InheritanceMode = inheritanceMode;
+        }
+
+        protected override IList<TItem> GetActualValue()
+        {
+            if (IsValueSet)
+            {
+                if (InheritanceMode == CollectionInheritanceMode.Replace)
+                    return Value;
+                else
+                {
+                    object inheritedValue = null;
+                    if (Owner.TryGetInheritedPropertyValue(PropertyDefinition, out inheritedValue))
+                    {
+                        if (Value == null)
+                        {
+                            if (inheritedValue == null)
+                            {
+                                return GetDefaultValue();
+                            }
+                            else
+                            {
+                                return Value;
+                            }
+                        }
+                        else
+                        {
+                            if (inheritedValue == null)
+                            {
+                                return Value;
+                            }
+                            else
+                            {
+                                var result = (IList<TItem>)null;
+
+                                var temp_result = new List<TItem>();
+                                temp_result.AddRange((IEnumerable<TItem>)inheritedValue);
+                                temp_result.AddRange((IEnumerable<TItem>)Value);
+
+                                result = new ReadOnlyCollection<TItem>(temp_result);
+                                
+                                return result;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return Value;
+                    }
+                }
+            }
+            else
+            {
+                object inheritedValue = null;
+                if (Owner.TryGetInheritedPropertyValue(PropertyDefinition, out inheritedValue))
+                {
+                    return (Collection<TItem>)inheritedValue;
+                }
+                else
+                {
+                    return GetDefaultValue();
+                }
+            }
+        }
+    }
+    
+    public class ExtendedCollectionPropertyDefinition<TItem> : IExtendedCollectionPropertyDefinition<TItem>
+    {
+        public ExtendedPropertyUniqueIdentifier Id { get; private set; }
+        public Func<IList<TItem>> GetDefaultValue { get; private set; }
+
+        public ExtendedCollectionPropertyDefinition(string ownerUniqueName, string propertyName, Func<IList<TItem>> getDefaultValue)
+        {
+            this.Id = new ExtendedPropertyUniqueIdentifier(ownerUniqueName, propertyName);
+            this.GetDefaultValue = getDefaultValue;
+        }
+
+        public IList<TItem> GetActualValue(IExtendedPropertyContainer container)
+        {
+            var result = (object)null;
+            
+            EnsurePropertyRegisteredWithContainer(container);
+
+            container.TryGetActualPropertyValue(this, out result);
+
+            return (IList<TItem>)result;
+
+        }
+
+        public void SetValue(IExtendedPropertyContainer container, object value)
+        {
+            container.ExtendedProperties.GetOrAddCollectionProperty(this).Value = value;
+        }
+
+        public void UnsetValue(IExtendedPropertyContainer container)
+        {
+            container.ExtendedProperties.GetOrAddCollectionProperty(this).IsValueSet = false;
+        }
+
+        public void SetValue(IExtendedPropertyContainer container)
+        {
+            container.ExtendedProperties.GetOrAddCollectionProperty(this).IsValueSet = true;
+        }
+
+
+        public bool GetIsValueSet(IExtendedPropertyContainer container)
+        {
+            EnsurePropertyRegisteredWithContainer(container);
+
+            return container.ExtendedProperties.GetOrAddCollectionProperty(this).IsValueSet;
+        }
+
+        public IExtendedProperty EnsurePropertyRegisteredWithContainer(IExtendedPropertyContainer container)
+        {
+            var property = container.ExtendedProperties.GetOrAddCollectionProperty(this);
+
+            return property;
+        }
+
+        public void SetInheritanceMode(IExtendedPropertyContainer container, CollectionInheritanceMode inheritanceMode)
+        {
+            var property = container.ExtendedProperties.GetOrAddCollectionProperty(this);
+            property.InheritanceMode = inheritanceMode;
+        }
+    }
+    
+        public class ExtendedProperty<T> : NotifyPropertyChangedObject, IExtendedProperty<T>
+    {
+        IExtendedPropertyDefinition _propertyDefinition;
+        public IExtendedPropertyDefinition PropertyDefinition
+        {
+            get { return _propertyDefinition; }
+            private set { _propertyDefinition = value; }
+        }
+
+        public IExtendedPropertyCollection Owner { get; private set; }
+
+        bool _isValueSet = false;
+        /// <summary>
+        /// True if a value of this property is set.
+        /// False if value is not set, in which case inherited value will be used (or a default value if inherited value is not set)
+        /// </summary>
+        public bool IsValueSet
+        {
+            get { return _isValueSet; }
+            set 
+            {
+                if(TrySetThisPropertyValue(ref _isValueSet, value))
+                {
+                    RaisePropertyChanged(() => ActualValue);
+                }
+            }
+        }
+
+        T _value;
+        public T Value
+        {
+            get { return _value; }
+            set
+            {
+                TrySetThisPropertyValue(ref _value, value);
+                
+                IsValueSet = true;
+            }
+        }
+
+        public T ActualValue
+        {
+            get
+            {
+                return GetActualValue();
+            }
+        }
+
+        protected virtual T GetActualValue()
+        {
+            if (IsValueSet)
+            {
+                return Value;
+            }
+            else
+            {
+                object inheritedValue = null;
+                if (Owner.TryGetInheritedPropertyValue(PropertyDefinition, out inheritedValue))
+                {
+                    return (T)inheritedValue;
+                }
+                else
+                {
+                    return GetDefaultValue();
+                }
+            }
+        }
+
+        protected Func<T> GetDefaultValue { get; private set; }
+
+        public ExtendedProperty(IExtendedPropertyCollection owner, IExtendedPropertyDefinition propertyDefinition, Func<T> getDefaultValue)
+        {
+            this.Owner = owner;
+            this.PropertyDefinition = propertyDefinition;
+            this.Value = getDefaultValue();
+            // using default value, do not mark Value as set.
+            this.IsValueSet = false;
+            this.GetDefaultValue = getDefaultValue;
+        }
+
+
+        object IExtendedProperty.Value
+        {
+            get { return this.Value; }
+            set { this.Value = (T)value; }
+        }
+
+        object IExtendedProperty.ActualValue
+        {
+            get { return this.ActualValue; }
+        }
+    }
+    
+    public class ExtendedPropertyCollection : IExtendedPropertyCollection
+    {
+        readonly Dictionary<ExtendedPropertyUniqueIdentifier, IExtendedProperty> Properties 
+            = new Dictionary<ExtendedPropertyUniqueIdentifier, IExtendedProperty>();
+
+        public IExtendedPropertyContainer Owner { get; private set; }
+
+        public bool TryGetActualPropertyValue(IExtendedPropertyDefinition propertyDefinition, out object value)
+        {
+            var prop = (IExtendedProperty)null;
+
+            if (Properties.TryGetValue(propertyDefinition.Id, out prop))
+            {
+                value = prop.ActualValue;
+                return true;
+            }
+            else
+            {
+                value = null;
+                return false;
+            }
+        }
+
+        public bool TryGetInheritedPropertyValue(IExtendedPropertyDefinition propertyDefinition, out object inheritedValue)
+        {
+            if (Owner.TryGetInheritedPropertyValue(propertyDefinition, out inheritedValue))
+                return true;
+            else
+                return false;
+        }
+
+        public ExtendedPropertyCollection(IExtendedPropertyContainer owner)
+        {
+            this.Owner = owner;
+        }
+
+        //public IExtendedProperty<T> RegisterProperty<T>(string uniqueName)
+        //{
+        //    var p = new ExtendedProperty<T>(this, uniqueName, () => default(T));
+        //    Properties.Add(uniqueName, p);
+        //    return p;
+        //}
+
+        //public IExtendedProperty<T> RegisterProperty<T>(string uniqueName, Func<T> getDefaultValue)
+        //{
+        //    var p = new ExtendedProperty<T>(this, uniqueName, getDefaultValue);
+        //    Properties.Add(uniqueName, p);
+        //    return p;
+        //}
+
+        //public CollectionExtendedProperty<TItem> RegisterCollectionProperty<TItem>(string uniqueName, Func<Collection<TItem>> getDefaultValue)
+        //{
+        //    var p = new CollectionExtendedProperty<TItem>(this, uniqueName, getDefaultValue);
+        //    Properties.Add(uniqueName, p);
+        //    return p;
+        //}
+
+
+        public IExtendedProperty this[ExtendedPropertyUniqueIdentifier propertyId]
+        {
+            get 
+            {
+                var prop = (IExtendedProperty) null;
+                
+                if(Properties.TryGetValue(propertyId, out prop))
+                {
+                    return prop;
+                }
+                else
+                {
+                    throw new ArgumentException("Property with id '{0}' does not exist.".FormatWith(propertyId));
+                }
+            }
+        }
+
+        public IExtendedProperty this[string propertyFullName]
+        {
+            get
+            {
+                var propertyId = new ExtendedPropertyUniqueIdentifier(propertyFullName);
+
+                var prop = (IExtendedProperty)null;
+
+                if (Properties.TryGetValue(propertyId, out prop))
+                {
+                    return prop;
+                }
+                else
+                {
+                    throw new ArgumentException("Property with id '{0}' does not exist.".FormatWith(propertyId));
+                }
+            }
+        }
+
+
+        public IExtendedProperty GetOrAddProperty<T>(IExtendedPropertyDefinition<T> propertyDefinition)
+        {
+            var property = (IExtendedProperty)null;
+
+            if(Properties.TryGetValue(propertyDefinition.Id, out property))
+            {
+                return property;
+            }
+            else
+            {
+                property = new ExtendedProperty<T>(this, propertyDefinition, propertyDefinition.GetDefaultValue);
+                Properties.Add(propertyDefinition.Id, property);
+                return property;
+            }
+        }
+
+
+        public ICollectionExtendedProperty GetOrAddCollectionProperty<T>(ExtendedCollectionPropertyDefinition<T> propertyDefinition)
+        {
+            var property = (IExtendedProperty)null;
+
+            if (Properties.TryGetValue(propertyDefinition.Id, out property))
+            {
+                return (ICollectionExtendedProperty)property;
+            }
+            else
+            {
+                property = new CollectionExtendedProperty<T>(this, propertyDefinition, propertyDefinition.GetDefaultValue);
+                Properties.Add(propertyDefinition.Id, property);
+                return (ICollectionExtendedProperty)property;
+            }
+        }
+    }
+    
+    
+        public abstract class ExtendedPropertyContainer : IExtendedPropertyContainer
+    {
+        public IExtendedPropertyContainer Parent { get; set; }
+
+        IExtendedPropertyCollection _extendedProperties;
+        public IExtendedPropertyCollection ExtendedProperties
+        {
+            get { return _extendedProperties; }
+        }
+
+        public virtual bool TryGetInheritedPropertyValue(IExtendedPropertyDefinition propertyDefinition, out object inheritedValue)
+        {
+            if (Parent == null)
+            {
+                inheritedValue = null;
+                return false;
+            }
+            else
+            {
+                if (Parent.TryGetActualPropertyValue(propertyDefinition, out inheritedValue))
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        public virtual bool TryGetActualPropertyValue(IExtendedPropertyDefinition propertyDefinition, out object actualValue)
+        {
+            propertyDefinition.EnsurePropertyRegisteredWithContainer(this);
+
+            return ExtendedProperties.TryGetActualPropertyValue(propertyDefinition, out actualValue);
+        }
+
+        public ExtendedPropertyContainer()
+        {
+            _extendedProperties = new ExtendedPropertyCollection(this);
+        }
+    }
+    
+    public class ExtendedPropertyDefinition<T> : IExtendedPropertyDefinition<T>
+    {
+        public ExtendedPropertyUniqueIdentifier Id { get; private set; }
+        public Func<T> GetDefaultValue { get; private set; }
+
+        public ExtendedPropertyDefinition(string ownerUniqueName, string propertyName, Func<T> getDefaultValue)
+        {
+            this.Id = new ExtendedPropertyUniqueIdentifier(ownerUniqueName, propertyName);
+            this.GetDefaultValue = getDefaultValue;
+        }
+
+        public T GetActualValue(IExtendedPropertyContainer container)
+        {
+            var result = (object)null;
+
+            container.ExtendedProperties.GetOrAddProperty(this);
+            
+            container.TryGetActualPropertyValue(this, out result);
+
+            return (T)result;
+
+        }
+
+        public void SetValue(IExtendedPropertyContainer container, object value)
+        {
+            container.ExtendedProperties.GetOrAddProperty(this).Value = value;
+        }
+
+        public void UnsetValue(IExtendedPropertyContainer container)
+        {
+            container.ExtendedProperties.GetOrAddProperty(this).IsValueSet = false;
+        }
+
+        public void SetValue(IExtendedPropertyContainer container)
+        {
+            container.ExtendedProperties.GetOrAddProperty(this).IsValueSet = true;
+        }
+
+
+        public bool GetIsValueSet(IExtendedPropertyContainer container)
+        {
+            EnsurePropertyRegisteredWithContainer(container);
+
+            return container.ExtendedProperties.GetOrAddProperty(this).IsValueSet;
+        }
+
+        public IExtendedProperty EnsurePropertyRegisteredWithContainer(IExtendedPropertyContainer container)
+        {
+            var property = container.ExtendedProperties.GetOrAddProperty(this);
+
+            return property;
+        }
+    }
+    
+    public class ExtendedPropertyUniqueIdentifier : IEquatable<ExtendedPropertyUniqueIdentifier>
+    {
+        private string propertyFullName;
+
+        public string OwnerUniqueName { get; private set; }
+        public string PropertyUniqueName { get; private set; }
+
+        public ExtendedPropertyUniqueIdentifier(string ownerUniqueName, string propertyUniqueName)
+        {
+            if (ownerUniqueName.IsNullOrEmpty())
+            {
+                var ex = new ArgumentException("ownerUniqueName");
+                ex.TryAddContextData("ownerUnqiueName", () => ownerUniqueName);
+                throw ex;
+            }
+
+            if (propertyUniqueName.IsNullOrEmpty())
+            {
+                var ex = new ArgumentException("propertyUniqueName");
+                ex.TryAddContextData("propertyUniqueName", () => propertyUniqueName);
+                throw ex;
+            }
+
+            this.OwnerUniqueName = ownerUniqueName;
+            this.PropertyUniqueName = propertyUniqueName;
+        }
+
+        public ExtendedPropertyUniqueIdentifier(string propertyFullName)
+        {
+            var parts = propertyFullName.Split('.', StringSplitOptions.RemoveEmptyEntries);
+
+            if (parts.Length != 2)
+            {
+                var ex = new ArgumentException("propertyFullName");
+                ex.TryAddContextData("propertyFullName", () => propertyFullName);
+                throw ex;
+            }
+
+            this.propertyFullName = propertyFullName;
+        }
+
+        public override int GetHashCode()
+        {
+            return OwnerUniqueName.GetHashCode() ^ PropertyUniqueName.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ExtendedPropertyUniqueIdentifier);
+        }
+
+        public bool Equals(ExtendedPropertyUniqueIdentifier other)
+        {
+            if (other == null)
+                return false;
+
+            return
+                string.Equals(OwnerUniqueName, other.OwnerUniqueName)
+                &&
+                string.Equals(PropertyUniqueName, other.PropertyUniqueName);
+        }
+
+        public override string ToString()
+        {
+            return "{0}.{1}".FormatWith(OwnerUniqueName, PropertyUniqueName);
+        }
+    }
+    
+     public interface ICollectionExtendedProperty : IExtendedProperty
+    {
+        CollectionInheritanceMode InheritanceMode { get; set; }
+    }
+     public interface IExtendedProperty
+    {
+        IExtendedPropertyDefinition PropertyDefinition { get; }
+        bool IsValueSet { get; set; }
+        object Value { get; set; }
+        object ActualValue { get; }
+
+    }
+
+    public interface IExtendedProperty<T> : IExtendedProperty
+    {
+        new T Value { get; set; }
+        new T ActualValue { get; }
+    }
+        public interface IExtendedPropertyCollection
+    {
+        /// <summary>
+        /// Gets value of a property from inheritance tree.
+        /// This collection will not be checked for the property, only property containers above in inheritance tree will.
+        /// </summary>
+        /// <param name="uniqueName"></param>
+        /// <param name="inheritedValue"></param>
+        /// <returns></returns>
+        bool TryGetInheritedPropertyValue(IExtendedPropertyDefinition propertyDefinition, out object inheritedValue);
+
+        /// <summary>
+        /// Gets the actual value of requested property.
+        /// If property exists in this collection and its value is set, then that value will be returned.
+        /// If property does not exist in this collection or exists but its value is not set, then inheritace tree will be walked up until a value is found.
+        /// </summary>
+        /// <param name="uniqueName"></param>
+        /// <param name="value"></param>
+        /// <returns>True if property with set value could be found, false otherwise.</returns>
+        bool TryGetActualPropertyValue(IExtendedPropertyDefinition propertyDefinition, out object actualValue);
+
+        //IExtendedProperty<T> RegisterProperty<T>(string uniqueName);
+        //IExtendedProperty<T> RegisterProperty<T>(string uniqueName, Func<T> getDefaultValue);
+
+        //CollectionExtendedProperty<TItem> RegisterCollectionProperty<TItem>(string uniqueName, Func<Collection<TItem>> getDefaultValue);
+
+        IExtendedProperty this[ExtendedPropertyUniqueIdentifier propertyId] { get; }
+        IExtendedProperty this[string propertyFullName] { get; }
+
+        IExtendedProperty GetOrAddProperty<T>(IExtendedPropertyDefinition<T> propertyDefinition);
+
+        ICollectionExtendedProperty GetOrAddCollectionProperty<T>(ExtendedCollectionPropertyDefinition<T> extendedCollectionPropertyDefinition);
+    }
+    
+    public interface IExtendedPropertyContainer
+    {
+        IExtendedPropertyContainer Parent { get; set; }
+
+        IExtendedPropertyCollection ExtendedProperties { get; }
+
+        /// <summary>
+        /// Gets value of a property from inheritance tree.
+        /// This container and its children will not be checked for the property, only property containers above in inheritance tree will.
+        /// </summary>
+        /// <param name="uniqueName"></param>
+        /// <param name="inheritedValue"></param>
+        /// <returns></returns>
+        bool TryGetInheritedPropertyValue(IExtendedPropertyDefinition propertyDefinition, out object inheritedValue);
+
+        /// <summary>
+        /// Gets the actual value of requested property.
+        /// If property exists in this container and its value is set, then that value will be returned.
+        /// If property does not exist in this container or exists but its value is not set, then inheritace tree will be walked up until a value is found.
+        /// </summary>
+        /// <param name="uniqueName"></param>
+        /// <param name="value"></param>
+        /// <returns>True if property with set value could be found, false otherwise.</returns>
+        bool TryGetActualPropertyValue(IExtendedPropertyDefinition propertyDefinition, out object result);
+    }
+    
+     public interface IExtendedPropertyDefinition
+    {
+        ExtendedPropertyUniqueIdentifier Id { get; }
+        
+        void SetValue(IExtendedPropertyContainer container, object value);
+
+        void UnsetValue(IExtendedPropertyContainer container);
+
+        void SetValue(IExtendedPropertyContainer container);
+
+        bool GetIsValueSet(IExtendedPropertyContainer container);
+
+        IExtendedProperty EnsurePropertyRegisteredWithContainer(IExtendedPropertyContainer container);
+    }
+
+    public interface IExtendedPropertyDefinition<T> : IExtendedPropertyDefinition
+    {
+        Func<T> GetDefaultValue { get; }
+
+        T GetActualValue(IExtendedPropertyContainer container);
+    }
+
+    public interface IExtendedCollectionPropertyDefinition<TItem> : IExtendedPropertyDefinition
+    {
+        Func<IList<TItem>> GetDefaultValue { get; }
+        IList<TItem> GetActualValue(IExtendedPropertyContainer container);
+    }
+    
+    
+    
+    
+    
+    
+    
