@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.PropertySystem
 {
-    public abstract class ExtendedPropertyContainer : IExtendedPropertyContainer
+    public abstract class ExtendedPropertyContainer : NotifyPropertyChangedObject, IExtendedPropertyContainer
     {
         public IExtendedPropertyContainer Parent { get; set; }
 
@@ -16,7 +16,7 @@ namespace SquaredInfinity.Foundation.PropertySystem
             get { return _extendedProperties; }
         }
 
-        public virtual bool TryGetInheritedPropertyValue(string uniqueName, out object inheritedValue)
+        public virtual bool TryGetInheritedPropertyValue(IExtendedPropertyDefinition propertyDefinition, out object inheritedValue)
         {
             if (Parent == null)
             {
@@ -25,7 +25,7 @@ namespace SquaredInfinity.Foundation.PropertySystem
             }
             else
             {
-                if (Parent.TryGetActualPropertyValue(uniqueName, out inheritedValue))
+                if (Parent.TryGetActualPropertyValue(propertyDefinition, out inheritedValue))
                 {
                     return true;
                 }
@@ -34,9 +34,11 @@ namespace SquaredInfinity.Foundation.PropertySystem
             }
         }
 
-        public virtual bool TryGetActualPropertyValue(string uniqueName, out object actualValue)
+        public virtual bool TryGetActualPropertyValue(IExtendedPropertyDefinition propertyDefinition, out object actualValue)
         {
-            return ExtendedProperties.TryGetActualPropertyValue(uniqueName, out actualValue);
+            propertyDefinition.EnsurePropertyRegisteredWithContainer(this);
+
+            return ExtendedProperties.TryGetActualPropertyValue(propertyDefinition, out actualValue);
         }
 
         public ExtendedPropertyContainer()

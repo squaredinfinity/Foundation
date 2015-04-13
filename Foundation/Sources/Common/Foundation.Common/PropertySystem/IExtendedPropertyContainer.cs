@@ -19,7 +19,7 @@ namespace SquaredInfinity.Foundation.PropertySystem
         /// <param name="uniqueName"></param>
         /// <param name="inheritedValue"></param>
         /// <returns></returns>
-        bool TryGetInheritedPropertyValue(string uniqueName, out object inheritedValue);
+        bool TryGetInheritedPropertyValue(IExtendedPropertyDefinition propertyDefinition, out object inheritedValue);
 
         /// <summary>
         /// Gets the actual value of requested property.
@@ -29,7 +29,7 @@ namespace SquaredInfinity.Foundation.PropertySystem
         /// <param name="uniqueName"></param>
         /// <param name="value"></param>
         /// <returns>True if property with set value could be found, false otherwise.</returns>
-        bool TryGetActualPropertyValue(string uniqueName, out object actualValue);
+        bool TryGetActualPropertyValue(IExtendedPropertyDefinition propertyDefinition, out object result);
     }
 
 }

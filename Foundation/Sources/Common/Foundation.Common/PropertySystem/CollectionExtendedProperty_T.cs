@@ -8,7 +8,7 @@ using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.PropertySystem
 {
-    public class CollectionExtendedProperty<TItem> : ExtendedProperty<Collection<TItem>>
+    public class CollectionExtendedProperty<TItem> : ExtendedProperty<IList<TItem>>, ICollectionExtendedProperty
     {
         CollectionInheritanceMode _inheritanceMode = CollectionInheritanceMode.Merge;
         public CollectionInheritanceMode InheritanceMode
@@ -17,17 +17,17 @@ namespace SquaredInfinity.Foundation.PropertySystem
             set { _inheritanceMode = value; }
         }
 
-        public CollectionExtendedProperty(IExtendedPropertyCollection owner, string uniqueName, Func<Collection<TItem>> getDefaultValue)
-            : this(owner, uniqueName, getDefaultValue, CollectionInheritanceMode.Merge)
+        public CollectionExtendedProperty(IExtendedPropertyCollection owner, IExtendedPropertyDefinition propertyDefinition, Func<IList<TItem>> getDefaultValue)
+            : this(owner, propertyDefinition, getDefaultValue, CollectionInheritanceMode.Merge)
         { }
 
-        public CollectionExtendedProperty(IExtendedPropertyCollection owner, string uniqueName, Func<Collection<TItem>> getDefaultValue, CollectionInheritanceMode inheritanceMode)
-            : base(owner, uniqueName, getDefaultValue)
+        public CollectionExtendedProperty(IExtendedPropertyCollection owner, IExtendedPropertyDefinition propertyDefinition, Func<IList<TItem>> getDefaultValue, CollectionInheritanceMode inheritanceMode)
+            : base(owner, propertyDefinition, getDefaultValue)
         {
             this.InheritanceMode = inheritanceMode;
         }
 
-        protected override Collection<TItem> GetActualValue()
+        protected override IList<TItem> GetActualValue()
         {
             if (IsValueSet)
             {
@@ -36,7 +36,7 @@ namespace SquaredInfinity.Foundation.PropertySystem
                 else
                 {
                     object inheritedValue = null;
-                    if (Owner.TryGetInheritedPropertyValue(UniqueName, out inheritedValue))
+                    if (Owner.TryGetInheritedPropertyValue(PropertyDefinition, out inheritedValue))
                     {
                         if (Value == null)
                         {
@@ -57,11 +57,13 @@ namespace SquaredInfinity.Foundation.PropertySystem
                             }
                             else
                             {
-                                var result = new Collection<TItem>();
+                                var result = (IList<TItem>)null;
 
-                                result.AddRange((IEnumerable<TItem>)inheritedValue);
+                                var temp_result = new List<TItem>();
+                                temp_result.AddRange((IEnumerable<TItem>)inheritedValue);
+                                temp_result.AddRange((IEnumerable<TItem>)Value);
 
-                                result.AddRange((IEnumerable<TItem>)Value);
+                                result = new ReadOnlyCollection<TItem>(temp_result);
 
                                 return result;
                             }
@@ -76,7 +78,7 @@ namespace SquaredInfinity.Foundation.PropertySystem
             else
             {
                 object inheritedValue = null;
-                if (Owner.TryGetInheritedPropertyValue(UniqueName, out inheritedValue))
+                if (Owner.TryGetInheritedPropertyValue(PropertyDefinition, out inheritedValue))
                 {
                     return (Collection<TItem>)inheritedValue;
                 }

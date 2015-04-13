@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.PropertySystem
 {
-    public interface IExtendedProperty<T> : IExtendedProperty
+    public interface ICollectionExtendedProperty : IExtendedProperty
     {
-        new T Value { get; set; }
-        new T ActualValue { get; }
+        CollectionInheritanceMode InheritanceMode { get; set; }
     }
-    
-
 }

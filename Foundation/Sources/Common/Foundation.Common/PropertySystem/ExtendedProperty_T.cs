@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.PropertySystem
 {
+
     public class ExtendedProperty<T> : NotifyPropertyChangedObject, IExtendedProperty<T>
     {
-        string _uniqueName;
-        public string UniqueName
+        IExtendedPropertyDefinition _propertyDefinition;
+        public IExtendedPropertyDefinition PropertyDefinition
         {
-            get { return _uniqueName; }
-            private set { _uniqueName = value; }
+            get { return _propertyDefinition; }
+            private set { _propertyDefinition = value; }
         }
 
         public IExtendedPropertyCollection Owner { get; private set; }
@@ -63,7 +64,7 @@ namespace SquaredInfinity.Foundation.PropertySystem
             else
             {
                 object inheritedValue = null;
-                if (Owner.TryGetInheritedPropertyValue(UniqueName, out inheritedValue))
+                if (Owner.TryGetInheritedPropertyValue(PropertyDefinition, out inheritedValue))
                 {
                     return (T)inheritedValue;
                 }
@@ -76,10 +77,10 @@ namespace SquaredInfinity.Foundation.PropertySystem
 
         protected Func<T> GetDefaultValue { get; private set; }
 
-        public ExtendedProperty(IExtendedPropertyCollection owner, string uniqueName, Func<T> getDefaultValue)
+        public ExtendedProperty(IExtendedPropertyCollection owner, IExtendedPropertyDefinition propertyDefinition, Func<T> getDefaultValue)
         {
             this.Owner = owner;
-            this.UniqueName = uniqueName;
+            this.PropertyDefinition = propertyDefinition;
             this.Value = getDefaultValue();
             // using default value, do not mark Value as set.
             this.IsValueSet = false;

@@ -419,14 +419,29 @@
     <Compile Include="..\..\Common\Foundation.Common\PropertySystem\CollectionInheritanceMode.cs">
       <Link>PropertySystem\CollectionInheritanceMode.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\PropertySystem\ExtendedCollectionPropertyDefinition.cs">
+      <Link>PropertySystem\ExtendedCollectionPropertyDefinition.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\PropertySystem\ExtendedPropertyCollection.cs">
       <Link>PropertySystem\ExtendedPropertyCollection.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\PropertySystem\ExtendedPropertyContainer.cs">
       <Link>PropertySystem\ExtendedPropertyContainer.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\PropertySystem\ExtendedPropertyDefinition.cs">
+      <Link>PropertySystem\ExtendedPropertyDefinition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\PropertySystem\ExtendedPropertyUniqueIdentifier.cs">
+      <Link>PropertySystem\ExtendedPropertyUniqueIdentifier.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\PropertySystem\ExtendedProperty_T.cs">
       <Link>PropertySystem\ExtendedProperty_T.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\PropertySystem\ICollectionExtendedProperty.cs">
+      <Link>PropertySystem\ICollectionExtendedProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\PropertySystem\IExtendedCollectionPropertyDefinition_T.cs">
+      <Link>PropertySystem\IExtendedCollectionPropertyDefinition_T.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\PropertySystem\IExtendedProperty.cs">
       <Link>PropertySystem\IExtendedProperty.cs</Link>
@@ -436,6 +451,12 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\PropertySystem\IExtendedPropertyContainer.cs">
       <Link>PropertySystem\IExtendedPropertyContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\PropertySystem\IExtendedPropertyDefinition.cs">
+      <Link>PropertySystem\IExtendedPropertyDefinition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\PropertySystem\IExtendedPropertyDefinition_T.cs">
+      <Link>PropertySystem\IExtendedPropertyDefinition_T.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\PropertySystem\IExtendedProperty_T.cs">
       <Link>PropertySystem\IExtendedProperty_T.cs</Link>

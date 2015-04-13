@@ -7,21 +7,35 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.PropertySystem._Entities
 {
-    public class TestPropertyContainer : ExtendedPropertyContainer
+    public class TestContainer : ExtendedPropertyContainer
     {
         public string Name { get; set; }
 
-        public IExtendedProperty<string> ToolTip { get; private set; }
+        public static readonly IExtendedPropertyDefinition<int> CountProperty =
+            new ExtendedPropertyDefinition<int>(
+                "TestContainer",
+                "Count",
+                () => 69);
 
-        public IExtendedProperty<int> Count { get; private set; }
-
-        public CollectionExtendedProperty<int> Items { get; private set; }
-
-        public TestPropertyContainer()
+        public int Count
         {
-            ToolTip = ExtendedProperties.RegisterProperty<string>("ToolTip", () => "[UNSET]");
-            Count = ExtendedProperties.RegisterProperty<int>("Count", () => 69);
-            Items = ExtendedProperties.RegisterCollectionProperty("Items", () => new Collection<int>());
+            get { return CountProperty.GetActualValue(this); }
+            set { CountProperty.SetValue(this, value); }
         }
+
+        public static readonly ExtendedCollectionPropertyDefinition<int> ItemsProperty =
+            new ExtendedCollectionPropertyDefinition<int>(
+                "TestContainer",
+                "Items",
+                () => new Collection<int> { 1, 2, 3 });
+
+        public IList<int> Items
+        {
+            get { return ItemsProperty.GetActualValue(this); }
+            //private set {  ItemsProperty.SetValue}
+        }
+
+        public TestContainer()
+        { }
     }
 }

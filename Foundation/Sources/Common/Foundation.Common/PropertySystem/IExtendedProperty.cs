@@ -8,7 +8,7 @@ namespace SquaredInfinity.Foundation.PropertySystem
 {
     public interface IExtendedProperty
     {
-        string UniqueName { get; }
+        IExtendedPropertyDefinition PropertyDefinition { get; }
         bool IsValueSet { get; set; }
         object Value { get; set; }
         object ActualValue { get; }

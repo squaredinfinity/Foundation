@@ -16,7 +16,7 @@ namespace SquaredInfinity.Foundation.PropertySystem
         /// <param name="uniqueName"></param>
         /// <param name="inheritedValue"></param>
         /// <returns></returns>
-        bool TryGetInheritedPropertyValue(string uniqueName, out object inheritedValue);
+        bool TryGetInheritedPropertyValue(IExtendedPropertyDefinition propertyDefinition, out object inheritedValue);
 
         /// <summary>
         /// Gets the actual value of requested property.
@@ -26,15 +26,19 @@ namespace SquaredInfinity.Foundation.PropertySystem
         /// <param name="uniqueName"></param>
         /// <param name="value"></param>
         /// <returns>True if property with set value could be found, false otherwise.</returns>
-        bool TryGetActualPropertyValue(string uniqueName, out object value);
+        bool TryGetActualPropertyValue(IExtendedPropertyDefinition propertyDefinition, out object actualValue);
 
-        IExtendedProperty<T> RegisterProperty<T>(string uniqueName);
-        IExtendedProperty<T> RegisterProperty<T>(string uniqueName, Func<T> getDefaultValue);
+        //IExtendedProperty<T> RegisterProperty<T>(string uniqueName);
+        //IExtendedProperty<T> RegisterProperty<T>(string uniqueName, Func<T> getDefaultValue);
 
+        //CollectionExtendedProperty<TItem> RegisterCollectionProperty<TItem>(string uniqueName, Func<Collection<TItem>> getDefaultValue);
 
-        CollectionExtendedProperty<TItem> RegisterCollectionProperty<TItem>(string uniqueName, Func<Collection<TItem>> getDefaultValue);
+        IExtendedProperty this[ExtendedPropertyUniqueIdentifier propertyId] { get; }
+        IExtendedProperty this[string propertyFullName] { get; }
 
-        IExtendedProperty this[string uniqueName] { get; }
+        IExtendedProperty GetOrAddProperty<T>(IExtendedPropertyDefinition<T> propertyDefinition);
+
+        ICollectionExtendedProperty GetOrAddCollectionProperty<T>(ExtendedCollectionPropertyDefinition<T> extendedCollectionPropertyDefinition);
     }
 
 }
