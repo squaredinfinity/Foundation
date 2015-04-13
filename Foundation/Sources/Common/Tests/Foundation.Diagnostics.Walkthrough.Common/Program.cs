@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.ContextDataCollectors;
+using SquaredInfinity.Foundation.ContextDataCollectors;
 using SquaredInfinity.Foundation.Diagnostics;
 using SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors;
 using SquaredInfinity.Foundation.Diagnostics.Filters;
@@ -142,6 +142,7 @@ namespace Foundation.Diagnostics.Walkthrough.Common
             config.AdditionalContextDataCollectors.Add(edc_application_lifecycle);
 
             var fileSink = new FileSink();
+            fileSink.Name = "default.file";
             fileSink.FileNamePattern = "log.txt";
             fileSink.FileLocationPattern = @"{AppDomain.CurrentDomain.BaseDirectory}\Logs\";
             fileSink.Formatter = new PatternFormatter() { Pattern = 
@@ -169,8 +170,7 @@ namespace Foundation.Diagnostics.Walkthrough.Common
 
             serializer.GetOrCreateTypeSerializationStrategy<Filter>()
                 .IgnoreAllMembers()
-                .SerializeMember(x => x.Name, x => x.Name != null)
-                .SerializeMember(x => x.Mode, x => x.Mode != null);
+                .SerializeMember(x => x.Name, x => x.Name != null);
 
             serializer.GetOrCreateTypeSerializationStrategy<LoggerNameFilter>()
                 .IgnoreAllMembers()
@@ -186,19 +186,16 @@ namespace Foundation.Diagnostics.Walkthrough.Common
             serializer.GetOrCreateTypeSerializationStrategy<SeverityFilter>()
                 .IgnoreAllMembers()
                 .CopySerializationSetupFromBaseClass()
-                //.SerializeMemberAsAttribute(x => x.Severity, x => x.Severity != null, (x, y) => x.Severity.ToString(), )
-                //.SerializeMember(x => x.Severity, x => x.Severity != null) // todo SerializeMember as specific value, read back
-                
                 .SerializeMemberAsAttribute(x => x.Severity, x => x.Severity != null, (x, y) => y.ToString(), s => KnownSeverityLevels.Parse(s.Value))
-                .SerializeMember(x => x.To, x => x.To != null)
-                .SerializeMember(x => x.From, x => x.From != null)
-                .SerializeMember(x => x.ExclusiveTo, x => x.ExclusiveTo != null)
-                .SerializeMember(x => x.ExclusiveFrom, x => x.ExclusiveFrom != null);
+                .SerializeMemberAsAttribute(x => x.To, x => x.To != null, (x, y) => y.ToString(), s => KnownSeverityLevels.Parse(s.Value))
+                .SerializeMemberAsAttribute(x => x.From, x => x.From != null, (x, y) => y.ToString(), s => KnownSeverityLevels.Parse(s.Value))
+                .SerializeMemberAsAttribute(x => x.ExclusiveTo, x => x.ExclusiveTo != null, (x, y) => y.ToString(), s => KnownSeverityLevels.Parse(s.Value))
+                .SerializeMemberAsAttribute(x => x.ExclusiveFrom, x => x.ExclusiveFrom != null, (x, y) => y.ToString(), s => KnownSeverityLevels.Parse(s.Value));
 
 
             var so = new SerializationOptions();
             so.SerializeNonPublicTypes = false;
-            so.TypeInformation = TypeInformation.LookupOnly;
+            so.TypeInformation = TypeInformation.None;
 
 
 
