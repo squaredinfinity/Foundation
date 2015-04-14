@@ -14,7 +14,7 @@ namespace SquaredInfinity.Foundation.PropertySystem
             = new Dictionary<ExtendedPropertyUniqueIdentifier, IExtendedProperty>();
 
         public IExtendedPropertyContainer Owner { get; private set; }
-
+        
         public bool TryGetActualPropertyValue(IExtendedPropertyDefinition propertyDefinition, out object value)
         {
             var prop = (IExtendedProperty)null;
@@ -43,28 +43,6 @@ namespace SquaredInfinity.Foundation.PropertySystem
         {
             this.Owner = owner;
         }
-
-        //public IExtendedProperty<T> RegisterProperty<T>(string uniqueName)
-        //{
-        //    var p = new ExtendedProperty<T>(this, uniqueName, () => default(T));
-        //    Properties.Add(uniqueName, p);
-        //    return p;
-        //}
-
-        //public IExtendedProperty<T> RegisterProperty<T>(string uniqueName, Func<T> getDefaultValue)
-        //{
-        //    var p = new ExtendedProperty<T>(this, uniqueName, getDefaultValue);
-        //    Properties.Add(uniqueName, p);
-        //    return p;
-        //}
-
-        //public CollectionExtendedProperty<TItem> RegisterCollectionProperty<TItem>(string uniqueName, Func<Collection<TItem>> getDefaultValue)
-        //{
-        //    var p = new CollectionExtendedProperty<TItem>(this, uniqueName, getDefaultValue);
-        //    Properties.Add(uniqueName, p);
-        //    return p;
-        //}
-
 
         public IExtendedProperty this[ExtendedPropertyUniqueIdentifier propertyId]
         {
@@ -113,7 +91,7 @@ namespace SquaredInfinity.Foundation.PropertySystem
             }
             else
             {
-                property = new ExtendedProperty<T>(this, propertyDefinition, propertyDefinition.GetDefaultValue);
+                property = new ExtendedProperty<T>(this, propertyDefinition, propertyDefinition.GetDefaultValue, propertyDefinition.CanValueBeInherited);
                 Properties.Add(propertyDefinition.Id, property);
                 return property;
             }
@@ -130,7 +108,7 @@ namespace SquaredInfinity.Foundation.PropertySystem
             }
             else
             {
-                property = new CollectionExtendedProperty<T>(this, propertyDefinition, propertyDefinition.GetDefaultValue);
+                property = new CollectionExtendedProperty<T>(this, propertyDefinition, propertyDefinition.GetDefaultValue, propertyDefinition.CanValueBeInherited);
                 Properties.Add(propertyDefinition.Id, property);
                 return (ICollectionExtendedProperty)property;
             }

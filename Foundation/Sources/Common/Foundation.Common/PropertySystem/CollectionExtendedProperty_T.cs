@@ -17,12 +17,12 @@ namespace SquaredInfinity.Foundation.PropertySystem
             set { _inheritanceMode = value; }
         }
 
-        public CollectionExtendedProperty(IExtendedPropertyCollection owner, IExtendedPropertyDefinition propertyDefinition, Func<IList<TItem>> getDefaultValue)
-            : this(owner, propertyDefinition, getDefaultValue, CollectionInheritanceMode.Merge)
+        public CollectionExtendedProperty(IExtendedPropertyCollection owner, IExtendedPropertyDefinition propertyDefinition, Func<IList<TItem>> getDefaultValue, bool canValueBeInherited)
+            : this(owner, propertyDefinition, getDefaultValue, CollectionInheritanceMode.Merge, canValueBeInherited)
         { }
 
-        public CollectionExtendedProperty(IExtendedPropertyCollection owner, IExtendedPropertyDefinition propertyDefinition, Func<IList<TItem>> getDefaultValue, CollectionInheritanceMode inheritanceMode)
-            : base(owner, propertyDefinition, getDefaultValue)
+        public CollectionExtendedProperty(IExtendedPropertyCollection owner, IExtendedPropertyDefinition propertyDefinition, Func<IList<TItem>> getDefaultValue, CollectionInheritanceMode inheritanceMode, bool canValueBeInherited)
+            : base(owner, propertyDefinition, getDefaultValue, canValueBeInherited)
         {
             this.InheritanceMode = inheritanceMode;
         }
@@ -31,7 +31,7 @@ namespace SquaredInfinity.Foundation.PropertySystem
         {
             if (IsValueSet)
             {
-                if (InheritanceMode == CollectionInheritanceMode.Replace)
+                if (InheritanceMode == CollectionInheritanceMode.Replace || !CanValueBeInherited)
                     return Value;
                 else
                 {
@@ -77,10 +77,17 @@ namespace SquaredInfinity.Foundation.PropertySystem
             }
             else
             {
-                object inheritedValue = null;
-                if (Owner.TryGetInheritedPropertyValue(PropertyDefinition, out inheritedValue))
+                if (CanValueBeInherited)
                 {
-                    return (Collection<TItem>)inheritedValue;
+                    object inheritedValue = null;
+                    if (Owner.TryGetInheritedPropertyValue(PropertyDefinition, out inheritedValue))
+                    {
+                        return (Collection<TItem>)inheritedValue;
+                    }
+                    else
+                    {
+                        return GetDefaultValue();
+                    }
                 }
                 else
                 {

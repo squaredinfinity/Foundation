@@ -63,10 +63,17 @@ namespace SquaredInfinity.Foundation.PropertySystem
             }
             else
             {
-                object inheritedValue = null;
-                if (Owner.TryGetInheritedPropertyValue(PropertyDefinition, out inheritedValue))
+                if (CanValueBeInherited)
                 {
-                    return (T)inheritedValue;
+                    object inheritedValue = null;
+                    if (Owner.TryGetInheritedPropertyValue(PropertyDefinition, out inheritedValue))
+                    {
+                        return (T)inheritedValue;
+                    }
+                    else
+                    {
+                        return GetDefaultValue();
+                    }
                 }
                 else
                 {
@@ -77,7 +84,9 @@ namespace SquaredInfinity.Foundation.PropertySystem
 
         protected Func<T> GetDefaultValue { get; private set; }
 
-        public ExtendedProperty(IExtendedPropertyCollection owner, IExtendedPropertyDefinition propertyDefinition, Func<T> getDefaultValue)
+        protected bool CanValueBeInherited { get; private set; }
+
+        internal ExtendedProperty(IExtendedPropertyCollection owner, IExtendedPropertyDefinition propertyDefinition, Func<T> getDefaultValue, bool canValueBeInherited)
         {
             this.Owner = owner;
             this.PropertyDefinition = propertyDefinition;
@@ -85,6 +94,7 @@ namespace SquaredInfinity.Foundation.PropertySystem
             // using default value, do not mark Value as set.
             this.IsValueSet = false;
             this.GetDefaultValue = getDefaultValue;
+            this.CanValueBeInherited = canValueBeInherited;
         }
 
 

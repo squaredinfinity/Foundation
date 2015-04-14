@@ -19,5 +19,7 @@ namespace SquaredInfinity.Foundation.PropertySystem
         bool GetIsValueSet(IExtendedPropertyContainer container);
 
         IExtendedProperty EnsurePropertyRegisteredWithContainer(IExtendedPropertyContainer container);
+
+        bool CanValueBeInherited { get; }
     }
 }

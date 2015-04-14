@@ -11,6 +11,8 @@ namespace SquaredInfinity.Foundation.PropertySystem
         public ExtendedPropertyUniqueIdentifier Id { get; private set; }
         public Func<T> GetDefaultValue { get; private set; }
 
+        public bool CanValueBeInherited { get; set; }
+
         public ExtendedPropertyDefinition(string ownerUniqueName, string propertyName, Func<T> getDefaultValue)
         {
             this.Id = new ExtendedPropertyUniqueIdentifier(ownerUniqueName, propertyName);

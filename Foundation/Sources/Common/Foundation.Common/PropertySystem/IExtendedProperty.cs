@@ -12,6 +12,5 @@ namespace SquaredInfinity.Foundation.PropertySystem
         bool IsValueSet { get; set; }
         object Value { get; set; }
         object ActualValue { get; }
-
     }
 }
