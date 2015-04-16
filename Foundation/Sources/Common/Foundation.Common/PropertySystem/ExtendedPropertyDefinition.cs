@@ -17,6 +17,8 @@ namespace SquaredInfinity.Foundation.PropertySystem
         {
             this.Id = new ExtendedPropertyUniqueIdentifier(ownerUniqueName, propertyName);
             this.GetDefaultValue = getDefaultValue;
+
+            CanValueBeInherited = true;
         }
 
         public T GetActualValue(IExtendedPropertyContainer container)

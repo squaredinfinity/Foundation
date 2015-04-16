@@ -8,6 +8,7 @@ namespace SquaredInfinity.Foundation.PropertySystem
 {
     public interface IExtendedProperty
     {
+        event EventHandler<EventArgs> AfterActualValueChanged;
         IExtendedPropertyDefinition PropertyDefinition { get; }
         bool IsValueSet { get; set; }
         object Value { get; set; }

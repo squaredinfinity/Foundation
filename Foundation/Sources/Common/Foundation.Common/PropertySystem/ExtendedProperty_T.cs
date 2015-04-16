@@ -18,6 +18,15 @@ namespace SquaredInfinity.Foundation.PropertySystem
 
         public IExtendedPropertyCollection Owner { get; private set; }
 
+        public event EventHandler<EventArgs> AfterActualValueChanged;
+        void RaiseAfterActualValueChanged()
+        {
+            if (AfterActualValueChanged != null)
+                AfterActualValueChanged(this, EventArgs.Empty);
+
+            RaisePropertyChanged(() => ActualValue);
+        }
+
         bool _isValueSet = false;
         /// <summary>
         /// True if a value of this property is set.
@@ -30,7 +39,7 @@ namespace SquaredInfinity.Foundation.PropertySystem
             {
                 if (TrySetThisPropertyValue(ref _isValueSet, value))
                 {
-                    RaisePropertyChanged(() => ActualValue);
+                    RaiseAfterActualValueChanged();
                 }
             }
         }
