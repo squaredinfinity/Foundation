@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace SquaredInfinity.Foundation.Serialization
 {
-    public interface IXmlSerializer
+    public interface IXmlSerializer : IFlexiSerializer
     {
         XElement Serialize(object obj);
         XElement Serialize(object obj, SerializationOptions options);
@@ -23,8 +23,5 @@ namespace SquaredInfinity.Foundation.Serialization
         T Deserialize<T>(XDocument xml);
 
         T Deserialize<T>(XElement xml);
-
-
-        ITypeSerializationStrategy GetTypeSerializationStrategy(Type type);
     }
 }

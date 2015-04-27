@@ -37,7 +37,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
     /// <summary>
     /// Serialization Context sotres state used by serializer during serialization.
     /// </summary>
-    public class SerializationContext : ISerializationContext
+    public class SerializationContext : ISerializationContext, IFlexiXmlSerializationContext
     {
         public TypeResolver TypeResolver { get; private set; }
 
@@ -134,7 +134,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 return nullEl;
             }
 
-            var strategy = GetTypeSerializationStrategy(instance.GetType());
+            var strategy = (IFlexiXmlTypeSerializationStrategy) GetTypeSerializationStrategy(instance.GetType());
 
             bool hasAlreadyBeenSerialized = false;
 
@@ -195,14 +195,14 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 }
             }
 
-            var strategy = GetTypeSerializationStrategy(targetType);
+            var strategy = (IFlexiXmlTypeSerializationStrategy) GetTypeSerializationStrategy(targetType);
 
             return strategy.Deserialize(xml, targetType, this);
         }
 
         public void Deserialize(XElement xml, object target)
         {
-            var strategy = GetTypeSerializationStrategy(target.GetType());
+            var strategy = (IFlexiXmlTypeSerializationStrategy) GetTypeSerializationStrategy(target.GetType());
 
             strategy.Deserialize(xml, target, this);
         }

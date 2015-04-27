@@ -15,41 +15,9 @@ using System.Collections;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
-    public partial class FlexiXmlSerializer : IXmlSerializer
+    public partial class FlexiXmlSerializer : FlexiSerializer, IXmlSerializer
     {
         internal static readonly XNamespace XmlNamespace = XNamespace.Get("http://schemas.squaredinfinity.com/serialization/flexixml");
-
-        readonly TypeSerializationStrategiesConcurrentDictionary TypeSerializationStrategies =
-            new TypeSerializationStrategiesConcurrentDictionary();
-        
-        TypeResolver _typeResolver;
-        TypeResolver TypeResolver
-        {
-            get
-            {
-                if (_typeResolver == null)
-                    _typeResolver = SquaredInfinity.Foundation.TypeResolver.Default;
-
-                return _typeResolver;
-            }
-        }
-
-        ITypeDescriptor _typeDescriptor;
-        ITypeDescriptor TypeDescriptor
-        {
-            get
-            {
-                if (_typeDescriptor == null)
-                    _typeDescriptor = Types.Description.TypeDescriptor.Default;
-
-                return _typeDescriptor;
-            }
-
-            set
-            {
-                _typeDescriptor = value;
-            }
-        }
 
         public FlexiXmlSerializer()
         { }
@@ -59,99 +27,33 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             this.TypeDescriptor = typeDescriptor;
         }
 
-        public IEnumerableTypeSerializationStrategy<T, I> GetOrCreateEnumerableTypeSerializationStrategy<T, I>()
-            where T : IEnumerable<I>
+        protected override IEnumerableTypeSerializationStrategy<T, I> CreateDefaultTypeSerializationStrategy<T, I>(ITypeDescriptor typeDescriptor)
         {
-            return (IEnumerableTypeSerializationStrategy<T, I>) GetOrCreateTypeSerializationStrategy<T>(() => CreateDefaultTypeSerializationStrategy<T, I>());
+            throw new NotImplementedException();
         }
 
-        public ITypeSerializationStrategy<T> GetOrCreateTypeSerializationStrategy<T>()
+        protected override ITypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T>(ITypeDescriptor typeDescriptor)
         {
-            return GetOrCreateTypeSerializationStrategy<T>(() => CreateDefaultTypeSerializationStrategy<T>());
+            throw new NotImplementedException();
         }
 
-        public ITypeSerializationStrategy<T> GetOrCreateTypeSerializationStrategy<T>(
-            Func<ITypeSerializationStrategy<T>> create)
-        {
-            var key = typeof(T);
-
-            return (ITypeSerializationStrategy<T>)TypeSerializationStrategies
-                .GetOrAdd(key, (ITypeSerializationStrategy)create());
-        }
-
-        public ITypeSerializationStrategy GetOrCreateTypeSerializationStrategy(
-            Type type,
-            Func<ITypeSerializationStrategy> createDefault)
-        {
-            return (ITypeSerializationStrategy)TypeSerializationStrategies
-                .GetOrAdd(type, createDefault());
-        }
-
-        public ITypeSerializationStrategy GetOrCreateTypeSerializationStrategy(
-            Type type)
-        {
-            return (ITypeSerializationStrategy)TypeSerializationStrategies
-                .GetOrAdd(type, CreateDefaultTypeSerializationStrategy(type));
-        }
-
-        ITypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T>()
-        {
-            return CreateDefaultTypeSerializationStrategy<T>(
-                TypeDescriptor);
-        }
-
-        IEnumerableTypeSerializationStrategy<T, I> CreateDefaultTypeSerializationStrategy<T, I>()
-            where T : IEnumerable<I>
-        {
-            return CreateDefaultTypeSerializationStrategy<T, I>(
-                TypeDescriptor);
-        }
-
-
-        protected virtual IEnumerableTypeSerializationStrategy<T, I> CreateDefaultTypeSerializationStrategy<T, I>(
-            ITypeDescriptor typeDescriptor) where T : IEnumerable<I>
-        {
-            // todo:
-            var result =
-                new EnumerableTypeSerializationStrategy<T, I>(
-                    this,
-                    typeDescriptor);
-
-            return result;
-        }
-        
-        protected virtual ITypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T>(
-            ITypeDescriptor typeDescriptor)
-        {
-            // todo:
-            var result =
-                new TypeSerializationStrategy<T>(
-                    this,
-                    typeDescriptor);
-
-            return result;
-        }
-
-        ITypeSerializationStrategy CreateDefaultTypeSerializationStrategy(Type type)
-        {
-            return CreateDefaultTypeSerializationStrategy(type, TypeDescriptor);
-        }
-
-        protected virtual ITypeSerializationStrategy CreateDefaultTypeSerializationStrategy(
+        protected override ITypeSerializationStrategy CreateDefaultTypeSerializationStrategy(
             Type type, 
             ITypeDescriptor typeDescriptor)
         {
             if(typeof(IEnumerable).IsAssignableFrom(type) && !(type == typeof(string)))
             {
                 var result =
-                    new EnumerableTypeSerializationStrategy(this, type, typeDescriptor);
+                    new FlexiXmlEnumerableTypeSerializationStrategy(this, type, typeDescriptor);
 
                 return result;
+
+                throw new NotImplementedException();
             }
             else
             {
                 var result =
-                    new TypeSerializationStrategy(this, type, typeDescriptor);
+                    new FlexiXmlTypeSerializationStrategy(this, type, typeDescriptor);
 
                 return result;
             }
@@ -233,9 +135,9 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 //    el => el.Value);
 
 
-        public ITypeSerializationStrategy GetTypeSerializationStrategy(Type type)
+        public IFlexiXmlTypeSerializationStrategy GetTypeSerializationStrategy(Type type)
         {
-            return GetOrCreateTypeSerializationStrategy(type, () => CreateDefaultTypeSerializationStrategy(type));
+            return (IFlexiXmlTypeSerializationStrategy)base.GetTypeSerializationStrategy(type);
         }
     }
 }

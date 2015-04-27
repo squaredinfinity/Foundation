@@ -59,6 +59,8 @@
     <Compile Include="Converters\ConvertersView.cs" />
     <Compile Include="Converters\ConvertersViewModel.cs" />
     <Compile Include="Fonts\FontsiView.cs" />
+    <Compile Include="MVVM\ReferenceImplementation\ComplexExampleView.cs" />
+    <Compile Include="MVVM\ReferenceImplementation\ComplexExampleViewModel.cs" />
     <Compile Include="UIExamples\ToolTipView.cs" />
     <Compile Include="UIExamples\ToolTipViewModel.cs" />
     <Compile Include="UIExamples\ToolTip\ExampleTooltipView.cs" />
@@ -140,6 +142,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MVVM\MVVMTestsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\ReferenceImplementation\ComplexExampleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

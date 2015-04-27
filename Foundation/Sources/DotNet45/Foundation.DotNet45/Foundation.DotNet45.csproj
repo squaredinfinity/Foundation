@@ -461,6 +461,21 @@
     <Compile Include="..\..\Common\Foundation.Common\PropertySystem\IExtendedProperty_T.cs">
       <Link>PropertySystem\IExtendedProperty_T.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\CreateInstanceContext.cs">
+      <Link>Serialization\CreateInstanceContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiSerializer.cs">
+      <Link>Serialization\FlexiSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiSerializer.TypeSerializationStrategiesConcurrentDictionary.cs">
+      <Link>Serialization\FlexiSerializer.TypeSerializationStrategiesConcurrentDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\FlexiXmlEnumerableTypeSerializationStrategy.cs">
+      <Link>Serialization\FlexiXml\FlexiXmlEnumerableTypeSerializationStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\FlexiXmlReferenceResolutionContext.cs">
+      <Link>Serialization\FlexiXml\FlexiXmlReferenceResolutionContext.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\FlexiXmlSerializer.cs">
       <Link>Serialization\FlexiXml\FlexiXmlSerializer.cs</Link>
     </Compile>
@@ -472,20 +487,11 @@
       <Link>Serialization\FlexiXml\FlexiXmlSerializer.Serialization.cs</Link>
       <DependentUpon>FlexiXmlSerializer.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\FlexiXmlSerializer.TypeSerializationStrategiesConcurrentDictionary.cs">
-      <Link>Serialization\FlexiXml\FlexiXmlSerializer.TypeSerializationStrategiesConcurrentDictionary.cs</Link>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\FlexiXmlTypeSerializationStrategy.cs">
+      <Link>Serialization\FlexiXml\FlexiXmlTypeSerializationStrategy.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\ITypeSerializationStrategy.cs">
-      <Link>Serialization\FlexiXml\ITypeSerializationStrategy.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\TypeSerializationStrategy.cs">
-      <Link>Serialization\FlexiXml\TypeSerializationStrategy.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\_entities\CreateInstanceContext.cs">
-      <Link>Serialization\FlexiXml\_entities\CreateInstanceContext.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\_entities\InstanceId.cs">
-      <Link>Serialization\FlexiXml\_entities\InstanceId.cs</Link>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\IFlexiXmlTypeSerializationStrategy.cs">
+      <Link>Serialization\FlexiXml\IFlexiXmlTypeSerializationStrategy.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\_entities\ISerializationContext.cs">
       <Link>Serialization\FlexiXml\_entities\ISerializationContext.cs</Link>
@@ -496,8 +502,41 @@
     <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\_entities\SerializationOptions.cs">
       <Link>Serialization\FlexiXml\_entities\SerializationOptions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\IEnumerableTypeSerializationStrategy_T.cs">
+      <Link>Serialization\IEnumerableTypeSerializationStrategy_T.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\IFlexiSerializer.cs">
+      <Link>Serialization\IFlexiSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\IMemberSerializationStrategy.cs">
+      <Link>Serialization\IMemberSerializationStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\InstanceId.cs">
+      <Link>Serialization\InstanceId.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\InstanceIdRef.cs">
+      <Link>Serialization\InstanceIdRef.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\ISerializationContext.cs">
+      <Link>Serialization\ISerializationContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\ITypeSerializationStrategy.cs">
+      <Link>Serialization\ITypeSerializationStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\ITypeSerializationStrategy_T.cs">
+      <Link>Serialization\ITypeSerializationStrategy_T.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\IXmlSerializer.cs">
       <Link>Serialization\IXmlSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\MemberSerializationStrategy.cs">
+      <Link>Serialization\MemberSerializationStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\ReferenceResolutionContext.cs">
+      <Link>Serialization\ReferenceResolutionContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\TypeSerializationStrategy.cs">
+      <Link>Serialization\TypeSerializationStrategy.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Text\UnicodeCharacters.cs">
       <Link>Text\UnicodeCharacters.cs</Link>
