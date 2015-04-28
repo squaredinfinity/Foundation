@@ -13,6 +13,10 @@ namespace SquaredInfinity.Foundation.Serialization
             : base(serializer, typeof(T), typeDescriptor)
         { }
 
+        public TypeSerializationStrategy(IFlexiSerializer serializer, Type type, Types.Description.ITypeDescriptor typeDescriptor)
+            : base(serializer, type, typeDescriptor)
+        { }
+
         public ITypeSerializationStrategy<T> IgnoreAllMembers()
         {
             ActualContentSerializationStrategies.Clear();

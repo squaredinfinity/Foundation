@@ -11,7 +11,7 @@ using System.Diagnostics;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
-    public class FlexiXmlTypeSerializationStrategy : TypeSerializationStrategy, IFlexiXmlTypeSerializationStrategy
+    public class FlexiXmlTypeSerializationStrategy<T> : TypeSerializationStrategy<T>, IFlexiXmlTypeSerializationStrategy
     {
         public FlexiXmlSerializer XmlSerializer
         {
@@ -20,8 +20,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
         public FlexiXmlTypeSerializationStrategy(FlexiXmlSerializer serializer, Type type, Types.Description.ITypeDescriptor typeDescriptor)
             : base(serializer, type, typeDescriptor)
-        {
-        }
+        { }
 
         public XElement Serialize(object instance, IFlexiXmlSerializationContext cx, out bool hasAlreadyBeenSerialized)
         {

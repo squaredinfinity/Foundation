@@ -34,7 +34,24 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
         protected override ITypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T>(ITypeDescriptor typeDescriptor)
         {
-            throw new NotImplementedException();
+            var type = typeof(T);
+
+            if (typeof(IEnumerable).IsAssignableFrom(type) && !(type == typeof(string)))
+            {
+                var result =
+                    new FlexiXmlEnumerableTypeSerializationStrategy<T>(this, type, typeDescriptor);
+
+                return result;
+
+                throw new NotImplementedException();
+            }
+            else
+            {
+                var result =
+                    new FlexiXmlTypeSerializationStrategy<T>(this, type, typeDescriptor);
+
+                return result;
+            }
         }
 
         protected override ITypeSerializationStrategy CreateDefaultTypeSerializationStrategy(
@@ -44,7 +61,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             if(typeof(IEnumerable).IsAssignableFrom(type) && !(type == typeof(string)))
             {
                 var result =
-                    new FlexiXmlEnumerableTypeSerializationStrategy(this, type, typeDescriptor);
+                    new FlexiXmlEnumerableTypeSerializationStrategy<object>(this, type, typeDescriptor);
 
                 return result;
 
@@ -53,7 +70,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             else
             {
                 var result =
-                    new FlexiXmlTypeSerializationStrategy(this, type, typeDescriptor);
+                    new FlexiXmlTypeSerializationStrategy<object>(this, type, typeDescriptor);
 
                 return result;
             }

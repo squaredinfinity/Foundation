@@ -538,6 +538,9 @@
     <Compile Include="..\..\Common\Foundation.Common\Serialization\TypeSerializationStrategy.cs">
       <Link>Serialization\TypeSerializationStrategy.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\TypeSerializationStrategy_T.cs">
+      <Link>Serialization\TypeSerializationStrategy_T.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Text\UnicodeCharacters.cs">
       <Link>Text\UnicodeCharacters.cs</Link>
     </Compile>

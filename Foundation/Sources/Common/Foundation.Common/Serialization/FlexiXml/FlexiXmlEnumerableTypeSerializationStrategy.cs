@@ -10,7 +10,7 @@ using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
-    public class FlexiXmlEnumerableTypeSerializationStrategy : FlexiXmlTypeSerializationStrategy
+    public class FlexiXmlEnumerableTypeSerializationStrategy<T> : FlexiXmlTypeSerializationStrategy<T>
     {
         public FlexiXmlEnumerableTypeSerializationStrategy(FlexiXmlSerializer serializer, Type type, ITypeDescriptor typeDescriptor)
             : base(serializer, type, typeDescriptor)
