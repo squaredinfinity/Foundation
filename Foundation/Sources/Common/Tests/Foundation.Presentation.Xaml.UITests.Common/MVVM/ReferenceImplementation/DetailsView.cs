@@ -17,7 +17,7 @@ namespace Foundation.Presentation.Xaml.UITests.MVVM.ReferenceImplementation
 
         protected override void OnAfterDataContextChanged()
         {
-            if (DataContext == "Odd")
+            if (object.Equals(DataContext, "Odd"))
             {
                 ViewModel.DataContext = new List<int> { 1, 3, 5, 7, 9 };
             }

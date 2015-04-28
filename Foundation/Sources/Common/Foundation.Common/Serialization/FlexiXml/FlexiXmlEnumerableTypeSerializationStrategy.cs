@@ -10,11 +10,14 @@ using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
-    public class FlexiXmlEnumerableTypeSerializationStrategy<T> : FlexiXmlTypeSerializationStrategy<T>
+    public class FlexiXmlEnumerableTypeSerializationStrategy<T, TItem> : FlexiXmlTypeSerializationStrategy<T>, IEnumerableTypeSerializationStrategy<T, TItem>
     {
+        Predicate<TItem> ElementFilterPredicate { get; set; }
+
         public FlexiXmlEnumerableTypeSerializationStrategy(FlexiXmlSerializer serializer, Type type, ITypeDescriptor typeDescriptor)
             : base(serializer, type, typeDescriptor)
-        { }
+        {
+        }
 
         public override void Deserialize(XElement xml, object target, IFlexiXmlSerializationContext cx)
         {
@@ -96,7 +99,17 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
         protected virtual bool ShouldSerializeItem(object item)
         {
+            if (ElementFilterPredicate != null)
+                if (!ElementFilterPredicate((TItem)item))
+                    return false;
+
             return true;
+        }
+
+        public IEnumerableTypeSerializationStrategy<T, TItem> ElementFilter(Predicate<TItem> elementFilter)
+        {
+            ElementFilterPredicate = elementFilter;
+            return this;
         }
     }
 }
