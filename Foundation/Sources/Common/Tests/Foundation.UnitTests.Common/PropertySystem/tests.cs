@@ -9,86 +9,6 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Foundation.PropertySystem
 {
     [TestClass]
-    public class UnitTest1
-    {
-        [TestMethod]
-        public void ExtendedPropertyCanBeRegistered()
-        {
-            var tc = new TestContainer();
-
-            //tc.ExtendedProperties.RegisterProperty<int>("Grid.Row");
-
-            //tc.Count.Value++;
-
-            //tc.ExtendedProperties["Grid.Row"].Value = 3;
-
-            //// default of Count is 69, + 1 == 70
-            //Assert.AreEqual(70, tc.Count.ActualValue);
-
-            //Assert.AreEqual(3, tc.ExtendedProperties["Grid.Row"].ActualValue);
-
-            Assert.Fail();
-        }
-
-        [TestMethod]
-        public void ValueOfExtendedPropertyCanBeInherited()
-        {
-            // leaf
-            var tc = new TestContainer { Name = "1" };
-
-            // parent
-            var parentTC = new TestContainer { Name = "Parent" };
-            tc.Parent = parentTC;
-
-            // grand parent
-            var grandParentTC = new TestContainer { Name = "Grand Parent" };
-            parentTC.Parent = grandParentTC;
-
-            tc.Count = 1;
-            parentTC.Count = 13;
-            grandParentTC.Count = 69;
-
-            TestContainer.CountProperty.UnsetValue(tc);
-            TestContainer.CountProperty.UnsetValue(parentTC);
-
-            Assert.AreEqual(69, tc.Count);
-            Assert.AreEqual(69, parentTC.Count);
-            Assert.AreEqual(69, grandParentTC.Count);
-
-            TestContainer.CountProperty.UnsetValue(tc);
-            TestContainer.CountProperty.SetValue(parentTC);
-
-            Assert.AreEqual(13, tc.Count);
-            Assert.AreEqual(13, parentTC.Count);
-            Assert.AreEqual(69, grandParentTC.Count);
-
-            TestContainer.CountProperty.SetValue(tc);
-            TestContainer.CountProperty.UnsetValue(parentTC);
-
-            Assert.AreEqual(1, tc.Count);
-            Assert.AreEqual(69, parentTC.Count);
-            Assert.AreEqual(69, grandParentTC.Count);
-
-            TestContainer.CountProperty.SetValue(tc);
-            TestContainer.CountProperty.SetValue(parentTC);
-
-            Assert.AreEqual(1, tc.Count);
-            Assert.AreEqual(13, parentTC.Count);
-            Assert.AreEqual(69, grandParentTC.Count);
-
-        }
-
-
-        [TestMethod]
-        public void DefaultValueIsSetAndReturnedAsActualValueIfNoInheritance()
-        {
-            var tc = new TestContainer();
-
-            Assert.AreEqual(69, tc.Count);
-        }
-    }
-
-    [TestClass]
     public class CollectionExtendedPropertyTests
     {
         [TestMethod]
@@ -191,6 +111,16 @@ namespace SquaredInfinity.Foundation.PropertySystem
     public class ExtendedPropertyTests
     {
         [TestMethod]
+        public void DefaultValue_SubsequentAccessReturnsSameInstance()
+        {
+            var tc = new TestContainer();
+            var i1 = tc.Items;
+            var i2 = tc.Items;
+
+            Assert.AreSame(i1, i2);
+        }
+
+        [TestMethod]
         public void SettingValue_MarksValueAsSet()
         {
             var tc = new TestContainer();
@@ -202,6 +132,77 @@ namespace SquaredInfinity.Foundation.PropertySystem
             Assert.AreEqual(13, tc.Count);
 
             Assert.IsTrue(TestContainer.CountProperty.GetIsValueSet(tc));
+        }
+
+        [TestMethod]
+        public void ExtendedPropertyCanBeRegistered()
+        {
+            var tc = new TestContainer();
+
+            var pd = new ExtendedPropertyDefinition<int>("Grid", "Row", () => 0);
+
+            var p = tc.ExtendedProperties.GetOrAddProperty<int>(pd);
+            
+            tc.ExtendedProperties["Grid.Row"].Value = 3;
+
+            Assert.AreEqual(3, tc.ExtendedProperties["Grid.Row"].ActualValue);
+        }
+
+        [TestMethod]
+        public void ValueOfExtendedPropertyCanBeInherited()
+        {
+            // leaf
+            var tc = new TestContainer { Name = "1" };
+
+            // parent
+            var parentTC = new TestContainer { Name = "Parent" };
+            tc.Parent = parentTC;
+
+            // grand parent
+            var grandParentTC = new TestContainer { Name = "Grand Parent" };
+            parentTC.Parent = grandParentTC;
+
+            tc.Count = 1;
+            parentTC.Count = 13;
+            grandParentTC.Count = 69;
+
+            TestContainer.CountProperty.UnsetValue(tc);
+            TestContainer.CountProperty.UnsetValue(parentTC);
+
+            Assert.AreEqual(69, tc.Count);
+            Assert.AreEqual(69, parentTC.Count);
+            Assert.AreEqual(69, grandParentTC.Count);
+
+            TestContainer.CountProperty.UnsetValue(tc);
+            TestContainer.CountProperty.SetValue(parentTC);
+
+            Assert.AreEqual(13, tc.Count);
+            Assert.AreEqual(13, parentTC.Count);
+            Assert.AreEqual(69, grandParentTC.Count);
+
+            TestContainer.CountProperty.SetValue(tc);
+            TestContainer.CountProperty.UnsetValue(parentTC);
+
+            Assert.AreEqual(1, tc.Count);
+            Assert.AreEqual(69, parentTC.Count);
+            Assert.AreEqual(69, grandParentTC.Count);
+
+            TestContainer.CountProperty.SetValue(tc);
+            TestContainer.CountProperty.SetValue(parentTC);
+
+            Assert.AreEqual(1, tc.Count);
+            Assert.AreEqual(13, parentTC.Count);
+            Assert.AreEqual(69, grandParentTC.Count);
+
+        }
+
+
+        [TestMethod]
+        public void DefaultValueIsSetAndReturnedAsActualValueIfNoInheritance()
+        {
+            var tc = new TestContainer();
+
+            Assert.AreEqual(69, tc.Count);
         }
 
         #region No Parent

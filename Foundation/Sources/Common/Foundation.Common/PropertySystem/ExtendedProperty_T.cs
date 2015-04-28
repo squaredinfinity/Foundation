@@ -81,14 +81,22 @@ namespace SquaredInfinity.Foundation.PropertySystem
                     }
                     else
                     {
-                        return GetDefaultValue();
+                        AssignDefaultValue();
+                        return Value;
                     }
                 }
                 else
                 {
-                    return GetDefaultValue();
+                    AssignDefaultValue();
+                    return Value;
                 }
             }
+        }
+
+        protected void AssignDefaultValue()
+        {
+            if (object.Equals(_value, default(T)))
+                _value = GetDefaultValue();
         }
 
         protected Func<T> GetDefaultValue { get; private set; }

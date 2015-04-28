@@ -42,7 +42,8 @@ namespace SquaredInfinity.Foundation.PropertySystem
                         {
                             if (inheritedValue == null)
                             {
-                                return GetDefaultValue();
+                                AssignDefaultValue();
+                                return Value;
                             }
                             else
                             {
@@ -86,12 +87,14 @@ namespace SquaredInfinity.Foundation.PropertySystem
                     }
                     else
                     {
-                        return GetDefaultValue();
+                        AssignDefaultValue();
+                        return Value;
                     }
                 }
                 else
                 {
-                    return GetDefaultValue();
+                    AssignDefaultValue();
+                    return Value;
                 }
             }
         }

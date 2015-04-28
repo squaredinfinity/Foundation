@@ -9,8 +9,6 @@ namespace SquaredInfinity.Foundation.PropertySystem
 {
     public class ExtendedPropertyUniqueIdentifier : IEquatable<ExtendedPropertyUniqueIdentifier>
     {
-        private string propertyFullName;
-
         public string OwnerUniqueName { get; private set; }
         public string PropertyUniqueName { get; private set; }
 
@@ -45,7 +43,8 @@ namespace SquaredInfinity.Foundation.PropertySystem
                 throw ex;
             }
 
-            this.propertyFullName = propertyFullName;
+            this.OwnerUniqueName = parts[0];
+            this.PropertyUniqueName = parts[1];
         }
 
         public override int GetHashCode()
