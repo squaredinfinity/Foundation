@@ -7,15 +7,8 @@ using System.Threading.Tasks;
 
 namespace Foundation.Presentation.Xaml.UITests.MVVM.ReferenceImplementation
 {
-    public class ComplexExampleViewModel : ViewModel<ICollection<int>>
+    public class DetailsViewModel : ViewModel<ICollection<int>>
     {
-        object _selectedValue;
-        public object SelectedValue
-        {
-            get { return _selectedValue; }
-            set { TrySetThisPropertyValue(ref _selectedValue, value); }
-        }
-
         protected override void OnAfterDataContextChanged(ICollection<int> newDataContext)
         {
             base.OnAfterDataContextChanged(newDataContext);
@@ -24,6 +17,11 @@ namespace Foundation.Presentation.Xaml.UITests.MVVM.ReferenceImplementation
         protected override void OnAfterDataContextChanged(object newDataContext)
         {
             base.OnAfterDataContextChanged(newDataContext);
+        }
+
+        protected override void OnAfterInitialized()
+        {
+            base.OnAfterInitialized();
         }
     }
 }

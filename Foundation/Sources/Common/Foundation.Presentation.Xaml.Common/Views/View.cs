@@ -179,6 +179,7 @@ namespace SquaredInfinity.Foundation.Presentation.Views
         {
             RefreshViewModel(oldDataContext: null, newDataContext: null);
             DataContextChanged += (s, e) => RefreshViewModel(e.OldValue, e.NewValue);
+            DataContextChanged += (s, e) => OnAfterDataContextChanged();
 
             PreviewViewModelEvent += View_ViewModelMessage;
             ViewModelEvent += View_ViewModelMessage;
@@ -186,10 +187,14 @@ namespace SquaredInfinity.Foundation.Presentation.Views
             this.Initialized += View_Initialized;
         }
 
+        protected virtual void OnAfterDataContextChanged() { }
+
         void View_Initialized(object sender, EventArgs e)
         {
             if (ViewModel != null)
             {
+                ViewModel.DataContext = DataContext;
+
                 ViewModel.Initialize(GetIsHostedInDialogWindow());
             }
         }

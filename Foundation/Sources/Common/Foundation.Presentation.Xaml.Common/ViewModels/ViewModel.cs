@@ -34,7 +34,7 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
 
             // Proper Data Context on view model may be set via binding (e.g. <MyView DataContext={Binding SomeProperty} /> -> Changing Data Context on View in this way will also set DataContext on View Model)
             // In that case initial data context may be of a wrong type
-            if (!(newDataContext is TDataContext))
+            if (newDataContext != null && !(newDataContext is TDataContext))
             {
                 // Log warning
             }
@@ -42,6 +42,8 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
             {
                 this.OnAfterDataContextChanged((TDataContext)newDataContext);
             }
+
+            RaiseAllPropertiesChanged();
         }
 
         public ViewModel()
@@ -65,12 +67,18 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
             set
             {
                 _dataContext = value;
-                OnAfterDataContextChanged(_dataContext);
+                RaiseAfterDataContextChanged(_dataContext);
                 RaiseThisPropertyChanged();
             }
         }
 
         protected IUIService UIService { get; private set; }
+
+        void RaiseAfterDataContextChanged(object newDataContext)
+        {
+            if(IsInitialized)
+                OnAfterDataContextChanged(newDataContext);
+        }
 
         protected virtual void OnAfterDataContextChanged(object newDataContext)
         {
@@ -79,14 +87,25 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
 
         public bool IsHostedInDialogWindow { get; private set; }
 
+        public bool IsInitialized { get; private set; }
+
         public void Initialize(bool isHostedInDialogWindow)
         {
             this.IsHostedInDialogWindow = isHostedInDialogWindow;
 
-            OnInitialized();
+            this.IsInitialized = true;
+
+            RaiseAfterInitialized();
+
+            RaiseAfterDataContextChanged(DataContext);
         }
 
-        protected virtual void OnInitialized()
+        void RaiseAfterInitialized()
+        {
+            OnAfterInitialized();
+        }
+
+        protected virtual void OnAfterInitialized()
         { }
 
         public class FindDataContextInVisualTreeEventArgs : CommandHandlerEventArgs

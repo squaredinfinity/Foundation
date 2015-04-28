@@ -4,11 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:vmEvents="clr-namespace:Foundation.Presentation.Xaml.UITests.MVVM.ViewModelEvents"
+             xmlns:refImpl="clr-namespace:Foundation.Presentation.Xaml.UITests.MVVM.ReferenceImplementation"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <TabControl>
         <TabItem Header="View Model Events">
             <vmEvents:ViewModelEventsTests />
+        </TabItem>
+        <TabItem Header="Complex MVVM">
+            <refImpl:ComplexExampleView />
         </TabItem>
     </TabControl>
 </UserControl>

@@ -42,9 +42,9 @@ namespace Foundation.Presentation.Xaml.UITests.Converters
             
         }
 
-        protected override void OnInitialized()
+        protected override void OnAfterInitialized()
         {
-            base.OnInitialized();
+            base.OnAfterInitialized();
 
             Window w;
 

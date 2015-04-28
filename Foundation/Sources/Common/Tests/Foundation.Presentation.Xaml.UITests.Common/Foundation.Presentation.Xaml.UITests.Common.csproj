@@ -61,6 +61,12 @@
     <Compile Include="Fonts\FontsiView.cs" />
     <Compile Include="MVVM\ReferenceImplementation\ComplexExampleView.cs" />
     <Compile Include="MVVM\ReferenceImplementation\ComplexExampleViewModel.cs" />
+    <Compile Include="MVVM\ReferenceImplementation\DetailsView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MVVM\ReferenceImplementation\DetailsViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="UIExamples\ToolTipView.cs" />
     <Compile Include="UIExamples\ToolTipViewModel.cs" />
     <Compile Include="UIExamples\ToolTip\ExampleTooltipView.cs" />
@@ -144,6 +150,10 @@
     <Page Include="MVVM\MVVMTestsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\ReferenceImplementation\DetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="MVVM\ReferenceImplementation\ComplexExampleView.xaml">
       <SubType>Designer</SubType>

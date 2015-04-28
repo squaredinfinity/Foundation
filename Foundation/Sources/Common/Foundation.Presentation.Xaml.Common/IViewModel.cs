@@ -12,6 +12,11 @@ namespace SquaredInfinity.Foundation.Presentation
 
         ViewModelState State { get; set; }
 
+        bool IsInitialized { get; }
+        
+        bool IsHostedInDialogWindow { get; }
+
+
         void Initialize(bool isHostedInDialogWindow);
     }
 }
