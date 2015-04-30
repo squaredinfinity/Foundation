@@ -10,7 +10,9 @@ using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
-    public class FlexiXmlEnumerableTypeSerializationStrategy<T, TItem> : FlexiXmlTypeSerializationStrategy<T>, IEnumerableTypeSerializationStrategy<T, TItem>
+    public class FlexiXmlEnumerableTypeSerializationStrategy<T, TItem> : 
+        FlexiXmlTypeSerializationStrategy<T>,
+        IEnumerableTypeSerializationStrategy<FlexiXmlEnumerableTypeSerializationStrategy<T,TItem>, FlexiXmlTypeSerializationStrategy<T>, T, TItem>
     {
         Predicate<TItem> ElementFilterPredicate { get; set; }
 
@@ -106,7 +108,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             return true;
         }
 
-        public IEnumerableTypeSerializationStrategy<T, TItem> ElementFilter(Predicate<TItem> elementFilter)
+        public FlexiXmlEnumerableTypeSerializationStrategy<T, TItem> ElementFilter(Predicate<TItem> elementFilter)
         {
             ElementFilterPredicate = elementFilter;
             return this;

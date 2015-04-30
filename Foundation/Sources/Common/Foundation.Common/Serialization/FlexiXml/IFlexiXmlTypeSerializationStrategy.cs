@@ -33,5 +33,5 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             IFlexiXmlSerializationContext cx);
 
         string ConstructElementNameForType(Type type);
-    }    
+    }
 }

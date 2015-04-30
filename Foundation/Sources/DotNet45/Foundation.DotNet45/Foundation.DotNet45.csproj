@@ -499,6 +499,9 @@
     <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\IFlexiXmlSerializationContext.cs">
       <Link>Serialization\FlexiXml\IFlexiXmlSerializationContext.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\IFlexiXmlSerializer.cs">
+      <Link>Serialization\FlexiXml\IFlexiXmlSerializer.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\IFlexiXmlTypeSerializationStrategy.cs">
       <Link>Serialization\FlexiXml\IFlexiXmlTypeSerializationStrategy.cs</Link>
     </Compile>
@@ -525,9 +528,6 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\ITypeSerializationStrategy_T.cs">
       <Link>Serialization\ITypeSerializationStrategy_T.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Serialization\IXmlSerializer.cs">
-      <Link>Serialization\IXmlSerializer.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\MemberSerializationStrategy.cs">
       <Link>Serialization\MemberSerializationStrategy.cs</Link>

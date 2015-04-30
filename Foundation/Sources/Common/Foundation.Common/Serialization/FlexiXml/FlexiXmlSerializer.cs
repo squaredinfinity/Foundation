@@ -15,7 +15,7 @@ using System.Collections;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
-    public partial class FlexiXmlSerializer : FlexiSerializer, IXmlSerializer
+    public partial class FlexiXmlSerializer : FlexiSerializer, IFlexiXmlSerializer
     {
         internal static readonly XNamespace XmlNamespace = XNamespace.Get("http://schemas.squaredinfinity.com/serialization/flexixml");
 
@@ -26,16 +26,13 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         {
             this.TypeDescriptor = typeDescriptor;
         }
-
-        protected override IEnumerableTypeSerializationStrategy<T, I> CreateDefaultTypeSerializationStrategy<T, I>(ITypeDescriptor typeDescriptor)
+        
+        FlexiXmlTypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T>()
         {
-            var result =
-                    new FlexiXmlEnumerableTypeSerializationStrategy<T, I>(this, typeof(T), typeDescriptor);
-
-            return result;
+            return CreateDefaultTypeSerializationStrategy<T>(TypeDescriptor);
         }
 
-        protected override ITypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T>(ITypeDescriptor typeDescriptor)
+        FlexiXmlTypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T>(ITypeDescriptor typeDescriptor)
         {
             var type = typeof(T);
 
@@ -53,6 +50,16 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                 return result;
             }
+        }
+
+        FlexiXmlEnumerableTypeSerializationStrategy<T, TItem> CreateDefaultEnumerableTypeSerializationStrategy<T, TItem>()
+        {
+            return CreateDefaultEnumerableTypeSerializationStrategy<T, TItem>(TypeDescriptor);
+        }
+
+        FlexiXmlEnumerableTypeSerializationStrategy<T, TItem> CreateDefaultEnumerableTypeSerializationStrategy<T, TItem>(ITypeDescriptor typeDescriptor)
+        {
+            return new FlexiXmlEnumerableTypeSerializationStrategy<T, TItem>(this, typeof(T), typeDescriptor);
         }
 
         protected override ITypeSerializationStrategy CreateDefaultTypeSerializationStrategy(
@@ -73,6 +80,32 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                 return result;
             }
+        }
+
+        public FlexiXmlTypeSerializationStrategy<T> GetOrCreateTypeSerializationStrategy<T>()
+        {
+            return GetOrCreateTypeSerializationStrategy<T>(() => CreateDefaultTypeSerializationStrategy<T>());
+        }
+
+        FlexiXmlTypeSerializationStrategy<T> GetOrCreateTypeSerializationStrategy<T>(
+            Func<FlexiXmlTypeSerializationStrategy<T>> create)
+        {
+            var key = typeof(T);
+
+            return (FlexiXmlTypeSerializationStrategy<T>)TypeSerializationStrategies
+                .GetOrAdd(key, (ITypeSerializationStrategy)create());
+        }
+
+        FlexiXmlEnumerableTypeSerializationStrategy<T, TItem> CreateDefaultTypeSerializationStrategy<T, TItem>()
+            where T : IEnumerable<TItem>
+        {
+            return CreateDefaultEnumerableTypeSerializationStrategy<T, TItem>(TypeDescriptor);
+        }
+
+        public FlexiXmlEnumerableTypeSerializationStrategy<T, TItem> GetOrCreateEnumerableTypeSerializationStrategy<T, TItem>()
+            where T : IEnumerable<TItem>
+        {
+            return (FlexiXmlEnumerableTypeSerializationStrategy<T, TItem>)GetOrCreateTypeSerializationStrategy<T>(() => CreateDefaultEnumerableTypeSerializationStrategy<T, TItem>());
         }
 
 
@@ -103,6 +136,5 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 //    x => x.IntegerName,
 //    m => new XElement("xxx", m),
 //    el => el.Value);
-
     }
 }

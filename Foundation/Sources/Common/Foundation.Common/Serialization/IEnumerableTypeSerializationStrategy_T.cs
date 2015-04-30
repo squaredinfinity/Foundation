@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Serialization
 {
-    public interface IEnumerableTypeSerializationStrategy<T, TItem> : ITypeSerializationStrategy<T>
+    public interface IEnumerableTypeSerializationStrategy<TEnumerableSerializationStrategy, TSerializationStrategy, T, TItem> 
+        : ITypeSerializationStrategy<TSerializationStrategy, T>
+        where TEnumerableSerializationStrategy : class, IEnumerableTypeSerializationStrategy<TEnumerableSerializationStrategy, TSerializationStrategy, T, TItem>
+        where TSerializationStrategy : class, ITypeSerializationStrategy<TSerializationStrategy, T>
     {
-        IEnumerableTypeSerializationStrategy<T, TItem> ElementFilter(Predicate<TItem> elementFilter);
+        TEnumerableSerializationStrategy ElementFilter(Predicate<TItem> elementFilter);
     }
 }

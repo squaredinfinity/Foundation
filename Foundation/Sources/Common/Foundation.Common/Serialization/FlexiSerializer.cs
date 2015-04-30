@@ -2,7 +2,6 @@
 using System;
 using System.Linq.Expressions;
 using SquaredInfinity.Foundation.Extensions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +10,8 @@ using System.Reflection;
 
 namespace SquaredInfinity.Foundation.Serialization
 {
-    public abstract partial class FlexiSerializer : IFlexiSerializer
+    public abstract partial class FlexiSerializer
+        : IFlexiSerializer
     {
         readonly protected TypeSerializationStrategiesConcurrentDictionary TypeSerializationStrategies =
             new TypeSerializationStrategiesConcurrentDictionary();
@@ -91,11 +91,6 @@ namespace SquaredInfinity.Foundation.Serialization
             return false;
         }
 
-        public ITypeSerializationStrategy GetTypeSerializationStrategy(Type type)
-        {
-            return GetOrCreateTypeSerializationStrategy(type, () => CreateDefaultTypeSerializationStrategy(type));
-        }
-
         protected ITypeSerializationStrategy CreateDefaultTypeSerializationStrategy(Type type)
         {
             return CreateDefaultTypeSerializationStrategy(type, TypeDescriptor);
@@ -105,34 +100,6 @@ namespace SquaredInfinity.Foundation.Serialization
             Type type,
             ITypeDescriptor typeDescriptor);
 
-        public ITypeSerializationStrategy<T> GetOrCreateTypeSerializationStrategy<T>()
-        {
-            return GetOrCreateTypeSerializationStrategy<T>(() => CreateDefaultTypeSerializationStrategy<T>());
-        }
-
-        public ITypeSerializationStrategy<T> GetOrCreateTypeSerializationStrategy<T>(
-            Func<ITypeSerializationStrategy<T>> create)
-        {
-            var key = typeof(T);
-
-            return (ITypeSerializationStrategy<T>)TypeSerializationStrategies
-                .GetOrAdd(key, (ITypeSerializationStrategy)create());
-        }
-
-        public IEnumerableTypeSerializationStrategy<T, I> GetOrCreateEnumerableTypeSerializationStrategy<T, I>()
-    where T : IEnumerable<I>
-        {
-            return (IEnumerableTypeSerializationStrategy<T, I>)GetOrCreateTypeSerializationStrategy<T>(() => CreateDefaultTypeSerializationStrategy<T, I>());
-        }
-
-        public ITypeSerializationStrategy GetOrCreateTypeSerializationStrategy(
-            Type type,
-            Func<ITypeSerializationStrategy> createDefault)
-        {
-            return (ITypeSerializationStrategy)TypeSerializationStrategies
-                .GetOrAdd(type, createDefault());
-        }
-
         public ITypeSerializationStrategy GetOrCreateTypeSerializationStrategy(
             Type type)
         {
@@ -140,24 +107,9 @@ namespace SquaredInfinity.Foundation.Serialization
                 .GetOrAdd(type, CreateDefaultTypeSerializationStrategy(type));
         }
 
-        ITypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T>()
+        public ITypeSerializationStrategy GetTypeSerializationStrategy(Type type)
         {
-            return CreateDefaultTypeSerializationStrategy<T>(
-                TypeDescriptor);
+            return GetOrCreateTypeSerializationStrategy(type);
         }
-
-        IEnumerableTypeSerializationStrategy<T, I> CreateDefaultTypeSerializationStrategy<T, I>()
-            where T : IEnumerable<I>
-        {
-            return CreateDefaultTypeSerializationStrategy<T, I>(
-                TypeDescriptor);
-        }
-
-
-        protected abstract IEnumerableTypeSerializationStrategy<T, I> CreateDefaultTypeSerializationStrategy<T, I>(
-            ITypeDescriptor typeDescriptor) where T : IEnumerable<I>;
-
-        protected abstract ITypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T>(
-            ITypeDescriptor typeDescriptor);
     }
 }

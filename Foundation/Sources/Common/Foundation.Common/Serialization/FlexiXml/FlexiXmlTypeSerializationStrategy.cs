@@ -11,7 +11,15 @@ using System.Diagnostics;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
-    public class FlexiXmlTypeSerializationStrategy<T> : TypeSerializationStrategy<T>, IFlexiXmlTypeSerializationStrategy
+    public class FlexiXmlTypeSerializationStrategy<T> : FlexiXmlTypeSerializationStrategy<FlexiXmlTypeSerializationStrategy<T>, T>
+    {
+        public FlexiXmlTypeSerializationStrategy(FlexiXmlSerializer serializer, Type type, Types.Description.ITypeDescriptor typeDescriptor)
+            : base(serializer, type, typeDescriptor)
+        { }
+    }
+
+    public class FlexiXmlTypeSerializationStrategy<T1, T> : TypeSerializationStrategy<T1, T>, IFlexiXmlTypeSerializationStrategy
+        where T1 : class, ITypeSerializationStrategy<T1, T>
     {
         public FlexiXmlTypeSerializationStrategy(FlexiXmlSerializer serializer, Type type, Types.Description.ITypeDescriptor typeDescriptor)
             : base(serializer, type, typeDescriptor)
@@ -284,6 +292,57 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                         return true;
                     }
                 }
+        }
+
+        public T1 SerializeMemberAsAttribute<TMember>(
+            System.Linq.Expressions.Expression<Func<T, object>> memberExpression,
+            Func<T, bool> shouldSerializeMember,
+            Func<T, TMember, string> serialize,
+            Func<XAttribute, TMember> deserialize)
+        {
+            var memberName = memberExpression.GetAccessedMemberName();
+
+            bool shouldAddToActual = false;
+
+            var strategy =
+                    (from s in ActualContentSerializationStrategies
+                     where string.Equals(s.MemberName, memberName)
+                     select s).FirstOrDefault();
+
+            if (strategy == null)
+            {
+                strategy =
+                    (from s in OriginalContentSerializationStrategies
+                     where string.Equals(s.MemberName, memberName)
+                     select s).FirstOrDefault();
+
+                shouldAddToActual = true;
+            }
+
+            if (strategy == null)
+            {
+                var ex = new ArgumentException("Unable to find Serialization Strategy.");
+                // todo: ex.addcontext(member, type)
+
+                throw ex;
+            }
+
+            if (shouldSerializeMember != null)
+            {
+                strategy.ShouldSerializeMember = new Func<object, bool>((_target) =>
+                {
+                    var local = shouldSerializeMember;
+                    return local((T)_target);
+                });
+            }
+
+            strategy.CustomSerialize = new Func<object, object, string>((owner, member) => serialize((T)owner, (TMember)member));
+            strategy.CustomDeserialize = new Func<object, object>(attrib => deserialize((XAttribute)attrib));
+
+            if (shouldAddToActual)
+                ActualContentSerializationStrategies.Add(strategy);
+
+            return this as T1;
         }
 
         string SanitizeParentElementName(XElement parentElement)

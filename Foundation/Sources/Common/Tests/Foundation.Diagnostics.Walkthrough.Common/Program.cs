@@ -183,14 +183,14 @@ namespace Foundation.Diagnostics.Walkthrough.Common
                 .SerializeMember(x => x.Property, x => x.Property != null)
                 .SerializeMember(x => x.Value, x => x.Value != null);
 
-            //serializer.GetOrCreateTypeSerializationStrategy<SeverityFilter>()
-            //    .IgnoreAllMembers()
-            //    .CopySerializationSetupFromBaseClass()
-            //    .SerializeMemberAsAttribute(x => x.Severity, x => x.Severity != null, (x, y) => y.ToString(), s => KnownSeverityLevels.Parse(s.Value))
-            //    .SerializeMemberAsAttribute(x => x.To, x => x.To != null, (x, y) => y.ToString(), s => KnownSeverityLevels.Parse(s.Value))
-            //    .SerializeMemberAsAttribute(x => x.From, x => x.From != null, (x, y) => y.ToString(), s => KnownSeverityLevels.Parse(s.Value))
-            //    .SerializeMemberAsAttribute(x => x.ExclusiveTo, x => x.ExclusiveTo != null, (x, y) => y.ToString(), s => KnownSeverityLevels.Parse(s.Value))
-            //    .SerializeMemberAsAttribute(x => x.ExclusiveFrom, x => x.ExclusiveFrom != null, (x, y) => y.ToString(), s => KnownSeverityLevels.Parse(s.Value));
+            serializer.GetOrCreateTypeSerializationStrategy<SeverityFilter>()
+                .IgnoreAllMembers()
+                .CopySerializationSetupFromBaseClass()
+                .SerializeMemberAsAttribute(x => x.Severity, x => x.Severity != null, (x, y) => y.ToString(), s => KnownSeverityLevels.Parse(s.Value))
+                .SerializeMemberAsAttribute(x => x.To, x => x.To != null, (x, y) => y.ToString(), s => KnownSeverityLevels.Parse(s.Value))
+                .SerializeMemberAsAttribute(x => x.From, x => x.From != null, (x, y) => y.ToString(), s => KnownSeverityLevels.Parse(s.Value))
+                .SerializeMemberAsAttribute(x => x.ExclusiveTo, x => x.ExclusiveTo != null, (x, y) => y.ToString(), s => KnownSeverityLevels.Parse(s.Value))
+                .SerializeMemberAsAttribute(x => x.ExclusiveFrom, x => x.ExclusiveFrom != null, (x, y) => y.ToString(), s => KnownSeverityLevels.Parse(s.Value));
 
 
             var so = new FlexiXmlSerializationOptions();

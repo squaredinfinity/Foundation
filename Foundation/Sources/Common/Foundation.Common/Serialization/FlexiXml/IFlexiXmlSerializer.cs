@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace SquaredInfinity.Foundation.Serialization
+namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
-    public interface IXmlSerializer : IFlexiSerializer
+    public interface IFlexiXmlSerializer : IFlexiSerializer
     {
         XElement Serialize(object obj);
         XElement Serialize(object obj, FlexiXmlSerializationOptions options);
