@@ -50,12 +50,20 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             var xml = s.Serialize(c1);
 
+            var operatingSystemNode =
+                (from n in xml.Descendants()
+                 where n.Name == "OperatingSystem"
+                 select n).FirstOrDefault();
+
+            var platform = operatingSystemNode.Attribute("Platform").Value;
+
+            Assert.AreEqual(platform, "Xbox");
+
             var c2 = s.Deserialize<Bug002_Class>(xml);
 
-
-
             Assert.IsNotNull(c2);
-            Assert.AreEqual(PlatformID.Xbox, c2.OS.Platform);
+
+            // NOTE: Platform on c2 will not be deserialized properly, because it is a read-only property, it can only be serialized
         }
 
         public class Bug002_Class
@@ -79,7 +87,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         #region BUG 003
 
         [TestMethod]
-        public void Bug001__id_property_conflicts_with_serializationId()
+        public void Bug003__id_property_conflicts_with_serializationId()
         {
             // type contains Id property
             // during deserialization xml attribute serialization:id is confused with attribute to actual Id
@@ -132,5 +140,24 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         }
 
         #endregion
+
+        #region BUG 004
+
+        [TestMethod]
+        public void Bug004__dictionary_serialization_fails()
+        {
+            var dic = new Dictionary<string, int>();
+            dic.Add("one", 1);
+            dic.Add("two", 2);
+            dic.Add("three", 3);
+
+            var s = new FlexiXml.FlexiXmlSerializer();
+            var xml = s.Serialize(dic);
+
+            Assert.IsNotNull(xml);
+        }
+
+        #endregion
+
     }
 }

@@ -578,9 +578,15 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             {
                 var genericArgumentsSeparator_Index = type.Name.IndexOf("`");
 
-                var name = type.Name.Substring(0, genericArgumentsSeparator_Index);
+                // it is possible that type is generic by does not have ' in name (e.g. KeyCollection, Keys property on Dictionary<T1,T2>)
+                if (genericArgumentsSeparator_Index == -1)
+                    return type.Name;
+                else
+                {
+                    var name = type.Name.Substring(0, genericArgumentsSeparator_Index);
 
-                return name;
+                    return name;
+                }
 
                 //var ns = type.Namespace;
 

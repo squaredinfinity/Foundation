@@ -40,18 +40,18 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             {
                 var result =
                     new FlexiXmlEnumerableTypeSerializationStrategy<T, object>(this, type, typeDescriptor);
-
+                
                 return result;
             }
             else
             {
                 var result =
                     new FlexiXmlTypeSerializationStrategy<T>(this, type, typeDescriptor);
-
+                
                 return result;
             }
         }
-
+        
         FlexiXmlEnumerableTypeSerializationStrategy<T, TItem> CreateDefaultEnumerableTypeSerializationStrategy<T, TItem>()
         {
             return CreateDefaultEnumerableTypeSerializationStrategy<T, TItem>(TypeDescriptor);

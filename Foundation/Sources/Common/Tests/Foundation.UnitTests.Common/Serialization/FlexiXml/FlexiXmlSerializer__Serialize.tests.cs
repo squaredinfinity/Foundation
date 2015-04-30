@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
-    public class x
+    public  class x
     {
         public double[,] Data { get; set; }
     }
