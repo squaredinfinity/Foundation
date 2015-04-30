@@ -35,7 +35,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.Configuration.Providers
 
         public XElement SaveConfiguration(IDiagnosticsConfiguration configuration)
         {
-            SerializationOptions o = new SerializationOptions();
+            FlexiXmlSerializationOptions o = new FlexiXmlSerializationOptions();
             o.SerializeNonPublicTypes = false;
 
             return Serializer.Serialize(configuration);

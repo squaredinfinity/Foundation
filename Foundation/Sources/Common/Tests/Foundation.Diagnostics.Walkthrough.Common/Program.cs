@@ -193,7 +193,7 @@ namespace Foundation.Diagnostics.Walkthrough.Common
             //    .SerializeMemberAsAttribute(x => x.ExclusiveFrom, x => x.ExclusiveFrom != null, (x, y) => y.ToString(), s => KnownSeverityLevels.Parse(s.Value));
 
 
-            var so = new SerializationOptions();
+            var so = new FlexiXmlSerializationOptions();
             so.SerializeNonPublicTypes = false;
             so.TypeInformation = TypeInformation.None;
 

@@ -13,11 +13,6 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
     public class FlexiXmlTypeSerializationStrategy<T> : TypeSerializationStrategy<T>, IFlexiXmlTypeSerializationStrategy
     {
-        public FlexiXmlSerializer XmlSerializer
-        {
-            get { return (FlexiXmlSerializer) base.Serializer; }
-        }
-
         public FlexiXmlTypeSerializationStrategy(FlexiXmlSerializer serializer, Type type, Types.Description.ITypeDescriptor typeDescriptor)
             : base(serializer, type, typeDescriptor)
         { }

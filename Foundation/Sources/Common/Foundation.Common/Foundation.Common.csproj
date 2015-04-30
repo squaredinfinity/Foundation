@@ -193,7 +193,9 @@
     <Compile Include="Serialization\CreateInstanceContext.cs" />
     <Compile Include="Serialization\EnumerableTypeSerializationStrategy.cs" />
     <Compile Include="Serialization\EnumerableTypeSerializationStrategy_T.cs" />
+    <Compile Include="Serialization\FlexiPlainText\FlexiPlainTextSerializationContext.cs" />
     <Compile Include="Serialization\FlexiPlainText\FlexiPlainTextSerializer.cs" />
+    <Compile Include="Serialization\FlexiPlainText\FlexiPlainTextTypeSerializationStrategy_T.cs" />
     <Compile Include="Serialization\FlexiSerializer.cs" />
     <Compile Include="Serialization\FlexiSerializer.TypeSerializationStrategiesConcurrentDictionary.cs" />
     <Compile Include="Serialization\FlexiXml\FlexiXmlEnumerableTypeSerializationStrategy.cs" />
@@ -203,10 +205,9 @@
     <Compile Include="Serialization\FlexiXml\FlexiXmlSerializer.Serialization.cs" />
     <Compile Include="Serialization\FlexiXml\IFlexiXmlTypeSerializationStrategy.cs" />
     <Compile Include="Serialization\FlexiXml\FlexiXmlTypeSerializationStrategy.cs" />
-    <Compile Include="Serialization\FlexiXml\_entities\DeserializationContext.cs" />
-    <Compile Include="Serialization\FlexiXml\_entities\ISerializationContext.cs" />
-    <Compile Include="Serialization\FlexiXml\_entities\SerializationContext.cs" />
-    <Compile Include="Serialization\FlexiXml\_entities\SerializationOptions.cs" />
+    <Compile Include="Serialization\FlexiXml\IFlexiXmlSerializationContext.cs" />
+    <Compile Include="Serialization\FlexiXml\FlexiXmlSerializationContext.cs" />
+    <Compile Include="Serialization\FlexiXml\FlexiXmlSerializationOptions.cs" />
     <Compile Include="Serialization\IEnumerableTypeSerializationStrategy_T.cs" />
     <Compile Include="Serialization\IFlexiSerializer.cs" />
     <Compile Include="Serialization\FlexiPlainText\IFlexiPlainTextSerializer.cs" />
@@ -217,7 +218,9 @@
     <Compile Include="Serialization\ITypeSerializationStrategy.cs" />
     <Compile Include="Serialization\ITypeSerializationStrategy_T.cs" />
     <Compile Include="Serialization\MemberSerializationStrategy.cs" />
+    <Compile Include="Serialization\ReferenceEqualityComparer.cs" />
     <Compile Include="Serialization\ReferenceResolutionContext.cs" />
+    <Compile Include="Serialization\SerializationContext.cs" />
     <Compile Include="Serialization\TypeSerializationStrategy.cs" />
     <Compile Include="Serialization\TypeSerializationStrategy_T.cs" />
     <Compile Include="Text\UnicodeCharacters.cs" />

@@ -1,12 +1,13 @@
 ﻿using SquaredInfinity.Foundation.Types.Description;
 using System;
 using System.Linq.Expressions;
-using SquaredInfinity.Foundation.Types.Description;
+using SquaredInfinity.Foundation.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace SquaredInfinity.Foundation.Serialization
 {
@@ -42,6 +43,52 @@ namespace SquaredInfinity.Foundation.Serialization
             {
                 _typeDescriptor = value;
             }
+        }
+
+        public Func<Type, CreateInstanceContext, object> CustomCreateInstanceWith { get; set; }
+
+        // todo context should be local to serialzation (type)
+        // todo: this may also try to reuse type mapper code rather than copy it
+        protected bool TryCreateInstace(Type targetType, CreateInstanceContext create_cx, out object newInstance)
+        {
+            newInstance = null;
+
+            try
+            {
+                if (CustomCreateInstanceWith != null)
+                {
+                    try
+                    {
+                        newInstance = CustomCreateInstanceWith(targetType, create_cx);
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
+                }
+
+                var constructor = targetType
+                    .GetConstructor(
+                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                    binder: null,
+                    types: Type.EmptyTypes,
+                    modifiers: null);
+
+                if (constructor != null)
+                {
+                    newInstance = constructor.Invoke(null);
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.TryAddContextData("target type", () => targetType.FullName);
+                InternalTrace.Information(ex, "Failed to create instance of type.");
+            }
+
+            return false;
         }
 
         public ITypeSerializationStrategy GetTypeSerializationStrategy(Type type)

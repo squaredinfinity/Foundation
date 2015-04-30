@@ -22,7 +22,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         /// <summary>
         /// Serialization Options
         /// </summary>
-        SerializationOptions Options { get; }
+        FlexiXmlSerializationOptions Options { get; }
 
         XElement Serialize(object item);
         XElement Serialize(object memberValue, string rootElementName);

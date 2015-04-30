@@ -26,7 +26,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml.Repository
 
             var s = new FlexiXmlSerializer();
 
-            var options = new SerializationOptions();
+            var options = new FlexiXmlSerializationOptions();
 
             options.UniqueIdAttributeName = XName.Get("name");
             options.UniqueIdReferenceAttributeName = XName.Get("ref");

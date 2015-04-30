@@ -25,7 +25,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml.KnownTypesLookup
 
             var s = new FlexiXmlSerializer();
 
-            var op = new SerializationOptions();
+            var op = new FlexiXmlSerializationOptions();
             op.TypeInformation = TypeInformation.LookupOnly;
 
             var root = s.Deserialize<TestRoot>(xml, op);

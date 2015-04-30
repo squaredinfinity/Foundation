@@ -10,11 +10,11 @@ namespace SquaredInfinity.Foundation.Serialization
     public interface IXmlSerializer : IFlexiSerializer
     {
         XElement Serialize(object obj);
-        XElement Serialize(object obj, SerializationOptions options);
+        XElement Serialize(object obj, FlexiXmlSerializationOptions options);
 
         XElement Serialize(object obj, string rootElementName);
 
-        XElement Serialize(object obj, string rootElementName, SerializationOptions options);
+        XElement Serialize(object obj, string rootElementName, FlexiXmlSerializationOptions options);
 
         XElement Serialize<T>(IEnumerable<T> items, string rootElementName, Func<T, XElement> getItemElement);
 

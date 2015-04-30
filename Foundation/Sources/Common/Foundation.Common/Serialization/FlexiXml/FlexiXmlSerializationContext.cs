@@ -12,106 +12,24 @@ using System.Xml.Linq;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
-    public class ReferenceEqualityComparer : IEqualityComparer<object>
-    {
-        bool IEqualityComparer<object>.Equals(object x, object y)
-        {
-            if (x == null)
-                return false;
-
-            if (y == null)
-                return false;
-
-            return object.ReferenceEquals(x, y);
-        }
-
-        int IEqualityComparer<object>.GetHashCode(object obj)
-        {
-            if (obj == null)
-                return int.MinValue;
-
-            return obj.GetHashCode();
-        }
-    }
-
     /// <summary>
     /// Serialization Context sotres state used by serializer during serialization.
     /// </summary>
-    public class SerializationContext : ISerializationContext, IFlexiXmlSerializationContext
+    public class FlexiXmlSerializationContext : SerializationContext, IFlexiXmlSerializationContext
     {
-        public TypeResolver TypeResolver { get; private set; }
-
-        IXmlSerializer Serializer { get; set; }
-
-        public ITypeDescriptor TypeDescriptor { get; private set; }
-
-        /// <summary>
-        /// Instance of root object being serialized
-        /// </summary>
-        public object RootInstance { get; internal set; }
-
         public XElement RootElement { get; internal set; }
 
-        public SerializationOptions Options { get; internal set ; }
+        public FlexiXmlSerializationOptions Options { get; internal set ; }
 
-        readonly ConcurrentDictionary<object, InstanceId> _objects_InstanceIdTracker = 
-            new ConcurrentDictionary<object, InstanceId>(new ReferenceEqualityComparer());
-
-        public ConcurrentDictionary<object, InstanceId> Objects_InstanceIdTracker
-        {
-            get { return _objects_InstanceIdTracker; }
-        }
-
-        readonly ConcurrentDictionary<InstanceId, object> _objects_ById =
-            new ConcurrentDictionary<InstanceId, object>();
-
-        public ConcurrentDictionary<InstanceId, object> Objects_ById
-        {
-            get { return _objects_ById; }
-        }
-
-        //public readonly ConcurrentDictionary<string, XAttribute> ClrNamespaceToNamespaceDelcarationMappings = 
-        //    new ConcurrentDictionary<string, XAttribute>();
-
-        long LastUsedUniqueId = 0;
-
-        public long GetNextUniqueId()
-        {
-            return Interlocked.Increment(ref LastUsedUniqueId);
-        }
-
-        Func<Type, CreateInstanceContext, object> CustomCreateInstanceWith { get; set; }
-
-        internal SerializationContext(
-            IXmlSerializer serializer, 
+        public FlexiXmlSerializationContext(
+            IFlexiSerializer serializer, 
             ITypeDescriptor typeDescriptor, 
             TypeResolver typeResolver,
-            SerializationOptions options,
+            FlexiXmlSerializationOptions options,
             Func<Type, CreateInstanceContext, object> createInstanceWith = null)
+            : base(serializer, typeDescriptor, typeResolver, createInstanceWith)
         {
-            this.Serializer = serializer;
-            this.TypeDescriptor = typeDescriptor;
-            this.TypeResolver = typeResolver;
             this.Options = options;
-            this.CustomCreateInstanceWith = createInstanceWith;
-        }
-
-        public object CreateInstance(Type type, CreateInstanceContext cx)
-        {
-            if (CustomCreateInstanceWith != null)
-            {
-                var instance = CustomCreateInstanceWith(type, cx);
-                
-                return instance;
-            }
-            else
-            {
-                var targetTypeDescription = TypeDescriptor.DescribeType(type);
-
-                var instance = targetTypeDescription.CreateInstance();
-
-                return instance;
-            }
         }
         
         public XElement Serialize(object instance)
@@ -205,11 +123,6 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             var strategy = (IFlexiXmlTypeSerializationStrategy) GetTypeSerializationStrategy(target.GetType());
 
             strategy.Deserialize(xml, target, this);
-        }
-
-        public ITypeSerializationStrategy GetTypeSerializationStrategy(Type type)
-        {
-            return Serializer.GetTypeSerializationStrategy(type);
         }
 
         MultiMap<XName, Type> _knownTypes = new MultiMap<XName, Type>();

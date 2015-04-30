@@ -25,7 +25,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             return Serialize(obj, rootElementName: null);
         }
 
-        public XElement Serialize(object obj, SerializationOptions options)
+        public XElement Serialize(object obj, FlexiXmlSerializationOptions options)
         {
             if (obj == null)
                 throw new ArgumentNullException("obj");
@@ -36,17 +36,17 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         
         public XElement Serialize(object obj, string rootElementName)
         {
-            return Serialize(obj, rootElementName, new SerializationOptions());
+            return Serialize(obj, rootElementName, new FlexiXmlSerializationOptions());
         }
 
-        public XElement Serialize(object obj, string rootElementName, SerializationOptions options)
+        public XElement Serialize(object obj, string rootElementName, FlexiXmlSerializationOptions options)
         {
             if(obj == null)
                 throw new ArgumentNullException("obj");
             
             var objType = obj.GetType();
 
-            var cx = new SerializationContext(this, TypeDescriptor, TypeResolver, options);
+            var cx = new FlexiXmlSerializationContext(this, TypeDescriptor, TypeResolver, options);
 
             cx.RootElement = cx.Serialize(obj, rootElementName);
 

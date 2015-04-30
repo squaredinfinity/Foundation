@@ -8,7 +8,7 @@ using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
-    public class SerializationOptions
+    public class FlexiXmlSerializationOptions
     {
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
         //public XName NamespaceAttributeName { get; set; }
 
-        public SerializationOptions()
+        public FlexiXmlSerializationOptions()
         {
             SerializationNamespaceName = "serialization";
             NullValueAttributeName = FlexiXmlSerializer.XmlNamespace.GetName("null");

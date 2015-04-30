@@ -476,6 +476,12 @@
     <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\FlexiXmlReferenceResolutionContext.cs">
       <Link>Serialization\FlexiXml\FlexiXmlReferenceResolutionContext.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\FlexiXmlSerializationContext.cs">
+      <Link>Serialization\FlexiXml\FlexiXmlSerializationContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\FlexiXmlSerializationOptions.cs">
+      <Link>Serialization\FlexiXml\FlexiXmlSerializationOptions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\FlexiXmlSerializer.cs">
       <Link>Serialization\FlexiXml\FlexiXmlSerializer.cs</Link>
     </Compile>
@@ -490,17 +496,11 @@
     <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\FlexiXmlTypeSerializationStrategy.cs">
       <Link>Serialization\FlexiXml\FlexiXmlTypeSerializationStrategy.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\IFlexiXmlSerializationContext.cs">
+      <Link>Serialization\FlexiXml\IFlexiXmlSerializationContext.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\IFlexiXmlTypeSerializationStrategy.cs">
       <Link>Serialization\FlexiXml\IFlexiXmlTypeSerializationStrategy.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\_entities\ISerializationContext.cs">
-      <Link>Serialization\FlexiXml\_entities\ISerializationContext.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\_entities\SerializationContext.cs">
-      <Link>Serialization\FlexiXml\_entities\SerializationContext.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Serialization\FlexiXml\_entities\SerializationOptions.cs">
-      <Link>Serialization\FlexiXml\_entities\SerializationOptions.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\IEnumerableTypeSerializationStrategy_T.cs">
       <Link>Serialization\IEnumerableTypeSerializationStrategy_T.cs</Link>
@@ -532,8 +532,14 @@
     <Compile Include="..\..\Common\Foundation.Common\Serialization\MemberSerializationStrategy.cs">
       <Link>Serialization\MemberSerializationStrategy.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\ReferenceEqualityComparer.cs">
+      <Link>Serialization\ReferenceEqualityComparer.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\ReferenceResolutionContext.cs">
       <Link>Serialization\ReferenceResolutionContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Serialization\SerializationContext.cs">
+      <Link>Serialization\SerializationContext.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\TypeSerializationStrategy.cs">
       <Link>Serialization\TypeSerializationStrategy.cs</Link>
