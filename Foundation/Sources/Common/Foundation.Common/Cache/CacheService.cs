@@ -166,12 +166,14 @@ namespace SquaredInfinity.Foundation.Cache
             }
         }
 
-        public void ClearAll()
+        public virtual void ClearAll()
         {
             var oldCache = Cache;
             Cache = new MemoryCache("CacheService");
 
             oldCache.Dispose();
+
+            KeyLocks.Clear();
         }
 
         protected virtual CacheItemPolicy GetDefaultCachePolicy()
