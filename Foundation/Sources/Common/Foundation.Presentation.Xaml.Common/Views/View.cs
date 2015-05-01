@@ -185,11 +185,22 @@ namespace SquaredInfinity.Foundation.Presentation.Views
             ViewModelEvent += View_ViewModelMessage;
 
             this.Initialized += View_Initialized;
+            this.Loaded += View_Loaded;
+        }
+
+        void View_Loaded(object sender, RoutedEventArgs e)
+        {
+            InitializeViewModelIfNeeded();
         }
 
         protected virtual void OnAfterDataContextChanged() { }
 
         void View_Initialized(object sender, EventArgs e)
+        {
+            InitializeViewModelIfNeeded();
+        }
+
+        void InitializeViewModelIfNeeded()
         {
             if (ViewModel != null)
             {
@@ -206,7 +217,7 @@ namespace SquaredInfinity.Foundation.Presentation.Views
             var window = Window.GetWindow(this);
 
             if (window != null)
-            {
+            {   
                 isHostedInDialogWindow = window.IsDialog();
             }
 
