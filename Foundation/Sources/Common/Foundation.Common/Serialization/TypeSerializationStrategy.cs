@@ -1,15 +1,62 @@
 ﻿using SquaredInfinity.Foundation.Types.Description;
+using SquaredInfinity.Foundation.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Serialization
 {
+    public enum MemberSerializationOption
+    {
+        ImplicitIgnore,
+        ExplicitIgnore,
+        ImplicitSerialize,
+        ExplicitSerialize
+    }
+
     public class TypeSerializationStrategy : ITypeSerializationStrategy
     {
+        protected class MembersSerializationStrategies : Dictionary<string, MemberSerializationStrategyInfo>
+        { 
+            public MembersSerializationStrategies()
+                : base(StringComparer.InvariantCultureIgnoreCase)
+            { }
+        }
+
+        [DebuggerDisplay("{DebuggerDisplay}")]
+        protected class MemberSerializationStrategyInfo
+        {
+            public IMemberSerializationStrategy Strategy { get; set; }
+            public bool IsMemberSerializable { get; set; }
+
+            public MemberSerializationOption SerializationOption { get; set; }
+
+            public string DebuggerDisplay
+            {
+                get
+                {
+                    return "{0}: {1}".FormatWith(Strategy.MemberName.ToString(valueWhenNull:"[NULL]"), SerializationOption);
+                }
+            }
+
+            public MemberSerializationStrategyInfo(IMemberSerializationStrategy strategy, bool isSerializable)
+            {
+                this.Strategy = strategy;
+                this.IsMemberSerializable = isSerializable;
+
+                // be default enable serialization if member is serializable
+                if (isSerializable)
+                    SerializationOption = MemberSerializationOption.ImplicitSerialize;
+                else
+                    SerializationOption = MemberSerializationOption.ImplicitIgnore;
+            }
+
+        }
+
         public Version Version { get; private set; }
 
         public Type Type { get; private set; }
@@ -20,28 +67,16 @@ namespace SquaredInfinity.Foundation.Serialization
 
         public Types.Description.ITypeDescriptor TypeDescriptor { get; private set; }
 
-        readonly List<IMemberSerializationStrategy> _originalContentSerializationStrategies =
-            new List<IMemberSerializationStrategy>();
-
-        protected List<IMemberSerializationStrategy> OriginalContentSerializationStrategies
+        readonly MembersSerializationStrategies _originalMembersSerializationStrategies = new MembersSerializationStrategies();
+        protected MembersSerializationStrategies OriginalMembersSerializationStrategies
         {
-            get { return _originalContentSerializationStrategies; }
+            get { return _originalMembersSerializationStrategies; }
         }
 
-        readonly List<IMemberSerializationStrategy> _originalNonSerialiableContentationStrategies =
-            new List<IMemberSerializationStrategy>();
-
-        protected List<IMemberSerializationStrategy> OriginalNonSerialiableContentSerializationStrategies
+        readonly MembersSerializationStrategies _actualMembersSerializationStrategies = new MembersSerializationStrategies();
+        protected MembersSerializationStrategies ActualMembersSerializationStrategies
         {
-            get { return _originalNonSerialiableContentationStrategies; }
-        }
-
-        readonly List<IMemberSerializationStrategy> _actualContentSerializationStrategies =
-            new List<IMemberSerializationStrategy>();
-
-        protected List<IMemberSerializationStrategy> ActualContentSerializationStrategies
-        {
-            get { return _actualContentSerializationStrategies; }
+            get { return _actualMembersSerializationStrategies; }
         }
 
         public TypeSerializationStrategy(IFlexiSerializer serializer, Type type, Types.Description.ITypeDescriptor typeDescriptor)
@@ -55,11 +90,6 @@ namespace SquaredInfinity.Foundation.Serialization
             Initialize();
         }
 
-        public IReadOnlyList<IMemberSerializationStrategy> GetContentSerializationStrategies()
-        {
-            return ActualContentSerializationStrategies;
-        }
-
         protected void Initialize()
         {
             //# get all source members that can be serialized
@@ -70,29 +100,13 @@ namespace SquaredInfinity.Foundation.Serialization
 
             //# create default strategies for each serializable member
 
-            foreach (var member in serializableMembers)
+            foreach (var member in TypeDescription.Members)
             {
                 var strategy = CreateSerializationStrategyForMember(member);
 
-                OriginalContentSerializationStrategies.Add(strategy);
-            }
-
-            ActualContentSerializationStrategies.AddRange(OriginalContentSerializationStrategies);
-
-
-            //# get all source members that cannot be serialized
-            var nonserializableMembers =
-               (from m in TypeDescription.Members
-                where !CanSerializeMember(m)
-                select m);
-
-            //# create default strategies for each serializable member
-
-            foreach (var member in nonserializableMembers)
-            {
-                var strategy = CreateSerializationStrategyForMember(member);
-
-                OriginalNonSerialiableContentSerializationStrategies.Add(strategy);
+                bool isSerializable = CanSerializeMember(member);
+                OriginalMembersSerializationStrategies.Add(member.Name, new MemberSerializationStrategyInfo(strategy, isSerializable));
+                ActualMembersSerializationStrategies.Add(member.Name, new MemberSerializationStrategyInfo(strategy, isSerializable));
             }
         }
 
@@ -184,6 +198,47 @@ namespace SquaredInfinity.Foundation.Serialization
             result = typeConverter.ConvertFrom(stringRepresentation);
 
             return true;
+        }
+
+
+        public void IgnoreMember(string memberName)
+        {
+            var strategyInfo = (MemberSerializationStrategyInfo) null;
+
+            if(ActualMembersSerializationStrategies.TryGetValue(memberName, out strategyInfo))
+            {
+                strategyInfo.SerializationOption = MemberSerializationOption.ExplicitIgnore;
+            }
+            else
+            {
+                throw new ArgumentException(memberName);
+            }
+        }
+
+
+        public void CopySerializationSetupFrom(ITypeSerializationStrategy other_strategy)
+        {
+            var other = other_strategy as TypeSerializationStrategy;
+
+            if (other == null)
+                throw new ArgumentException("other strategy must be of type TypeSerializationStrategy");
+
+            foreach(var os in other.ActualMembersSerializationStrategies)
+            {
+                var ts = (MemberSerializationStrategyInfo) null;
+
+                if(this.ActualMembersSerializationStrategies.TryGetValue(os.Key, out ts))
+                {
+                    ts.SerializationOption = os.Value.SerializationOption;
+                }
+                else
+                {
+                    var info = new MemberSerializationStrategyInfo(os.Value.Strategy, os.Value.IsMemberSerializable);
+                    info.SerializationOption = os.Value.SerializationOption;
+
+                    this.ActualMembersSerializationStrategies.Add(os.Key, info);
+                }
+            }
         }
     }
 }

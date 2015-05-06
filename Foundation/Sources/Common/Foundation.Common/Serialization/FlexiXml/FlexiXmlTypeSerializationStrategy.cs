@@ -103,10 +103,13 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             }
 
             //# Process all content to be serialized (this may include members but also custom content to be added to serialization output)
-            foreach(var r in ActualContentSerializationStrategies)
+            foreach(var r in ActualMembersSerializationStrategies.Values)
             {
+                if (r.SerializationOption == MemberSerializationOption.ImplicitIgnore || r.SerializationOption == MemberSerializationOption.ExplicitIgnore)
+                    continue;
+
                 var serializedMember = (XObject)null;
-                if (TrySerializeMember(cx, el, instance, r, out serializedMember))
+                if (TrySerializeMember(cx, el, instance, r.Strategy, out serializedMember))
                 {
                     el.Add(serializedMember);
                 }
@@ -302,45 +305,28 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         {
             var memberName = memberExpression.GetAccessedMemberName();
 
-            bool shouldAddToActual = false;
+            var si = (MemberSerializationStrategyInfo)null;
 
-            var strategy =
-                    (from s in ActualContentSerializationStrategies
-                     where string.Equals(s.MemberName, memberName)
-                     select s).FirstOrDefault();
-
-            if (strategy == null)
+            if (ActualMembersSerializationStrategies.TryGetValue(memberName, out si))
             {
-                strategy =
-                    (from s in OriginalContentSerializationStrategies
-                     where string.Equals(s.MemberName, memberName)
-                     select s).FirstOrDefault();
-
-                shouldAddToActual = true;
-            }
-
-            if (strategy == null)
-            {
-                var ex = new ArgumentException("Unable to find Serialization Strategy.");
-                // todo: ex.addcontext(member, type)
-
-                throw ex;
-            }
-
-            if (shouldSerializeMember != null)
-            {
-                strategy.ShouldSerializeMember = new Func<object, bool>((_target) =>
+                if (shouldSerializeMember != null)
                 {
-                    var local = shouldSerializeMember;
-                    return local((T)_target);
-                });
+                    si.Strategy.ShouldSerializeMember = new Func<object, bool>((_target) =>
+                    {
+                        var local = shouldSerializeMember;
+                        return local((T)_target);
+                    });
+                }
+
+                si.Strategy.CustomSerialize = new Func<object, object, string>((owner, member) => serialize((T)owner, (TMember)member));
+                si.Strategy.CustomDeserialize = new Func<object, object>(attrib => deserialize((XAttribute)attrib));
+
+                si.SerializationOption = MemberSerializationOption.ExplicitSerialize;
             }
-
-            strategy.CustomSerialize = new Func<object, object, string>((owner, member) => serialize((T)owner, (TMember)member));
-            strategy.CustomDeserialize = new Func<object, object>(attrib => deserialize((XAttribute)attrib));
-
-            if (shouldAddToActual)
-                ActualContentSerializationStrategies.Add(strategy);
+            else
+            {
+                throw new NotImplementedException();
+            }
 
             return this as T1;
         }
@@ -681,18 +667,18 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             IFlexiXmlSerializationContext cx)
         {
             //# Process all members to be deserialized
-            foreach (var r in ActualContentSerializationStrategies)
+            foreach (var r in ActualMembersSerializationStrategies.Values)
             {
                 var memberInstance = (object)null;
 
-                if (TryDeserializeMember(xml, target, r, cx, out memberInstance))
+                if (TryDeserializeMember(xml, target, r.Strategy, cx, out memberInstance))
                 {
                     // if member cannot be set then TryDeserializeMember will reuse existing instance
                     // it will still return true because serialization was succesfull,
                     // but the resulting instance should not be applied
 
-                    if(r.CanSetValue())
-                        r.SetValue(target, memberInstance);
+                    if(r.Strategy.CanSetValue())
+                        r.Strategy.SetValue(target, memberInstance);
                 }
             }
         }

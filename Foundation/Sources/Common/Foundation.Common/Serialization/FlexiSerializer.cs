@@ -13,7 +13,7 @@ namespace SquaredInfinity.Foundation.Serialization
     public abstract partial class FlexiSerializer
         : IFlexiSerializer
     {
-        readonly protected TypeSerializationStrategiesConcurrentDictionary TypeSerializationStrategies =
+        readonly TypeSerializationStrategiesConcurrentDictionary TypeSerializationStrategies =
             new TypeSerializationStrategiesConcurrentDictionary();
 
         TypeResolver _typeResolver;
@@ -91,8 +91,26 @@ namespace SquaredInfinity.Foundation.Serialization
             return false;
         }
 
-        protected ITypeSerializationStrategy CreateDefaultTypeSerializationStrategy(Type type)
+        public FlexiSerializer()
         {
+            ConfigureDefaultStrategies();
+        }
+
+        protected virtual void ConfigureDefaultStrategies()
+        {
+            
+            
+        }
+
+        ITypeSerializationStrategy CreateDefaultTypeSerializationStrategy(Type type)
+        {
+            //if(type.IsGenericType && !type.IsGenericTypeDefinition)
+            //{
+            //    var generic_type_definition = type.GetGenericTypeDefinition();
+
+            //    return CreateDefaultTypeSerializationStrategy(generic_type_definition, TypeDescriptor);
+            //}
+
             return CreateDefaultTypeSerializationStrategy(type, TypeDescriptor);
         }
 
@@ -100,11 +118,77 @@ namespace SquaredInfinity.Foundation.Serialization
             Type type,
             ITypeDescriptor typeDescriptor);
 
-        public ITypeSerializationStrategy GetOrCreateTypeSerializationStrategy(
-            Type type)
+        public ITypeSerializationStrategy GetOrCreateTypeSerializationStrategy(Type type)
         {
-            return (ITypeSerializationStrategy)TypeSerializationStrategies
-                .GetOrAdd(type, CreateDefaultTypeSerializationStrategy(type));
+            var result = (ITypeSerializationStrategy)null;
+
+            if (!type.IsGenericType)
+            {
+                return TypeSerializationStrategies
+                    .GetOrAdd(type, _ => CreateDefaultTypeSerializationStrategy(type));
+            }
+            else if(type.IsGenericType && !type.IsGenericTypeDefinition)
+            {
+                
+                if(TypeSerializationStrategies.TryGetValue(type, out result))
+                {
+                    // strategy for requested type exists already, just return
+                    return result;
+                }
+                else
+                {
+                    // strategy for requested type does not exist, create a new strategy and copy settings from generic type definition strategy (it if exists)
+
+                    result = CreateDefaultTypeSerializationStrategy(type);
+
+                    if(!TypeSerializationStrategies.TryAdd(type, result))
+                    {
+                        throw new InvalidOperationException();
+                    }
+
+                    return result;
+
+                    // intially generic type definition support seemed like a good idea
+                    // may need to go back to that at some point
+
+                    //var generic_type_definition = type.GetGenericTypeDefinition();
+
+                    //var generic_type_definition_strategy = (ITypeSerializationStrategy)null;
+
+                    //if (TypeSerializationStrategies.TryGetValue(generic_type_definition, out generic_type_definition_strategy))
+                    //{
+                    //    result.CopySerializationSetupFrom(generic_type_definition_strategy);
+
+                    //    return result;
+                    //}
+
+                    //return result;
+                }
+            }
+            else // generic type definition
+            {
+                throw new NotImplementedException();
+
+                if(TypeSerializationStrategies.TryGetValue(type, out result))
+                {
+                    return result;
+                }
+                else
+                {
+                    var generic_type_definition = type.GetGenericTypeDefinition();
+
+                    return TypeSerializationStrategies
+                        .GetOrAdd(generic_type_definition, _ => CreateDefaultTypeSerializationStrategy(generic_type_definition));
+                }
+            }
+        }
+
+        protected ITypeSerializationStrategy GetOrCreateTypeSerializationStrategy(
+            Type type,
+            Func<ITypeSerializationStrategy> create)
+        {
+            return TypeSerializationStrategies
+                .GetOrAdd(type, _ => create());
         }
 
         public ITypeSerializationStrategy GetTypeSerializationStrategy(Type type)

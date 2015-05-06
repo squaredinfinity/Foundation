@@ -171,6 +171,9 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 
                 var member_type = p.PropertyType;
 
+                if (member_type.FullName == null)
+                    continue;
+
                 if (!member_type.IsPublic && !member_type.IsNestedPublic)
                     continue;
 

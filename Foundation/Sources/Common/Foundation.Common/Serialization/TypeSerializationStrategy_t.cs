@@ -21,7 +21,8 @@ namespace SquaredInfinity.Foundation.Serialization
 
         public TSerializationStrategy IgnoreAllMembers()
         {
-            ActualContentSerializationStrategies.Clear();
+            foreach (var si in ActualMembersSerializationStrategies.Values)
+                si.SerializationOption = MemberSerializationOption.ImplicitIgnore;
 
             return this as TSerializationStrategy;
         }
@@ -30,12 +31,7 @@ namespace SquaredInfinity.Foundation.Serialization
         {
             var memberName = memberExpression.GetAccessedMemberName();
 
-            var strategy =
-                (from s in ActualContentSerializationStrategies
-                 where string.Equals(s.MemberName, memberName)
-                 select s).Single();
-
-            ActualContentSerializationStrategies.Remove(strategy);
+            base.IgnoreMember(memberName);
 
             return this as TSerializationStrategy;
         }
@@ -55,62 +51,37 @@ namespace SquaredInfinity.Foundation.Serialization
         public TSerializationStrategy SerializeMember(System.Linq.Expressions.Expression<Func<T, object>> memberExpression, Func<T, bool> shouldSerializeMember)
         {
             var memberName = memberExpression.GetAccessedMemberName();
+            
+            var si = (MemberSerializationStrategyInfo)null;
 
-            bool shouldAddToActual = false;
-
-            var strategy =
-                    (from s in ActualContentSerializationStrategies
-                     where string.Equals(s.MemberName, memberName)
-                     select s).FirstOrDefault();
-
-            if (strategy == null)
+            if(ActualMembersSerializationStrategies.TryGetValue(memberName, out si))
             {
-                strategy =
-                    (from s in OriginalContentSerializationStrategies
-                     where string.Equals(s.MemberName, memberName)
-                     select s).FirstOrDefault();
-
-                shouldAddToActual = true;
-            }
-
-            if (strategy == null)
-            {
-                strategy =
-                    (from s in OriginalNonSerialiableContentSerializationStrategies
-                     where string.Equals(s.MemberName, memberName)
-                     select s).FirstOrDefault();
-
-                shouldAddToActual = true;
-            }
-
-            if (strategy == null)
-            {
-                throw new Exception("Unable to create serialization strategy for member {0}.".FormatWith(memberName));
-            }
-
-
-            if (shouldSerializeMember != null)
-            {
-                strategy.ShouldSerializeMember = new Func<object, bool>((_target) =>
+                if (shouldSerializeMember != null)
                 {
-                    var local = shouldSerializeMember;
-                    return local((T)_target);
-                });
-            }
+                    si.Strategy.ShouldSerializeMember = new Func<object, bool>((_target) =>
+                    {
+                        var local = shouldSerializeMember;
+                        return local((T)_target);
+                    });
+                }
 
-            if (shouldAddToActual)
-                ActualContentSerializationStrategies.Add(strategy);
+                si.SerializationOption = MemberSerializationOption.ExplicitSerialize;
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
 
             return this as TSerializationStrategy;
         }
 
         public TSerializationStrategy SerializeAllRemainingMembers()
         {
-            var ignoredMembersStrategies =
-                (from ss in OriginalContentSerializationStrategies.Except(ActualContentSerializationStrategies)
-                 select ss);
-
-            ActualContentSerializationStrategies.AddRange(ignoredMembersStrategies);
+            foreach(var si in ActualMembersSerializationStrategies.Values)
+            {
+                if (si.SerializationOption == MemberSerializationOption.ImplicitIgnore)
+                    si.SerializationOption = MemberSerializationOption.ImplicitSerialize;
+            }
 
             return this as TSerializationStrategy;
         }
@@ -125,8 +96,8 @@ namespace SquaredInfinity.Foundation.Serialization
 
             var base_strategy = Serializer.GetOrCreateTypeSerializationStrategy(baseType);
 
-            ActualContentSerializationStrategies.AddRange(base_strategy.GetContentSerializationStrategies());
-
+            CopySerializationSetupFrom(base_strategy);
+            
             return this as TSerializationStrategy;
         }
     }

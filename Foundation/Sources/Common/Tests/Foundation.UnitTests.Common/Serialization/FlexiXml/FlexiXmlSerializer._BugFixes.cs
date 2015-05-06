@@ -143,15 +143,31 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
         #region BUG 004
 
+        public class MyDict : Dictionary<string, int>
+        { }
+
         [TestMethod]
         public void Bug004__dictionary_serialization_fails()
         {
-            var dic = new Dictionary<string, int>();
+            var dic = new MyDict();
             dic.Add("one", 1);
             dic.Add("two", 2);
             dic.Add("three", 3);
 
             var s = new FlexiXml.FlexiXmlSerializer();
+
+            s.GetOrCreateTypeSerializationStrategy<MyDict>()
+                .IgnoreMember(x => x.Keys)
+                .IgnoreMember(x => x.Values);
+                
+
+            Assert.Fail();
+
+            //var strategy = s.GetOrCreateGenericTypeSerializationStrategy<Dictionary<object, object>>()
+            //    .IgnoreMember(x => x.Keys)
+            //    .IgnoreMember(x => x.Values);
+           
+                
             var xml = s.Serialize(dic);
 
             Assert.IsNotNull(xml);

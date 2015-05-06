@@ -236,6 +236,13 @@ namespace SquaredInfinity.Foundation.ContextDataCollectors
                 }
 
                 //# Current Process
+
+                if (request.Data == "Process.Id")
+                {
+                    result = cx.CurrentProcess.Id;
+                    return true;
+                }
+
                 if (request.Data == "Process.PagedMemorySize (MB)")
                 {
                     result = cx.CurrentProcess.PagedMemorySize64.ToMegaBytes();

@@ -20,7 +20,9 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         internal static readonly XNamespace XmlNamespace = XNamespace.Get("http://schemas.squaredinfinity.com/serialization/flexixml");
 
         public FlexiXmlSerializer()
-        { }
+        { 
+
+        }
 
         public FlexiXmlSerializer(ITypeDescriptor typeDescriptor)
         {
@@ -90,10 +92,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         FlexiXmlTypeSerializationStrategy<T> GetOrCreateTypeSerializationStrategy<T>(
             Func<FlexiXmlTypeSerializationStrategy<T>> create)
         {
-            var key = typeof(T);
-
-            return (FlexiXmlTypeSerializationStrategy<T>)TypeSerializationStrategies
-                .GetOrAdd(key, (ITypeSerializationStrategy)create());
+            return (FlexiXmlTypeSerializationStrategy<T>) base.GetOrCreateTypeSerializationStrategy(typeof(T), create);
         }
 
         FlexiXmlEnumerableTypeSerializationStrategy<T, TItem> CreateDefaultTypeSerializationStrategy<T, TItem>()
@@ -106,6 +105,22 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             where T : IEnumerable<TItem>
         {
             return (FlexiXmlEnumerableTypeSerializationStrategy<T, TItem>)GetOrCreateTypeSerializationStrategy<T>(() => CreateDefaultEnumerableTypeSerializationStrategy<T, TItem>());
+        }
+
+        protected override void ConfigureDefaultStrategies()
+        {
+            base.ConfigureDefaultStrategies();
+
+            
+
+            //var ts = GetOrCreateTypeSerializationStrategy(typeof(Dictionary<,>), () => CreateDefaultTypeSerializationStrategy(typeof(Dictionary<,>), TypeDescriptor));
+            
+            //ts.IgnoreMember("Keys");
+            //ts.IgnoreMember("Values");
+
+            //this.GetOrCreateTypeSerializationStrategy<Dictionary<object, object>>()
+            //    .IgnoreMember(x => x.Keys)
+            //    .IgnoreMember(x => x.Values);
         }
 
 

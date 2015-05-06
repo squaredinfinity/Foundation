@@ -1,12 +1,14 @@
 ﻿using SquaredInfinity.Foundation.Types.Description;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Serialization
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public class MemberSerializationStrategy : IMemberSerializationStrategy
     {
         public string MemberName { get; private set; }
@@ -40,6 +42,11 @@ namespace SquaredInfinity.Foundation.Serialization
         public bool CanSetValue()
         {
             return MemberDescription.CanSetValue;
+        }
+
+        public string DebuggerDisplay
+        {
+            get { return MemberName; }
         }
     }
 }

@@ -9,6 +9,7 @@ using SquaredInfinity.Foundation.Extensions;
 using SquaredInfinity.Foundation.Diagnostics.TextTemplates;
 using SquaredInfinity.Foundation.Diagnostics.TextTemplates.Substitutions;
 using SquaredInfinity.Foundation.Diagnostics.TextTemplates.Placeholders;
+using SquaredInfinity.Foundation.Serialization.FlexiXml;
 
 namespace SquaredInfinity.Foundation.Diagnostics.Formatters
 {
@@ -32,10 +33,16 @@ namespace SquaredInfinity.Foundation.Diagnostics.Formatters
             }
         }
 
+        FlexiXmlSerializer Serializer = new FlexiXmlSerializer();
+
         public string Name { get; set; }
 
         public PatternFormatter()
         {
+            Serializer.GetOrCreateTypeSerializationStrategy<DiagnosticEventPropertyCollection>()
+                .IgnoreMember(x => x.Keys)
+                .IgnoreMember(x => x.Values);
+
             Pattern = "{Event.Message}";
 
             TextTemplateProcessingServce = new TemplateProcessingService();
@@ -44,7 +51,9 @@ namespace SquaredInfinity.Foundation.Diagnostics.Formatters
                     "dump",
                     (originalValue, input, parameters) =>
                     {
-                        return input.DumpToString();
+                        var xml = Serializer.Serialize(input);
+
+                        return xml.ToString();
                     }));
             //TextTemplateProcessingServce.InternalContext.Functions.AddFunction(
             //    new Function(
@@ -59,7 +68,9 @@ namespace SquaredInfinity.Foundation.Diagnostics.Formatters
                     "dumpWithHeader",
                     (originalValue, input, parameters) =>
                     {
-                        return input.DumpToString();
+                        var xml = Serializer.Serialize(input);
+
+                        return xml.ToString();
 
                         // TODO:
                         //throw new NotImplementedException();

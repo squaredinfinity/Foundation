@@ -14,7 +14,9 @@ namespace SquaredInfinity.Foundation.Serialization
         Type Type { get; }
 
         ITypeDescription TypeDescription { get; }
+        
+        void CopySerializationSetupFrom(ITypeSerializationStrategy other_strategy);
 
-        IReadOnlyList<IMemberSerializationStrategy> GetContentSerializationStrategies();
+        void IgnoreMember(string memberName);
     }
 }
