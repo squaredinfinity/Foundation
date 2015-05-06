@@ -199,7 +199,6 @@
     <Compile Include="Serialization\FlexiSerializer.cs" />
     <Compile Include="Serialization\FlexiSerializer.TypeSerializationStrategiesConcurrentDictionary.cs" />
     <Compile Include="Serialization\FlexiXml\FlexiXmlEnumerableTypeSerializationStrategy.cs" />
-    <Compile Include="Serialization\FlexiXml\FlexiXmlEnumerableTypeSerializationStrategy_T.cs" />
     <Compile Include="Serialization\FlexiXml\FlexiXmlReferenceResolutionContext.cs" />
     <Compile Include="Serialization\FlexiXml\FlexiXmlSerializer.Deserialization.cs" />
     <Compile Include="Serialization\FlexiXml\FlexiXmlSerializer.Serialization.cs" />

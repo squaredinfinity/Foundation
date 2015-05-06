@@ -110,7 +110,13 @@ namespace Foundation.Diagnostics.Walkthrough.Common
             // those will be used if specific event occurs
 
             var edc_application_lifecycle = new EnvironmentDataCollector();
-            //edc_application_lifecycle.Filter = config.Repository.Filters
+
+            // todo: quick lookup by name
+            edc_application_lifecycle.Filter = 
+                (from f in config.Repository.Filters
+                 where f.Name == "(warning,max]"
+                     select f).Single();
+
             edc_application_lifecycle.RequestedData.Add(EnvironmentData.ApplicationVersion);
             edc_application_lifecycle.RequestedData.Add(EnvironmentData.ThreadUICulture);
             edc_application_lifecycle.RequestedData.Add(EnvironmentData.ThreadCulture);
@@ -182,7 +188,7 @@ namespace Foundation.Diagnostics.Walkthrough.Common
                 .CopySerializationSetupFromBaseClass()
                 .SerializeMember(x => x.Property, x => x.Property != null)
                 .SerializeMember(x => x.Value, x => x.Value != null);
-
+           
             serializer.GetOrCreateTypeSerializationStrategy<SeverityFilter>()
                 .IgnoreAllMembers()
                 .CopySerializationSetupFromBaseClass()
@@ -192,12 +198,13 @@ namespace Foundation.Diagnostics.Walkthrough.Common
                 .SerializeMemberAsAttribute(x => x.ExclusiveTo, x => x.ExclusiveTo != null, (x, y) => y.ToString(), s => KnownSeverityLevels.Parse(s.Value))
                 .SerializeMemberAsAttribute(x => x.ExclusiveFrom, x => x.ExclusiveFrom != null, (x, y) => y.ToString(), s => KnownSeverityLevels.Parse(s.Value));
 
+            serializer.GetOrCreateTypeSerializationStrategy<ContextDataCollector>()
+                .SerializeMemberAsAttribute<IFilter>(x => x.Filter, x => x.Filter != null, (x, y) => y.Name, s => null);
+
 
             var so = new FlexiXmlSerializationOptions();
             so.SerializeNonPublicTypes = false;
             so.TypeInformation = TypeInformation.None;
-
-
 
             var xml = serializer.Serialize(config, so);
             File.WriteAllText("1.config", xml.ToString());
@@ -221,6 +228,8 @@ namespace Foundation.Diagnostics.Walkthrough.Common
                 .AsInformation()
                 .ApplicationLifecycleEvent
                 .Shutdown();
+
+            DiagnosticLogger.Global.AsCritical().AppendObject("entry assembly", Assembly.GetEntryAssembly()).Log();
         }
     }
 }

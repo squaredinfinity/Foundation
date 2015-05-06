@@ -62,6 +62,7 @@
     <Compile Include="Collections\CollectionEx.GetSnapshot.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Collections\ObservableCollectionEx.bugfixes.cs" />
     <Compile Include="Collections\CollectionEx.tests.cs" />
     <Compile Include="Collections\CollectionEx.BulkUpdates.cs" />
     <Compile Include="Collections\CollectionEx.Clear.cs" />

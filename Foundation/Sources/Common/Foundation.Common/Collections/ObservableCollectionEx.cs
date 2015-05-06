@@ -11,18 +11,24 @@ namespace SquaredInfinity.Foundation.Collections
 {
     public partial class ObservableCollectionEx<TItem> : CollectionEx<TItem>
     {
-        readonly int InitialHashCode;
+        int InitialHashCode;
         
         public ObservableCollectionEx()
-            : this(monitorElementsForChanges: false, items: new TItem[0])
+            : this(monitorElementsForChanges: false)
         { }
 
         public ObservableCollectionEx(bool monitorElementsForChanges)
-            : this(monitorElementsForChanges, items: new TItem[0])
-        { }
+        {
+            Initialize(monitorElementsForChanges);
+        }
 
         public ObservableCollectionEx(bool monitorElementsForChanges, IList<TItem> items)
             : base(items)
+        {
+            Initialize(monitorElementsForChanges);
+        }
+
+        void Initialize(bool monitorElementsForChanges)
         {
             InitialHashCode = GetHashCode();
 
