@@ -27,6 +27,12 @@
                                 <TextBlock Text="&#xf002;" />
                                 <TextBlock Text="&#xf100;" />
                                 <TextBlock Text="&#xf200;" />
+                                <TextBlock Text="&#xf300;" />
+                                <TextBlock Text="&#xf400;" />
+                                <TextBlock Text="&#xf500;" />
+                                <TextBlock Text="&#xf600;" />
+                                <TextBlock Text="&#xf700;" />
+                                <TextBlock Text="&#xf800;" />
                                 <TextBlock Text="some example text" />
                             </StackPanel>
                         </StackPanel>
