@@ -166,6 +166,8 @@
     
     <converters:ToListConverter x:Key="Converters.ToList" />
     <converters:ToMapConverter x:Key="Converters.ToMap" />
+    <!-- ToDictionary is an alias for ToMap -->
+    <converters:ToMapConverter x:Key="Converters.ToDictionary" />
     <converters:EnumerableCombiningConverter x:Key="Converters.Concat" />
 
 </ResourceDictionary>
