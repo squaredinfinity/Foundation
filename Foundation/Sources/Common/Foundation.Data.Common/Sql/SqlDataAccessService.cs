@@ -106,7 +106,17 @@ namespace SquaredInfinity.Foundation.Data.Sql
             var md = new SqlMetaData[1];
             md[0] = new SqlMetaData(columnName, columnType);
 
-           result.Value = new SqlDataRecordEnumerableWrapper(source, md);
+            // evaluate the source
+            // if it yelds no values, then value should be set to null
+            // otherwise use proper value
+            // this is a requirement of SQL Server, passing empty enumerable as value of Table Parameter will result in exception being thrown
+
+            var value = new SqlDataRecordEnumerableWrapper(source, md).ToArray();
+
+            if (value.Length == 0)
+                result.Value = null;
+            else
+                result.Value = value;
 
            return result;
         }
