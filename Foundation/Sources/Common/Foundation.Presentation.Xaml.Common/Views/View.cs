@@ -186,6 +186,15 @@ namespace SquaredInfinity.Foundation.Presentation.Views
 
             this.Initialized += View_Initialized;
             this.Loaded += View_Loaded;
+            this.Unloaded += View_Unloaded;
+        }
+
+        void View_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel != null)
+                ViewModel.Dispose();
+
+            ViewModel = null;
         }
 
         void View_Loaded(object sender, RoutedEventArgs e)
