@@ -177,7 +177,6 @@ namespace SquaredInfinity.Foundation.Presentation.Views
 
         public View() 
         {
-            RefreshViewModel(oldDataContext: null, newDataContext: null);
             DataContextChanged += (s, e) => RefreshViewModel(e.OldValue, e.NewValue);
             DataContextChanged += (s, e) => OnAfterDataContextChanged();
 
@@ -186,15 +185,66 @@ namespace SquaredInfinity.Foundation.Presentation.Views
 
             this.Initialized += View_Initialized;
             this.Loaded += View_Loaded;
-            this.Unloaded += View_Unloaded;
         }
+
+
+        #region IDisposable
+
+        bool IsDisposed = false;
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+
+            GC.SuppressFinalize(this);
+        }
+
+        ~View()
+        {
+            Dispose(disposing: false);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (IsDisposed)
+                return;
+
+            if (disposing)
+            {
+                DisposeManagedResources();
+            }
+
+            DisposeUnmanagedResources();
+
+            IsDisposed = true;
+        }
+
+        protected virtual void DisposeManagedResources()
+        {
+            if (ViewModel != null)
+            {
+                ViewModel.Dispose();
+                ViewModel = null;
+            }
+        }
+
+        protected virtual void DisposeUnmanagedResources()
+        { }
+
+        #endregion
+
 
         void View_Unloaded(object sender, RoutedEventArgs e)
         {
-            if (ViewModel != null)
-                ViewModel.Dispose();
+            if (Parent == null && VisualParent == null)
+            {
+                if (ViewModel != null)
+                {
+                    ViewModel.Dispose();
+                }
 
-            ViewModel = null;
+                ViewModel = null;
+            }
         }
 
         void View_Loaded(object sender, RoutedEventArgs e)
@@ -211,7 +261,11 @@ namespace SquaredInfinity.Foundation.Presentation.Views
 
         void InitializeViewModelIfNeeded()
         {
-            if (ViewModel != null)
+            if(ViewModel == null)
+            {
+                RefreshViewModel(oldDataContext: null, newDataContext: DataContext);
+            }
+            else
             {
                 ViewModel.DataContext = DataContext;
 

@@ -267,31 +267,43 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
             }
         }
 
+#region IDisposable
+
+        bool IsDisposed = false;
+
         public void Dispose()
         {
-            Dispose(true);
+            Dispose(disposing: true);
+
             GC.SuppressFinalize(this);
         }
 
         ~ViewModel()
         {
-            Dispose(false);
+            Dispose(disposing: false);
         }
 
-        void Dispose(bool disposing)
+        protected void Dispose(bool disposing)
         {
+            if (IsDisposed)
+                return;
+
             if (disposing)
             {
                 DisposeManagedResources();
             }
 
             DisposeUnmanagedResources();
+
+            IsDisposed = true;
         }
+
+        protected virtual void DisposeManagedResources()
+        { }
 
         protected virtual void DisposeUnmanagedResources()
         { }
 
-        protected virtual void DisposeManagedResources()
-        { }
+#endregion
     }
 }

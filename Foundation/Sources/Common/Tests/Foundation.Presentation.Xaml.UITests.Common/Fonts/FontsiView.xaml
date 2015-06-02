@@ -35,6 +35,7 @@
                                 <TextBlock Text="&#xf800;" />
                                 <TextBlock Text="some example text" />
                             </StackPanel>
+                            <Button Content="xxx" Command="{CommandMethodBinding @TemplatedParent.Lol}" />
                         </StackPanel>
                     </ControlTemplate>
                 </Setter.Value>
