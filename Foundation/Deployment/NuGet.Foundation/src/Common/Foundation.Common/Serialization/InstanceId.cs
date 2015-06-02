@@ -2,44 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using SquaredInfinity.Foundation.Extensions;
+using System.Threading;
 
-namespace SquaredInfinity.Foundation.Serialization.FlexiXml
+namespace SquaredInfinity.Foundation.Serialization
 {
-    public class InstanceIdRef : IEquatable<InstanceIdRef>
-    {
-        public InstanceId InstanceId { get; private set; }
-
-        public InstanceIdRef(InstanceId instanceId)
-        {
-            this.InstanceId = instanceId;
-            InstanceId.IncrementReferenceCount();
-        }
-
-        public override int GetHashCode()
-        {
-            return InstanceId.GetHashCode();
-        }
-
-        public override bool Equals(object other)
-        {
-            return Equals(other as InstanceIdRef);
-        }
-
-        public bool Equals(InstanceIdRef other)
-        {
-            if (other == null)
-                return false;
-
-            if (object.ReferenceEquals(this, other))
-                return true;
-
-            return 
-                object.Equals(this.InstanceId, other.InstanceId);
-        }
-    }
 
     /// <summary>
     /// Uniquely identifies instance of object participating in serialization.
@@ -123,7 +91,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         public bool Equals(InstanceId other)
         {
             return
-                long.Equals(this.Id,other.Id)
+                long.Equals(this.Id, other.Id)
                 &&
                 string.Equals(Name, other.Name);
         }

@@ -11,11 +11,11 @@ using SquaredInfinity.Foundation.Types.Description;
 using System.Threading;
 using System.ComponentModel;
 
-namespace SquaredInfinity.Foundation.Serialization.FlexiXml
+namespace SquaredInfinity.Foundation.Serialization
 {
-    public partial class FlexiXmlSerializer : IXmlSerializer
+    public abstract partial class FlexiSerializer
     {
-        class TypeSerializationStrategiesConcurrentDictionary
+        protected class TypeSerializationStrategiesConcurrentDictionary
             : ConcurrentDictionary<Type, ITypeSerializationStrategy> { }
     }
 }

@@ -233,20 +233,6 @@ namespace SquaredInfinity.Foundation.Presentation.Views
 
         #endregion
 
-
-        void View_Unloaded(object sender, RoutedEventArgs e)
-        {
-            if (Parent == null && VisualParent == null)
-            {
-                if (ViewModel != null)
-                {
-                    ViewModel.Dispose();
-                }
-
-                ViewModel = null;
-            }
-        }
-
         void View_Loaded(object sender, RoutedEventArgs e)
         {
             InitializeViewModelIfNeeded();
