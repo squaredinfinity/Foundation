@@ -177,6 +177,8 @@ namespace SquaredInfinity.Foundation.Presentation.Views
 
         public View() 
         {
+            RefreshViewModel(oldDataContext: null, newDataContext: null);
+
             DataContextChanged += (s, e) => RefreshViewModel(e.OldValue, e.NewValue);
             DataContextChanged += (s, e) => OnAfterDataContextChanged();
 
