@@ -109,6 +109,7 @@
     <Compile Include="FrameworkExtensions\System\String.TrimEachLine.cs" />
     <Compile Include="FrameworkExtensions\System\Type.ImplementsInterface.cs" />
     <Compile Include="FrameworkExtensions\System\Type.IsEqualTo.cs" />
+    <Compile Include="InvocationThrottle.tests.cs" />
     <Compile Include="Media\Drawing\PerformanceOptimizations.cs" />
     <Compile Include="Media\Drawing\PixelArrayCanvas.Blit.tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

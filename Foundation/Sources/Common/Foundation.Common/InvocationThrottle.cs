@@ -11,11 +11,19 @@ namespace SquaredInfinity.Foundation
         TimeSpan TimeSpanMin;
         TimeSpan? TimeSpanMax;
 
-        System.Timers.Timer ThrottleTimer;
+        DateTime? LastInvokeUTC = null;
+        DateTime LastTimerResetUTC = DateTime.MinValue;
 
+        readonly object Lock = new object();
+
+        System.Timers.Timer ThrottleTimer;
+        
         public InvocationThrottle(TimeSpan min)
         {
-            this.TimeSpanMin = min;
+            if (min.Ticks <= 0)
+                this.TimeSpanMin = TimeSpan.FromTicks(1);
+            else
+                this.TimeSpanMin = min;
 
             InitializeTimer();
         }
@@ -34,10 +42,6 @@ namespace SquaredInfinity.Foundation
             ThrottleTimer.Elapsed += ThrottleTimer_Elapsed;
         }
 
-        DateTime? LastInvokeUTC = null;
-
-        DateTime LastTimerResetUTC = DateTime.MinValue;
-
         void ThrottleTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             lock (Lock)
@@ -50,21 +54,16 @@ namespace SquaredInfinity.Foundation
                     return;
                 }
 
-                if(LastAction != null)
-                    LastAction();
+                LastActionInfo2.InvokeAsync();
+                LastActionInfo2 = new LastActionInfo();
 
                 LastInvokeUTC = e.SignalTime.ToUniversalTime();
-                LastAction = null;
             }
         }
 
+        LastActionInfo LastActionInfo2 = new LastActionInfo();
 
-
-        readonly object Lock = new object();
-
-        Action LastAction;
-
-        public void Invoke(Action action)
+        public Task Invoke(Action action)
         {
             lock (Lock)
             {
@@ -73,22 +72,53 @@ namespace SquaredInfinity.Foundation
                 if (LastInvokeUTC == null)
                     LastInvokeUTC = invokeTime;
 
-                LastAction = action;
+                LastActionInfo2.SetAction(action);
 
                 if (TimeSpanMax != null && invokeTime - LastInvokeUTC >= TimeSpanMax)
                 {
                     // timer max elapsed
-                    LastAction();
+
+                    LastActionInfo2.InvokeAsync();
+
+                    LastActionInfo2 = new LastActionInfo();
+
                     LastInvokeUTC = invokeTime;
                     ThrottleTimer.Stop();
-                    LastAction = null;
-                    return;
+
+                    return LastActionInfo2.InvocationTask;
                 }
 
                 // restart the timer
                 LastTimerResetUTC = invokeTime;
                 ThrottleTimer.Stop();
                 ThrottleTimer.Start();
+
+                return LastActionInfo2.InvocationTask;
+            }
+        }
+
+        class LastActionInfo
+        {
+            Action Action = null;
+
+            public readonly Task InvocationTask;
+
+            public LastActionInfo()
+            {
+                InvocationTask = new Task(new Action(() => { }));
+            }
+
+            public void InvokeAsync()
+            {
+                var t = new Task(Action);
+                t.ContinueWith(_prev => InvocationTask.RunSynchronously());
+                t.Start();
+            }
+
+            public Task SetAction(Action action)
+            {
+                Action = action;
+                return InvocationTask;
             }
         }
     }
