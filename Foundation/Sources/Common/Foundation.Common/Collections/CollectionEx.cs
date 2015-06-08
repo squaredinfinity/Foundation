@@ -136,17 +136,17 @@ namespace SquaredInfinity.Foundation.Collections
             {
                 var item = this[index];
 
-                OnBeforeItemRemoved(item, index);
+                OnBeforeItemRemoved(index, item);
                 base.RemoveItem(index);
-                OnAfterItemRemoved(item, index);
+                OnAfterItemRemoved(index, item);
 
                 IncrementVersion();
             }
         }
 
-        protected virtual void OnBeforeItemRemoved(TItem item, int index) { }
+        protected virtual void OnBeforeItemRemoved(int index, TItem item) { }
 
-        protected virtual void OnAfterItemRemoved(TItem item, int index) { }
+        protected virtual void OnAfterItemRemoved(int index, TItem item) { }
 
         #endregion
 
@@ -181,10 +181,15 @@ namespace SquaredInfinity.Foundation.Collections
                 var oldItem = this[index];
 
                 OnBeforeItemReplaced(index, oldItem, newItem);
+                OnBeforeItemRemoved(index, oldItem);
+                OnBeforeItemInserted(index, newItem);
 
                 base.SetItem(index, newItem);
 
                 OnAfterItemReplaced(index, oldItem, newItem);
+                OnAfterItemRemoved(index, oldItem);
+                OnAfterItemInserted(index, newItem);
+
                 IncrementVersion();
             }
         }

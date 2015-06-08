@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Foundation.Collections
 {
 	[TestClass]
-    public class CollectionExTests
+    public partial class CollectionExTests
     {
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]

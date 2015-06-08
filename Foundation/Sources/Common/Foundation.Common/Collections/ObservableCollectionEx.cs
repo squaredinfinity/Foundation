@@ -107,7 +107,7 @@ namespace SquaredInfinity.Foundation.Collections
 
         #region Remove
 
-        protected override void OnBeforeItemRemoved(TItem item, int index)
+        protected override void OnBeforeItemRemoved(int index, TItem item)
         {
             if (MonitorElementsForChanges)
             {
@@ -115,7 +115,7 @@ namespace SquaredInfinity.Foundation.Collections
             }
         }
 
-        protected override void OnAfterItemRemoved(TItem item, int index)
+        protected override void OnAfterItemRemoved(int index, TItem item)
         {
             RaiseCollectionChanged(NotifyCollectionChangedAction.Remove, (object)item, index);
             RaiseAfterItemRemoved(item);
