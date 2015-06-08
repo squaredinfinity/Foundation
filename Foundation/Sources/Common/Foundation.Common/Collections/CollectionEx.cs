@@ -93,8 +93,16 @@ namespace SquaredInfinity.Foundation.Collections
                 CopyTo(oldItems, 0);
 
                 OnBeforeItemsCleared(oldItems);
+
+                for (int i = oldItems.Length - 1; i >= 0; i--)
+                    OnBeforeItemRemoved(i, oldItems[i]);
+
                 base.ClearItems();
+                
                 OnAfterItemsCleared(oldItems);
+
+                for (int i = oldItems.Length - 1; i >= 0; i--)
+                    OnAfterItemRemoved(i, oldItems[i]);
 
                 IncrementVersion();
             }
@@ -230,9 +238,9 @@ namespace SquaredInfinity.Foundation.Collections
         {
             using (var blkUpdate = BeginBulkUpdate())
             {
-                for (int i = index; i < index + count; i++)
+                for (int i = index + count - 1; i >= index; i--)
                 {
-                    RemoveAt(index);
+                    RemoveAt(i);
                 }
             }
         }
