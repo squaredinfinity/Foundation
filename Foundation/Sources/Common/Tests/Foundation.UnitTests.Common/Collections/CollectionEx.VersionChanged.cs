@@ -108,6 +108,9 @@ namespace SquaredInfinity.Foundation.Collections
 
             c.VersionChanged += (s, e) =>
             {
+                if (eventCalled)
+                    Assert.Fail("VersionChanged should be triggered only once during bulk updates");
+
                 eventCalled = true;
             };
 
@@ -118,6 +121,7 @@ namespace SquaredInfinity.Foundation.Collections
             Assert.AreEqual(0, c.Count);
         }
 
+        [TestMethod]
         public void Replace__TriggersVersionChangedEvent()
         {
             var c = new CollectionEx<int>();
@@ -196,10 +200,8 @@ namespace SquaredInfinity.Foundation.Collections
 
             c.VersionChanged += (s, e) =>
             {
-				// version changed should be triggered only once
-
                 if (eventCalled)
-                    Assert.Fail("version changed should be triggered only once during reset");
+                    Assert.Fail("VersionChanged should be triggered only once during bulk updates");
 
                 eventCalled = true;
             };
@@ -223,10 +225,8 @@ namespace SquaredInfinity.Foundation.Collections
 
             c.VersionChanged += (s, e) =>
             {
-                // version changed should be triggered only once
-
                 if (eventCalled)
-                    Assert.Fail("version changed should be triggered only once during AddRange");
+                    Assert.Fail("VersionChanged should be triggered only once during bulk updates");
 
                 eventCalled = true;
             };
@@ -252,10 +252,8 @@ namespace SquaredInfinity.Foundation.Collections
 
             c.VersionChanged += (s, e) =>
             {
-                // version changed should be triggered only once
-
                 if (eventCalled)
-                    Assert.Fail("version changed should be triggered only once during RemoveRange");
+                    Assert.Fail("VersionChanged should be triggered only once during bulk updates");
 
                 eventCalled = true;
             };

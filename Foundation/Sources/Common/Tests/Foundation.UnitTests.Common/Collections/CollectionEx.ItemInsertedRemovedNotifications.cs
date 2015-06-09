@@ -275,5 +275,48 @@ namespace SquaredInfinity.Foundation.Collections
             CollectionAssert.AreEquivalent(new string[] { "four", "five", "six" }, after_insertedItems);
             CollectionAssert.AreEquivalent(new int[] { 0, 1, 2 }, after_insertedIndexes);
         }
+
+        [TestMethod]
+        public void ReplaceItem__OnItemRemovedAndInsertedRaised()
+        {
+            var col = new CallbackCollection();
+
+            col.Add("one");
+
+            var callback_states = new CallbacksStates();
+
+            col.OnBeforeItemRemoved_Callback = (ix, obj) =>
+            {
+                callback_states.Notified_before_removed = true;
+                Assert.AreEqual(0, ix);
+                Assert.AreEqual("one", obj);
+            };
+            col.OnAfterItemRemoved_Callback = (ix, obj) =>
+            {
+                callback_states.Notified_after_removed = true;
+                Assert.AreEqual(0, ix);
+                Assert.AreEqual("one", obj);
+            };
+
+            col.OnBeforeItemInserted_Callback = (ix, obj) =>
+            {
+                callback_states.Notified_before_inserted = true;
+                Assert.AreEqual(0, ix);
+                Assert.AreEqual("two", obj);
+            };
+            col.OnAfterItemInserted_Callback = (ix, obj) =>
+            {
+                callback_states.Notified_after_inserted = true;
+                Assert.AreEqual(0, ix);
+                Assert.AreEqual("two", obj);
+            };
+
+            col.Replace("one", "two");
+
+            Assert.IsTrue(callback_states.Notified_before_removed);
+            Assert.IsTrue(callback_states.Notified_after_removed);
+            Assert.IsTrue(callback_states.Notified_before_inserted);
+            Assert.IsTrue(callback_states.Notified_after_inserted);
+        }
     }
 }

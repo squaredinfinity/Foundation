@@ -171,7 +171,7 @@ namespace SquaredInfinity.Foundation.Collections
 
                 OnBeforeItemReplaced(index, oldItem, newItem);
 
-                base.SetItem(index, newItem);
+                SetItem(index, newItem);
 
                 OnAfterItemReplaced(index, oldItem, newItem);
 
@@ -321,6 +321,11 @@ namespace SquaredInfinity.Foundation.Collections
         protected const int STATE__BULKUPDATE = 1;
 
         protected int State = STATE__NORMAL;
+
+        public bool IsInBulkUpdate
+        {
+            get { return State == STATE__BULKUPDATE; }
+        }
 
         public IBulkUpdate BeginBulkUpdate()
         {
