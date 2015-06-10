@@ -461,6 +461,9 @@
     <Compile Include="..\..\Common\Foundation.Common\PropertySystem\IExtendedProperty_T.cs">
       <Link>PropertySystem\IExtendedProperty_T.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\ReferenceEqualityComparer.cs">
+      <Link>ReferenceEqualityComparer.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\CreateInstanceContext.cs">
       <Link>Serialization\CreateInstanceContext.cs</Link>
     </Compile>
@@ -531,9 +534,6 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\MemberSerializationStrategy.cs">
       <Link>Serialization\MemberSerializationStrategy.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Common\Serialization\ReferenceEqualityComparer.cs">
-      <Link>Serialization\ReferenceEqualityComparer.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Serialization\ReferenceResolutionContext.cs">
       <Link>Serialization\ReferenceResolutionContext.cs</Link>

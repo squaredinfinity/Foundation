@@ -4,10 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Serialization
+namespace SquaredInfinity.Foundation
 {
     public class ReferenceEqualityComparer : IEqualityComparer<object>
     {
+        static IEqualityComparer<object> _instance = new ReferenceEqualityComparer();
+        public static IEqualityComparer<object> Instance
+        {
+            get { return _instance; }
+        }
+
         bool IEqualityComparer<object>.Equals(object x, object y)
         {
             if (x == null)

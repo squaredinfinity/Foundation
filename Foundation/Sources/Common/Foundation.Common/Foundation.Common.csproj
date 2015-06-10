@@ -217,7 +217,7 @@
     <Compile Include="Serialization\ITypeSerializationStrategy.cs" />
     <Compile Include="Serialization\ITypeSerializationStrategy_T.cs" />
     <Compile Include="Serialization\MemberSerializationStrategy.cs" />
-    <Compile Include="Serialization\ReferenceEqualityComparer.cs" />
+    <Compile Include="ReferenceEqualityComparer.cs" />
     <Compile Include="Serialization\ReferenceResolutionContext.cs" />
     <Compile Include="Serialization\SerializationContext.cs" />
     <Compile Include="Serialization\TypeSerializationStrategy.cs" />
