@@ -57,7 +57,7 @@ namespace SquaredInfinity.Foundation.Presentation.ObjectExtensibility.Extensions
             }
 
             // make sure future changes to collection are handled
-            owner.AfterItemAdded += owner_AfterItemAdded;
+            owner.AfterItemInserted += owner_AfterItemAdded;
             owner.AfterItemRemoved += owner_AfterItemRemoved;
         }
 
@@ -71,7 +71,7 @@ namespace SquaredInfinity.Foundation.Presentation.ObjectExtensibility.Extensions
 
         protected override void OnDetached(PresentationWrapperCollection owner)
         {
-            owner.AfterItemAdded -= owner_AfterItemAdded;
+            owner.AfterItemInserted -= owner_AfterItemAdded;
             owner.AfterItemRemoved -= owner_AfterItemRemoved;
 
             base.OnDetached(owner);

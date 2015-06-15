@@ -83,6 +83,9 @@
     <Compile Include="..\..\Common\Foundation.Common\Collections\AfterItemRemovedEventArgs.cs">
       <Link>Collections\AfterItemRemovedEventArgs.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\AfterItemReplacedEventArgs.cs">
+      <Link>Collections\AfterItemReplacedEventArgs.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Collections\CollectionEx.cs">
       <Link>Collections\CollectionEx.cs</Link>
     </Compile>
@@ -100,6 +103,9 @@
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Collections\INotifyCollectionVersionChanged.cs">
       <Link>Collections\INotifyCollectionVersionChanged.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Common\Collections\IObservableCollectionEx.cs">
+      <Link>Collections\IObservableCollectionEx.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\Foundation.Common\Collections\MultiMap.cs">
       <Link>Collections\MultiMap.cs</Link>

@@ -9,7 +9,7 @@ using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Collections
 {
-    public partial class ObservableCollectionEx<TItem> : CollectionEx<TItem>
+    public partial class ObservableCollectionEx<TItem> : CollectionEx<TItem>, IObservableCollectionEx<TItem>
     {
         int InitialHashCode;
         
@@ -86,6 +86,8 @@ namespace SquaredInfinity.Foundation.Collections
 
         protected override void OnBeforeItemInserted(int index, TItem item)
         {
+            base.OnBeforeItemInserted(index, item);
+
             if (MonitorElementsForChanges)
                 BeginItemChangeMonitoring(item);
         }
@@ -93,14 +95,14 @@ namespace SquaredInfinity.Foundation.Collections
         protected override void OnAfterItemInserted(int index, TItem item)
         {
             RaiseCollectionChanged(NotifyCollectionChangedAction.Add, (object) item, index);
-            RaiseAfterItemAdded(item);
+            RaiseAfterItemInserted(item);
         }
 
-        public event EventHandler<AfterItemAddedEventArgs<TItem>> AfterItemAdded;
-        void RaiseAfterItemAdded(TItem item)
+        public event EventHandler<AfterItemAddedEventArgs<TItem>> AfterItemInserted;
+        void RaiseAfterItemInserted(TItem item)
         {
-            if (AfterItemAdded != null)
-                AfterItemAdded(this, new AfterItemAddedEventArgs<TItem>(item));
+            if (AfterItemInserted != null)
+                AfterItemInserted(this, new AfterItemAddedEventArgs<TItem>(item));
         }
 
         #endregion
@@ -109,6 +111,8 @@ namespace SquaredInfinity.Foundation.Collections
 
         protected override void OnBeforeItemRemoved(int index, TItem item)
         {
+            base.OnBeforeItemRemoved(index, item);
+
             if (MonitorElementsForChanges)
             {
                 StopItemChangeMonitoring(item);
@@ -117,6 +121,8 @@ namespace SquaredInfinity.Foundation.Collections
 
         protected override void OnAfterItemRemoved(int index, TItem item)
         {
+            base.OnAfterItemRemoved(index, item);
+
             RaiseCollectionChanged(NotifyCollectionChangedAction.Remove, (object)item, index);
             RaiseAfterItemRemoved(item);
         }
@@ -141,8 +147,18 @@ namespace SquaredInfinity.Foundation.Collections
         protected override void OnAfterItemReplaced(int index, TItem oldItem, TItem newItem)
         {
             RaiseCollectionChanged(NotifyCollectionChangedAction.Replace, (object)newItem, (object)oldItem, index);
+
+            RaiseAfterItemReplaced(index, oldItem, newItem);
+
             RaiseAfterItemRemoved(oldItem);
-            RaiseAfterItemAdded(newItem);
+            RaiseAfterItemInserted(newItem);
+        }
+
+        public event EventHandler<AfterItemReplacedEventArgs<TItem>> AfterItemReplaced;
+        void RaiseAfterItemReplaced(int index, TItem oldItem, TItem newItem)
+        {
+            if (AfterItemReplaced != null)
+                AfterItemReplaced(this, new AfterItemReplacedEventArgs<TItem>(index, oldItem, newItem));
         }
 
         #endregion

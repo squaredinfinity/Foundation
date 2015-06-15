@@ -58,6 +58,7 @@
     <Compile Include="ChainOfCommand.cs" />
     <Compile Include="Charting\Axis\PrettyTicksProvider.cs" />
     <Compile Include="Collections\AfterItemAddedEventArgs.cs" />
+    <Compile Include="Collections\AfterItemReplacedEventArgs.cs" />
     <Compile Include="Collections\AfterItemRemovedEventArgs.cs" />
     <Compile Include="Collections\CollectionEx.cs" />
     <Compile Include="Collections\Concurrent\ConcurrentHashSet.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Collections\ICollectionEx.cs" />
     <Compile Include="Collections\INotifyCollectionVersionChanged.cs" />
     <Compile Include="Collections\IBulkUpdatesCollection.cs" />
+    <Compile Include="Collections\IObservableCollectionEx.cs" />
     <Compile Include="Collections\MultiMap.cs" />
     <Compile Include="Collections\ObservableCollectionEx.cs" />
     <Compile Include="Collections\ObservableCollectionEx.INotifyCollectionChanged.cs" />
