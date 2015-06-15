@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern</id>
-    <version>1.0.44.7-beta</version>
+    <version>1.0.44.14-beta</version>
     <title>SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern</title>
     <authors>Jarek Kardas</authors>
     <owners></owners>
@@ -23,7 +23,7 @@
     <tags></tags>
     <dependencies>
       <group targetFramework="net45">
-        <dependency id="SquaredInfinity.Foundation.Presentation.Xaml" version="1.0.44.7-beta" />
+        <dependency id="SquaredInfinity.Foundation.Presentation.Xaml" version="1.0.44.14-beta" />
       </group>
     </dependencies>
   </metadata>
