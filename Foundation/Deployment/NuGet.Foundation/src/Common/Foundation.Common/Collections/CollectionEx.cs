@@ -93,8 +93,16 @@ namespace SquaredInfinity.Foundation.Collections
                 CopyTo(oldItems, 0);
 
                 OnBeforeItemsCleared(oldItems);
+
+                for (int i = oldItems.Length - 1; i >= 0; i--)
+                    OnBeforeItemRemoved(i, oldItems[i]);
+
                 base.ClearItems();
+                
                 OnAfterItemsCleared(oldItems);
+
+                for (int i = oldItems.Length - 1; i >= 0; i--)
+                    OnAfterItemRemoved(i, oldItems[i]);
 
                 IncrementVersion();
             }
@@ -136,17 +144,17 @@ namespace SquaredInfinity.Foundation.Collections
             {
                 var item = this[index];
 
-                OnBeforeItemRemoved(item, index);
+                OnBeforeItemRemoved(index, item);
                 base.RemoveItem(index);
-                OnAfterItemRemoved(item, index);
+                OnAfterItemRemoved(index, item);
 
                 IncrementVersion();
             }
         }
 
-        protected virtual void OnBeforeItemRemoved(TItem item, int index) { }
+        protected virtual void OnBeforeItemRemoved(int index, TItem item) { }
 
-        protected virtual void OnAfterItemRemoved(TItem item, int index) { }
+        protected virtual void OnAfterItemRemoved(int index, TItem item) { }
 
         #endregion
 
@@ -163,7 +171,7 @@ namespace SquaredInfinity.Foundation.Collections
 
                 OnBeforeItemReplaced(index, oldItem, newItem);
 
-                base.SetItem(index, newItem);
+                SetItem(index, newItem);
 
                 OnAfterItemReplaced(index, oldItem, newItem);
 
@@ -181,10 +189,15 @@ namespace SquaredInfinity.Foundation.Collections
                 var oldItem = this[index];
 
                 OnBeforeItemReplaced(index, oldItem, newItem);
+                OnBeforeItemRemoved(index, oldItem);
+                OnBeforeItemInserted(index, newItem);
 
                 base.SetItem(index, newItem);
 
                 OnAfterItemReplaced(index, oldItem, newItem);
+                OnAfterItemRemoved(index, oldItem);
+                OnAfterItemInserted(index, newItem);
+
                 IncrementVersion();
             }
         }
@@ -225,9 +238,9 @@ namespace SquaredInfinity.Foundation.Collections
         {
             using (var blkUpdate = BeginBulkUpdate())
             {
-                for (int i = index; i < index + count; i++)
+                for (int i = index + count - 1; i >= index; i--)
                 {
-                    RemoveAt(index);
+                    RemoveAt(i);
                 }
             }
         }
@@ -308,6 +321,11 @@ namespace SquaredInfinity.Foundation.Collections
         protected const int STATE__BULKUPDATE = 1;
 
         protected int State = STATE__NORMAL;
+
+        public bool IsInBulkUpdate
+        {
+            get { return State == STATE__BULKUPDATE; }
+        }
 
         public IBulkUpdate BeginBulkUpdate()
         {
