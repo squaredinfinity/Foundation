@@ -55,7 +55,7 @@ namespace SquaredInfinity.Foundation
                 }
 
                 LastActionInfo2.InvokeAsync();
-                LastActionInfo2 = new LastActionInfo();
+                LastActionInfo2 = null;
 
                 LastInvokeUTC = e.SignalTime.ToUniversalTime();
             }
@@ -71,6 +71,11 @@ namespace SquaredInfinity.Foundation
 
                 if (LastInvokeUTC == null)
                     LastInvokeUTC = invokeTime;
+
+                if(LastActionInfo2 == null)
+                {
+                    LastActionInfo2 = new LastActionInfo();
+                }
 
                 LastActionInfo2.SetAction(action);
 
