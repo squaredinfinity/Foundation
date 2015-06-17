@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -12,6 +13,76 @@ namespace SquaredInfinity.Foundation
     [TestClass]
     public class InvocationThrottleTests
     {
+        [TestMethod]
+        public void InvokesOnlyOneAtTheTimeAndLastOneWins()
+        {
+            var it = new InvocationThrottle(min: TimeSpan.FromMilliseconds(1), max: TimeSpan.FromMilliseconds(2));
+
+            int im_doing_stuff = 0;
+            bool hasException = false;
+
+            int invocation_count = 0;
+
+            ConcurrentBag<AutoResetEvent> ares = new ConcurrentBag<AutoResetEvent>();
+
+            for (int i = 0; i < 10; i++)
+            {
+                var local_i = i;
+
+                it.Invoke(() => 
+                    {
+                        var are = new AutoResetEvent(initialState: false);
+                        ares.Add(are);
+
+                        try
+                        {
+                            Interlocked.Increment(ref invocation_count);
+                            LongAction(ref im_doing_stuff);
+
+                            if((local_i < 9 && invocation_count != 1) || (local_i == 9 && invocation_count != 2))
+                            {
+                                throw new Exception();
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+                            hasException = true;
+                        }
+
+                        are.Set();
+                    });
+
+                Thread.Sleep(1);
+            }
+
+            Thread.Sleep(200);
+
+            OnMtaThread(() => AutoResetEvent.WaitAll(ares.ToArray()));
+
+            if (hasException)
+                Assert.Fail();
+
+        }
+
+        public static void OnMtaThread(Action action)
+        {
+            var thread = new Thread(new ThreadStart(action));
+            thread.SetApartmentState(ApartmentState.MTA);
+            thread.Start();
+            thread.Join();
+        }
+
+        void LongAction(ref int execition_marker)
+        {
+            if (Interlocked.CompareExchange(ref execition_marker, 1, 0) == 1)
+                throw new Exception();
+
+            Thread.Sleep(100);
+
+            if (Interlocked.CompareExchange(ref execition_marker, 0, 1) == 0)
+                throw new Exception();
+        }
+
         [TestMethod]
         public void ActionIsInvokedOnDifferentThread()
         {
@@ -68,6 +139,8 @@ namespace SquaredInfinity.Foundation
 
             sw.Stop();
 
+            Trace.WriteLine(sw.Elapsed.TotalMilliseconds + " , " + max.TotalMilliseconds);
+
             Assert.IsTrue(sw.Elapsed.TotalMilliseconds >= max.TotalMilliseconds);
         }
 
@@ -94,28 +167,6 @@ namespace SquaredInfinity.Foundation
             sw.Stop();
 
             Assert.IsTrue(sw.Elapsed.TotalMilliseconds >= min.TotalMilliseconds);
-        }
-
-
-        [TestMethod]
-        public void CanWaitForInvocationToFinish()
-        {
-            var min = TimeSpan.FromMilliseconds(100);
-            var max = TimeSpan.FromMilliseconds(150);
-
-            var it = new InvocationThrottle(min, max);
-            var tid = Thread.CurrentThread.ManagedThreadId;
-
-            var sw = Stopwatch.StartNew();
-
-            it.Invoke(() =>
-            {
-                Assert.AreNotEqual(tid, Thread.CurrentThread.ManagedThreadId);
-            }).Wait();
-
-            sw.Stop();
-
-            Assert.IsTrue(sw.Elapsed.TotalMilliseconds >= min.TotalMilliseconds & sw.Elapsed.TotalMilliseconds < max.TotalMilliseconds);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,16 +55,14 @@ namespace SquaredInfinity.Foundation
                     return;
                 }
 
-                LastActionInfo2.InvokeAsync();
-                LastActionInfo2 = null;
-
+                LastActionInfo2.TryInvokeAsync();
                 LastInvokeUTC = e.SignalTime.ToUniversalTime();
             }
         }
 
-        LastActionInfo LastActionInfo2 = new LastActionInfo();
+        readonly ActionInfo LastActionInfo2 = new ActionInfo();
 
-        public Task Invoke(Action action)
+        public void Invoke(Action action)
         {
             lock (Lock)
             {
@@ -72,58 +71,84 @@ namespace SquaredInfinity.Foundation
                 if (LastInvokeUTC == null)
                     LastInvokeUTC = invokeTime;
 
-                if(LastActionInfo2 == null)
-                {
-                    LastActionInfo2 = new LastActionInfo();
-                }
-
                 LastActionInfo2.SetAction(action);
 
                 if (TimeSpanMax != null && invokeTime - LastInvokeUTC >= TimeSpanMax)
                 {
                     // timer max elapsed
 
-                    LastActionInfo2.InvokeAsync();
-
-                    LastActionInfo2 = new LastActionInfo();
+                    LastActionInfo2.TryInvokeAsync();
 
                     LastInvokeUTC = invokeTime;
                     ThrottleTimer.Stop();
 
-                    return LastActionInfo2.InvocationTask;
+                    return;
                 }
 
                 // restart the timer
                 LastTimerResetUTC = invokeTime;
                 ThrottleTimer.Stop();
                 ThrottleTimer.Start();
-
-                return LastActionInfo2.InvocationTask;
             }
         }
 
-        class LastActionInfo
+        class ActionInfo
         {
+            readonly object Sync = new object();
+
             Action Action = null;
+            Task LastTask = null;
+            bool ShouldContinueWinNextAction = false;
 
-            public readonly Task InvocationTask;
+            public ActionInfo()
+            { }
 
-            public LastActionInfo()
+            public bool TryInvokeAsync()
             {
-                InvocationTask = new Task(new Action(() => { }));
+                lock (Sync)
+                {
+                    if (Action == null)
+                    {
+                        return false;
+                    }
+
+                    if (LastTask != null)
+                    {
+                        ShouldContinueWinNextAction = true;
+                        return false;
+                    }
+
+                    LastTask = new Task(Action);
+                    LastTask.ContinueWith(_prev => OnLastTaskFinished(), TaskContinuationOptions.ExecuteSynchronously);
+                    LastTask.Start();
+
+                    Action = null;
+                    ShouldContinueWinNextAction = false;
+
+                    return true;
+                }
             }
 
-            public void InvokeAsync()
+            void OnLastTaskFinished()
             {
-                var t = new Task(Action);
-                t.ContinueWith(_prev => InvocationTask.RunSynchronously());
-                t.Start();
-            }
+                lock(Sync)
+                {
+                    LastTask = null;
 
-            public Task SetAction(Action action)
+                    if (!ShouldContinueWinNextAction)
+                        return;
+
+                    TryInvokeAsync();
+                }
+            }
+            
+
+            public void SetAction(Action action)
             {
-                Action = action;
-                return InvocationTask;
+                lock (Sync)
+                {
+                    Action = action;
+                }
             }
         }
     }
