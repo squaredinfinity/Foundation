@@ -15,9 +15,18 @@ namespace SquaredInfinity.Foundation.Threading
         Task OperationTask;
 
         WeakDelegate<Action> LoopBodyReference { get; set; }
-        
+
+        public string Name { get; private set; }
+
         public AsyncLoop(Action loopBody)
         {
+            this.Name = Guid.NewGuid().ToString();
+            LoopBodyReference = new WeakDelegate<Action>(this, loopBody);
+        }
+
+        public AsyncLoop(string name, Action loopBody)
+        {
+            this.Name = name;
             LoopBodyReference = new WeakDelegate<Action>(this, loopBody);
         }
         
