@@ -267,5 +267,72 @@ namespace SquaredInfinity.Foundation.Extensions
 
             return BitConverter.Int64BitsToDouble(next_bits);
         }
+
+        /// <summary>
+        /// Clamps specified value to be within specified range [min,max]
+        /// </summary>
+        /// <param name="d"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
+        public static double Clamp(this double d, double inclusiveMin, double inclusiveMax)
+        {
+            return Math.Max(inclusiveMin, Math.Min(d, inclusiveMin));
+        }
+
+        public static double RoundDown(this double d)
+        {
+            return RoundDown(d, 0);
+        }
+
+        public static double RoundDown(this double d, int precision)
+        {
+            if (d.IsCloseTo(0.0))
+                return 0.0;
+
+            var original_precision = (int)Math.Floor(Math.Log10(Math.Abs(d)));
+
+            var modifier = (0 - original_precision) * -1;
+
+            // normalize to '0 precision' - most significant digit is a unit
+            var value = d * Math.Pow(10, original_precision - precision - modifier);
+
+            // floor
+            value = Math.Floor(value);
+
+            // denormalize
+
+            value = value * Math.Pow(10, precision - original_precision + modifier);
+
+            return value;
+        }
+
+        public static double RoundUp(this double d)
+        {
+            return RoundUp(d, 0);
+        }
+
+        public static double RoundUp(this double d, int precision)
+        {
+            if (d.IsCloseTo(0.0))
+                return 0.0;
+
+            var original_precision = (int)Math.Floor(Math.Log10(Math.Abs(d)));
+
+            var modifier = (0 - original_precision) * -1;
+
+            // normalize to '0 precision' - most significant digit is a unit
+            var value = d * Math.Pow(10, original_precision - precision - modifier);
+            
+            // ceiling
+            value = Math.Ceiling(value);
+
+            // denormalize
+
+            value = value * Math.Pow(10, precision - original_precision + modifier);
+
+            return value;
+        }
+        
     }
 }
