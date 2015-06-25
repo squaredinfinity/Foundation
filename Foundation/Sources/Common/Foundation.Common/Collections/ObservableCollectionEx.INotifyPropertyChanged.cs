@@ -77,5 +77,24 @@ namespace SquaredInfinity.Foundation.Collections
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(string.Empty));
         }
+
+        protected virtual bool TrySetThisPropertyValue<T>(
+            ref T backingField,
+            T value,
+            bool raisePropertyChanged = true,
+            [CallerMemberName] string propertyName = null)
+        {
+            if (object.Equals(backingField, value))
+                return false;
+
+            backingField = value;
+
+            if (raisePropertyChanged)
+                RaisePropertyChanged(propertyName);
+
+            IncrementVersion();
+
+            return true;
+        }
     }
 }
