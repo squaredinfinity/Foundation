@@ -38,6 +38,11 @@ namespace SquaredInfinity.Foundation.Collections
                 )
             {
                 MonitorElementsForChanges = monitorElementsForChanges;
+
+                foreach(var item in this)
+                {
+                    BeginItemChangeMonitoring(item);
+                }
             }
         }
 

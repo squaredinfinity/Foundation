@@ -640,6 +640,12 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             target = cx.CreateInstance(targetType, createinstance_cx);
 
+            if(target == null)
+            {
+                // todo: unable to create instance of the type
+                return target;
+            }
+
             //if(cx.IsFullyConstruct)
 
             //# keep track of target instance for future use
