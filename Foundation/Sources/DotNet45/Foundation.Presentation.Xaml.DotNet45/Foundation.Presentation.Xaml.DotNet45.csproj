@@ -90,6 +90,12 @@
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\ForwardTextInput.cs">
       <Link>Behaviors\ForwardTextInput.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\FrameworkElement.Loaded.cs">
+      <Link>Behaviors\FrameworkElement.Loaded.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\FrameworkElement.Unloaded.cs">
+      <Link>Behaviors\FrameworkElement.Unloaded.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Common\Behaviors\Highlight.cs">
       <Link>Behaviors\Highlight.cs</Link>
     </Compile>

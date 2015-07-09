@@ -69,6 +69,8 @@
     <Compile Include="Behaviors\Button.Image.cs" />
     <Compile Include="Behaviors\CheckBoxInListItem.cs" />
     <Compile Include="Behaviors\Columns.cs" />
+    <Compile Include="Behaviors\FrameworkElement.Unloaded.cs" />
+    <Compile Include="Behaviors\FrameworkElement.Loaded.cs" />
     <Compile Include="Behaviors\Control.Click.cs" />
     <Compile Include="Behaviors\DialogHost.MinHeight.cs" />
     <Compile Include="Behaviors\DialogHost.MinWidth.cs" />
