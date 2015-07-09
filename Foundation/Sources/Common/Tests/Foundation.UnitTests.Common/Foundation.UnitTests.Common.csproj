@@ -86,6 +86,7 @@
     <Compile Include="FrameworkExtensions\System\DateTime.BeginingOfMonth.cs" />
     <Compile Include="FrameworkExtensions\System\DateTime.BeginingOfWeek.cs" />
     <Compile Include="FrameworkExtensions\System\DateTime.UnixEpochBegining.cs" />
+    <Compile Include="FrameworkExtensions\System\Double.Clamp.cs" />
     <Compile Include="FrameworkExtensions\System\Double.Round.cs" />
     <Compile Include="FrameworkExtensions\System\Double.AreClose.cs" />
     <Compile Include="FrameworkExtensions\System\Object.CreateWeakEventHandler.cs" />

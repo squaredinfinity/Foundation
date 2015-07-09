@@ -275,9 +275,12 @@ namespace SquaredInfinity.Foundation.Extensions
         /// <param name="min"></param>
         /// <param name="max"></param>
         /// <returns></returns>
-        public static double Clamp(this double d, double inclusiveMin, double inclusiveMax)
+        public static double Clamp(this double d, double inclusiveMin, double inclusiveMax, double? NaN_value = null)
         {
-            return Math.Max(inclusiveMin, Math.Min(d, inclusiveMin));
+            if ((NaN_value == null && double.IsNaN(d)))
+                return inclusiveMin;
+
+            return Math.Max(inclusiveMin, Math.Min(d, inclusiveMax));
         }
 
         public static double RoundDown(this double d)
