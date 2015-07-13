@@ -40,10 +40,12 @@ namespace SquaredInfinity.Foundation
         {
             if (VersionChanged != null)
                 VersionChanged(this, EventArgs.Empty);
+
+            RaisePropertyChanged("Version");
         }
 
         int _version;
-        int INotifyVersionChangedObject.Version
+        public int Version
         {
             get { return _version; }
         }

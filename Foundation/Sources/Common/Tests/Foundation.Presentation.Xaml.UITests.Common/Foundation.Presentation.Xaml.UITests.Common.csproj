@@ -59,6 +59,8 @@
     <Compile Include="Converters\ConvertersView.cs" />
     <Compile Include="Converters\ConvertersViewModel.cs" />
     <Compile Include="Fonts\FontsiView.cs" />
+    <Compile Include="MarkupExtensions\MarkupExtensionsView.cs" />
+    <Compile Include="MarkupExtensions\MarkupExtensionsViewModel.cs" />
     <Compile Include="MVVM\ReferenceImplementation\ComplexExampleView.cs" />
     <Compile Include="MVVM\ReferenceImplementation\ComplexExampleViewModel.cs" />
     <Compile Include="MVVM\ReferenceImplementation\DetailsView.cs">
@@ -147,6 +149,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MarkupExtensions\MarkupExtensionsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MVVM\MVVMTestsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

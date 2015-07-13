@@ -17,5 +17,6 @@
         <ResourceDictionary Source="{ResourceFromThisAssembly /UIExamples/ToolTip/ExampleTooltipView.xaml}" />
 
         <ResourceDictionary Source="{ResourceFromThisAssembly /Fonts/FontsiView.xaml}" />
+        <ResourceDictionary Source="{ResourceFromThisAssembly /MarkupExtensions/MarkupExtensionsView.xaml}" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

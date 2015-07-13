@@ -7,6 +7,7 @@
         xmlns:uiExamples="clr-namespace:Foundation.Presentation.Xaml.UITests.UIExamples"
         xmlns:converters="clr-namespace:Foundation.Presentation.Xaml.UITests.Converters"
         xmlns:fonts="clr-namespace:Foundation.Presentation.Xaml.UITests.Fonts"
+        xmlns:markup_extensions="clr-namespace:Foundation.Presentation.Xaml.UITests.MarkupExtensions"
         Title="MainWindow" 
         WindowState="Maximized">
     
@@ -33,6 +34,10 @@
 
         <TabItem Header="Fonts">
             <fonts:FontsiView />
+        </TabItem>
+
+        <TabItem Header="Markup Extensions">
+            <markup_extensions:MarkupExtensionsView />
         </TabItem>
     </TabControl>
 </Window>

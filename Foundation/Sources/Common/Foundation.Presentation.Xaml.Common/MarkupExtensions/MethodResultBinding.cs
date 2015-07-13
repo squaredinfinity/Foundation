@@ -12,6 +12,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
         public string MethodName { get; set; }
         public object Parameter { get; set; }
         public Binding ParameterBinding { get; set; }
+        public Binding ReevaluateTriggerBinding { get; set; }
 
         public string NotifySourceChangedTriggerPropertyName { get; set; }
 
@@ -68,6 +69,13 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 
                 multiBinding.Bindings.Add(sourceChangedTriggerBinding);
 
+                nonParameterBindingsCount++;
+            }
+
+            if (ReevaluateTriggerBinding != null)
+            {
+                UpdateBindingFromSource(ReevaluateTriggerBinding, "");
+                multiBinding.Bindings.Add(ReevaluateTriggerBinding);
                 nonParameterBindingsCount++;
             }
 
