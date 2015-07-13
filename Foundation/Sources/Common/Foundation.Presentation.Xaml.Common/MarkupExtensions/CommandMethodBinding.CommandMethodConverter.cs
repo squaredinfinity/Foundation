@@ -36,19 +36,15 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
             {
                 if (value == null || value == DependencyProperty.UnsetValue)
                 {
-                    //InvokeMethodCommand = null;
                     return DependencyProperty.UnsetValue;
                 }
                 
-                //InvokeMethodCommand = 
-                    return new InvokeMethodCommand(
-                        value, 
-                        ExecuteMethodName, 
-                        CanExecuteMethodName, 
-                        CanExecutePropertyName,
-                        CanExecuteTriggerPropertyName);
-
-                //return InvokeMethodCommand;
+                return new InvokeMethodCommand(
+                    value, 
+                    ExecuteMethodName, 
+                    CanExecuteMethodName, 
+                    CanExecutePropertyName,
+                    CanExecuteTriggerPropertyName);
             }
 
             public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -11,7 +11,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
 {
     public partial class MethodResultBinding : SmartBinding
     {
-        class MethodWithParametersResultConverter : IMultiValueConverter
+        public class MethodWithParametersResultConverter : IMultiValueConverter
         {
             readonly string MethodName;
             readonly object[] HardParameters;
