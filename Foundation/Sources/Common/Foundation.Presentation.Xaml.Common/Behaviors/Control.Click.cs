@@ -115,6 +115,11 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
             if (c == null)
                 return;
 
+            // click only captured on left button
+            // todo: this may need changing depending on mouse settings (left/right handed)
+            if (e.ChangedButton != MouseButton.Left || e.ButtonState != MouseButtonState.Released)
+                return;
+
             var command = GetCommand(c);
 
             var parameter = GetCommandParameter(c);

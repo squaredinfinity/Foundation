@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:views="clr-namespace:Foundation.Presentation.Xaml.UITests.Common.Behaviors"
+             xmlns:local="clr-namespace:Foundation.Presentation.Xaml.UITests.Behaviors"
              xmlns:highlight="clr-namespace:Foundation.Presentation.Xaml.UITests.Behaviors.Highlight"
              xmlns:behaviors="http://schemas.squaredinfinity.com/foundation/behaviors"
              mc:Ignorable="d" 
@@ -20,6 +21,9 @@
         </TabItem>
         <TabItem Header="Highlight">
             <highlight:HighlightTestsView />
+        </TabItem>
+        <TabItem Header="Click">
+            <local:ClickView />
         </TabItem>
     </TabControl>
 </UserControl>

@@ -54,6 +54,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviors\ClickView.cs" />
+    <Compile Include="Behaviors\ClickViewModel.cs" />
     <Compile Include="Behaviors\Highlight\HighlightTestsView.cs" />
     <Compile Include="Behaviors\Highlight\HighlightTestsViewModel.cs" />
     <Compile Include="Converters\ConvertersView.cs" />
@@ -79,6 +81,10 @@
     <Page Include="Behaviors\BehaviorsTestsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Behaviors\ClickView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Behaviors\DragAndDropTestsView.xaml">
       <SubType>Designer</SubType>
