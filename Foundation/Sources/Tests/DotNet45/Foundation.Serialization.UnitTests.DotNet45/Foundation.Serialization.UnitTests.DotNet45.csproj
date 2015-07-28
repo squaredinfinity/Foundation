@@ -7,8 +7,8 @@
     <ProjectGuid>{491C7D2D-1ABD-4AE4-8553-49A2369A4190}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Foundation.Serialization.UnitTests.DotNet45</RootNamespace>
-    <AssemblyName>Foundation.Serialization.UnitTests.DotNet45</AssemblyName>
+    <RootNamespace>SquaredInfinity.Foundation.Serialization.UnitTests</RootNamespace>
+    <AssemblyName>SquaredInfinity.Foundation.Serialization.UnitTests.DotNet45</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

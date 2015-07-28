@@ -7,8 +7,8 @@
     <ProjectGuid>{D22B6885-D523-4288-AFCF-316047346A63}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Foundation.Diagnostics.UnitTests.DotNet45</RootNamespace>
-    <AssemblyName>Foundation.Diagnostics.UnitTests.DotNet45</AssemblyName>
+    <RootNamespace>SquaredInfinity.Foundation.Diagnostics.UnitTests</RootNamespace>
+    <AssemblyName>SquaredInfinity.Foundation.Diagnostics.UnitTests.DotNet45</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
