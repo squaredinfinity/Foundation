@@ -1,0 +1,6 @@
+﻿<root_name_does_not_make_a_difference stringProperty="string value 1"
+                                      intProperty="13"
+                                      nullableIntProperty="14"
+                                      GuidProperty="9763C96B-5AC4-4ACA-AE4E-5D71EDDBE0DD">
+  
+</root_name_does_not_make_a_difference>

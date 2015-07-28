@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>9d01a869-8311-4009-85f3-f0383be62655</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Foundation.Diagnostics.Infrastructure</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\GlobalSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\IConfigurationProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\IConfigurationRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\IDiagnosticsConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ContextDataCollectors\IContextDataCollector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ContextDataCollectors\IContextDataCollectorCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ContextDataCollectors\IDataCollectionContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ContextDataCollectors\IDataRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ContextDataCollectors\IDataRequestCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Filters\FilterMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Filters\IFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Filters\IFilterCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Formatters\IFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Formatters\IFormatterCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IAttachedObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IAttachedObjectCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IDiagnosticEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IDiagnosticEventCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IDiagnosticEventProperty.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IDiagnosticEventPropertyCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ILogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ILoggerName.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)KnownSeverityLevels.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Loggers\TraceLogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SeverityLevel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sinks\IRawMessageSink.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sinks\ISink.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sinks\ISinkCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sinks\ISinkLocation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sinks\KnownSinkLocationSchemas.cs" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>85660d59-e428-4eb1-97e3-52d2d9106bc4</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Foundation.Serialization.UnitTests</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\FlexiXmlSerializer._BugFixes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\FlexiXmlSerializer__Deserialize.tests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\FlexiXmlSerializer__Serialize.tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\KnownTypesLookup\KnownTypesLookup.tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\KnownTypesLookup\TestEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\Repository\FlexiXmlSerialzier__Repository.tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\Repository\_entities\Configuration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\Repository\_entities\CustomFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\Repository\_entities\Email.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\Repository\_entities\GenericFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\Repository\_entities\IFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\Repository\_entities\Repository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\TestEntities\CollectionItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\TestEntities\CollectionProperty.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\TestEntities\CollectionReadOnlyProperty_InitializedByConstructor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\TestEntities\InterfaceTypeProperty.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\TestEntities\NonGenericCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\TestEntities\NonGenericCollectionProperty.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\TestEntities\NonGenericCollectionReadOnlyProperty_InitializedByConstructor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\TestEntities\Root.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\TestEntities\SimpleSerializableType.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\KnownTypesLookup\KnownTypesLookup.xml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\Repository\Resources\repository.xml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\Resources\Deserialization\AttachedElementsCanBeUsedToMapProperties.xml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\Resources\Deserialization\AttributesCanBeUsedToMapPropertiesWithValuesConvertibleToString.xml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\Resources\Deserialization\collection_tests.xml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\Resources\Deserialization\generic_test.xml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\Resources\Deserialization\XmlRootNameCanBeAnything.xml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\Resources\Serialization\default.xml" />
+  </ItemGroup>
+</Project>

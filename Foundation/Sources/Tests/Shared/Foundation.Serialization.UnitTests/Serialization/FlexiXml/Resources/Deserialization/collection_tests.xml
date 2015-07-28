@@ -1,0 +1,31 @@
+﻿<root>
+  <!-- Collection instance created in a constructor -->
+  <root.CollectionReadOnlyPropertyCreatedInConstructor>
+    <CollectionItemCollection intProperty="13">
+      <CollectionItemCollection.StringProperty>string value 1</CollectionItemCollection.StringProperty>
+      <CollectionItem intProperty="14" />
+      <CollectionItem intProperty="15" />
+      <CollectionItem intProperty="16" />
+    </CollectionItemCollection>
+  </root.CollectionReadOnlyPropertyCreatedInConstructor>
+
+  <!-- Wrapped in element -->
+  <root.Collection>
+    <CollectionItemCollection intProperty="23">
+      <CollectionItemCollection.StringProperty>string value 2</CollectionItemCollection.StringProperty>
+      <CollectionItem intProperty="24" />
+      <CollectionItem intProperty="25" />
+      <CollectionItem intProperty="26" />
+    </CollectionItemCollection>
+  </root.Collection>
+
+  <!-- Non-generic collection -->
+  <root.NonGenericCollection>
+    <NonGenericCollection  intProperty="33">
+      <NonGenericCollection.StringProperty>string value 3</NonGenericCollection.StringProperty>
+      <CollectionItem intProperty="34" />
+      <CollectionItem intProperty="35" />
+      <CollectionItem intProperty="36" />
+    </NonGenericCollection>
+  </root.NonGenericCollection>
+</root>

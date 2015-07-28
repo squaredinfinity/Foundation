@@ -45,22 +45,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\AssemblyInfo.shared.cs">
-      <Link>Properties\AssemblyInfo.shared.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Unsafe.Common\Media\Drawing\UnsafePixelCanvas.cs">
-      <Link>Media\Drawing\UnsafePixelCanvas.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Unsafe.Common\Media\Drawing\UnsafePixelCanvas.IDisposable.cs">
-      <Link>Media\Drawing\UnsafePixelCanvas.IDisposable.cs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Foundation.DotNet45\Foundation.DotNet45.csproj">
       <Project>{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}</Project>
       <Name>Foundation.DotNet45</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="..\..\Shared\Foundation.Unsafe\Foundation.Unsafe.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>ce6b616f-505c-4034-b7e3-9818bf5c57c0</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Foundation.Diagnostics</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Sinks\Email\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ApplicationLifecycleEvents.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AttachedObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AttachedObjectCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigurationCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigurationRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\DiagnosticsConfiguration.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\DiagnosticsConfigurationWithCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Providers\DefaultConfigurationProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Providers\EmbeddedResourceXmlConfigurationProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Providers\XmlConfigurationProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ContextDataCollectors\CompositeContextDataCollector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ContextDataCollectors\ContextDataCollector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ContextDataCollectors\ContextDataCollectorCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ContextDataCollectors\DataCollectionContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ContextDataCollectors\DataRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ContextDataCollectors\DataRequestCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ContextDataCollectors\EnvironmentDataCollector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DiagnosticEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DiagnosticEvent.DateTimeLocalComparerImplementation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DiagnosticEvent.DateTimeLocalMostRecentFirstComparerImplementation - Copy 1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DiagnosticEventCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DiagnosticEventProperty.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DiagnosticEventPropertyCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DiagnosticLogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DiagnosticLogger.ILogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DiagnosticLogger.static.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Filters\Filter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Filters\FilterCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Filters\LoggerNameFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Filters\PatternEvaluation\PatternEvaluator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Filters\PatternEvaluation\WildcardPatternEvaluator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Filters\PropertyFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Filters\SeverityFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fluent\ApplicationLifecycleEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fluent\DiagnosticEventBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fluent\IHideObjectInheritedMembers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fluent\SecurityEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Formatters\FormatterCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Formatters\PatternFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Formatters\RawFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework Extensions\SquaredInfinity.Foundation.Diagnostics\ILogger.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework Extensions\System\Exception.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework Extensions\System\Object.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LinkTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LoggerName.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SecurityEvents.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sinks\DebugTraceSink.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sinks\File\ArchiveStrategies\DefaultArchiveStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sinks\File\FileLockingStrategies\LockToken.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sinks\File\FileLockingStrategies\MutexMultiProcessLockingStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sinks\File\FileLockingStrategies\SingleProcessLockingStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sinks\File\FileSink.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sinks\File\IFileLockingStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sinks\MemorySink.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sinks\Sink.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sinks\SinkCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sinks\SinkLocation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sinks\TraceSink.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TextTemplates\Function.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TextTemplates\FunctionCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TextTemplates\FunctionDefinition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TextTemplates\Placeholders\ConditionalPlaceholder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TextTemplates\Placeholders\Placeholder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TextTemplates\Substitutions\EvaluatedSubstitution.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TextTemplates\Substitutions\Substitution.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TextTemplates\Substitutions\SubstitutionCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TextTemplates\Substitutions\TextSubstitution.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TextTemplates\Template.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TextTemplates\TemplateProcessingService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TextTemplates\TextTemplateProcessingContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Resources\DefaultConfigs\config.unspecified.xml" />
+    <Content Include="$(MSBuildThisFileDirectory)TextTemplates\!overview.txt" />
+  </ItemGroup>
+</Project>

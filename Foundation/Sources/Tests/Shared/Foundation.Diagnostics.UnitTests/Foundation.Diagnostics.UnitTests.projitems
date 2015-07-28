@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>559a2c15-2fb8-4ac2-b9dd-43d032ddda73</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Foundation.Diagnostics.UnitTests</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Default\DiagnosticLogger.Global.tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Default\DiagnosticLogger.ILogger.tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Default\DiagnosticLogger.tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_DiagnosticLoggerTestsContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Resources\config.unittests.xml" />
+  </ItemGroup>
+</Project>

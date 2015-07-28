@@ -170,16 +170,6 @@
     <Compile Include="Collections\CollectionEx.VersionChanged.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Foundation.Common\Foundation.Common.csproj">
-      <Project>{DFEAB4E6-D02D-448B-8649-2D12BE137191}</Project>
-      <Name>Foundation.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Foundation.Presentation.Xaml.Common\Foundation.Presentation.Xaml.Common.csproj">
-      <Project>{6d246254-bf79-47c6-ae0e-2fda3e9467a4}</Project>
-      <Name>Foundation.Presentation.Xaml.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Serialization\FlexiXml\Repository\Resources\repository.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -218,9 +208,6 @@
     <EmbeddedResource Include="Serialization\FlexiXml\KnownTypesLookup\KnownTypesLookup.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Serialization\FlexiXml\FlexiXmlSerializer._BugFixes.cs" />

@@ -1,0 +1,342 @@
+﻿<!--
+      Default configuration when environment cannot be determined
+      ===========================================================
+      
+      FILTERS
+        - none
+      
+      SINKS
+        - File + Archive
+-->
+
+<SquaredInfinity.Diagnostics>
+
+  <!--
+        Filter Definitions
+        ==================
+        
+        Definitions of filters which can be referenced 
+        from Global|Trace|Log|Audit|Analytics Filters or Sinks 
+        using filter-ref="xxx" attribute or <Filter ref="xx" /> element.
+    -->
+
+  <FilterDefinitions>
+    <!--  Exclude everything -->
+    <LoggerNameFilter name="exclude-all"   Mode="Exclude" />
+    <!--  Include everything -->
+    <LoggerNameFilter name="include=all"   Mode="Include"/>
+
+    <!--  Include only messages with specific Severity Level -->
+    <SeverityFilter name="critical"        Severity="Critical" />
+    <SeverityFilter name="error"           Severity="Error" />
+    <SeverityFilter name="warning"         Severity="Warning" />
+    <SeverityFilter name="information"     Severity="Information" />
+    <SeverityFilter name="verbose   "      Severity="Verbose" />
+    
+    <!-- Exclude messages with specific Severity Level -->
+    <SeverityFilter name="!unhandled"      Severity="Unhandled"   Mode="Exclude" />
+    <SeverityFilter name="!error"          Severity="Error"       Mode="Exclude" />
+    <SeverityFilter name="!warning"        Severity="Warning"     Mode="Exclude" />
+    <SeverityFilter name="!information"    Severity="Information" Mode="Exclude" />
+    <SeverityFilter name="!verbose"        Severity="Verbose"     Mode="Exclude" />
+    <!-- 
+          Include only messages from specific Severity Level ranges
+          Naming Convention:
+            [a,b] - closed interval from a (included) to b (included)
+            (a,b] - left half-open interval from a (excluded) to b (included)
+            [a,b) - right half-open interval from a (included) to b (excluded)
+            (a,b) - open interval from a (excluded) to b (excluded)
+    -->
+    <SeverityFilter name="[warning,error]"    From="Warning" To="Error" />
+    <SeverityFilter name="[warning,error)"    From="Warning" ExclusiveTo="Error" />
+
+    <SeverityFilter name="(error,max]"        ExclusiveFrom="Error" />
+    <SeverityFilter name="[error,max]"        From="Error" />
+    <SeverityFilter name="(warning,max]"      ExclusiveFrom="Warning" />
+    <SeverityFilter name="[warning,max]"      From="Warning" />
+    <SeverityFilter name="(information,max]"  ExclusiveFrom="Information" />
+    <SeverityFilter name="[information,max]"  From="Information" />
+    <SeverityFilter name="(verbose,max]"      ExclusiveFrom="Verbose" />
+    <SeverityFilter name="[verbose,max]"      From="Verbose" />
+
+    <SeverityFilter name="[min,max]"          From="Min" />
+    <!--
+          Include messages based on property values
+    -->
+    <PropertyFilter name="contains-raw-message"  Property="Event.HasRawMessage" Value="true" Mode="Include" />
+    <PropertyFilter name="!contains-raw-message" Property="Event.HasRawMessage" Value="true" Mode="Exclude" />
+
+    <!--
+        Filter events based on event source
+      -->
+
+    <!-- messages logged using System.Diagnostics namespace (e.g. Trace.WriteLine) -->
+    <PropertyFilter name="system.diagnostics.trace" Property="Event.Source" Value="System.Diagnostics.Trace"  Mode="Include" />
+    <PropertyFilter name="system.diagnostics.debug" Property="Event.Source" Value="System.Diagnostics.Debug"  Mode="Include" />
+    <PropertyFilter name="system.diagnostics"       Property="Event.Source" Value="System.Diagnostics"        Mode="Include" />
+    <PropertyFilter name="!system.diagnostics"      Property="Event.Source" Value="System.Diagnostics"        Mode="Exclude" />
+
+    <PropertyFilter name="internal"  Property="Event.LoggerName" Value="SquaredInfinity.Foundation.Diagnostics.*"  Mode="Include" />
+    <PropertyFilter name="!internal" Property="Event.LoggerName" Value="SquaredInfinity.Foundation.Diagnostics.*"  Mode="Exclude" />
+
+    <!-- 
+        Filters based on event category
+    -->
+    <PropertyFilter name="application-lifecycle"  Property="Event.Category" Value="Application-Lifecycle.*" Mode="Include" />
+    <PropertyFilter name="!application-lifecycle" Property="Event.Category" Value="Application-Lifecycle.*" Mode="Exclude" />
+
+    <PropertyFilter name="application-lifecycle.install"  Property="Event.Category" Value="Application-Lifecycle.Install" Mode="Include" />
+    <PropertyFilter name="!application-lifecycle.install" Property="Event.Category" Value="Application-Lifecycle.Install" Mode="Exclude" />
+
+    <!-- 
+        Include messages based on logger name
+    -->
+    
+    <!--<LoggerNameFilter name="Module_A" pattern="Namespace.Class.*" Mode="Include" /> -->
+
+  </FilterDefinitions>
+
+  <!-- 
+        Global Filters
+        ==============
+        
+        Events filtered out globally will not be processed reducing processing time of unwanted logs
+        (i.e messages will not be evaluated, messages will not be passed to sinks, etc.)
+  -->
+
+  <GlobalFilters>
+    <Filter ref="[information,max]" />
+    <Filter ref="!internal" />
+  </GlobalFilters>
+
+  <!--
+      Context Data Collectors will be used to retrieve data requested by sinks (via formatters).
+      For example, a sink may use formatter which wants Thread.Id - in this case registered EnvironmentDataCollector can provide this information
+  -->
+
+  <ContextDataCollectors>
+    <EnvironmentDataCollector />
+  </ContextDataCollectors>
+
+  <!--
+      Additional Context Data Collectors will be used to retrieve additional context data depending on specified filter criteria.
+      For example, you may want to include additional, more detailed (and expensive to get) information when application-lifecycle.startup event is logged, 
+      but do not require it when verbose messages are logged.
+  -->
+
+  <AdditionalContextDataCollectors>
+    <EnvironmentDataCollector filter-ref="error">
+      <EnvironmentDataCollector.RequestedData>
+
+        <DataRequest data="Application.Version" />
+
+        <DataRequest data="Thread.Id" />
+        <DataRequest data="Thread.Name" />
+        <DataRequest data="Thread.ThreadState" />
+        <DataRequest data="Thread.UICulture" />
+        <DataRequest data="Thread.Culture" />
+
+        <DataRequest data="Environment.UserDomainName" />
+        <DataRequest data="Environment.UserName" />
+        <DataRequest data="Environment.MachineName" />
+
+        <DataRequest data="Environment.OSVersion" />
+        <DataRequest data="Environment.OSVersion.Platform" />
+        <DataRequest data="Environment.OSVersion.Version" />
+        <DataRequest data="Environment.OSVersion.ServicePack" />
+        <DataRequest data="Environment.Version" />
+
+        <DataRequest data="Environment.CurrentDirectory"  />
+        <DataRequest data="Environment.SystemDirectory" />
+        <DataRequest data="Environment.Is64BitOperatingSystem" />
+        <DataRequest data="Environment.Is64BitProcess" />
+        <DataRequest data="Environment.ProcessorCount" />
+        <DataRequest data="Environment.CommandLineArgs" />
+        <DataRequest data="Environment.UserInteractive" />
+        <DataRequest data="Environment.HasShutdownStarted" />
+
+        <DataRequest data="Process.UpTime" />
+        <DataRequest data="Process.SystemPageSize (MB)" />
+        <DataRequest data="Process.WorkingSet (MB)" />
+        <DataRequest data="Process.MaxWorkingSet (MB)" />
+        <DataRequest data="Process.PrivateMemorySize (MB)" />
+        <DataRequest data="Process.PagedMemorySize (MB)" />
+        <DataRequest data="Process.VirtualMemorySize (MB)" />
+        <DataRequest data="Process.NonpagedSystemMemorySize (MB)" />
+        <DataRequest data="Process.PagedSystemMemorySize (MB)" />
+
+        <DataRequest data="Deployment.IsNetworkDeployed" />
+        <DataRequest data="Deployment.ActivationUri" />
+        <DataRequest data="Deployment.CurrentVersion" />
+        <DataRequest data="Deployment.DataDirectory" />
+        <DataRequest data="Deployment.IsFirstRun" />
+        <DataRequest data="Deployment.TimeOfLastUpdateCheck" />
+        <DataRequest data="Deployment.UpdatedApplicationFullName" />
+        <DataRequest data="Deployment.UpdatedVersion" />
+        <DataRequest data="Deployment.UpdateLocation" />
+
+        <DataRequest data="MemoryStatus.MemoryLoad" />
+        <DataRequest data="MemoryStatus.TotalPageFile (MB)" />
+        <DataRequest data="MemoryStatus.AvailablePageFile (MB)" />
+        <DataRequest data="MemoryStatus.TotalPhysical (MB)" />
+        <DataRequest data="MemoryStatus.AvailablePhysical (MB)" />
+        <DataRequest data="MemoryStatus.TotalVirtual (MB)" />
+        <DataRequest data="MemoryStatus.AvailableVirtual (MB)" />
+
+        <DataRequest data="System.Processes (Top 10 by Memory)" />
+      </EnvironmentDataCollector.RequestedData>
+    </EnvironmentDataCollector>
+
+    <EnvironmentDataCollector filter-ref="application-lifecycle">
+      <EnvironmentDataCollector.RequestedData>
+        <DataRequest data="Thread.UICulture" />
+        <DataRequest data="Thread.Culture" />
+        <DataRequest data="Environment.UserDomainName" />
+        <DataRequest data="Environment.UserName" />
+        <DataRequest data="Environment.MachineName" />
+        <DataRequest data="Environment.OSVersion" />
+        <DataRequest data="Environment.OSVersion.Platform" />
+        <DataRequest data="Environment.OSVersion.Version" />
+        <DataRequest data="Environment.OSVersion.ServicePack" />
+        <DataRequest data="Environment.Version" />
+        <DataRequest data="Environment.CurrentDirectory"  />
+        <DataRequest data="Environment.SystemDirectory" />
+        <DataRequest data="Environment.Is64BitOperatingSystem" />
+        <DataRequest data="Environment.Is64BitProcess" />
+        <DataRequest data="Environment.ProcessorCount" />
+        <DataRequest data="Environment.CommandLineArgs" />
+        <DataRequest data="Environment.UserInteractive" />
+
+        <DataRequest data="Deployment.IsNetworkDeployed" />
+        <DataRequest data="Deployment.ActivationUri" />
+        <DataRequest data="Deployment.CurrentVersion" />
+        <DataRequest data="Deployment.DataDirectory" />
+        <DataRequest data="Deployment.IsFirstRun" />
+        <DataRequest data="Deployment.TimeOfLastUpdateCheck" />
+        <DataRequest data="Deployment.UpdatedApplicationFullName" />
+        <DataRequest data="Deployment.UpdatedVersion" />
+        <DataRequest data="Deployment.UpdateLocation" />
+
+
+      </EnvironmentDataCollector.RequestedData>
+    </EnvironmentDataCollector>
+  </AdditionalContextDataCollectors>
+
+  <!-- 
+        Formatter Definitions
+        =====================
+        
+        Definitions of formatters which can be referenced 
+        from Trace|Log|Audit|Analytics Sinks 
+        using formatter-ref="xx" attribute.        
+  -->
+
+  <FormatterDefinitions>
+
+    <PatternFormatter name="generic"
+                      trimPattern="true"
+                      removeLineBreaksFromPattern="true"
+                      convertTabsToSpaces="true">
+      <PatternFormatter.Pattern>
+        {NewLine}
+        --
+        {NewLine}
+        [{Event.Level}{?Event.HasCategory=>'\:'}{?Event.HasCategory=>Event.Category} thread:{Thread.Id}] {?Event.HasMessage=>Event.Message}
+        {?Event.HasLoggerName=>NewLine}
+        {?Event.HasLoggerName=>'Logger\:'} {?Event.HasLoggerName=>Event.LoggerName}
+        {?Event.HasCallerInfo=>NewLine}
+        {?Event.HasCallerInfo=>'Caller\:'}
+        {?Event.HasCallerInfo=>Caller.FullName} {?Event.HasCallerInfo=>Caller.File} {?Event.HasCallerInfo=>'\:'} {?Event.HasCallerInfo=>Caller.LineNumber}
+        {?Event.HasException=>NewLine}
+        {?Event.HasException=>Event.Exception:dumpWithHeader('Exception')}
+        {?Event.HasAdditionalContextData=>NewLine}
+        {?Event.HasAdditionalContextData=>Event.AdditionalContextData:dumpWithHeader('Context Data')}
+        {?Event.HasAttachedObjects=>NewLine}
+        {?Event.HasAttachedObjects=>Event.AttachedObjects:dumpWithHeader('Attached Objects')}
+      </PatternFormatter.Pattern>
+    </PatternFormatter>
+
+    <PatternFormatter name="generic.html"
+                      trimPattern="true"
+                      removeLineBreaksFromPattern="true">
+      <PatternFormatter.Pattern>
+        <![CDATA[
+        <br/>
+        [{Event.Level}{?Event.HasCategory=>'\:'}{?Event.HasCategory=>Event.Category} thread:{Thread.Id}] <b> {?Event.HasMessage=>Event.Message} </b>
+        {?Event.HasLoggerName=>'<br/>'}
+        {?Event.HasLoggerName=>'Logger\:'} {?Event.HasLoggerName=>Event.LoggerName}
+        {?Event.HasCallerInfo=>'<br/>'}
+        {?Event.HasCallerInfo=>'Caller\:'}
+        {?Event.HasCallerInfo=>Caller.FullName} {?Event.HasCallerInfo=>Caller.File} {?Event.HasCallerInfo=>'\:'} {?Event.HasCallerInfo=>Caller.LineNumber}
+        {?Event.HasAdditionalContextData=>'<br/>'}
+        {?Event.HasAdditionalContextData=>Event.AdditionalContextData:dumpHtml()}
+        {?Event.HasException=>'<br/>'}
+        <font color='red'>{?Event.HasException=>Event.Exception:dumpHtml()}</font>
+        {?Event.HasAttachedObjects=>'<br/>'}
+        {?Event.HasAttachedObjects=>Event.AttachedObjects:dumpHtml()}
+        ]]>
+      </PatternFormatter.Pattern>
+    </PatternFormatter>
+
+    <!-- Leaves message in its original, raw form.
+         Only message is logged (i.e. without any additional data such as Thread.Id or Process.Name)
+         Useful for a very quick logging with 
+            Diagnostics.WriteRaw() 
+            Diagnostics.WriteRawLine()
+    -->
+    <RawFormatter name="raw" />
+  </FormatterDefinitions>
+
+  <!-- 
+        Sink Definitions
+        ================
+        
+        Definitions of sinks which can be referenced 
+        from Trace|Log|Audit|Analytics Sinks 
+        using <Sink ref="xx" /> element.        
+  -->
+
+  <SinkDefinitions>
+    <FileSink name="log.file"
+              formatter-ref="generic"
+              fileNamePattern="log.txt"
+              fileLocationPattern="{AppDomain.CurrentDomain.BaseDirectory}\Logs\" >
+
+      <FileSink.Archive>
+        <DefaultArchiveStrategy locationPattern="{AppDomain.CurrentDomain.BaseDirectory}\Logs\Archive"
+                                capacity="10"
+                                triggerOnStartup="true"
+                                triggerOnFileSize="10MB" />
+        <!--triggerOnFileAge="24:00:00"-->
+        <!--triggerOnTime="00:00:00" />-->
+      </FileSink.Archive>
+    </FileSink>
+
+    <!-- Sinks for diagnostics coming from SquaredInfinity namespaces -->
+
+    <FileSink name="internal.file"
+              initializationMode="Lazy"
+              formatter-ref="generic"
+              filter-ref="internal"
+              fileNamePattern="internal.log"
+              fileLocationPattern="{AppDomain.CurrentDomain.BaseDirectory}\Logs">
+
+    </FileSink>
+
+    <DebugTraceSink name="internal.debug"
+                    formatter-ref="generic"
+                    filter-ref="internal" />
+
+    <TraceSink name="internal.trace"
+               filter-ref="internal"
+               formatter-ref="generic" />
+
+  </SinkDefinitions>
+
+  <Sinks>
+    <Sink ref="log.file" />
+    <Sink ref="internal.file" />
+    <Sink ref="internal.trace" />
+  </Sinks>
+
+</SquaredInfinity.Diagnostics>

@@ -1,0 +1,25 @@
+﻿<root_name_does_not_make_a_difference stringProperty="string value 1">
+  <intProperty>13</intProperty>
+
+  <ChildrenOne stringProperty="string value 2">
+
+    <ChildrenOne.IntProperty>14</ChildrenOne.IntProperty>
+    
+    <ItemOfTypeOne content="item one" />
+    <ItemOfTypeTwo content="item two" />
+    
+  </ChildrenOne>
+
+  <ChildrenTwo>
+    <ChildrenCollection stringProperty="string value 3">
+
+      <ChildrenCollection.IntProperty>15</ChildrenCollection.IntProperty>
+      
+      <ItemOfTypeOne content="item one" />
+      <ItemOfTypeTwo content="item two" />
+      
+    
+  </ChildrenCollection>
+  </ChildrenTwo>
+  
+</root_name_does_not_make_a_difference>

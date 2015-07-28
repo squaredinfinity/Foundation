@@ -40,39 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\AssemblyInfo.shared.cs">
-      <Link>Properties\AssemblyInfo.shared.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Data.Common\ConnectionFactory.cs">
-      <Link>ConnectionFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Data.Common\DataAccessService.cs">
-      <Link>DataAccessService.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Data.Common\FrameworkExtensions\System.Data\IDataReader.extensions.cs">
-      <Link>FrameworkExtensions\System.Data\IDataReader.extensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Data.Common\FrameworkExtensions\System\Object.extensions.cs">
-      <Link>FrameworkExtensions\System\Object.extensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Data.Common\IDatabaseObjectNameResolver.cs">
-      <Link>IDatabaseObjectNameResolver.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Data.Common\Sql\SqlDataAccessService.cs">
-      <Link>Sql\SqlDataAccessService.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Data.Common\Sql\SqlDatabaseObjectNameResolver.cs">
-      <Link>Sql\SqlDatabaseObjectNameResolver.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Data.Common\Sql\SqlDataRecordEnumerableWrapper.cs">
-      <Link>Sql\SqlDataRecordEnumerableWrapper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Data.Common\Sql\SqlTransientFaultFilter.cs">
-      <Link>Sql\SqlTransientFaultFilter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\InternalTrace.cs">
-      <Link>InternalTrace.cs</Link>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +52,8 @@
       <Name>Foundation.DotNet45</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\..\Shared\Foundation.Data\Foundation.Data.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

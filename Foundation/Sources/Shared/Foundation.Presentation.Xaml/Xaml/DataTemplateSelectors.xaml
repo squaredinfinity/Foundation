@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:selectors="clr-namespace:SquaredInfinity.Foundation.Presentation.DataTemplateSelectors"
+                    xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" >
+
+    <selectors:TypeNameToResourceKeyMappingDataTemplateSelector x:Key="DataTemplateSelectors.TypeNameToResourceKey" />
+    <selectors:ContextAwareDataTemplateSelector x:Key="DataTemplateSelectors.ContextAware" />
+    <selectors:ContextAwareDataTemplateSelector x:Key="DataTemplateSelectors.ContextAware.Tooltip" IsTooltip="True" />
+    
+</ResourceDictionary>

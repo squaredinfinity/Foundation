@@ -58,12 +58,6 @@
     <Compile Include="Sql\SqlDataAccessService.ExecuteNonQuery.tests.cs" />
     <Compile Include="Sql\SqlDataAccessService.tests.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Foundation.Data.Common\Foundation.Data.Common.csproj">
-      <Project>{23ceadc1-a877-465a-9549-35c2c80a0460}</Project>
-      <Name>Foundation.Data.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

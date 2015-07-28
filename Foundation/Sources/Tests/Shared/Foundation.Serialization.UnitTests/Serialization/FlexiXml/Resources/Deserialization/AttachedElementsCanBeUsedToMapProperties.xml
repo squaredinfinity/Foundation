@@ -1,0 +1,6 @@
+﻿<root>
+  <root.stringProperty>string value 1</root.stringProperty>
+  <root.intProperty>13</root.intProperty>
+  <root.nullableIntProperty>14</root.nullableIntProperty>
+  <root.guidProperty>9763C96B-5AC4-4ACA-AE4E-5D71EDDBE0DD</root.guidProperty>
+</root>

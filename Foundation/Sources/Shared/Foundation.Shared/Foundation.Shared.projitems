@@ -1,0 +1,287 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>00f49503-3bd9-47d5-9b5f-ef11bc728339</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Foundation.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\AsyncCacheItemDetails.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\CacheGroup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\CacheService.CacheObjectRetrivalTask.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\CacheService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\ICacheItemDetails.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\ICacheService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\ISupportsCaching.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ChainOfCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Charting\Axis\PrettyTicksProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloneComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\AfterItemAddedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\AfterItemRemovedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\AfterItemReplacedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\CollectionEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Concurrent\ConcurrentHashSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Concurrent\IConcurrentCollectionEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\IBulkUpdatesCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\ICollectionEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\INotifyCollectionVersionChanged.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\IObservableCollectionEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\MultiMap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\ObservableCollectionEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\ObservableCollectionEx.INotifyCollectionChanged.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\ObservableCollectionEx.INotifyPropertyChanged.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\OrderedDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\PriorityQueue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\ProviderBasedVirtualizingCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Trees\_BooleanExpressionTree\BooleanExpressionTree.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Trees\_BooleanExpressionTree\BooleanExpressionTreeNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Trees\_BooleanExpressionTree\BooleanExpressionTreeTraversingCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Trees\_BooleanExpressionTree\ChildNodePosition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Trees\_BooleanExpressionTree\IExpressionTreeNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Trees\_BooleanExpressionTree\PredicateConnectiveNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Trees\_BooleanExpressionTree\PredicateNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\VirtualizingCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CommandHandlerEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CommandHandlerEventArgs_T.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\ConvertibleTypeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\IConvertibleType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CompositeComparer_T.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Composition\FeatureExportMetadataAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Composition\IFeatureMetadata.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DateTimeContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\ExceptionContextData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Direction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicComparer_T.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EnumeratorBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionEqualityComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\Microsoft.Win32\RegistryKey.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Collections\ICollection.Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Collections\IDictionary.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Collections\IEnumerable.Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Collections\IList.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Collections\IReadOnlyList.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.ComponentModel\INotifyPropertyChanged.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Diagnostics\Stopwatch.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.IO\Stream.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Linq.Expressions\Expression.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Reflection\MemberInfo.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Threading.Tasks\Parallel.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Threading.Tasks\Task.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml.Linq\XAttribute.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml.Linq\XContainer.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml.Linq\XDocument.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml.Linq\XElement.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml.Linq\XNode.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml.Linq\XObject.extensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml\XmlDocument.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Boolean.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Char.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\DateTimeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Double.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Enum.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Exception.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Int32.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Int64.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\IServiceProvider.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Long.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Object.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\String.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Type.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\ULong.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Freezable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GCMemoryUsagePressure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ICloneEquatable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IDateTimeContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IFreezable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ILGeneration\IL.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IndexInAnotherListComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IndexInListComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)INotifyVersionChangedObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InvocationThrottle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\ColorChannel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\ColorChannelCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\ColorChannelDefinition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\ColorSpaces\Color.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\ColorSpaces\IColor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\ColorSpaces\IColorSpace.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\ColorSpaces\KnownColorSpaces.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\ColorSpaces\LabColor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\ColorSpaces\LabColorSpace.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\ColorSpaces\RGBColor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\ColorSpaces\RGBColorSpace.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\ColorSpaces\ScRBGColor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\ColorSpaces\ScRGBColorSpace.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\ColorSpaces\xyYColor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\ColorSpaces\xyYColorSpace.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\ColorSpaces\XYZColor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\ColorSpaces\XyzColorSpace.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\Drawing\BlendMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\Drawing\IPixelCanvas.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\Drawing\PixelArrayCanvas.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\Drawing\PixelCanvas.Blit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\Drawing\PixelCanvas.Clear.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\Drawing\PixelCanvas.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\Drawing\PixelCanvas.DrawLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\Drawing\PixelCanvas.IDisposable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NotifyPropertyChangedObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NotifyPropertyChangedObjectWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\Extension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\ExtensionCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\IExtensibleObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\IExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\IExtensionCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertySystem\CollectionExtendedProperty_T.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertySystem\CollectionInheritanceMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertySystem\ExtendedCollectionPropertyDefinition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertySystem\ExtendedPropertyCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)PropertySystem\ExtendedPropertyContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertySystem\ExtendedPropertyDefinition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertySystem\ExtendedPropertyUniqueIdentifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertySystem\ExtendedProperty_T.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertySystem\ICollectionExtendedProperty.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertySystem\IExtendedCollectionPropertyDefinition_T.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertySystem\IExtendedProperty.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertySystem\IExtendedPropertyCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertySystem\IExtendedPropertyContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertySystem\IExtendedPropertyDefinition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertySystem\IExtendedPropertyDefinition_T.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertySystem\IExtendedProperty_T.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ReferenceEqualityComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\CreateInstanceContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\EnumerableTypeSerializationStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\EnumerableTypeSerializationStrategy_T.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiPlainText\FlexiPlainTextSerializationContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiPlainText\FlexiPlainTextSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiPlainText\FlexiPlainTextTypeSerializationStrategy_T.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiPlainText\IFlexiPlainTextSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiSerializer.TypeSerializationStrategiesConcurrentDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\FlexiXmlEnumerableTypeSerializationStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\FlexiXmlReferenceResolutionContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\FlexiXmlSerializationContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\FlexiXmlSerializationOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\FlexiXmlSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\FlexiXmlSerializer.Deserialization.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\FlexiXmlSerializer.Serialization.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\FlexiXmlTypeSerializationStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\IFlexiXmlSerializationContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\IFlexiXmlSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\IFlexiXmlTypeSerializationStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\IEnumerableTypeSerializationStrategy_T.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\IFlexiSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\IMemberSerializationStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\InstanceId.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\InstanceIdRef.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\ISerializationContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\ITypeSerializationStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\ITypeSerializationStrategy_T.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\MemberSerializationStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\ReferenceResolutionContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\SerializationContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\TypeSerializationStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\TypeSerializationStrategy_T.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Text\UnicodeCharacters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Threading\AsyncLoop.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Threading\AsyncOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Threading\IAsyncLoop.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Threading\IAsyncOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Threading\ILock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Threading\IReadLockAcquisition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Threading\IUpgradeableReadLockAcquisition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Threading\IWriteLockAcquisition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Threading\ReaderWriterLockSlimEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Threading\ReaderWriterLockSlimEx.ReadLockAcquisition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Threading\ReaderWriterLockSlimEx.UpgradeableReadLockAcquisition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Threading\ReaderWriterLockSlimEx.WriteLockAcquisition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TreeTraversalMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TypeResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\IEnumerableTypeDescription.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\IL\ILBasedEnumerableTypeDescription.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\IL\ILBasedEnumerableTypeDescription.IEnumerableTypeDescription.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\IL\ILBasedTypeDescription.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\IL\ILBasedTypeDescription.ITypeDescription.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\IL\ILBasedTypeDescriptor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\IL\ILBasedTypeMemberDescription.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\IL\ILBasedTypeMemberDescription.ITypeMemberDescription.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\ITypeDescription.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\ITypeDescriptor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\ITypeMemberDescription.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\ITypeMemberDescriptionCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\MemberVisibility.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\Reflection\ReflectionBasedEnumerableTypeDescription.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\Reflection\ReflectionBasedTypeDescription.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\Reflection\ReflectionBasedTypeDescriptor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\Reflection\ReflectionBasedTypeMemberDescription.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\TypeDescriptor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\TypeMemberDescriptionCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\CreateInstanceContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\ITypeMapper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\ITypeMappingStrategy.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\MappingContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\MappingOptions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\MemberMatching\ExactNameMatchMemberMatchingRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\MemberMatching\IMemberMatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\MemberMatching\IMemberMatchingRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\MemberMatching\MemberMatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\MemberMatching\MemberMatchCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\MemberMatching\MemberMatchingRuleCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\MemberMatching\PrefixedNameMatchMemberMatchingRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\TypeMapper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\TypeMapper.TypeMappingStrategiesConcurrentDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\TypeMapper.TypeMappingStrategyKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\TypeMappingStrategy.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\TypeMappingStrategy.static.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\ValueConverting\DynamicValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\ValueConverting\IValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\ValueConverting\PreserveOriginalValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\ValueConverting\ValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\ValueResolving\DynamicValueResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\ValueResolving\IValueResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\ValueResolving\MatchedMemberValueResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\ValueResolving\ValueResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\ValueResolving\ValueResolverCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)VersionChangedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WeakEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_RetryPolicy\DynamicTransientFaultFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_RetryPolicy\ILogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_RetryPolicy\ITransientFaultFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_RetryPolicy\RetryPolicy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_RetryPolicy\TransientFaultFilter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Media\RYB.pdf" />
+  </ItemGroup>
+</Project>

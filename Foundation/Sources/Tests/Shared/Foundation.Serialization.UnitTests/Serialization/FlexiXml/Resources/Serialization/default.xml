@@ -1,0 +1,4 @@
+﻿<SimpleSerializableType stringProperty="string value 1"
+                        intProperty="13"
+                        nullableIntProperty="14"
+                        guidProperty="9763C96B-5AC4-4ACA-AE4E-5D71EDDBE0DD" />

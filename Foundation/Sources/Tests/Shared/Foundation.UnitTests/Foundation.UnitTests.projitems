@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>d8c7e818-fcb0-4bb5-86db-cdb2ecc98b63</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Foundation.UnitTests</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ChainOfCommand\TryHandle.tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\CollectionEx.AddRemoveRange.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\CollectionEx.BulkUpdates.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\CollectionEx.Clear.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\CollectionEx.GetSnapshot.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\CollectionEx.ItemInsertedRemovedNotifications.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\CollectionEx.Move.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\CollectionEx.Replace.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\CollectionEx.tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\CollectionEx.VersionChanged.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\ObservableCollectionEx.bugfixes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Trees\BooleanExpresionTree.operations.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Trees\ObservableCollectionEx.tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Collections\IEnumerable.ToList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Collections\IEnumerable.ToNullIfEmpty.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Collections\IEnumerable.TreeTraversal.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml.Linq\XElement\GetAttributeValue.tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml.Linq\XObject\GetNameAndLocationForDebugging.tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\DateTime.BeginingOfMonth.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\DateTime.BeginingOfWeek.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\DateTime.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\DateTime.UnixEpochBegining.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Double.AreClose.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Double.Clamp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Double.Round.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Object.CreateWeakEventHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Object.IsIn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\String.ExpandTabs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\String.FormatWith.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\String.GetLengthWithExpandedTabs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\String.GetLines.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\String.IsMultiline.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\String.IsNullOrEmpty.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\String.PrefixEachLine.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\String.Substring.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\String.ToTitleCase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\String.TrimEachLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Type.ImplementsInterface.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Type.IsEqualTo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InvocationThrottle.tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\Drawing\PerformanceOptimizations.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\Drawing\PixelArrayCanvas.Blit.tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestEntities\LinkedListNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestEntities\TypeWithEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Threading\AsyncLoop.bugs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Threading\AsyncLoop.tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Threading\ReaderWriterLockSlimEx.tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\Reflection\ReflectionBasedTypeDescriptor.DescribeType.tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\Reflection\ReflectionBasedTypeDescriptor._BugFixes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\Reflection\TestEntities\TypeHasPropertyOfTheSameType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\TestEntities\MapTestCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\TestEntities\MapTestCollectionItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\TestEntities\MapTestCollectionOwner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\TestEntities\NullablesTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\TestEntities\SimpleType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\TestEntities\SimpleType2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\TestEntities\SimpleType_.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\TypeMapper.DeepClone.tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\TypeMapper.Map.tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\TypeMapper._BugFixes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WeakEvent.bugs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WeakEvent.tests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Media\Drawing\expected\DDA_Diagonal_1.bmp" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Media\Drawing\expected\DDA_Diagonal_2.bmp" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Media\Drawing\expected\DDA_Diagonal_3.bmp" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Media\Drawing\expected\DDA_Diagonal_4.bmp" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Media\Drawing\expected\DDA_vertical_0.bmp" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Media\Drawing\expected\DDA_vertical_1.bmp" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Media\Drawing\expected\DDA_vertical_2.bmp" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Media\Drawing\expected\DDA_vertical_3.bmp" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Media\Drawing\expected\DDA_vertical_4.bmp" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Media\Drawing\expected\DDA_vertical_5.bmp" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Media\Drawing\expected\DDA_vertical_6.bmp" />
+  </ItemGroup>
+</Project>

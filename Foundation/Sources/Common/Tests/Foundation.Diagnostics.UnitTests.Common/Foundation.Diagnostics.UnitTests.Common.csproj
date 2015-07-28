@@ -52,20 +52,6 @@
     <Compile Include="_DiagnosticLoggerTestsContext.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Foundation.Common\Foundation.Common.csproj">
-      <Project>{dfeab4e6-d02d-448b-8649-2d12be137191}</Project>
-      <Name>Foundation.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Foundation.Diagnostics.Common\Foundation.Diagnostics.Common.csproj">
-      <Project>{4c00093f-a067-4e66-9f70-7d715d941e20}</Project>
-      <Name>Foundation.Diagnostics.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Foundation.Diagnostics.Infrastructure.Common\Foundation.Diagnostics.Infrastructure.Common.csproj">
-      <Project>{09913c58-684f-471c-a1bb-6e80f6c33862}</Project>
-      <Name>Foundation.Diagnostics.Infrastructure.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>

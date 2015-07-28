@@ -46,23 +46,10 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\AssemblyInfo.shared.cs">
-      <Link>Properties\AssemblyInfo.shared.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Win32Api.Common\user32.cs">
-      <Link>user32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Win32Api.Common\user32.entities.cs">
-      <Link>user32.entities.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Win32Api.Common\user32.externs.cs">
-      <Link>user32.externs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\Foundation.Win32Api.Common\windows.h.entities.cs">
-      <Link>windows.h.entities.cs</Link>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <Import Project="..\..\Shared\Foundation.Win32Api\Foundation.Win32Api.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>9e46be90-83d2-44f7-b334-2694be8e8dc3</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Foundation.Presentation.Xaml</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.xaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BackgroundRenderingService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Button.Image.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\CheckBoxInListItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ColumnHeaders.Visibility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Columns.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Control.Click.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Control.DoubleClick.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\DialogHost.MinHeight.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\DialogHost.MinWidth.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\DragDrop.AttachedProperties.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\DragDrop.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ForwardKeyEvents.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ForwardTextInput.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\FrameworkElement.Loaded.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\FrameworkElement.Unloaded.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Highlight.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Hyperlink.OpenInDefaultBrowser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ListBoxItem.IsSelectible.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\SelectionChanged.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Selector.ItemDoubleClick.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Selector.ItemsSourceWithPreserveSelection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Selector.MultiSelection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\TextBoxBase.ClearButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\TextBoxBase.Watermark.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\TreeView.behaviors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\TreeView.MultiSelection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\TreeView.PreventAutomaticScrolling.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\TreeView.SelectionChangedInhibitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\XamlObservableCollectionEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\XamlVirtualizingCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\DelegateCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\DelegateCommandBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\DelegateCommandBase.WeakEventHandlerManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\DelegateCommand_T.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\AdornerWithVisual.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\BackgroundLoadingListView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Canvas.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ISupportsBackgroundRendering.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TabControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Trees\_BooleanExpressionTrees\BooleanExpressionTreeControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ZoomableListView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\AddNumberConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToNumberConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BytesToImageSourceConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\CollectionLastItemToVisibilityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\CollectionPositionToBoolConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ColorToGradientBrushConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ColorToSolidColorBrushConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ColumnHeaderRoleToBorderConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ComObjectConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\CompositeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\EnumerableCombiningConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\EnumToBoolConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\EnumToValuesConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\FirstBindingConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\GetApplicationResourceConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\GetTypeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\IndentToLeftMarginConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\IndexToBrushConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\InvertBoolConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\IsOfTypeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\MixedCompositeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\MultiplyNumberConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\NullOrEmptyToBoolConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\NumberToBoolConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\SizeToRectConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\SplitCamelCaseConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\TextFlattenAndTrimConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ToDoubleConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ToEnumerableConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ToListConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ToMapConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\TreeViewItemLeftMarginConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ValueToBoolConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\ContextAwareDataTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\ContextAwareDataTemplateSelectorService.Cache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\ContextAwareDataTemplateSelectorService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\DynamicDataTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\IContextAwareDataTemplateProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\IContextAwareDataTemplateSelectorService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\MefTypeDataTemplateSelectorService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\ResourcesTraversingDataTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\RuleBasedDataTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\Rules\DataTemplateSelectorRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\Rules\IDataTemplateSelectorRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\Rules\ItemValueRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\Rules\MemberValueRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\TypeNameToResourceKeyMappingDataTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\CollectionViewSource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DialogMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DialogScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DragAndDrop\DefaultDragSource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DragAndDrop\DefaultDropTarget.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DragAndDrop\DragAdorner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DragAndDrop\DragInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DragAndDrop\DropInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DragAndDrop\DropTargetAdorner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DragAndDrop\DropTargetInsertionAdorner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DragAndDrop\IDragInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DragAndDrop\IDragSource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DragAndDrop\IDropInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DragAndDrop\IDropTarget.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DragAndDrop\IEnumerable.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DragAndDrop\KnownDropTargetAdorners.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DragAndDrop\Utilities\HitTestUtilities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DragAndDrop\Utilities\ItemsControlExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DragAndDrop\Utilities\VisualTreeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\SquaredInfinity.Media.Drawing\PixelCanvas.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Controls\ItemsControl.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Controls\TreeViewItem.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Media.Imaging\BitmapSource.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Media\Color.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Media\ImageSource.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Media\Visual.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows\DependencyObject.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows\FrameworkElement.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows\Rect.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows\Size.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows\Vector.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows\Window.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IHostAwareViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IUIService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IViewModelHost.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\CommandMethodBinding.CommandMethodConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\CommandMethodBinding.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\CommandMethodBinding.InvokeMethodCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\CompareMethodBinding.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\LoadImageFromMainAssembly.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\MethodResultBinding.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\MethodResultBinding.MethodWithParametersResultConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\PredicateMethodBinding.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\PredicateMethodBinding.PredicateMethodConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\SmartBinding.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\StringFormatBinding.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\TemplatedParentBinding.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\Colors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\FontFamilies.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\Extensions\ListItemExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\Extensions\SingleSelectionExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\NotifyPropertyChangedObjectExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\ObservableExtensionCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\PresentationWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\PresentationWrapperCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\IXamlResourcesProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\IXamlResourcesProviderMetadata.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\ResourcesManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\XamlResourcesImporter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\XamlResourcesProviderMetadataAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SharedResourceDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UIService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInteractionOutcome.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModelState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AfterViewModelEventRaisedArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AlertViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\IViewModelEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ViewModel.IHostAwareViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ViewModelEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ViewModelEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ViewModelEventRoutingStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\View.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ViewModelEventRoutedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\View_T.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\ModernWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\ViewHostWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\ViewHostWindow.IViewModelHost.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XamlResources.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Xaml\All.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Xaml\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Xaml\DataTemplateSelectors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+</Project>

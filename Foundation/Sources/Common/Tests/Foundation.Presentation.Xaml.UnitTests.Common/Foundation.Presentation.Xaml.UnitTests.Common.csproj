@@ -61,7 +61,6 @@
     <Compile Include="Collections\__Resources\ObservableCollection__BackgroundUpdatesTest.xaml.cs">
       <DependentUpon>ObservableCollection__BackgroundUpdatesTest.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -69,16 +68,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Foundation.Common\Foundation.Common.csproj">
-      <Project>{dfeab4e6-d02d-448b-8649-2d12be137191}</Project>
-      <Name>Foundation.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Foundation.Presentation.Xaml.Common\Foundation.Presentation.Xaml.Common.csproj">
-      <Project>{6d246254-bf79-47c6-ae0e-2fda3e9467a4}</Project>
-      <Name>Foundation.Presentation.Xaml.Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
