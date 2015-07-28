@@ -27,7 +27,7 @@ namespace Nuget.DeployAllProjects
         {
             // get version number of assemblies in solution
             // assumes default solution structure
-            var asm_info = File.ReadAllText(@"../../../../AssemblyInfo.shared.cs");
+            var asm_info = File.ReadAllText(@"../../../../Sources/Shared/Internal/AssemblyInfo.shared.cs");
 
             var version_number_match = Regex.Match(asm_info, @"\[assembly: AssemblyVersion\(""(?<version>.*)""");
 
@@ -102,6 +102,7 @@ namespace Nuget.DeployAllProjects
                         }
 
                         Directory.CreateDirectory(srcRoot);
+                        Directory.CreateDirectory(Path.Combine(srcRoot, "Shared"));
                         Directory.CreateDirectory(Path.Combine(srcRoot, "Common"));
                         Directory.CreateDirectory(Path.Combine(srcRoot, "DotNet45"));
 
@@ -124,35 +125,35 @@ namespace Nuget.DeployAllProjects
                 var commonTargetDir = new DirectoryInfo(Path.Combine(sources_root.FullName, "Common"));
 
                 // copy files shared between all projects
-                var internalTraceSource = new FileInfo(Path.Combine(srcRoot, "Common", "InternalTrace.cs"));
-                File.Copy(Path.Combine(commonTargetDir.FullName, "InternalTrace.cs"), internalTraceSource.FullName);
+            //    var internalTraceSource = new FileInfo(Path.Combine(srcRoot, "Common", "InternalTrace.cs"));
+            //    File.Copy(Path.Combine(commonTargetDir.FullName, "InternalTrace.cs"), internalTraceSource.FullName);
 
-                // source/common/xxx.common
-                var commonProjectDir = new DirectoryInfo(Path.Combine(commonTargetDir.FullName, projectName + ".Common"));
+            //    // source/common/xxx.common
+            //    var commonProjectDir = new DirectoryInfo(Path.Combine(commonTargetDir.FullName, projectName + ".Common"));
 
-                foreach (var target_dir in sources_root.GetDirectories())
-                {
-                    // these will be common, dotnet45 etc
-                    foreach (var project_dir in target_dir.GetDirectories())
-                    {
-                        if (!(project_dir.Name == projectName + "." + target_dir.Name))
-                            continue;
+            //    foreach (var target_dir in sources_root.GetDirectories())
+            //    {
+            //        // these will be common, dotnet45 etc
+            //        foreach (var project_dir in target_dir.GetDirectories())
+            //        {
+            //            if (!(project_dir.Name == projectName + "." + target_dir.Name))
+            //                continue;
 
-                        // copy files from project.target dir to project.target (e.g. foundation.DotNet45 => foundation.DotNet45)
-                        var copy_target = new DirectoryInfo(Path.Combine(srcRoot, target_dir.Name, projectName + "." +  target_dir.Name));
-                        CopyDirectoryRecursively(project_dir, copy_target);
+            //            // copy files from project.target dir to project.target (e.g. foundation.DotNet45 => foundation.DotNet45)
+            //            var copy_target = new DirectoryInfo(Path.Combine(srcRoot, target_dir.Name, projectName + "." +  target_dir.Name));
+            //            CopyDirectoryRecursively(project_dir, copy_target);
 
-                        if(target_dir.Name != "Common")
-                        {
-                            // copy files from project.Common dir to project.target (e.g. foundation.Common => foundation.DotNet45)
-                            // (e.g. files that are referenced as links)
-                            CopyDirectoryRecursively(commonProjectDir, copy_target);
-                        }
+            //            //if(target_dir.Name != "Common")
+            //            //{
+            //            //    // copy files from project.Common dir to project.target (e.g. foundation.Common => foundation.DotNet45)
+            //            //    // (e.g. files that are referenced as links)
+            //            //    CopyDirectoryRecursively(commonProjectDir, copy_target);
+            //            //}
 
-                        // copy files shared between all projects
-                        File.Copy(Path.Combine(commonTargetDir.FullName, "InternalTrace.cs"), Path.Combine(copy_target.FullName, "InternalTrace.cs"));
-                    }
-                }
+            //            // copy files shared between all projects
+            //            File.Copy(Path.Combine(commonTargetDir.FullName, "InternalTrace.cs"), Path.Combine(copy_target.FullName, "InternalTrace.cs"));
+            //        }
+            //    }
             }
 
             // build solution in release version
@@ -160,7 +161,7 @@ namespace Nuget.DeployAllProjects
             var solution_file_path = new FileInfo("../../../../Foundation.sln").FullName;
 
             ExecuteApplicationUsingCommandLine(
-                application: @"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe",
+                application: @"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe",
                 arguments: "\"{0}\" /rebuild Release".FormatWith(solution_file_path),
                 showUi: true,
                 continueAfterExecution:true,
@@ -181,6 +182,7 @@ namespace Nuget.DeployAllProjects
 
             // 3. Everything else
 
+            PublishProject("NuGet.Foundation.Cache");
             PublishProject("NuGet.Foundation.Data");
             PublishProject("NuGet.Foundation.Diagnostics");
             PublishProject("NuGet.Foundation.Presentation.Xaml");
@@ -195,7 +197,7 @@ namespace Nuget.DeployAllProjects
             var solution_file_path = new FileInfo("../../../../Foundation.sln").FullName;
 
             ExecuteApplicationUsingCommandLine(
-               application: @"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe",
+               application: @"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe",
                arguments: "\"{0}\" /rebuild Release /project {1} Release".FormatWith(solution_file_path, projectName),
                showUi: true,
                continueAfterExecution:true,
