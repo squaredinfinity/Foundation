@@ -380,11 +380,11 @@ namespace SquaredInfinity.Foundation.Collections
             if (HasFinished)
                 return;
 
-            if(LockAcquisition != null)
-                LockAcquisition.Dispose();
-
             HasFinished = true;
             Owner.EndBulkUpdate(this);
+
+            if (LockAcquisition != null)
+                LockAcquisition.Dispose();
         }
     }
 }
