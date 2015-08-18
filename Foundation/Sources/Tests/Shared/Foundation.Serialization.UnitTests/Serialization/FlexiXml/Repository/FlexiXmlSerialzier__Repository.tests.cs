@@ -19,7 +19,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml.Repository
         {
             var xml =
                 Assembly.GetExecutingAssembly()
-                .GetManifestResourceStream(@"SquaredInfinity.Foundation.Serialization.FlexiXml.Repository.Resources.repository.xml")
+                .GetManifestResourceStream(@"SquaredInfinity.Foundation.Serialization.UnitTests.Serialization.FlexiXml.Repository.Resources.repository.xml")
                 .ReadToEnd();
 
             var xDoc = XDocument.Parse(xml);

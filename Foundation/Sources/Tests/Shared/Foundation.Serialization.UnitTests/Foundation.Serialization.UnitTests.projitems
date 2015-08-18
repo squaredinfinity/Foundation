@@ -5,9 +5,7 @@
     <HasSharedItems>true</HasSharedItems>
     <SharedGUID>85660d59-e428-4eb1-97e3-52d2d9106bc4</SharedGUID>
   </PropertyGroup>
-  <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Foundation.Serialization.UnitTests</Import_RootNamespace>
-  </PropertyGroup>
+  <PropertyGroup Label="Configuration" />
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\FlexiXmlSerializer._BugFixes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\FlexiXmlSerializer__Deserialize.tests.cs">

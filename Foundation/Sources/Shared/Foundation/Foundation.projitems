@@ -6,7 +6,7 @@
     <SharedGUID>46be36ce-c049-4746-8a80-85a28b96e923</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Foundation</Import_RootNamespace>
+    <Import_RootNamespace>SquaredInfinity.Foundation</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ChainOfCommand.cs" />
@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collections\AfterItemRemovedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\AfterItemReplacedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\CollectionEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\CollectionEx.IList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Concurrent\ConcurrentHashSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Concurrent\IConcurrentCollectionEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\IBulkUpdatesCollection.cs" />

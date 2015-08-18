@@ -21,7 +21,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         {
             var xml =
                 Assembly.GetExecutingAssembly()
-                .GetManifestResourceStream(@"SquaredInfinity.Foundation.Serialization.FlexiXml.Resources.Deserialization.XmlRootNameCanBeAnything.xml")
+                .GetManifestResourceStream(@"SquaredInfinity.Foundation.Serialization.UnitTests.Serialization.FlexiXml.Resources.Deserialization.XmlRootNameCanBeAnything.xml")
                 .ReadToEnd();
 
             var s = new FlexiXmlSerializer();
@@ -38,7 +38,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         {
             var xml =
                 Assembly.GetExecutingAssembly()
-                .GetManifestResourceStream(@"SquaredInfinity.Foundation.Serialization.FlexiXml.Resources.Deserialization.AttributesCanBeUsedToMapPropertiesWithValuesConvertibleToString.xml")
+                .GetManifestResourceStream(@"SquaredInfinity.Foundation.Serialization.UnitTests.Serialization.FlexiXml.Resources.Deserialization.AttributesCanBeUsedToMapPropertiesWithValuesConvertibleToString.xml")
                 .ReadToEnd();
 
             var s = new FlexiXmlSerializer();
@@ -58,7 +58,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         {
             var xml =
                 Assembly.GetExecutingAssembly()
-                .GetManifestResourceStream(@"SquaredInfinity.Foundation.Serialization.FlexiXml.Resources.Deserialization.AttachedElementsCanBeUsedToMapProperties.xml")
+                .GetManifestResourceStream(@"SquaredInfinity.Foundation.Serialization.UnitTests.Serialization.FlexiXml.Resources.Deserialization.AttachedElementsCanBeUsedToMapProperties.xml")
                 .ReadToEnd();
 
             var s = new FlexiXmlSerializer();
@@ -78,7 +78,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         {
             var xml =
                 Assembly.GetExecutingAssembly()
-                .GetManifestResourceStream(@"SquaredInfinity.Foundation.Serialization.FlexiXml.Resources.Deserialization.collection_tests.xml")
+                .GetManifestResourceStream(@"SquaredInfinity.Foundation.Serialization.UnitTests.Serialization.FlexiXml.Resources.Deserialization.collection_tests.xml")
                 .ReadToEnd();
 
             var s = new FlexiXmlSerializer();

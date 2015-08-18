@@ -14,39 +14,41 @@ namespace SquaredInfinity.Foundation.Collections
     /// Thread-Safe collection with support for atomic reads/writes and additional operations such as GetSnapshot(), Bulk Updates (Reset, Add/Remove Range) and Versioning
     /// </summary>
     /// <typeparam name="TItem"></typeparam>
-    public class CollectionEx<TItem> : 
-        Collection<TItem>,
+    public partial class CollectionEx<TItem> : 
         ICollectionEx<TItem>,
         IBulkUpdatesCollection<TItem>, 
         INotifyCollectionVersionChanged,
-        System.Collections.IList
+        IList<TItem>,
+        IList,
+        ICollection<TItem>,
+        ICollection
     {
         /// <summary>
         /// Lock providing atomic access fo elements in collection
         /// </summary>
         readonly protected ILock CollectionLock;
-
-        object IList.this[int index] { get { return this[index]; } set { this[index] = (TItem) value; } }
-
+        
         public CollectionEx()
         {
+            _items = new List<TItem>();
             CollectionLock = new ReaderWriterLockSlimEx(LockRecursionPolicy.NoRecursion);
         }
 
         public CollectionEx(IList<TItem> items)
-            : base(items)
         {
+            _items = items;
             CollectionLock = new ReaderWriterLockSlimEx(LockRecursionPolicy.NoRecursion);
         }
 
         public CollectionEx(LockRecursionPolicy recursionPolicy)
         {
+            _items = new List<TItem>();
             CollectionLock = new ReaderWriterLockSlimEx(recursionPolicy);
         }
 
         public CollectionEx(LockRecursionPolicy recursionPolicy, IList<TItem> items)
-            : base(items)
         {
+            _items = items;
             CollectionLock = new ReaderWriterLockSlimEx(recursionPolicy);
         }
 
@@ -57,25 +59,27 @@ namespace SquaredInfinity.Foundation.Collections
             if (oldIndex == newIndex)
                 return;
 
-            MoveItem(oldIndex, newIndex);
-        }
-
-        protected virtual void MoveItem(int oldIndex, int newIndex)
-        {
             using (CollectionLock.AcquireWriteLockIfNotHeld())
             {
                 TItem item = this[oldIndex];
 
-                // remove item from old intext
-                base.RemoveItem(oldIndex);
+                // todo: onbeforeitemmoved ?
 
-                // insert item in a new index
-                base.InsertItem(newIndex, item);
+                MoveItem(item, oldIndex, newIndex);
 
                 OnAfterItemMoved(item, oldIndex, newIndex);
 
                 IncrementVersion();
             }
+        }
+
+        protected virtual void MoveItem(TItem item, int oldIndex, int newIndex)
+        {
+            // remove item from old intext
+            RemoveItem(oldIndex);
+
+            // insert item in a new index
+            InsertItem(newIndex, item);
         }
 
         protected virtual void OnAfterItemMoved(TItem item, int oldIndex, int newIndex)
@@ -85,27 +89,9 @@ namespace SquaredInfinity.Foundation.Collections
 
         #region Clear
 
-        protected override void ClearItems()
+        protected virtual void ClearItems()
         {
-            using (CollectionLock.AcquireWriteLockIfNotHeld())
-            {
-                var oldItems = new TItem[Count];
-                CopyTo(oldItems, 0);
-
-                OnBeforeItemsCleared(oldItems);
-
-                for (int i = oldItems.Length - 1; i >= 0; i--)
-                    OnBeforeItemRemoved(i, oldItems[i]);
-
-                base.ClearItems();
-                
-                OnAfterItemsCleared(oldItems);
-
-                for (int i = oldItems.Length - 1; i >= 0; i--)
-                    OnAfterItemRemoved(i, oldItems[i]);
-
-                IncrementVersion();
-            }
+            _items.Clear();
         }
 
         protected virtual void OnBeforeItemsCleared(IReadOnlyList<TItem> oldItems)
@@ -118,16 +104,9 @@ namespace SquaredInfinity.Foundation.Collections
 
         #region Insert
 
-        protected override void InsertItem(int index, TItem item)
+        protected virtual void InsertItem(int index, TItem item)
         {
-            using(CollectionLock.AcquireWriteLockIfNotHeld())
-            {
-                OnBeforeItemInserted(index, item);
-                base.InsertItem(index, item);
-                OnAfterItemInserted(index, item);
-
-                IncrementVersion();
-            }
+            _items.Insert(index, item);
         }
 
         protected virtual void OnBeforeItemInserted(int index, TItem item) { }
@@ -138,18 +117,9 @@ namespace SquaredInfinity.Foundation.Collections
 
         #region Remove
 
-        protected override void RemoveItem(int index)
+        protected virtual void RemoveItem(int index)
         {
-            using (var readLock = CollectionLock.AcquireWriteLockIfNotHeld())
-            {
-                var item = this[index];
-
-                OnBeforeItemRemoved(index, item);
-                base.RemoveItem(index);
-                OnAfterItemRemoved(index, item);
-
-                IncrementVersion();
-            }
+            _items.RemoveAt(index);
         }
 
         protected virtual void OnBeforeItemRemoved(int index, TItem item) { }
@@ -170,29 +140,10 @@ namespace SquaredInfinity.Foundation.Collections
                     throw new IndexOutOfRangeException("specified item does not exist in the collection.");
 
                 OnBeforeItemReplaced(index, oldItem, newItem);
-
-                SetItem(index, newItem);
-
-                OnAfterItemReplaced(index, oldItem, newItem);
-
-                IncrementVersion();
-            }
-        }
-
-        protected override void SetItem(int index, TItem newItem)
-        {
-            using (CollectionLock.AcquireWriteLockIfNotHeld())
-            {
-                if (index < 0)
-                    throw new IndexOutOfRangeException("specified item does not exist in the collection.");
-
-                var oldItem = this[index];
-
-                OnBeforeItemReplaced(index, oldItem, newItem);
                 OnBeforeItemRemoved(index, oldItem);
                 OnBeforeItemInserted(index, newItem);
 
-                base.SetItem(index, newItem);
+                SetItem(index, newItem);
 
                 OnAfterItemReplaced(index, oldItem, newItem);
                 OnAfterItemRemoved(index, oldItem);
@@ -200,6 +151,34 @@ namespace SquaredInfinity.Foundation.Collections
 
                 IncrementVersion();
             }
+        }
+
+        public virtual void Replace(int index, TItem newItem)
+        {
+            using (CollectionLock.AcquireWriteLockIfNotHeld())
+            {
+                if (index < 0)
+                    throw new IndexOutOfRangeException("specified item does not exist in the collection.");
+
+                var oldItem = _items[index];
+
+                OnBeforeItemReplaced(index, oldItem, newItem);
+                OnBeforeItemRemoved(index, oldItem);
+                OnBeforeItemInserted(index, newItem);
+
+                SetItem(index, newItem);
+
+                OnAfterItemReplaced(index, oldItem, newItem);
+                OnAfterItemRemoved(index, oldItem);
+                OnAfterItemInserted(index, newItem);
+
+                IncrementVersion();
+            }
+        }
+
+        protected virtual void SetItem(int index, TItem newItem)
+        {
+            _items[index] = newItem;
         }
 
         protected virtual void OnAfterItemReplaced(int index, TItem oldItem, TItem newItem) { }
@@ -229,7 +208,7 @@ namespace SquaredInfinity.Foundation.Collections
             {
                 foreach (var item in items)
                 {
-                    InsertItem(Items.Count, item);
+                    Insert(Items.Count, item);
                 }
             }
         }

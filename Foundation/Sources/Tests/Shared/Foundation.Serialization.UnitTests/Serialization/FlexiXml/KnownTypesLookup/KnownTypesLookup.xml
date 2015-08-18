@@ -2,7 +2,7 @@
   <serialization:Internal>
     <serialization:KnownTypes>
       <serialization:KnownType serialization:alias="TestEntityA" 
-                               serialization:assemblyQualifiedName="SquaredInfinity.Foundation.Serialization.FlexiXml.KnownTypesLookup.TestEntityB, SquaredInfinity.Foundation.UnitTests.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+                               serialization:assemblyQualifiedName="SquaredInfinity.Foundation.Serialization.FlexiXml.KnownTypesLookup.TestEntityB, SquaredInfinity.Foundation.Serialization.UnitTests.DotNet45, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
     </serialization:KnownTypes>
   </serialization:Internal>
   <root.Entity>

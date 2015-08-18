@@ -20,7 +20,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml.KnownTypesLookup
 
             var xml =
                 Assembly.GetExecutingAssembly()
-                .GetManifestResourceStream(@"SquaredInfinity.Foundation.Serialization.FlexiXml.KnownTypesLookup.KnownTypesLookup.xml")
+                .GetManifestResourceStream(@"SquaredInfinity.Foundation.Serialization.UnitTests.Serialization.FlexiXml.KnownTypesLookup.KnownTypesLookup.xml")
                 .ReadToEnd();
 
             var s = new FlexiXmlSerializer();
