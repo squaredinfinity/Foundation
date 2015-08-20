@@ -3,6 +3,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="{ResourceFromThisAssembly /Behaviors/DragAndDropTestsView.xaml}" />
         <ResourceDictionary Source="{ResourceFromThisAssembly /Behaviors/ClickView.xaml}" />
+        <ResourceDictionary Source="{ResourceFromThisAssembly /Behaviors/ColumnHeaders.xaml}" />
         <ResourceDictionary Source="{ResourceFromThisAssembly /Behaviors/Highlight/HighlightTestsView.xaml}" />
 
         <ResourceDictionary Source="{ResourceFromThisAssembly /Controls/ZoomableListViewTestsView.xaml}" />

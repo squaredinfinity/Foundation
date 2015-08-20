@@ -25,5 +25,8 @@
         <TabItem Header="Click">
             <local:ClickView />
         </TabItem>
+        <TabItem Header="Column Headers">
+            <local:ColumnHeadersView />
+        </TabItem>
     </TabControl>
 </UserControl>

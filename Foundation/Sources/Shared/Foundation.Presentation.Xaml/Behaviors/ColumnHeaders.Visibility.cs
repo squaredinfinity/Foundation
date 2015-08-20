@@ -49,7 +49,28 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
         static void lv_Loaded(object sender, RoutedEventArgs e)
         {
             var lv = sender as ListView;
+
             lv.Loaded -= lv_Loaded;
+
+            if (!lv.IsLoaded && !lv.IsVisible)
+            {
+                // not fully ready yet
+                // this may happen if we're in a popup
+                // try again on SizeChanged event
+
+                lv.SizeChanged += HandleSizeChanged;
+            }
+            else
+            {
+                UpdateGridViewHeaderRowPresenterVisibility(lv);
+            }
+        }
+
+        private static void HandleSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var lv = sender as ListView;
+
+            lv.SizeChanged -= HandleSizeChanged;
 
             UpdateGridViewHeaderRowPresenterVisibility(lv);
         }
