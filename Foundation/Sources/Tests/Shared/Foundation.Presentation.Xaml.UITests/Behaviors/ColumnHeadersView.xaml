@@ -15,6 +15,21 @@
                     <ControlTemplate TargetType="{x:Type local:ColumnHeadersView}">
 
                         <StackPanel Orientation="Vertical">
+
+                            <!-- BASIC TEST -->
+
+                            <CheckBox Content="Show Headers"
+                                      x:Name="show_headers_input" />
+
+                            <ListView ItemsSource="{TemplatedParentBinding ViewModel.TheList}"
+                                        behaviors:ColumnHeaders.Visibility="{Binding ElementName=show_headers_input, Path=IsChecked, Converter={StaticResource Converters.VisibleWhenTrue}}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="header" />
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+
                             <!-- TEST TO CHECK IF WORKS FROM TOOLTIP -->
                             <TextBlock Text="hover over to see tooltip" >
                                 <TextBlock.ToolTip>
