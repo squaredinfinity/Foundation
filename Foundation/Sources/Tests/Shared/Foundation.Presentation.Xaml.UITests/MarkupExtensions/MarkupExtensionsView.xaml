@@ -1,0 +1,52 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                    xmlns:behaviors="http://schemas.squaredinfinity.com/foundation/behaviors"
+                    xmlns:local="clr-namespace:SquaredInfinity.Foundation.Presentation.Xaml.UITests.MarkupExtensions"
+                    mc:Ignorable="d" >
+
+    <Style TargetType="{x:Type local:MarkupExtensionsView}">
+        <Style.Setters>
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type local:MarkupExtensionsView}">
+
+                        <StackPanel Orientation="Vertical">
+
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Number One:" />
+                                
+                                <!-- 
+                                        TempaltedParentBidning is a shortcut for Binding RelativeSource={RelativeSource TemplatedParent}
+                                -->
+                                <TextBox Text="{TemplatedParentBinding ViewModel.NumberOne, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Number Two:" />
+                                <TextBox Text="{TemplatedParentBinding ViewModel.NumberTwo, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+
+                            <TextBlock Text="Sum = ">
+                                
+                                <!-- 
+                                    MethodResultBinding binds to a value returned by a specified method 
+                                    If ReevaluateTriggerBinding is specified, Method will be called whenever value of that binding changes
+                                
+                                    @TemplatedParent can be used as a shortcut for RelativeSource={RelativeSource TemplatedParent}
+                                -->
+                                
+                                <Run Text="{MethodResultBinding @TemplatedParent.ViewModel.Sum, 
+                                        ReevaluateTriggerBinding={TemplatedParentBinding ViewModel.Version}}" />
+                            </TextBlock>
+                            
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+</ResourceDictionary>

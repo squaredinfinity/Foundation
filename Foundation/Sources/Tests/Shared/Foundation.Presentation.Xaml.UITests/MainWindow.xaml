@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local_behaviors="clr-namespace:SquaredInfinity.Foundation.Presentation.Xaml.UITests.Behaviors"
+        xmlns:local_markupextensions="clr-namespace:SquaredInfinity.Foundation.Presentation.Xaml.UITests.MarkupExtensions"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <TabControl VerticalAlignment="Stretch"
@@ -13,7 +14,13 @@
                 <TabItem Header="Column Headers">
                     <local_behaviors:ColumnHeadersView />
                 </TabItem>
+                <TabItem Header="Watermark">
+                    <local_behaviors:WatermarkView />
+                </TabItem>
             </TabControl>
+        </TabItem>
+        <TabItem Header="Markup Extensions">
+            <local_markupextensions:MarkupExtensionsView />
         </TabItem>
     </TabControl>
 </Window>

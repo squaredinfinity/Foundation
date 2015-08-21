@@ -15,18 +15,30 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ColumnHeadersView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ColumnHeadersViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\WatermarkView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\WatermarkViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainWindow.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\MarkupExtensionsView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\MarkupExtensionsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Behaviors\WatermarkView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Behaviors\ColumnHeadersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)MarkupExtensions\MarkupExtensionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
