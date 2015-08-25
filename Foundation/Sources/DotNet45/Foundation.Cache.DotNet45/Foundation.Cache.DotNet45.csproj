@@ -49,7 +49,7 @@
       <Name>Foundation.DotNet45</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="..\..\Shared\Foundation.Cache\Foundation.Cache.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\Foundation.Cache_new\Foundation.Cache.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
