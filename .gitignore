@@ -106,7 +106,6 @@ AppPackages/
 
 # Others
 sql/
-!Foundation.Cache
 *.Cache
 ClientBin/
 [Ss]tyle[Cc]op.*
@@ -153,3 +152,7 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+
+# Exceptions
+!Foundation/Sources/Shared/Foundation.Data/*
+!Foundation/Sources/Shared/Foundation.Cache/*
