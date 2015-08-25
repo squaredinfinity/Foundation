@@ -106,6 +106,7 @@ AppPackages/
 
 # Others
 sql/
+!Foundation.Cache
 *.Cache
 ClientBin/
 [Ss]tyle[Cc]op.*
