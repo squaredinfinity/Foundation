@@ -14,9 +14,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Data\IDataReader.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Object.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IDatabaseObjectNameResolver.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Sql\SqlDataAccessService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Sql\SqlDatabaseObjectNameResolver.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Sql\SqlDataRecordEnumerableWrapper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Sql\SqlTransientFaultFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqlServer\SqlDataAccessService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqlServer\SqlDatabaseObjectNameResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqlServer\SqlDataRecordEnumerableWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqlServer\SqlTransientFaultFilter.cs" />
   </ItemGroup>
 </Project>

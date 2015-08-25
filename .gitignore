@@ -106,7 +106,6 @@ AppPackages/
 
 # Others
 sql/
-*.Cache
 ClientBin/
 [Ss]tyle[Cc]op.*
 ~$*
@@ -154,5 +153,3 @@ $RECYCLE.BIN/
 .DS_Store
 
 # Exceptions
-!Foundation/Sources/Shared/Foundation.Data/*
-!Foundation/Sources/Shared/Foundation.Cache/*

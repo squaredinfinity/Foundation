@@ -153,7 +153,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Cache.DotNet45",
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Foundation.Data", "Sources\Shared\Foundation.Data\Foundation.Data.shproj", "{EC3D00EA-42F1-45F2-9BC3-19D571D7229B}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Foundation.Cache", "Sources\Shared\Foundation.Cache\Foundation.Cache.shproj", "{88786B88-A3BF-486F-ACE3-18FBB9F075F1}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Foundation.Cache", "Sources\Shared\Foundation.Cache_\Foundation.Cache.shproj", "{88786B88-A3BF-486F-ACE3-18FBB9F075F1}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -183,10 +183,11 @@ Global
 		Sources\Shared\Foundation.Data\Foundation.Data.projitems*{1a2db9fe-7d95-47f2-8b28-7e9b0a319b14}*SharedItemsImports = 4
 		Sources\Shared\Internal\Internal.projitems*{1a2db9fe-7d95-47f2-8b28-7e9b0a319b14}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Serialization.UnitTests\Foundation.Serialization.UnitTests.projitems*{491c7d2d-1abd-4ae4-8553-49a2369a4190}*SharedItemsImports = 4
+		Sources\Shared\Foundation.Cache_\Foundation.Cache.projitems*{47649697-1872-43a2-a4f2-7038d07cb4da}*SharedItemsImports = 4
 		Sources\Shared\Internal\Internal.projitems*{231d0bb0-926b-47ce-b7b1-9e8e49dce51e}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Diagnostics.Infrastructure\Foundation.Diagnostics.Infrastructure.projitems*{231d0bb0-926b-47ce-b7b1-9e8e49dce51e}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Serialization.UnitTests\Foundation.Serialization.UnitTests.projitems*{85660d59-e428-4eb1-97e3-52d2d9106bc4}*SharedItemsImports = 13
-		Sources\Shared\Foundation.Cache\Foundation.Cache.projitems*{88786b88-a3bf-486f-ace3-18fbb9f075f1}*SharedItemsImports = 13
+		Sources\Shared\Foundation.Cache_\Foundation.Cache.projitems*{88786b88-a3bf-486f-ace3-18fbb9f075f1}*SharedItemsImports = 13
 		Sources\Shared\Fonts\Fonts.projitems*{a3368f6c-e1b8-48f6-8f4f-767cea9a9acf}*SharedItemsImports = 13
 		Sources\Tests\Shared\Foundation.Diagnostics.UnitTests\Foundation.Diagnostics.UnitTests.projitems*{d22b6885-d523-4288-afcf-316047346a63}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Diagnostics.UnitTests\Foundation.Diagnostics.UnitTests.projitems*{559a2c15-2fb8-4ac2-b9dd-43d032ddda73}*SharedItemsImports = 13
