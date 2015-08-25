@@ -50,6 +50,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DynamicComparer_T.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EnumeratorBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExceptionEqualityComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ForwardBackwardDirection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\Microsoft.Win32\RegistryKey.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Collections\ICollection.Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Collections\IDictionary.extensions.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)IndexInListComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)INotifyVersionChangedObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InvocationThrottle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MathExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Media\ColorChannel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Media\ColorChannelCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Media\ColorChannelDefinition.cs" />

@@ -65,6 +65,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Type.ImplementsInterface.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Type.IsEqualTo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InvocationThrottle.tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MathExtensions.FindEvenNumber.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MathExtensions.FindOddNumber.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Media\Drawing\PerformanceOptimizations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Media\Drawing\PixelArrayCanvas.Blit.tests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestEntities\LinkedListNode.cs" />
