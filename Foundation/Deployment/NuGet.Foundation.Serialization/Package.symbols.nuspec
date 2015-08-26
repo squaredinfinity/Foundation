@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package>
   <metadata>
-    <id>SquaredInfinity.Foundation.Data</id>
+    <id>SquaredInfinity.Foundation.Serialization</id>
     <version>1.1.2-beta</version>
-    <title>SquaredInfinity.Foundation.Data</title>
+    <title>SquaredInfinity.Foundation.Serialization</title>
     <authors>Jarek Kardas</authors>
     <owners></owners>
     <description>
-      SquaredInfinity.Foundation.Data
+      SquaredInfinity.Foundation.Serialization
     </description>
     <releaseNotes></releaseNotes>
     <summary>
-      SquaredInfinity.Foundation.Data
+      SquaredInfinity.Foundation.Serialization
     </summary>
     <language>en-US</language>
     <projectUrl>https://nuget.org/packages/SquaredInfinity.Foundation</projectUrl>
@@ -29,9 +29,9 @@
     <tags></tags>
   </metadata>
   <files>
-    <file src="..\..\Sources\DotNet45\Foundation.Data.DotNet45\bin\Release\SquaredInfinity.Foundation.Data.DotNet45.dll" target="lib\net45" />
-    <file src="..\..\Sources\DotNet45\Foundation.Data.DotNet45\bin\Release\SquaredInfinity.Foundation.Data.DotNet45.xml" target="lib\net45" />
-    <file src="..\..\Sources\DotNet45\Foundation.Data.DotNet45\bin\Release\SquaredInfinity.Foundation.Data.DotNet45.pdb" target="lib\net45" />
+    <file src="..\..\Sources\DotNet45\Foundation.Serialization.DotNet45\bin\Release\SquaredInfinity.Foundation.Serialization.DotNet45.dll" target="lib\net45" />
+    <file src="..\..\Sources\DotNet45\Foundation.Serialization.DotNet45\bin\Release\SquaredInfinity.Foundation.Serialization.DotNet45.xml" target="lib\net45" />
+    <file src="..\..\Sources\DotNet45\Foundation.Serialization.DotNet45\bin\Release\SquaredInfinity.Foundation.Serialization.DotNet45.pdb" target="lib\net45" />
     <file src="src\" target="src" />
     <file src="tools\" target="tools" />
     <file src="content\" target="content" />

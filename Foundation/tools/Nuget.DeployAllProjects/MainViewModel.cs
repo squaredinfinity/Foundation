@@ -27,7 +27,7 @@ namespace Nuget.DeployAllProjects
         {
             // get version number of assemblies in solution
             // assumes default solution structure
-            var asm_info = File.ReadAllText(@"../../../../Sources/Shared/Internal/AssemblyInfo.shared.cs");
+            var asm_info = File.ReadAllText(@"../../../../AssemblyInfo.shared.cs");
 
             var version_number_match = Regex.Match(asm_info, @"\[assembly: AssemblyVersion\(""(?<version>.*)""");
 
@@ -183,6 +183,7 @@ namespace Nuget.DeployAllProjects
             // 3. Everything else
 
             PublishProject("NuGet.Foundation.Cache");
+            PublishProject("NuGet.Foundation.Serialization");
             PublishProject("NuGet.Foundation.Data");
             PublishProject("NuGet.Foundation.Diagnostics");
             PublishProject("NuGet.Foundation.Presentation.Xaml");
@@ -252,9 +253,11 @@ namespace Nuget.DeployAllProjects
 
             if (!showUi)
             {
-                //output = process.StandardOutput.ReadToEnd();
+                var output = process.StandardOutput.ReadToEnd();
 
                 process.Close();
+
+                Trace.WriteLine(output);
 
                 //return output;
             }
