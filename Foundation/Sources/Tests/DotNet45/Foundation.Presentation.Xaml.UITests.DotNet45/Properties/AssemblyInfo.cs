@@ -10,9 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("Foundation.Presentation.Xaml.UITests.DotNet45")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Red Bull Technology")]
 [assembly: AssemblyProduct("Foundation.Presentation.Xaml.UITests.DotNet45")]
-[assembly: AssemblyCopyright("Copyright © Red Bull Technology 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
