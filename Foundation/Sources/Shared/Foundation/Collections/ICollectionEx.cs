@@ -8,7 +8,8 @@ namespace SquaredInfinity.Foundation.Collections
 {
     public interface ICollectionEx<TItem> : 
         ICollection<TItem>,
-        ICollectionEx
+        ICollectionEx,
+        IReadOnlyList<TItem>
     {
         TItem this[int index] { get; }
         void Replace(TItem oldItem, TItem newItem);
