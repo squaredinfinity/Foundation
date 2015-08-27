@@ -26,7 +26,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;SIGN</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\SquaredInfinity.Foundation.Cache.DotNet45.XML</DocumentationFile>
@@ -52,6 +52,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\Shared\Foundation.Cache_\Foundation.Cache.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
