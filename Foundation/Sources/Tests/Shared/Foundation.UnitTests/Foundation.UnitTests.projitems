@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ChainOfCommand\TryHandle.tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\CollectionEx.bugfixes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\CollectionEx.AddRemoveRange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\CollectionEx.BulkUpdates.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\CollectionEx.Clear.cs" />
