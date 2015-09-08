@@ -11,7 +11,8 @@ namespace SquaredInfinity.Foundation.Collections
         ICollectionEx,
         IReadOnlyList<TItem>
     {
-        TItem this[int index] { get; }
+        new int Count { get; }
+
         void Replace(TItem oldItem, TItem newItem);
 
         /// <summary>

@@ -52,6 +52,18 @@ namespace SquaredInfinity.Foundation.Collections
             CollectionLock = new ReaderWriterLockSlimEx(recursionPolicy);
         }
 
+        int IReadOnlyCollection<TItem>.Count
+        {
+            get { return this.Count; }
+        }
+
+        int ICollection<TItem>.Count
+        {
+            get { return this.Count; }
+        }
+
+
+
         #region Move
 
         public void Move(int oldIndex, int newIndex)
