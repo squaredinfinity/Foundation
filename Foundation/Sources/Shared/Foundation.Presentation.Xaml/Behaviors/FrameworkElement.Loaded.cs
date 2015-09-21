@@ -84,8 +84,6 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
             {
                 command.Execute(parameter);
             }
-
-            e.Handled = true;
         }
 
         #endregion

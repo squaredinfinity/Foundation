@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace SquaredInfinity.Foundation.Presentation.Behaviors
 {
-    public class Unloaded
+    public class LayoutUpdated
     {
         #region CommandParameters
 
@@ -28,7 +28,7 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
             DependencyProperty.RegisterAttached(
             "CommandParameter",
             typeof(object),
-            typeof(Unloaded),
+            typeof(LayoutUpdated),
             new PropertyMetadata(null));
 
         #endregion
@@ -49,7 +49,7 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
             DependencyProperty.RegisterAttached(
             "Command",
             typeof(ICommand),
-            typeof(Unloaded),
+            typeof(LayoutUpdated),
             new PropertyMetadata(null, OnCommandChanged));
 
         static void OnCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -61,15 +61,15 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
 
             if ((ICommand)e.NewValue != null)
             {
-                fe.Unloaded += c_Unloaded;
+                fe.LayoutUpdated += fe_LayoutUpdated;
             }
             else
             {
-                fe.Unloaded -= c_Unloaded;
+                fe.LayoutUpdated -= fe_LayoutUpdated;
             }
         }
 
-        static void c_Unloaded(object sender, RoutedEventArgs e)
+        static void fe_LayoutUpdated(object sender, EventArgs e)
         {
             var fe = sender as FrameworkElement;
 

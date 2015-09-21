@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace SquaredInfinity.Foundation.Presentation.Behaviors
 {
-    public class Unloaded
+    public class GotFocus
     {
         #region CommandParameters
 
@@ -28,8 +28,29 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
             DependencyProperty.RegisterAttached(
             "CommandParameter",
             typeof(object),
-            typeof(Unloaded),
+            typeof(GotFocus),
             new PropertyMetadata(null));
+
+        #endregion
+
+        #region Mark Event As Handled
+
+        public static bool GetMarkEventAsHandled(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(MarkEventAsHandledProperty);
+        }
+
+        public static void SetMarkEventAsHandled(DependencyObject obj, bool value)
+        {
+            obj.SetValue(MarkEventAsHandledProperty, value);
+        }
+        
+        public static readonly DependencyProperty MarkEventAsHandledProperty =
+            DependencyProperty.RegisterAttached(
+                "MarkEventAsHandled", 
+                typeof(bool),
+                typeof(GotFocus),
+                new PropertyMetadata(false));
 
         #endregion
 
@@ -49,7 +70,7 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
             DependencyProperty.RegisterAttached(
             "Command",
             typeof(ICommand),
-            typeof(Unloaded),
+            typeof(GotFocus),
             new PropertyMetadata(null, OnCommandChanged));
 
         static void OnCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -61,15 +82,15 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
 
             if ((ICommand)e.NewValue != null)
             {
-                fe.Unloaded += c_Unloaded;
+                fe.GotFocus += fe_GotFocus;
             }
             else
             {
-                fe.Unloaded -= c_Unloaded;
+                fe.GotFocus -= fe_GotFocus;
             }
         }
 
-        static void c_Unloaded(object sender, RoutedEventArgs e)
+        static void fe_GotFocus(object sender, RoutedEventArgs e)
         {
             var fe = sender as FrameworkElement;
 
@@ -84,6 +105,9 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
             {
                 command.Execute(parameter);
             }
+
+            if (GetMarkEventAsHandled(fe))
+                e.Handled = true;
         }
 
         #endregion

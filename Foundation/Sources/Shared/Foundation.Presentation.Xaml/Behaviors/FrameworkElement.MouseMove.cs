@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace SquaredInfinity.Foundation.Presentation.Behaviors
 {
-    public class Unloaded
+    public class MouseMove
     {
         #region CommandParameters
 
@@ -28,7 +28,7 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
             DependencyProperty.RegisterAttached(
             "CommandParameter",
             typeof(object),
-            typeof(Unloaded),
+            typeof(MouseMove),
             new PropertyMetadata(null));
 
         #endregion
@@ -49,7 +49,7 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
             DependencyProperty.RegisterAttached(
             "Command",
             typeof(ICommand),
-            typeof(Unloaded),
+            typeof(MouseMove),
             new PropertyMetadata(null, OnCommandChanged));
 
         static void OnCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -61,15 +61,15 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
 
             if ((ICommand)e.NewValue != null)
             {
-                fe.Unloaded += c_Unloaded;
+                fe.MouseMove += fe_MouseMove;
             }
             else
             {
-                fe.Unloaded -= c_Unloaded;
+                fe.MouseMove -= fe_MouseMove;
             }
         }
 
-        static void c_Unloaded(object sender, RoutedEventArgs e)
+        static void fe_MouseMove(object sender, MouseEventArgs e)
         {
             var fe = sender as FrameworkElement;
 

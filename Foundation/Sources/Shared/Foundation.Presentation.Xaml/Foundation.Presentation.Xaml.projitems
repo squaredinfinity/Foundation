@@ -23,6 +23,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\DragDrop.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ForwardKeyEvents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ForwardTextInput.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\FrameworkElement.LostFocus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\FrameworkElement.LayoutUpdated.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\FrameworkElement.GotFocus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\FrameworkElement.MouseMove.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\FrameworkElement.SizeChanged.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\FrameworkElement.Loaded.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\FrameworkElement.Unloaded.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Highlight.cs" />
