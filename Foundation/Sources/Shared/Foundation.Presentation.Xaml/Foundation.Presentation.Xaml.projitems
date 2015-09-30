@@ -6,7 +6,7 @@
     <SharedGUID>9e46be90-83d2-44f7-b334-2694be8e8dc3</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Foundation.Presentation.Xaml</Import_RootNamespace>
+    <Import_RootNamespace>SquaredInfinity.Foundation.Presentation</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.xaml.cs" />
@@ -73,6 +73,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\EnumToValuesConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\FirstBindingConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\GetApplicationResourceConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\GetTimeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\GetTypeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IndentToLeftMarginConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IndexToBrushConverter.cs" />

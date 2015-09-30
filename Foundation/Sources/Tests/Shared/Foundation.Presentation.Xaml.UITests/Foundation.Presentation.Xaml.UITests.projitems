@@ -17,6 +17,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ColumnHeadersViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\WatermarkView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\WatermarkViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Binding\ObservableCollectionExViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Binding\ObservableCollectionExView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainWindow.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -31,6 +33,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Behaviors\ColumnHeadersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Binding\ObservableCollectionExView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

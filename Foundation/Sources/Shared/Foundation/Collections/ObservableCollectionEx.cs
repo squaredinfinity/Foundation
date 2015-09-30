@@ -256,10 +256,10 @@ namespace SquaredInfinity.Foundation.Collections
         {
             RaiseCollectionReset();
         }
-
-        protected override void IncrementVersion()
+        
+        protected override void OnAfterVersionChanged(long newVersion)
         {
-            base.IncrementVersion();
+            base.OnAfterVersionChanged(newVersion);
 
             RaisePropertyChanged(() => Version);
         }

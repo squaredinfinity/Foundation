@@ -4,6 +4,8 @@
         <ResourceDictionary Source="{ResourceFromThisAssembly /Behaviors/ColumnHeadersView.xaml}" />
         <ResourceDictionary Source="{ResourceFromThisAssembly /Behaviors/WatermarkView.xaml}" />
 
+        <ResourceDictionary Source="{ResourceFromThisAssembly /Binding/ObservableCollectionExView.xaml}" />
+
         <ResourceDictionary Source="{ResourceFromThisAssembly /MarkupExtensions/MarkupExtensionsView.xaml}" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

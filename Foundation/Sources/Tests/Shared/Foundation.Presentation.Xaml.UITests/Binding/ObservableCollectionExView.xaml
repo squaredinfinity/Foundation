@@ -1,0 +1,40 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                    xmlns:behaviors="http://schemas.squaredinfinity.com/foundation/behaviors"
+                    xmlns:local="clr-namespace:SquaredInfinity.Foundation.Presentation.Xaml.UITests.Binding"
+                    mc:Ignorable="d" >
+
+    <Style TargetType="{x:Type local:ObservableCollectionExView}">
+        <Style.Setters>
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type local:ObservableCollectionExView}">
+
+                        <StackPanel Orientation="Vertical">
+
+                            <!-- Update when something changed -->
+
+                            <TextBlock>
+                                <Run Text="Last Modified Time:" />
+                                <!-- MyCollection is ObservableCollectionEx with monitorElementsForChanges = true -->
+                                <Run Text="{TemplatedParentBinding ViewModel.MyCollection.Version, Converter={StaticResource Converters.LocalTime}, Mode=OneWay}" />
+                            </TextBlock>
+
+                            <ListView ItemsSource="{TemplatedParentBinding ViewModel.MyCollection}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsEnabled}" />
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+</ResourceDictionary>
