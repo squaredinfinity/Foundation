@@ -9,6 +9,23 @@ namespace SquaredInfinity.Foundation.Extensions
 {
     public static class SizeExtensions
     {
+        public static Size LimitTo(this Size size, Size limit)
+        {
+            if (double.IsNaN(size.Width))
+                size.Width = limit.Width;
+
+            if (double.IsNaN(size.Height))
+                size.Height = limit.Height;
+
+            if (size.Width > limit.Width)
+                size.Width = limit.Width;
+
+            if (size.Height > limit.Height)
+                size.Height = limit.Height;
+
+            return size;
+        }
+
         public static bool IsCloseTo(this Size s1, Size s2)
         {
             if (s1.Width.IsCloseTo(s2.Width))
