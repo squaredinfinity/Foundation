@@ -97,6 +97,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)IndexInListComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)INotifyVersionChangedObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InvocationThrottle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Iterator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MathExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Media\ColorChannel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Media\ColorChannelCollection.cs" />
