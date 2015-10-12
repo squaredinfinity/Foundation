@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation
@@ -12,13 +13,14 @@ namespace SquaredInfinity.Foundation
         TimeSpan TimeSpanMin;
         TimeSpan? TimeSpanMax;
 
+        DateTime? LastInvokeRequestUTC = null;
         DateTime? LastInvokeUTC = null;
         DateTime LastTimerResetUTC = DateTime.MinValue;
 
         readonly object Lock = new object();
 
         System.Timers.Timer ThrottleTimer;
-        
+
         public InvocationThrottle(TimeSpan min)
         {
             if (min.Ticks <= 0)
@@ -64,29 +66,52 @@ namespace SquaredInfinity.Foundation
 
         public void Invoke(Action action)
         {
+            DoInvoke(() => LastActionInfo2.SetAction(action));
+        }
+
+        public void Invoke(Action<CancellationToken> cancellableAction)
+        {
+            DoInvoke(() => LastActionInfo2.SetAction(cancellableAction));
+        }
+
+        void DoInvoke(Action set_action)
+        {
             lock (Lock)
             {
-                var invokeTime = DateTime.UtcNow;
+                set_action();
+
+                var current_invoke_request_time = DateTime.UtcNow;
 
                 if (LastInvokeUTC == null)
-                    LastInvokeUTC = invokeTime;
+                    LastInvokeUTC = current_invoke_request_time;
 
-                LastActionInfo2.SetAction(action);
+                bool passed_min_time =
+                    // no min so just invoke
+                    TimeSpanMin == TimeSpan.Zero
+                    ||
+                    // TimeSpanMin passed since last invoke
+                    LastInvokeRequestUTC != null && current_invoke_request_time - LastInvokeRequestUTC.Value >= TimeSpanMin;
 
-                if (TimeSpanMax != null && invokeTime - LastInvokeUTC >= TimeSpanMax)
+                // if min time passed then check if max time span passed
+                if (passed_min_time)
                 {
-                    // timer max elapsed
+                    // invoke if max time passed
+                    if (TimeSpanMax == null || current_invoke_request_time - LastInvokeUTC >= TimeSpanMax)
+                    {
+                        // timer max elapsed (or not set)
+                        // invoke, stop the timer, update times
+                        LastActionInfo2.TryInvokeAsync();
 
-                    LastActionInfo2.TryInvokeAsync();
+                        LastInvokeUTC = current_invoke_request_time;
+                        ThrottleTimer.Stop();
+                        LastInvokeRequestUTC = current_invoke_request_time;
 
-                    LastInvokeUTC = invokeTime;
-                    ThrottleTimer.Stop();
-
-                    return;
+                        return;
+                    }
                 }
 
                 // restart the timer
-                LastTimerResetUTC = invokeTime;
+                LastTimerResetUTC = current_invoke_request_time;
                 ThrottleTimer.Stop();
                 ThrottleTimer.Start();
             }
@@ -96,42 +121,91 @@ namespace SquaredInfinity.Foundation
         {
             readonly object Sync = new object();
 
+            Action<CancellationToken> CancellableAction = null;
             Action Action = null;
+
             Task LastTask = null;
+
+            CancellationTokenSource LastTaskCancellationTokenSource;
+
+
             bool ShouldContinueWinNextAction = false;
 
             public ActionInfo()
             { }
 
+            class DoActionPayload
+            {
+                public Action Action;
+                public Action<CancellationToken> CancellableAction;
+                public CancellationTokenSource CancellationTokenSource;
+            }
+
             public bool TryInvokeAsync()
             {
                 lock (Sync)
                 {
-                    if (Action == null)
+                    if (Action == null && CancellableAction == null)
                     {
                         return false;
                     }
 
-                    if (LastTask != null)
+                    if (LastTask != null && CancellableAction == null)
                     {
                         ShouldContinueWinNextAction = true;
                         return false;
                     }
 
-                    LastTask = new Task(Action);
+                    if (CancellableAction != null)
+                    {
+                        if (LastTaskCancellationTokenSource != null)
+                            LastTaskCancellationTokenSource.Cancel();
+                    }
+
+
+                    LastTaskCancellationTokenSource = new CancellationTokenSource();
+
+                    var payload = new DoActionPayload
+                    {
+                        Action = Action,
+                        CancellableAction = CancellableAction,
+                        CancellationTokenSource = LastTaskCancellationTokenSource
+                    };
+
+                    LastTask = new Task(DoAction, payload, LastTaskCancellationTokenSource.Token);
                     LastTask.ContinueWith(_prev => OnLastTaskFinished(), TaskContinuationOptions.ExecuteSynchronously);
                     LastTask.Start();
 
                     Action = null;
+                    CancellableAction = null;
+
                     ShouldContinueWinNextAction = false;
 
                     return true;
                 }
             }
 
+            static void DoAction(object payloadAsObject)
+            {
+                var payload = (DoActionPayload)payloadAsObject;
+
+                if (payload.Action != null)
+                {
+                    payload.Action();
+                    return;
+                }
+
+                if (payload.CancellableAction != null)
+                {
+                    payload.CancellableAction(payload.CancellationTokenSource.Token);
+                    return;
+                }
+
+            }
+
             void OnLastTaskFinished()
             {
-                lock(Sync)
+                lock (Sync)
                 {
                     LastTask = null;
 
@@ -141,13 +215,23 @@ namespace SquaredInfinity.Foundation
                     TryInvokeAsync();
                 }
             }
-            
+
 
             public void SetAction(Action action)
             {
                 lock (Sync)
                 {
                     Action = action;
+                    CancellableAction = null;
+                }
+            }
+
+            public void SetAction(Action<CancellationToken> cancellableAction)
+            {
+                lock (Sync)
+                {
+                    Action = null;
+                    CancellableAction = cancellableAction;
                 }
             }
         }
