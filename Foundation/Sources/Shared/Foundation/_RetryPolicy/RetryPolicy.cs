@@ -22,7 +22,7 @@ namespace SquaredInfinity.Foundation
         static RetryPolicy _defaultPolicy;
         public static RetryPolicy Default { get { return _defaultPolicy; } }
 
-        public static void SetDefaultPolict(RetryPolicy newDefaultPolicy)
+        public static void SetDefaultPolicy(RetryPolicy newDefaultPolicy)
         {
             _defaultPolicy = newDefaultPolicy;
         }
@@ -47,6 +47,24 @@ namespace SquaredInfinity.Foundation
         public void Execute(Action action)
         {
             Execute(action, null);
+        }
+
+        public void Execute(
+           Action action,
+           int maxRetryAttempts,
+           int minDelayInMiliseconds,
+           int maxDelayInMiliseconds,
+           IReadOnlyList<ITransientFaultFilter> transientFaultFilters)
+        {
+            Execute(() =>
+            {
+                action();
+                return true;
+            },
+                maxRetryAttempts,
+                minDelayInMiliseconds,
+                maxDelayInMiliseconds,
+                transientFaultFilters);
         }
 
         public void Execute(Action action, IReadOnlyList<ITransientFaultFilter> transientFaultFilters)
