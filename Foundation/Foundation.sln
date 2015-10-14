@@ -159,13 +159,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGet.Foundation.Cache", "D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGet.Foundation.Serialization", "Deployment\NuGet.Foundation.Serialization\NuGet.Foundation.Serialization.csproj", "{3D8CB799-81C8-4F64-A662-541DB5253D95}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Experimental", "Sources\Shared\Experimental\Experimental.shproj", "{8F2A3BDE-ADFD-4E07-936E-A9FFDE16CEB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Experimental", "Sources\DotNet45\Experimental\Experimental.csproj", "{F7E6DC82-B537-425B-B2EC-988544D6E2D3}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Sources\Shared\Foundation.Charting\Foundation.Charting.projitems*{faaaef38-4736-460d-96f4-3fbff0719a0f}*SharedItemsImports = 13
+		Sources\Shared\Experimental\Experimental.projitems*{8f2a3bde-adfd-4e07-936e-a9ffde16ceb1}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Charting\Foundation.Charting.projitems*{9e769e5b-9ccd-4c6a-8099-8e469c0f76c5}*SharedItemsImports = 4
 		Sources\Shared\Internal\Internal.projitems*{9e769e5b-9ccd-4c6a-8099-8e469c0f76c5}*SharedItemsImports = 4
-		Sources\Shared\Foundation.Presentation.Xaml\Foundation.Presentation.Xaml.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
 		Sources\Shared\Internal\Internal.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
+		Sources\Shared\Foundation.Presentation.Xaml\Foundation.Presentation.Xaml.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
 		Sources\Shared\Fonts\Fonts.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Presentation.Xaml.UITests\Foundation.Presentation.Xaml.UITests.projitems*{6605fdb2-0502-4ac4-8cf0-fa6b70e31359}*SharedItemsImports = 13
 		Sources\Shared\Internal\Internal.projitems*{ab8007f5-ad2a-42b8-9375-98ae0ad89f80}*SharedItemsImports = 4
@@ -184,8 +189,8 @@ Global
 		Sources\Shared\Foundation.Serialization\Foundation.Serialization.projitems*{f924eefe-30b9-4d94-b7ef-359c6a406795}*SharedItemsImports = 4
 		Sources\Shared\Foundation\Foundation.projitems*{46be36ce-c049-4746-8a80-85a28b96e923}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Diagnostics\Foundation.Diagnostics.projitems*{ce6b616f-505c-4034-b7e3-9818bf5c57c0}*SharedItemsImports = 13
-		Sources\Shared\Internal\Internal.projitems*{1a2db9fe-7d95-47f2-8b28-7e9b0a319b14}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Data\Foundation.Data.projitems*{1a2db9fe-7d95-47f2-8b28-7e9b0a319b14}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{1a2db9fe-7d95-47f2-8b28-7e9b0a319b14}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Serialization.UnitTests\Foundation.Serialization.UnitTests.projitems*{491c7d2d-1abd-4ae4-8553-49a2369a4190}*SharedItemsImports = 4
 		Sources\Shared\Internal\Internal.projitems*{47649697-1872-43a2-a4f2-7038d07cb4da}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Cache_\Foundation.Cache.projitems*{47649697-1872-43a2-a4f2-7038d07cb4da}*SharedItemsImports = 4
@@ -315,6 +320,10 @@ Global
 		{3D8CB799-81C8-4F64-A662-541DB5253D95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D8CB799-81C8-4F64-A662-541DB5253D95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D8CB799-81C8-4F64-A662-541DB5253D95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7E6DC82-B537-425B-B2EC-988544D6E2D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7E6DC82-B537-425B-B2EC-988544D6E2D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7E6DC82-B537-425B-B2EC-988544D6E2D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7E6DC82-B537-425B-B2EC-988544D6E2D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -372,5 +381,7 @@ Global
 		{88786B88-A3BF-486F-ACE3-18FBB9F075F1} = {712712DF-B140-4C54-9EB0-D506C3280824}
 		{90255F67-EF9F-4FBC-9285-D60E7CA334A9} = {FE5524BE-5B37-4D2A-9081-CB156FD55B10}
 		{3D8CB799-81C8-4F64-A662-541DB5253D95} = {FE5524BE-5B37-4D2A-9081-CB156FD55B10}
+		{8F2A3BDE-ADFD-4E07-936E-A9FFDE16CEB1} = {712712DF-B140-4C54-9EB0-D506C3280824}
+		{F7E6DC82-B537-425B-B2EC-988544D6E2D3} = {D95634A3-6069-430C-A3B5-97347AE8EF5F}
 	EndGlobalSection
 EndGlobal

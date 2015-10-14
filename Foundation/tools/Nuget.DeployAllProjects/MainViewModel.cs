@@ -27,7 +27,7 @@ namespace Nuget.DeployAllProjects
         {
             // get version number of assemblies in solution
             // assumes default solution structure
-            var asm_info = File.ReadAllText(@"../../../../AssemblyInfo.shared.cs");
+            var asm_info = File.ReadAllText(@"../../../../Sources/Shared/Internal/AssemblyInfo.shared.cs");
 
             var version_number_match = Regex.Match(asm_info, @"\[assembly: AssemblyVersion\(""(?<version>.*)""");
 
