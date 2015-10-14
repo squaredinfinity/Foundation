@@ -134,6 +134,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\IExtensionCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ReferenceEqualityComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SerializedDataInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\FileSystemSettingsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\ISettingsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Text\UnicodeCharacters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Threading\AsyncLoop.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Threading\AsyncOperation.cs" />
