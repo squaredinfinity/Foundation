@@ -32,8 +32,7 @@ namespace SquaredInfinity.Foundation.Data.SqlServer
             TimeSpan defaultCommandTimeout)
             : base(logger, connectionFactory, defaultCommandTimeout)
         {
-            RetryPolicy = new RetryPolicy();
-            RetryPolicy.DefaultTransientFaultFilters.Add(new SqlTransientFaultFilter());
+            RetryPolicy = new RetryPolicy(new[] { new SqlTransientFaultFilter() });
         }
 
         /// <summary>

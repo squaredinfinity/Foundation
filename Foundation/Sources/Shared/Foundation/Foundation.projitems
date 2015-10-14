@@ -221,7 +221,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)VersionChangedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WeakEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_RetryPolicy\DynamicTransientFaultFilter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)_RetryPolicy\ILogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_RetryPolicy\ITransientFaultFilter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_RetryPolicy\RetryPolicy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_RetryPolicy\TransientFaultFilter.cs" />

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SquaredInfinity.Foundation.Extensions;
 using System.Threading;
+using System.IO;
 
 namespace SquaredInfinity.Foundation
 {
@@ -13,40 +14,100 @@ namespace SquaredInfinity.Foundation
 
     public class RetryPolicy
     {
+        public static class TransientFaultFilters
+        {
+            public static ITransientFaultFilter AnyException = new DynamicTransientFaultFilter<Exception>(ex => true);
+            public static ITransientFaultFilter FileAccessDenied = new DynamicTransientFaultFilter<IOException>(ex => ex.HResult == -2147024864);
+        }
+
         Random Rand = new Random();
 
         const int Default_MaxRetryAttempts = 10;
         const int Default_MinRetryDelayInMiliseconds = 50;
         const int Default_MaxRetryDelayInMiliseconds = 100;
 
-        static RetryPolicy _defaultPolicy;
-        public static RetryPolicy Default { get { return _defaultPolicy; } }
+        public int MaxRetryAttempts { get; private set; }
+        public int MinRetryDelayInMiliseconds { get; private set; }
+        public int MaxRetryDelayInMiliseconds { get; private set; }
 
-        public static void SetDefaultPolicy(RetryPolicy newDefaultPolicy)
-        {
-            _defaultPolicy = newDefaultPolicy;
-        }
 
-        static RetryPolicy()
-        {
-            var dp = new RetryPolicy();
+        public static RetryPolicy Default { get; set; }
 
-            // treat all exceptions as transient by default
-            dp.DefaultTransientFaultFilters.Add(new DynamicTransientFaultFilter<Exception>(ex => true));
-
-            _defaultPolicy = dp;
-        }
-
-        public List<ITransientFaultFilter> DefaultTransientFaultFilters { get; private set; }
+        public static RetryPolicy FileAccess { get; set; }
 
         public RetryPolicy()
+            : this(Default_MaxRetryAttempts, TimeSpan.FromMilliseconds(Default_MinRetryDelayInMiliseconds), TimeSpan.FromMilliseconds(Default_MaxRetryDelayInMiliseconds))
         {
             DefaultTransientFaultFilters = new List<ITransientFaultFilter>();
         }
 
+        public RetryPolicy(IReadOnlyList<ITransientFaultFilter> transientFaultFilters)
+            : this(
+                  Default_MaxRetryAttempts, 
+                  TimeSpan.FromMilliseconds(Default_MinRetryDelayInMiliseconds),
+                  TimeSpan.FromMilliseconds(Default_MaxRetryDelayInMiliseconds),
+                  transientFaultFilters)
+        { }
+
+        public RetryPolicy(int maxRetryAttempts, TimeSpan minRetryDelay, TimeSpan maxRetryDelay)
+            : this(
+                  maxRetryAttempts, 
+                  minRetryDelay, 
+                  maxRetryDelay, 
+                  new List<ITransientFaultFilter>())
+        { }
+
+        public RetryPolicy(
+            int maxRetryAttempts, 
+            TimeSpan minRetryDelay, 
+            TimeSpan maxRetryDelay, 
+            IReadOnlyList<ITransientFaultFilter> transientFaultFilters)
+        {
+            this.MaxRetryAttempts = maxRetryAttempts;
+            this.MinRetryDelayInMiliseconds = (int)minRetryDelay.TotalMilliseconds;
+            this.MaxRetryDelayInMiliseconds = (int)maxRetryDelay.TotalMilliseconds;
+
+            var tff = new List<ITransientFaultFilter>();
+            tff.AddRange(transientFaultFilters);
+
+            DefaultTransientFaultFilters = tff;
+        }
+
+        static RetryPolicy()
+        {
+
+            //# set default policy
+            var dp = new RetryPolicy(new[] { TransientFaultFilters.AnyException });
+            Default = dp;
+
+
+            //# set default file access policy
+            dp = new RetryPolicy(new[] { TransientFaultFilters.FileAccessDenied });
+            FileAccess = dp;
+        }
+
+        public IReadOnlyList<ITransientFaultFilter> DefaultTransientFaultFilters { get; private set; }
+
         public void Execute(Action action)
         {
-            Execute(action, null);
+            Execute(action, DefaultTransientFaultFilters);
+        }
+
+        public void Execute(
+           Action action,
+           int maxRetryAttempts,
+           int minDelayInMiliseconds,
+           int maxDelayInMiliseconds)
+        {
+            Execute(() =>
+            {
+                action();
+                return true;
+            },
+                maxRetryAttempts,
+                minDelayInMiliseconds,
+                maxDelayInMiliseconds,
+                DefaultTransientFaultFilters);
         }
 
         public void Execute(
@@ -74,9 +135,9 @@ namespace SquaredInfinity.Foundation
                 action();
                 return true;
             },
-                Default_MaxRetryAttempts,
-                Default_MinRetryDelayInMiliseconds,
-                Default_MaxRetryDelayInMiliseconds,
+                MaxRetryAttempts,
+                MinRetryDelayInMiliseconds,
+                MaxRetryDelayInMiliseconds,
                 transientFaultFilters);
         }
 
@@ -84,9 +145,23 @@ namespace SquaredInfinity.Foundation
         {
             return Execute(
                 func,
-                Default_MaxRetryAttempts,
-                Default_MinRetryDelayInMiliseconds,
-                Default_MaxRetryDelayInMiliseconds,
+                MaxRetryAttempts,
+                MinRetryDelayInMiliseconds,
+                MaxRetryDelayInMiliseconds,
+                DefaultTransientFaultFilters);
+        }
+
+        public TResult Execute<TResult>(
+            Func<TResult> func,
+            int maxRetryAttempts,
+            int minDelayInMiliseconds,
+            int maxDelayInMiliseconds)
+        {
+            return Execute<TResult>(
+                func,
+                maxRetryAttempts,
+                minDelayInMiliseconds,
+                maxDelayInMiliseconds,
                 DefaultTransientFaultFilters);
         }
 
@@ -108,7 +183,7 @@ namespace SquaredInfinity.Foundation
 
             bool success = false;
 
-            while (!success && maxRetryAttempts--> 0)
+            while (!success && maxRetryAttempts-- > 0)
             {
                 try
                 {
@@ -129,10 +204,7 @@ namespace SquaredInfinity.Foundation
 
                         failedAttempts.Add(ex);
 
-                        TimeSpan retryDelay =
-                            TimeSpan.FromMilliseconds(
-                                Rand.Next(minDelayInMiliseconds,
-                                maxDelayInMiliseconds));
+                        var retryDelay = Rand.Next(minDelayInMiliseconds, maxDelayInMiliseconds);
 
                         Thread.Sleep(retryDelay);
                     }
@@ -150,7 +222,7 @@ namespace SquaredInfinity.Foundation
 
             return result;
         }
-    } 
+    }
 }
 
 

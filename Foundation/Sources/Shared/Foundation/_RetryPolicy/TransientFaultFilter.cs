@@ -11,7 +11,7 @@ namespace SquaredInfinity.Foundation
 
         public bool IsTransientFault(Exception ex)
         {
-            if (typeof(TException) != ex.GetType())
+            if (!ex.GetType().IsSubclassOf(typeof(Exception)))
                 return false;
 
             return IsTransientFault((TException)ex);
