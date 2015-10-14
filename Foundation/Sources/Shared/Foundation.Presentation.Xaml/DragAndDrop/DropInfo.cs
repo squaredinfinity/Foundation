@@ -154,8 +154,35 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
                 else
                 {
                     TargetCollection = itemsControl.ItemsSource ?? itemsControl.Items.SourceCollection;
-                    InsertIndex = itemsControl.Items.Count;
-                    RawInsertIndex = itemsControl.Items.Count;
+                    RawTargetCollection = TargetCollection;
+
+                    bool insert_at_the_end = false;
+
+                    // no item under mouse,
+                    // test if we are at the begining or end of target item control
+                    // and based on that position make insertion either as a first or last item
+
+                    if (VisualTargetOrientation == Orientation.Vertical)
+                    {
+                        if (DropPosition.Y > 5)
+                            insert_at_the_end = true;                            
+                    }
+                    else
+                    {
+                        if (DropPosition.X > 5)
+                            insert_at_the_end = true;
+                    }
+
+                    if(insert_at_the_end)
+                    {
+                        InsertIndex = itemsControl.Items.Count;
+                        RawInsertIndex = itemsControl.Items.Count;
+                    }
+                    else
+                    {
+                        InsertIndex = 0;
+                        RawInsertIndex = 0;
+                    }
                 }
             }
         }

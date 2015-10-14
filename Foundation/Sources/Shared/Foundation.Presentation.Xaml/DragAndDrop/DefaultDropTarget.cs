@@ -24,6 +24,9 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
 
         public virtual void DragOver(IDropInfo dropInfo)
         {
+            if (dropInfo.ActualDropEffect == DragDropEffects.None)
+                return;
+
             if (CanAcceptData(dropInfo))
             {
                 bool isSameCollection = dropInfo.TargetCollection == dropInfo.DragInfo.SourceCollection;
@@ -58,7 +61,7 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
             {
                 // operation within the same list
                 if (dropInfo.ActualDropEffect == DragDropEffects.Move)
-                {                   
+                {   
                     foreach(var item in data)
                     {
                         var ix = sourceList.IndexOf(item);
@@ -71,7 +74,10 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
 
                         if(collEx != null)
                         {
-                            collEx.Move(ix, rawInsertIndex);
+                            if(ix < rawInsertIndex)
+                                collEx.Move(ix, rawInsertIndex - 1);
+                            else
+                                collEx.Move(ix, rawInsertIndex);
                         }
                         else
                         {
