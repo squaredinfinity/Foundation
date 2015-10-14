@@ -97,6 +97,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)IndexInListComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)INotifyVersionChangedObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InvocationThrottle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ISerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Iterator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MathExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Media\ColorChannel.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\IExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\IExtensionCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ReferenceEqualityComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SerializedDataInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Text\UnicodeCharacters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Threading\AsyncLoop.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Threading\AsyncOperation.cs" />
