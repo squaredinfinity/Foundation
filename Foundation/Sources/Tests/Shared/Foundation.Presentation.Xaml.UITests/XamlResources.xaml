@@ -1,7 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
+        
         <ResourceDictionary Source="{ResourceFromThisAssembly /Behaviors/ColumnHeadersView.xaml}" />
+        <ResourceDictionary Source="{ResourceFromThisAssembly /Behaviors/DragAndDropView.xaml}" />
         <ResourceDictionary Source="{ResourceFromThisAssembly /Behaviors/WatermarkView.xaml}" />
 
         <ResourceDictionary Source="{ResourceFromThisAssembly /Binding/ObservableCollectionExView.xaml}" />

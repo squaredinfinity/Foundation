@@ -15,6 +15,9 @@
                 <TabItem Header="Column Headers">
                     <local_behaviors:ColumnHeadersView />
                 </TabItem>
+                <TabItem Header="Drag &amp; Drop">
+                    <local_behaviors:DragAndDropView />
+                </TabItem>
                 <TabItem Header="Watermark">
                     <local_behaviors:WatermarkView />
                 </TabItem>

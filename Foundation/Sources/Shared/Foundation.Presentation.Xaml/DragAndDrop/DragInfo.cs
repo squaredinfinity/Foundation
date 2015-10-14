@@ -57,14 +57,13 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
 
             dragInfo.SourceItems = itemsControl.GetSelectedItems();
 
-            // Some controls (I'm looking at you TreeView!) haven't updated their
-            // SelectedItem by this point. Check to see if there 1 or less item in 
-            // the SourceItems collection, and if so, override the control's 
-            // SelectedItems with the clicked item.
+            // Some controls (e.g. TreeView) do not update their SelectedItem by this point. 
+            // Check to see if there 1 or less item in the SourceItems collection, 
+            // and if so, override the control's SelectedItems with the clicked item.
 
             // TreeView will not update source items at this point,
             // reuse previously found source item
-            if (dragInfo.SourceItems.Cast<object>().Count() < 1)
+            if (dragInfo.SourceItems.Cast<object>().Count() <= 1)
             {
                 dragInfo.SourceItems = Enumerable.Repeat(dragInfo.SourceItem, 1);
             }
