@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SquaredInfinity.Foundation
 {
-    public interface ISerialzier
+    public interface ISerializer
     {
         SerializedDataInfo Serialize<T>(T obj);
         T Deserialize<T>(SerializedDataInfo data);

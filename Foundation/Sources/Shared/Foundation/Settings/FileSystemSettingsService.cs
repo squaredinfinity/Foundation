@@ -18,18 +18,18 @@ namespace SquaredInfinity.Foundation.Settings
         const string DefaultPartSeparator = ";";
         const string DefaultExtension = ".config";
 
-        public FileSystemSettingsService(ISerialzier defaultSerializer, DirectoryInfo location)
+        public FileSystemSettingsService(ISerializer defaultSerializer, DirectoryInfo location)
             : this("", "", defaultSerializer, location, DefaultPartSeparator, DefaultExtension)
         { }
 
-        public FileSystemSettingsService(ISerialzier defaultSerializer, DirectoryInfo location, string partSeparator, string extension)
+        public FileSystemSettingsService(ISerializer defaultSerializer, DirectoryInfo location, string partSeparator, string extension)
             : this("", "", defaultSerializer, location, partSeparator, extension)
         { }
 
         public FileSystemSettingsService(
             string defaultApplication,
             string defaultContainer,
-            ISerialzier defaultSerializer,
+            ISerializer defaultSerializer,
             DirectoryInfo location)
             : this(defaultApplication, defaultContainer, defaultSerializer, location, DefaultPartSeparator, DefaultExtension)
         { }
@@ -37,7 +37,7 @@ namespace SquaredInfinity.Foundation.Settings
         public FileSystemSettingsService(
             string defaultApplication,
             string defaultContainer,
-            ISerialzier defaultSerializer,
+            ISerializer defaultSerializer,
             DirectoryInfo location,
             string partSeparator,
             string extension)
@@ -56,10 +56,11 @@ namespace SquaredInfinity.Foundation.Settings
         }
 
         protected virtual FileInfo GetFile(
+            DirectoryInfo location,
             string application,
             string container,
             string key,
-            SettingScope scope,
+            int scope,
             string machineName,
             string userName)
         {
@@ -83,14 +84,14 @@ namespace SquaredInfinity.Foundation.Settings
 
             var full_file_name = string.Join(PartSeparator, file_parts) + Extension;
 
-            var full_path = Path.Combine(Location.FullName, full_file_name);
+            var full_path = Path.Combine(location.FullName, full_file_name);
 
             return new FileInfo(full_path);
         }
 
-        public override void DoSetSetting<T>(string application, string container, string key, SettingScope scope, string machineName, string userName, Encoding valueEncoding, byte[] value)
+        public override void DoSetSetting<T>(string application, string container, string key, int scope, string machineName, string userName, Encoding valueEncoding, byte[] value)
         {
-            var file = GetFile(application, container, key, scope, machineName, userName);
+            var file = GetFile(Location, application, container, key, scope, machineName, userName);
 
             //# perpare as much data as possible before accessing the file
             //  to avoid long locks
@@ -152,12 +153,12 @@ namespace SquaredInfinity.Foundation.Settings
             }, maxRetryAttempts: 25, minDelayInMiliseconds: 10, maxDelayInMiliseconds: 250);
         }
 
-        public override bool DoTryGetSetting(string application, string container, string key, SettingScope scope, string machineName, string userName, out Encoding valueEncoding, out byte[] value)
+        public override bool DoTryGetSetting(string application, string container, string key, int scope, string machineName, string userName, out Encoding valueEncoding, out byte[] value)
         {
             value = null;
             valueEncoding = null;
 
-            var file = GetFile(application, container, key, scope, machineName, userName);
+            var file = GetFile(Location, application, container, key, scope, machineName, userName);
 
             if (!File.Exists(file.FullName))
                 return false;

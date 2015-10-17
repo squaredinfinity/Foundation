@@ -6,7 +6,7 @@
     <SharedGUID>6392a547-9bf9-4882-9ade-417b4aa747f2</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Foundation.Serialization</Import_RootNamespace>
+    <Import_RootNamespace>SquaredInfinity.Foundation.Serialization</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)CreateInstanceContext.cs" />

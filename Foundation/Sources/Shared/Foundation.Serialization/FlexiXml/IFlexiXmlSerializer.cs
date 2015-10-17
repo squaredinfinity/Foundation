@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
-    public interface IFlexiXmlSerializer : IFlexiSerializer
+    public interface IFlexiXmlSerializer : IFlexiSerializer, ISerializer
     {
         XElement Serialize(object obj);
         XElement Serialize(object obj, FlexiXmlSerializationOptions options);

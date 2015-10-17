@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace SquaredInfinity.Foundation.Settings
-{
+{ 
     public interface ISettingsService
     {
 
@@ -11,35 +11,35 @@ namespace SquaredInfinity.Foundation.Settings
 
         T GetSetting<T>(
             string key,
-            SettingScope scope,
+            int scope,
             string machineName,
             string userName,
-            ISerialzier serializer,
+            ISerializer serializer,
             Func<T> defaultValue);
 
         T GetSetting<T>(
             string key,
-            SettingScope scope,
+            int scope,
             Func<T> defaultValue);
 
         bool TryGetSetting<T>(
             string key,
-            SettingScope scope,
+            int scope,
             string machineName,
             string userName,
-            ISerialzier serializer,
+            ISerializer serializer,
             out T value);
 
         T GetSetting<T>(
             string key,
-            SettingScope scope,
+            int scope,
             string machineName,
             string userName,
             Func<T> defaultValue);
 
         bool TryGetSetting<T>(
             string key,
-            SettingScope scope,
+            int scope,
             string machineName,
             string userName,
             out T value);
@@ -48,7 +48,7 @@ namespace SquaredInfinity.Foundation.Settings
             string application,
             string container,
             string key,
-            SettingScope scope,
+            int scope,
             string machineName,
             string userName,
             out T value);
@@ -57,10 +57,10 @@ namespace SquaredInfinity.Foundation.Settings
             string application,
             string container,
             string key,
-            SettingScope scope,
+            int scope,
             string machineName,
             string userName,
-            ISerialzier serialzier,
+            ISerializer serialzier,
             out T value);
 
         #endregion
@@ -96,7 +96,7 @@ namespace SquaredInfinity.Foundation.Settings
         /// <param name="serializer">serializer for the setting value</param>
         /// <param name="defaultValue">constructs default setting value if no actual value could be found</param>
         /// <returns>setting value, result of defaultValue function if no setting could be found on any level</returns>
-        T GetSetting<T>(string key, ISerialzier serializer, Func<T> defaultValue);
+        T GetSetting<T>(string key, ISerializer serializer, Func<T> defaultValue);
 
         /// <summary>
         /// Gets a value of a specified setting.
@@ -107,7 +107,7 @@ namespace SquaredInfinity.Foundation.Settings
         /// <param name="serializer">serializer for the setting value</param>
         /// <param name="value">setting value</param>
         /// <returns>true if setting has been found, false otherwise</returns>
-        bool TryGetSetting<T>(string key, ISerialzier serializer, out T value);
+        bool TryGetSetting<T>(string key, ISerializer serializer, out T value);
 
         /// <summary>
         /// Gets a value of a specified setting.
@@ -120,7 +120,7 @@ namespace SquaredInfinity.Foundation.Settings
         /// <param name="serializer">serializer for the setting value</param>
         /// <param name="value">setting value</param>
         /// <returns>true if setting has been found, false otherwise</returns>
-        bool TryGetSetting<T>(string application, string container, string key, ISerialzier serializer, out T value);
+        bool TryGetSetting<T>(string application, string container, string key, ISerializer serializer, out T value);
 
         #endregion
 
@@ -134,7 +134,7 @@ namespace SquaredInfinity.Foundation.Settings
         /// <param name="scope">setting scope</param>
         void SetSetting<T>(
             string key,
-            SettingScope scope,
+            int scope,
             T value);
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace SquaredInfinity.Foundation.Settings
         /// <param name="userName">user name</param>
         void SetSetting<T>(
             string key,
-            SettingScope scope,
+            int scope,
             string machineName,
             string userName,
             T value);
@@ -162,8 +162,8 @@ namespace SquaredInfinity.Foundation.Settings
         /// <param name="serializer">custom serializer</param>
         void SetSetting<T>(
             string key,
-            SettingScope scope,
-            ISerialzier serializer,
+            int scope,
+            ISerializer serializer,
             T value);
 
         /// <summary>
@@ -178,10 +178,10 @@ namespace SquaredInfinity.Foundation.Settings
         /// <param name="serializer">custom serializer</param>
         void SetSetting<T>(
             string key,
-            SettingScope scope,
+            int scope,
             string machineName,
             string userName,
-            ISerialzier serializer,
+            ISerializer serializer,
             T value);
 
         /// <summary>
@@ -201,10 +201,10 @@ namespace SquaredInfinity.Foundation.Settings
             string application,
             string container,
             string key,
-            SettingScope scope,
+            int scope,
             string machineName,
             string userName,
-            ISerialzier serializer,
+            ISerializer serializer,
             T value);
 
         #endregion

@@ -6,18 +6,17 @@ namespace SquaredInfinity.Foundation.Settings
 {
     public abstract class SettingsService : ISettingsService
     {
-        ISerialzier _defaultSerializer;
-        protected ISerialzier DefaultSerializer { get; private set; }
+        protected ISerializer DefaultSerializer { get; private set; }
         protected string DefaultApplication { get; private set; }
         protected string DefaultContainer { get; private set; }
 
-        protected IReadOnlyList<SettingScope> ScopesByPriority { get; private set; }
+        protected IReadOnlyList<int> ScopesByPriority { get; private set; }
 
-        public SettingsService(ISerialzier defaultSerializer)
+        public SettingsService(ISerializer defaultSerializer)
             : this("", "", defaultSerializer)
         { }
 
-        public SettingsService(string defaultApplication, string defaultContainer, ISerialzier defaultSerializer)
+        public SettingsService(string defaultApplication, string defaultContainer, ISerializer defaultSerializer)
         {
             this.DefaultApplication = defaultApplication;
             this.DefaultContainer = defaultContainer;
@@ -28,7 +27,7 @@ namespace SquaredInfinity.Foundation.Settings
 
         #region Get Current Machine / User / Scopes
 
-        protected virtual IReadOnlyList<SettingScope> GetScopesByPriority()
+        protected virtual IReadOnlyList<int> GetScopesByPriority()
         {
             return new[] { SettingScope.UserMachine, SettingScope.User, SettingScope.Machine, SettingScope.Global };
         }
@@ -52,7 +51,7 @@ namespace SquaredInfinity.Foundation.Settings
             return GetSetting<T>(key, DefaultSerializer, defaultValue);
         }
 
-        public T GetSetting<T>(string key, ISerialzier serializer, Func<T> defaultValue)
+        public T GetSetting<T>(string key, ISerializer serializer, Func<T> defaultValue)
         {
             var value = default(T);
 
@@ -66,17 +65,17 @@ namespace SquaredInfinity.Foundation.Settings
             }
         }
 
-        public T GetSetting<T>(string key, SettingScope scope, string machineName, string userName, Func<T> defaultValue)
+        public T GetSetting<T>(string key, int scope, string machineName, string userName, Func<T> defaultValue)
         {
             return GetSetting<T>(key, scope, machineName, userName, defaultValue);
         }
 
-        public T GetSetting<T>(string key, SettingScope scope, Func<T> defaultValue)
+        public T GetSetting<T>(string key, int scope, Func<T> defaultValue)
         {
             return GetSetting<T>(key, scope, GetCurrentMachineName(), GetCurrentUserName(), DefaultSerializer, defaultValue);
         }
 
-        public T GetSetting<T>(string key, SettingScope scope, string machineName, string userName, ISerialzier serializer, Func<T> defaultValue)
+        public T GetSetting<T>(string key, int scope, string machineName, string userName, ISerializer serializer, Func<T> defaultValue)
         {
             var value = default(T);
 
@@ -95,31 +94,31 @@ namespace SquaredInfinity.Foundation.Settings
             return TryGetSetting<T>(key, DefaultSerializer, out value);
         }
 
-        public bool TryGetSetting<T>(string key, SettingScope scope, string machineName, string userName, out T value)
+        public bool TryGetSetting<T>(string key, int scope, string machineName, string userName, out T value)
         {
             return TryGetSetting<T>(key, scope, machineName, userName, DefaultSerializer, out value);
         }
 
-        public bool TryGetSetting<T>(string key, ISerialzier serializer, out T value)
+        public bool TryGetSetting<T>(string key, ISerializer serializer, out T value)
         {
             return TryGetSetting<T>(key, SettingScope.All, GetCurrentMachineName(), GetCurrentUserName(), DefaultSerializer, out value);
         }
 
-        public bool TryGetSetting<T>(string key, SettingScope scope, string machineName, string userName, ISerialzier serializer, out T value)
+        public bool TryGetSetting<T>(string key, int scope, string machineName, string userName, ISerializer serializer, out T value)
         {
             return TryGetSetting<T>(DefaultApplication, DefaultContainer, key, scope, machineName, userName, serializer, out value);
         }
-        public bool TryGetSetting<T>(string application, string container, string key, ISerialzier serializer, out T value)
+        public bool TryGetSetting<T>(string application, string container, string key, ISerializer serializer, out T value)
         {
             return TryGetSetting<T>(application, container, key, SettingScope.All, GetCurrentMachineName(), GetCurrentUserName(), serializer, out value);
         }
 
-        public bool TryGetSetting<T>(string application, string container, string key, SettingScope scope, string machineName, string userName, out T value)
+        public bool TryGetSetting<T>(string application, string container, string key, int scope, string machineName, string userName, out T value)
         {
             return TryGetSetting<T>(application, container, key, scope, machineName, userName, DefaultSerializer, out value);
         }
 
-        public bool TryGetSetting<T>(string application, string container, string key, SettingScope scope, string machineName, string userName, ISerialzier serializer, out T value)
+        public bool TryGetSetting<T>(string application, string container, string key, int scope, string machineName, string userName, ISerializer serializer, out T value)
         {
             value = default(T);
             var data = (byte[])null;
@@ -129,11 +128,8 @@ namespace SquaredInfinity.Foundation.Settings
             {
                 foreach (var _scope in ScopesByPriority)
                 {
-                    if (scope.HasFlag(_scope))
-                    {
-                        if (DoTryGetSetting(application, container, key, _scope, machineName, userName, out data_encoding, out data))
-                            break;
-                    }
+                    if (DoTryGetSetting(application, container, key, _scope, machineName, userName, out data_encoding, out data))
+                        break;
                 }
 
                 if (data == null || data_encoding == null)
@@ -155,32 +151,32 @@ namespace SquaredInfinity.Foundation.Settings
 
         #region Set Setting
 
-        public void SetSetting<T>(string key, SettingScope scope, ISerialzier serializer, T value)
+        public void SetSetting<T>(string key, int scope, ISerializer serializer, T value)
         {
             SetSetting<T>(key, scope, GetCurrentMachineName(), GetCurrentUserName(), serializer, value);
         }
 
-        public void SetSetting<T>(string key, SettingScope scope, T value)
+        public void SetSetting<T>(string key, int scope, T value)
         {
             SetSetting<T>(key, scope, GetCurrentMachineName(), GetCurrentUserName(), DefaultSerializer, value);
         }
 
-        public void SetSetting<T>(string application, string container, string key, SettingScope scope, string machineName, string userName, T value)
+        public void SetSetting<T>(string application, string container, string key, int scope, string machineName, string userName, T value)
         {
             SetSetting<T>(key, scope, machineName, userName, DefaultSerializer, value);
         }
 
-        public void SetSetting<T>(string key, SettingScope scope, string machineName, string userName, ISerialzier serializer, T value)
+        public void SetSetting<T>(string key, int scope, string machineName, string userName, ISerializer serializer, T value)
         {
             SetSetting<T>(DefaultApplication, DefaultContainer, key, scope, machineName, userName, serializer, value);
         }
 
-        public void SetSetting<T>(string key, SettingScope scope, string machineName, string userName, T value)
+        public void SetSetting<T>(string key, int scope, string machineName, string userName, T value)
         {
             SetSetting<T>(DefaultApplication, DefaultContainer, key, scope, machineName, userName, DefaultSerializer, value);
         }
 
-        public void SetSetting<T>(string application, string container, string key, SettingScope scope, string machineName, string userName, ISerialzier serializer, T value)
+        public void SetSetting<T>(string application, string container, string key, int scope, string machineName, string userName, ISerializer serializer, T value)
         {
             if (scope == SettingScope.All)
                 throw new ArgumentException("scope must be a specific value, not All");
@@ -197,7 +193,7 @@ namespace SquaredInfinity.Foundation.Settings
             string application,
             string container,
             string key,
-            SettingScope scope,
+            int scope,
             string machineName,
             string userName,
             Encoding valueEncoding,
@@ -207,7 +203,7 @@ namespace SquaredInfinity.Foundation.Settings
             string application,
             string container,
             string key,
-            SettingScope scope,
+            int scope,
             string machineName,
             string userName,
             out Encoding valueEncoding,
