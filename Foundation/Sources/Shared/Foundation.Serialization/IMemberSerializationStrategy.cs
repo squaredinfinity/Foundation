@@ -23,6 +23,6 @@ namespace SquaredInfinity.Foundation.Serialization
 
         Func<object, object, string> CustomSerialize { get; set; }
 
-        Func<string, object> CustomDeserialize { get; set; }
+        Func<object, object> CustomDeserialize { get; set; }
     }
 }

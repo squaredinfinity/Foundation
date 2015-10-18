@@ -6,6 +6,8 @@ namespace SquaredInfinity.Foundation.Settings
 { 
     public interface ISettingsService
     {
+        event EventHandler<SettingChangedEventArgs> AfterSettingChanged;
+        event EventHandler<EventArgs> AfterSettingsChanged;
 
         #region (Try) Get Setting + Scope
 
@@ -42,6 +44,11 @@ namespace SquaredInfinity.Foundation.Settings
             int scope,
             string machineName,
             string userName,
+            out T value);
+
+        bool TryGetSetting<T>(
+            string key,
+            int scope,
             out T value);
 
         bool TryGetSetting<T>(

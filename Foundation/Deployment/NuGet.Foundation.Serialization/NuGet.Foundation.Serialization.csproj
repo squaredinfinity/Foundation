@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\..\..\local_nugets\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -74,5 +74,4 @@
     <Error Text="Encountered error(s) when creating package.%0aCheck the NuGet.log file for details." Condition=" '$(ExitCode)' == '1' " File="NuGet.log" />
     <Error Text="Created package but encountered error(s) when trying to publish it.%0aCheck the NuGet.log file for details." Condition=" '$(Configuration)|$(Platform)|$(ExitCode)' == 'Release|AnyCPU|2' " File="NuGet.log" />
   </Target>
-  
 </Project>

@@ -136,6 +136,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)SerializedDataInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\FileSystemSettingsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\ISettingsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingChangedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Text\UnicodeCharacters.cs" />

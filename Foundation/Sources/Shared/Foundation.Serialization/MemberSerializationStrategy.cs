@@ -17,7 +17,7 @@ namespace SquaredInfinity.Foundation.Serialization
 
         public Func<object, object, string> CustomSerialize { get; set; }
 
-        public Func<string, object> CustomDeserialize { get; set; }
+        public Func<object, object> CustomDeserialize { get; set; }
 
         public MemberSerializationStrategy(ITypeMemberDescription memberDescription)
         {

@@ -6,9 +6,12 @@
     <SharedGUID>7863e449-f6f5-45fb-ae02-6acd4eac304a</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Foundation.Win32Api</Import_RootNamespace>
+    <Import_RootNamespace>SquaredInfinity.Foundation.Win32Api</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)dwmapi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)dwmapi.entities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)dwmapi.externs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)user32.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)user32.entities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)user32.externs.cs" />

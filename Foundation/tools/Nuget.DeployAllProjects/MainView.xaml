@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:behaviors="http://schemas.squaredinfinity.com/foundation/behaviors"
                     xmlns:local="clr-namespace:Nuget.DeployAllProjects">
     <Style TargetType="{x:Type local:MainView}">
         <Style.Setters>
@@ -10,12 +11,22 @@
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="Nuget Packages Version Number:" />
                                 <TextBox Text="{TemplatedParentBinding ViewModel.VersionNumber}" />
+
+                                <ListView ItemsSource="{TemplatedParentBinding ViewModel.AllProjects}"
+                                          SelectionMode="Multiple"
+                                          behaviors:MultiSelection.SelectedItems="{TemplatedParentBinding ViewModel.SelectedProjects}">
+                                    
+                                </ListView>
+                                
                                 <Button Content="Update All Nuget Package Projects"
                                         Margin="10"
                                         Command="{CommandMethodBinding @TemplatedParent.ViewModel.UpdateAllProjects}"/>
                                 <Button Content="Publish All Nuget Package Projects"
                                         Margin="10"
-                                        Command="{CommandMethodBinding @TemplatedParent.ViewModel.PublishAll}"/>                                
+                                        Command="{CommandMethodBinding @TemplatedParent.ViewModel.PublishAll}"/>
+                                <Button Content="Publish Selected Nuget Package Projects"
+                                        Margin="10"
+                                        Command="{CommandMethodBinding @TemplatedParent.ViewModel.PublishSelected}"/>
                             </StackPanel>
                         </Grid>
                     </ControlTemplate>

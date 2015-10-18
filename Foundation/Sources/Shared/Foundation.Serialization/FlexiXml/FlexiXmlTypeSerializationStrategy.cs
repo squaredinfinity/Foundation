@@ -534,7 +534,14 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             {
                 //# deserialize from attribute
 
-                if(cx.Options.IsAttributeValueSerializationExtension(memberAttribute))
+                //# use custom deserialziation
+                if (strategy.CustomDeserialize != null)
+                {
+                    memberInstance = strategy.CustomDeserialize(memberAttribute);
+                    return true;
+                }
+
+                if (cx.Options.IsAttributeValueSerializationExtension(memberAttribute))
                 {
                     if(memberAttribute.Value == cx.Options.NullAttributeMarkupExtension)
                     {
@@ -549,7 +556,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 }
 
                 // todo: log a warning, member cannot be deserialized from attribute
-                throw new Exception();
+                throw new Exception("Member {0} cannot be deserialized fro attribute".FormatWith(memberAttribute.Name));
             }
 
             // TODO: log warning, member cannot be deserialized because couldn't find it

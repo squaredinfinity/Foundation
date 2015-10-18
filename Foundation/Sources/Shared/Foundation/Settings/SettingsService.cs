@@ -6,6 +6,20 @@ namespace SquaredInfinity.Foundation.Settings
 {
     public abstract class SettingsService : ISettingsService
     {
+        public event EventHandler<SettingChangedEventArgs> AfterSettingChanged;
+        void RaiseAfterSettingChanged(string application, string container, string key)
+        {
+            if (AfterSettingChanged != null)
+                AfterSettingChanged(this, new SettingChangedEventArgs(application, container, key));
+        }
+
+        public event EventHandler<EventArgs> AfterSettingsChanged;
+        void RaiseAfterSettingsChanged()
+        {
+            if(AfterSettingsChanged != null)
+                AfterSettingsChanged(this, EventArgs.Empty));
+        }
+
         protected ISerializer DefaultSerializer { get; private set; }
         protected string DefaultApplication { get; private set; }
         protected string DefaultContainer { get; private set; }
@@ -99,6 +113,11 @@ namespace SquaredInfinity.Foundation.Settings
             return TryGetSetting<T>(key, scope, machineName, userName, DefaultSerializer, out value);
         }
 
+        public bool TryGetSetting<T>(string key, int scope, out T value)
+        {
+            return TryGetSetting<T>(key, scope, GetCurrentMachineName(), GetCurrentUserName(), DefaultSerializer, out value);
+        }
+
         public bool TryGetSetting<T>(string key, ISerializer serializer, out T value)
         {
             return TryGetSetting<T>(key, SettingScope.All, GetCurrentMachineName(), GetCurrentUserName(), DefaultSerializer, out value);
@@ -184,6 +203,8 @@ namespace SquaredInfinity.Foundation.Settings
             var serialized_data = serializer.Serialize<T>(value);
 
             DoSetSetting<T>(application, container, key, scope, machineName, userName, serialized_data.Encoding, serialized_data.Bytes);
+
+            RaiseAfterSettingChanged(application, container, key);
         }
 
         #endregion

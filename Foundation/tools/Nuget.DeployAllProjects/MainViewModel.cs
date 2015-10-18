@@ -16,6 +16,15 @@ namespace Nuget.DeployAllProjects
 {
     public class MainViewModel : ViewModel
     {
+
+        List<string> _allProjects = new List<string>();
+        public List<string> AllProjects
+        {
+            get { return _allProjects; }
+        }
+
+        public List<string> SelectedProjects { get; set; }
+
         string _versionNumber;
         public string VersionNumber
         {
@@ -34,6 +43,31 @@ namespace Nuget.DeployAllProjects
             var version_number = new Version(version_number_match.Groups["version"].Value);
 
             VersionNumber = version_number.ToString() + "-beta";
+
+
+            // Nuget Packages must be published in a right order so that package dependencies can be resolved
+
+            // 1. Foundation
+
+            AllProjects.Add("NuGet.Foundation");
+
+            // 2. Foundation.Diagnostics.Infrastructure
+
+            AllProjects.Add("NuGet.Foundation.Diagnostics.Infrastructure");
+
+            // 3. Everything else
+
+            AllProjects.Add("NuGet.Foundation.Cache");
+            AllProjects.Add("NuGet.Foundation.Serialization");
+            AllProjects.Add("NuGet.Foundation.Data");
+            AllProjects.Add("NuGet.Foundation.Diagnostics");
+            AllProjects.Add("NuGet.Foundation.Presentation.Xaml");
+            
+            //PublishProject("NuGet.Foundation.Presentation.Xaml.Styles.Modern");
+            AllProjects.Add("NuGet.Foundation.Unsafe");
+            AllProjects.Add("NuGet.Foundation.Win32Api");
+
+            SelectedProjects = new List<string>();
         }
 
         public static void CopyDirectoryRecursively(DirectoryInfo source, DirectoryInfo target) 
@@ -91,7 +125,7 @@ namespace Nuget.DeployAllProjects
 
                 var srcRoot = Path.Combine(packageRoot, "src");
 
-                for (int i = 0; i < 10; i++ )
+                for (int i = 0; i < 10; i++)
                 {
                     try
                     {
@@ -108,7 +142,7 @@ namespace Nuget.DeployAllProjects
 
                         break;
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         Trace.WriteLine(ex.ToString());
                     }
@@ -125,35 +159,35 @@ namespace Nuget.DeployAllProjects
                 var commonTargetDir = new DirectoryInfo(Path.Combine(sources_root.FullName, "Common"));
 
                 // copy files shared between all projects
-            //    var internalTraceSource = new FileInfo(Path.Combine(srcRoot, "Common", "InternalTrace.cs"));
-            //    File.Copy(Path.Combine(commonTargetDir.FullName, "InternalTrace.cs"), internalTraceSource.FullName);
+                //    var internalTraceSource = new FileInfo(Path.Combine(srcRoot, "Common", "InternalTrace.cs"));
+                //    File.Copy(Path.Combine(commonTargetDir.FullName, "InternalTrace.cs"), internalTraceSource.FullName);
 
-            //    // source/common/xxx.common
-            //    var commonProjectDir = new DirectoryInfo(Path.Combine(commonTargetDir.FullName, projectName + ".Common"));
+                //    // source/common/xxx.common
+                //    var commonProjectDir = new DirectoryInfo(Path.Combine(commonTargetDir.FullName, projectName + ".Common"));
 
-            //    foreach (var target_dir in sources_root.GetDirectories())
-            //    {
-            //        // these will be common, dotnet45 etc
-            //        foreach (var project_dir in target_dir.GetDirectories())
-            //        {
-            //            if (!(project_dir.Name == projectName + "." + target_dir.Name))
-            //                continue;
+                //    foreach (var target_dir in sources_root.GetDirectories())
+                //    {
+                //        // these will be common, dotnet45 etc
+                //        foreach (var project_dir in target_dir.GetDirectories())
+                //        {
+                //            if (!(project_dir.Name == projectName + "." + target_dir.Name))
+                //                continue;
 
-            //            // copy files from project.target dir to project.target (e.g. foundation.DotNet45 => foundation.DotNet45)
-            //            var copy_target = new DirectoryInfo(Path.Combine(srcRoot, target_dir.Name, projectName + "." +  target_dir.Name));
-            //            CopyDirectoryRecursively(project_dir, copy_target);
+                //            // copy files from project.target dir to project.target (e.g. foundation.DotNet45 => foundation.DotNet45)
+                //            var copy_target = new DirectoryInfo(Path.Combine(srcRoot, target_dir.Name, projectName + "." +  target_dir.Name));
+                //            CopyDirectoryRecursively(project_dir, copy_target);
 
-            //            //if(target_dir.Name != "Common")
-            //            //{
-            //            //    // copy files from project.Common dir to project.target (e.g. foundation.Common => foundation.DotNet45)
-            //            //    // (e.g. files that are referenced as links)
-            //            //    CopyDirectoryRecursively(commonProjectDir, copy_target);
-            //            //}
+                //            //if(target_dir.Name != "Common")
+                //            //{
+                //            //    // copy files from project.Common dir to project.target (e.g. foundation.Common => foundation.DotNet45)
+                //            //    // (e.g. files that are referenced as links)
+                //            //    CopyDirectoryRecursively(commonProjectDir, copy_target);
+                //            //}
 
-            //            // copy files shared between all projects
-            //            File.Copy(Path.Combine(commonTargetDir.FullName, "InternalTrace.cs"), Path.Combine(copy_target.FullName, "InternalTrace.cs"));
-            //        }
-            //    }
+                //            // copy files shared between all projects
+                //            File.Copy(Path.Combine(commonTargetDir.FullName, "InternalTrace.cs"), Path.Combine(copy_target.FullName, "InternalTrace.cs"));
+                //        }
+                //    }
             }
 
             // build solution in release version
@@ -164,9 +198,19 @@ namespace Nuget.DeployAllProjects
                 application: @"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe",
                 arguments: "\"{0}\" /rebuild Release".FormatWith(solution_file_path),
                 showUi: true,
-                continueAfterExecution:true,
+                continueAfterExecution: true,
                 waitForExit: true);
         }
+
+
+        public void PublishSelected()
+        {
+            foreach(var project in SelectedProjects)
+            {
+                PublishProject(project);
+            }
+        }
+
 
         public void PublishAll()
         {
@@ -192,7 +236,6 @@ namespace Nuget.DeployAllProjects
             PublishProject("NuGet.Foundation.Unsafe");
             PublishProject("NuGet.Foundation.Win32Api");
         }
-
         void PublishProject(string projectName)
         {
             var solution_file_path = new FileInfo("../../../../Foundation.sln").FullName;
