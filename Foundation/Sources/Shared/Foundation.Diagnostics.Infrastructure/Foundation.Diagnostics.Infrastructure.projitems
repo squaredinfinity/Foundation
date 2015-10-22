@@ -9,6 +9,7 @@
     <Import_RootNamespace>Foundation.Diagnostics.Infrastructure</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\GlobalSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\IConfigurationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\IConfigurationRepository.cs" />

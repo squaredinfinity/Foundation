@@ -14,9 +14,8 @@ namespace SquaredInfinity.Foundation.Presentation.Media
 
         static FontFamilies()
         {
-            
-
             FontsiFontFamily = new FontFamily(ResourcesManager.GetAbsoluteResourceUriFromThisAssembly(@""), "./fonts/#fontsi");
         }
+
     }
 }

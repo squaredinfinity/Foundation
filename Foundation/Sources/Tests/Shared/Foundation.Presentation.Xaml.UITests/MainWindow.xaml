@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local_behaviors="clr-namespace:SquaredInfinity.Foundation.Presentation.Xaml.UITests.Behaviors"
         xmlns:local_binding="clr-namespace:SquaredInfinity.Foundation.Presentation.Xaml.UITests.Binding"
+        xmlns:local_fonts="clr-namespace:SquaredInfinity.Foundation.Presentation.Xaml.UITests.Fonts"
         xmlns:local_markupextensions="clr-namespace:SquaredInfinity.Foundation.Presentation.Xaml.UITests.MarkupExtensions"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
@@ -29,6 +30,9 @@
                     <local_binding:ObservableCollectionExView />
                 </TabItem>
             </TabControl>
+        </TabItem>
+        <TabItem Header="Fonts">
+            <local_fonts:FontsView />
         </TabItem>
         <TabItem Header="Markup Extensions">
             <local_markupextensions:MarkupExtensionsView />

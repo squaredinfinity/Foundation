@@ -5,9 +5,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("Squared Infinity Limited")]
 [assembly: AssemblyCopyright("Copyright © 2014")]
 
-[assembly: AssemblyVersion("1.1.5.10")]
-[assembly: AssemblyFileVersion("1.1.5.10")]
-
 
 #if SIGN
 #pragma warning disable 1699  // warning CS1699: Use command line option '/keyfile' or appropriate project settings instead of 'AssemblyKeyFile'

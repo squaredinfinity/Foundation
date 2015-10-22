@@ -22,10 +22,185 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="E:SquaredInfinity.Foundation.Collections.INotifyCollectionContentChanged.VersionChanged">
+        <member name="T:SquaredInfinity.Foundation.Collections.CollectionEx`1">
+            <summary>
+            Thread-Safe collection with support for atomic reads/writes and additional operations such as GetSnapshot(), Bulk Updates (Reset, Add/Remove Range) and Versioning
+            </summary>
+            <typeparam name="TItem"></typeparam>
+        </member>
+        <member name="F:SquaredInfinity.Foundation.Collections.CollectionEx`1.CollectionLock">
+            <summary>
+            Lock providing atomic access fo elements in collection
+            </summary>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.CollectionEx`1.OnAfterVersionChanged(System.Int64)">
+            <summary>
+            Called after version of this collection has changed
+            </summary>
+            <param name="newVersion"></param>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Collections.CollectionEx`1.Count">
+            <summary>
+            Gets the number of elements actually contained in the <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+            </summary>
+            
+            <returns>
+            The number of elements actually contained in the <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+            </returns>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Collections.CollectionEx`1.Items">
+            <summary>
+            Gets a <see cref="T:System.Collections.Generic.IList`1"/> wrapper around the <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+            </summary>
+            
+            <returns>
+            A <see cref="T:System.Collections.Generic.IList`1"/> wrapper around the <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+            </returns>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Collections.CollectionEx`1.Item(System.Int32)">
+            <summary>
+            Gets or sets the element at the specified index.
+            </summary>
+            
+            <returns>
+            The element at the specified index.
+            </returns>
+            <param name="index">The zero-based index of the element to get or set.</param><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index"/> is less than zero.-or-<paramref name="index"/> is equal to or greater than <see cref="P:System.Collections.ObjectModel.Collection`1.Count"/>. </exception>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.CollectionEx`1.Add(`0)">
+            <summary>
+            Adds an object to the end of the <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+            </summary>
+            <param name="item">The object to be added to the end of the <see cref="T:System.Collections.ObjectModel.Collection`1"/>. The value can be null for reference types.</param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.CollectionEx`1.Clear">
+            <summary>
+            Removes all elements from the <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+            </summary>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.CollectionEx`1.CopyTo(`0[],System.Int32)">
+            <summary>
+            Copies the entire <see cref="T:System.Collections.ObjectModel.Collection`1"/> to a compatible one-dimensional <see cref="T:System.Array"/>, starting at the specified index of the target array.
+            </summary>
+            <param name="array">The one-dimensional <see cref="T:System.Array"/> that is the destination of the elements copied from <see cref="T:System.Collections.ObjectModel.Collection`1"/>. The <see cref="T:System.Array"/> must have zero-based indexing.</param><param name="index">The zero-based index in <paramref name="array"/> at which copying begins.</param><exception cref="T:System.ArgumentNullException"><paramref name="array"/> is null.</exception><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index"/> is less than zero.</exception><exception cref="T:System.ArgumentException">The number of elements in the source <see cref="T:System.Collections.ObjectModel.Collection`1"/> is greater than the available space from <paramref name="index"/> to the end of the destination <paramref name="array"/>.</exception>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.CollectionEx`1.Contains(`0)">
+            <summary>
+            Determines whether an element is in the <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+            </summary>
+            
+            <returns>
+            true if <paramref name="item"/> is found in the <see cref="T:System.Collections.ObjectModel.Collection`1"/>; otherwise, false.
+            </returns>
+            <param name="item">The object to locate in the <see cref="T:System.Collections.ObjectModel.Collection`1"/>. The value can be null for reference types.</param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.CollectionEx`1.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+            </summary>
+            
+            <returns>
+            An <see cref="T:System.Collections.Generic.IEnumerator`1"/> for the <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+            </returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.CollectionEx`1.IndexOf(`0)">
+            <summary>
+            Searches for the specified object and returns the zero-based index of the first occurrence within the entire <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+            </summary>
+            
+            <returns>
+            The zero-based index of the first occurrence of <paramref name="item"/> within the entire <see cref="T:System.Collections.ObjectModel.Collection`1"/>, if found; otherwise, -1.
+            </returns>
+            <param name="item">The object to locate in the <see cref="T:System.Collections.Generic.List`1"/>. The value can be null for reference types.</param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.CollectionEx`1.Insert(System.Int32,`0)">
+            <summary>
+            Inserts an element into the <see cref="T:System.Collections.ObjectModel.Collection`1"/> at the specified index.
+            </summary>
+            <param name="index">The zero-based index at which <paramref name="item"/> should be inserted.</param><param name="item">The object to insert. The value can be null for reference types.</param><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index"/> is less than zero.-or-<paramref name="index"/> is greater than <see cref="P:System.Collections.ObjectModel.Collection`1.Count"/>.</exception>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.CollectionEx`1.Remove(`0)">
+            <summary>
+            Removes the first occurrence of a specific object from the <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+            </summary>
+            
+            <returns>
+            true if <paramref name="item"/> is successfully removed; otherwise, false.  This method also returns false if <paramref name="item"/> was not found in the original <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+            </returns>
+            <param name="item">The object to remove from the <see cref="T:System.Collections.ObjectModel.Collection`1"/>. The value can be null for reference types.</param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.CollectionEx`1.RemoveAt(System.Int32)">
+            <summary>
+            Removes the element at the specified index of the <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+            </summary>
+            <param name="index">The zero-based index of the element to remove.</param><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index"/> is less than zero.-or-<paramref name="index"/> is equal to or greater than <see cref="P:System.Collections.ObjectModel.Collection`1.Count"/>.</exception>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.ICollectionEx`1.Reset(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Removes old items and replaces them with new items in one, atomic operation
+            </summary>
+            <param name="newItems"></param>
+        </member>
+        <member name="E:SquaredInfinity.Foundation.Collections.INotifyCollectionVersionChanged.VersionChanged">
             <summary>
             Occurs when content of any item in the collection has changed (but no items have been added / removed / moved).
             </summary>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.Collections.MultiMap`2">
+            <summary>
+            http://en.wikipedia.org/wiki/Multimap
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TValue"></typeparam>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.MultiMap`2.ImportFrom(SquaredInfinity.Foundation.Collections.MultiMap{`0,`1})">
+            <summary>
+            
+            </summary>
+            <param name="other"></param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.MultiMap`2.GetValues(`0)">
+            <summary>
+            Returns values associated with specified key.
+            If no values exists returns null.
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.ObservableCollectionEx`1.RaisePropertyChanged(System.Linq.Expressions.Expression{System.Func{System.Object}})">
+            <summary> 
+            Raises the property changed event. 
+            </summary> 
+            <param name="expression">The expression (i.e. () => this.MyProperty).</param> 
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.ObservableCollectionEx`1.RaisePropertyChanged(System.String)">
+            <summary> 
+            Raises the property changed event. 
+            </summary> 
+            <param name="propertyName">Name of a property.</param> 
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.ObservableCollectionEx`1.RaiseIndexerChanged">
+            <summary> 
+            Raises the property changed event for indexer (all indexes) 
+            </summary> 
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.ObservableCollectionEx`1.RaiseIndexerChanged(System.String)">
+            <summary> 
+            Raises the property changed event for indexer (specific index) 
+            </summary> 
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.ObservableCollectionEx`1.RaiseIndexerChanged(System.Int32)">
+            <summary> 
+            Raises the property changed event for indexer (specific index) 
+            </summary> 
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Collections.ObservableCollectionEx`1.RaiseAllPropertiesChanged">
+            <summary>
+            Raises the property changed event for all properties by providing string.Empty as a property name
+            </summary>
+            <remarks>
+            http://msdn.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged.propertychanged.aspx
+            </remarks>
         </member>
         <member name="M:SquaredInfinity.Foundation.Collections.Trees.ExpressionTree.CleanUpTreeStructure">
             <summary>
@@ -105,51 +280,6 @@
             <param name="source">Node to be injected</param>
             <param name="target">Target Node which will be replaced by Source, and joined with source's new sub-tree</param>
         </member>
-        <member name="T:SquaredInfinity.Foundation.NotifyPropertyChangedObject">
-            <summary> 
-            Implements INotifyPropertyChanged
-            </summary> 
-        </member>
-        <member name="M:SquaredInfinity.Foundation.NotifyPropertyChangedObject.RaisePropertyChanged(System.Linq.Expressions.Expression{System.Func{System.Object}})">
-            <summary> 
-            Raises the property changed event. 
-            </summary> 
-            <param name="expression">The expression (i.e. () => this.MyProperty).</param> 
-        </member>
-        <member name="M:SquaredInfinity.Foundation.NotifyPropertyChangedObject.RaisePropertyChanged(System.String)">
-            <summary> 
-            Raises the property changed event. 
-            </summary> 
-            <param name="propertyName">Name of a property.</param> 
-        </member>
-        <member name="M:SquaredInfinity.Foundation.NotifyPropertyChangedObject.RaiseIndexerChanged">
-            <summary> 
-            Raises the property changed event for indexer (all indexes) 
-            </summary> 
-        </member>
-        <member name="M:SquaredInfinity.Foundation.NotifyPropertyChangedObject.RaiseIndexerChanged(System.String)">
-            <summary> 
-            Raises the property changed event for indexer (specific index) 
-            </summary> 
-        </member>
-        <member name="M:SquaredInfinity.Foundation.NotifyPropertyChangedObject.RaiseIndexerChanged(System.Int32)">
-            <summary> 
-            Raises the property changed event for indexer (specific index) 
-            </summary> 
-        </member>
-        <member name="M:SquaredInfinity.Foundation.NotifyPropertyChangedObject.RaiseAllPropertiesChanged">
-            <summary>
-            Raises the property changed event for all properties by providing string.Empty as a property name
-            </summary>
-            <remarks>
-            http://msdn.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged.propertychanged.aspx
-            </remarks>
-        </member>
-        <member name="E:SquaredInfinity.Foundation.NotifyPropertyChangedObject.PropertyChanged">
-            <summary> 
-            Occurs when [property changed]. 
-            </summary> 
-        </member>
         <member name="P:SquaredInfinity.Foundation.Collections.VirtualizedDataItem`1.Index">
             <summary>
             Index of underlying Data Item in collection being virtualized.
@@ -185,17 +315,18 @@
             Should be used instead of DateTime.Now for unit testing purposes.
             </summary>
         </member>
-        <member name="T:SquaredInfinity.Foundation.IDateTimeContext">
-            <summary>
-            Provides a DateTime context.
-            Should be used instead of DateTime.Now for unit testing purposes.
-            </summary>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.IDateTimeContext.Now">
+        <member name="P:SquaredInfinity.Foundation.DateTimeContext.Now">
             <summary>
             Gets the current DateTime
             </summary>
             <value>The now.</value>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.DateTimeContext.Default">
+            <summary>
+            Gets the default DateTime context.
+            This should be used instead of DateTime.Now for unit testing purposes.
+            </summary>
+            <value>The default.</value>
         </member>
         <member name="M:SquaredInfinity.Foundation.DateTimeContext.#ctor">
             <summary>
@@ -208,7 +339,7 @@
             Initializes a new instance of the <see cref="T:SquaredInfinity.Foundation.DateTimeContext"/> class.
             Current time can be calculated in a function.
             For example, to 'move seven days back in time' we can call: 
-            new DateTimeContext(() =&gt; return DateTime.Now.Subtract(TimeSpan.FromDays(7)));
+            new DateTimeContext(() => return DateTime.Now.Subtract(TimeSpan.FromDays(7)));
             </summary>
             <param name="now">The now.</param>
         </member>
@@ -240,19 +371,6 @@
             <summary>
             Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
             </summary>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.DateTimeContext.Now">
-            <summary>
-            Gets the current DateTime
-            </summary>
-            <value>The now.</value>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.DateTimeContext.Default">
-            <summary>
-            Gets the default DateTime context.
-            This should be used instead of DateTime.Now for unit testing purposes.
-            </summary>
-            <value>The default.</value>
         </member>
         <member name="T:SquaredInfinity.Foundation.Diagnostics.ExceptionContextData">
             <summary>
@@ -681,6 +799,22 @@
             <param name="d"></param>
             <returns></returns>
         </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.DoubleExtensions.NextDouble(System.Double)">
+            <summary>
+            Returns next double value
+            </summary>
+            <param name="d"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.DoubleExtensions.Clamp(System.Double,System.Double,System.Double,System.Nullable{System.Double})">
+            <summary>
+            Clamps specified value to be within specified range [min,max]
+            </summary>
+            <param name="d"></param>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
         <member name="T:SquaredInfinity.Foundation.Extensions.EnumExtensions">
             <summary>
             Extensions for Enum types.
@@ -873,6 +1007,18 @@
             <param name="allowNullable">When set to true, Nullable T (where T is the same type as *type* parameter) will be treated as equivalent.</param>
             <returns></returns>
         </member>
+        <member name="T:SquaredInfinity.Foundation.IDateTimeContext">
+            <summary>
+            Provides a DateTime context.
+            Should be used instead of DateTime.Now for unit testing purposes.
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.IDateTimeContext.Now">
+            <summary>
+            Gets the current DateTime
+            </summary>
+            <value>The now.</value>
+        </member>
         <member name="T:SquaredInfinity.Foundation.IndexInListComparer`1">
             <summary>
             Compares indexes of items in the list.
@@ -954,112 +1100,281 @@
             The white reference illuminant, XYZ values scaled so that Y = 1 (2°, D65)
             </summary>
         </member>
-        <member name="M:SquaredInfinity.Foundation.Serialization.FlexiXml.ITypeSerializationStrategy`1.IgnoreAllMembers">
+        <member name="F:SquaredInfinity.Foundation.Media.Drawing.BlendMode.Alpha">
             <summary>
-            All members will be ignored during serialization (unless explicitly enabled later).
+            http://en.wikipedia.org/wiki/Alpha_compositing#Alpha_blending
             </summary>
+        </member>
+        <member name="F:SquaredInfinity.Foundation.Media.Drawing.BlendMode.Copy">
+            <summary>
+            Copy every pixel from source
+            </summary>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.Media.Drawing.IPixelCanvas">
+            <summary>
+            Provides a fast way to create and modify pixels.
+            Contains array of pixels each containing ARGB color value stored as int32 for best performance
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Media.Drawing.IPixelCanvas.Item(System.Int32)">
+            <summary>
+            Gets or sets color of a pixel at a give position
+            </summary>
+            <param name="position"></param>
             <returns></returns>
         </member>
-        <member name="M:SquaredInfinity.Foundation.Serialization.FlexiXml.ITypeSerializationStrategy`1.IgnoreMember(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+        <member name="P:SquaredInfinity.Foundation.Media.Drawing.IPixelCanvas.Item(System.Int32,System.Int32)">
             <summary>
-            Specified member will not be serialized (unless explicitly enabled later)
+            Gets or sets color of a pixel at given coordinates
             </summary>
-            <param name="memberExpression"></param>
+            <param name="x"></param>
+            <param name="y"></param>
             <returns></returns>
         </member>
-        <member name="M:SquaredInfinity.Foundation.Serialization.FlexiXml.ITypeSerializationStrategy`1.SerializeMember(System.Linq.Expressions.Expression{System.Func{`0,System.Object}},System.Func{`0,System.Boolean})">
+        <member name="M:SquaredInfinity.Foundation.Media.Drawing.PixelCanvas.Blit(System.Drawing.Rectangle,SquaredInfinity.Foundation.Media.Drawing.IPixelCanvas,System.Drawing.Rectangle,SquaredInfinity.Foundation.Media.Drawing.BlendMode)">
             <summary>
-            Enables serialization of a specified member (even if its serialization has been disabled before).
+            http://en.wikipedia.org/wiki/Alpha_compositing
             </summary>
-            <param name="memberExpression"></param>
-            <param name="shouldSerializeMember"></param>
-            <returns></returns>
+            <param name="destination_rect"></param>
+            <param name="source"></param>
+            <param name="source_rect"></param>
+            <param name="blendMode"></param>
         </member>
-        <member name="M:SquaredInfinity.Foundation.Serialization.FlexiXml.ITypeSerializationStrategy`1.SerializeMember(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+        <member name="M:SquaredInfinity.Foundation.Media.Drawing.PixelCanvas.Blit(System.Drawing.Rectangle,SquaredInfinity.Foundation.Media.Drawing.IPixelCanvas,System.Drawing.Rectangle,System.Byte,System.Byte,System.Byte,System.Byte,SquaredInfinity.Foundation.Media.Drawing.BlendMode)">
             <summary>
-            Enables serialization of a specified member (even if its serialization has been disabled before).
+            http://en.wikipedia.org/wiki/Alpha_compositing
             </summary>
-            <param name="memberExpression"></param>
-            <param name="shouldSerializeMember"></param>
-            <returns></returns>
+            <param name="destination_rect"></param>
+            <param name="source"></param>
+            <param name="source_rect"></param>
+            <param name="alpha"></param>
+            <param name="red"></param>
+            <param name="green"></param>
+            <param name="blue"></param>
+            <param name="blendMode"></param>
         </member>
-        <member name="M:SquaredInfinity.Foundation.Serialization.FlexiXml.ITypeSerializationStrategy`1.SerializeAllRemainingMembers">
+        <member name="P:SquaredInfinity.Foundation.Media.Drawing.PixelCanvas.Length">
             <summary>
-            Enables serialization of all members which have not been explicitly ignored before.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:SquaredInfinity.Foundation.Serialization.FlexiXml.InstanceId">
-            <summary>
-            Uniquely identifies instance of object participating in serialization.
-            This is used to deal with circular references.
-            Individual instances are identified by auto-increasing Id number, or by unique name
+            Returns total number of pixels in this bitmap
             </summary>
         </member>
-        <member name="T:SquaredInfinity.Foundation.Serialization.FlexiXml.ISerializationContext">
+        <member name="P:SquaredInfinity.Foundation.Media.Drawing.PixelCanvas.Stride">
             <summary>
-            Serialization Context holds state information of current serialization / deserialization operation
+            There's not padding used and Stride always equals Width at the moment.
             </summary>
         </member>
-        <member name="M:SquaredInfinity.Foundation.Serialization.FlexiXml.ISerializationContext.Deserialize(System.Xml.Linq.XElement,System.Type,System.Boolean)">
+        <member name="P:SquaredInfinity.Foundation.Media.Drawing.PixelCanvas.Width">
             <summary>
-            Deserialize xml to specified target type.
-            Note that xml may provide additional deserialization information which will result in instance of different type being returned.
-            Target Type Candidate will always be assignable from resulting instance.
-            </summary>
-            <param name="xml">xml containing serialization information</param>
-            <param name="targetTypeCandidate">minimum type to which xml will be deserialized (min base type)</param>
-            <returns>deserialized instance</returns>
-        </member>
-        <member name="M:SquaredInfinity.Foundation.Serialization.FlexiXml.ISerializationContext.Deserialize(System.Xml.Linq.XElement,System.Object)">
-            <summary>
-            Deserialize xml to specified object instance.
-            Members of specified target will be populated using data from xml.
-            </summary>
-            <param name="xml"></param>
-            <param name="target"></param>
-            <param name="cx"></param>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Serialization.FlexiXml.ISerializationContext.TypeDescriptor">
-            <summary>
-            Type
+            Width (in pixels) of the bitmap
             </summary>
         </member>
-        <member name="P:SquaredInfinity.Foundation.Serialization.FlexiXml.ISerializationContext.RootInstance">
+        <member name="P:SquaredInfinity.Foundation.Media.Drawing.PixelCanvas.Height">
             <summary>
-            Instance of root object being serialized
+            Height (in pixels) of the bitmap
             </summary>
         </member>
-        <member name="P:SquaredInfinity.Foundation.Serialization.FlexiXml.ISerializationContext.RootElement">
+        <member name="M:SquaredInfinity.Foundation.Media.Drawing.PixelCanvas.DrawLineDDA(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
-            Root xml element of xml document being serialized / deserialized
+            Digital Differential Analyzer
+            http://en.wikipedia.org/wiki/Digital_differential_analyzer_(graphics_algorithm)
+            </summary>
+            <param name="bmp"></param>
+            <param name="x1"></param>
+            <param name="y1"></param>
+            <param name="x2"></param>
+            <param name="y2"></param>
+            <param name="color"></param>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.NotifyPropertyChangedObject">
+            <summary> 
+            Implements INotifyPropertyChanged
+            </summary> 
+        </member>
+        <member name="E:SquaredInfinity.Foundation.NotifyPropertyChangedObject.PropertyChanged">
+            <summary> 
+            Occurs when [property changed]. 
+            </summary> 
+        </member>
+        <member name="M:SquaredInfinity.Foundation.NotifyPropertyChangedObject.IncrementVersion">
+            <summary>
+            Increments version and raises Version Changed event.
             </summary>
         </member>
-        <member name="P:SquaredInfinity.Foundation.Serialization.FlexiXml.ISerializationContext.Options">
+        <member name="M:SquaredInfinity.Foundation.NotifyPropertyChangedObject.RaisePropertyChanged(System.Linq.Expressions.Expression{System.Func{System.Object}})">
+            <summary> 
+            Raises the property changed event. 
+            </summary> 
+            <param name="expression">The expression (i.e. () => this.MyProperty).</param> 
+        </member>
+        <member name="M:SquaredInfinity.Foundation.NotifyPropertyChangedObject.RaisePropertyChanged(System.String)">
+            <summary> 
+            Raises the property changed event. 
+            </summary> 
+            <param name="propertyName">Name of a property.</param> 
+        </member>
+        <member name="M:SquaredInfinity.Foundation.NotifyPropertyChangedObject.RaiseIndexerChanged">
+            <summary> 
+            Raises the property changed event for indexer (all indexes) 
+            </summary> 
+        </member>
+        <member name="M:SquaredInfinity.Foundation.NotifyPropertyChangedObject.RaiseIndexerChanged(System.String)">
+            <summary> 
+            Raises the property changed event for indexer (specific index) 
+            </summary> 
+        </member>
+        <member name="M:SquaredInfinity.Foundation.NotifyPropertyChangedObject.RaiseIndexerChanged(System.Int32)">
+            <summary> 
+            Raises the property changed event for indexer (specific index) 
+            </summary> 
+        </member>
+        <member name="M:SquaredInfinity.Foundation.NotifyPropertyChangedObject.RaiseAllPropertiesChanged">
             <summary>
-            Serialization Options
+            Raises the property changed event for all properties by providing string.Empty as a property name
+            </summary>
+            <remarks>
+            http://msdn.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged.propertychanged.aspx
+            </remarks>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Settings.ISettingsService.GetSetting``1(System.String,System.Func{``0})">
+            <summary>
+            Gets a value of a specified setting.
+            Checks for setting in order: UserMachine, User, Machine, Global
+            </summary>
+            <typeparam name="T">type of setting</typeparam>
+            <param name="key">name of setting</param>
+            <param name="defaultValue">constructs default setting value if no actual value could be found</param>
+            <returns>setting value, result of defaultValue function if no setting could be found on any level</returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Settings.ISettingsService.TryGetSetting``1(System.String,``0@)">
+            <summary>
+            Gets a value of a specified setting.
+            Checks for setting in order: UserMachine, User, Machine, Global
+            </summary>
+            <typeparam name="T">type of setting</typeparam>
+            <param name="key">name of setting</param>
+            <param name="value">setting value</param>
+            <returns>true if setting has been found, false otherwise</returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Settings.ISettingsService.GetSetting``1(System.String,SquaredInfinity.Foundation.ISerializer,System.Func{``0})">
+            <summary>
+            Gets a value of a specified setting.
+            Checks for setting in order: UserMachine, User, Machine, Global
+            </summary>
+            <typeparam name="T">type of setting</typeparam>
+            <param name="key">name of setting</param>
+            <param name="serializer">serializer for the setting value</param>
+            <param name="defaultValue">constructs default setting value if no actual value could be found</param>
+            <returns>setting value, result of defaultValue function if no setting could be found on any level</returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Settings.ISettingsService.TryGetSetting``1(System.String,SquaredInfinity.Foundation.ISerializer,``0@)">
+            <summary>
+            Gets a value of a specified setting.
+            Checks for setting in order: UserMachine, User, Machine, Global
+            </summary>
+            <typeparam name="T">type of setting</typeparam>
+            <param name="key">name of setting</param>
+            <param name="serializer">serializer for the setting value</param>
+            <param name="value">setting value</param>
+            <returns>true if setting has been found, false otherwise</returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Settings.ISettingsService.TryGetSetting``1(System.String,System.String,System.String,SquaredInfinity.Foundation.ISerializer,``0@)">
+            <summary>
+            Gets a value of a specified setting.
+            Checks for setting in order: UserMachine, User, Machine, Global
+            </summary>
+            <typeparam name="T">type of setting</typeparam>
+            <param name="application">application</param>
+            <param name="container">container</param>
+            <param name="key">name of setting</param>
+            <param name="serializer">serializer for the setting value</param>
+            <param name="value">setting value</param>
+            <returns>true if setting has been found, false otherwise</returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Settings.ISettingsService.SetSetting``1(System.String,System.Int32,``0)">
+            <summary>
+            Sets a value of a specifed user setting
+            </summary>
+            <typeparam name="T">Type of setting value</typeparam>
+            <param name="key">setting name</param>
+            <param name="scope">setting scope</param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Settings.ISettingsService.SetSetting``1(System.String,System.Int32,System.String,System.String,``0)">
+            <summary>
+            Sets a value of a specified user setting
+            Allows to override user and machine names
+            </summary>
+            <typeparam name="T">Type of setting value</typeparam>
+            <param name="key">setting name</param>
+            <param name="scope">scope</param>
+            <param name="machineName">machine name</param>
+            <param name="userName">user name</param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Settings.ISettingsService.SetSetting``1(System.String,System.Int32,SquaredInfinity.Foundation.ISerializer,``0)">
+            <summary>
+            Sets a value of a specified user setting
+            </summary>
+            <typeparam name="T">type of setting value</typeparam>
+            <param name="key">setting name</param>
+            <param name="scope">scope</param>
+            <param name="serializer">custom serializer</param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Settings.ISettingsService.SetSetting``1(System.String,System.Int32,System.String,System.String,SquaredInfinity.Foundation.ISerializer,``0)">
+            <summary>
+            Sets a value of a specified user setting
+            Allows to override user and machine names
+            </summary>
+            <typeparam name="T">type of setting value</typeparam>
+            <param name="key">setting name</param>
+            <param name="scope">scope</param>
+            <param name="machineName">machine name</param>
+            <param name="userName">user name</param>
+            <param name="serializer">custom serializer</param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Settings.ISettingsService.SetSetting``1(System.String,System.String,System.String,System.Int32,System.String,System.String,SquaredInfinity.Foundation.ISerializer,``0)">
+            <summary>
+            Sets a value of a specified user setting
+            Allows to override user and machine names.
+            </summary>
+            <typeparam name="T">type of setting value</typeparam>
+            <param name="application">application scope</param>
+            <param name="container">container</param>
+            <param name="key">setting name</param>
+            <param name="scope">scope</param>
+            <param name="machineName">machine name</param>
+            <param name="userName">user name</param>
+            <param name="serializer">custom serialzier</param>
+            <param name="value">value</param>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.Settings.SettingScope">
+            <summary>
+            Contains values of valid setting scopes.
+            Note that valiues [0-99] are reserved.
+            Custom implementations of Settings Service that include additional scopes should start from 100.
             </summary>
         </member>
-        <member name="T:SquaredInfinity.Foundation.Serialization.FlexiXml.SerializationContext">
+        <member name="F:SquaredInfinity.Foundation.Settings.SettingScope.All">
             <summary>
-            Serialization Context sotres state used by serializer during serialization.
+            All scopes
             </summary>
         </member>
-        <member name="P:SquaredInfinity.Foundation.Serialization.FlexiXml.SerializationContext.RootInstance">
+        <member name="F:SquaredInfinity.Foundation.Settings.SettingScope.Global">
             <summary>
-            Instance of root object being serialized
+            Global for all users
             </summary>
         </member>
-        <member name="P:SquaredInfinity.Foundation.Serialization.FlexiXml.SerializationOptions.NullValueAttributeName">
+        <member name="F:SquaredInfinity.Foundation.Settings.SettingScope.User">
             <summary>
-            Name of attribute in Serialization namespace which will signify that XML Element represents CLR NULL value.
-            Default is 'null'.
+            Global for current user
             </summary>
         </member>
-        <member name="P:SquaredInfinity.Foundation.Serialization.FlexiXml.SerializationOptions.NullAttributeMarkupExtension">
+        <member name="F:SquaredInfinity.Foundation.Settings.SettingScope.Machine">
             <summary>
-            Value of an attribute which will represent CLR NULL value.
-            Default is 'null'.
+            Machine for all users
+            </summary>
+        </member>
+        <member name="F:SquaredInfinity.Foundation.Settings.SettingScope.UserMachine">
+            <summary>
+            Machine for current user
             </summary>
         </member>
         <member name="T:SquaredInfinity.Foundation.Text.UnicodeCharacters.Specials.Control">

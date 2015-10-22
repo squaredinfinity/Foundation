@@ -9,6 +9,6 @@
     <Import_RootNamespace>SquaredInfinity.Presentation.Fonts</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Fonts\fontsi.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)Fonts\note.txt" />
   </ItemGroup>
 </Project>

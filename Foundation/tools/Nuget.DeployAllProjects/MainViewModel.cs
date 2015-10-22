@@ -11,19 +11,93 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using System.Threading;
+using SquaredInfinity.Foundation.Collections;
+using SquaredInfinity.Foundation.Settings;
+using SquaredInfinity.Foundation.Serialization.FlexiXml;
+using System.Windows;
 
 namespace Nuget.DeployAllProjects
 {
     public class MainViewModel : ViewModel
     {
+        string _nugetExePath;
+        public string NugetExePath
+        {
+            get { return _nugetExePath; }
+            set
+            {
+                if(TrySetThisPropertyValue(ref _nugetExePath, value))
+                {
+                    SettingsService.SetSetting<string>("Deployment.NugetExePath", SettingScope.UserMachine, value);
+                }
+            }
+        }
 
-        List<string> _allProjects = new List<string>();
-        public List<string> AllProjects
+
+        string _remoteDeploymentServers;
+        public string RemoteDeploymentServers
+        {
+            get { return _remoteDeploymentServers; }
+            set
+            {
+                if(TrySetThisPropertyValue(ref _remoteDeploymentServers, value))
+                {
+                    SettingsService.SetSetting<string>("Deployment.RemoteDeploymentServers", SettingScope.UserMachine, value);
+                }
+            }
+        }
+
+
+        string _localDeploymentDirectoryFullPath;
+        public string LocalDeploymentDirectoryFullPath
+        {
+            get { return _localDeploymentDirectoryFullPath; }
+            set
+            {
+                if(TrySetThisPropertyValue(ref _localDeploymentDirectoryFullPath, value))
+                {
+                    SettingsService.SetSetting<string>("Deployment.LocalDeploymentDirectory", SettingScope.UserMachine, value);
+                }
+            }
+        }
+
+        bool _deployLocally;
+        public bool DeployLocally
+        {
+            get { return _deployLocally; }
+            set
+            {
+                if(TrySetThisPropertyValue(ref _deployLocally, value))
+                {
+                    SettingsService.SetSetting<bool>("Deployment.DeployLocally", SettingScope.UserMachine, value);
+                }
+            }
+        }
+
+        bool _deployRemotely;
+        public bool DeployRemotely
+        {
+            get { return _deployRemotely; }
+            set
+            {
+                if(TrySetThisPropertyValue(ref _deployRemotely, value))
+                {
+                    SettingsService.SetSetting<bool>("Deployment.DeployRemotely", SettingScope.UserMachine, value);
+                }
+            }
+        }
+
+        List<ProjectInfo> _allProjects = new List<ProjectInfo>();
+        public List<ProjectInfo> AllProjects
         {
             get { return _allProjects; }
         }
 
-        public List<string> SelectedProjects { get; set; }
+        XamlObservableCollectionEx<ProjectInfo> _selectedProjects = new XamlObservableCollectionEx<ProjectInfo>();
+        public XamlObservableCollectionEx<ProjectInfo> SelectedProjects
+        {
+            get { return _selectedProjects; }
+        }
 
         string _versionNumber;
         public string VersionNumber
@@ -32,42 +106,223 @@ namespace Nuget.DeployAllProjects
             set { TrySetThisPropertyValue(ref _versionNumber, value); }
         }
 
+        ISettingsService SettingsService = new FileSystemSettingsService(new FlexiXmlSerializer(), new DirectoryInfo(Environment.CurrentDirectory));
+
         public MainViewModel()
         {
+
+            this.DeployLocally = SettingsService.GetSetting<bool>("Deployment.DeployLocally", SettingScope.UserMachine, () => true);
+            this.DeployRemotely = SettingsService.GetSetting<bool>("Deployment.DeployRemotely", SettingScope.UserMachine, () => false);
+            this.LocalDeploymentDirectoryFullPath = SettingsService.GetSetting<string>("Deployment.LocalDeploymentDirectory", SettingScope.UserMachine, () => Environment.CurrentDirectory);
+            this.NugetExePath = SettingsService.GetSetting<string>("Deployment.NugetExePath", SettingScope.UserMachine, () => @"../../../../.nuget/nuget.exe");
+            this.RemoteDeploymentServers = SettingsService.GetSetting<string>("Deployment.RemoteDeploymentServers", SettingScope.UserMachine, () => "nuget.org");
+
+
             // get version number of assemblies in solution
             // assumes default solution structure
-            var asm_info = File.ReadAllText(@"../../../../Sources/Shared/Internal/AssemblyInfo.shared.cs");
+            //var asm_info = File.ReadAllText(@"../../../../Sources/Shared/Internal/AssemblyInfo.shared.cs");
 
-            var version_number_match = Regex.Match(asm_info, @"\[assembly: AssemblyVersion\(""(?<version>.*)""");
+            //var version_number_match = Regex.Match(asm_info, @"\[assembly: AssemblyVersion\(""(?<version>.*)""");
 
-            var version_number = new Version(version_number_match.Groups["version"].Value);
+            //var version_number = new Version(version_number_match.Groups["version"].Value);
 
-            VersionNumber = version_number.ToString() + "-beta";
+            //VersionNumber = version_number.ToString() + "-beta";
 
 
             // Nuget Packages must be published in a right order so that package dependencies can be resolved
 
             // 1. Foundation
 
-            AllProjects.Add("NuGet.Foundation");
+            //AllProjects.Add("NuGet.Foundation");
 
             // 2. Foundation.Diagnostics.Infrastructure
 
-            AllProjects.Add("NuGet.Foundation.Diagnostics.Infrastructure");
+            //AllProjects.Add("NuGet.Foundation.Diagnostics.Infrastructure");
 
             // 3. Everything else
 
-            AllProjects.Add("NuGet.Foundation.Cache");
-            AllProjects.Add("NuGet.Foundation.Serialization");
-            AllProjects.Add("NuGet.Foundation.Data");
-            AllProjects.Add("NuGet.Foundation.Diagnostics");
-            AllProjects.Add("NuGet.Foundation.Presentation.Xaml");
-            
-            //PublishProject("NuGet.Foundation.Presentation.Xaml.Styles.Modern");
-            AllProjects.Add("NuGet.Foundation.Unsafe");
-            AllProjects.Add("NuGet.Foundation.Win32Api");
+            //AllProjects.Add("NuGet.Foundation.Cache");
+            //AllProjects.Add("NuGet.Foundation.Serialization");
+            //AllProjects.Add("NuGet.Foundation.Data");
+            //AllProjects.Add("NuGet.Foundation.Diagnostics");
+            //AllProjects.Add("NuGet.Foundation.Presentation.Xaml");
 
-            SelectedProjects = new List<string>();
+            //PublishProject("NuGet.Foundation.Presentation.Xaml.Styles.Modern");
+            //AllProjects.Add("NuGet.Foundation.Unsafe");
+            //AllProjects.Add("NuGet.Foundation.Win32Api");
+
+            var psi = new ProcessStartInfo(NugetExePath, "list id:SquaredInfinity.Foundation -prerelease");
+            psi.RedirectStandardOutput = true;
+            psi.UseShellExecute = false;
+
+            var p = Process.Start(psi);
+            
+            var existing_list = p.StandardOutput.ReadToEnd();
+            p.WaitForExit();
+
+
+            var project_info_regex = @"SquaredInfinity.(?<name>.*) (?<version>.*)";
+
+            foreach (var line in existing_list.GetLines())
+            {
+                var project_info_match = Regex.Match(line, project_info_regex);
+
+                var pi = new ProjectInfo();
+
+                pi.Name = project_info_match.Groups["name"].Value;
+                pi.RemoteVersion = project_info_match.Groups["version"].Value;
+
+                var asminfo_file_path = "../../../../Sources/Shared/{0}/AssemblyInfo.cs".FormatWith(pi.Name);
+                pi.AssemblyInfoFile = new FileInfo(asminfo_file_path);
+
+                if (!File.Exists(asminfo_file_path))
+                {
+                    MessageBox.Show("cannot find " + pi.AssemblyInfoFile.FullName);
+                    continue;
+                }
+
+                var asm_info = File.ReadAllText(asminfo_file_path);
+
+                var version_match = Regex.Match(asm_info, @"\[assembly: AssemblyVersion\(""(?<version>.*)""");
+
+                pi.LocalVersion = version_match.Groups["version"].Value;
+
+                AllProjects.Add(pi);
+            }
+        }
+
+        public void DeployProject(ProjectInfo project)
+        {
+            //# get version nubmers
+
+            // .Net compatible version
+            var dot_net_version = project.LocalVersion;
+            // semantic versioning version
+            var sem_ver_version = project.LocalVersion;
+
+            var version = new Version(project.LocalVersion);
+            if(version.Revision != 0)
+            {
+                sem_ver_version = "{0}.{1}.{2}-{3}.{4}".FormatWith(version.Major, version.Minor, version.Build, "beta", version.Revision);
+            }
+            
+            // update project version so it matches configured
+
+            var asminfo_all_lines = File.ReadAllLines(project.AssemblyInfoFile.FullName);
+
+            // replace AssemblyVersion, AssemblyFileVersion and AssemblyInformationalVersion attributes
+
+            for (int i = 0; i < asminfo_all_lines.Length; i++)
+            {
+                var line = asminfo_all_lines[i];
+
+                if(line.StartsWith("[assembly: AssemblyVersion"))
+                {
+                    asminfo_all_lines[i] = "[assembly: AssemblyVersion(\"{0}\")]".FormatWith(dot_net_version);
+                    continue;
+                }
+
+                if (line.StartsWith("[assembly: AssemblyFileVersion"))
+                {
+                    asminfo_all_lines[i] = "[assembly: AssemblyFileVersion(\"{0}\")]".FormatWith(dot_net_version);
+                    continue;
+                }
+
+                if (line.StartsWith("[assembly: AssemblyInformationalVersion"))
+                {
+                    asminfo_all_lines[i] = "[assembly: AssemblyInformationalVersion(\"{0}\")]".FormatWith(sem_ver_version);
+                    continue;
+                }
+            }
+
+            File.WriteAllLines(project.AssemblyInfoFile.FullName, asminfo_all_lines);
+
+            //# build projects for all frameworks
+
+            var solution_file_path = new FileInfo("../../../../Foundation.sln").FullName;
+
+            foreach (var target in new [] {  "DotNet45" })
+            {
+                var project_file_path = new FileInfo("../../../../Sources/{0}/{1}.{0}/{1}.{0}.csproj".FormatWith(target, project.Name)).FullName;
+
+                ExecuteApplicationUsingCommandLine(
+                    application: @"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe",
+                    arguments: "\"{0}\" /rebuild Release /project \"{1}\" /projectconfig Release /out build.log".FormatWith(solution_file_path, project_file_path),
+                    showUi: true,
+                    continueAfterExecution: true,
+                    waitForExit: true);
+            }
+
+            //# find nuspec in deplyoment project
+
+            var nuspec_file = new FileInfo("../../../../Deployment/Nuget.{0}/Package.symbols.nuspec".FormatWith(project.Name));
+
+            if(!nuspec_file.Exists)
+            {
+                MessageBox.Show("Cannot find " + nuspec_file.FullName);
+                return;
+            }
+
+            //# update nuspec with dependencies using remote versions of other projects
+            var nuspec_xml = XDocument.Parse(File.ReadAllText(nuspec_file.FullName));
+
+            // update version
+            var el_version = nuspec_xml.XPathSelectElement("package/metadata/version");
+            el_version.Value = sem_ver_version;
+
+            // update Squared Infinity dependencies
+            var dependencies = nuspec_xml.XPathSelectElements("package/metadata/dependencies/group/dependency").ToArray();
+
+            if (dependencies.Length > 0)
+            {
+                foreach (var dep in dependencies)
+                {
+                    if (!dep.Attribute("id").Value.StartsWith("SquaredInfinity."))
+                        continue;
+
+                    var dep_name = dep.Attribute("id").Value.Substring("SquaredInfinity.".Length);
+
+                    var dep_proj =
+                        (from p in AllProjects
+                         where string.Equals(p.Name, dep_name, StringComparison.InvariantCultureIgnoreCase)
+                         select p).Single();
+
+                    dep.Attribute("version").Value = dep_proj.RemoteVersion;
+                }
+            }
+
+            nuspec_xml.Save(nuspec_file.FullName);
+
+            //# build nuget package
+
+            var nugetexe_file = new FileInfo(NugetExePath);
+            if(!nugetexe_file.Exists)
+            {
+                MessageBox.Show("cannot find " + NugetExePath);
+                return;
+            }
+
+            ExecuteApplicationUsingCommandLine(
+                    application: "\"{0}\"".FormatWith(nugetexe_file.FullName),
+                    arguments: "pack \"{0}\"".FormatWith(solution_file_path),
+                    showUi: true,
+                    continueAfterExecution: true,
+                    waitForExit: true);
+
+            // deploy
+
+            if (DeployLocally)
+            {
+                // copy nuget to output folder
+            }
+        }
+
+        public class ProjectInfo
+        {
+            public string Name { get; set; }
+            public string LocalVersion { get; set; }
+            public string RemoteVersion { get; set; }
+            public FileInfo AssemblyInfoFile { get; internal set; }
         }
 
         public static void CopyDirectoryRecursively(DirectoryInfo source, DirectoryInfo target) 
@@ -157,37 +412,6 @@ namespace Nuget.DeployAllProjects
 
                 // sources/common
                 var commonTargetDir = new DirectoryInfo(Path.Combine(sources_root.FullName, "Common"));
-
-                // copy files shared between all projects
-                //    var internalTraceSource = new FileInfo(Path.Combine(srcRoot, "Common", "InternalTrace.cs"));
-                //    File.Copy(Path.Combine(commonTargetDir.FullName, "InternalTrace.cs"), internalTraceSource.FullName);
-
-                //    // source/common/xxx.common
-                //    var commonProjectDir = new DirectoryInfo(Path.Combine(commonTargetDir.FullName, projectName + ".Common"));
-
-                //    foreach (var target_dir in sources_root.GetDirectories())
-                //    {
-                //        // these will be common, dotnet45 etc
-                //        foreach (var project_dir in target_dir.GetDirectories())
-                //        {
-                //            if (!(project_dir.Name == projectName + "." + target_dir.Name))
-                //                continue;
-
-                //            // copy files from project.target dir to project.target (e.g. foundation.DotNet45 => foundation.DotNet45)
-                //            var copy_target = new DirectoryInfo(Path.Combine(srcRoot, target_dir.Name, projectName + "." +  target_dir.Name));
-                //            CopyDirectoryRecursively(project_dir, copy_target);
-
-                //            //if(target_dir.Name != "Common")
-                //            //{
-                //            //    // copy files from project.Common dir to project.target (e.g. foundation.Common => foundation.DotNet45)
-                //            //    // (e.g. files that are referenced as links)
-                //            //    CopyDirectoryRecursively(commonProjectDir, copy_target);
-                //            //}
-
-                //            // copy files shared between all projects
-                //            File.Copy(Path.Combine(commonTargetDir.FullName, "InternalTrace.cs"), Path.Combine(copy_target.FullName, "InternalTrace.cs"));
-                //        }
-                //    }
             }
 
             // build solution in release version
@@ -207,7 +431,7 @@ namespace Nuget.DeployAllProjects
         {
             foreach(var project in SelectedProjects)
             {
-                PublishProject(project);
+             //   PublishProject(project);
             }
         }
 

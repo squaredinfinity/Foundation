@@ -46,11 +46,41 @@
             <seealso cref="T:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommandBase"/>
             <seealso cref="T:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommand`1"/>
         </member>
+        <member name="M:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommand.#ctor(System.Action)">
+            <summary>
+            Creates a new instance of <see cref="T:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommand"/> with the <see cref="T:System.Action"/> to invoke on execution.
+            </summary>
+            <param name="executeMethod">The <see cref="T:System.Action"/> to invoke when <see cref="!:ICommand.Execute"/> is called.</param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommand.#ctor(System.Action,System.Func{System.Boolean})">
+            <summary>
+            Creates a new instance of <see cref="T:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommand"/> with the <see cref="T:System.Action"/> to invoke on execution
+            and a <see langword="Func" /> to query for determining if the command can execute.
+            </summary>
+            <param name="executeMethod">The <see cref="T:System.Action"/> to invoke when <see cref="!:ICommand.Execute"/> is called.</param>
+            <param name="canExecuteMethod">The <see cref="T:System.Func`1"/> to invoke when <see cref="!:ICommand.CanExecute"/> is called</param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommand.Execute">
+            <summary>
+             Executes the command.
+            </summary>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommand.CanExecute">
+            <summary>
+            Determines if the command can be executed.
+            </summary>
+            <returns>Returns <see langword="true"/> if the command can execute,otherwise returns <see langword="false"/>.</returns>
+        </member>
         <member name="M:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommandBase.RaiseCanExecuteChanged">
             <summary>
             Raises <see cref="E:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommandBase.CanExecuteChanged"/> on the UI thread so every command invoker
             can requery to check if the command can execute.
             <remarks>Note that this will trigger the execution of <see cref="M:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommandBase.CanExecute(System.Object)"/> once for each invoker.</remarks>
+            </summary>
+        </member>
+        <member name="E:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommandBase.IsActiveChanged">
+            <summary>
+            Fired if the <see cref="P:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommandBase.IsActive"/> property changes.
             </summary>
         </member>
         <member name="M:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommandBase.OnIsActiveChanged">
@@ -70,11 +100,6 @@
             </summary>
             <param name="parameter">The parameter to use when determining if this command can execute.</param>
             <returns>Returns <see langword="true"/> if the command can execute.  <see langword="False"/> otherwise.</returns>
-        </member>
-        <member name="E:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommandBase.IsActiveChanged">
-            <summary>
-            Fired if the <see cref="P:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommandBase.IsActive"/> property changes.
-            </summary>
         </member>
         <member name="E:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommandBase.CanExecuteChanged">
             <summary>
@@ -105,6 +130,11 @@
             <param name="sender"></param>
             <param name="handlers"></param>
         </member>
+        <member name="T:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommandBase.WeakEventHandlerManager.DispatcherProxy">
+            <summary>
+            Hides the dispatcher mis-match between Silverlight and .Net, largely so code reads a bit easier
+            </summary>
+        </member>
         <member name="M:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommandBase.WeakEventHandlerManager.AddWeakReferenceHandler(System.Collections.Generic.List{System.WeakReference}@,System.EventHandler,System.Int32)">
             <summary>
              Adds a handler to the supplied list in a weak way.
@@ -119,36 +149,6 @@
             </summary>
             <param name="handlers">Handler list to remove reference from.</param>
             <param name="handler">Handler to remove.</param>
-        </member>
-        <member name="T:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommandBase.WeakEventHandlerManager.DispatcherProxy">
-            <summary>
-            Hides the dispatcher mis-match between Silverlight and .Net, largely so code reads a bit easier
-            </summary>
-        </member>
-        <member name="M:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommand.#ctor(System.Action)">
-            <summary>
-            Creates a new instance of <see cref="T:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommand"/> with the <see cref="T:System.Action"/> to invoke on execution.
-            </summary>
-            <param name="executeMethod">The <see cref="T:System.Action"/> to invoke when <see cref="!:ICommand.Execute"/> is called.</param>
-        </member>
-        <member name="M:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommand.#ctor(System.Action,System.Func{System.Boolean})">
-            <summary>
-            Creates a new instance of <see cref="T:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommand"/> with the <see cref="T:System.Action"/> to invoke on execution
-            and a <see langword="Func"/> to query for determining if the command can execute.
-            </summary>
-            <param name="executeMethod">The <see cref="T:System.Action"/> to invoke when <see cref="!:ICommand.Execute"/> is called.</param>
-            <param name="canExecuteMethod">The <see cref="T:System.Func`1"/> to invoke when <see cref="!:ICommand.CanExecute"/> is called</param>
-        </member>
-        <member name="M:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommand.Execute">
-            <summary>
-             Executes the command.
-            </summary>
-        </member>
-        <member name="M:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommand.CanExecute">
-            <summary>
-            Determines if the command can be executed.
-            </summary>
-            <returns>Returns <see langword="true"/> if the command can execute,otherwise returns <see langword="false"/>.</returns>
         </member>
         <member name="T:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommand`1">
             <summary>
@@ -190,7 +190,7 @@
             </summary>
             <param name="executeMethod">Delegate to execute when Execute is called on the command.  This can be null to just hook up a CanExecute delegate.</param>
             <param name="canExecuteMethod">Delegate to execute when CanExecute is called on the command.  This can be null.</param>
-            <exception cref="T:System.ArgumentNullException">When both <paramref name="executeMethod"/> and <paramref name="canExecuteMethod"/> ar <see langword="null"/>.</exception>
+            <exception cref="T:System.ArgumentNullException">When both <paramref name="executeMethod"/> and <paramref name="canExecuteMethod"/> ar <see langword="null" />.</exception>
         </member>
         <member name="M:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommand`1.CanExecute(`0)">
             <summary>
@@ -198,7 +198,7 @@
             </summary>
             <param name="parameter">Data used by the command to determine if it can execute.</param>
             <returns>
-            <see langword="true"/> if this command can be executed; otherwise, <see langword="false"/>.
+            <see langword="true" /> if this command can be executed; otherwise, <see langword="false" />.
             </returns>
         </member>
         <member name="M:SquaredInfinity.Foundation.Presentation.Commands.DelegateCommand`1.Execute(`0)">
@@ -225,17 +225,6 @@
             </summary>
             <param name="e"></param>
         </member>
-        <member name="T:SquaredInfinity.Foundation.Presentation.DragDrop.IDropTarget">
-            <summary>
-            Interface implemented by Drop Handlers.
-            </summary>
-        </member>
-        <member name="T:SquaredInfinity.Foundation.Presentation.DragDrop.IDragSource">
-            <summary>
-            Interface implemented by Drag Handlers.
-            </summary>
-        </member>
-        <!-- Badly formed XML comment ignored for member "M:SquaredInfinity.Foundation.Presentation.DragDrop.IDragSource.StartDrag(SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo)" -->
         <member name="T:SquaredInfinity.Foundation.Presentation.Converters.ComObjectConverter">
             <summary>
             Not sure if this is safe to use, may be better to map ComObject to custom type first just to be safe.
@@ -278,78 +267,6 @@
             Default Drop Target.
             Handles Most basic cases.
             </summary>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.Data">
-            <summary>
-            Gets or sets the drag data.
-            </summary>
-            
-            <remarks>
-            This must be set by a drag handler in order for a drag to start.
-            </remarks>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.DragStartPosition">
-            <summary>
-            Gets the position of the click that initiated the drag, relative to <see cref="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.VisualSource"/>.
-            </summary>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.PositionInDraggedItem">
-            <summary>
-            Gets the point where the cursor was relative to the item being dragged when the drag was started.
-            </summary>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.MouseButton">
-            <summary>
-            Gets the mouse button that initiated the drag.
-            </summary>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.SourceCollection">
-            <summary>
-            Gets the collection that the source ItemsControl is bound to.
-            </summary>
-            
-            <remarks>
-            If the control that initated the drag is unbound or not an ItemsControl, this will be null.
-            </remarks>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.SourceIndex">
-            <summary>
-            Gets the position from where the item was dragged.
-            </summary>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.SourceItem">
-            <summary>
-            Gets the object that a dragged item is bound to.
-            </summary>
-            
-            <remarks>
-            If the control that initated the drag is unbound or not an ItemsControl, this will be null.
-            </remarks>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.SourceItems">
-            <summary>
-            Gets a collection of objects that the selected items in an ItemsControl are bound to.
-            </summary>
-            
-            <remarks>
-            If the control that initated the drag is unbound or not an ItemsControl, this will be empty.
-            </remarks>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.VisualSource">
-            <summary>
-            Gets the control that initiated the drag.
-            </summary>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.VisualSourceItem">
-            <summary>
-            Gets the item in an ItemsControl that started the drag.
-            </summary>
-            
-            <remarks>
-            If the control that initiated the drag is an ItemsControl, this property will hold the item
-            container of the clicked item. For example, if <see cref="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.VisualSource"/> is a ListBox this
-            will hold a ListBoxItem.
-            </remarks>
         </member>
         <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DragInfo.Data">
             <summary>
@@ -456,6 +373,227 @@
             the current drop target is valid, and by <see cref="M:SquaredInfinity.Foundation.Presentation.DragDrop.IDropTarget.Drop(SquaredInfinity.Foundation.Presentation.DragDrop.IDropInfo)"/> to perform the drop.
             </remarks>
         </member>
+        <member name="M:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.#ctor(System.Object,System.Windows.DragEventArgs,SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo)">
+            <summary>
+            Initializes a new instance of the DropInfo class.
+            </summary>
+            
+            <param name="sender">
+            The sender of the drag event.
+            </param>
+            
+            <param name="e">
+            The drag event.
+            </param>
+            
+            <param name="dragInfo">
+            Information about the source of the drag, if the drag came from within the framework.
+            </param>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.Data">
+            <summary>
+            Gets the drag data.
+            </summary>
+            
+            <remarks>
+            If the drag came from within the framework, this will hold:
+            
+            - The dragged data if a single item was dragged.
+            - A typed IEnumerable if multiple items were dragged.
+            </remarks>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.DragInfo">
+            <summary>
+            Gets a <see cref="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.DragInfo"/> object holding information about the source of the drag, 
+            if the drag came from within the framework.
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.DropPosition">
+            <summary>
+            Gets the mouse position relative to the VisualTarget
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.DropTargetAdorner">
+            <summary>
+            Gets or sets the class of drop target to display.
+            </summary>
+            
+            <remarks>
+            The standard drop target adorner classes are held in the <see cref="T:SquaredInfinity.Foundation.Presentation.DragDrop.KnownDropTargetAdorners"/>
+            class.
+            </remarks>
+        </member>
+        <member name="F:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo._effects">
+            <summary>
+            Gets or sets the allowed effects for the drop.
+            </summary>
+            
+            <remarks>
+            This must be set to a value other than <see cref="F:System.Windows.DragDropEffects.None"/> by a drop handler in order 
+            for a drop to be possible.
+            </remarks>
+                  
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.InsertIndex">
+            <summary>
+            Gets the current insert position within <see cref="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.TargetCollection"/>.
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.TargetCollection">
+            <summary>
+            Gets the collection that the target ItemsControl is bound to.
+            </summary>
+            
+            <remarks>
+            If the current drop target is unbound or not an ItemsControl, this will be null.
+            </remarks>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.TargetItem">
+            <summary>
+            Gets the object that the current drop target is bound to.
+            </summary>
+            
+            <remarks>
+            If the current drop target is unbound or not an ItemsControl, this will be null.
+            </remarks>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.TargetGroup">
+            <summary>
+            Gets the current group target.
+            </summary>
+            
+            <remarks>
+            If the drag is currently over an ItemsControl with groups, describes the group that
+            the drag is currently over.
+            </remarks>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.VisualTarget">
+            <summary>
+            Gets the control that is the current drop target.
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.VisualTargetItem">
+            <summary>
+            Gets the item in an ItemsControl that is the current drop target.
+            </summary>
+            
+            <remarks>
+            If the current drop target is unbound or not an ItemsControl, this will be null.
+            </remarks>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.VisualTargetOrientation">
+            <summary>
+            Gets the orientation of the current drop target.
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.VisualTargetFlowDirection">
+            <summary>
+            Gets the orientation of the current drop target.
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.DestinationText">
+            <summary>
+            Gets and sets the text displayed in the DropDropEffects adorner.
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.InsertPosition">
+            <summary>
+            Gets the relative position the item will be inserted to compared to the TargetItem
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.KeyStates">
+            <summary>
+            Gets a flag enumeration indicating the current state of the SHIFT, CTRL, and ALT keys, as well as the state of the mouse buttons.
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.RawInsertIndex">
+            <summary>
+            Insert index in actual target collection (e.g. collection under collection view)
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.RawTargetCollection">
+            <summary>
+            Actual target collection (e.g. collection under collection view)
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.Data">
+            <summary>
+            Gets or sets the drag data.
+            </summary>
+            
+            <remarks>
+            This must be set by a drag handler in order for a drag to start.
+            </remarks>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.DragStartPosition">
+            <summary>
+            Gets the position of the click that initiated the drag, relative to <see cref="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.VisualSource"/>.
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.PositionInDraggedItem">
+            <summary>
+            Gets the point where the cursor was relative to the item being dragged when the drag was started.
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.MouseButton">
+            <summary>
+            Gets the mouse button that initiated the drag.
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.SourceCollection">
+            <summary>
+            Gets the collection that the source ItemsControl is bound to.
+            </summary>
+            
+            <remarks>
+            If the control that initated the drag is unbound or not an ItemsControl, this will be null.
+            </remarks>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.SourceIndex">
+            <summary>
+            Gets the position from where the item was dragged.
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.SourceItem">
+            <summary>
+            Gets the object that a dragged item is bound to.
+            </summary>
+            
+            <remarks>
+            If the control that initated the drag is unbound or not an ItemsControl, this will be null.
+            </remarks>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.SourceItems">
+            <summary>
+            Gets a collection of objects that the selected items in an ItemsControl are bound to.
+            </summary>
+            
+            <remarks>
+            If the control that initated the drag is unbound or not an ItemsControl, this will be empty.
+            </remarks>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.VisualSource">
+            <summary>
+            Gets the control that initiated the drag.
+            </summary>
+        </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.VisualSourceItem">
+            <summary>
+            Gets the item in an ItemsControl that started the drag.
+            </summary>
+            
+            <remarks>
+            If the control that initiated the drag is an ItemsControl, this property will hold the item
+            container of the clicked item. For example, if <see cref="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo.VisualSource"/> is a ListBox this
+            will hold a ListBoxItem.
+            </remarks>
+        </member>
+        <member name="T:SquaredInfinity.Foundation.Presentation.DragDrop.IDragSource">
+            <summary>
+            Interface implemented by Drag Handlers.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:SquaredInfinity.Foundation.Presentation.DragDrop.IDragSource.StartDrag(SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo)" -->
         <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.IDropInfo.Data">
             <summary>
             Gets the drag data.
@@ -581,147 +719,9 @@
             Actual target collection (e.g. collection under collection view)
             </summary>
         </member>
-        <member name="M:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.#ctor(System.Object,System.Windows.DragEventArgs,SquaredInfinity.Foundation.Presentation.DragDrop.IDragInfo)">
+        <member name="T:SquaredInfinity.Foundation.Presentation.DragDrop.IDropTarget">
             <summary>
-            Initializes a new instance of the DropInfo class.
-            </summary>
-            
-            <param name="sender">
-            The sender of the drag event.
-            </param>
-            
-            <param name="e">
-            The drag event.
-            </param>
-            
-            <param name="dragInfo">
-            Information about the source of the drag, if the drag came from within the framework.
-            </param>
-        </member>
-        <member name="F:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo._effects">
-            <summary>
-            Gets or sets the allowed effects for the drop.
-            </summary>
-            
-            <remarks>
-            This must be set to a value other than <see cref="F:System.Windows.DragDropEffects.None"/> by a drop handler in order 
-            for a drop to be possible.
-            </remarks>
-                  
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.Data">
-            <summary>
-            Gets the drag data.
-            </summary>
-            
-            <remarks>
-            If the drag came from within the framework, this will hold:
-            
-            - The dragged data if a single item was dragged.
-            - A typed IEnumerable if multiple items were dragged.
-            </remarks>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.DragInfo">
-            <summary>
-            Gets a <see cref="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.DragInfo"/> object holding information about the source of the drag, 
-            if the drag came from within the framework.
-            </summary>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.DropPosition">
-            <summary>
-            Gets the mouse position relative to the VisualTarget
-            </summary>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.DropTargetAdorner">
-            <summary>
-            Gets or sets the class of drop target to display.
-            </summary>
-            
-            <remarks>
-            The standard drop target adorner classes are held in the <see cref="T:SquaredInfinity.Foundation.Presentation.DragDrop.KnownDropTargetAdorners"/>
-            class.
-            </remarks>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.InsertIndex">
-            <summary>
-            Gets the current insert position within <see cref="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.TargetCollection"/>.
-            </summary>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.TargetCollection">
-            <summary>
-            Gets the collection that the target ItemsControl is bound to.
-            </summary>
-            
-            <remarks>
-            If the current drop target is unbound or not an ItemsControl, this will be null.
-            </remarks>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.TargetItem">
-            <summary>
-            Gets the object that the current drop target is bound to.
-            </summary>
-            
-            <remarks>
-            If the current drop target is unbound or not an ItemsControl, this will be null.
-            </remarks>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.TargetGroup">
-            <summary>
-            Gets the current group target.
-            </summary>
-            
-            <remarks>
-            If the drag is currently over an ItemsControl with groups, describes the group that
-            the drag is currently over.
-            </remarks>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.VisualTarget">
-            <summary>
-            Gets the control that is the current drop target.
-            </summary>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.VisualTargetItem">
-            <summary>
-            Gets the item in an ItemsControl that is the current drop target.
-            </summary>
-            
-            <remarks>
-            If the current drop target is unbound or not an ItemsControl, this will be null.
-            </remarks>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.VisualTargetOrientation">
-            <summary>
-            Gets the orientation of the current drop target.
-            </summary>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.VisualTargetFlowDirection">
-            <summary>
-            Gets the orientation of the current drop target.
-            </summary>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.DestinationText">
-            <summary>
-            Gets and sets the text displayed in the DropDropEffects adorner.
-            </summary>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.InsertPosition">
-            <summary>
-            Gets the relative position the item will be inserted to compared to the TargetItem
-            </summary>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.KeyStates">
-            <summary>
-            Gets a flag enumeration indicating the current state of the SHIFT, CTRL, and ALT keys, as well as the state of the mouse buttons.
-            </summary>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.RawInsertIndex">
-            <summary>
-            Insert index in actual target collection (e.g. collection under collection view)
-            </summary>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.DragDrop.DropInfo.RawTargetCollection">
-            <summary>
-            Actual target collection (e.g. collection under collection view)
+            Interface implemented by Drop Handlers.
             </summary>
         </member>
         <member name="M:SquaredInfinity.Foundation.Presentation.DragDrop.Utilities.HitTestUtilities.IsNotPartOfSender(System.Object,System.Windows.Input.MouseButtonEventArgs)">
@@ -740,49 +740,6 @@
             </summary>
             <param name="itemsControl"></param>
             <returns></returns>
-        </member>
-        <member name="M:SquaredInfinity.Foundation.Extensions.BitmapSourceExtensions.AddMemoryPressure(System.Windows.Media.Imaging.BitmapSource)">
-            <summary>
-            Reports the memory used by <paramref name="bitmap"/> to the GC.
-            </summary>
-            <param name="bitmap">The bitmap.</param>
-        </member>
-        <member name="M:SquaredInfinity.Foundation.Extensions.ColorExtensions.ChangeLighthness(System.Windows.Media.Color,System.Double)">
-            <summary>
-            Returns new color based on existing color with modified lightness component.
-            </summary>
-            <param name="color"></param>
-            <param name="lightnessMultiplier">0.5 to reduce lightness by 50%, 1.5 to increase lightness by 50%</param>
-            <returns></returns>
-        </member>
-        <member name="M:SquaredInfinity.Foundation.Extensions.ImageSourceExtensions.ToBitmap(System.Windows.Media.ImageSource)">
-            <summary>
-            Converts System.Windows.Media.ImageSource to System.Drawing.Bitmap.
-            </summary>
-            <param name="imageSource"></param>
-            <returns></returns>
-        </member>
-        <member name="M:SquaredInfinity.Foundation.Extensions.DependencyObjectExtensions.FindNearestVisual(System.Windows.DependencyObject)">
-            <summary>
-            If specified Dependency Object is not a Visual or Visual3D, then try to walk up logical tree until you find a Visual
-            </summary>
-            <param name="me"></param>
-            <returns></returns>
-        </member>
-        <member name="M:SquaredInfinity.Foundation.Extensions.DependencyObjectExtensions.FindVisualRoot(System.Windows.DependencyObject)">
-            <summary>
-            Find top most parent visual for this element.
-            </summary>
-            <param name="me"></param>
-            <returns></returns>
-        </member>
-        <member name="M:SquaredInfinity.Foundation.Extensions.FrameworkElementExtensions.ClearBindingOrReplaceWithDummyValue(System.Windows.FrameworkElement,System.Windows.DependencyProperty)">
-            <summary>
-            BindingOperation.ClearBinding alternative which handles Data Template scenarios
-            see details: http://social.msdn.microsoft.com/Forums/vstudio/en-US/e45c7a9d-840d-4508-8c81-ef40f1c74c10/bindingoperationsclearbinding-reverting-to-data-template-binding?forum=wpf
-            </summary>
-            <param name="depObj"></param>
-            <param name="depProp"></param>
         </member>
         <member name="P:SquaredInfinity.Foundation.Presentation.IUIService.IsDesignTime">
             <summary>
@@ -959,18 +916,18 @@
             Base class for all viewmodels
             </summary>
         </member>
+        <member name="P:SquaredInfinity.Foundation.Presentation.ViewModels.ViewModel.State">
+            <summary>
+            Gets or sets the state of a ViewModel
+            </summary>
+            <value>The state.</value>
+        </member>
         <member name="M:SquaredInfinity.Foundation.Presentation.ViewModels.ViewModel.RaiseEvent(System.String,System.Object,SquaredInfinity.Foundation.Presentation.ViewModels.ViewModelEventRoutingStrategy)">
             <summary>
             Call this method to raise a View Model Event.
             </summary>
             <param name="eventName"></param>
             <param name="routingStrategy"></param>
-        </member>
-        <member name="P:SquaredInfinity.Foundation.Presentation.ViewModels.ViewModel.State">
-            <summary>
-            Gets or sets the state of a ViewModel
-            </summary>
-            <value>The state.</value>
         </member>
         <member name="P:SquaredInfinity.Foundation.Presentation.Views.View.ViewModelPlaceholder">
             <summary>
@@ -989,6 +946,58 @@
             <summary>
             Order is set to int.MinValue so that this resources are imported first
             </summary>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.PixelCanvasExtensions.ReplaceFromStream(SquaredInfinity.Foundation.Media.Drawing.IPixelCanvas,System.IO.Stream)">
+            <summary>
+            Replaces content of this Pixel Canvas with content from specified stream.
+            Pixels and Dimensions will be updated.
+            Old Pixels will be lost.
+            </summary>
+            <param name="pc"></param>
+            <param name="stream"></param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.BitmapSourceExtensions.AddMemoryPressure(System.Windows.Media.Imaging.BitmapSource)">
+            <summary>
+            Reports the memory used by <paramref name="bitmap"/> to the GC.
+            </summary>
+            <param name="bitmap">The bitmap.</param>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.ColorExtensions.ChangeLighthness(System.Windows.Media.Color,System.Double)">
+            <summary>
+            Returns new color based on existing color with modified lightness component.
+            </summary>
+            <param name="color"></param>
+            <param name="lightnessMultiplier">0.5 to reduce lightness by 50%, 1.5 to increase lightness by 50%</param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.ImageSourceExtensions.ToBitmap(System.Windows.Media.ImageSource)">
+            <summary>
+            Converts System.Windows.Media.ImageSource to System.Drawing.Bitmap.
+            </summary>
+            <param name="imageSource"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.DependencyObjectExtensions.FindNearestVisual(System.Windows.DependencyObject)">
+            <summary>
+            If specified Dependency Object is not a Visual or Visual3D, then try to walk up logical tree until you find a Visual
+            </summary>
+            <param name="me"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.DependencyObjectExtensions.FindVisualRoot(System.Windows.DependencyObject)">
+            <summary>
+            Find top most parent visual for this element.
+            </summary>
+            <param name="me"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SquaredInfinity.Foundation.Extensions.FrameworkElementExtensions.ClearBindingOrReplaceWithDummyValue(System.Windows.FrameworkElement,System.Windows.DependencyProperty)">
+            <summary>
+            BindingOperation.ClearBinding alternative which handles Data Template scenarios
+            see details: http://social.msdn.microsoft.com/Forums/vstudio/en-US/e45c7a9d-840d-4508-8c81-ef40f1c74c10/bindingoperationsclearbinding-reverting-to-data-template-binding?forum=wpf
+            </summary>
+            <param name="depObj"></param>
+            <param name="depProp"></param>
         </member>
     </members>
 </doc>

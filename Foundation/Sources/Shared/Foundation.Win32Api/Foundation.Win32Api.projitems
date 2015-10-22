@@ -9,6 +9,7 @@
     <Import_RootNamespace>SquaredInfinity.Foundation.Win32Api</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)dwmapi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)dwmapi.entities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)dwmapi.externs.cs" />

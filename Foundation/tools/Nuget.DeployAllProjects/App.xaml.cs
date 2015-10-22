@@ -1,5 +1,7 @@
-﻿using System;
+﻿using SquaredInfinity.Foundation.Presentation.Resources;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition.Hosting;
 using System.Configuration;
 using System.Data;
 using System.Linq;
@@ -17,7 +19,13 @@ namespace Nuget.DeployAllProjects
         {
             base.OnStartup(e);
 
-            XamlResources.LoadAndMergeResources();
+            //# Initialize MEF
+            var applicationCatalog = new ApplicationCatalog();
+            var compositionContainer = new CompositionContainer(applicationCatalog);
+            compositionContainer.Compose(new CompositionBatch());
+
+            //# Import Xaml Resources
+            ResourcesManager.ImportAndLoadAllResources(compositionContainer);
         }
     }
 }

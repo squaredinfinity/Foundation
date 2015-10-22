@@ -1,0 +1,3 @@
+﻿at the moment shared projects do not support 'Resource' build acction.
+'Embedded Resource' build action won't work with wpf (or at least I couldn't find a way to do that)
+for that reason fonts are added to presentation project directly

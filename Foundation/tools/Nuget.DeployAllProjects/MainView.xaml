@@ -9,16 +9,61 @@
                     <ControlTemplate>
                         <Grid>
                             <StackPanel Orientation="Vertical">
-                                <TextBlock Text="Nuget Packages Version Number:" />
-                                <TextBox Text="{TemplatedParentBinding ViewModel.VersionNumber}" />
+                                <CheckBox IsChecked="{TemplatedParentBinding ViewModel.DeployLocally}"
+                                          Content="Deploy Locally"
+                                          x:Name="deploy_locally_input"/>
+                                <TextBox Text="{TemplatedParentBinding ViewModel.LocalDeploymentDirectoryFullPath, UpdateSourceTrigger=PropertyChanged}" 
+                                         Visibility="{Binding ElementName=deploy_locally_input, Path=IsChecked, Converter={StaticResource Converters.VisibleWhenTrue}}"/>
+                                <CheckBox IsChecked="{TemplatedParentBinding ViewModel.DeployRemotely}"
+                                          Content="Deploy Remotely"
+                                          x:Name="deploy_remotely_input" />
+                                <TextBox Text="{TemplatedParentBinding ViewModel.RemoteDeploymentServers, UpdateSourceTrigger=PropertyChanged}"
+                                         Visibility="{Binding ElementName=deploy_remotely_input, Path=IsChecked, Converter={StaticResource Converters.VisibleWhenTrue}}" />
 
-                                <ListView ItemsSource="{TemplatedParentBinding ViewModel.AllProjects}"
+                                    <ListView ItemsSource="{TemplatedParentBinding ViewModel.AllProjects}"
                                           SelectionMode="Multiple"
                                           behaviors:MultiSelection.SelectedItems="{TemplatedParentBinding ViewModel.SelectedProjects}">
-                                    
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Name">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Name}" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                            <GridViewColumn Header="Remote Version">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding RemoteVersion}" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                            <GridViewColumn Header="Local Version">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBox Text="{Binding LocalVersion, UpdateSourceTrigger=PropertyChanged}" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                            <GridViewColumn Header="">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button Content="Deploy"
+                                                                Command="{CommandMethodBinding ViewModel.DeployProject, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainView}}}"
+                                                                CommandParameter="{Binding}"/>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                        </GridView>
+                                    </ListView.View>
                                 </ListView>
                                 
-                                <Button Content="Update All Nuget Package Projects"
+                                <!--<Button Content="Update All Nuget Package Projects"
                                         Margin="10"
                                         Command="{CommandMethodBinding @TemplatedParent.ViewModel.UpdateAllProjects}"/>
                                 <Button Content="Publish All Nuget Package Projects"
@@ -26,7 +71,7 @@
                                         Command="{CommandMethodBinding @TemplatedParent.ViewModel.PublishAll}"/>
                                 <Button Content="Publish Selected Nuget Package Projects"
                                         Margin="10"
-                                        Command="{CommandMethodBinding @TemplatedParent.ViewModel.PublishSelected}"/>
+                                        Command="{CommandMethodBinding @TemplatedParent.ViewModel.PublishSelected}"/>-->
                             </StackPanel>
                         </Grid>
                     </ControlTemplate>

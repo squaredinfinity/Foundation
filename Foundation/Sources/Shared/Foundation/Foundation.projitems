@@ -9,6 +9,7 @@
     <Import_RootNamespace>SquaredInfinity.Foundation</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ChainOfCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CloneComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\AfterItemAddedEventArgs.cs" />

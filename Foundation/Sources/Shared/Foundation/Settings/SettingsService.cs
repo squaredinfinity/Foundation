@@ -17,7 +17,7 @@ namespace SquaredInfinity.Foundation.Settings
         void RaiseAfterSettingsChanged()
         {
             if(AfterSettingsChanged != null)
-                AfterSettingsChanged(this, EventArgs.Empty));
+                AfterSettingsChanged(this, EventArgs.Empty);
         }
 
         protected ISerializer DefaultSerializer { get; private set; }

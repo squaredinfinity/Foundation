@@ -9,6 +9,7 @@
     <Import_RootNamespace>SquaredInfinity.Foundation.Data</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommandResultEnumerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommandResultIterator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectionFactory.cs" />
