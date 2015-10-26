@@ -61,19 +61,6 @@ namespace Nuget.DeployAllProjects
             }
         }
 
-        bool _deployLocally;
-        public bool DeployLocally
-        {
-            get { return _deployLocally; }
-            set
-            {
-                if(TrySetThisPropertyValue(ref _deployLocally, value))
-                {
-                    SettingsService.SetSetting<bool>("Deployment.DeployLocally", SettingScope.UserMachine, value);
-                }
-            }
-        }
-
         bool _deployRemotely;
         public bool DeployRemotely
         {
@@ -110,13 +97,10 @@ namespace Nuget.DeployAllProjects
 
         public MainViewModel()
         {
-
-            this.DeployLocally = SettingsService.GetSetting<bool>("Deployment.DeployLocally", SettingScope.UserMachine, () => true);
             this.DeployRemotely = SettingsService.GetSetting<bool>("Deployment.DeployRemotely", SettingScope.UserMachine, () => false);
             this.LocalDeploymentDirectoryFullPath = SettingsService.GetSetting<string>("Deployment.LocalDeploymentDirectory", SettingScope.UserMachine, () => Environment.CurrentDirectory);
             this.NugetExePath = SettingsService.GetSetting<string>("Deployment.NugetExePath", SettingScope.UserMachine, () => @"../../../../.nuget/nuget.exe");
             this.RemoteDeploymentServers = SettingsService.GetSetting<string>("Deployment.RemoteDeploymentServers", SettingScope.UserMachine, () => "nuget.org");
-
 
             // get version number of assemblies in solution
             // assumes default solution structure
@@ -151,12 +135,17 @@ namespace Nuget.DeployAllProjects
             //AllProjects.Add("NuGet.Foundation.Unsafe");
             //AllProjects.Add("NuGet.Foundation.Win32Api");
 
+            Refresh();
+        }
+
+        void Refresh()
+        {
             var psi = new ProcessStartInfo(NugetExePath, "list id:SquaredInfinity.Foundation -prerelease");
             psi.RedirectStandardOutput = true;
             psi.UseShellExecute = false;
 
             var p = Process.Start(psi);
-            
+
             var existing_list = p.StandardOutput.ReadToEnd();
             p.WaitForExit();
 
@@ -198,13 +187,7 @@ namespace Nuget.DeployAllProjects
             // .Net compatible version
             var dot_net_version = project.LocalVersion;
             // semantic versioning version
-            var sem_ver_version = project.LocalVersion;
-
-            var version = new Version(project.LocalVersion);
-            if(version.Revision != 0)
-            {
-                sem_ver_version = "{0}.{1}.{2}-{3}.{4}".FormatWith(version.Major, version.Minor, version.Build, "beta", version.Revision);
-            }
+            var sem_ver_version = ToNugetVersion(project.LocalVersion);
             
             // update project version so it matches configured
 
@@ -241,7 +224,7 @@ namespace Nuget.DeployAllProjects
 
             var solution_file_path = new FileInfo("../../../../Foundation.sln").FullName;
 
-            foreach (var target in new [] {  "DotNet45" })
+            foreach (var target in new[] { "DotNet45" })
             {
                 var project_file_path = new FileInfo("../../../../Sources/{0}/{1}.{0}/{1}.{0}.csproj".FormatWith(target, project.Name)).FullName;
 
@@ -287,7 +270,7 @@ namespace Nuget.DeployAllProjects
                          where string.Equals(p.Name, dep_name, StringComparison.InvariantCultureIgnoreCase)
                          select p).Single();
 
-                    dep.Attribute("version").Value = dep_proj.RemoteVersion;
+                    dep.Attribute("version").Value = ToNugetVersion(dep_proj.LocalVersion);
                 }
             }
 
@@ -304,16 +287,26 @@ namespace Nuget.DeployAllProjects
 
             ExecuteApplicationUsingCommandLine(
                     application: "\"{0}\"".FormatWith(nugetexe_file.FullName),
-                    arguments: "pack \"{0}\"".FormatWith(solution_file_path),
+                    arguments: "pack \"{0}\" -OutputDirectory {1}".FormatWith(nuspec_file.FullName, LocalDeploymentDirectoryFullPath),
                     showUi: true,
                     continueAfterExecution: true,
                     waitForExit: true);
 
             // deploy
+        }
 
-            if (DeployLocally)
+        string ToNugetVersion(string version)
+        {
+            var ver = new Version(version);
+            if (ver.Revision != 0)
             {
-                // copy nuget to output folder
+                // NOTE:    a.b.c-dddd.e - .e is not allowed by nuget
+                //          a.b.c-dddde used instead
+                return "{0}.{1}.{2}-{3}{4}".FormatWith(ver.Major, ver.Minor, ver.Build, "beta", ver.Revision);
+            }
+            else
+            {
+                return version;
             }
         }
 
