@@ -13,6 +13,8 @@
       <SubType>Code</SubType>
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ClickView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ClickViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ColumnHeadersView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ColumnHeadersViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\DragAndDropView.cs" />
@@ -32,6 +34,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Behaviors\ClickView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Behaviors\DragAndDropView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

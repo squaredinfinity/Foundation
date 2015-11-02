@@ -15,7 +15,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Button.Image.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\CheckBoxInListItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ColumnHeaders.Visibility.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Columns.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Columns.ShouldAutoResize.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Columns.MinWidth.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ContentTemplateSelector.RefreshTriggerBinding.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Control.Click.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Control.DoubleClick.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\DialogHost.MinHeight.cs" />
@@ -44,6 +46,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\TreeView.MultiSelection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\TreeView.PreventAutomaticScrolling.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\TreeView.SelectionChangedInhibitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\_supporttypes\ItemContainerGenerator_ItemsChangedHander.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\XamlObservableCollectionEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\XamlVirtualizingCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\DelegateCommand.cs" />

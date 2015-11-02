@@ -10,7 +10,7 @@ using System.Windows.Controls.Primitives;
 
 namespace SquaredInfinity.Foundation.Presentation.Behaviors
 {
-    public static class Columns
+    public static partial class Columns
     {
         public static readonly DependencyProperty MinWidthProperty =
             DependencyProperty.RegisterAttached(

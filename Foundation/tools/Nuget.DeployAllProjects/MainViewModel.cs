@@ -245,9 +245,11 @@ namespace Nuget.DeployAllProjects
             {
                 var project_file_path = new FileInfo("../../../../Sources/{0}/{1}.{0}/{1}.{0}.csproj".FormatWith(target, project.Name)).FullName;
 
+
+
                 ExecuteApplicationUsingCommandLine(
                     application: @"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe",
-                    arguments: "\"{0}\" /rebuild Release /project \"{1}\" /projectconfig Release /out build.log".FormatWith(solution_file_path, project_file_path),
+                    arguments: "\"{0}\" /rebuild Debug /project \"{1}\" /projectconfig Debug /out build.log".FormatWith(solution_file_path, project_file_path),
                     showUi: true,
                     continueAfterExecution: true,
                     waitForExit: true);

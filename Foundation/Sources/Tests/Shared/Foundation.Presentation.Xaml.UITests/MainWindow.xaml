@@ -13,6 +13,9 @@
                 HorizontalAlignment="Stretch">
         <TabItem Header="Behaviors">
             <TabControl>
+                <TabItem Header="Click">
+                    <local_behaviors:ClickView />
+                </TabItem>
                 <TabItem Header="Column Headers">
                     <local_behaviors:ColumnHeadersView />
                 </TabItem>
