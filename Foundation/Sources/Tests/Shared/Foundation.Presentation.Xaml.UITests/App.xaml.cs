@@ -32,9 +32,9 @@ namespace Foundation.Presentation.Xaml.UITests
             // resources.LoadAndMergeResources();
 
             // TODO: LOAD DEFAULT STYLES
-            //var modern_style_resources = new SquaredInfinity.Foundation.Presentation.Styles.Modern.DefaultXamlResources();
+            var modern_style_resources = new SquaredInfinity.Foundation.Presentation.Styles.Modern.DefaultXamlResources();
             //modern_style_resources.LoadAndMergeResources();
-            //modern_style_resources.ApplyAllStyles();
+            modern_style_resources.ApplyAllStyles();
         }
     }
 }

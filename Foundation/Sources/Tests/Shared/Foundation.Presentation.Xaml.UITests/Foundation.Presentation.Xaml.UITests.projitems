@@ -31,7 +31,11 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\MarkupExtensionsView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\MarkupExtensionsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UIService\UIServiceView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UIService\UIServiceViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_internal\GenericView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_internal\GenericViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Behaviors\ClickView.xaml">
@@ -66,7 +70,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UIService\UIServiceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)XamlResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)_internal\GenericView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

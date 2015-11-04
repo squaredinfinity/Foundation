@@ -1,5 +1,4 @@
-﻿using SquaredInfinity.Foundation.Presentation.Windows;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Foundation.Presentation.Xaml.UITests
+namespace Foundation.Presentation.Xaml.Styles.Modern.Common.Windows
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for DefaultDialogWindow.xaml
     /// </summary>
-    public partial class MainWindow : ModernWindow
+    public partial class DefaultDialogWindow : DefaultDialogWindow
     {
-        public MainWindow()
+        public DefaultDialogWindow()
         {
             InitializeComponent();
         }

@@ -13,6 +13,7 @@
 
         <p:SharedResourceDictionary DictionaryName="Foundation.DataTemplateSelectors"
                                     Source="{p:ResourceFromThisAssembly RelativePath=/Xaml/DataTemplateSelectors.xaml}" />
+
     </ResourceDictionary.MergedDictionaries>
     
     <ObjectDataProvider MethodName="GetPredefined"

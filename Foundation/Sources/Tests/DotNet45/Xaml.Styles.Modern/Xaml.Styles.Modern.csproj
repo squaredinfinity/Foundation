@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6315AE26-783D-46F9-A2FF-ACCB15D5F2F0}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{D661A2AD-1AFA-44F7-844F-F5EA9AE77F37}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Foundation.Presentation.Xaml.UITests</RootNamespace>
-    <AssemblyName>Foundation.Presentation.Xaml.UITests.DotNet45</AssemblyName>
+    <RootNamespace>Xaml.Styles.Modern</RootNamespace>
+    <AssemblyName>Xaml.Styles.Modern</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -34,9 +34,19 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SquaredInfinity.Foundation.DotNet45, Version=1.1.5.10, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\SquaredInfinity.Foundation.1.1.5.10-beta\lib\net45\SquaredInfinity.Foundation.DotNet45.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SquaredInfinity.Foundation.Presentation.Xaml.DotNet45, Version=1.1.5.10, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\SquaredInfinity.Foundation.Presentation.Xaml.1.1.5.10-beta\lib\net45\SquaredInfinity.Foundation.Presentation.Xaml.DotNet45.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -76,29 +86,6 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\DotNet45\Foundation.Diagnostics.DotNet45\Foundation.Diagnostics.DotNet45.csproj">
-      <Project>{ab8007f5-ad2a-42b8-9375-98ae0ad89f80}</Project>
-      <Name>Foundation.Diagnostics.DotNet45</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\DotNet45\Foundation.Diagnostics.Infrastructure.DotNet45\Foundation.Diagnostics.Infrastructure.DotNet45.csproj">
-      <Project>{231d0bb0-926b-47ce-b7b1-9e8e49dce51e}</Project>
-      <Name>Foundation.Diagnostics.Infrastructure.DotNet45</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\DotNet45\Foundation.DotNet45\Foundation.DotNet45.csproj">
-      <Project>{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}</Project>
-      <Name>Foundation.DotNet45</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\DotNet45\Foundation.Presentation.Xaml.DotNet45\Foundation.Presentation.Xaml.DotNet45.csproj">
-      <Project>{48e58f39-a7b8-44d9-afbf-7985e42208c9}</Project>
-      <Name>Foundation.Presentation.Xaml.DotNet45</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\DotNet45\Foundation.Presentation.Xaml.Styles.Modern.DotNet45\Foundation.Presentation.Xaml.Styles.Modern.DotNet45.csproj">
-      <Project>{e74aa52f-639c-45ad-a395-351bde0558c1}</Project>
-      <Name>Foundation.Presentation.Xaml.Styles.Modern.DotNet45</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="..\..\Shared\Foundation.Presentation.Xaml.UITests\Foundation.Presentation.Xaml.UITests.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

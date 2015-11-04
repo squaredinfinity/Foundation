@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
 
+        <ResourceDictionary Source="{ResourceFromThisAssembly /_internal/GenericView.xaml}" />
+        
         <ResourceDictionary Source="{ResourceFromThisAssembly /Behaviors/ClickView.xaml}" />
         <ResourceDictionary Source="{ResourceFromThisAssembly /Behaviors/ColumnHeadersView.xaml}" />
         <ResourceDictionary Source="{ResourceFromThisAssembly /Behaviors/DragAndDropView.xaml}" />
@@ -12,5 +14,7 @@
         <ResourceDictionary Source="{ResourceFromThisAssembly /Fonts/FontsView.xaml}" />
         
         <ResourceDictionary Source="{ResourceFromThisAssembly /MarkupExtensions/MarkupExtensionsView.xaml}" />
+
+        <ResourceDictionary Source="{ResourceFromThisAssembly /UIService/UIServiceView.xaml}" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

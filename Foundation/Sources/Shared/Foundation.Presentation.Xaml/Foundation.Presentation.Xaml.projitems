@@ -111,6 +111,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\Rules\MemberValueRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\TypeNameToResourceKeyMappingDataTemplateSelector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\CollectionViewSource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DefaultUIService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DialogMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DialogScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DragAndDrop\DefaultDragSource.cs" />
@@ -188,6 +189,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\View.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\ViewModelEventRoutedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\View_T.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\DefaultDialogWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\DefaultToolWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\ModernWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\ViewHostWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\ViewHostWindow.IViewModelHost.cs" />
