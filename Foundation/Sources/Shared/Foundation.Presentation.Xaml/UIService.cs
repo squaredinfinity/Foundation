@@ -131,7 +131,12 @@ namespace SquaredInfinity.Foundation.Presentation
 
         public bool IsUIThread
         {
-            get { return UIDispatcher.CheckAccess(); }
+            get { return CheckIsUIThread(); }
+        }
+
+        protected virtual bool CheckIsUIThread()
+        {
+            return UIDispatcher.CheckAccess();
         }
     }
 }
