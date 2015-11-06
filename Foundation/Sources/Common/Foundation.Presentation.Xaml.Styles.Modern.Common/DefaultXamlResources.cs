@@ -40,6 +40,8 @@ namespace  SquaredInfinity.Foundation.Presentation.Styles.Modern
             Application.Current.Resources[typeof(TabControl)] = Application.Current.Resources["Styles.TabControl"];
             Application.Current.Resources[typeof(TabItem)] = Application.Current.Resources["Styles.TabItem"];
             Application.Current.Resources[typeof(TextBox)] = Application.Current.Resources["Styles.TextBox"];
+            Application.Current.Resources[typeof(TextBlock)] = Application.Current.Resources["Styles.TextBlock"];
+            Application.Current.Resources[typeof(Label)] = Application.Current.Resources["Styles.Label"];
         }
     }
 }

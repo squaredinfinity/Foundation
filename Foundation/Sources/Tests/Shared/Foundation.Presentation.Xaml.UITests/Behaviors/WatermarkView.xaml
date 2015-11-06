@@ -19,7 +19,8 @@
                             <!-- BASIC TEST -->
                             
                             <TextBox Text="Type Your Watermak Here" 
-                                     x:Name="watermark_input" />
+                                     x:Name="watermark_input" 
+                                     Margin="0,0,0,15"/>
                             
                             <TextBox behaviors:Watermark.Text="{Binding Text, ElementName=watermark_input, Mode=OneWay}" />
                         </StackPanel>

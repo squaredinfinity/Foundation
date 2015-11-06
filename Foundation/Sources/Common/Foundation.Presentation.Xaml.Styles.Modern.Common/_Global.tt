@@ -47,7 +47,11 @@
 
 	var text			= "#FF000000";
 	var text_subtle		= "#FF5C5C5C";
+	var text_verysubtle		= "#FF999999";
+
 	var text_emphasis	= accent;
+
+	var watermark = text_verysubtle;
 
 	var hyperlink_text			= accent;
 	var hyperlink_hover_text	= red;

@@ -15,6 +15,7 @@
            BasedOn="{StaticResource {x:Type TextBlock}}">
         <Setter Property="FontFamily"                           Value="<#=fontFamily#>" />
         <Setter Property="FontSize"                             Value="<#=fontSize#>" />
+		<Setter Property="Foreground"                           Value="<#=input_text#>"/>
         <Setter Property="UseLayoutRounding"                    Value="True" />
         <Setter Property="TextOptions.TextFormattingMode"       Value="Display" />
         <Setter Property="behaviors:Highlight.TextForegroundRespondsToSelection" Value="true" />

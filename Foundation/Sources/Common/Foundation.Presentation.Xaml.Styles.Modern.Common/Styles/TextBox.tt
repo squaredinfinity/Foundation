@@ -101,16 +101,17 @@
                                           Padding="0"
                                           Margin="0"
                                           Background="{x:Null}"
+										  Foreground="{TemplateBinding Foreground}"
                                           BorderThickness="0"
                                           VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}"
                                           HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
 
-                            <Label x:Name="Watermark"
+                            <TextBlock x:Name="Watermark"
 								   Padding="0"
                                    Margin="{TemplateBinding Padding}"
-                                   Content="{TemplateBinding behaviors:Watermark.Text}"
-                                   Foreground="<#=text_subtle#>"
+                                   Text="{TemplateBinding behaviors:Watermark.Text}"
+                                   Foreground="<#=watermark#>"
                                    Background="{x:Null}"
                                    Visibility="{TemplateBinding behaviors:Watermark.IsVisible, Converter={StaticResource Converters.VisibleWhenTrue}}"/>
 
