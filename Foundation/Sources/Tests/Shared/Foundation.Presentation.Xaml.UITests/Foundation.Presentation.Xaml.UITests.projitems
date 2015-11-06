@@ -13,6 +13,8 @@
       <SubType>Code</SubType>
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ClearButtonView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ClearButtonViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ClickView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ClickViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ColumnHeadersView.cs" />
@@ -43,6 +45,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Behaviors\DragAndDropView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Behaviors\ClearButtonView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

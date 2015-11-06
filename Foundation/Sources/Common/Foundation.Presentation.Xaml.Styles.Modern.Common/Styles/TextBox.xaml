@@ -101,6 +101,7 @@
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
 
                             <Label x:Name="Watermark"
+								   Padding="0"
                                    Margin="{TemplateBinding Padding}"
                                    Content="{TemplateBinding behaviors:Watermark.Text}"
                                    Foreground="#FF5C5C5C"

@@ -38,6 +38,7 @@ namespace  SquaredInfinity.Foundation.Presentation.Styles.Modern
             Application.Current.Resources[typeof(RadioButton)] = Application.Current.Resources["Styles.RadioButton"];
             Application.Current.Resources[typeof(ScrollBar)] = Application.Current.Resources["Styles.ScrollBar"];
             Application.Current.Resources[typeof(TabControl)] = Application.Current.Resources["Styles.TabControl"];
+            Application.Current.Resources[typeof(TextBox)] = Application.Current.Resources["Styles.TextBox"];
         }
     }
 }

@@ -6,26 +6,27 @@
                     xmlns:local="clr-namespace:SquaredInfinity.Foundation.Presentation.Xaml.UITests.Behaviors"
                     mc:Ignorable="d" >
 
-    <Style TargetType="{x:Type local:WatermarkView}">
+    <Style TargetType="{x:Type local:ClearButtonView}">
         <Style.Setters>
             <Setter Property="VerticalAlignment" Value="Stretch" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type local:WatermarkView}">
+                    <ControlTemplate TargetType="{x:Type local:ClearButtonView}">
 
                         <StackPanel Orientation="Vertical">
 
                             <!-- BASIC TEST -->
                             
-                            <TextBox Text="Type Your Watermak Here" 
-                                     x:Name="watermark_input" />
-                            
-                            <TextBox behaviors:Watermark.Text="{Binding Text, ElementName=watermark_input, Mode=OneWay}" />
+                            <CheckBox x:Name="show_clear_button"
+                                      Content="Show Clear Button" />
 
-                            <TextBox behaviors:Watermark.Text="{Binding Text, ElementName=watermark_input, Mode=OneWay}"
-                                     behaviors:ClearButton.InterceptsEscKey="True"
-                                     behaviors:ClearButton.IsVisible="True" />
+                            <CheckBox x:Name="intercepts_esc_key"
+                                      Content="Intercept ESC Key" />
+
+                            <TextBox Text="abc"
+                                     behaviors:ClearButton.InterceptsEscKey="{Binding IsChecked, ElementName=intercepts_esc_key}"
+                                     behaviors:ClearButton.IsVisible="{Binding IsChecked, ElementName=show_clear_button}" />
                         </StackPanel>
                     </ControlTemplate>
                 </Setter.Value>

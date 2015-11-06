@@ -3,7 +3,8 @@
     <ResourceDictionary.MergedDictionaries>
 
         <ResourceDictionary Source="{ResourceFromThisAssembly /_internal/GenericView.xaml}" />
-        
+
+        <ResourceDictionary Source="{ResourceFromThisAssembly /Behaviors/ClearButtonView.xaml}" />
         <ResourceDictionary Source="{ResourceFromThisAssembly /Behaviors/ClickView.xaml}" />
         <ResourceDictionary Source="{ResourceFromThisAssembly /Behaviors/ColumnHeadersView.xaml}" />
         <ResourceDictionary Source="{ResourceFromThisAssembly /Behaviors/DragAndDropView.xaml}" />
