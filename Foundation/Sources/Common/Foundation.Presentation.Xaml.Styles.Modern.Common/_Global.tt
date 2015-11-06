@@ -130,7 +130,7 @@
 	var windowbutton_border = "DeepPink";
 	var windowbutton_text = "#FF000000";
 
-	var windowbutton_hover_background = "#502D7F";
+	var windowbutton_hover_background = accent;
 	var windowbutton_hover_border = "#FF000000";
 	var windowbutton_hover_text = "#FFFFFF";
 
@@ -161,11 +161,11 @@
 
 	var tabitem_selected_background = "#FFFFFF";
 	var tabitem_selected_border		= "#CCCEDB";
-	var tabitem_selected_text		= "#CCCEDB";
+	var tabitem_selected_text		= accent;
 
 	var tabitem_hover_background	= "Transparent";
 	var tabitem_hover_border		= "Transparent";
-	var tabitem_hover_text			= "#502D7F";
+	var tabitem_hover_text			= accent;
 
 
 	//# Grid Splitter

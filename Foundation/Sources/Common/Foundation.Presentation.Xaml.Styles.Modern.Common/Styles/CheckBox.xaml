@@ -21,7 +21,7 @@
                                 Orientation="Horizontal" 
                                 Margin="{TemplateBinding Padding}">
                         <Border x:Name="Border" 
-                                Width="16" 
+                                Width="16"  
                                 Height="16" 
                                 Margin="0,0,4,0" 
                                 Background="{TemplateBinding Background}" 
@@ -36,7 +36,8 @@
                                   Fill="{TemplateBinding Foreground}" 
                                   Data="F1 M 15,21L 22,28L 33,14L 36,17L 22,34L 12,24L 15,21 Z "/>
                         </Border>
-                        <ContentPresenter VerticalAlignment="Center" />
+                        <ContentPresenter VerticalAlignment="Center"
+										  TextBlock.Foreground="#FF000000" />
                     </StackPanel>
                     
                     <ControlTemplate.Triggers>

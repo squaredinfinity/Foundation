@@ -94,7 +94,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
                     <Grid x:Name="Root">                        
-                        <Border x:Name="Border"
+                        <Border x:Name="Border" 
                                 Margin="0,0,0,-1"
                                 BorderThickness="1,1,1,1"
                                 BorderBrush="Transparent"
@@ -105,7 +105,7 @@
                                               HorizontalAlignment="Center"
                                               ContentSource="Header"
                                               Margin="12,2,12,2"
-                                              TextBlock.Foreground="#FF5C5C5C"
+                                              TextBlock.Foreground="#FF000000"
                                               RecognizesAccessKey="True" />
                         </Border>
                     </Grid>
@@ -116,7 +116,7 @@
                             <Setter TargetName="Border" Property="Background" Value="#FFFFFF" />
                             <Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
                             <Setter TargetName="Border" Property="BorderBrush" Value="#CCCEDB" />
-                            <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="#CCCEDB" />
+                            <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="#266Fa0" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -124,7 +124,7 @@
                                 <Condition Property="IsSelected" Value="False" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="Border" Property="Background" Value="Transparent"/>
-                            <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="#502D7F" />
+                            <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="#266Fa0" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
