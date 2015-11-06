@@ -255,35 +255,27 @@ namespace SquaredInfinity.Foundation.Presentation.Windows
             if (PART_ContentPresenter == null || PART_ContentPresenter.Content == null)
                 return;
 
+            this.LayoutUpdated -= DefaultDialogWindow_LayoutUpdated;
+
             var fe = PART_ContentPresenter.Content as FrameworkElement;
 
             if (fe != null)
             {
-                fe.ClearValue(FrameworkElement.WidthProperty);
-                fe.ClearValue(FrameworkElement.HeightProperty);
+                var width = DialogHost.GetWidth(fe);
+                var height = DialogHost.GetHeight(fe);
 
                 var minWidth = DialogHost.GetMinWidth(fe);
                 var minHeight = DialogHost.GetMinHeight(fe);
 
-                if (minHeight != null)
-                {
-                    MinHeight = minHeight.Value;
-                }
+                SizeToContent = SizeToContent.Manual;
 
-                if (minWidth != null)
-                {
-                    MinWidth = minWidth.Value;
-                }
+                // those must be set *after* size to content is set to manual
+                SetValue(FrameworkElement.HeightProperty, height.Value);
+                SetValue(FrameworkElement.WidthProperty, width.Value);
+
+                SetValue(FrameworkElement.MinHeightProperty, minHeight.Value);
+                SetValue(FrameworkElement.MinWidthProperty, minWidth.Value);
             }
-
-            SizeToContent = SizeToContent.Manual;
-
-            ClearValue(FrameworkElement.HeightProperty);
-            ClearValue(FrameworkElement.WidthProperty);
-            ClearValue(FrameworkElement.MaxHeightProperty);
-            ClearValue(FrameworkElement.MaxWidthProperty);
-
-            this.LayoutUpdated -= DefaultDialogWindow_LayoutUpdated;
         }
 
         public override void OnApplyTemplate()

@@ -20,6 +20,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ContentTemplateSelector.RefreshTriggerBinding.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Control.Click.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Control.DoubleClick.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\DialogHost.Width.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\DialogHost.Height.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\DialogHost.MinHeight.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\DialogHost.MinWidth.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\DragDrop.AttachedProperties.cs" />

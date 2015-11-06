@@ -10,8 +10,9 @@
         <Style.Setters>
             <Setter Property="behaviors:DialogHost.MinHeight" Value="250" />
             <Setter Property="behaviors:DialogHost.MinWidth" Value="250" />
+            <Setter Property="behaviors:DialogHost.Height" Value="250" />
+            <Setter Property="behaviors:DialogHost.Width" Value="250" />
             
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type local:GenericView}">
