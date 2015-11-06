@@ -12,12 +12,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Foundation.Presentation.Xaml.Styles.Modern.Common.Windows
+namespace SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.Windows
 {
     /// <summary>
     /// Interaction logic for DefaultDialogWindow.xaml
     /// </summary>
-    public partial class DefaultDialogWindow : DefaultDialogWindow
+    public partial class DefaultDialogWindow : ModernWindow
     {
         public DefaultDialogWindow()
         {

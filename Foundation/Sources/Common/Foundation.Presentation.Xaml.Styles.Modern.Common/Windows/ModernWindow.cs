@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SquaredInfinity.Foundation.Presentation.Windows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace SquaredInfinity.Foundation.Presentation.Windows
+namespace SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.Windows
 {
     public class ModernWindow : ViewHostWindow
     {

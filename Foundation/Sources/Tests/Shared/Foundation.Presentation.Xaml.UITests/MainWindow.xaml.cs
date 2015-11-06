@@ -1,4 +1,5 @@
 ﻿using SquaredInfinity.Foundation.Presentation.Windows;
+using SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;

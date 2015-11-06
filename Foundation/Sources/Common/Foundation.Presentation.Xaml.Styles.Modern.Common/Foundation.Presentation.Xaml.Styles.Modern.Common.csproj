@@ -7,8 +7,8 @@
     <ProjectGuid>{3DFF87ED-8DD9-4FB3-B982-03BA514F321E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Foundation.Presentation.Xaml.Styles.Modern.Common</RootNamespace>
-    <AssemblyName>Foundation.Presentation.Xaml.Styles.Modern.Common</AssemblyName>
+    <RootNamespace>SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern</RootNamespace>
+    <AssemblyName>SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.Common</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -70,6 +70,7 @@
     <Compile Include="Windows\DefaultDialogWindow.xaml.cs">
       <DependentUpon>DefaultDialogWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\ModernWindow.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

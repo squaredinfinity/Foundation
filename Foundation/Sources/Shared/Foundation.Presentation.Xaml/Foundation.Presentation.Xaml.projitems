@@ -189,9 +189,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\View.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\ViewModelEventRoutedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\View_T.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\DefaultDialogWindow.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\DefaultToolWindow.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\ModernWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\ViewHostWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\ViewHostWindow.IViewModelHost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources.cs" />

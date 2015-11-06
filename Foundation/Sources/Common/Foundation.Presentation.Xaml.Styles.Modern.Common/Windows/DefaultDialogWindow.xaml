@@ -1,7 +1,7 @@
-﻿<windows:ModernWindow x:Class=""
+﻿<local:ModernWindow x:Class="SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.Windows.DefaultDialogWindow"
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                      xmlns:windows="http://schemas.squaredinfinity.com/foundation/windows"
+                      xmlns:local="clr-namespace:SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.Windows"
                       IsDialog="true"
                       ShowInTaskbar="True"
                       SizeToContent="WidthAndHeight"
@@ -50,4 +50,4 @@
             </Grid>
         </Border>
     </Grid>
-</windows:ModernWindow>
+</local:ModernWindow>

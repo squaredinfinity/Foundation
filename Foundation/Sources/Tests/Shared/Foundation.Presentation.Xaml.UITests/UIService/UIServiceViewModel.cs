@@ -1,4 +1,5 @@
 ﻿using SquaredInfinity.Foundation.Presentation.ViewModels;
+using SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.Windows;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,7 +17,7 @@ namespace SquaredInfinity.Foundation.Presentation.Xaml.UITests.UIService
         }
 
         public UIServiceViewModel()
-            : base(new DefaultUIService(Application.Current.Dispatcher))
+            : base(new DefaultUIService(Application.Current.Dispatcher, () => new DefaultDialogWindow(), () => new DefaultDialogWindow()))
         { }
 
         public void OpenDialogWindow()

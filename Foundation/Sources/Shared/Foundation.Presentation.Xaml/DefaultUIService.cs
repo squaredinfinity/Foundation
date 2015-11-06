@@ -11,9 +11,15 @@ namespace SquaredInfinity.Foundation.Presentation
 {
     public class DefaultUIService : UIService
     {
-        public DefaultUIService(Dispatcher uiDispatcher)
+        readonly Func<ViewHostWindow> GetNewDialogWindow;
+        readonly Func<ViewHostWindow> GetNewToolWindow;
+
+        public DefaultUIService(Dispatcher uiDispatcher, Func<ViewHostWindow> getNewDialogWindow, Func<ViewHostWindow> getNewToolWindow)
             : base(uiDispatcher)
-        { }
+        {
+            this.GetNewDialogWindow = getNewDialogWindow;
+            this.GetNewToolWindow = getNewToolWindow;
+        }
 
         public override IHostAwareViewModel GetDefaultAlertViewModel(string alertMessage, string alertDialogTitle)
         {
@@ -35,7 +41,7 @@ namespace SquaredInfinity.Foundation.Presentation
 
         public override void ShowAlert(View view, DialogScope dialogScope, DialogMode dialogMode)
         {
-            var viewHost = new DefaultDialogWindow();
+            var viewHost = GetNewDialogWindow();
 
             // prepare host view and viewmodel
 
@@ -52,7 +58,7 @@ namespace SquaredInfinity.Foundation.Presentation
         {
             var viewModel = GetDefaultConfirmationDialogViewModel(message, dialogTitle);
 
-            var viewHost = new DefaultDialogWindow();
+            var viewHost = GetNewDialogWindow();
 
             // prepare host view and viewmodel
 
@@ -89,7 +95,7 @@ namespace SquaredInfinity.Foundation.Presentation
             // prepare host view and viewmodel
             if (getWindow == null)
             {
-                viewHost = new DefaultDialogWindow();
+                viewHost = GetNewDialogWindow();
             }
             else
             {
@@ -146,7 +152,7 @@ namespace SquaredInfinity.Foundation.Presentation
             // prepare host view and viewmodel
             if (getWindow == null)
             {
-                viewHost = new DefaultToolWindow();
+                viewHost = GetNewToolWindow();
             }
             else
             {

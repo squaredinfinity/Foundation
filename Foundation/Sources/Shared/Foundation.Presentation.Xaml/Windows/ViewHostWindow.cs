@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Foundation.Presentation.Behaviors;
 
 namespace SquaredInfinity.Foundation.Presentation.Windows
 {
@@ -260,6 +261,19 @@ namespace SquaredInfinity.Foundation.Presentation.Windows
             {
                 fe.ClearValue(FrameworkElement.WidthProperty);
                 fe.ClearValue(FrameworkElement.HeightProperty);
+
+                var minWidth = DialogHost.GetMinWidth(fe);
+                var minHeight = DialogHost.GetMinHeight(fe);
+
+                if (minHeight != null)
+                {
+                    MinHeight = minHeight.Value;
+                }
+
+                if (minWidth != null)
+                {
+                    MinWidth = minWidth.Value;
+                }
             }
 
             SizeToContent = SizeToContent.Manual;

@@ -10,7 +10,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                    xmlns:windows="http://schemas.squaredinfinity.com/foundation/windows"
+                    xmlns:windows="clr-namespace:SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.Windows"
                     xmlns:behaviors="http://schemas.squaredinfinity.com/foundation/behaviors">
 
     <Style x:Key="Styles.Window.Button"
