@@ -54,7 +54,7 @@
             <Setter Property="Background" Value="<#=windowbutton_background#>"/>
             <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
             <Setter Property="UseLayoutRounding" Value="True" />
-        <Setter Property="Padding" Value="0" />
+        <Setter Property="Padding" Value="2" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
         <Setter Property="WindowChrome.WindowChrome">
@@ -211,7 +211,7 @@
                                                           Grid.RowSpan="2" 
                                                           Grid.Column="0"
                                                           Grid.ColumnSpan="99"
-                                                          Margin="0"/>
+                                                          Margin="{TemplateBinding Padding}"/>
 
                                         <Grid Grid.Row="2"
                                               Grid.Column="0"

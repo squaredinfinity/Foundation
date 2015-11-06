@@ -22,10 +22,6 @@
                                      x:Name="watermark_input" />
                             
                             <TextBox behaviors:Watermark.Text="{Binding Text, ElementName=watermark_input, Mode=OneWay}" />
-
-                            <TextBox behaviors:Watermark.Text="{Binding Text, ElementName=watermark_input, Mode=OneWay}"
-                                     behaviors:ClearButton.InterceptsEscKey="True"
-                                     behaviors:ClearButton.IsVisible="True" />
                         </StackPanel>
                     </ControlTemplate>
                 </Setter.Value>
