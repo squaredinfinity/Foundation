@@ -20,6 +20,12 @@ namespace SquaredInfinity.Foundation.Extensions
         //    return false;
         //}
 
+        public static void IfContainsKey<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, Action<TValue> action)
+        {
+            if (dicxt.ContainsKey(key))
+                action(dict[key]);
+        }
+
 
         public static void AddOrUpdate<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue value)
         {
