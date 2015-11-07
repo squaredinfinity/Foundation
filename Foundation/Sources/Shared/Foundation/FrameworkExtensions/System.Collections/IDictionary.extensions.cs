@@ -22,7 +22,7 @@ namespace SquaredInfinity.Foundation.Extensions
 
         public static void IfContainsKey<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, Action<TValue> action)
         {
-            if (dicxt.ContainsKey(key))
+            if (dict.ContainsKey(key))
                 action(dict[key]);
         }
 
