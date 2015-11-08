@@ -26,10 +26,25 @@ namespace SquaredInfinity.Foundation.Extensions
                 action(dict[key]);
         }
 
+        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, Func<TValue> getDefaultValue)
+        {
+            if (dict.ContainsKey(key))
+                return dict[key];
+
+            return getDefaultValue();
+        }
 
         public static void AddOrUpdate<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue value)
         {
             dict[key] = value;
+        }
+
+        public static void AddOrUpdateFrom<TKey, TValue>(this IDictionary<TKey, TValue> dict, IDictionary<TKey, TValue> source)
+        {
+            foreach (var kvp in source)
+            {
+                dict[kvp.Key] = kvp.Value;
+            }
         }
 
         public static void AddOrUpdateFrom<TKey, TValue>(this IDictionary<TKey, TValue> dict, IReadOnlyDictionary<TKey, TValue> source)
