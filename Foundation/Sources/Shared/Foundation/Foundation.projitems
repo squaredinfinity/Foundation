@@ -77,6 +77,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Boolean.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Char.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\DateTimeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Decimal.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Double.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Enum.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Exception.extensions.cs" />
