@@ -441,7 +441,9 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                                 else
                                 {
                                     // can set value, do not reuse target collection and recreate it instead
-                                    MapInternal(mappedValueCandidate, targetValType, options, cx, _ms);
+                                    var new_collection = MapInternal(mappedValueCandidate, targetValType, options, cx, _ms);
+
+                                    targetMemberDescription.SetValue(target, new_collection);
                                 }
                             }
                         }

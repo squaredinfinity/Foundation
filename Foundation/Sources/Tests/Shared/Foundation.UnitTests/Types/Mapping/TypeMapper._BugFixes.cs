@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -195,6 +196,62 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             public List<Bug005_Class_One> Items
             {
                 get { return _items; }
+            }
+        }
+
+        #endregion
+
+        #region BUG 006
+
+        [TestMethod]
+        [Description("mapping of a collection property fails when ReuseTargetCollectionsWhenPossible is set to false")]
+        public void Bug006_ReuseTargetCollectionsWhenPossible_false__Fails_to_create_new_collection()
+        {
+            var c1 = new Bug006_Class_One { Name = "1" };
+
+            var trp1 = new Bug006_Class_One
+            {
+                Name = "trp1"
+            };
+            var trp2 = new Bug006_Class_One
+            {
+                Name = "trp2"
+            };
+
+            c1.Items.Add(trp1);
+            c1.Items.Add(trp2);
+
+            var c2 = new Bug006_Class_One();
+
+            var mo = new MappingOptions()
+            {
+                ReuseTargetCollectionsWhenPossible = false,
+            };
+
+            var tm = new TypeMapper();
+
+            tm.Map(c1, c2, mo);
+
+            Assert.AreEqual(c1.Name, c2.Name);
+
+            // when the bug wasn't fixed, c2.Items.Count would be 0
+            Assert.AreEqual(c1.Items.Count, c2.Items.Count);
+
+            for (int i = 0; i < c1.Items.Count; i++)
+            {
+                Assert.AreEqual(c1.Items[i].Name, c2.Items[i].Name);
+            }
+        }
+
+        public class Bug006_Class_One
+        {
+            public string Name { get; set; }
+
+            List<Bug006_Class_One> _items = new List<Bug006_Class_One>();
+            public List<Bug006_Class_One> Items
+            {
+                get { return _items; }
+                set { _items = value; }
             }
         }
 
