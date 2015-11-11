@@ -41,9 +41,18 @@ namespace SquaredInfinity.Foundation.Types.Mapping.ValueResolving
                 (AreFromAndToTypesSame && FromType.IsEnum);
         }
 
-        public object ResolveValue(object source)
+        public bool TryResolveValue(object source, out object val)
         {
-            return Match.From.GetValue(source);
+            try
+            {
+                val = Match.From.GetValue(source);
+                return true;
+            }
+            catch(Exception ex)
+            {
+                val = null;
+                return false;
+            }
         }
     }
 }

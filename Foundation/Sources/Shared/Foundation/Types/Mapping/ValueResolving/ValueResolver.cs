@@ -33,11 +33,17 @@ namespace SquaredInfinity.Foundation.Types.Mapping.ValueResolving
                 AreFromAndToImmutable;
         }
 
-        public abstract TTo ResolveValue(TFrom source);
+        public abstract bool TryResolveValue(TFrom source, out TTo val);
 
-        public object ResolveValue(object source)
+        public bool TryResolveValue(object source, out object val)
         {
-            return (TTo)ResolveValue((TFrom)source);
+            var t_val = default(TTo);
+
+            var result = TryResolveValue((TFrom)source, out t_val);
+
+            val = t_val;
+
+            return result;
         }
     }
 }

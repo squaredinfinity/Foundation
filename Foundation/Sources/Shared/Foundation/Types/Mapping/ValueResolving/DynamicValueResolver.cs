@@ -18,9 +18,18 @@ namespace SquaredInfinity.Foundation.Types.Mapping.ValueResolving
             CanCopyValueWithoutMapping = true;
         }
 
-        public override TTo ResolveValue(TFrom source)
+        public override bool TryResolveValue(TFrom source, out TTo val)
         {
-            return Resolve(source);
+            try
+            {
+                val = Resolve(source);
+                return true;
+            }
+            catch(Exception ex)
+            {
+                val = default(TTo);
+                return false;
+            }
         }
     }
 

@@ -316,10 +316,13 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                     var targetMemberDescription = kvp.Key;
                     var valueResolver = kvp.Value;
 
-                    if (!targetMemberDescription.CanSetValue)
-                        continue;
+                    var mappedValueCandidate = (object)null;
 
-                    var mappedValueCandidate = valueResolver.ResolveValue(source);
+                    if(!valueResolver.TryResolveValue(source, out mappedValueCandidate))
+                    {
+                        // unable to resolve source, skip this member
+                        continue;
+                    }
 
                     //# Check if simple assignment of a value from source to target can be made
                     //  e.g. when value is a value type without reference type properties / fields

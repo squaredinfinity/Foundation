@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -121,8 +122,8 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         #region BUG 004
 
         [TestMethod]
-        [Description("do not attempt to access read only properties")]
-        public void Bug004_CloneFailsOnTypeWithReadOnlyPropertiesWhichThrowException__ShouldNotAttemptToAccessReadOnlyPropertiesAnyway()
+        [Description("do not attempt to access read only properties that throw exceptions")]
+        public void Bug004_CloneFailsOnTypeWithReadOnlyPropertiesWhichThrowException()
         {
             var c1 = new Bug004_Class_One();
 
@@ -150,6 +151,50 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             public Bug004_Class_One()
             {
                 _id = null;
+            }
+        }
+
+        #endregion
+
+        #region BUG 005
+
+        [TestMethod]
+        [Description("mapping fails, when type contains list property without a setter")]
+        public void Bug005_mapping_fails_when_type_contains_list_property_without_a_setter()
+        {
+            var c1 = new Bug005_Class_One { Name = "1" };
+
+            var c1_1 = new Bug005_Class_One { Name = "1_1" };
+            var c1_2 = new Bug005_Class_One { Name = "1_2" };
+            var c1_3 = new Bug005_Class_One { Name = "1_3" };
+
+            c1.Items.Add(c1_1);
+            c1.Items.Add(c1_2);
+            c1.Items.Add(c1_3);
+
+            var c2 = new Bug005_Class_One();
+
+            var tm = new TypeMapper();
+
+            tm.Map(c1, c2);
+
+            Assert.AreEqual(c1.Name, c2.Name);
+            Assert.AreEqual(c1.Items.Count, c2.Items.Count);
+
+            for(int i = 0; i < c1.Items.Count; i++)
+            {
+                Assert.AreEqual(c1.Items[i].Name, c2.Items[i].Name);
+            }
+        }
+
+        public class Bug005_Class_One
+        {
+            public string Name { get; set; }
+
+            List<Bug005_Class_One> _items = new List<Bug005_Class_One>();
+            public List<Bug005_Class_One> Items
+            {
+                get { return _items; }
             }
         }
 

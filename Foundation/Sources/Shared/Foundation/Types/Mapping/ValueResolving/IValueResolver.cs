@@ -16,11 +16,11 @@ namespace SquaredInfinity.Foundation.Types.Mapping.ValueResolving
 
         bool CanCopyValueWithoutMapping { get; }
 
-        object ResolveValue(object source);
+        bool TryResolveValue(object source, out object val);
     }
 
     public interface IValueResolver<TFrom, TTo> : IValueResolver
     {
-        TTo ResolveValue(TFrom source);
+        bool TryResolveValue(TFrom source, out TTo val);
     }
 }
