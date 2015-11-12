@@ -157,7 +157,10 @@ namespace Nuget.DeployAllProjects
             var p = Process.Start(psi);
 
             var existing_list = p.StandardOutput.ReadToEnd();
-            p.WaitForExit();
+
+            bool nuget_is_online = false;
+
+            nuget_is_online = p.WaitForExit((int)TimeSpan.FromSeconds(20).TotalMilliseconds);
 
 
             var project_info_regex = @"SquaredInfinity.(?<name>.*) (?<version>.*)";

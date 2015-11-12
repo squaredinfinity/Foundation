@@ -23,11 +23,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collections\ICollectionEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\INotifyCollectionVersionChanged.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\IObservableCollectionEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\IVirtualizedDataItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\IVirtualizedDataItemsProvider_T.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\MultiMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\ObservableCollectionEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\ObservableCollectionEx.INotifyCollectionChanged.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\ObservableCollectionEx.INotifyPropertyChanged.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\OrderedDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\PageCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\PriorityQueue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\ProviderBasedVirtualizingCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Trees\_BooleanExpressionTree\BooleanExpressionTree.cs" />
@@ -37,6 +40,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Trees\_BooleanExpressionTree\IExpressionTreeNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Trees\_BooleanExpressionTree\PredicateConnectiveNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Trees\_BooleanExpressionTree\PredicateNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\VirtualizedDataItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\VirtualizedDataItemsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\VirtualizingCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommandHandlerEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommandHandlerEventArgs_T.cs" />
