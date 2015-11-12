@@ -48,9 +48,15 @@
                                             <GridViewColumn Header="">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <Button Content="Deploy"
-                                                                Command="{CommandMethodBinding ViewModel.DeployProject, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainView}}}"
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Button Content="Update Assembly Info"
+                                                                Command="{CommandMethodBinding ViewModel.UpdateAssemblyInfoAndRefresh, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainView}}}"
                                                                 CommandParameter="{Binding}"/>
+
+                                                            <Button Content="Deploy"
+                                                                Command="{CommandMethodBinding ViewModel.DeployProjectAndRefresh, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainView}}}"
+                                                                CommandParameter="{Binding}"/>
+                                                        </StackPanel>
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>

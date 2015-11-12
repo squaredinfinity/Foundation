@@ -15,6 +15,7 @@ using SquaredInfinity.Foundation.Collections;
 using SquaredInfinity.Foundation.Settings;
 using SquaredInfinity.Foundation.Serialization.FlexiXml;
 using System.Windows;
+using SquaredInfinity.Foundation;
 
 namespace Nuget.DeployAllProjects
 {
@@ -95,51 +96,60 @@ namespace Nuget.DeployAllProjects
 
         ISettingsService SettingsService = new FileSystemSettingsService(new FlexiXmlSerializer(), new DirectoryInfo(Environment.CurrentDirectory));
 
+        Dictionary<string, int> ProjectToBuildOrder = new Dictionary<string, int>();
+
+        MultiMap<string, string> ProjectToDependencies = new MultiMap<string, string>();
+
         public MainViewModel()
         {
             this.DeployRemotely = SettingsService.GetSetting<bool>("Deployment.DeployRemotely", SettingScope.UserMachine, () => false);
             this.LocalDeploymentDirectoryFullPath = SettingsService.GetSetting<string>("Deployment.LocalDeploymentDirectory", SettingScope.UserMachine, () => Environment.CurrentDirectory);
             this.NugetExePath = SettingsService.GetSetting<string>("Deployment.NugetExePath", SettingScope.UserMachine, () => @"../../../../.nuget/nuget.exe");
             this.RemoteDeploymentServers = SettingsService.GetSetting<string>("Deployment.RemoteDeploymentServers", SettingScope.UserMachine, () => "nuget.org");
+            
+            ProjectToBuildOrder.Add("Foundation", 1);
+            ProjectToBuildOrder.Add("Foundation.Diagnostics.Infrastructure", 1);
 
-            // get version number of assemblies in solution
-            // assumes default solution structure
-            //var asm_info = File.ReadAllText(@"../../../../Sources/Shared/Internal/AssemblyInfo.shared.cs");
+            ProjectToBuildOrder.Add("Foundation.Serialization", 10);
+            ProjectToBuildOrder.Add("Foundation.Unsafe", 10);
+            ProjectToBuildOrder.Add("Foundation.Win32Api", 10);
+            ProjectToBuildOrder.Add("Foundation.Cache", 10);
+            ProjectToBuildOrder.Add("Foundation.Data", 10);
+            ProjectToBuildOrder.Add("Foundation.Presentation.Xaml", 10);
 
-            //var version_number_match = Regex.Match(asm_info, @"\[assembly: AssemblyVersion\(""(?<version>.*)""");
+            ProjectToBuildOrder.Add("Foundation.Presentation.Xaml.Styles.Modern", 100);
 
-            //var version_number = new Version(version_number_match.Groups["version"].Value);
+            ProjectToBuildOrder.Add("Foundation.Diagnostics", 20);
 
-            //VersionNumber = version_number.ToString() + "-beta";
+            ProjectToDependencies.Add("Foundation.Serialization", "Foundation");
+            ProjectToDependencies.Add("Foundation.Serialization", "Foundation.Diagnostics.Infrastructure");
 
+            ProjectToDependencies.Add("Foundation.Unsafe", "Foundation");
+            ProjectToDependencies.Add("Foundation.Unsafe", "Foundation.Diagnostics.Infrastructure");
 
-            // Nuget Packages must be published in a right order so that package dependencies can be resolved
+            ProjectToDependencies.Add("Foundation.Win32Api", "Foundation");
+            ProjectToDependencies.Add("Foundation.Win32Api", "Foundation.Diagnostics.Infrastructure");
 
-            // 1. Foundation
+            ProjectToDependencies.Add("Foundation.Cache", "Foundation");
+            ProjectToDependencies.Add("Foundation.Cache", "Foundation.Diagnostics.Infrastructure");
 
-            //AllProjects.Add("NuGet.Foundation");
+            ProjectToDependencies.Add("Foundation.Data", "Foundation");
+            ProjectToDependencies.Add("Foundation.Data", "Foundation.Diagnostics.Infrastructure");
 
-            // 2. Foundation.Diagnostics.Infrastructure
+            ProjectToDependencies.Add("Foundation.Presentation.Xaml", "Foundation");
+            ProjectToDependencies.Add("Foundation.Presentation.Xaml", "Foundation.Diagnostics.Infrastructure");
 
-            //AllProjects.Add("NuGet.Foundation.Diagnostics.Infrastructure");
-
-            // 3. Everything else
-
-            //AllProjects.Add("NuGet.Foundation.Cache");
-            //AllProjects.Add("NuGet.Foundation.Serialization");
-            //AllProjects.Add("NuGet.Foundation.Data");
-            //AllProjects.Add("NuGet.Foundation.Diagnostics");
-            //AllProjects.Add("NuGet.Foundation.Presentation.Xaml");
-
-            //PublishProject("NuGet.Foundation.Presentation.Xaml.Styles.Modern");
-            //AllProjects.Add("NuGet.Foundation.Unsafe");
-            //AllProjects.Add("NuGet.Foundation.Win32Api");
+            ProjectToDependencies.Add("Foundation.Diagnostics", "Foundation");
+            ProjectToDependencies.Add("Foundation.Diagnostics", "Foundation.Serialization");
+            ProjectToDependencies.Add("Foundation.Diagnostics", "Foundation.Diagnostics.Infrastructure");
 
             Refresh();
         }
 
         void Refresh()
         {
+            AllProjects.Clear();
+
             var psi = new ProcessStartInfo(NugetExePath, "list id:SquaredInfinity.Foundation -prerelease");
             psi.RedirectStandardOutput = true;
             psi.UseShellExecute = false;
@@ -152,14 +162,21 @@ namespace Nuget.DeployAllProjects
 
             var project_info_regex = @"SquaredInfinity.(?<name>.*) (?<version>.*)";
 
+            var all_projects = new List<ProjectInfo>();
+
             foreach (var line in existing_list.GetLines())
             {
+                if (line.IsNullOrEmpty())
+                    continue;
+
                 var project_info_match = Regex.Match(line, project_info_regex);
 
                 var pi = new ProjectInfo();
 
                 pi.Name = project_info_match.Groups["name"].Value;
                 pi.RemoteVersion = project_info_match.Groups["version"].Value;
+
+                pi.BuildOrder = ProjectToBuildOrder[pi.Name];
 
                 var asminfo_file_path = "../../../../Sources/Shared/{0}/AssemblyInfo.cs".FormatWith(pi.Name);
                 pi.AssemblyInfoFile = new FileInfo(asminfo_file_path);
@@ -176,19 +193,37 @@ namespace Nuget.DeployAllProjects
 
                 pi.LocalVersion = version_match.Groups["version"].Value;
 
-                AllProjects.Add(pi);
+                all_projects.Add(pi);
             }
+
+            AllProjects.AddRange(all_projects.OrderBy(x => x.BuildOrder));
         }
 
-        public void DeployProject(ProjectInfo project)
+        public void UpdateAssemblyInfoAndRefresh(ProjectInfo project)
+        {
+            string _ignore = null;
+
+            UpdateAssemblyInfo(project, out _ignore);
+
+            Refresh();
+        }
+
+        public void UpdateAssemblyInfo(ProjectInfo project)
+        {
+            string _ignore = null;
+
+            UpdateAssemblyInfo(project, out _ignore);
+        }
+
+        public void UpdateAssemblyInfo(ProjectInfo project, out string semantic_version)
         {
             //# get version nubmers
 
             // .Net compatible version
             var dot_net_version = project.LocalVersion;
             // semantic versioning version
-            var sem_ver_version = ToNugetVersion(project.LocalVersion);
-            
+            semantic_version = ToNugetVersion(project.LocalVersion);
+
             // update project version so it matches configured
 
             var asminfo_all_lines = File.ReadAllLines(project.AssemblyInfoFile.FullName);
@@ -199,7 +234,7 @@ namespace Nuget.DeployAllProjects
             {
                 var line = asminfo_all_lines[i];
 
-                if(line.StartsWith("[assembly: AssemblyVersion"))
+                if (line.StartsWith("[assembly: AssemblyVersion"))
                 {
                     asminfo_all_lines[i] = "[assembly: AssemblyVersion(\"{0}\")]".FormatWith(dot_net_version);
                     continue;
@@ -213,12 +248,47 @@ namespace Nuget.DeployAllProjects
 
                 if (line.StartsWith("[assembly: AssemblyInformationalVersion"))
                 {
-                    asminfo_all_lines[i] = "[assembly: AssemblyInformationalVersion(\"{0}\")]".FormatWith(sem_ver_version);
+                    asminfo_all_lines[i] = "[assembly: AssemblyInformationalVersion(\"{0}\")]".FormatWith(semantic_version);
                     continue;
                 }
             }
 
-            File.WriteAllLines(project.AssemblyInfoFile.FullName, asminfo_all_lines);
+            RetryPolicy.FileAccess.Execute(() =>
+            {
+                File.WriteAllLines(project.AssemblyInfoFile.FullName, asminfo_all_lines);
+            });
+
+            // get all projects that depend on this one and update their versions too
+            foreach (var kvp in ProjectToDependencies)
+            {
+                foreach (var dep in kvp.Value)
+                {
+                    if(string.Equals(dep, project.Name))
+                    {
+                        var dep_proj =
+                            (from p in AllProjects
+                             where string.Equals(p.Name, kvp.Key)
+                             select p).Single();
+
+                        dep_proj.LocalVersion = project.LocalVersion;
+                        
+                        UpdateAssemblyInfo(dep_proj);
+                    }
+                }
+            }
+        }
+
+        public void DeployProjectAndRefresh(ProjectInfo project)
+        {
+            DeployProject(project);
+            Refresh();
+        }
+
+        public void DeployProject(ProjectInfo project)
+        {
+            string semantic_version = null;
+
+            UpdateAssemblyInfo(project, out semantic_version);
 
             //# build projects for all frameworks
 
@@ -242,7 +312,7 @@ namespace Nuget.DeployAllProjects
 
             var nuspec_file = new FileInfo("../../../../Deployment/Nuget.{0}/Package.symbols.nuspec".FormatWith(project.Name));
 
-            if(!nuspec_file.Exists)
+            if (!nuspec_file.Exists)
             {
                 MessageBox.Show("Cannot find " + nuspec_file.FullName);
                 return;
@@ -253,7 +323,7 @@ namespace Nuget.DeployAllProjects
 
             // update version
             var el_version = nuspec_xml.XPathSelectElement("package/metadata/version");
-            el_version.Value = sem_ver_version;
+            el_version.Value = semantic_version;
 
             // update Squared Infinity dependencies
             var dependencies = nuspec_xml.XPathSelectElements("package/metadata/dependencies/group/dependency").ToArray();
@@ -281,20 +351,50 @@ namespace Nuget.DeployAllProjects
             //# build nuget package
 
             var nugetexe_file = new FileInfo(NugetExePath);
-            if(!nugetexe_file.Exists)
+            if (!nugetexe_file.Exists)
             {
                 MessageBox.Show("cannot find " + NugetExePath);
                 return;
             }
 
             ExecuteApplicationUsingCommandLine(
-                    application: "\"{0}\"".FormatWith(nugetexe_file.FullName),
-                    arguments: "pack \"{0}\" -OutputDirectory {1}".FormatWith(nuspec_file.FullName, LocalDeploymentDirectoryFullPath),
-                    showUi: true,
-                    continueAfterExecution: true,
-                    waitForExit: true);
+                application: "\"{0}\"".FormatWith(nugetexe_file.FullName),
+                arguments: "pack \"{0}\" -OutputDirectory {1}".FormatWith(nuspec_file.FullName, LocalDeploymentDirectoryFullPath),
+                showUi: true,
+                continueAfterExecution: true,
+                waitForExit: true);
 
-            // deploy
+            if(DeployRemotely)
+            {
+                var nupkg_file_name = "SquaredInfinity.{0}.{1}.nupkg".FormatWith(project.Name, semantic_version);
+                var nupkg_full_path = Path.Combine(LocalDeploymentDirectoryFullPath, nupkg_file_name);
+
+                ExecuteApplicationUsingCommandLine(
+                application: "\"{0}\"".FormatWith(nugetexe_file.FullName),
+                arguments: "push \"{0}\"".FormatWith(nupkg_full_path),
+                showUi: true,
+                continueAfterExecution: true,
+                waitForExit: true);
+            }
+
+            // get all projects that depend on this one and deploy them too
+            foreach (var kvp in ProjectToDependencies)
+            {
+                foreach (var dep in kvp.Value)
+                {
+                    if (string.Equals(dep, project.Name))
+                    {
+                        var dep_proj =
+                            (from p in AllProjects
+                             where string.Equals(p.Name, kvp.Key)
+                             select p).Single();
+
+                        dep_proj.LocalVersion = project.LocalVersion;
+
+                        DeployProject(dep_proj);
+                    }
+                }
+            }
         }
 
         string ToNugetVersion(string version)
@@ -314,6 +414,7 @@ namespace Nuget.DeployAllProjects
 
         public class ProjectInfo
         {
+            public int BuildOrder { get; set; }
             public string Name { get; set; }
             public string LocalVersion { get; set; }
             public string RemoteVersion { get; set; }
