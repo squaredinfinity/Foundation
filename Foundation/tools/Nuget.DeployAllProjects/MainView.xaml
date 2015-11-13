@@ -16,7 +16,10 @@
                                 <TextBox Text="{TemplatedParentBinding ViewModel.RemoteDeploymentServers, UpdateSourceTrigger=PropertyChanged}"
                                          Visibility="{Binding ElementName=deploy_remotely_input, Path=IsChecked, Converter={StaticResource Converters.VisibleWhenTrue}}" />
 
-                                    <ListView ItemsSource="{TemplatedParentBinding ViewModel.AllProjects}"
+                                <CheckBox IsChecked="{TemplatedParentBinding ViewModel.ProcessDependantProjects}"
+                                          Content="Process Dependant Projects" />
+
+                                <ListView ItemsSource="{TemplatedParentBinding ViewModel.AllProjects}"
                                           SelectionMode="Multiple"
                                           behaviors:MultiSelection.SelectedItems="{TemplatedParentBinding ViewModel.SelectedProjects}">
                                     <ListView.View>
@@ -64,10 +67,10 @@
                                         </GridView>
                                     </ListView.View>
                                 </ListView>
-                                
-                                <Button Content="Publish All Nuget Package Projects"
+
+                                <Button Content="Refresh"
                                         Margin="10"
-                                        Command="{CommandMethodBinding @TemplatedParent.ViewModel.PublishAll}"/>
+                                        Command="{CommandMethodBinding @TemplatedParent.ViewModel.Refresh}"/>
                             </StackPanel>
                         </Grid>
                     </ControlTemplate>

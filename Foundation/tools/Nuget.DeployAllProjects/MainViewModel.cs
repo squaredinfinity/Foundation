@@ -34,6 +34,18 @@ namespace Nuget.DeployAllProjects
             }
         }
 
+        bool _processDependantProjects = true;
+        public bool ProcessDependantProjects
+        {
+            get { return _processDependantProjects; }
+            set
+            {
+                if(TrySetThisPropertyValue(ref _processDependantProjects, value))
+                {
+                    SettingsService.SetSetting<bool>("Deployment.ProcessDependantProjects", SettingScope.UserMachine, value);
+                }
+            }
+        }
 
         string _remoteDeploymentServers;
         public string RemoteDeploymentServers
@@ -146,7 +158,7 @@ namespace Nuget.DeployAllProjects
             Refresh();
         }
 
-        void Refresh()
+        public void Refresh()
         {
             AllProjects.Clear();
 
@@ -261,21 +273,37 @@ namespace Nuget.DeployAllProjects
                 File.WriteAllLines(project.AssemblyInfoFile.FullName, asminfo_all_lines);
             });
 
-            // get all projects that depend on this one and update their versions too
-            foreach (var kvp in ProjectToDependencies)
+            if (ProcessDependantProjects)
             {
-                foreach (var dep in kvp.Value)
+                // get all projects that depend on this one and update their versions too
+                foreach (var kvp in ProjectToDependencies)
                 {
-                    if(string.Equals(dep, project.Name))
+                    foreach (var dep in kvp.Value)
                     {
-                        var dep_proj =
-                            (from p in AllProjects
-                             where string.Equals(p.Name, kvp.Key)
-                             select p).Single();
+                        if (string.Equals(dep, project.Name))
+                        {
+                            var dep_proj =
+                                (from p in AllProjects
+                                 where string.Equals(p.Name, kvp.Key)
+                                 select p).Single();
 
-                        dep_proj.LocalVersion = project.LocalVersion;
-                        
-                        UpdateAssemblyInfo(dep_proj);
+                            // dep proj version should at least match this project version
+                            // if it's already higher, then it should be increased (because it's dependency changed)
+
+                            var dep_proj_ver = new Version(dep_proj.LocalVersion);
+                            var local_ver = new Version(project.LocalVersion);
+
+                            if (dep_proj_ver < local_ver)
+                                dep_proj_ver = local_ver;
+                            else
+                            {
+                                dep_proj_ver = new Version(dep_proj_ver.Major, dep_proj_ver.Minor, dep_proj_ver.Build, dep_proj_ver.Revision + 1);
+                            }
+
+                            dep_proj.LocalVersion = dep_proj_ver.ToString();
+
+                            UpdateAssemblyInfo(dep_proj);
+                        }
                     }
                 }
             }
@@ -380,21 +408,24 @@ namespace Nuget.DeployAllProjects
                 waitForExit: true);
             }
 
-            // get all projects that depend on this one and deploy them too
-            foreach (var kvp in ProjectToDependencies)
+            if (ProcessDependantProjects)
             {
-                foreach (var dep in kvp.Value)
+                // get all projects that depend on this one and deploy them too
+                foreach (var kvp in ProjectToDependencies)
                 {
-                    if (string.Equals(dep, project.Name))
+                    foreach (var dep in kvp.Value)
                     {
-                        var dep_proj =
-                            (from p in AllProjects
-                             where string.Equals(p.Name, kvp.Key)
-                             select p).Single();
+                        if (string.Equals(dep, project.Name))
+                        {
+                            var dep_proj =
+                                (from p in AllProjects
+                                 where string.Equals(p.Name, kvp.Key)
+                                 select p).Single();
 
-                        dep_proj.LocalVersion = project.LocalVersion;
+                            dep_proj.LocalVersion = project.LocalVersion;
 
-                        DeployProject(dep_proj);
+                            DeployProject(dep_proj);
+                        }
                     }
                 }
             }
@@ -534,31 +565,6 @@ namespace Nuget.DeployAllProjects
             }
         }
 
-
-        public void PublishAll()
-        {
-            // Nuget Packages must be published in a right order so that package dependencies can be resolved
-
-            // 1. Foundation
-
-            PublishProject("NuGet.Foundation");
-
-            // 2. Foundation.Diagnostics.Infrastructure
-
-            PublishProject("NuGet.Foundation.Diagnostics.Infrastructure");
-
-            // 3. Everything else
-
-            PublishProject("NuGet.Foundation.Cache");
-            PublishProject("NuGet.Foundation.Serialization");
-            PublishProject("NuGet.Foundation.Data");
-            PublishProject("NuGet.Foundation.Diagnostics");
-            PublishProject("NuGet.Foundation.Presentation.Xaml");
-            // this will be published manually
-            //PublishProject("NuGet.Foundation.Presentation.Xaml.Styles.Modern");
-            PublishProject("NuGet.Foundation.Unsafe");
-            PublishProject("NuGet.Foundation.Win32Api");
-        }
         void PublishProject(string projectName)
         {
             var solution_file_path = new FileInfo("../../../../Foundation.sln").FullName;
