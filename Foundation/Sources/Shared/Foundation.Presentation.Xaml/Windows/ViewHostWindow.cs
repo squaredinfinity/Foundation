@@ -276,8 +276,11 @@ namespace SquaredInfinity.Foundation.Presentation.Windows
                 if(width != null)
                     SetValue(FrameworkElement.WidthProperty, width.Value);
 
-                SetValue(FrameworkElement.MinHeightProperty, minHeight.Value);
-                SetValue(FrameworkElement.MinWidthProperty, minWidth.Value);
+                if(minHeight != null)
+                    SetValue(FrameworkElement.MinHeightProperty, minHeight.Value);
+
+                if(minWidth != null)
+                    SetValue(FrameworkElement.MinWidthProperty, minWidth.Value);
             }
         }
 
