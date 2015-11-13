@@ -36,22 +36,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SquaredInfinity.Foundation.Diagnostics.Infrastructure.DotNet45, Version=1.1.5.10, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SquaredInfinity.Foundation.Diagnostics.Infrastructure.1.1.5.10-beta\lib\net45\SquaredInfinity.Foundation.Diagnostics.Infrastructure.DotNet45.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SquaredInfinity.Foundation.DotNet45, Version=1.1.5.10, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SquaredInfinity.Foundation.1.1.5.10-beta\lib\net45\SquaredInfinity.Foundation.DotNet45.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SquaredInfinity.Foundation.Presentation.Xaml.DotNet45, Version=1.1.5.10, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SquaredInfinity.Foundation.Presentation.Xaml.1.1.5.10-beta\lib\net45\SquaredInfinity.Foundation.Presentation.Xaml.DotNet45.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SquaredInfinity.Foundation.Serialization.DotNet45, Version=1.1.5.10, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SquaredInfinity.Foundation.Serialization.1.1.5.10-beta\lib\net45\SquaredInfinity.Foundation.Serialization.DotNet45.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
@@ -125,6 +109,28 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sources\DotNet45\Foundation.Diagnostics.DotNet45\Foundation.Diagnostics.DotNet45.csproj">
+      <Project>{ab8007f5-ad2a-42b8-9375-98ae0ad89f80}</Project>
+      <Name>Foundation.Diagnostics.DotNet45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\DotNet45\Foundation.Diagnostics.Infrastructure.DotNet45\Foundation.Diagnostics.Infrastructure.DotNet45.csproj">
+      <Project>{231d0bb0-926b-47ce-b7b1-9e8e49dce51e}</Project>
+      <Name>Foundation.Diagnostics.Infrastructure.DotNet45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\DotNet45\Foundation.DotNet45\Foundation.DotNet45.csproj">
+      <Project>{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}</Project>
+      <Name>Foundation.DotNet45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\DotNet45\Foundation.Presentation.Xaml.DotNet45\Foundation.Presentation.Xaml.DotNet45.csproj">
+      <Project>{48e58f39-a7b8-44d9-afbf-7985e42208c9}</Project>
+      <Name>Foundation.Presentation.Xaml.DotNet45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\DotNet45\Foundation.Serialization.DotNet45\Foundation.Serialization.DotNet45.csproj">
+      <Project>{f924eefe-30b9-4d94-b7ef-359c6a406795}</Project>
+      <Name>Foundation.Serialization.DotNet45</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

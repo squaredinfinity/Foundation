@@ -87,8 +87,8 @@ namespace Nuget.DeployAllProjects
             }
         }
 
-        List<ProjectInfo> _allProjects = new List<ProjectInfo>();
-        public List<ProjectInfo> AllProjects
+        XamlObservableCollectionEx<ProjectInfo> _allProjects = new XamlObservableCollectionEx<ProjectInfo>();
+        public XamlObservableCollectionEx<ProjectInfo> AllProjects
         {
             get { return _allProjects; }
         }
@@ -438,7 +438,14 @@ namespace Nuget.DeployAllProjects
             {
                 // NOTE:    a.b.c-dddd.e - .e is not allowed by nuget
                 //          a.b.c-dddde used instead
-                return "{0}.{1}.{2}-{3}{4}".FormatWith(ver.Major, ver.Minor, ver.Build, "beta", ver.Revision);
+                //
+                //          pre-release versions in nuget use lexicographic ascii order
+                //          so beta2 > beta10
+                //          for that reason beta number will be padded with 0s
+                //          i.e. beta002 instead of beta2
+                //          making beta002 < beta010
+
+                return "{0}.{1}.{2}-{3}{4}".FormatWith(ver.Major, ver.Minor, ver.Build, "beta", ver.Revision.ToString("000"));
             }
             else
             {
