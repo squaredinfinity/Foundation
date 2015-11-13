@@ -41,9 +41,10 @@ namespace SquaredInfinity.Foundation.Collections
                     this.OnBeforeItemRemoved_Callback(index, item);
             }
 
-            protected override void OnAfterItemRemoved(int index, string item)
+            protected override void OnAfterItemRemoved(int index, string item, bool triggeredByClearOperation)
             {
-                base.OnAfterItemRemoved(index, item);
+                base.OnAfterItemRemoved(index, item, triggeredByClearOperation);
+
                 if(OnAfterItemRemoved_Callback != null)
                     this.OnAfterItemRemoved_Callback(index, item);
             }

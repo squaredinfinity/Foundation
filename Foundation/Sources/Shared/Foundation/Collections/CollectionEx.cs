@@ -136,7 +136,7 @@ namespace SquaredInfinity.Foundation.Collections
 
         protected virtual void OnBeforeItemRemoved(int index, TItem item) { }
 
-        protected virtual void OnAfterItemRemoved(int index, TItem item) { }
+        protected virtual void OnAfterItemRemoved(int index, TItem item, bool triggeredByClearOperation) { }
 
         #endregion
 
@@ -158,7 +158,7 @@ namespace SquaredInfinity.Foundation.Collections
                 SetItem(index, newItem);
 
                 OnAfterItemReplaced(index, oldItem, newItem);
-                OnAfterItemRemoved(index, oldItem);
+                OnAfterItemRemoved(index, oldItem, triggeredByClearOperation:false);
                 OnAfterItemInserted(index, newItem);
 
                 IncrementVersion();
@@ -181,7 +181,7 @@ namespace SquaredInfinity.Foundation.Collections
                 SetItem(index, newItem);
 
                 OnAfterItemReplaced(index, oldItem, newItem);
-                OnAfterItemRemoved(index, oldItem);
+                OnAfterItemRemoved(index, oldItem, triggeredByClearOperation:false);
                 OnAfterItemInserted(index, newItem);
 
                 IncrementVersion();
@@ -351,6 +351,13 @@ namespace SquaredInfinity.Foundation.Collections
             IncrementVersion();
 
             bulkUpdate.Dispose();
+
+            OnAfterBulkUpdate();
+        }
+
+        protected virtual void OnAfterBulkUpdate()
+        {
+
         }
     }
 

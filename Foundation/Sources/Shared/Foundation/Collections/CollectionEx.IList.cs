@@ -163,7 +163,7 @@ namespace SquaredInfinity.Foundation.Collections
                 OnAfterItemsCleared(oldItems);
 
                 for (int i = oldItems.Length - 1; i >= 0; i--)
-                    OnAfterItemRemoved(i, oldItems[i]);
+                    OnAfterItemRemoved(i, oldItems[i], triggeredByClearOperation: true);
 
                 IncrementVersion();
             }
@@ -263,7 +263,7 @@ namespace SquaredInfinity.Foundation.Collections
 
                 RemoveItem(index);
 
-                OnAfterItemRemoved(index, item);
+                OnAfterItemRemoved(index, item, triggeredByClearOperation:false);
 
                 IncrementVersion();
 
@@ -286,7 +286,7 @@ namespace SquaredInfinity.Foundation.Collections
 
                 RemoveItem(index);
 
-                OnAfterItemRemoved(index, item);
+                OnAfterItemRemoved(index, item, triggeredByClearOperation:false);
 
                 IncrementVersion();
             }

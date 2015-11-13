@@ -77,11 +77,6 @@ namespace SquaredInfinity.Foundation.Collections
 
         protected override void OnAfterItemsCleared(IReadOnlyList<TItem> oldItems)
         {
-            for (int i = 0; i < oldItems.Count; i++)
-            {
-                RaiseAfterItemRemoved(oldItems[i]);
-            }
-
             RaiseCollectionReset();
         }
 
@@ -124,11 +119,13 @@ namespace SquaredInfinity.Foundation.Collections
             }
         }
 
-        protected override void OnAfterItemRemoved(int index, TItem item)
+        protected override void OnAfterItemRemoved(int index, TItem item, bool triggeredByClearOperation)
         {
-            base.OnAfterItemRemoved(index, item);
+            base.OnAfterItemRemoved(index, item, triggeredByClearOperation);
 
-            RaiseCollectionChanged(NotifyCollectionChangedAction.Remove, (object)item, index);
+            if(!triggeredByClearOperation)
+                RaiseCollectionChanged(NotifyCollectionChangedAction.Remove, (object)item, index);
+
             RaiseAfterItemRemoved(item);
         }
 
@@ -251,6 +248,13 @@ namespace SquaredInfinity.Foundation.Collections
         }
 
         #endregion
+
+        protected override void OnAfterBulkUpdate()
+        {
+            base.OnAfterBulkUpdate();
+
+            RaiseCollectionReset();
+        }
 
         protected override void OnAfterCollectionReset()
         {
