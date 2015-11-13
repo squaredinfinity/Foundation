@@ -13,30 +13,35 @@ namespace SquaredInfinity.Foundation.Media.Drawing
     {
         public override int[] GetPixels()
         {
-                throw new NotImplementedException();
-                //return (int[])(int*[]) pixelsPointer;
+            //return (int[])(int*[]) pixelsPointer;
+
+            var result = new int[_length];
+
+            Marshal.Copy(new IntPtr((void*)(pixelsPointer)), result, 0, _length);
+
+            return result;
         }
 
         Bitmap image;
         
-        PixelFormat imagePixelFormat;
-        string fileName;
-
         BitmapData imageData;
         int* pixelsPointer;
 
         public UnsafePixelCanvas(int width, int height)
             : base(width, height)
         {
-            imageData = new BitmapData();
-            imageData.Width = Width;
-            imageData.Height = Height;
-            imageData.PixelFormat = System.Drawing.Imaging.PixelFormat.Format32bppArgb;
-            imageData.Stride = Width;
+            image = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            _bounds = new Rectangle(0, 0, width, height);
+
+            //imageData = new BitmapData();
+            //imageData.Width = Width;
+            //imageData.Height = Height;
+            //imageData.PixelFormat = System.Drawing.Imaging.PixelFormat.Format32bppArgb;
+            //imageData.Stride = Width;
+
+            imageData = image.LockBits(_bounds, ImageLockMode.ReadWrite, image.PixelFormat);
 
             pixelsPointer = (int*)imageData.Scan0;
-
-            _bounds = new Rectangle(0, 0, _width, _height);
         }
 
         /// <summary>
