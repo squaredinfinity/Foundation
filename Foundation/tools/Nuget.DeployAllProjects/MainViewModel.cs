@@ -172,26 +172,15 @@ namespace Nuget.DeployAllProjects
 
             bool nuget_is_online = false;
 
-            nuget_is_online = p.WaitForExit((int)TimeSpan.FromSeconds(20).TotalMilliseconds);
-
-
-            var project_info_regex = @"SquaredInfinity.(?<name>.*) (?<version>.*)";
+            nuget_is_online = p.WaitForExit((int)TimeSpan.FromSeconds(10).TotalMilliseconds);
 
             var all_projects = new List<ProjectInfo>();
 
-            foreach (var line in existing_list.GetLines())
+            foreach(var kvp in ProjectToBuildOrder)
             {
-                if (line.IsNullOrEmpty())
-                    continue;
-
-                var project_info_match = Regex.Match(line, project_info_regex);
-
                 var pi = new ProjectInfo();
-
-                pi.Name = project_info_match.Groups["name"].Value;
-                pi.RemoteVersion = project_info_match.Groups["version"].Value;
-
-                pi.BuildOrder = ProjectToBuildOrder[pi.Name];
+                pi.Name = kvp.Key;
+                pi.BuildOrder = kvp.Value;
 
                 var asminfo_file_path = "../../../../Sources/Shared/{0}/AssemblyInfo.cs".FormatWith(pi.Name);
                 pi.AssemblyInfoFile = new FileInfo(asminfo_file_path);
@@ -209,6 +198,36 @@ namespace Nuget.DeployAllProjects
                 pi.LocalVersion = version_match.Groups["version"].Value;
 
                 all_projects.Add(pi);
+            }
+
+            if (nuget_is_online)
+            {
+                var project_info_regex = @"SquaredInfinity.(?<name>.*) (?<version>.*)";
+
+                foreach (var line in existing_list.GetLines())
+                {
+                    if (line.IsNullOrEmpty())
+                        continue;
+
+                    var project_info_match = Regex.Match(line, project_info_regex);
+
+                    //var pi = new ProjectInfo();
+
+                    var project_name = project_info_match.Groups["name"].Value;
+
+                    var pi =
+                        (from proj in all_projects
+                         where string.Equals(proj.Name, project_name)
+                         select proj).SingleOrDefault();
+
+                    if(pi == null)
+                    {
+                        MessageBox.Show("{0} does not exist in build order".FormatWith(project_name));
+                        continue;
+                    }
+
+                    pi.RemoteVersion = project_info_match.Groups["version"].Value;
+                }
             }
 
             AllProjects.AddRange(all_projects.OrderBy(x => x.BuildOrder));
@@ -295,10 +314,10 @@ namespace Nuget.DeployAllProjects
 
                             if (dep_proj_ver < local_ver)
                                 dep_proj_ver = local_ver;
-                            else
-                            {
-                                dep_proj_ver = new Version(dep_proj_ver.Major, dep_proj_ver.Minor, dep_proj_ver.Build, dep_proj_ver.Revision + 1);
-                            }
+                            //else
+                            //{
+                            // //   dep_proj_ver = new Version(dep_proj_ver.Major, dep_proj_ver.Minor, dep_proj_ver.Build, dep_proj_ver.Revision + 1);
+                            //}
 
                             dep_proj.LocalVersion = dep_proj_ver.ToString();
 
@@ -333,7 +352,7 @@ namespace Nuget.DeployAllProjects
 
                 ExecuteApplicationUsingCommandLine(
                     application: @"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe",
-                    arguments: "\"{0}\" /rebuild Debug /project \"{1}\" /projectconfig Debug /out build.log".FormatWith(solution_file_path, project_file_path),
+                    arguments: "\"{0}\" /rebuild Release /project \"{1}\" /projectconfig Release /out build.log".FormatWith(solution_file_path, project_file_path),
                     showUi: true,
                     continueAfterExecution: true,
                     waitForExit: true);

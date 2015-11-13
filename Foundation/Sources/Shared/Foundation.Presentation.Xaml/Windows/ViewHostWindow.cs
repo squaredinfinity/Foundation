@@ -270,8 +270,11 @@ namespace SquaredInfinity.Foundation.Presentation.Windows
                 SizeToContent = SizeToContent.Manual;
 
                 // those must be set *after* size to content is set to manual
-                SetValue(FrameworkElement.HeightProperty, height.Value);
-                SetValue(FrameworkElement.WidthProperty, width.Value);
+                if (height != null)
+                    SetValue(FrameworkElement.HeightProperty, height.Value);
+
+                if(width != null)
+                    SetValue(FrameworkElement.WidthProperty, width.Value);
 
                 SetValue(FrameworkElement.MinHeightProperty, minHeight.Value);
                 SetValue(FrameworkElement.MinWidthProperty, minWidth.Value);
