@@ -165,7 +165,7 @@ namespace SquaredInfinity.Foundation.Collections
             }
         }
 
-        public virtual void Replace(int index, TItem newItem)
+        protected virtual void Replace(int index, TItem newItem)
         {
             using (CollectionLock.AcquireWriteLockIfNotHeld())
             {
