@@ -237,7 +237,7 @@ namespace Nuget.DeployAllProjects
         {
             string _ignore = null;
 
-            UpdateAssemblyInfo(project, out _ignore);
+            UpdateAssemblyInfo(project, ProcessDependantProjects, out _ignore);
 
             Refresh();
         }
@@ -246,10 +246,10 @@ namespace Nuget.DeployAllProjects
         {
             string _ignore = null;
 
-            UpdateAssemblyInfo(project, out _ignore);
+            UpdateAssemblyInfo(project, ProcessDependantProjects, out _ignore);
         }
 
-        public void UpdateAssemblyInfo(ProjectInfo project, out string semantic_version)
+        public void UpdateAssemblyInfo(ProjectInfo project, bool processDependantProjects, out string semantic_version)
         {
             //# get version nubmers
 
@@ -292,7 +292,7 @@ namespace Nuget.DeployAllProjects
                 File.WriteAllLines(project.AssemblyInfoFile.FullName, asminfo_all_lines);
             });
 
-            if (ProcessDependantProjects)
+            if (processDependantProjects)
             {
                 // get all projects that depend on this one and update their versions too
                 foreach (var kvp in ProjectToDependencies)
@@ -321,7 +321,8 @@ namespace Nuget.DeployAllProjects
 
                             dep_proj.LocalVersion = dep_proj_ver.ToString();
 
-                            UpdateAssemblyInfo(dep_proj);
+                            string _ignore;
+                            UpdateAssemblyInfo(dep_proj, processDependantProjects: false, semantic_version:out _ignore);
                         }
                     }
                 }
@@ -338,7 +339,7 @@ namespace Nuget.DeployAllProjects
         {
             string semantic_version = null;
 
-            UpdateAssemblyInfo(project, out semantic_version);
+            UpdateAssemblyInfo(project, ProcessDependantProjects, out semantic_version);
 
             //# build projects for all frameworks
 
