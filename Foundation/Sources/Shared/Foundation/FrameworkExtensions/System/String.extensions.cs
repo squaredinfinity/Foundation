@@ -32,7 +32,10 @@ namespace SquaredInfinity.Foundation.Extensions
                     }
 
                     sb.Append(c);
-                    continue;
+                }
+                else
+                {
+                    sb.Append(c);
                 }
             }
 

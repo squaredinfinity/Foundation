@@ -39,6 +39,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Double.Round.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Object.CreateWeakEventHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Object.IsIn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\String.SplitCamelCase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\String.ExpandTabs.cs">
       <SubType>Code</SubType>
     </Compile>
