@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Data\IDataReader.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Object.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IDatabaseObjectNameResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqlServer\SqlConnectionFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SqlServer\SqlDataAccessService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SqlServer\SqlDatabaseObjectNameResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SqlServer\SqlDataRecordEnumerableWrapper.cs" />
