@@ -1,4 +1,5 @@
 ﻿using System;
+using SquaredInfinity.Foundation.Extensions;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -41,7 +42,10 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                     var parameters = values.Skip(NonParameterBindingsCount);
 
                     if (MethodName == null)
+                    {
+                        InternalTrace.Error("Binding error: Method Name is empty");
                         return DependencyProperty.UnsetValue;
+                    }
 
                     if (MethodInfo == null)
                     {
@@ -52,6 +56,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                         // still cannot find the method, return unset value
                         if(MethodInfo == null)
                         {
+                            InternalTrace.Error("Binding error: Cannot find method {0} on type {1}".FormatWith(MethodName, target.Name));
                             return DependencyProperty.UnsetValue;
                         }
                     }
@@ -67,8 +72,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                 }
                 catch (Exception ex)
                 {
-                    //todo
-                   // Logger.LogException(ex);
+                    InternalTrace.Error("Binding error: Method Result Binding for method {0} failed: {1}".FormatWith(MethodName, ex.ToString()));
                     return DependencyProperty.UnsetValue;
                 }
             }

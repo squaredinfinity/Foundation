@@ -43,6 +43,9 @@
                                         ReevaluateTriggerBinding={TemplatedParentBinding ViewModel.Version}}" />
                             </TextBlock>
                             
+                            <Button Content="Increment"
+                                    Command="{CommandMethodBinding @TemplatedParent.ViewModel.IncrementAndRefresh}" />
+                            
                         </StackPanel>
                     </ControlTemplate>
                 </Setter.Value>

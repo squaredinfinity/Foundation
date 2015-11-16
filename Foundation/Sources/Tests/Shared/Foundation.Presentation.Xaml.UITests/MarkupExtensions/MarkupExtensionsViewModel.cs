@@ -25,5 +25,11 @@ namespace SquaredInfinity.Foundation.Presentation.Xaml.UITests.MarkupExtensions
         {
             return (NumberOne + NumberTwo).ToString();
         }
+
+        public void IncrementAndRefresh()
+        {
+            NumberOne++;
+            NumberTwo++;
+        }
     }
 }
