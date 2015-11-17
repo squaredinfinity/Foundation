@@ -7,7 +7,7 @@ using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation.Collections.Trees
 {
-    public abstract class ExpressionTree
+    public abstract class ExpressionTree : NotifyPropertyChangedObject
     {
         public event EventHandler<EventArgs> AfterTreeChanged;
 
@@ -36,6 +36,8 @@ namespace SquaredInfinity.Foundation.Collections.Trees
                         RaiseTreeChanged();
                     }));
                 }
+
+                RaiseThisPropertyChanged();
             }
         }
 

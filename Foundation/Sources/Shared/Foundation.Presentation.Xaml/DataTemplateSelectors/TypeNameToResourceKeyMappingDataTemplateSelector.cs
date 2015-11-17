@@ -28,8 +28,24 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
             if (dataTemplate != null)
                 return true;
 
+            // try base types
+            var base_type = itemType.BaseType;
+
+            while(base_type != null)
+            {
+                dataTemplate = resources[base_type.FullName] as DataTemplate;
+                if (dataTemplate != null)
+                    return true;
+
+                dataTemplate = resources[base_type.Name] as DataTemplate;
+                if (dataTemplate != null)
+                    return true;
+
+                base_type = base_type.BaseType;
+            }
+
             // exact type not found, try interfaces
-            foreach(var interfaceType in itemType.GetInterfaces())
+            foreach (var interfaceType in itemType.GetInterfaces())
             {
                 dataTemplate = resources[interfaceType.FullName] as DataTemplate;
                 if (dataTemplate != null)

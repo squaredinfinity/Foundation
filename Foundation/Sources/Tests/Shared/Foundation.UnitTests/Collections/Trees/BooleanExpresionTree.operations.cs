@@ -554,5 +554,10 @@ namespace SquaredInfinity.Foundation.Collections.Trees
             this.Name = name;
             this.Operator = new TestOperator();
         }
+
+        protected override void DoCopyFrom(IPredicateConnectiveNode other)
+        {
+            
+        }
     }
 }

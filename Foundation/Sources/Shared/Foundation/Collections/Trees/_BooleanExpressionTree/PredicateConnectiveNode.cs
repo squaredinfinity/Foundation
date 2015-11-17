@@ -11,19 +11,33 @@ namespace SquaredInfinity.Foundation.Collections.Trees
     public interface IBinaryOperator
     {
         bool Evaluate(object payload, IExpressionTreeNode left, IExpressionTreeNode right);
-
-        IBinaryOperator DeepClone();
     }
 
     public interface IPredicateConnectiveNode : IExpressionTreeNode
     {
         IBinaryOperator Operator { get; set; }
+
+        void CopyFrom(IPredicateConnectiveNode other);
     }
 
     [DebuggerDisplay("{DebuggerDisplay}")]
     public abstract class PredicateConnectiveNode : ExpressionTreeNode, IPredicateConnectiveNode
     {
-        public IBinaryOperator Operator { get; set; }
+        IBinaryOperator _operator;
+        public IBinaryOperator Operator
+        {
+            get { return _operator; }
+            set { TrySetThisPropertyValue(ref _operator, value); }
+        }
+
+        public void CopyFrom(IPredicateConnectiveNode other)
+        {
+            DoCopyFrom(other);
+        }
+
+        protected abstract void DoCopyFrom(IPredicateConnectiveNode other);
+
+
 
         public override bool Evaluate(object payload)
         {
@@ -127,7 +141,7 @@ namespace SquaredInfinity.Foundation.Collections.Trees
 
             var newConnective = createConnectiveNode();
 
-            newConnective.Operator = this.Operator.DeepClone();
+            newConnective.CopyFrom(this);
 
             newConnective.AssignChild(target, ChildNodePosition.Left);
             newConnective.AssignChild(this, ChildNodePosition.Right);

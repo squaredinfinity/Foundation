@@ -75,7 +75,7 @@ namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
                              select m).FirstOrDefault();
                 }
 
-                if(ExecuteMethodInfo_NoParameters == null && ExecuteMethodInfo_NoParameters == null)
+                if(ExecuteMethodInfo_OneParameter == null && ExecuteMethodInfo_NoParameters == null)
                 {
                     InternalTrace.Error("Binding error: Cannot find public method {0} on type {1}. Method should be public and accept single or no parameters.".FormatWith(ExecuteMethodName, targetType.FullName));
                 }

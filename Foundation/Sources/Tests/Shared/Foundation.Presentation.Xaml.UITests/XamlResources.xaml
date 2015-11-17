@@ -12,6 +12,10 @@
 
         <ResourceDictionary Source="{ResourceFromThisAssembly /Binding/ObservableCollectionExView.xaml}" />
 
+        <ResourceDictionary Source="{ResourceFromThisAssembly /Collections/BooleanExpressionTree/BooleanExpressionTreeView.xaml}" />
+        <ResourceDictionary Source="{ResourceFromThisAssembly /Collections/BooleanExpressionTree/PredicateNodeView.xaml}" />
+        <ResourceDictionary Source="{ResourceFromThisAssembly /Collections/BooleanExpressionTree/ConnectiveNodeView.xaml}" />
+        
         <ResourceDictionary Source="{ResourceFromThisAssembly /Fonts/FontsView.xaml}" />
         
         <ResourceDictionary Source="{ResourceFromThisAssembly /MarkupExtensions/MarkupExtensionsView.xaml}" />

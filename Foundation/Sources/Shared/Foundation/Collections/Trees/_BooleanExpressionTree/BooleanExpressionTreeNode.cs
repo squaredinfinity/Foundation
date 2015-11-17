@@ -6,13 +6,28 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Collections.Trees
 {
-    public abstract class ExpressionTreeNode : IExpressionTreeNode
+    public abstract class ExpressionTreeNode : NotifyPropertyChangedObject, IExpressionTreeNode
     {
-        public IExpressionTreeNode Parent { get; set; }
+        IExpressionTreeNode _parent;
+        public IExpressionTreeNode Parent
+        {
+            get { return _parent; }
+            set { TrySetThisPropertyValue(ref _parent, value); }
+        }
 
-        public IExpressionTreeNode Left { get; set; }
+        IExpressionTreeNode _left;
+        public IExpressionTreeNode Left
+        {
+            get { return _left; }
+            set { TrySetThisPropertyValue(ref _left, value); }
+        }
 
-        public IExpressionTreeNode Right { get; set; }
+        IExpressionTreeNode _right;
+        public IExpressionTreeNode Right
+        {
+            get { return _right; }
+            set { TrySetThisPropertyValue(ref _right, value); }
+        }
 
         public virtual int GetPrecedence() { return 0; }
 

@@ -39,7 +39,7 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
 
             while ((parent = parent.GetVisualOrLogicalParent()) != null)
             {
-                var parent_frameworkElement = parent as FrameworkElement;
+                var parent_frameworkElement = parent as FrameworkElement; 
 
                 if (parent_frameworkElement == null)
                     continue;

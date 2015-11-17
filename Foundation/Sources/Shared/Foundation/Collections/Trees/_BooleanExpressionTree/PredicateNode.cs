@@ -161,9 +161,9 @@ namespace SquaredInfinity.Foundation.Collections.Trees
 
             //# copy connective mode from target parent (if exists)
             if (targetParentAsConnective != null)
-                newConnective.Operator = targetParentAsConnective.Operator.DeepClone();
+                newConnective.CopyFrom(targetParentAsConnective);
             else if (targetSiblingAsConnective != null)
-                newConnective.Operator = targetSiblingAsConnective.Operator.DeepClone();
+                newConnective.CopyFrom(targetSiblingAsConnective);
 
             target.AssignParent(newConnective);
 
