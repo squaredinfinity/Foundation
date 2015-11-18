@@ -69,7 +69,7 @@ namespace SquaredInfinity.Foundation.Extensions
                 try
                 {
                     task.Wait(cancellationToken);
-                }
+               }
                 catch (TaskCanceledException)
                 { /* expected */ }
                 catch (OperationCanceledException)

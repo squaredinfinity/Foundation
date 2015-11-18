@@ -147,26 +147,32 @@ namespace SquaredInfinity.Foundation
         [TestMethod]
         public void WaitsMinTimespanBeforeExecuting()
         {
-            var min = TimeSpan.FromMilliseconds(100);
+            var min = TimeSpan.FromMilliseconds(50);
 
             var it = new InvocationThrottle(min);
             var tid = Thread.CurrentThread.ManagedThreadId;
 
-            var are = new AutoResetEvent(initialState: false);
+            for (int i = 1; i <= 2; i++)
+            {
+                var are = new AutoResetEvent(initialState: false);
 
-            it.Invoke(() =>
-                    {
-                        Assert.AreNotEqual(tid, Thread.CurrentThread.ManagedThreadId);
-                        are.Set();
-                    });
+                it.Invoke(() =>
+                        {
+                            Assert.AreNotEqual(tid, Thread.CurrentThread.ManagedThreadId);
+                            are.Set();
+                        });
 
-            var sw = Stopwatch.StartNew();
-            
-            are.WaitOne();
+                var sw = Stopwatch.StartNew();
 
-            sw.Stop();
+                are.WaitOne();
 
-            Assert.IsTrue(sw.Elapsed.TotalMilliseconds >= min.TotalMilliseconds);
+                sw.Stop();
+
+                // wait so that next request is not throttled, but initial delay should still apply
+                Thread.Sleep(100);
+
+                Assert.IsTrue(sw.Elapsed.TotalMilliseconds >= min.TotalMilliseconds, "failed iteration " + i.ToString());
+            }
         }
     }
 }

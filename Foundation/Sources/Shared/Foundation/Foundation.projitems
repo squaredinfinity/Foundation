@@ -103,6 +103,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)IndexInAnotherListComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IndexInListComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)INotifyVersionChangedObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InvocationThrottle.ActionInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InvocationThrottle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ISerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Iterator.cs" />
