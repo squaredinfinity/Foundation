@@ -92,22 +92,31 @@ namespace SquaredInfinity.Foundation
                     // TimeSpanMin passed since last invoke
                     LastInvokeRequestUTC != null && current_invoke_request_time - LastInvokeRequestUTC.Value >= TimeSpanMin;
 
+                LastInvokeRequestUTC = current_invoke_request_time;
+
+                bool passed_max_time =
+                    TimeSpanMax == null
+                    ||
+                    current_invoke_request_time - LastInvokeUTC >= TimeSpanMax;
+
+                bool should_invoke =
+                    // is past min
+                    passed_min_time
+                    ||
+                    // is past max
+                    (TimeSpanMax != null && passed_max_time);
+
                 // if min time passed then check if max time span passed
-                if (passed_min_time)
+                if (should_invoke)
                 {
-                    // invoke if max time passed
-                    if (TimeSpanMax == null || current_invoke_request_time - LastInvokeUTC >= TimeSpanMax)
-                    {
-                        // timer max elapsed (or not set)
-                        // invoke, stop the timer, update times
-                        LastActionInfo2.TryInvokeAsync();
+                    // invoke, stop the timer, update times
+                    LastActionInfo2.TryInvokeAsync();
 
-                        LastInvokeUTC = current_invoke_request_time;
-                        ThrottleTimer.Stop();
-                        LastInvokeRequestUTC = current_invoke_request_time;
+                    LastInvokeUTC = current_invoke_request_time;
+                    ThrottleTimer.Stop();
+                    LastInvokeRequestUTC = current_invoke_request_time;
 
-                        return;
-                    }
+                    return;
                 }
 
                 // restart the timer
