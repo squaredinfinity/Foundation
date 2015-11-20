@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Collections
 {
-    public class AfterItemAddedEventArgs<TItem> : EventArgs
+    public class ItemAddedEventArgs<TItem> : EventArgs
     {
         public TItem AddedItem { get; private set; }
 
-        public AfterItemAddedEventArgs(TItem addedItem)
+        public ItemAddedEventArgs(TItem addedItem)
         {
             this.AddedItem = addedItem;
         }

@@ -87,10 +87,19 @@ namespace SquaredInfinity.Foundation.Collections
         protected override void OnBeforeItemInserted(int index, TItem item)
         {
             base.OnBeforeItemInserted(index, item);
+            RaiseBeforeItemInserted(item);
 
             if (MonitorElementsForChanges)
                 BeginItemChangeMonitoring(item);
         }
+
+        public event EventHandler<ItemAddedEventArgs<TItem>> BeforeItemInserted;
+        void RaiseBeforeItemInserted(TItem item)
+        {
+            if (BeforeItemInserted != null)
+                BeforeItemInserted(this, new ItemAddedEventArgs<TItem>(item));
+        }
+
 
         protected override void OnAfterItemInserted(int index, TItem item)
         {
@@ -98,11 +107,11 @@ namespace SquaredInfinity.Foundation.Collections
             RaiseAfterItemInserted(item);
         }
 
-        public event EventHandler<AfterItemAddedEventArgs<TItem>> AfterItemInserted;
+        public event EventHandler<ItemAddedEventArgs<TItem>> AfterItemInserted;
         void RaiseAfterItemInserted(TItem item)
         {
             if (AfterItemInserted != null)
-                AfterItemInserted(this, new AfterItemAddedEventArgs<TItem>(item));
+                AfterItemInserted(this, new ItemAddedEventArgs<TItem>(item));
         }
 
         #endregion
@@ -111,12 +120,20 @@ namespace SquaredInfinity.Foundation.Collections
 
         protected override void OnBeforeItemRemoved(int index, TItem item)
         {
+            RaiseBeforeItemRemoved(item);
             base.OnBeforeItemRemoved(index, item);
 
             if (MonitorElementsForChanges)
             {
                 StopItemChangeMonitoring(item);
             }
+        }
+
+        public event EventHandler<ItemRemovedEventArgs<TItem>> BeforeItemRemoved;
+        void RaiseBeforeItemRemoved(TItem item)
+        {
+            if (BeforeItemRemoved != null)
+                BeforeItemRemoved(this, new ItemRemovedEventArgs<TItem>(item));
         }
 
         protected override void OnAfterItemRemoved(int index, TItem item, bool triggeredByClearOperation)
@@ -129,11 +146,11 @@ namespace SquaredInfinity.Foundation.Collections
             RaiseAfterItemRemoved(item);
         }
 
-        public event EventHandler<AfterItemRemovedEventArgs<TItem>> AfterItemRemoved;
+        public event EventHandler<ItemRemovedEventArgs<TItem>> AfterItemRemoved;
         void RaiseAfterItemRemoved(TItem item)
         {
             if (AfterItemRemoved != null)
-                AfterItemRemoved(this, new AfterItemRemovedEventArgs<TItem>(item));
+                AfterItemRemoved(this, new ItemRemovedEventArgs<TItem>(item));
         }
 
         #endregion

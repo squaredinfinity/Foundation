@@ -8,8 +8,8 @@ namespace SquaredInfinity.Foundation.Collections
 {
     public interface IObservableCollectionEx<TItem> : ICollectionEx<TItem>
     {
-        event EventHandler<AfterItemAddedEventArgs<TItem>> AfterItemInserted;
-        event EventHandler<AfterItemRemovedEventArgs<TItem>> AfterItemRemoved;
+        event EventHandler<ItemAddedEventArgs<TItem>> AfterItemInserted;
+        event EventHandler<ItemRemovedEventArgs<TItem>> AfterItemRemoved;
         event EventHandler<AfterItemReplacedEventArgs<TItem>> AfterItemReplaced;
     }
 }

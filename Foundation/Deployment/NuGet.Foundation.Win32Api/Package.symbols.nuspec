@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>SquaredInfinity.Foundation.Win32Api</id>
-    <version>1.1.7-beta018</version>
+    <version>1.1.7-beta020</version>
     <title>SquaredInfinity.Foundation.Win32Api</title>
     <authors>Jarek Kardas</authors>
     <owners></owners>
@@ -21,7 +21,7 @@
     <copyright>Copyright  2014</copyright>
     <dependencies>
       <group targetFramework="net45">
-        <dependency id="SquaredInfinity.Foundation" version="1.1.7-beta018" />
+        <dependency id="SquaredInfinity.Foundation" version="1.1.7-beta020" />
       </group>
     </dependencies>
     <references></references>

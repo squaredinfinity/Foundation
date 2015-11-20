@@ -61,7 +61,7 @@ namespace SquaredInfinity.Foundation.Presentation.ObjectExtensibility.Extensions
             owner.AfterItemRemoved += owner_AfterItemRemoved;
         }
 
-        void owner_AfterItemAdded(object sender, AfterItemAddedEventArgs<PresentationWrapper> e)
+        void owner_AfterItemAdded(object sender, ItemAddedEventArgs<PresentationWrapper> e)
         {
             var listItemExtension = e.AddedItem.Extensions.GetOrAdd<ListItemExtension>(() => new ListItemExtension());
 
@@ -77,7 +77,7 @@ namespace SquaredInfinity.Foundation.Presentation.ObjectExtensibility.Extensions
             base.OnDetached(owner);
         }
 
-        void owner_AfterItemRemoved(object sender, AfterItemRemovedEventArgs<PresentationWrapper> e)
+        void owner_AfterItemRemoved(object sender, ItemRemovedEventArgs<PresentationWrapper> e)
         {
             var listItemExtension = (ListItemExtension)e.RemovedItem.Extensions[typeof(ListItemExtension)];
 

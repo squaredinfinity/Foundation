@@ -12,8 +12,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ChainOfCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CloneComparer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collections\AfterItemAddedEventArgs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collections\AfterItemRemovedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\ItemAddedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\ItemRemovedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\AfterItemReplacedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\CollectionEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\CollectionEx.IList.cs" />
