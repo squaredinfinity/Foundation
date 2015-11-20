@@ -26,5 +26,6 @@ namespace SquaredInfinity.Foundation.Collections
     public interface ICollectionEx : IBulkUpdatesCollection
     {
         void Move(int oldIndex, int newIndex);
+        void RemoveAt(int index);
     }
 }
