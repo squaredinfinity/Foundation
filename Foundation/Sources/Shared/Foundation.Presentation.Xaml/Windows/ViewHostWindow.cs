@@ -221,6 +221,9 @@ namespace SquaredInfinity.Foundation.Presentation.Windows
             if (args.ViewModelEventArgs.IsHandled)
                 return;
 
+            if (ViewModel == null)
+                return;
+
             if (args.RoutedEvent.RoutingStrategy == RoutingStrategy.Bubble)
             {
                 // todo: update interface
