@@ -246,8 +246,11 @@ namespace SquaredInfinity.Foundation.Presentation.Windows
             if (args.IsHandled)
                 return;
 
-            // todo: update interface
-            (ViewModel as ViewModel).OnViewModelEventInternal(args);
+            if (ViewModel != null)
+            {
+                // todo: update interface
+                (ViewModel as ViewModel).OnViewModelEventInternal(args);
+            }
         }
 
         void DefaultDialogWindow_LayoutUpdated(object sender, EventArgs e)

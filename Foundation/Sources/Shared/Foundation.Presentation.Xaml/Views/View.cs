@@ -149,8 +149,11 @@ namespace SquaredInfinity.Foundation.Presentation.Views
             if (args.IsHandled)
                 return;
 
-            // todo: update interface
-            (ViewModel as ViewModel).OnViewModelEventInternal(args);
+            if (ViewModel != null)
+            {
+                // todo: update interface
+                (ViewModel as ViewModel).OnViewModelEventInternal(args);
+            }
         }
 
         public IHostAwareViewModel ViewModel
