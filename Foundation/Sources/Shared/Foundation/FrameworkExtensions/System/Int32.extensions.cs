@@ -30,5 +30,10 @@ namespace SquaredInfinity.Foundation.Extensions
         {
             return (number & flag) == flag;
         }
+
+        public static int Clamp(this Int32 number, Int32 inclusiveMin, Int32 inclusiveMax)
+        {
+            return Math.Max(inclusiveMin, Math.Min(number, inclusiveMax));
+        }
     }
 }
