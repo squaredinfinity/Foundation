@@ -277,8 +277,13 @@ namespace SquaredInfinity.Foundation.Extensions
         /// <returns></returns>
         public static double Clamp(this double d, double inclusiveMin, double inclusiveMax, double? NaN_value = null)
         {
-            if ((NaN_value == null && double.IsNaN(d)))
-                return inclusiveMin;
+            if (double.IsNaN(d))
+            {
+                if ((NaN_value == null))
+                    return inclusiveMin;
+                else
+                    return NaN_value.Value;
+            }
 
             return Math.Max(inclusiveMin, Math.Min(d, inclusiveMax));
         }
