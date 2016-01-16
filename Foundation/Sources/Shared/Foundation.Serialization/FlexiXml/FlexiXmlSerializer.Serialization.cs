@@ -135,14 +135,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             if (!hasAnySerializationAttributesOrElements)
             {
-                hasAnySerializationAttributesOrElements =
-                        (from e in cx.RootElement.DescendantsAndSelf()
-                         from a in e.Attributes()
-                         where
-                            a.Name.NamespaceName == XmlNamespace
-                            ||
-                            cx.Options.IsAttributeValueSerializationExtension(a)
-                         select a).Any();
+                hasAnySerializationAttributesOrElements = CheckEverythingForSerializationAttributesOrElements(cx);
             }
 
             if(hasAnySerializationAttributesOrElements)
@@ -152,6 +145,23 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             }
 
             return cx.RootElement;
+        }
+
+        bool CheckEverythingForSerializationAttributesOrElements(FlexiXmlSerializationContext cx)
+        {
+            foreach (var e in cx.RootElement.DescendantsAndSelf())
+            {
+                if (e.Name.Namespace == XmlNamespace)
+                    return true;
+
+                foreach (var a in e.Attributes())
+                {
+                    if (a.Name.Namespace == XmlNamespace || cx.Options.IsAttributeValueSerializationExtension(a))
+                        return true;
+                }
+            }
+
+            return false;
         }
 
         public XElement Serialize<T>(IEnumerable<T> items, string rootElementName, Func<T, XElement> getItemElement)

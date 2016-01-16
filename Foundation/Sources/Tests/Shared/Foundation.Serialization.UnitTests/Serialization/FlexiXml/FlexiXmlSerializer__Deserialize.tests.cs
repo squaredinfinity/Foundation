@@ -265,5 +265,45 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             Assert.AreNotSame(o2, o2.MyDispsableProperty);
         }
+
+        [TestMethod]
+        public void SupportsDictionarySerialization()
+        {
+            var o = new SimpleDictionary();
+            o.Add(1, "one");
+            o.Add(2, "two");
+            o.CustomProperty = "Numbers";
+
+            var s = new FlexiXmlSerializer();
+
+            var xml = s.Serialize(o);
+
+            var has_keys_element =
+                (from e in xml.Elements()
+                 where e.Name == "Keys"
+                 select e).Any();
+
+            var has_values_element =
+                (from e in xml.Elements()
+                 where e.Name == "Values"
+                 select e).Any();
+
+            // keys and values are skipped from serialization by default
+            Assert.IsFalse(has_keys_element);
+            Assert.IsFalse(has_values_element);
+
+            var o2 = s.Deserialize<SimpleDictionary>(xml);
+
+            Assert.IsNotNull(o2);
+            Assert.AreNotSame(o, o2);
+            Assert.AreEqual(o.CustomProperty, o2.CustomProperty);
+            Assert.AreEqual(2, o2.Count);
+
+            Assert.AreEqual(1, o2.Keys.First());
+            Assert.AreEqual("one", o2.Values.First());
+
+            Assert.AreEqual(2, o2.Keys.Skip(1).First());
+            Assert.AreEqual("two", o2.Values.Skip(1).First());
+        }
     }
 }

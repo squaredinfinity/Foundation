@@ -18,6 +18,12 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         public XName NullValueAttributeName { get; set; }
 
         /// <summary>
+        /// Name of an element in Serialization namespace which will signify that XML Element represents dictionary Key Value Pair value.
+        /// Default is 'kvp'.
+        /// </summary>
+        public XName KeyValuePairElementName { get; set; }
+
+        /// <summary>
         /// Value of an attribute which will represent CLR NULL value.
         /// Default is '{serialization:null}'.
         /// </summary>
@@ -41,6 +47,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         {
             SerializationNamespaceName = "serialization";
             NullValueAttributeName = FlexiXmlSerializer.XmlNamespace.GetName("null");
+            KeyValuePairElementName = FlexiXmlSerializer.XmlNamespace.GetName("kvp");
             UniqueIdAttributeName = FlexiXmlSerializer.XmlNamespace.GetName("id");
             UniqueIdReferenceAttributeName = FlexiXmlSerializer.XmlNamespace.GetName("id-ref");
             UniqueIdReferenceAttributeSuffix = ".ref";

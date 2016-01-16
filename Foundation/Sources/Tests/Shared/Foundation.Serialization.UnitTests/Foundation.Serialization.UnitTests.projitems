@@ -5,7 +5,9 @@
     <HasSharedItems>true</HasSharedItems>
     <SharedGUID>85660d59-e428-4eb1-97e3-52d2d9106bc4</SharedGUID>
   </PropertyGroup>
-  <PropertyGroup Label="Configuration" />
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SquaredInfinity.Foundation</Import_RootNamespace>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\FlexiXmlSerializer._BugFixes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\FlexiXmlSerializer__Deserialize.tests.cs">
@@ -29,6 +31,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\TestEntities\NonGenericCollectionProperty.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\TestEntities\NonGenericCollectionReadOnlyProperty_InitializedByConstructor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\TestEntities\Root.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\TestEntities\SimpleDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\FlexiXml\TestEntities\SimpleSerializableType.cs" />
   </ItemGroup>
   <ItemGroup>

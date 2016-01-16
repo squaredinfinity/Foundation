@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Foundation
 {
@@ -156,22 +157,21 @@ namespace SquaredInfinity.Foundation
             {
                 var are = new AutoResetEvent(initialState: false);
 
+                var sw = Stopwatch.StartNew();
+
                 it.Invoke(() =>
                         {
+                            sw.Stop();
                             Assert.AreNotEqual(tid, Thread.CurrentThread.ManagedThreadId);
                             are.Set();
                         });
 
-                var sw = Stopwatch.StartNew();
-
                 are.WaitOne();
-
-                sw.Stop();
 
                 // wait so that next request is not throttled, but initial delay should still apply
                 Thread.Sleep(100);
 
-                Assert.IsTrue(sw.Elapsed.TotalMilliseconds >= min.TotalMilliseconds, "failed iteration " + i.ToString());
+                Assert.IsTrue(sw.Elapsed.TotalMilliseconds >= min.TotalMilliseconds, "failed iteration {0}, elapse: {1}".FormatWith(i.ToString(), sw.Elapsed.TotalMilliseconds));
             }
         }
     }
