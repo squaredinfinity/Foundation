@@ -25,12 +25,12 @@ namespace  SquaredInfinity.Foundation.Presentation.Styles.Modern
             ResourcesManager.LoadAndMergeCompiledResourceDictionaryFromThisAssembly(@"All.xaml");
         }
 
-        public void ApplyAllStyles()
+        public static void ApplyAllStyles()
         {
             ApplyAllStyles(Application.Current.Resources);
         }
 
-        public void ApplyAllStyles(ResourceDictionary resourceDictionary)
+        public static void ApplyAllStyles(ResourceDictionary resourceDictionary)
         {
             resourceDictionary[typeof(Button)] = Application.Current.Resources["Styles.Button"];
             resourceDictionary[typeof(CheckBox)] = Application.Current.Resources["Styles.CheckBox"];
