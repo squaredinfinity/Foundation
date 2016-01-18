@@ -53,6 +53,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DateTimeContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\ExceptionContextData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Direction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DoubleRange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicComparer_T.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EnumeratorBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExceptionEqualityComparer.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)IndexInAnotherListComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IndexInListComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)INotifyVersionChangedObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IntRange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InvocationThrottle.ActionInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InvocationThrottle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ISerializer.cs" />
