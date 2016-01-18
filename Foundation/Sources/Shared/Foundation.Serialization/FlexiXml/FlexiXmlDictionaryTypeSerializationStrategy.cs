@@ -62,8 +62,8 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 foreach (var item_el in itemElements)
                 {
                     var kvp = (kvp) cx.Deserialize(item_el, typeof(kvp), elementNameMayContainTargetTypeName: true);
-
-                    targetDict.Add(kvp.Key, kvp.Value);
+                    
+                    targetDict[kvp.Key] = kvp.Value;
                 }
 
                 if (bulkUpdateOperation != null)
