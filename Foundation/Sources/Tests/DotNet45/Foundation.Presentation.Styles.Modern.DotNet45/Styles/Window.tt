@@ -1,4 +1,10 @@
-
+<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ include file="../_Global.tt" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".xaml" #>
 
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -9,8 +15,8 @@
 
     <Style x:Key="Styles.Window.Button"
            TargetType="{x:Type Button}">
-        <Setter Property="Foreground" Value="#FF000000" />
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="<#=windowbutton_text#>" />
+        <Setter Property="Background" Value="<#=windowbutton_background#>" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Padding" Value="1" />
@@ -27,11 +33,11 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#266Fa0" />
-                            <Setter Property="Foreground" Value="#FFFFFF" />
+                            <Setter Property="Background" Value="<#=windowbutton_hover_background#>" />
+                            <Setter Property="Foreground" Value="<#=windowbutton_hover_text#>" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="#DD052C" />
+                            <Setter Property="Background" Value="<#=windowbutton_pressed_background#>" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter TargetName="contentPresenter" Property="Opacity" Value=".5" />
@@ -44,13 +50,13 @@
     
         <Style x:Key="Styles.ModernWindow"
                TargetType="windows:ModernWindow">
-        <Setter Property="Foreground" Value="#FF000000" />
-            <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="<#=windowbutton_text#>" />
+            <Setter Property="Background" Value="<#=windowbutton_background#>"/>
             <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
             <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Padding" Value="2" />
         <Setter Property="Margin" Value="0" />
-		<Setter Property="TextBlock.Foreground" Value="#FF000000" />
+		<Setter Property="TextBlock.Foreground" Value="<#=control_text#>" />
         <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
@@ -64,7 +70,7 @@
 							BorderThickness="1"
                             BorderBrush="Black"
                             Margin="{Binding Source={x:Static SystemParameters.WindowNonClientFrameThickness}}" 
-                            Background="#FFFFFFFF">
+                            Background="<#=window_background#>">
                         <Grid>
                             <Border BorderThickness="1">
                                 <AdornerDecorator>
@@ -84,7 +90,7 @@
 
                                         <!--# Title Bar Background -->
                                         <Rectangle x:Name="HeaderBackground" 
-                                                   Fill="#FFFFFFFF"
+                                                   Fill="<#=window_background#>"
                                                    VerticalAlignment="Stretch"
                                                    Grid.Row="0"/>
 
@@ -217,7 +223,7 @@
                                                       Height="12"
                                                       Margin="1"
                                                       HorizontalAlignment="Right"
-                                                      Stroke="#266Fa0"
+                                                      Stroke="<#=accent#>"
                                                       StrokeThickness="1" 
                                                       Stretch="None" 
                                                       Data="F1 M1,10 L3,10 M5,10 L7,10 M9,10 L11,10 M2,9 L2,11 M6,9 L6,11 M10,9 L10,11 M5,6 L7,6 M9,6 L11,6 M6,5 L6,7 M10,5 L10,7 M9,2 L11,2 M10,1 L10,3" />
@@ -225,7 +231,7 @@
                                     </Grid>
                                 </AdornerDecorator>
                             </Border>
-                            <Border BorderBrush="#266Fa0" 
+                            <Border BorderBrush="<#=accent#>" 
                                         BorderThickness="1" 
                                         Visibility="{Binding IsActive, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource Converters.VisibleWhenTrue}}" />
                         </Grid>
