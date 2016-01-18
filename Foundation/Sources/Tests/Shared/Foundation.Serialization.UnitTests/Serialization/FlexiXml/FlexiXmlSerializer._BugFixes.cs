@@ -143,6 +143,38 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
         #region BUG 004
 
+        [TestMethod]
+        public void Bug004__DeserializationFailsIfDictionaryAlreadyContainsAKey__ExistingValueShouldBeOverridenInstead()
+        {
+            var dict = new BUG004_Dict();
+            dict.Add(7, "seven");
+
+            var s = new FlexiXmlSerializer();
+
+            var xml = s.Serialize(dict);
+
+            var dict2 = s.Deserialize<BUG004_Dict>(xml);
+
+            // would throw exception by now
+
+            Assert.IsNotNull(dict2);
+            Assert.AreEqual(2, dict2.Count);
+            Assert.AreEqual("zero", dict2[0]);
+            Assert.AreEqual("seven", dict2[7]);
+        }
+
+        public class BUG004_Dict : Dictionary<int, string>
+        {
+            public BUG004_Dict()
+            {
+                this.Add(0, "zero");
+            }
+        }
+
+        #endregion
+
+        #region BUG next
+
 
         #endregion
 
