@@ -51,6 +51,8 @@ namespace SquaredInfinity.Foundation.Presentation
 
             view.ViewModel.InteractionCompleting += viewModel_modalInteractionCompleting;
 
+            PrepareViewForDisplay(viewHost, view);
+
             viewHost.ShowDialog();
         }
 
@@ -76,6 +78,8 @@ namespace SquaredInfinity.Foundation.Presentation
 
             if (viewHost != Application.Current.MainWindow) // this may happen when application is closing down
                 viewHost.Owner = Application.Current.MainWindow;
+
+            PrepareViewForDisplay(viewHost, null);
 
             if (!Application.Current.Dispatcher.HasShutdownStarted
                 && !Application.Current.Dispatcher.HasShutdownFinished)
@@ -131,6 +135,9 @@ namespace SquaredInfinity.Foundation.Presentation
 
             viewHost.ShowActivated = showActivated;
 
+            PrepareViewForDisplay(viewHost, view);
+
+
             if (!UIDispatcher.HasShutdownStarted
                 && !UIDispatcher.HasShutdownFinished)
             {
@@ -144,6 +151,9 @@ namespace SquaredInfinity.Foundation.Presentation
                 }
             }
         }
+
+        protected virtual void PrepareViewForDisplay(ViewHostWindow viewHost, View view)
+        { }
 
         public override void ShowToolWindow(View view, Func<ViewHostWindow> getWindow = null)
         {
@@ -172,6 +182,8 @@ namespace SquaredInfinity.Foundation.Presentation
                 if (view.ViewModel.InteractionOutcome == UserInteractionOutcome.Unset)
                     view.ViewModel.CompleteInteraction(UserInteractionOutcome.Cancelled);
             };
+
+            PrepareViewForDisplay(viewHost, view);
 
             if (!UIDispatcher.HasShutdownStarted
                 && !UIDispatcher.HasShutdownFinished)

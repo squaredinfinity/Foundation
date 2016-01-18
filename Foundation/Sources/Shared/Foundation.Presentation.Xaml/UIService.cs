@@ -33,6 +33,11 @@ namespace SquaredInfinity.Foundation.Presentation
             this.UIDispatcher = uiDispatcher;
         }
 
+        public void ChangeDispatcher(Dispatcher newDispatcher)
+        {
+            this.UIDispatcher = newDispatcher;
+        }
+
         /// <summary>
         /// Displays a tool window to the user.
         /// </summary>

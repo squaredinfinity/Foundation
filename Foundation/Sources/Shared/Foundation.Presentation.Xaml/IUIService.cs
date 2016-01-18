@@ -50,5 +50,7 @@ namespace SquaredInfinity.Foundation.Presentation
         /// </summary>
         /// <param name="action">The action.</param>
         bool IsUIThread { get; }
+
+        void ChangeDispatcher(Dispatcher newDispatcher);
     }
 }

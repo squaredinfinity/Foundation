@@ -17,6 +17,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)dwmapi.entities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)dwmapi.externs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)gdi32.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)shell32.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)shell32.externs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)user32.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)user32.entities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)user32.externs.cs" />
