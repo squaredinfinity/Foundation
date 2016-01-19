@@ -7,15 +7,15 @@ namespace SquaredInfinity.Foundation
 {
     public class DoubleRange
     {
-        double? _from;
-        public double? From
+        double _from;
+        public double From
         {
             get { return _from; }
             set { _from = value; }
         }
 
-        double? _to;
-        public double? To
+        double _to;
+        public double To
         {
             get { return _to; }
             set { _to = value; }
@@ -38,7 +38,7 @@ namespace SquaredInfinity.Foundation
         public DoubleRange()
         { }
 
-        public DoubleRange(double? inclusiveFrom, double? inclusiveTo)
+        public DoubleRange(double inclusiveFrom, double inclusiveTo)
         {
             this.From = inclusiveFrom;
             this.IsFromInclusive = true;
@@ -49,38 +49,49 @@ namespace SquaredInfinity.Foundation
 
         public bool IsWithinRange(double value)
         {
-            if (value.IsInfinityOrNaN())
+            if (double.IsNaN(value))
                 return false;
-
-            if(From != null)
-            {
+            
                 if(IsFromInclusive)
                 {
-                    if (!value.IsGreaterThanOrClose(From.Value))
+                    if (!value.IsGreaterThanOrClose(From))
                         return false;
                 }
                 else
                 {
-                    if (!value.IsGreaterThan(From.Value))
+                    if (!value.IsGreaterThan(From))
                         return false;
                 }
-            }
 
-            if(To != null)
-            {
+            
                 if(IsToInclusive)
                 {
-                    if (!value.IsLessThanOrClose(To.Value))
+                    if (!value.IsLessThanOrClose(To))
                         return false;
                 }
                 else
                 {
-                    if (!value.IsLessThan(To.Value))
+                    if (!value.IsLessThan(To))
                         return false;
                 }
-            }
 
             return true;
+        }
+
+        /// <summary>
+        /// Expands current range exactly to fit provided range.
+        /// </summary>
+        /// <param name="range"></param>
+        public void Union(DoubleRange range)
+        {
+            if (range == null)
+                return;
+
+            if (range.From < From)
+                From = range.From;
+
+            if (range.To > To)
+                To = range.To;
         }
     }
 }
