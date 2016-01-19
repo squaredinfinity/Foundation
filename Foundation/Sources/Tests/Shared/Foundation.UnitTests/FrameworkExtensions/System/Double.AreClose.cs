@@ -35,5 +35,49 @@ namespace SquaredInfinity.Foundation.Extensions
 
             Assert.IsTrue(r);
         }
+
+        [TestMethod]
+        public void Infinity_IsNotCloseTo_InfinityWithSameSign()
+        {
+            var d = double.NegativeInfinity;
+            var d2 = double.NegativeInfinity;
+            var r = DoubleExtensions.AreClose(d, d2);
+
+            Assert.IsFalse(r);
+
+
+            d = double.PositiveInfinity;
+            d2 = double.PositiveInfinity;
+            r = DoubleExtensions.AreClose(d, d2);
+
+            Assert.IsFalse(r);
+        }
+
+        [TestMethod]
+        public void Infinity_IsNotCloseTo_InfinityWithDifferentSign()
+        {
+            var d = double.NegativeInfinity;
+            var d2 = double.PositiveInfinity;
+            var r = DoubleExtensions.AreClose(d, d2);
+
+            Assert.IsFalse(r);
+
+
+            d = double.PositiveInfinity;
+            d2 = double.NegativeInfinity;
+            r = DoubleExtensions.AreClose(d, d2);
+
+            Assert.IsFalse(r);
+        }
+
+        [TestMethod]
+        public void NaN_IsNotCloseTo_NaN()
+        {
+            var d = double.NaN;
+            var d2 = double.NaN;
+            var r = DoubleExtensions.AreClose(d, d2);
+
+            Assert.IsFalse(r);
+        }
     }
 }
