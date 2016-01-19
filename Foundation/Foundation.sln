@@ -176,8 +176,8 @@ Global
 		Sources\Shared\Internal\Internal.projitems*{9e769e5b-9ccd-4c6a-8099-8e469c0f76c5}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Charting\Foundation.Charting.projitems*{9e769e5b-9ccd-4c6a-8099-8e469c0f76c5}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Unsafe.UnitTests\Foundation.Unsafe.UnitTests.projitems*{0baa98f5-c1fe-4a36-b8ad-58fa11e32eeb}*SharedItemsImports = 13
-		Sources\Shared\Internal\Internal.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Presentation.Xaml\Foundation.Presentation.Xaml.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
 		Sources\Shared\Fonts\Fonts.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Presentation.Xaml.UITests\Foundation.Presentation.Xaml.UITests.projitems*{6605fdb2-0502-4ac4-8cf0-fa6b70e31359}*SharedItemsImports = 13
 		Sources\Shared\Internal\Internal.projitems*{ab8007f5-ad2a-42b8-9375-98ae0ad89f80}*SharedItemsImports = 4
@@ -199,11 +199,11 @@ Global
 		Sources\Shared\Internal\Internal.projitems*{f924eefe-30b9-4d94-b7ef-359c6a406795}*SharedItemsImports = 4
 		Sources\Shared\Foundation\Foundation.projitems*{46be36ce-c049-4746-8a80-85a28b96e923}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Diagnostics\Foundation.Diagnostics.projitems*{ce6b616f-505c-4034-b7e3-9818bf5c57c0}*SharedItemsImports = 13
-		Sources\Shared\Internal\Internal.projitems*{1a2db9fe-7d95-47f2-8b28-7e9b0a319b14}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Data\Foundation.Data.projitems*{1a2db9fe-7d95-47f2-8b28-7e9b0a319b14}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{1a2db9fe-7d95-47f2-8b28-7e9b0a319b14}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Serialization.UnitTests\Foundation.Serialization.UnitTests.projitems*{491c7d2d-1abd-4ae4-8553-49a2369a4190}*SharedItemsImports = 4
-		Sources\Shared\Foundation.Cache\Foundation.Cache.projitems*{47649697-1872-43a2-a4f2-7038d07cb4da}*SharedItemsImports = 4
 		Sources\Shared\Internal\Internal.projitems*{47649697-1872-43a2-a4f2-7038d07cb4da}*SharedItemsImports = 4
+		Sources\Shared\Foundation.Cache\Foundation.Cache.projitems*{47649697-1872-43a2-a4f2-7038d07cb4da}*SharedItemsImports = 4
 		Sources\Shared\Internal\Internal.projitems*{231d0bb0-926b-47ce-b7b1-9e8e49dce51e}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Diagnostics.Infrastructure\Foundation.Diagnostics.Infrastructure.projitems*{231d0bb0-926b-47ce-b7b1-9e8e49dce51e}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Serialization.UnitTests\Foundation.Serialization.UnitTests.projitems*{85660d59-e428-4eb1-97e3-52d2d9106bc4}*SharedItemsImports = 13
