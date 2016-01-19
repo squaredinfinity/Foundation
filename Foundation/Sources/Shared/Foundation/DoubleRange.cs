@@ -7,6 +7,20 @@ namespace SquaredInfinity.Foundation
 {
     public class DoubleRange
     {
+        public double Span
+        {
+            get
+            {
+                if (double.IsNaN(From) || double.IsNaN(To))
+                    return double.NaN;
+
+                if (From.IsInfinity() || To.IsInfinity())
+                    return double.PositiveInfinity;
+
+                return To - From;
+            }
+        }
+
         double _from;
         public double From
         {
