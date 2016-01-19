@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -235,6 +236,17 @@ namespace SquaredInfinity.Foundation.Extensions
         public static TTarget Convert<TTarget>(this object obj)
         {
             return (TTarget)Convert(obj, typeof(TTarget));
+        }
+
+        public static void SafeReleaseComObject(this object obj)
+        {
+            if (obj != null)
+            {
+                if (Marshal.IsComObject(obj))
+                {
+                    Marshal.ReleaseComObject(obj);
+                }
+            }
         }
     }
 }
