@@ -22,6 +22,7 @@ namespace SquaredInfinity.Foundation.Extensions
         /// <summary>
         /// Checks if two double precision numbers are equal given the precision of [DoubleExtensions.DefaultPrecision]
         /// For example: 0.01 != 0.1 * 0.1 due to floating point accuracy problems [http://en.wikipedia.org/wiki/Floating_point#Accuracy_problems] (0.1 * 0.1 == 0.010000000000000002)
+        /// By default comparing same special values (NaN vs NaN, -Infinity vs -Infinity etc.) will return false.
         /// </summary>
         /// <param name="d1">The d1.</param>
         /// <param name="d2">The d2.</param>
