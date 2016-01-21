@@ -147,6 +147,12 @@ namespace SquaredInfinity.Foundation.Win32Api
         [DllImport("user32.dll")]
         public static extern IntPtr RealChildWindowFromPoint(IntPtr hwndParent, Point ptParentClientCoords);
 
+        [DllImport("user32")]
+        public static extern IntPtr SetParent(IntPtr hWnd, IntPtr hWndParent);
+
+        [DllImport("user32")]
+        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, SetWindowPosFlags uFlags);
+
         /// <summary>
         /// Changes an attribute of the specified window. The function also sets the 32-bit (long) value at the specified offset into the extra window memory.
         /// </summary>
