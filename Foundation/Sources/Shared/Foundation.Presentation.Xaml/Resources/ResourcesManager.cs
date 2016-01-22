@@ -197,6 +197,22 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="resourceName">name relative to assembly (e.g. Reosurces.MyResource.xml)</param>
+        /// <returns></returns>
+        public static Stream LoadEmbeddedResourceFromThisAssembly(string resourceName)
+        {
+            var asm = Assembly.GetCallingAssembly();
+
+            var asm_name = asm.GetName().Name;
+
+            var resource_full_name = "{0}.{1}".FormatWith(asm_name, resourceName);
+
+            return asm.GetManifestResourceStream(resource_full_name);
+        }
+
+        /// <summary>
         /// Loads the resource from ResourceDictionary specified by uri.
         /// </summary>
         /// <typeparam name="T"></typeparam>
