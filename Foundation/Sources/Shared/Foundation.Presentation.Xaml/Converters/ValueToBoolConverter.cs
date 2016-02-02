@@ -18,7 +18,7 @@ namespace SquaredInfinity.Foundation.Presentation.Converters
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value == ExpectedValue)
+            if (object.Equals(value, ExpectedValue))
                 return true;
 
             if (value == null || ExpectedValue == null)
@@ -28,7 +28,7 @@ namespace SquaredInfinity.Foundation.Presentation.Converters
 
             var expectedValueType = ExpectedValue.GetType();
 
-            if (valueType == expectedValueType)
+            if (object.Equals(valueType, expectedValueType))
                 return false;
 
             var convertedExpectedValue = System.Convert.ChangeType(ExpectedValue, valueType);

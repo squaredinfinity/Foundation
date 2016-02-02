@@ -6,8 +6,13 @@
     <SharedGUID>8f2a3bde-adfd-4e07-936e-a9ffde16ceb1</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Experimental</Import_RootNamespace>
+    <Import_RootNamespace>SquaredInfinity.Foundation</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\BlockingCollectionObjectPoolStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\IObjectPoolItemAcquisition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\IObjectPoolStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\ObjectPool.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\ObjectPoolItemAcquisition.cs" />
   </ItemGroup>
 </Project>

@@ -185,7 +185,21 @@ namespace SquaredInfinity.Foundation.Presentation.Views
             "ViewModel",
             typeof(IHostAwareViewModel),
             typeof(View),
-            new FrameworkPropertyMetadata(null));
+            new FrameworkPropertyMetadata(defaultValue:null, propertyChangedCallback:OnViewModelChanged));
+
+        static void OnViewModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var v = d as View;
+
+            v.CrossThreadSafeViewModel = e.NewValue as IHostAwareViewModel;
+        }
+
+        IHostAwareViewModel _crossThreadSafeViewModel;
+        public IHostAwareViewModel CrossThreadSafeViewModel
+        {
+            get { return _crossThreadSafeViewModel; }
+            private set { _crossThreadSafeViewModel = value; }
+        }
 
         #endregion
 
