@@ -38,6 +38,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Highlight.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Hyperlink.OpenInDefaultBrowser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ListBoxItem.IsSelectible.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ParentContentPresenter.Margin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\SelectionChanged.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Selector.ItemDoubleClick.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Selector.ItemsSourceWithPreserveSelection.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ColorToSolidColorBrushConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ColumnHeaderRoleToBorderConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ComObjectConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\CompareToBoolConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\CompositeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\EnumerableCombiningConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\EnumToBoolConverter.cs" />
