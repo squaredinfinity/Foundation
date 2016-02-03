@@ -312,16 +312,25 @@
                         <Trigger Property="ExpandDirection" Value="Right">
                             <Setter Property="DockPanel.Dock" TargetName="ExpandSite" Value="Right"/>
                             <Setter Property="DockPanel.Dock" TargetName="HeaderSite" Value="Left"/>
+							<Setter Property="VerticalAlignment" TargetName="HeaderSite" Value="Top" />
                             <Setter Property="Style" TargetName="HeaderSite" Value="{StaticResource Styles.ExpanderRightHeaderStyle}"/>
                         </Trigger>
                         <Trigger Property="ExpandDirection" Value="Up">
                             <Setter Property="DockPanel.Dock" TargetName="ExpandSite" Value="Top"/>
                             <Setter Property="DockPanel.Dock" TargetName="HeaderSite" Value="Bottom"/>
+							<Setter Property="HorizontalAlignment" TargetName="HeaderSite" Value="Left" />
+                            <Setter Property="Style" TargetName="HeaderSite" Value="{StaticResource Styles.ExpanderUpHeaderStyle}"/>
+                        </Trigger>
+						<Trigger Property="ExpandDirection" Value="Down">
+                            <Setter Property="DockPanel.Dock" TargetName="ExpandSite" Value="Bottom"/>
+                            <Setter Property="DockPanel.Dock" TargetName="HeaderSite" Value="Top"/>
+							<Setter Property="HorizontalAlignment" TargetName="HeaderSite" Value="Left" />
                             <Setter Property="Style" TargetName="HeaderSite" Value="{StaticResource Styles.ExpanderUpHeaderStyle}"/>
                         </Trigger>
                         <Trigger Property="ExpandDirection" Value="Left">
                             <Setter Property="DockPanel.Dock" TargetName="ExpandSite" Value="Left"/>
                             <Setter Property="DockPanel.Dock" TargetName="HeaderSite" Value="Right"/>
+							<Setter Property="VerticalAlignment" TargetName="HeaderSite" Value="Top" />
                             <Setter Property="Style" TargetName="HeaderSite" Value="{StaticResource Styles.ExpanderLeftHeaderStyle}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
