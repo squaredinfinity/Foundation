@@ -11,12 +11,12 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
     {
         #region Margin
 
-        public static void SetMargin(Control element, Thickness? value)
+        public static void SetMargin(FrameworkElement element, Thickness? value)
         {
             element.SetValue(MarginProperty, value);
         }
 
-        public static Thickness? GetMargin(Control element)
+        public static Thickness? GetMargin(FrameworkElement element)
         {
             return (Thickness)element.GetValue(MarginProperty);
         }
@@ -30,7 +30,7 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
 
         static void OnMarginChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            UIElement source = d as UIElement;
+            FrameworkElement source = d as FrameworkElement;
 
             if (e.NewValue == null)
                 return;
