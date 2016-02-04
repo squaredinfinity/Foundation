@@ -395,8 +395,15 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 {
                     // todo: when member instance is already present
 
-                    memberInstance = cx.Deserialize(memberAttachedProperty, memberTypeCandidate, elementNameMayContainTargetTypeName: false);
-                    return true;
+                    if (DeserializationOutcome.Success == 
+                        cx.TryDeserialize(
+                            memberAttachedProperty, 
+                            memberTypeCandidate, 
+                            elementNameMayContainTargetTypeName: false, 
+                            deserializedInstance: out memberInstance))
+                    {
+                        return true;
+                    }
                 }
 
                 //# deserialize collection from attached element (DIRECT)
@@ -459,9 +466,15 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                         {
                             // we cannot assign deserialized instance
                             // but we still should deserialize it in case it is being referenced somewhere else
-                            memberInstance = cx.Deserialize(memberElement, memberTypeCandidate, elementNameMayContainTargetTypeName: true);
-                            return true;
-                            // todo: log warning
+                            if (DeserializationOutcome.Success ==
+                                cx.TryDeserialize(
+                                    memberElement,
+                                    memberTypeCandidate,
+                                    elementNameMayContainTargetTypeName: true,
+                                    deserializedInstance: out memberInstance))
+                            {
+                                return true;
+                            }
                         }
                         else
                         {
@@ -487,9 +500,15 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                     else
                     {
                         //# deserialize the element into a new instance
-                        memberInstance = cx.Deserialize(memberElement, memberTypeCandidate, elementNameMayContainTargetTypeName: true);
-
-                        return true;
+                        if(DeserializationOutcome.Success == 
+                            cx.TryDeserialize(
+                                memberElement, 
+                                memberTypeCandidate, 
+                                elementNameMayContainTargetTypeName: true, 
+                                deserializedInstance: out memberInstance))
+                        {
+                            return true;
+                        }
                     }
                 }
 

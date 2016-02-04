@@ -34,8 +34,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         /// </summary>
         /// <param name="xml">xml containing serialization information</param>
         /// <param name="targetTypeCandidate">minimum type to which xml will be deserialized (min base type)</param>
-        /// <returns>deserialized instance</returns>
-        object Deserialize(XElement xml, Type targetTypeCandidate, bool elementNameMayContainTargetTypeName);
+        DeserializationOutcome TryDeserialize<TInstance>(XElement xml, Type targetTypeCandidate, bool elementNameMayContainTargetTypeName, out TInstance deserializedInstance);
 
         /// <summary>
         /// Deserialize xml to specified object instance.

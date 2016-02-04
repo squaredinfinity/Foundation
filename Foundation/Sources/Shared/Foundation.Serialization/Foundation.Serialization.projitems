@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)FlexiPlainText\IFlexiPlainTextSerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FlexiSerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FlexiSerializer.TypeSerializationStrategiesConcurrentDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\DeserializationOutcome.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\FlexiXmlDictionaryTypeSerializationStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\FlexiXmlEnumerableTypeSerializationStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\FlexiXmlReferenceResolutionContext.cs" />

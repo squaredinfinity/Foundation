@@ -80,9 +80,21 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             var type = typeof(T);
 
-            var root = cx.Deserialize(xml, type, elementNameMayContainTargetTypeName: true);
-            
-            return (T)root;
+            var root = (object)null;
+
+            if (DeserializationOutcome.Success ==
+                cx.TryDeserialize(
+                    xml,
+                    type,
+                    elementNameMayContainTargetTypeName: true,
+                    deserializedInstance: out root))
+            {
+                return (T)root;
+            }
+            else
+            {
+                throw new ArgumentException("Specified xml cannot be deserialized");
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SquaredInfinity.Foundation.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -175,6 +176,27 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
         #region BUG next
 
+        [TestMethod]
+        public void Bug005__TypeInformation_LookupOnly__DeserializatonOfACollectionResultsInAnExtraNullElement()
+        {
+            var col = new BUG005_Collection();
+            col.Add(7);
+            col.Add(13);
+            col.Add(69);
+
+            var s = new FlexiXmlSerializer();
+
+            var op = new FlexiXmlSerializationOptions() { TypeInformation = TypeInformation.LookupOnly };
+
+            var xml = s.Serialize(col, op);
+
+            var col2 = s.Deserialize<BUG005_Collection>(xml);
+
+            Assert.IsNotNull(col2);
+            Assert.AreEqual(3, col2.Count);
+        }
+
+        public class BUG005_Collection : ObservableCollectionEx<int?> { }
 
         #endregion
 

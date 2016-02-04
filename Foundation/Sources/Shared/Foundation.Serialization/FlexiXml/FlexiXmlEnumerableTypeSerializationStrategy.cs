@@ -49,9 +49,17 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
                 foreach (var item_el in itemElements)
                 {
-                    var item = cx.Deserialize(item_el, targetListDefaultElementType, elementNameMayContainTargetTypeName: true);
+                    var item = (object)null;
 
-                    targetList.Add(item);
+                    if (DeserializationOutcome.Success ==
+                        cx.TryDeserialize(
+                            item_el,
+                            targetListDefaultElementType,
+                            elementNameMayContainTargetTypeName: true,
+                            deserializedInstance: out item))
+                    {
+                        targetList.Add(item);
+                    }
                 }
 
                 if (bulkUpdateOperation != null)

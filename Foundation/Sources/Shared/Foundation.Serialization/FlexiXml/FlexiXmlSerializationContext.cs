@@ -61,13 +61,14 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             return result_el;
         }
 
-        public object Deserialize(XElement xml, Type targetType, bool elementNameMayContainTargetTypeName)
+        public DeserializationOutcome TryDeserialize<TInstance>(XElement xml, Type targetType, bool elementNameMayContainTargetTypeName, out TInstance deserializedInstance)
         {
             //# check NULL attribute
             var null_attrib = xml.Attribute(Options.NullValueAttributeName);
             if (null_attrib != null && null_attrib.Value != null && null_attrib.Value.ToLower() == "true")
             {
-                return null;
+                deserializedInstance = default(TInstance);
+                return DeserializationOutcome.Success;
             }
 
             //# check if has only one child with NULL attribute (i.e. wrapped element signifies null)
@@ -78,8 +79,16 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 null_attrib = nullElementCandidate.Attribute(Options.NullValueAttributeName);
                 if (null_attrib != null && null_attrib.Value != null && null_attrib.Value.ToLower() == "true")
                 {
-                    return null;
+                    deserializedInstance = default(TInstance);
+                    return DeserializationOutcome.Success;
                 }
+            }
+            
+            //# check for serialization-internal element
+            if(xml.Name == FlexiXmlSerializer.XmlNamespace.GetName("Internal"))
+            {
+                deserializedInstance = default(TInstance);
+                return DeserializationOutcome.IgnoreInternal;
             }
 
             //# try to derive member type from element name
@@ -115,7 +124,10 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
             var strategy = (IFlexiXmlTypeSerializationStrategy) GetTypeSerializationStrategy(targetType);
 
-            return strategy.Deserialize(xml, targetType, this);
+            deserializedInstance = (TInstance) strategy.Deserialize(xml, targetType, this);
+            // todo: more sophisticated error handling.
+            // for example, deserialized instance should never be null at this point, so would be good to check for that.            
+            return DeserializationOutcome.Success;
         }
 
         public void Deserialize(XElement xml, object target)
