@@ -15,7 +15,7 @@ namespace SquaredInfinity.Foundation.Presentation.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value == null)
+            if (value == null || !(value is System.Windows.Media.Color))
                 return DependencyProperty.UnsetValue;
 
             var color = (System.Windows.Media.Color)value;
