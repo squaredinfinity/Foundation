@@ -69,7 +69,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
 
             Length = Width * Height;
 
-            _bounds = new Rect(0, 0, _width - 1, _height - 1); // -1 because bounds are all points inside the range [0, width-1] results in width number of indexes
+            _bounds = new Rect(0, 0, _width, _height);
         }
 
         public abstract int this[int x, int y] { get; set; }

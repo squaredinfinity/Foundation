@@ -106,7 +106,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
 
            // for (int i = 0; i < 1000; i++)
             {
-                wu = new PixelArrayCanvas(100, 100);
+                wu = new PixelArrayCanvas(1, 1);
 
                 var figure = new PathFigure();
 
