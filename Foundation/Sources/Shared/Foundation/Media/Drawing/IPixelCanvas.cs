@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SquaredInfinity.Foundation.Media.Drawing
 {
@@ -17,7 +18,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         int Stride { get; }
         int Width { get; }
         int Height { get; }
-        Rectangle Bounds { get;  }
+        Rect Bounds { get;  }
 
         int[] GetPixels();
 
@@ -42,6 +43,15 @@ namespace SquaredInfinity.Foundation.Media.Drawing
 
         void DrawLine(int x1, int y1, int x2, int y2, int color);
         void DrawLineDDA(int x1, int y1, int x2, int y2, int color);
+        void DrawLineDDA(Rect bounds, int x1, int y1, int x2, int y2, int color);
+
+        /// <summary>
+        /// Draws smooth line using Wu Algorithm
+        /// </summary>
+        void DrawLineWu(int x1, int y1, int x2, int y2, int color);
+        void DrawLineWu(int x1, int y1, int x2, int y2, int color, int width);
+        void DrawLineWu(Rect bounds, int x1, int y1, int x2, int y2, int color);
+        void DrawLineWu(Rect bounds, int x1, int y1, int x2, int y2, int color, int width);
 
         void Clear(int color);
         void Clear();
@@ -51,23 +61,23 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         void Blit(IPixelCanvas source, BlendMode blendMode);
 
         void Blit(
-            System.Drawing.Rectangle destination_rect,
+            Rect destination_rect,
             IPixelCanvas source,
-            System.Drawing.Rectangle source_rect,
+            Rect source_rect,
             BlendMode blendMode
             );
 
         void Blit(
-            System.Drawing.Rectangle destination_rect,
+            Rect destination_rect,
             IPixelCanvas source,
-            System.Drawing.Rectangle source_rect,
+            Rect source_rect,
             byte alpha,
             byte red,
             byte green,
             byte blue,
             BlendMode blendMode);
 
-        bool IntersectsWith(System.Drawing.Rectangle rect);
+        bool IntersectsWith(Rect rect);
 
         void ReplaceFromPixels(int[] pixels, int width, int height);
     }

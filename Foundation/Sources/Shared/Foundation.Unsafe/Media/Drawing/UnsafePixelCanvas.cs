@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SquaredInfinity.Foundation.Media.Drawing
 {
@@ -31,7 +32,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             : base(width, height)
         {
             image = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            _bounds = new Rectangle(0, 0, width, height);
+            _bounds = new Rect(0, 0, width, height);
 
             //imageData = new BitmapData();
             //imageData.Width = Width;
@@ -39,7 +40,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             //imageData.PixelFormat = System.Drawing.Imaging.PixelFormat.Format32bppArgb;
             //imageData.Stride = Width;
 
-            imageData = image.LockBits(_bounds, ImageLockMode.ReadWrite, image.PixelFormat);
+            imageData = image.LockBits(new System.Drawing.Rectangle((int)_bounds.X, (int)_bounds.Y, (int)_bounds.Width, (int)_bounds.Height), ImageLockMode.ReadWrite, image.PixelFormat);
 
             pixelsPointer = (int*)imageData.Scan0;
         }
@@ -100,11 +101,6 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         public int GetColor(System.Drawing.Color color)
         {
             return color.ToArgb();
-        }
-
-        public bool IntersectsWith(System.Drawing.Rectangle rect)
-        {
-            return _bounds.IntersectsWith(rect);
         }
 
         public override void Clear(int color)

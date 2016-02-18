@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SquaredInfinity.Foundation.Media.Drawing
 {
@@ -16,6 +17,19 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         public void DrawLine(int x1, int y1, int x2, int y2, int color)
         {
             DrawLineDDA(x1, y1, x2, y2, color);
+        }
+
+        public void DrawLineDDA(Rect bounds, int x1, int y1, int x2, int y2, int color)
+        {
+            var x1_d = (double)x1;
+            var y1_d = (double)y1;
+            var x2_d = (double)x2;
+            var y2_d = (double)y2;
+
+            if (!TryCohenSutherlandClip(bounds, ref x1_d, ref y1_d, ref x2_d, ref y2_d))
+                return;
+
+            DrawLineDDA((int)x1_d, (int)y1_d, (int)x2_d, (int)y2_d, color);
         }
 
         /// <summary>
@@ -106,46 +120,6 @@ namespace SquaredInfinity.Foundation.Media.Drawing
                 x += x_step;
                 y += y_step;
             }
-
-            //int dy = y2 - y;
-            //int dx = x2 - x;
-            //if (abs(shortLen) > abs(dx))
-            //{
-            //    int swap = dy;
-            //    dy = dx;
-            //    dx = swap;
-            //    yLonger = true;
-            //}
-
-            //endVal = dx;
-            //if (dx < 0)
-            //{
-            //    incrementVal = -1;
-            //    dx = -dx;
-            //}
-            //else incrementVal = 1;
-
-            //double decInc;
-            //if (dx == 0) decInc = (double)dy;
-            //else decInc = ((double)shortLen / (double)dx);
-            //double j = 0.0;
-            //if (yLonger)
-            //{
-            //    for (int i = 0; i != endVal; i += incrementVal)
-            //    {
-            //        myPixel(surface, x + (int)j, y + i);
-            //        j += decInc;
-            //    }
-            //}
-            //else
-            //{
-            //    for (int i = 0; i != endVal; i += incrementVal)
-            //    {
-            //        myPixel(surface, x + i, y + (int)j);
-            //        j += decInc;
-            //    }
-            //}
-
         }
     }
 }

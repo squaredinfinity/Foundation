@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SquaredInfinity.Foundation.Media.Drawing
 {
@@ -26,9 +27,9 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         /// <param name="source_rect"></param>
         /// <param name="blendMode"></param>
         public void Blit(
-            System.Drawing.Rectangle destination_rect,
+            Rect destination_rect,
             IPixelCanvas source,
-            System.Drawing.Rectangle source_rect,
+            Rect source_rect,
             BlendMode blendMode
             )
         {
@@ -48,9 +49,9 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         /// <param name="blue"></param>
         /// <param name="blendMode"></param>
         public void Blit(
-            System.Drawing.Rectangle destination_rect,
+            Rect destination_rect,
             IPixelCanvas source,
-            System.Drawing.Rectangle source_rect,
+            Rect source_rect,
             byte alpha,
             byte red,
             byte green,
@@ -75,18 +76,18 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             var source_pixels = source;
             var source_length = source.Length;
 
-            int source_rectangle_x = source_rect.X;
-            int source_rectangle_y = source_rect.Y;
+            int source_rectangle_x = (int)source_rect.X;
+            int source_rectangle_y = (int)source_rect.Y;
 
             var destination_width = Width;
             var destination_height = Height;
             var destination_pixels = this;
             var destination_length = Length;
 
-            int destination_rectangle_x = destination_rect.X;
-            int destination_rectangle_y = destination_rect.Y;
-            int destination_rect_width = destination_rect.Width;
-            int destination_rect_height = destination_rect.Height;
+            int destination_rectangle_x = (int)destination_rect.X;
+            int destination_rectangle_y = (int)destination_rect.Y;
+            int destination_rect_width = (int)destination_rect.Width;
+            int destination_rect_height = (int)destination_rect.Height;
 
             int sourceIdx = -1;
             int idx;

@@ -109,40 +109,27 @@ namespace SquaredInfinity.Foundation
         [TestMethod]
         public void MultipleRequestsForInvocationDelayActualInvocationUntilMaxTimespanElapsed()
         {
-            var min = TimeSpan.FromMilliseconds(100);
+            var min = TimeSpan.FromMilliseconds(50);
             var max = TimeSpan.FromMilliseconds(500);
 
             var it = new InvocationThrottle(min, max);
             var tid = Thread.CurrentThread.ManagedThreadId;
+            
+            var start_time = DateTime.UtcNow;
+            var invocation_time = DateTime.UtcNow;
 
-            var are = new AutoResetEvent(initialState: false);
+            var should_break = false;
 
-            var t = new Task(() =>
+            while (!should_break && (DateTime.UtcNow - start_time).TotalMilliseconds < 1000)
             {
-                bool keep_going = true;
-
-                while(keep_going)
+                it.Invoke(() =>
                 {
-                    it.Invoke(() =>
-                    {
-                        Assert.AreNotEqual(tid, Thread.CurrentThread.ManagedThreadId);
-                        are.Set();
-                        keep_going = false;
-                    });
-                }
-            });
+                    invocation_time = DateTime.UtcNow;
+                    should_break = true;
+                });
+            }
 
-            var sw = Stopwatch.StartNew();
-
-            t.Start();
-
-            are.WaitOne();
-
-            sw.Stop();
-
-            Trace.WriteLine(sw.Elapsed.TotalMilliseconds + " , " + max.TotalMilliseconds);
-
-            Assert.IsTrue(sw.Elapsed.TotalMilliseconds >= max.TotalMilliseconds);
+            Assert.IsTrue((invocation_time - start_time).TotalMilliseconds >= 500);
         }
 
         [TestMethod]

@@ -130,6 +130,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Media\Drawing\BlendMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Media\Drawing\IPixelCanvas.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Media\Drawing\PixelArrayCanvas.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\Drawing\PixelCanvas.CohenSutherland.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\Drawing\PixelCanvas.DrawLineWu.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Media\Drawing\PixelCanvas.Blit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Media\Drawing\PixelCanvas.Clear.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Media\Drawing\PixelCanvas.cs" />

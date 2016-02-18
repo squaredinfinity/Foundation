@@ -139,6 +139,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Controls\TreeViewItem.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Media.Imaging\BitmapSource.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Media\Color.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Media\Geometry.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Media\ImageSource.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Media\Visual.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows\DependencyObject.extensions.cs" />

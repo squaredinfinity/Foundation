@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SquaredInfinity.Foundation.Media.Drawing
 {
@@ -84,7 +85,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             Height = height;
             Length = width * height;
             Stride = width * 4;
-            Bounds = new Rectangle(0, 0, _width, _height);
+            Bounds = new Rect(0, 0, _width, _height);
 
             _pixels = pixels;
         }

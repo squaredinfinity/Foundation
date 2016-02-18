@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SquaredInfinity.Foundation.Media.Drawing
 {
@@ -52,8 +53,8 @@ namespace SquaredInfinity.Foundation.Media.Drawing
 
         public abstract int[] GetPixels();
 
-        protected Rectangle _bounds;
-        public Rectangle Bounds
+        protected Rect _bounds;
+        public Rect Bounds
         {
             get { return _bounds; }
             protected set { _bounds = value; }
@@ -68,7 +69,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
 
             Length = Width * Height;
 
-            _bounds = new Rectangle(0, 0, _width, _height);
+            _bounds = new Rect(0, 0, _width - 1, _height - 1); // -1 because bounds are all points inside the range [0, width-1] results in width number of indexes
         }
 
         public abstract int this[int x, int y] { get; set; }
@@ -130,7 +131,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
 #endif
         }
 
-        public bool IntersectsWith(System.Drawing.Rectangle rect)
+        public bool IntersectsWith(Rect rect)
         {
             return _bounds.IntersectsWith(rect);
         }
