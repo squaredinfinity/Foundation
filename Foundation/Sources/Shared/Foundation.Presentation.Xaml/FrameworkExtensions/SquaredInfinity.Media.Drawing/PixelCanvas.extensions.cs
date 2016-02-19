@@ -77,9 +77,9 @@ namespace SquaredInfinity.Foundation.Extensions
             pc.Blit(pc2, BlendMode.Alpha);
         }
 
-        public static void DrawGeometry(this IPixelCanvas pc, int x, int y, Geometry geometry, Pen pen)
+        public static void DrawGeometry(this IPixelCanvas pc, int x, int y, Geometry geometry, Brush fillBrush, Pen pen)
         {
-            var bitmap_source = geometry.RenderToBitmap(pc.Bounds.Size, new Point(x, y), geometry.Bounds.Size, Brushes.Red, pen, PixelFormats.Pbgra32);
+            var bitmap_source = geometry.RenderToBitmap(pc.Bounds.Size, new Point(x, y), geometry.Bounds.Size, fillBrush, pen, PixelFormats.Pbgra32);
 
             var pixels = new int[pc.Length];
 

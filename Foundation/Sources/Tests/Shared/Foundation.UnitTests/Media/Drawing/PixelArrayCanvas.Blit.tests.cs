@@ -104,14 +104,19 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             sw.Start();
 
 
-           // for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 1000; i++)
             {
-                wu = new PixelArrayCanvas(1, 1);
+                wu = new PixelArrayCanvas(100, 100);
+
+                Trace.WriteLine("1: " + sw.GetElapsedAndRestart().TotalMilliseconds);
 
                 var figure = new PathFigure();
 
 
                 var geom = new StreamGeometry();
+
+                Trace.WriteLine("2: " + sw.GetElapsedAndRestart().TotalMilliseconds);
+
                 using (var ctx = geom.Open())
                 {
                     ctx.BeginFigure(new Point(0, 10), isFilled: false, isClosed: false);
@@ -133,9 +138,13 @@ namespace SquaredInfinity.Foundation.Media.Drawing
                     // Y-major
                     ctx.LineTo(new Point(50, 60), isStroked: true, isSmoothJoin: true);
                     //wu.DrawLineWPF(40, 40, 50, 60, color, 2);
-                }                
+                }
 
-                wu.DrawGeometry(50, 50, geom, new Pen(new SolidColorBrush(Colors.Red), 2));
+                Trace.WriteLine("3: " + sw.GetElapsedAndRestart().TotalMilliseconds);
+
+                wu.DrawGeometry(0, 0, geom, Brushes.Transparent, new Pen(new SolidColorBrush(Colors.Red), 2));
+
+                Trace.WriteLine("4: " + sw.GetElapsedAndRestart().TotalMilliseconds);
             }
 
             sw.Stop();
