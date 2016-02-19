@@ -14,6 +14,13 @@ namespace SquaredInfinity.Foundation.Media.Drawing
  PixelCanvas
 #endif
     {
+        public static IPixelCanvas Blit(IPixelCanvas first, IPixelCanvas second, BlendMode blendMode)
+        {
+            var pc = new PixelArrayCanvas(first.Width, first.Height);
+            pc.Blit(second, blendMode);
+            return pc;
+        }
+
         public void Blit(IPixelCanvas source, BlendMode blendMode)
         {
             Blit(this.Bounds, source, source.Bounds, blendMode);
@@ -58,7 +65,6 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             byte blue,
             BlendMode blendMode)
         {
-
             // http://keithp.com/~keithp/porterduff/p253-porter.pdf
             // http://en.wikipedia.org/wiki/Alpha_compositing
 
@@ -223,7 +229,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
                                 {
                                     var isa = 255 - source_alpha;
 
-                                    destPixel = ((destination_alpha & 0xff) << 24) |
+                                    destPixel = (((((source_alpha << 8) + isa * destination_alpha) >> 8) & 0xff) << 24) |
                                                 (((((source_red << 8) + isa * destination_red) >> 8) & 0xff) << 16) |
                                                 (((((source_green << 8) + isa * destination_green) >> 8) & 0xff) << 8) |
                                                  ((((source_blue << 8) + isa * destination_blue) >> 8) & 0xff);

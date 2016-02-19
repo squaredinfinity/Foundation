@@ -41,10 +41,77 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         [TestMethod]
         public void Blit()
         {
+            
+
+            var color = (Color)ColorConverter.ConvertFromString("#007ACC");
+            var brush = new SolidColorBrush(color);
+
+            var pc = new PixelArrayCanvas(100, 100);
+
+            pc.Clear(0);
+
+            var line_geom = new StreamGeometry();
+
+            using (var ctx = line_geom.Open())
+            {
+                ctx.BeginFigure(new Point(10, 10), isFilled: false, isClosed: false);
+
+                // horizontal
+                ctx.LineTo(new Point(20, 25), isStroked: true, isSmoothJoin: true);
+            }
+
+            pc.DrawGeometry(0, 0, line_geom, Brushes.Transparent, new Pen(brush, 2));
+
+            pc.Save(@"c:\temp\line.bmp");
+
+
+            var marker_size = 4;
+            var MarkerHalfSize = marker_size / 2;
+            var marker_pc = new PixelArrayCanvas(marker_size, marker_size);
+            var marker_geom = new EllipseGeometry(new Point(MarkerHalfSize, MarkerHalfSize), MarkerHalfSize, MarkerHalfSize);
+                                   
+            marker_pc.DrawGeometry(0, 0, marker_geom, brush, new Pen(Brushes.Transparent, 0));
+
+            marker_pc.Save(@"c:\temp\marker.bmp");
+
+            
+            var first = new PixelArrayCanvas(1, 1);
+            first[0] = pc[11, 10];
+
+            var second = new PixelArrayCanvas(1, 1);
+            second[0] = marker_pc[3, 2];
+
+            var blitted = PixelCanvas.Blit(first, second, BlendMode.Alpha);
+
+
+            var result = new PixelArrayCanvas(3, 1);
+            result[0] = first[0];
+            result[1] = second[0];
+            result[2] = blitted[0];
+
+            result.Save(@"c:\temp\result.bmp");
+
+            pc.DEBUG__Blit(
+                    new Rect(
+                        10 - MarkerHalfSize,
+                        10 - MarkerHalfSize,
+                        marker_pc.Width,
+                        marker_pc.Height),
+                        marker_pc,
+                        new Rect(0, 0, marker_pc.Width, marker_pc.Height),
+                        255, 255, 255, 255, BlendMode.Alpha);
+
+            pc.Save(@"c:\temp\both.bmp");
+
+
+            first[0] = pc[11, 10];
+            first.Save(@"c:\temp\lol.bmp");
+
+            return;
+
             //var pc_1 = new PixelArrayCanvas(10, 10);
             //pc_1.DrawLineDDA(1, 1, 7, 8, System.Windows.Media.Colors.Red);
-
-            var color = Colors.Red;
+            
             var wu = new PixelArrayCanvas(100, 100);
             
             var sw = Stopwatch.StartNew();
