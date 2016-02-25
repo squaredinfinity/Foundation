@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SquaredInfinity.Foundation.Presentation.Windows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ using System.Windows.Input;
 
 namespace SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.Windows
 {
-    public class ModernWindow : SquaredInfinity.Foundation.Presentation.Windows.ViewHostWindow
+    public class ModernWindow : ViewHostWindow
     {
         #region Title Horizontal Alignment
 
@@ -47,6 +48,7 @@ namespace SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.Windows
         static ModernWindow()
         {
             //DefaultStyleKeyProperty.OverrideMetadata(typeof(ModernWindow), new FrameworkPropertyMetadata("Styles.ModernWindow"));
+            
         }
 
         public ModernWindow()

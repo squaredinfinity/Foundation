@@ -93,6 +93,10 @@
       <Project>{48e58f39-a7b8-44d9-afbf-7985e42208c9}</Project>
       <Name>Foundation.Presentation.Xaml.DotNet45</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\DotNet45\Foundation.Presentation.Xaml.Styles.Modern.DotNet45\Foundation.Presentation.Xaml.Styles.Modern.DotNet45.csproj">
+      <Project>{e74aa52f-639c-45ad-a395-351bde0558c1}</Project>
+      <Name>Foundation.Presentation.Xaml.Styles.Modern.DotNet45</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\Shared\Foundation.Presentation.Xaml.UITests\Foundation.Presentation.Xaml.UITests.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

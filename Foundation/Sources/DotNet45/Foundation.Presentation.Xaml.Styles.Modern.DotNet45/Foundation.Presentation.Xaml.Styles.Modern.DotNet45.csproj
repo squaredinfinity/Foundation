@@ -46,28 +46,18 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Foundation.DotNet45\Foundation.DotNet45.csproj">
-      <Project>{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}</Project>
-      <Name>Foundation.DotNet45</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Foundation.Presentation.Xaml.DotNet45\Foundation.Presentation.Xaml.DotNet45.csproj">
-      <Project>{48e58f39-a7b8-44d9-afbf-7985e42208c9}</Project>
-      <Name>Foundation.Presentation.Xaml.DotNet45</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\DefaultXamlResources.cs">
       <Link>DefaultXamlResources.cs</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Windows\DefaultDialogWindow.xaml.cs">
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Windows\DefaultDialogWindow.xaml.cs">
       <Link>Windows\DefaultDialogWindow.xaml.cs</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Windows\ModernWindow.cs">
+    </Compile>
+    <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Windows\ModernWindow.cs">
       <Link>Windows\ModernWindow.cs</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Compile>
     <Compile Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\_Global.cs">
       <Link>_Global.cs</Link>
       <AutoGen>True</AutoGen>
@@ -487,7 +477,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Page>
-    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\Window.xaml">
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Styles\Window.xaml">
       <Link>Styles\Window.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <AutoGen>True</AutoGen>
@@ -495,13 +485,23 @@
       <DependentUpon>Window.tt</DependentUpon>
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Windows\DefaultDialogWindow.xaml">
+    </Page>
+    <Page Include="..\..\Common\Foundation.Presentation.Xaml.Styles.Modern.Common\Windows\DefaultDialogWindow.xaml">
       <Link>Windows\DefaultDialogWindow.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Foundation.DotNet45\Foundation.DotNet45.csproj">
+      <Project>{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}</Project>
+      <Name>Foundation.DotNet45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundation.Presentation.Xaml.DotNet45\Foundation.Presentation.Xaml.DotNet45.csproj">
+      <Project>{48e58f39-a7b8-44d9-afbf-7985e42208c9}</Project>
+      <Name>Foundation.Presentation.Xaml.DotNet45</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\Shared\Internal\Internal.projitems" Label="Shared" />
   <Import Project="..\..\Shared\Foundation.Presentation.Xaml.Styles.Modern\Foundation.Presentation.Xaml.Styles.Modern.projitems" Label="Shared" />

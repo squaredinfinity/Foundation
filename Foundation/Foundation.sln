@@ -173,11 +173,11 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Sources\Shared\Foundation.Charting\Foundation.Charting.projitems*{faaaef38-4736-460d-96f4-3fbff0719a0f}*SharedItemsImports = 13
 		Sources\Shared\Experimental\Experimental.projitems*{8f2a3bde-adfd-4e07-936e-a9ffde16ceb1}*SharedItemsImports = 13
-		Sources\Shared\Internal\Internal.projitems*{9e769e5b-9ccd-4c6a-8099-8e469c0f76c5}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Charting\Foundation.Charting.projitems*{9e769e5b-9ccd-4c6a-8099-8e469c0f76c5}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{9e769e5b-9ccd-4c6a-8099-8e469c0f76c5}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Unsafe.UnitTests\Foundation.Unsafe.UnitTests.projitems*{0baa98f5-c1fe-4a36-b8ad-58fa11e32eeb}*SharedItemsImports = 13
-		Sources\Shared\Internal\Internal.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
 		Sources\Shared\Fonts\Fonts.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Presentation.Xaml\Foundation.Presentation.Xaml.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Presentation.Xaml.UITests\Foundation.Presentation.Xaml.UITests.projitems*{6605fdb2-0502-4ac4-8cf0-fa6b70e31359}*SharedItemsImports = 13
 		Sources\Shared\Internal\Internal.projitems*{ab8007f5-ad2a-42b8-9375-98ae0ad89f80}*SharedItemsImports = 4
@@ -193,8 +193,8 @@ Global
 		Sources\Tests\Shared\Foundation.UnitTests\Foundation.UnitTests.projitems*{d8c7e818-fcb0-4bb5-86db-cdb2ecc98b63}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Unsafe\Foundation.Unsafe.projitems*{7bfbff4e-7033-4db9-8ed8-e14cba4f8740}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Diagnostics.Infrastructure\Foundation.Diagnostics.Infrastructure.projitems*{9d01a869-8311-4009-85f3-f0383be62655}*SharedItemsImports = 13
-		Sources\Shared\Internal\Internal.projitems*{d434072a-9ac1-49c0-9ffb-bc602a58cb02}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Unsafe\Foundation.Unsafe.projitems*{d434072a-9ac1-49c0-9ffb-bc602a58cb02}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{d434072a-9ac1-49c0-9ffb-bc602a58cb02}*SharedItemsImports = 4
 		Sources\Shared\Internal\Internal.projitems*{f924eefe-30b9-4d94-b7ef-359c6a406795}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Serialization\Foundation.Serialization.projitems*{f924eefe-30b9-4d94-b7ef-359c6a406795}*SharedItemsImports = 4
 		Sources\Shared\Foundation\Foundation.projitems*{46be36ce-c049-4746-8a80-85a28b96e923}*SharedItemsImports = 13
@@ -325,6 +325,7 @@ Global
 		{D22B6885-D523-4288-AFCF-316047346A63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D22B6885-D523-4288-AFCF-316047346A63}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6315AE26-783D-46F9-A2FF-ACCB15D5F2F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6315AE26-783D-46F9-A2FF-ACCB15D5F2F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6315AE26-783D-46F9-A2FF-ACCB15D5F2F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6315AE26-783D-46F9-A2FF-ACCB15D5F2F0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{90255F67-EF9F-4FBC-9285-D60E7CA334A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
