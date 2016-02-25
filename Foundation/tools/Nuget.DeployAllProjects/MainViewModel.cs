@@ -158,6 +158,7 @@ namespace Nuget.DeployAllProjects
 
             ProjectToDependencies.Add("Foundation.Experimental", "Foundation");
             ProjectToDependencies.Add("Foundation.Experimental", "Foundation.Diagnostics.Infrastructure");
+            ProjectToDependencies.Add("Foundation.Experimental", "Foundation.Presentation.Xaml");
 
             Refresh();
         }

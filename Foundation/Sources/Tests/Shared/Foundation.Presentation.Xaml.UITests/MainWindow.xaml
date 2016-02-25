@@ -10,6 +10,7 @@
                        xmlns:local_markupextensions="clr-namespace:SquaredInfinity.Foundation.Presentation.Xaml.UITests.MarkupExtensions"
                        xmlns:local_uiservice="clr-namespace:SquaredInfinity.Foundation.Presentation.Xaml.UITests.UIService"
                        xmlns:local_boolExpTree="clr-namespace:SquaredInfinity.Foundation.Presentation.Xaml.UITests.Collections.BooleanExpressionTree"
+                       xmlns:local_controls="clr-namespace:SquaredInfinity.Foundation.Presentation.Xaml.UITests.Controls"
                        Style="{StaticResource Styles.ModernWindow}"
                        mc:Ignorable="d"
                        Title="MainWindow" Height="350" Width="525">
@@ -38,6 +39,13 @@
             <TabControl>
                 <TabItem Header="ObservableCollectionEx.Version">
                     <local_binding:ObservableCollectionExView />
+                </TabItem>
+            </TabControl>
+        </TabItem>
+        <TabItem Header="Controls">
+            <TabControl>
+                <TabItem Header="Adaptive Selector">
+                    <local_controls:AdaptiveSelectorView/>
                 </TabItem>
             </TabControl>
         </TabItem>

@@ -12,6 +12,8 @@
 
         <ResourceDictionary Source="{ResourceFromThisAssembly /Binding/ObservableCollectionExView.xaml}" />
 
+        <ResourceDictionary Source="{ResourceFromThisAssembly /Controls/AdaptiveSelectorView.xaml}" />
+
         <ResourceDictionary Source="{ResourceFromThisAssembly /Collections/BooleanExpressionTree/BooleanExpressionTreeView.xaml}" />
         <ResourceDictionary Source="{ResourceFromThisAssembly /Collections/BooleanExpressionTree/PredicateNodeView.xaml}" />
         <ResourceDictionary Source="{ResourceFromThisAssembly /Collections/BooleanExpressionTree/ConnectiveNodeView.xaml}" />

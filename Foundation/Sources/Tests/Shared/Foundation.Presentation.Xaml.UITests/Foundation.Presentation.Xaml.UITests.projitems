@@ -32,6 +32,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collections\BooleanExpressionTree\ExpressionTreeViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\BooleanExpressionTree\PredicateNodeView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\BooleanExpressionTree\PredicateNodeViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\AdaptiveSelectorView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\AdaptiveSelectorViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fonts\FontsView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fonts\FontsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainWindow.xaml.cs">
@@ -80,6 +82,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Collections\BooleanExpressionTree\BooleanExpressionTreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\AdaptiveSelectorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -60,6 +60,8 @@
     <Compile Include="Behaviors\ColumnHeadersViewModel.cs" />
     <Compile Include="Behaviors\Highlight\HighlightTestsView.cs" />
     <Compile Include="Behaviors\Highlight\HighlightTestsViewModel.cs" />
+    <Compile Include="Controls\AdaptiveSelectorView.cs" />
+    <Compile Include="Controls\AdaptiveSelectorViewModel.cs" />
     <Compile Include="Converters\ConvertersView.cs" />
     <Compile Include="Converters\ConvertersViewModel.cs" />
     <Compile Include="Fonts\FontsiView.cs" />
@@ -108,6 +110,10 @@
     <Page Include="Behaviors\WatermarkTestsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\AdaptiveSelectorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\ControlsTestsView.xaml">
       <SubType>Designer</SubType>

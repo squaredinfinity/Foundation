@@ -9,14 +9,26 @@
     <Import_RootNamespace>SquaredInfinity.Foundation</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\BlockingCollectionObjectPoolStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\IObjectPoolItemAcquisition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\IObjectPoolStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\ObjectPool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\ObjectPoolItemAcquisition.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\" />
+    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\AdaptiveSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\AdaptiveSelectorItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\AdaptiveSelectorItemGroup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\IAdaptiveSelectorItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\IAdaptiveSelectorItemGroup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\MultiSelectionSliderContentPresenter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\SelectionMarker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\UniformItemsSize.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\ISelectorBehaviorController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\IUserAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\IUserActionParameters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\SelectorBehaviorController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\UserAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\UserActionParameters.cs" />
   </ItemGroup>
 </Project>
