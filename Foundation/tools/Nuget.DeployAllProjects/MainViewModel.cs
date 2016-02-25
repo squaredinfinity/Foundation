@@ -128,6 +128,7 @@ namespace Nuget.DeployAllProjects
             ProjectToBuildOrder.Add("Foundation.Cache", 10);
             ProjectToBuildOrder.Add("Foundation.Data", 10);
             ProjectToBuildOrder.Add("Foundation.Presentation.Xaml", 10);
+            ProjectToBuildOrder.Add("Foundation.Experimental", 10);
 
             ProjectToBuildOrder.Add("Foundation.Presentation.Xaml.Styles.Modern", 100);
 
@@ -154,6 +155,9 @@ namespace Nuget.DeployAllProjects
             ProjectToDependencies.Add("Foundation.Diagnostics", "Foundation");
             ProjectToDependencies.Add("Foundation.Diagnostics", "Foundation.Serialization");
             ProjectToDependencies.Add("Foundation.Diagnostics", "Foundation.Diagnostics.Infrastructure");
+
+            ProjectToDependencies.Add("Foundation.Experimental", "Foundation");
+            ProjectToDependencies.Add("Foundation.Experimental", "Foundation.Diagnostics.Infrastructure");
 
             Refresh();
         }

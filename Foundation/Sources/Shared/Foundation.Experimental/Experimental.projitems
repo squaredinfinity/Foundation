@@ -9,10 +9,14 @@
     <Import_RootNamespace>SquaredInfinity.Foundation</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\BlockingCollectionObjectPoolStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\IObjectPoolItemAcquisition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\IObjectPoolStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\ObjectPool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\ObjectPoolItemAcquisition.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\" />
   </ItemGroup>
 </Project>

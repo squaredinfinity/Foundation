@@ -5,9 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Foundation.Experimental.DotNet45")]
+[assembly: AssemblyTitle("NuGet.Foundation.Experimental")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("Red Bull Technology")]
+[assembly: AssemblyProduct("NuGet.Foundation.Experimental")]
+[assembly: AssemblyCopyright("Copyright © Red Bull Technology 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -17,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("da40cf2e-db1c-4746-9c6a-0c89d3c9b84d")]
+[assembly: Guid("960cf791-dd75-4fc5-9f2d-221f42bc5920")]
 
 // Version information for an assembly consists of the following four values:
 //

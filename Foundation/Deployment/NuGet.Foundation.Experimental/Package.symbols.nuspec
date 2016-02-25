@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>SquaredInfinity.Foundation.Experimental</id>
+    <version>1.1.7-beta055</version>
+    <title>SquaredInfinity.Foundation.Experimental</title>
+    <authors>Jarek Kardas</authors>
+    <owners></owners>
+    <description>
+      SquaredInfinity.Foundation.Experimental
+    </description>
+    <releaseNotes></releaseNotes>
+    <summary>
+      SquaredInfinity.Foundation.Experimental
+    </summary>
+    <language>en-US</language>
+    <projectUrl>https://nuget.org/packages/SquaredInfinity.Foundation</projectUrl>
+    <iconUrl>https://nuget.org/Content/Images/packageDefaultIcon-50x50.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>http://vscommands.squaredinfinity.com</licenseUrl>
+    <copyright>Copyright  2014</copyright>
+    <dependencies></dependencies>
+    <references></references>
+    <tags></tags>
+  </metadata>
+  <files>
+    <file src="..\..\Sources\DotNet45\Foundation.Experimental.DotNet45\bin\Release\SquaredInfinity.Foundation.Experimental.DotNet45.dll" target="lib\net45" />
+    <file src="..\..\Sources\DotNet45\Foundation.Experimental.DotNet45\bin\Release\SquaredInfinity.Foundation.Experimental.DotNet45.xml" target="lib\net45" />
+    <file src="..\..\Sources\DotNet45\Foundation.Experimental.DotNet45\bin\Release\SquaredInfinity.Foundation.Experimental.DotNet45.pdb" target="lib\net45" />
+    <file src="src\" target="src" />
+    <file src="tools\" target="tools" />
+    <file src="content\" target="content" />
+  </files>
+</package>
