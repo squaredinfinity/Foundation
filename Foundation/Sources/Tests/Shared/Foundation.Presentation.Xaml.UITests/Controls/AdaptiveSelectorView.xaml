@@ -24,15 +24,20 @@
                     <ControlTemplate TargetType="{x:Type local:AdaptiveSelectorView}">
                         <TabControl>
                             <TabItem Header="Items Source (default behavior)">
-                                <controls:AdaptiveSelector ItemsSource="{Binding Items}" 
-                                                                           SelectionHighlight="#009E54"
-                                                                           Margin="25,0,25,0"
-                                                                           HorizontalAlignment="Stretch"
-                                                                           Grid.Column="2"
-                                                                           BindableSelectedItems="{Binding ParameterGroupProvider.UserSelectedValueProviders}"
-                                                                           Height="50">
+                                <controls:AdaptiveSelector ItemsSource="{TemplatedParentBinding ViewModel.Numbers}" 
+                                                           BindableSelectedItems="{TemplatedParentBinding ViewModel.SelectedNumbers}"
+                                                           BehaviorController="{TemplatedParentBinding ViewModel.SelectorBehaviorController}"
+                                                           SelectionHighlight="#B3B3B3"
+                                                           Margin="25,0,25,0"
+                                                           HorizontalAlignment="Stretch"
+                                                           Height="50">
+                                    <controls:AdaptiveSelector.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}" />
+                                        </DataTemplate>
+                                    </controls:AdaptiveSelector.ItemTemplate>
                                     <controls:AdaptiveSelector.ItemContainerStyle>
-                                        <Style TargetType="ContentPresenter">
+                                        <Style TargetType="controls:MultiSelectionSliderItem">                                            
                                             <Setter Property="Tag" Value="{Binding RelativeSource={RelativeSource AncestorType=controls:AdaptiveSelector}}" />
                                             <Setter Property="ContextMenu">
                                                 <Setter.Value>
@@ -79,24 +84,24 @@
                                                                 Value="{MethodResultBinding GetWidth, 
                                                             RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}, 
                                                             ParameterBinding={Binding}, ReevaluateTriggerBinding={Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}}" />
-                                            <Setter Property="ContentTemplate">
+                                            <Setter Property="Template">
                                                 <Setter.Value>
-                                                    <DataTemplate>
+                                                    <ControlTemplate TargetType="controls:MultiSelectionSliderItem">
                                                         <Border BorderBrush="Black"
-                                                                        behaviors:Click.Command="{CommandMethodBinding ToggleSelection, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}"
-                                                                        behaviors:Click.CommandParameter="{Binding}"
-                                                                        Background="{MethodResultBinding GetItemBackground, 
-                                                                        RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}, 
-                                                                        Converter={StaticResource Converters.ColorToGradientBrush}, 
-                                                                        ParameterBinding={Binding}, 
-                                                                        ReevaluateTriggerBinding={Binding Version, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}}"
-                                                                        BorderThickness="{MethodResultBinding GetBorder, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}, ParameterBinding={Binding}}"
-                                                                            ToolTip="{Binding DisplayName}">
-                                                            <TextBlock Text="{Binding DisplayName}" 
-                                                                               HorizontalAlignment="Center">
-                                                            </TextBlock>
+                                                                behaviors:Click.Command="{CommandMethodBinding ToggleSelection, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}"
+                                                                behaviors:Click.CommandParameter="{Binding}"
+                                                                Background="{MethodResultBinding GetItemBackground, 
+                                                            RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}, 
+                                                            Converter={StaticResource Converters.ColorToGradientBrush}, 
+                                                            ParameterBinding={Binding}, 
+                                                            ReevaluateTriggerBinding={Binding Version, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}}"
+                                                                BorderThickness="{MethodResultBinding GetBorder, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}, ParameterBinding={Binding}}"
+                                                                ToolTip="{Binding DisplayName}">
+
+                                                            <ContentPresenter VerticalAlignment="Center"
+                                                                              HorizontalAlignment="Center"/>
                                                         </Border>
-                                                    </DataTemplate>
+                                                    </ControlTemplate>
                                                 </Setter.Value>
                                             </Setter>
                                         </Style>
@@ -118,11 +123,12 @@
                                                     <ItemsPresenter />
                                                 </Border>
 
+                                                <!-- SELECTION MARKERS -->
                                                 <ItemsControl Grid.Row="2" 
-                                                                      ItemsSource="{TemplatedParentBinding SelectionMarkers}"
-                                                                      Visibility="{MethodResultBinding GetSelectionMarkersVisibility, 
-                                                                    RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}},
-                                                                    ReevaluateTriggerBinding={Binding Version, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}}">
+                                                              ItemsSource="{TemplatedParentBinding SelectionMarkers}"
+                                                              Visibility="{MethodResultBinding GetSelectionMarkersVisibility, 
+                                                              RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}},
+                                                              ReevaluateTriggerBinding={Binding Version, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}}">
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate>
                                                             <Thumb Width="{MethodResultBinding GetThumbWidth, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}, ParameterBinding={Binding Item}}" 
@@ -139,7 +145,10 @@
                                                                                           HorizontalAlignment="Stretch"
                                                                                           VerticalAlignment="Stretch"
                                                                                           StrokeThickness="0"
-                                                                                          Fill="{MethodResultBinding GetItemBackground, ParameterBinding={Binding Item}, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}, Converter={StaticResource Converters.ColorToGradientBrush}, ReevaluateTriggerBinding={Binding Version, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}}"
+                                                                                          Fill="{MethodResultBinding GetItemBackground, 
+                                                                                                ParameterBinding={Binding Item}, 
+                                                                                                RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}},
+                                                                                                Converter={StaticResource Converters.ColorToGradientBrush}, ReevaluateTriggerBinding={Binding Version, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}}"
                                                                                                   Data="F1 M 0,0L 1,-2L 2,0L 2,2L 0,2 Z "
                                                                                           Effect="{StaticResource shadow-z-depth-2}">
                                                                             </Path>

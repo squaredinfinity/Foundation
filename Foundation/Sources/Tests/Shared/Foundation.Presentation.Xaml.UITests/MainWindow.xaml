@@ -42,9 +42,9 @@
                 </TabItem>
             </TabControl>
         </TabItem>
-        <TabItem Header="Controls">
+        <TabItem Header="Controls" IsSelected="True">
             <TabControl>
-                <TabItem Header="Adaptive Selector">
+                <TabItem Header="Adaptive Selector" IsSelected="True">
                     <local_controls:AdaptiveSelectorView/>
                 </TabItem>
             </TabControl>

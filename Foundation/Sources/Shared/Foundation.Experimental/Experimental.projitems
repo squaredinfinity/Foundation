@@ -17,13 +17,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collections\ObjectPool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\ObjectPoolItemAcquisition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\AdaptiveSelector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\AdaptiveSelectorItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\AdaptiveSelectorItemGroup.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\IAdaptiveSelectorItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\IAdaptiveSelectorItemGroup.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\MultiSelectionSliderContentPresenter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\DummySelectorBehaviorController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\MultiSelectionSliderItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\SelectionMarker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\UniformItemsSize.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\IAdaptiveSelectorItemGroup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\ISelectorBehaviorController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\IUserAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\IUserActionParameters.cs" />

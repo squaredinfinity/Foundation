@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Media;
 
-namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
+namespace SquaredInfinity.Foundation.Presentation.Controls
 {
     public interface IAdaptiveSelectorItemGroup
     {

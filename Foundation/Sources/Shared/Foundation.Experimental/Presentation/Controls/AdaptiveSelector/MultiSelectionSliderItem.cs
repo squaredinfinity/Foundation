@@ -5,7 +5,7 @@ using System.Windows.Controls;
 
 namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
 {
-    public class MultiSelectionSliderContentPresenter : ContentPresenter
+    public class MultiSelectionSliderItem : ListBoxItem
     {
 
     }

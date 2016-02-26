@@ -5,34 +5,42 @@ using System.Windows.Controls;
 using System.Linq;
 using SquaredInfinity.Foundation.Extensions;
 using System.Windows;
-using SquaredInfinity.Foundation.Presentation.Infrastructure;
+using SquaredInfinity.Foundation.Presentation;
 using System.Windows.Controls.Primitives;
 using System.ComponentModel;
 using System.Windows.Media;
 using SquaredInfinity.Foundation.Collections;
 using System.Collections;
 using System.Windows.Input;
-using SquaredInfinity.Foundation.Presentation.Controls.Infrastructure;
+using SquaredInfinity.Foundation.Presentation.Controls;
 using System.Threading;
 
 namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
 {
     public class AdaptiveSelector : MultiSelector, INotifyPropertyChanged
     {
-        #region Input Controller
+        #region Behavior Controller
 
-        public ISelectorBehaviorController InputController
+        public ISelectorBehaviorController BehaviorController
         {
-            get { return (ISelectorBehaviorController)GetValue(InputControllerProperty); }
-            set { SetValue(InputControllerProperty, value); }
+            get { return (ISelectorBehaviorController)GetValue(BehaviorControllerProperty); }
+            set { SetValue(BehaviorControllerProperty, value); }
         }
 
-        public static readonly DependencyProperty InputControllerProperty =
+        public static readonly DependencyProperty BehaviorControllerProperty =
             DependencyProperty.Register(
-                "InputController",
+                "BehaviorController",
                 typeof(ISelectorBehaviorController),
                 typeof(AdaptiveSelector),
-                new PropertyMetadata(null));
+                new PropertyMetadata(new DummySelectorBehaviorController(), null, CoerceBehaviorControllerValue));
+
+        static object CoerceBehaviorControllerValue(DependencyObject d, object baseValue)
+        {
+            if (baseValue == null)
+                return new DummySelectorBehaviorController();
+
+            return baseValue;
+        }
 
         #endregion
 
@@ -125,41 +133,41 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
 
         static void OnBindableSelectedItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var sel = d as AdaptiveSelector;
+            var ad_sel = d as AdaptiveSelector;
 
-            sel.SelectionChanged -= sel_SelectionChanged;
-            sel.SelectionChanged += sel_SelectionChanged;
+            ad_sel.SelectionChanged -= sel_SelectionChanged;
+            ad_sel.SelectionChanged += sel_SelectionChanged;
 
             if (e.NewValue != null)
             {
                 var initial_items = new List<object>();
+
                 foreach (var item in (IList)e.NewValue)
                 {
                     initial_items.Add(item);
+                    ad_sel.BehaviorController.OnItemSelected(ad_sel.SelectorIdentifier, item);
                 }
 
                 foreach (var item in initial_items)
                 {
-                    sel.SelectedItems.Add(item);
+                    ad_sel.SelectedItems.Add(item);
+                    ad_sel.BehaviorController.OnItemUnselected(ad_sel.SelectorIdentifier, item);
                 }
             }
 
-            sel.IncrementVersion();
+            ad_sel.IncrementVersion();
         }
 
         static void sel_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var sel = sender as AdaptiveSelector;
+            var ad_sel = sender as AdaptiveSelector;
 
-            if (sel == null)
+            if (ad_sel == null)
                 return;
 
-            var bound_collection = sel.BindableSelectedItems;
+            var bound_collection = ad_sel.BindableSelectedItems;
 
             var compatible_types = bound_collection.GetCompatibleItemsTypes();
-
-            bool is_adaptive_item_compatible =
-                compatible_types.Any(x => x.IsTypeEquivalentTo(typeof(IAdaptiveSelectorItem), treatBaseTypesAndinterfacesAsEquivalent: true, treatNullableAsEquivalent: true));
 
             if (bound_collection != null)
             {
@@ -177,97 +185,39 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
 
                         bool item_is_selected = false;
 
-                        for (int sel_ix = 0; sel_ix < sel.SelectedItems.Count; sel_ix++)
+                        for (int sel_ix = 0; sel_ix < ad_sel.SelectedItems.Count; sel_ix++)
                         {
-                            var sel_item = sel.SelectedItems[sel_ix];
+                            var sel_item = ad_sel.SelectedItems[sel_ix];
 
-                            var sel_ai = sel_item as IAdaptiveSelectorItem;
-
-                            if (is_adaptive_item_compatible)
+                            if (ad_sel.ItemEqualityComparer.Equals(sel_item, item))
                             {
-                                throw new NotImplementedException("Bound collection does not yet support IDaptiveSeclectorItems");
-                            }
-                            else
-                            {
-                                if (sel_ai != null)
-                                {
-                                    if (sel.ItemEqualityComparer.Equals(sel_ai, item))
-                                    {
-                                        item_is_selected = true;
-                                        break;
-                                    }
-                                }
-                                else
-                                {
-                                    if (sel.ItemEqualityComparer.Equals(sel_item, item))
-                                    {
-                                        item_is_selected = true;
-                                        break;
-                                    }
-                                }
+                                item_is_selected = true;
+                                break;
                             }
                         }
 
                         if (!item_is_selected)
+                        {
+                            var item_to_remove = bound_collection[i];
                             bound_collection.RemoveAt(i);
+
+                            ad_sel.BehaviorController.OnItemUnselected(ad_sel.SelectorIdentifier, item_to_remove);
+                        }
                     }
 
                     // Add selected but not yet bound
-                    foreach (var item in sel.SelectedItems)
+                    foreach (var item in ad_sel.SelectedItems)
                     {
-                        if (is_adaptive_item_compatible)
+                        if (!bound_collection.Contains(item))
                         {
-                            if (!bound_collection.Contains(item))
-                            {
-                                bound_collection.Add(item);
-                            }
-                        }
-                        else
-                        {
-                            var ai = item as IAdaptiveSelectorItem;
-
-                            if (ai != null)
-                            {
-                                if (!bound_collection.Contains(ai.Item))
-                                {
-                                    bound_collection.Add(ai.Item);
-                                }
-                            }
-                            else
-                            {
-                                if (!bound_collection.Contains(item))
-                                {
-                                    bound_collection.Add(item);
-                                }
-                            }
+                            bound_collection.Add(item);
+                            ad_sel.BehaviorController.OnItemSelected(ad_sel.SelectorIdentifier, item);
                         }
                     }
                 }
-
-
-
-                //var buc = bound_collection as IBulkUpdatesCollection;
-
-                //var bulk_update = (IDisposable)null;
-
-                //if (buc != null)
-                //    bulk_update = buc.BeginBulkUpdate() as IBulkUpdate;
-
-                //using (bulk_update)
-                //{
-                //    bound_collection.Clear();
-
-                //    foreach (var item in sel.SelectedItems)
-                //    {
-                //        bound_collection.Add(item);
-                //    }
-
-                //    //bulk_update.Dispose();
-
-                //    //bulk_update.Dispose();
-                //}
-
             }
+
+            ad_sel.IncrementVersion();
         }
 
         #endregion
@@ -413,13 +363,14 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
                 }
                 else
                 {
-                    var old_selected_item = selection_marker.Item;
-                    selection_marker.Item = new_selected_item;
-
                     base.BeginUpdateSelectedItems();
+
+                    var old_selected_item = selection_marker.Item;
 
                     SelectedItems.Add(new_selected_item);
                     SelectedItems.Remove(old_selected_item);
+
+                    selection_marker.Item = new_selected_item;
 
                     base.EndUpdateSelectedItems();
                 }
@@ -433,25 +384,20 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
 
         public Color GetItemBackground(object item)
         {
-            var adaptive_item = item as IAdaptiveSelectorItem;
+            var color = BehaviorController.GetItemBackgroundColor(SelectorIdentifier, item);
 
-            if (adaptive_item == null)
-            {
-                return SelectionHighlight;
-            }
+            if (color != null)
+                return color.Value;
 
-            var background = adaptive_item.GetBackgroundColor();
-
-            if (background == null)
-                return SelectionHighlight;
+            color = SelectionHighlight;
 
             if (SelectedItems.Contains(item))
             {
-                return background.Value.ChangeLighthness(1.1);
+                return SelectionHighlight;
             }
             else
             {
-                return background.Value;
+                return Colors.Transparent;
             }
         }
 
@@ -534,15 +480,17 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
                 var new_marker = new SelectionMarker() { Item = item };
                 SelectionMarkers.Add(new_marker);
 
-                var adaptive_item = item as IAdaptiveSelectorItem;
 
-                if (adaptive_item != null && adaptive_item.Group != null)
+                var group = (object)null;
+
+                if (group != null)
                 {
                     // disable others within same group
                     var other_with_same_group =
-                        (from si in this.SelectedItems.OfType<IAdaptiveSelectorItem>()
+                        (from si in this.SelectedItems.Cast<object>()
+                         let si_group = BehaviorController.GetItemGroup(SelectorIdentifier, si)
                              // same group, different item
-                         where object.Equals(si.Group, adaptive_item.Group) && !ItemEqualityComparer.Equals(si, adaptive_item)
+                         where object.Equals(si_group, @group) && !ItemEqualityComparer.Equals(si, item)
                          select si).ToList();
 
 
@@ -703,37 +651,9 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
             }
         }
 
-        #region Version
-
-        [field: NonSerialized]
-        public event EventHandler VersionChanged;
-
-        protected void IncrementVersion()
-        {
-            var newVersion = Interlocked.Increment(ref _version);
-
-            OnVersionChanged();
-        }
-
-        protected void OnVersionChanged()
-        {
-            if (VersionChanged != null)
-                VersionChanged(this, EventArgs.Empty);
-
-            RaisePropertyChanged("Version");
-        }
-
-        long _version;
-        public long Version
-        {
-            get { return _version; }
-        }
-
-        #endregion
-
         protected override System.Windows.DependencyObject GetContainerForItemOverride()
         {
-            return new MultiSelectionSliderContentPresenter();
+            return new MultiSelectionSliderItem();
         }
 
         public Thickness GetBorder(object item)
@@ -845,19 +765,37 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
 
         #endregion
 
-        public IEnumerable<IUserAction> GetAvailableActions(object node)
+        #region Version
+
+        [field: NonSerialized]
+        public event EventHandler VersionChanged;
+
+        protected void IncrementVersion()
         {
-            List<IUserAction> actions = new List<IUserAction>();
+            var newVersion = Interlocked.Increment(ref _version);
 
-            actions.Add(new UserAction("lol", "", (x) =>
-            {
-                MessageBox.Show("(. Y .)");
-                //var report_run = x.GetParameterValue<IReportRun>("node", () => null);
+            OnVersionChanged();
+        }
 
-                //report_run.ParentReport.ReportRuns.RemoveRun(report_run);
-            }));
+        protected void OnVersionChanged()
+        {
+            if (VersionChanged != null)
+                VersionChanged(this, EventArgs.Empty);
 
-            return actions;
+            RaisePropertyChanged("Version");
+        }
+
+        long _version;
+        public long Version
+        {
+            get { return _version; }
+        }
+
+        #endregion
+
+        public IEnumerable<IUserAction> GetAvailableActions(object item)
+        {
+            return BehaviorController.GetAvailableUserAction(SelectorIdentifier, item);
         }
 
         public void ExecuteAction(Dictionary<string, object> parameters)
