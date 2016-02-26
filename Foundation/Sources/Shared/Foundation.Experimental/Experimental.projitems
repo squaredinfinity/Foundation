@@ -30,4 +30,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\UserAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\UserActionParameters.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\AdaptiveSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
 </Project>

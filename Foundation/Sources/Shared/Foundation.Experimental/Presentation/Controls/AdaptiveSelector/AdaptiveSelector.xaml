@@ -1,0 +1,186 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                    xmlns:controls="http://schemas.squaredinfinity.com/foundation/controls"
+                    xmlns:behaviors="http://schemas.squaredinfinity.com/foundation/behaviors"
+                    xmlns:local="clr-namespace:SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector"
+                    xmlns:media="http://schemas.squaredinfinity.com/foundation/media"
+                    mc:Ignorable="d" >
+
+    <!--<Style TargetType="{x:Type local:AdaptiveSelector}">
+        <Style.Resources>
+            <DropShadowEffect x:Key="shadow-z-depth-1" BlurRadius="5" ShadowDepth="1" Direction="270" Color="#CCCCCC"/>
+            <DropShadowEffect x:Key="shadow-z-depth-2" BlurRadius="8" ShadowDepth="2.5" Direction="270" Color="#BBBBBB"/>
+            <DropShadowEffect x:Key="shadow-z-depth-3" BlurRadius="14" ShadowDepth="4.5" Direction="270" Color="#BBBBBB"/>
+            <DropShadowEffect x:Key="shadow-z-depth-4" BlurRadius="25" ShadowDepth="8" Direction="270" Color="#BBBBBB"/>
+            <DropShadowEffect x:Key="shadow-z-depth-5" BlurRadius="35" ShadowDepth="13" Direction="270" Color="#BBBBBB"/>
+        </Style.Resources>
+        <Style.Setters>
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type local:AdaptiveSelector}">
+                        <TabControl>
+                            <TabItem Header="Items Source (default behavior)">
+                                <controls:AdaptiveSelector ItemsSource="{TemplatedParentBinding ViewModel.Numbers}" 
+                                                           BindableSelectedItems="{TemplatedParentBinding ViewModel.SelectedNumbers}"
+                                                           BehaviorController="{TemplatedParentBinding ViewModel.SelectorBehaviorController}"
+                                                           SelectionHighlight="#B3B3B3"
+                                                           Margin="25,0,25,0"
+                                                           HorizontalAlignment="Stretch"
+                                                           Height="50">
+                                    <controls:AdaptiveSelector.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}" />
+                                        </DataTemplate>
+                                    </controls:AdaptiveSelector.ItemTemplate>
+                                    <controls:AdaptiveSelector.ItemContainerStyle>
+                                        <Style TargetType="controls:MultiSelectionSliderItem">                                            
+                                            <Setter Property="Tag" Value="{Binding RelativeSource={RelativeSource AncestorType=controls:AdaptiveSelector}}" />
+                                            <Setter Property="ContextMenu">
+                                                <Setter.Value>
+                                                    <ContextMenu DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}"
+                                                                                 ItemsSource="{MethodResultBinding Tag.GetAvailableActions, ParameterBinding={Binding DataContext}}">
+                                                        <ContextMenu.ItemContainerStyle>
+                                                            <Style TargetType="MenuItem">
+                                                                <Setter Property="HeaderTemplate">
+                                                                    <Setter.Value>
+                                                                        <DataTemplate>
+                                                                            <TextBlock>
+                                                                                                <Run Text="{Binding IconGlyph, Mode=OneWay}"
+                                                                                                     FontSize="18"
+                                                                                                     Foreground="{StaticResource Brushes.Accent}"
+                                                                                                     FontFamily="{x:Static media:FontFamilies.FontsiFontFamily}" />
+                                                                                                <Run Text="{Binding DisplayName, Mode=OneWay}" />
+                                                                            </TextBlock>
+                                                                        </DataTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                                <Setter Property="CommandParameter" Value="{Binding}" />
+                                                                <Setter Property="CommandParameter">
+                                                                    <Setter.Value>
+                                                                        <MultiBinding Converter="{StaticResource Converters.ToMap}">
+                                                                            --><!-- 'node' key in the map --><!--
+                                                                            <Binding Source="node" />
+                                                                            --><!-- 'node' value in the map --><!--
+                                                                            <Binding Path="DataContext.DataContext"
+                                                                             RelativeSource="{RelativeSource AncestorType=ContextMenu}"/>
+                                                                            --><!-- 'action' key in the map --><!--
+                                                                            <Binding Source="action" />
+                                                                            --><!-- 'action' value in the map --><!--
+                                                                            <Binding />
+                                                                        </MultiBinding>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                                <Setter Property="Command" Value="{CommandMethodBinding DataContext.Tag.ExecuteAction, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                            </Style>
+                                                        </ContextMenu.ItemContainerStyle>
+                                                    </ContextMenu>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Setter Property="Width" 
+                                                                Value="{MethodResultBinding GetWidth, 
+                                                            RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}, 
+                                                            ParameterBinding={Binding}, ReevaluateTriggerBinding={Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}}" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="controls:MultiSelectionSliderItem">
+                                                        <Border BorderBrush="Black"
+                                                                behaviors:Click.Command="{CommandMethodBinding ToggleSelection, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}"
+                                                                behaviors:Click.CommandParameter="{Binding}"
+                                                                Background="{MethodResultBinding GetItemBackground, 
+                                                            RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}, 
+                                                            Converter={StaticResource Converters.ColorToGradientBrush}, 
+                                                            ParameterBinding={Binding}, 
+                                                            ReevaluateTriggerBinding={Binding Version, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}}"
+                                                                BorderThickness="{MethodResultBinding GetBorder, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}, ParameterBinding={Binding}}"
+                                                                ToolTip="{Binding DisplayName}">
+
+                                                            <ContentPresenter VerticalAlignment="Center"
+                                                                              HorizontalAlignment="Center"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </controls:AdaptiveSelector.ItemContainerStyle>
+                                    <controls:AdaptiveSelector.Template>
+                                        <ControlTemplate TargetType="{x:Type controls:AdaptiveSelector}">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="1" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+
+                                                <Border Grid.Row="0"
+                                                                BorderBrush="Black"
+                                                                BorderThickness="1"
+                                                                Background="White"
+                                                                Effect="{StaticResource shadow-z-depth-1}">
+                                                    <ItemsPresenter />
+                                                </Border>
+
+                                                --><!-- SELECTION MARKERS --><!--
+                                                <ItemsControl Grid.Row="2" 
+                                                              ItemsSource="{TemplatedParentBinding SelectionMarkers}"
+                                                              Visibility="{MethodResultBinding GetSelectionMarkersVisibility, 
+                                                              RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}},
+                                                              ReevaluateTriggerBinding={Binding Version, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Thumb Width="{MethodResultBinding GetThumbWidth, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}, ParameterBinding={Binding Item}}" 
+                                                                           Height="20"
+                                                                           behaviors:Loaded.Command="{CommandMethodBinding InitializeSelectionMarkerThumb, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}"
+                                                                           behaviors:Loaded.CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                                                           behaviors:Unloaded.Command="{CommandMethodBinding StopThumbMonitoring, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}"
+                                                                           behaviors:Unloaded.CommandParameter="{Binding RelativeSource={RelativeSource Self}}">
+                                                                <Thumb.Template>
+                                                                    <ControlTemplate TargetType="{x:Type Thumb}">
+                                                                        <Grid>
+                                                                            <Path Stretch="Fill" 
+                                                                                              MaxWidth="50"
+                                                                                          HorizontalAlignment="Stretch"
+                                                                                          VerticalAlignment="Stretch"
+                                                                                          StrokeThickness="0"
+                                                                                          Fill="{MethodResultBinding GetItemBackground, 
+                                                                                                ParameterBinding={Binding Item}, 
+                                                                                                RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}},
+                                                                                                Converter={StaticResource Converters.ColorToGradientBrush}, ReevaluateTriggerBinding={Binding Version, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}}"
+                                                                                                  Data="F1 M 0,0L 1,-2L 2,0L 2,2L 0,2 Z "
+                                                                                          Effect="{StaticResource shadow-z-depth-2}">
+                                                                            </Path>
+                                                                        </Grid>
+                                                                    </ControlTemplate>
+                                                                </Thumb.Template>
+                                                            </Thumb>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <Canvas VerticalAlignment="Stretch"
+                                                                            HorizontalAlignment="Stretch" />
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                </ItemsControl>
+
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </controls:AdaptiveSelector.Template>
+
+                                    <controls:AdaptiveSelector.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </controls:AdaptiveSelector.ItemsPanel>
+                                </controls:AdaptiveSelector>
+                            </TabItem>
+                        </TabControl>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>-->
+</ResourceDictionary>
