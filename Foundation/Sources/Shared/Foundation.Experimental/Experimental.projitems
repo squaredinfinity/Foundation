@@ -12,6 +12,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\BlockingCollectionObjectPoolStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\DefaultObjectPoolStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\DefaultObjectPoolStoreMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\IObjectPoolItemAcquisition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\IObjectPoolStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\ObjectPool.cs" />

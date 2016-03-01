@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Collections.Concurrent;
 
-namespace Experimental.Collections
+namespace SquaredInfinity.Foundation.Collections
 {
     public class BlockingCollectionObjectPoolStore<TItem> : IObjectPoolStore<TItem>
     {
@@ -22,12 +22,13 @@ namespace Experimental.Collections
             var raw_item = default(TItem);
             var acquisition = (IObjectPoolItemAcquisition<TItem>)null;
 
+            // no items and can construct transient item
             if (InternalCollection.Count == 0 && ConstructTransientItem != null)
             {
                 raw_item = ConstructTransientItem();
                 acquisition = new ObjectPoolItemAcquisition<TItem>(this, raw_item, isItemTransient: true);
             }
-            else
+            else // there are items
             {
                 raw_item = InternalCollection.Take();
                 acquisition = new ObjectPoolItemAcquisition<TItem>(this, raw_item, isItemTransient: false);

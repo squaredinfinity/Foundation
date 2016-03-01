@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Experimental.Collections
+namespace SquaredInfinity.Foundation.Collections
 {
     public interface IObjectPoolItemAcquisition<TItem> : IDisposable
     {
