@@ -5,9 +5,10 @@ using System.Windows.Media;
 
 namespace SquaredInfinity.Foundation.Presentation.Controls
 {
-    public interface IAdaptiveSelectorItemGroup
+    public interface IAdaptiveSelectorItemGroup : IEquatable<IAdaptiveSelectorItemGroup>
     {
-        string Name { get; }
+        string UniqueName { get; }
+        string DisplayName { get; }
         Color? Color { get; }
     }
 }

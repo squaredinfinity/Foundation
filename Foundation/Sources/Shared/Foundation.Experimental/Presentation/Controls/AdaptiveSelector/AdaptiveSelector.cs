@@ -481,7 +481,7 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
                 SelectionMarkers.Add(new_marker);
 
 
-                var group = (object)null;
+                var group = (object) BehaviorController.GetItemGroup(SelectorIdentifier, item);
 
                 if (group != null)
                 {
