@@ -191,6 +191,62 @@ namespace SquaredInfinity.Foundation.Collections
             return _items.Contains(item);
         }
 
+        public bool Contains(TItem item, IEqualityComparer<TItem> equalityComparer)
+        {
+            if ((object)item == null)
+            {
+                for (int index = 0; index < _items.Count; index++)
+                {
+                    if ((object)this._items[index] == null)
+                        return true;
+                }
+                return false;
+            }
+            else
+            {
+                for (int index = 0; index < _items.Count; index++)
+                {
+                    if (equalityComparer.Equals(this._items[index], item))
+                        return true;
+                }
+                return false;
+            }
+        }
+
+        public bool ContainsAll(IReadOnlyList<TItem> items)
+        {
+            return ContainsAll(items, EqualityComparer<TItem>.Default);
+        }
+
+        public bool ContainsAll(IReadOnlyList<TItem> items, IEqualityComparer<TItem> equalityComparer)
+        {
+            foreach (var item in items)
+            {
+                if (!Contains(item, equalityComparer))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public bool ContainsAny(IReadOnlyList<TItem> items)
+        {
+            return ContainsAny(items, EqualityComparer<TItem>.Default);
+        }
+
+        public bool ContainsAny(IReadOnlyList<TItem> items, IEqualityComparer<TItem> equalityComparer)
+        {
+            foreach (var item in items)
+            {
+                if (Contains(item, equalityComparer))
+                    return true;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Returns an enumerator that iterates through the <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
         /// </summary>
