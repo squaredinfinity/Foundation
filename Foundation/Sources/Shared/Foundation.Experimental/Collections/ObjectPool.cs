@@ -17,5 +17,10 @@ namespace SquaredInfinity.Foundation.Collections
         {
             return Store.Acquire();
         }
+
+        public bool TryAcquireItem(TItem item, out IObjectPoolItemAcquisition<TItem> acquisition)
+        {
+            return Store.TryAcquireItem(item, out acquisition);
+        }
     }
 }

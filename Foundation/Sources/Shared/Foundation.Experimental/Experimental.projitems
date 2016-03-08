@@ -11,7 +11,6 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collections\BlockingCollectionObjectPoolStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\DefaultObjectPoolStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\DefaultObjectPoolStoreMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\IObjectPoolItemAcquisition.cs" />
@@ -31,6 +30,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\SelectorBehaviorController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\UserAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\UserActionParameters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tagging\ITagCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tagging\TagCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\AdaptiveSelector.xaml">
