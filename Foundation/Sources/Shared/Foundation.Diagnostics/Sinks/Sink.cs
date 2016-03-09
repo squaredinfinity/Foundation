@@ -53,6 +53,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.Sinks
             return Formatter.GetRequestedContextData();
         }
 
+        // TODO: use TagsCollection
 
         IList<string> _tags = new List<string>();
 
@@ -61,5 +62,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.Sinks
             get { return _tags; }
             set { _tags = value; }
         }
+
+        public virtual void OnApplicationExit() { }
     }
 }

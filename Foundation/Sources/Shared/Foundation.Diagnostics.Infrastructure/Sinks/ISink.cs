@@ -47,5 +47,10 @@ namespace SquaredInfinity.Foundation.Diagnostics.Sinks
         /// </summary>
         /// <returns></returns>
         IReadOnlyList<IDataRequest> GetRequestedContextData();
+
+        /// <summary>
+        /// Called by Diagnostic infrastructure when application is about to exit.
+        /// </summary>
+        void OnApplicationExit();
     }
 }
