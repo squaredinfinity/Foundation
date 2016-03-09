@@ -1,0 +1,5 @@
+﻿Plain Text Serializer
+
+One way serialization -> object tree to text only.
+Deserialization is not possible because too much information is lost.
+Used to 'dump' object tree in a configurable way.

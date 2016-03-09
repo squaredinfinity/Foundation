@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Serialization
 {
-    //public interface IFlexiPlainTextSerializer : IFlexiSerializer
-    //{
-    //    string Serialize(object obj);
-    //}
+    public interface IFlexiPlainTextSerializer : IFlexiSerializer
+    {
+        string Serialize(object obj);
+    }
 }

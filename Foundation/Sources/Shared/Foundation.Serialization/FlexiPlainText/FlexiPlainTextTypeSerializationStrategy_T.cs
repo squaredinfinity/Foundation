@@ -6,13 +6,31 @@
 
 //namespace SquaredInfinity.Foundation.Serialization.FlexiPlainText
 //{
-//    public class FlexiPlainTextTypeSerializationStrategy<T> : TypeSerializationStrategy<T>
+//            public class FlexiPlainTextTypeSerializationStrategy<T> : FlexiPlainTextTypeSerializationStrategy<FlexiPlainTextTypeSerializationStrategy<T>, T>
 //    {
 //        public FlexiPlainTextTypeSerializationStrategy(FlexiPlainTextSerializer serializer, Type type, Types.Description.ITypeDescriptor typeDescriptor)
 //            : base(serializer, type, typeDescriptor)
 //        { }
-        
-//        public virtual string Serialize(object instance, FlexiPlainTextSerializationContext cx, out bool hasAlreadyBeenSerialized)
+//    }
+
+//    public class FlexiPlainTextTypeSerializationStrategy<T1, T> : TypeSerializationStrategy<T1, T>, IFlexiPlainTextSerializationStrategy
+//        where T1 : class, ITypeSerializationStrategy<T1, T>
+//    {
+//        public FlexiPlainTextTypeSerializationStrategy(FlexiPlainTextSerializer serializer, Type type, Types.Description.ITypeDescriptor typeDescriptor)
+//            : base(serializer, type, typeDescriptor)
+//        { }
+
+//        public string Serialize(object instance, IFlexiPlainTextSerializationContext cx, out bool hasAlreadyBeenSerialized)
+//        {
+            
+//        }
+
+//        public XElement Serialize(object instance, IFlexiXmlSerializationContext cx, out bool hasAlreadyBeenSerialized)
+//        {
+//            return Serialize(instance, cx, rootElementName: null, hasAlreadyBeenSerialized: out hasAlreadyBeenSerialized);
+//        }
+
+//        public virtual XElement Serialize(object instance, IFlexiXmlSerializationContext cx, string rootElementName, out bool hasAlreadyBeenSerialized)
 //        {
 //            if (instance == null)
 //                throw new ArgumentNullException("instance");
@@ -32,7 +50,7 @@
 
 //            hasAlreadyBeenSerialized = !isNewReference;
 
-//            var strategy = (IFlexiXmlTypeSerializationStrategy) cx.GetTypeSerializationStrategy(instance.GetType());
+//            var strategy = (IFlexiXmlTypeSerializationStrategy)cx.GetTypeSerializationStrategy(instance.GetType());
 //            var result_el = (XElement)null;
 
 //            //# source has been serialized before
@@ -41,7 +59,7 @@
 //                var idAttrib = new XAttribute(cx.Options.UniqueIdReferenceAttributeName, id.Id);
 
 //                id.IncrementReferenceCount();
-                
+
 //                var result_el_name = strategy.ConstructElementNameForType(instance.GetType());
 //                result_el = new XElement(result_el_name);
 
@@ -54,10 +72,10 @@
 
 //            //# Construct element to which instance content will be serialized
 //            var el_name = rootElementName;
-            
-//            if(el_name == null)
+
+//            if (el_name == null)
 //                el_name = ConstructElementNameForType(instance_type);
-            
+
 //            var el = new XElement(el_name);
 
 //            var item_as_string = (string)null;
@@ -76,7 +94,7 @@
 //            {
 //                cx.TryAddKnownType(el, instance_type);
 //            }
-//            else if(typeInformation == TypeInformation.Detailed)
+//            else if (typeInformation == TypeInformation.Detailed)
 //            {
 //                throw new NotSupportedException("TypeInformation.Detailed is not supported");
 
@@ -85,10 +103,13 @@
 //            }
 
 //            //# Process all content to be serialized (this may include members but also custom content to be added to serialization output)
-//            foreach(var r in ActualContentSerializationStrategies)
+//            foreach (var r in ActualMembersSerializationStrategies.Values)
 //            {
+//                if (r.SerializationOption == MemberSerializationOption.ImplicitIgnore || r.SerializationOption == MemberSerializationOption.ExplicitIgnore)
+//                    continue;
+
 //                var serializedMember = (XObject)null;
-//                if (TrySerializeMember(cx, el, instance, r, out serializedMember))
+//                if (TrySerializeMember(cx, el, instance, r.Strategy, out serializedMember))
 //                {
 //                    el.Add(serializedMember);
 //                }
@@ -101,10 +122,11 @@
 //        }
 
 //        protected virtual bool TrySerializeMember(
-//            FlexiPlainTextSerializationContext cx, 
+//            IFlexiXmlSerializationContext cx,
+//            XElement parentElement,
 //            object parentInstance,
 //            IMemberSerializationStrategy strategy,
-//            out string serializedContent)
+//            out XObject serializedContent)
 //        {
 //            serializedContent = null;
 
@@ -122,7 +144,7 @@
 
 //            //# check if member instance has been serialized before
 
-//            var instanceId = (InstanceId) null;
+//            var instanceId = (InstanceId)null;
 
 //            var hasBeenSerializedBefore = false;
 
@@ -133,18 +155,18 @@
 //                var isNonPublic = !memberValueType.IsNested && !memberValueType.IsPublic;
 //                var isNonPublicNested = memberValueType.IsNested && !memberValueType.IsNestedPublic;
 
-//                if((isNonPublic || isNonPublicNested) && !cx.Options.SerializeNonPublicTypes)
+//                if ((isNonPublic || isNonPublicNested) && !cx.Options.SerializeNonPublicTypes)
 //                {
 //                    return false;
 //                }
 
-//                hasBeenSerializedBefore = 
+//                hasBeenSerializedBefore =
 //                    cx.Objects_InstanceIdTracker.TryGetValue(memberValue, out instanceId);
 //            }
 
 //            var val_as_string = (string)null;
 
-//            if(hasBeenSerializedBefore)
+//            if (hasBeenSerializedBefore)
 //            {
 //                // add to parent element as ref attribute
 
@@ -160,19 +182,19 @@
 
 //                return true;
 //            }
-            
-//                if(strategy.CustomDeserialize != null && strategy.CustomSerialize != null)
-//                {
-//                    var xo_str = strategy.CustomSerialize(parentInstance, memberValue);
 
-//                    var attributeName = strategy.MemberDescription.Name;
-//                    var value = xo_str;
+//            if (strategy.CustomDeserialize != null && strategy.CustomSerialize != null)
+//            {
+//                var xo_str = strategy.CustomSerialize(parentInstance, memberValue);
 
-//                    var attributeEl = new XAttribute(attributeName, value);
+//                var attributeName = strategy.MemberDescription.Name;
+//                var value = xo_str;
 
-//                    serializedContent = attributeEl;
-//                    return true;
-//                }
+//                var attributeEl = new XAttribute(attributeName, value);
+
+//                serializedContent = attributeEl;
+//                return true;
+//            }
 
 //            else if (memberValue == null)
 //            {
@@ -214,65 +236,65 @@
 //                //serializedContent = wrapper;
 //                //return true;
 //            }
-//                else if (TryConvertToStringIfTypeSupports(strategy.MemberDescription.MemberType.Type, memberValue, out val_as_string))
+//            else if (TryConvertToStringIfTypeSupports(strategy.MemberDescription.MemberType.Type, memberValue, out val_as_string))
+//            {
+//                // member value supports converting to and from string
+//                //
+//                // => create attribute which will store member value (if value is a single line)
+//                // => create attached property which will store member value (if value is multi-line)
+
+//                if (val_as_string.Contains(Environment.NewLine))
 //                {
-//                    // member value supports converting to and from string
-//                    //
-//                    // => create attribute which will store member value (if value is a single line)
-//                    // => create attached property which will store member value (if value is multi-line)
+//                    var wrapperElementName = SanitizeParentElementName(parentElement) + "." + strategy.MemberDescription.Name;
+//                    var wrapperElement = new XElement(wrapperElementName);
 
-//                    if (val_as_string.Contains(Environment.NewLine))
-//                    {
-//                        var wrapperElementName = SanitizeParentElementName(parentElement) + "." + strategy.MemberDescription.Name;
-//                        var wrapperElement = new XElement(wrapperElementName);
+//                    wrapperElement.Add(new XCData(val_as_string));
 
-//                        wrapperElement.Add(new XCData(val_as_string));
-
-//                        serializedContent = wrapperElement;
-//                    }
-//                    else
-//                    {
-//                        var attributeName = strategy.MemberDescription.Name;
-
-//                        var attributeEl = new XAttribute(attributeName, val_as_string);
-
-//                        serializedContent = attributeEl;
-//                    }
-//                    return true;
+//                    serializedContent = wrapperElement;
 //                }
 //                else
 //                {
-//                    // member value must be serialized
-//                    //
-//                    // => create wrapper element
-//                    // => add serialized member data
-//                    //
-//                    // member wrapper is an attached element with name <parent_element_name.member_name>
+//                    var attributeName = strategy.MemberDescription.Name;
 
-//                    var wrapperElementName = SanitizeParentElementName(parentElement) + "." + strategy.MemberDescription.Name;
+//                    var attributeEl = new XAttribute(attributeName, val_as_string);
 
-//                    var memberType = strategy.MemberDescription.MemberType.Type;
-
-//                    //bool canCreateInstance = memberType.IsClass && !memberType.IsAbstract; // should probably check for public constructor (?)
-
-//                    //if(!strategy.CanSetValue() && !canCreateInstance)
-//                    //{
-//                    //    var childEl = cx.Serialize(memberValue, wrapperElementName);
-
-//                    //    return childEl;
-//                    //}
-//                    //else
-//                    {
-//                        var wrapperElement = new XElement(wrapperElementName);
-
-//                        var childEl = cx.Serialize(memberValue);
-
-//                        wrapperElement.Add(childEl);
-
-//                        serializedContent = wrapperElement;
-//                        return true;
-//                    }
+//                    serializedContent = attributeEl;
 //                }
+//                return true;
+//            }
+//            else
+//            {
+//                // member value must be serialized
+//                //
+//                // => create wrapper element
+//                // => add serialized member data
+//                //
+//                // member wrapper is an attached element with name <parent_element_name.member_name>
+
+//                var wrapperElementName = SanitizeParentElementName(parentElement) + "." + strategy.MemberDescription.Name;
+
+//                var memberType = strategy.MemberDescription.MemberType.Type;
+
+//                //bool canCreateInstance = memberType.IsClass && !memberType.IsAbstract; // should probably check for public constructor (?)
+
+//                //if(!strategy.CanSetValue() && !canCreateInstance)
+//                //{
+//                //    var childEl = cx.Serialize(memberValue, wrapperElementName);
+
+//                //    return childEl;
+//                //}
+//                //else
+//                {
+//                    var wrapperElement = new XElement(wrapperElementName);
+
+//                    var childEl = cx.Serialize(memberValue);
+
+//                    wrapperElement.Add(childEl);
+
+//                    serializedContent = wrapperElement;
+//                    return true;
+//                }
+//            }
 //        }
 //    }
 //}
