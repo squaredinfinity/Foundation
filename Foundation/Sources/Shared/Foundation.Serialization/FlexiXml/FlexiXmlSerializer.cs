@@ -38,7 +38,14 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         {
             var type = typeof(T);
 
-            if (typeof(IEnumerable).IsAssignableFrom(type) && !(type == typeof(string)))
+            if (typeof(IDictionary).IsAssignableFrom(type))
+            {
+                var result =
+                    new FlexiXmlDictionaryTypeSerializationStrategy<T, object>(this, type, typeDescriptor);
+
+                return result;
+            }
+            else if (typeof(IEnumerable).IsAssignableFrom(type) && !(type == typeof(string)))
             {
                 var result =
                     new FlexiXmlEnumerableTypeSerializationStrategy<T, object>(this, type, typeDescriptor);
