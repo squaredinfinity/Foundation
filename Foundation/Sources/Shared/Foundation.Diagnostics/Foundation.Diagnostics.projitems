@@ -9,9 +9,6 @@
     <Import_RootNamespace>Foundation.Diagnostics</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Sinks\Email\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ApplicationLifecycleEvents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AttachedObject.cs" />
@@ -62,6 +59,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)LoggerName.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SecurityEvents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sinks\DebugTraceSink.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sinks\Email\EmailSink.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sinks\File\ArchiveStrategies\DefaultArchiveStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sinks\File\FileLockingStrategies\LockToken.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sinks\File\FileLockingStrategies\MutexMultiProcessLockingStrategy.cs" />

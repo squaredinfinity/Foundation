@@ -1,4 +1,5 @@
 ﻿using SquaredInfinity.Foundation.Collections;
+using SquaredInfinity.Foundation.Presentation.DragDrop;
 using SquaredInfinity.Foundation.Presentation.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,12 @@ namespace SquaredInfinity.Foundation.Presentation.Xaml.UITests.Behaviors
     public class DragAndDropViewModel : ViewModel
     {
         public XamlObservableCollectionEx<MyObservableHierarchyLevelA> MyHierarchy { get; set; }
+
+        CustomDragDropHandler _dragDropHandler = new CustomDragDropHandler();
+        public CustomDragDropHandler CustomDragDropHandler
+        {
+            get { return _dragDropHandler; }
+        }
 
         public DragAndDropViewModel()
         {
@@ -56,6 +63,45 @@ namespace SquaredInfinity.Foundation.Presentation.Xaml.UITests.Behaviors
         {
             get { return _name; }
             set { TrySetThisPropertyValue(ref _name, value); }
+        }
+    }
+
+    public class CustomDragDropHandler : IDropTarget, IDragSource
+    {
+        ObservableCollectionEx<string> _items = new ObservableCollectionEx<string>() { "one", "two" };
+        public ObservableCollectionEx<string> Items
+        {
+            get { return _items; }
+        }
+
+        public void DragOver(IDropInfo dropInfo)
+        {
+
+        }
+
+        public void Drop(IDropInfo dropInfo)
+        {
+
+        }
+
+        public bool CanStartDrag(IDragInfo dragInfo)
+        {
+            return true;
+        }
+
+        public void DragCancelled()
+        {
+            
+        }
+
+        public void Dropped(IDropInfo dropInfo)
+        {
+            
+        }
+
+        public void StartDrag(IDragInfo dragInfo)
+        {
+            
         }
     }
 }

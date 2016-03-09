@@ -267,13 +267,13 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
             // Ignore the click if clickCount != 1 or the user has clicked on a scrollbar.
             var elementPosition = e.GetPosition((IInputElement)sender);
             if (e.ClickCount != 1
-                || HitTestUtilities.HitTest4Type<RangeBase>(sender, elementPosition)
+                || HitTestUtilities.HitTest4Type<RangeBase>(sender, elementPosition) // scrollbar
                 || HitTestUtilities.HitTest4Type<TextBoxBase>(sender, elementPosition)
                 || HitTestUtilities.HitTest4Type<PasswordBox>(sender, elementPosition)
                 || HitTestUtilities.HitTest4Type<ComboBox>(sender, elementPosition)
                 || HitTestUtilities.HitTest4GridViewColumnHeader(sender, elementPosition)
                 || HitTestUtilities.HitTest4DataGridTypes(sender, elementPosition)
-                || HitTestUtilities.IsNotPartOfSender(sender, e)
+                || HitTestUtilities.IsNotPartOfSender(sender, e) // TODO: this needs to be double checked when drag from non-itemscontrol will be enabled
                 || GetDragSourceIgnore((UIElement)sender))
             {
                 _dragInfo = null;

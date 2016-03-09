@@ -16,8 +16,6 @@
 
                         <StackPanel Orientation="Vertical">
 
-                            
-                            
                             <TreeView ItemsSource="{TemplatedParentBinding ViewModel.MyHierarchy}"
                                       behaviors:DragDrop.IsDragSource="True"
                                       behaviors:DragDrop.IsDropTarget="True"
@@ -33,6 +31,21 @@
                                     </HierarchicalDataTemplate>
                                 </TreeView.Resources>
                             </TreeView>
+
+                            <!--<Line Width="2" Height="2" Stroke="DeepPink" Fill="DeepPink" HorizontalAlignment="Stretch" />
+
+                            --><!-- NOTE: TextBlock must be inside ItemsControl for drag to work --><!--
+                            
+                            <TextBlock Text="Drag And Drop Me"    
+                                       IsHitTestVisible="True"
+                                       behaviors:DragDrop.IsDragSource="True"
+                                       behaviors:DragDrop.DragSource="{TemplatedParentBinding ViewModel.CustomDragDropHandler}"/>
+
+                            <ListView ItemsSource="{TemplatedParentBinding ViewModel.CustomDragDropHandler.Items}"
+                                      BorderBrush="Black"
+                                      Height="250"
+                                      behaviors:DragDrop.IsDragSource="True"
+                                      behaviors:DragDrop.DropHandler="{TemplatedParentBinding ViewModel.CustomDragDropHandler}"/>-->
 
                         </StackPanel>
                     </ControlTemplate>
