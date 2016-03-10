@@ -6,7 +6,7 @@
 
 //namespace SquaredInfinity.Foundation.Serialization.FlexiPlainText
 //{
-//            public class FlexiPlainTextTypeSerializationStrategy<T> : FlexiPlainTextTypeSerializationStrategy<FlexiPlainTextTypeSerializationStrategy<T>, T>
+//    public class FlexiPlainTextTypeSerializationStrategy<T> : FlexiPlainTextTypeSerializationStrategy<FlexiPlainTextTypeSerializationStrategy<T>, T>
 //    {
 //        public FlexiPlainTextTypeSerializationStrategy(FlexiPlainTextSerializer serializer, Type type, Types.Description.ITypeDescriptor typeDescriptor)
 //            : base(serializer, type, typeDescriptor)
@@ -19,18 +19,8 @@
 //        public FlexiPlainTextTypeSerializationStrategy(FlexiPlainTextSerializer serializer, Type type, Types.Description.ITypeDescriptor typeDescriptor)
 //            : base(serializer, type, typeDescriptor)
 //        { }
-
-//        public string Serialize(object instance, IFlexiPlainTextSerializationContext cx, out bool hasAlreadyBeenSerialized)
-//        {
-            
-//        }
-
-//        public XElement Serialize(object instance, IFlexiXmlSerializationContext cx, out bool hasAlreadyBeenSerialized)
-//        {
-//            return Serialize(instance, cx, rootElementName: null, hasAlreadyBeenSerialized: out hasAlreadyBeenSerialized);
-//        }
-
-//        public virtual XElement Serialize(object instance, IFlexiXmlSerializationContext cx, string rootElementName, out bool hasAlreadyBeenSerialized)
+        
+//        public virtual string Serialize(object instance, IFlexiPlainTextSerializationContext cx, out bool hasAlreadyBeenSerialized)
 //        {
 //            if (instance == null)
 //                throw new ArgumentNullException("instance");
@@ -50,56 +40,38 @@
 
 //            hasAlreadyBeenSerialized = !isNewReference;
 
-//            var strategy = (IFlexiXmlTypeSerializationStrategy)cx.GetTypeSerializationStrategy(instance.GetType());
-//            var result_el = (XElement)null;
+//            var strategy = (IFlexiPlainTextSerializationStrategy)cx.GetTypeSerializationStrategy(instance.GetType());
+//            var result = new StringBuilder();
 
 //            //# source has been serialized before
 //            if (!isNewReference)
 //            {
-//                var idAttrib = new XAttribute(cx.Options.UniqueIdReferenceAttributeName, id.Id);
-
 //                id.IncrementReferenceCount();
 
-//                var result_el_name = strategy.ConstructElementNameForType(instance.GetType());
-//                result_el = new XElement(result_el_name);
+//                result.Append(strategy.GetNameFromType(instance.GetType()));
+//                result.Append(".ref=");
+//                result.Append(id.Id);
+                
 
-//                result_el.Add(idAttrib);
-
-//                return result_el;
+//                return result.ToString();
 //            }
 
 //            var instance_type = instance.GetType();
 
 //            //# Construct element to which instance content will be serialized
-//            var el_name = rootElementName;
+//            var el_name = (string)null;
 
 //            if (el_name == null)
-//                el_name = ConstructElementNameForType(instance_type);
-
-//            var el = new XElement(el_name);
+//                el_name = GetNameFromType(instance_type);
 
 //            var item_as_string = (string)null;
 
 //            //# Check if instance type supports conversion to and from string
 //            if (TryConvertToStringIfTypeSupports(instance.GetType(), instance, out item_as_string))
 //            {
-//                el.Add(new XText(item_as_string));
+//                result.Append(item_as_string);
 
-//                return el;
-//            }
-
-//            var typeInformation = cx.Options.TypeInformation;
-
-//            if (typeInformation == TypeInformation.LookupOnly)
-//            {
-//                cx.TryAddKnownType(el, instance_type);
-//            }
-//            else if (typeInformation == TypeInformation.Detailed)
-//            {
-//                throw new NotSupportedException("TypeInformation.Detailed is not supported");
-
-//                var typeAttribute = new XAttribute(cx.Options.TypeHintAttributeName, "alias");
-//                el.Add(typeAttribute);
+//                return result.ToString();
 //            }
 
 //            //# Process all content to be serialized (this may include members but also custom content to be added to serialization output)
@@ -108,25 +80,25 @@
 //                if (r.SerializationOption == MemberSerializationOption.ImplicitIgnore || r.SerializationOption == MemberSerializationOption.ExplicitIgnore)
 //                    continue;
 
-//                var serializedMember = (XObject)null;
-//                if (TrySerializeMember(cx, el, instance, r.Strategy, out serializedMember))
+//                var serializedMember = (string)null;
+
+//                if (TrySerializeMember(cx, 1, instance, r.Strategy, out serializedMember))
 //                {
-//                    el.Add(serializedMember);
+//                    result.AppendLine(serializedMember);
 //                }
 //            }
 
-//            //el.Add(new XAttribute(cx.Options.UniqueIdAttributeName, id.Id));
-//            el.AddAnnotation(id);
+//            //el.AddAnnotation(id);
 
-//            return el;
+//            return result.ToString();
 //        }
 
 //        protected virtual bool TrySerializeMember(
-//            IFlexiXmlSerializationContext cx,
-//            XElement parentElement,
+//            IFlexiPlainTextSerializationContext cx,
+//            int indent,
 //            object parentInstance,
 //            IMemberSerializationStrategy strategy,
-//            out XObject serializedContent)
+//            out string serializedContent)
 //        {
 //            serializedContent = null;
 
@@ -205,36 +177,6 @@
 
 //                serializedContent = attributeEl;
 //                return true;
-
-
-//                // NOTE:    Code below is no longer used.
-//                //          It used to serialize null values to an element
-//                //          Example:
-//                //          <Object>
-//                //              <Object.PropertyOne>
-//                //                  <NULL serialization:null="true" />
-//                //              </Object.PropertyOne/>
-//                //          </Object>
-//                //
-//                //          but default behavior has been changed to serialize members to an xml attribute with markup extension
-//                //          (over 50% more space efficient)
-//                //          Example:
-//                //          <Object propertyOne="{serialization:null}" />
-
-//                // value is null
-//                //
-//                // => create wrapper element
-//                // => add serialization:null attribute to the element
-
-//                //var wrapperElementName = parentElement.Name + "." + strategy.MemberDescription.Name;
-//                //var wrapper = new XElement(wrapperElementName);
-
-//                //var nullEl = cx.Serialize(memberValue);
-
-//                //wrapper.Add(nullEl);
-
-//                //serializedContent = wrapper;
-//                //return true;
 //            }
 //            else if (TryConvertToStringIfTypeSupports(strategy.MemberDescription.MemberType.Type, memberValue, out val_as_string))
 //            {
@@ -294,6 +236,32 @@
 //                    serializedContent = wrapperElement;
 //                    return true;
 //                }
+//            }
+//        }
+
+//        public virtual string GetNameFromType(Type type)
+//        {
+//            if (type.IsGenericType)
+//            {
+//                var genericArgumentsSeparator_Index = type.Name.IndexOf("`");
+
+//                // it is possible that type is generic by does not have ' in name (e.g. KeyCollection, Keys property on Dictionary<T1,T2>)
+//                if (genericArgumentsSeparator_Index == -1)
+//                    return type.Name;
+//                else
+//                {
+//                    var name = type.Name.Substring(0, genericArgumentsSeparator_Index);
+
+//                    return name;
+//                }
+//            }
+//            else if (type.IsArray)
+//            {
+//                throw new NotSupportedException();
+//            }
+//            else
+//            {
+//                return type.Name;
 //            }
 //        }
 //    }

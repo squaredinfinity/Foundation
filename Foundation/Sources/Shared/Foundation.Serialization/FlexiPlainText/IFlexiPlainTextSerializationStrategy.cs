@@ -9,6 +9,8 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiPlainText
         string Serialize(
             object instance,
             IFlexiPlainTextSerializationContext cx,
-            out bool hasAlreadyBeenSerialized);        
+            out bool hasAlreadyBeenSerialized);
+
+        string GetNameFromType(Type type);
     }
 }

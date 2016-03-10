@@ -19,25 +19,25 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
 {
     public class AdaptiveSelector : MultiSelector, INotifyPropertyChanged
     {
-        #region Behavior Controller
+        #region Selector Logic
 
-        public ISelectorBehaviorController BehaviorController
+        public ISelectorLogic SelectorLogic
         {
-            get { return (ISelectorBehaviorController)GetValue(BehaviorControllerProperty); }
-            set { SetValue(BehaviorControllerProperty, value); }
+            get { return (ISelectorLogic)GetValue(SelectorLogicProperty); }
+            set { SetValue(SelectorLogicProperty, value); }
         }
 
-        public static readonly DependencyProperty BehaviorControllerProperty =
+        public static readonly DependencyProperty SelectorLogicProperty =
             DependencyProperty.Register(
-                "BehaviorController",
-                typeof(ISelectorBehaviorController),
+                "SelectorLogic",
+                typeof(ISelectorLogic),
                 typeof(AdaptiveSelector),
-                new PropertyMetadata(new DummySelectorBehaviorController(), null, CoerceBehaviorControllerValue));
+                new PropertyMetadata(new DummySelectorLogic(), null, CoerceBehaviorControllerValue));
 
         static object CoerceBehaviorControllerValue(DependencyObject d, object baseValue)
         {
             if (baseValue == null)
-                return new DummySelectorBehaviorController();
+                return new DummySelectorLogic();
 
             return baseValue;
         }
@@ -145,13 +145,13 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
                 foreach (var item in (IList)e.NewValue)
                 {
                     initial_items.Add(item);
-                    ad_sel.BehaviorController.OnItemSelected(ad_sel.SelectorIdentifier, item);
+                    ad_sel.SelectorLogic.OnItemSelected(ad_sel.SelectorIdentifier, item);
                 }
 
                 foreach (var item in initial_items)
                 {
                     ad_sel.SelectedItems.Add(item);
-                    ad_sel.BehaviorController.OnItemUnselected(ad_sel.SelectorIdentifier, item);
+                    ad_sel.SelectorLogic.OnItemUnselected(ad_sel.SelectorIdentifier, item);
                 }
             }
 
@@ -201,7 +201,7 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
                             var item_to_remove = bound_collection[i];
                             bound_collection.RemoveAt(i);
 
-                            ad_sel.BehaviorController.OnItemUnselected(ad_sel.SelectorIdentifier, item_to_remove);
+                            ad_sel.SelectorLogic.OnItemUnselected(ad_sel.SelectorIdentifier, item_to_remove);
                         }
                     }
 
@@ -211,7 +211,7 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
                         if (!bound_collection.Contains(item))
                         {
                             bound_collection.Add(item);
-                            ad_sel.BehaviorController.OnItemSelected(ad_sel.SelectorIdentifier, item);
+                            ad_sel.SelectorLogic.OnItemSelected(ad_sel.SelectorIdentifier, item);
                         }
                     }
                 }
@@ -384,7 +384,7 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
 
         public Color GetItemBackground(object item)
         {
-            var color = BehaviorController.GetItemBackgroundColor(SelectorIdentifier, item);
+            var color = SelectorLogic.GetItemBackgroundColor(SelectorIdentifier, item);
 
             if (color != null)
                 return color.Value;
@@ -481,14 +481,14 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
                 SelectionMarkers.Add(new_marker);
 
 
-                var group = (object) BehaviorController.GetItemGroup(SelectorIdentifier, item);
+                var group = (object) SelectorLogic.GetItemGroup(SelectorIdentifier, item);
 
                 if (group != null)
                 {
                     // disable others within same group
                     var other_with_same_group =
                         (from si in this.SelectedItems.Cast<object>()
-                         let si_group = BehaviorController.GetItemGroup(SelectorIdentifier, si)
+                         let si_group = SelectorLogic.GetItemGroup(SelectorIdentifier, si)
                              // same group, different item
                          where object.Equals(si_group, @group) && !ItemEqualityComparer.Equals(si, item)
                          select si).ToList();
@@ -795,7 +795,7 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
 
         public IEnumerable<IUserAction> GetAvailableActions(object item)
         {
-            return BehaviorController.GetAvailableUserAction(SelectorIdentifier, item);
+            return SelectorLogic.GetAvailableUserAction(SelectorIdentifier, item);
         }
 
         public void ExecuteAction(Dictionary<string, object> parameters)

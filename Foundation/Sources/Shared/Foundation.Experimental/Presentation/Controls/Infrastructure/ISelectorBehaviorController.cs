@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace SquaredInfinity.Foundation.Presentation
 {
-    public interface ISelectorBehaviorController : INotifyVersionChangedObject
+    public interface ISelectorLogic : INotifyVersionChangedObject
     {
         void OnItemSelected(object selectorIdentifier, object selectedItem);
         void OnItemUnselected(object selectorIdentifier, object unselectedItem);

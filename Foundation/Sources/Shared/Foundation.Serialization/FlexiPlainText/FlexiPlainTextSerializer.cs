@@ -30,7 +30,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiPlainText
 
         protected override ITypeSerializationStrategy CreateDefaultTypeSerializationStrategy(Type type, ITypeDescriptor typeDescriptor)
         {
-            
+            throw new NotImplementedException();   
         }
     }
 }

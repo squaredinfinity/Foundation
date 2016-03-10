@@ -16,11 +16,11 @@ namespace SquaredInfinity.Foundation.Presentation.Xaml.UITests.Controls
         readonly XamlObservableCollectionEx<int> _selectedNumbers = new XamlObservableCollectionEx<int>();
         public XamlObservableCollectionEx<int> SelectedNumbers { get { return _selectedNumbers; } }
 
-        CustomSelectorBehaviorController _selectorBehaviorController = new CustomSelectorBehaviorController();
-        public CustomSelectorBehaviorController SelectorBehaviorController { get { return new CustomSelectorBehaviorController(); } }
+        CustomSelectorLogic _selectorBehaviorController = new CustomSelectorLogic();
+        public CustomSelectorLogic SelectorBehaviorController { get { return new CustomSelectorLogic(); } }
     }
 
-    public class CustomSelectorBehaviorController : SelectorBehaviorController
+    public class CustomSelectorLogic : SelectorLogic
     {
         object ModeOneItem;
         object ModeTwoItem;

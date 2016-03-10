@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace SquaredInfinity.Foundation.Presentation
 {
-    public abstract class SelectorBehaviorController : NotifyPropertyChangedObject, ISelectorBehaviorController
+    public abstract class SelectorLogic : NotifyPropertyChangedObject, ISelectorLogic
     {
         public virtual IReadOnlyList<IUserAction> GetAvailableUserAction(object selectorIdentifier, object item)
         {

@@ -27,7 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\ISelectorBehaviorController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\IUserAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\IUserActionParameters.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\SelectorBehaviorController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\SelectorLogic.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\UserAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\UserActionParameters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tagging\ITagCollection.cs" />

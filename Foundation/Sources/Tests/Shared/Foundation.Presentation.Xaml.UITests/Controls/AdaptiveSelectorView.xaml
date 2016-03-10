@@ -23,10 +23,10 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type local:AdaptiveSelectorView}">
                         <TabControl>
-                            <TabItem Header="Items Source (default behavior)">
+                            <TabItem Header="Items Source (default logic)">
                                 <controls:AdaptiveSelector ItemsSource="{TemplatedParentBinding ViewModel.Numbers}" 
                                                            BindableSelectedItems="{TemplatedParentBinding ViewModel.SelectedNumbers}"
-                                                           BehaviorController="{TemplatedParentBinding ViewModel.SelectorBehaviorController}"
+                                                           SelectorLogic="{TemplatedParentBinding ViewModel.SelectorLogic}"
                                                            SelectionHighlight="#B3B3B3"
                                                            Margin="25,0,25,0"
                                                            HorizontalAlignment="Stretch"
