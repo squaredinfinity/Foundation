@@ -97,6 +97,16 @@ namespace SquaredInfinity.Foundation.Extensions
             return pc.GetColor(color.A, color.R, color.G, color.B);
         }
 
+        public static Color GetColor(this IPixelCanvas pc, int color)
+        {
+            var a = ((color >> 24) & 0xff);
+            var r = ((color >> 16) & 0xff);
+            var g = ((color >> 8) & 0xff);
+            var b = ((color) & 0xff);
+
+            return Color.FromArgb((byte)a, (byte)r, (byte)g, (byte)b);
+        }
+
 
         /// <summary>
         /// Replaces content of this Pixel Canvas with content from specified stream.
