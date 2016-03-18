@@ -43,7 +43,9 @@ namespace SquaredInfinity.Foundation.Extensions
 
             using (var ctx = dv.RenderOpen())
             {
-                ctx.PushTransform(new TranslateTransform(geometryPositionOnBitmap.X, geometryPositionOnBitmap.Y));
+                if(geometryPositionOnBitmap.X != 0 || geometryPositionOnBitmap.Y != 0)
+                    ctx.PushTransform(new TranslateTransform(geometryPositionOnBitmap.X, geometryPositionOnBitmap.Y));
+
                 ctx.DrawGeometry(brush, pen, geometry);
             }
 

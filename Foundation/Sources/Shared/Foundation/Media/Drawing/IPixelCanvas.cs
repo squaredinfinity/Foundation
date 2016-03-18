@@ -41,9 +41,13 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         int[] GetRow(int row);
         void SetRow(int row, int[] pixels);
 
+        void DrawRectangle(Rect bounds, int x1, int y1, int x2, int y2, int color);
+        void DrawRectangle(int x1, int y1, int x2, int y2, int color);
+
         void DrawLine(int x1, int y1, int x2, int y2, int color);
-        void DrawLineDDA(int x1, int y1, int x2, int y2, int color);
+
         void DrawLineDDA(Rect bounds, int x1, int y1, int x2, int y2, int color);
+        void DrawLineDDA(int x1, int y1, int x2, int y2, int color);
 
         /// <summary>
         /// Draws smooth line using Wu Algorithm

@@ -79,16 +79,30 @@ namespace SquaredInfinity.Foundation.Extensions
 
         public static void DrawGeometry(this IPixelCanvas pc, int x, int y, Geometry geometry, Brush fillBrush, Pen pen)
         {
-            var bitmap_source = geometry.RenderToBitmap(pc.Bounds.Size, new Point(x, y), geometry.Bounds.Size, fillBrush, pen, PixelFormats.Pbgra32);
+            var sw = Stopwatch.StartNew();
 
-            var pixels = new int[pc.Length];
-
-            bitmap_source.CopyPixels(pixels, pc.Stride, 0);
-
-            var pc2 = new PixelArrayCanvas(pc.Width, pc.Height);
-            pc2.ReplaceFromPixels(pixels, pc.Width, pc.Height);
-
-            pc.Blit(pc2, BlendMode.Alpha);
+            var size = geometry.Bounds.Size;
+            var width = (int)size.Width;
+            var height = (int)size.Height;
+            
+            var bitmap_source = 
+                geometry.RenderToBitmap(
+                    size,
+                    new Point(),
+                    size,
+                    fillBrush, 
+                    pen, 
+                    PixelFormats.Pbgra32);
+            
+            var pc2 = new PixelArrayCanvas(width, height);
+            var pixels = new int[pc2.Length];
+            pc2.ReplaceFromPixels(pixels, width, height);
+            
+            pc.Blit(
+                new Rect(x, y, width, height),
+                pc2,
+                new Rect(0, 0, width, height),
+                255, 255, 255, 255, BlendMode.Alpha);
         }
 
 

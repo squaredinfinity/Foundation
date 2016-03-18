@@ -14,6 +14,30 @@ namespace SquaredInfinity.Foundation.Media.Drawing
  PixelCanvas
 #endif
     {
+        public void DrawRectangle(Rect bounds, int x1, int y1, int x2, int y2, int color)
+        {
+            var x1_d = (double)x1;
+            var y1_d = (double)y1;
+            var x2_d = (double)x2;
+            var y2_d = (double)y2;
+
+            if (!TryCohenSutherlandClip(bounds, ref x1_d, ref y1_d, ref x2_d, ref y2_d))
+                return;
+
+            DrawRectangle((int)x1_d, (int)y1_d, (int)x2_d, (int)y2_d, color);
+        }
+
+        public void DrawRectangle(int x1, int y1, int x2, int y2, int color)
+        {
+            for(int x = x1; x <= x2; x++)
+            {
+                for (int y = y1; y <= y2; y++)
+                {
+                    this[x, y] = color;
+                }
+            }
+        }
+
         public void DrawLine(int x1, int y1, int x2, int y2, int color)
         {
             DrawLineDDA(x1, y1, x2, y2, color);

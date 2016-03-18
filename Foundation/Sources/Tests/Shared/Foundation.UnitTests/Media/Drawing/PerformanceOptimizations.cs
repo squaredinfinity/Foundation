@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace SquaredInfinity.Foundation.Media.Drawing
 {
@@ -17,6 +18,32 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         //      uint rb = (colora & 0xFF00FF) + (alpha * (colorb & 0xFF00FF)) >> 8;
         //      uint g = (colora & 0x00FF00) + (alpha * (colorb & 0x00FF00)) >> 8;
         //      return (rb & 0xFF00FF) + (g & 0x00FF00);
+
+        [TestMethod]
+        public void MyTestMethod()
+        {
+            var sw_total = Stopwatch.StartNew();
+
+            Parallel.For(0, 101, i =>
+//            for(int i = 0; i < 100; i++)
+            {
+                var sw = Stopwatch.StartNew();
+
+                var geom = new RectangleGeometry(new System.Windows.Rect(0, 0, 50, 50));
+
+                Trace.WriteLine("geom: " + sw.GetElapsedAndRestart().TotalMilliseconds);
+
+                var pc = new PixelArrayCanvas(500, 500);
+                pc.DrawGeometry(100, 100, geom, Brushes.Red, new Pen(Brushes.Red, 1));
+
+                Trace.WriteLine("draw: " + sw.GetElapsedAndRestart().TotalMilliseconds);
+
+                sw.Stop();
+                Trace.WriteLine(sw.ElapsedMilliseconds);
+            });
+
+            Trace.WriteLine("TOTAL: " + sw_total.ElapsedMilliseconds);
+        }
 
 
         [TestMethod]
