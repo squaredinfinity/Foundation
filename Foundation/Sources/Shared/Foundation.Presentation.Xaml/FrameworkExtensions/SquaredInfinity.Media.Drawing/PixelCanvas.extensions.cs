@@ -101,7 +101,7 @@ namespace SquaredInfinity.Foundation.Extensions
             var width = (int)size.Width;
             var height = (int)size.Height;
             
-            var bitmap_source = 
+            var bmp = 
                 geometry.RenderToBitmap(
                     size,
                     new Point(),
