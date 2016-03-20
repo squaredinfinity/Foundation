@@ -91,6 +91,8 @@ namespace SquaredInfinity.Foundation.Media.Drawing
 
             result.Save(@"c:\temp\result.bmp");
 
+#if DEBUG
+
             pc.DEBUG__Blit(
                     new Rect(
                         10 - MarkerHalfSize,
@@ -102,6 +104,8 @@ namespace SquaredInfinity.Foundation.Media.Drawing
                         255, 255, 255, 255, BlendMode.Alpha);
 
             pc.Save(@"c:\temp\both.bmp");
+
+#endif
 
 
             first[0] = pc[11, 10];

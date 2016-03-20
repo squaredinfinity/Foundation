@@ -167,7 +167,10 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\TemplatedParentBinding.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Media\Colors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\DrawingRenderer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\DrawingRenderInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Media\FontFamilies.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\IDrawingRenderInfoProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\Extensions\ListItemExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\Extensions\SingleSelectionExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\NotifyPropertyChangedObjectExtension.cs" />

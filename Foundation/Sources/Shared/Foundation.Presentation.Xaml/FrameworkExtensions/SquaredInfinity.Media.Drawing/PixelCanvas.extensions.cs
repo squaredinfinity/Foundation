@@ -77,10 +77,26 @@ namespace SquaredInfinity.Foundation.Extensions
             pc.Blit(pc2, BlendMode.Alpha);
         }
 
-        public static void DrawGeometry(this IPixelCanvas pc, int x, int y, Geometry geometry, Brush fillBrush, Pen pen)
+        public static void DrawGeometry(
+            this IPixelCanvas pc,
+            int x,
+            int y,
+            Geometry geometry,
+            Brush fillBrush,
+            Pen pen)
         {
-            var sw = Stopwatch.StartNew();
+            pc.DrawGeometry(x, y, geometry, fillBrush, pen, BlendMode.Alpha);
+        }
 
+        public static void DrawGeometry(
+            this IPixelCanvas pc,
+            int x,
+            int y,
+            Geometry geometry, 
+            Brush fillBrush, 
+            Pen pen,
+            BlendMode blendMode)
+        {
             var size = geometry.Bounds.Size;
             var width = (int)size.Width;
             var height = (int)size.Height;
@@ -93,16 +109,27 @@ namespace SquaredInfinity.Foundation.Extensions
                     fillBrush, 
                     pen, 
                     PixelFormats.Pbgra32);
-            
-            var pc2 = new PixelArrayCanvas(width, height);
-            var pixels = new int[pc2.Length];
-            pc2.ReplaceFromPixels(pixels, width, height);
-            
-            pc.Blit(
-                new Rect(x, y, width, height),
-                pc2,
-                new Rect(0, 0, width, height),
-                255, 255, 255, 255, BlendMode.Alpha);
+
+            int[] pixels;
+
+            if (blendMode == BlendMode.Copy && width == pc.Width && height == pc.Height)
+            {
+                pixels = pc.GetPixels();
+                bmp.CopyPixels(pixels, pc.Stride, 0);
+            }
+            else
+            {
+                var pc2 = new PixelArrayCanvas(width, height);
+                pixels = pc2.GetPixels();
+
+                bmp.CopyPixels(pixels, pc2.Stride, 0);
+
+                pc.Blit(
+                    new Rect(x, y, width, height),
+                    pc2,
+                    new Rect(0, 0, width, height),
+                    255, 255, 255, 255, blendMode);
+            }
         }
 
 
@@ -161,6 +188,36 @@ namespace SquaredInfinity.Foundation.Extensions
                 encoder.Frames.Add(BitmapFrame.Create(bmp));
                 encoder.Save(fs);
                 fs.Close();
+            }
+        }
+
+
+        public static void DrawVisual(this IPixelCanvas pc, int x, int y, ContainerVisual visual, BlendMode blendMode)
+        {
+            var width = (int)visual.ContentBounds.Width;
+            var height = (int)visual.ContentBounds.Height;
+
+            var bmp = visual.RenderToBitmap();
+
+            int[] pixels;
+
+            if (blendMode == BlendMode.Copy && width == pc.Width && height == pc.Height)
+            {
+                pixels = pc.GetPixels();
+                bmp.CopyPixels(pixels, pc.Stride, 0);
+            }
+            else
+            {
+                var pc2 = new PixelArrayCanvas(width, height);
+                pixels = pc2.GetPixels();
+
+                bmp.CopyPixels(pixels, pc2.Stride, 0);
+
+                pc.Blit(
+                    new Rect(x, y, width, height),
+                    pc2,
+                    new Rect(0, 0, width, height),
+                    255, 255, 255, 255, blendMode);
             }
         }
 

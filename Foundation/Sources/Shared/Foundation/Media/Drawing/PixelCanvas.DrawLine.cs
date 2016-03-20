@@ -14,26 +14,29 @@ namespace SquaredInfinity.Foundation.Media.Drawing
  PixelCanvas
 #endif
     {
-        public void DrawRectangle(Rect bounds, int x1, int y1, int x2, int y2, int color)
+        public void DrawRectangle(Rect bounds, int x1, int y1, int width, int height, int color)
         {
             var x1_d = (double)x1;
             var y1_d = (double)y1;
-            var x2_d = (double)x2;
-            var y2_d = (double)y2;
+            var x2_d = (double)x1 + width;
+            var y2_d = (double)y1 + height;
 
             if (!TryCohenSutherlandClip(bounds, ref x1_d, ref y1_d, ref x2_d, ref y2_d))
                 return;
 
-            DrawRectangle((int)x1_d, (int)y1_d, (int)x2_d, (int)y2_d, color);
+            DrawRectangle((int)x1_d, (int)y1_d, (int)(x2_d -x1_d), (int)(y2_d - y1_d), color);
         }
 
-        public void DrawRectangle(int x1, int y1, int x2, int y2, int color)
+        public void DrawRectangle(int x, int y, int width, int height, int color)
         {
-            for(int x = x1; x <= x2; x++)
+            var x2 = x + width;
+            var y2 = y + height;
+
+            for (; x <= x2; x++)
             {
-                for (int y = y1; y <= y2; y++)
+                for (int _y = y; _y <= y2; _y++)
                 {
-                    this[x, y] = color;
+                    this[x, _y] = color;
                 }
             }
         }

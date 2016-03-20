@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NuGet.Foundation.Cache</RootNamespace>
-    <AssemblyName>NuGet.Foundation.Cache</AssemblyName>
+    <AssemblyName>4</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -63,5 +63,5 @@
   </Target>  -->
   <Target Name="AfterBuild">
     <Delete Files=".\NuGet.log" />
-</Target>
+  </Target>
 </Project>

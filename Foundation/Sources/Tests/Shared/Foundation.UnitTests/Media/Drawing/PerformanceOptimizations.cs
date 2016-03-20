@@ -1,11 +1,14 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Foundation.Presentation.Media;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 
 namespace SquaredInfinity.Foundation.Media.Drawing
@@ -20,29 +23,242 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         //      return (rb & 0xFF00FF) + (g & 0x00FF00);
 
         [TestMethod]
-        public void MyTestMethod()
+        public void GeometryDrawingPerformanceComparison()
         {
-            var sw_total = Stopwatch.StartNew();
+            int count = 100000000;
+            int shape_size = 2;
 
-            Parallel.For(0, 101, i =>
-//            for(int i = 0; i < 100; i++)
+            var pc = (IPixelCanvas)null;
+
+            var sw = Stopwatch.StartNew();
+
+            //pc = RandomSquares__DrawGeometry(count, 250, 2500);
+            //Trace.WriteLine("DG: " + sw.ElapsedMilliseconds);
+            //pc.Save(@"c:\temp\dg.png");
+
+            //sw = Stopwatch.StartNew();
+            //pc = RandomSquares__DrawGeometry__Parallel(count, 250, 2500);
+            //Trace.WriteLine("DGP: " + sw.ElapsedMilliseconds);
+            //pc.Save(@"c:\temp\dgp.png");
+
+            //sw = Stopwatch.StartNew();
+            //pc = RandomSquares__DrawVisual(count, shape_size, 2500);
+            //Trace.WriteLine("DV: " + sw.ElapsedMilliseconds);
+            //pc.Save(@"c:\temp\dv.png");
+
+            //sw = Stopwatch.StartNew();
+            //pc = RandomSquares__DrawVisual2(count, shape_size, 2500);
+            //Trace.WriteLine("DV2: " + sw.ElapsedMilliseconds);
+            //pc.Save(@"c:\temp\dv2.png");
+
+            //sw = Stopwatch.StartNew();
+            //pc = RandomSquares__DrawVisual3(count, shape_size, 2500);
+            //Trace.WriteLine("DV3: " + sw.ElapsedMilliseconds);
+            //pc.Save(@"c:\temp\dv3.png");
+
+
+            sw = Stopwatch.StartNew();
+            pc = RandomSquares__RAW(count, shape_size, 2500);
+            Trace.WriteLine("RAW: " + sw.ElapsedMilliseconds);
+            pc.Save(@"c:\temp\raw.png");
+        }
+
+        IPixelCanvas RandomSquares__DrawGeometry(int count, int square_size, int canvas_size)
+        {
+            var rd = new Random();
+
+            var pc = new PixelArrayCanvas(canvas_size, canvas_size);
+
+            var geom = new RectangleGeometry(new System.Windows.Rect(0, 0, square_size, square_size));
+            geom.Freeze();
+
+            for (int i = 0; i < count; i++)
             {
-                var sw = Stopwatch.StartNew();
+                pc.DrawGeometry(rd.Next(0, canvas_size - square_size), rd.Next(0, canvas_size - square_size), geom, Brushes.Red, new Pen(Brushes.Red, 1));
+            }
 
-                var geom = new RectangleGeometry(new System.Windows.Rect(0, 0, 50, 50));
+            return pc;
+        }
 
-                Trace.WriteLine("geom: " + sw.GetElapsedAndRestart().TotalMilliseconds);
+        IPixelCanvas RandomSquares__DrawGeometry__Parallel(int count, int square_size, int canvas_size)
+        {
+            var rd = new Random();
 
-                var pc = new PixelArrayCanvas(500, 500);
-                pc.DrawGeometry(100, 100, geom, Brushes.Red, new Pen(Brushes.Red, 1));
+            var pc = new PixelArrayCanvas(canvas_size, canvas_size);
 
-                Trace.WriteLine("draw: " + sw.GetElapsedAndRestart().TotalMilliseconds);
+            var geom = new RectangleGeometry(new System.Windows.Rect(0, 0, square_size, square_size));
+            geom.Freeze();
 
-                sw.Stop();
-                Trace.WriteLine(sw.ElapsedMilliseconds);
+            Parallel.For(0, count, i =>
+            { 
+                pc.DrawGeometry(rd.Next(0, canvas_size - square_size), rd.Next(0, canvas_size - square_size), geom, Brushes.Red, new Pen(Brushes.Red, 1));
             });
 
-            Trace.WriteLine("TOTAL: " + sw_total.ElapsedMilliseconds);
+            return pc;
+        }
+
+        IPixelCanvas RandomSquares__DrawVisual(int count, int square_size, int canvas_size)
+        {
+            var rd = new Random();
+
+            var pc = new PixelArrayCanvas(canvas_size, canvas_size);
+
+            var dv = new DrawingVisual();
+
+            var geom = new RectangleGeometry(new System.Windows.Rect(0, 0, square_size, square_size));
+            geom.Freeze();
+
+            using (var cx = dv.RenderOpen())
+            {
+                var canvas = new RectangleGeometry(new Rect(0, 0, canvas_size, canvas_size));
+                canvas.Freeze();
+
+                cx.DrawGeometry(Brushes.Transparent, null, canvas);
+
+                for(int i = 0; i < count; i++)
+                {
+                    cx.PushTransform(new TranslateTransform(rd.Next(0, canvas_size - square_size), rd.Next(0, canvas_size - square_size)));
+                    cx.DrawGeometry(Brushes.Red, new Pen(Brushes.Red, 1), geom);
+                    cx.Pop(); 
+                }
+            }
+
+            pc.DrawVisual(0, 0, dv, BlendMode.Copy);
+
+            return pc;
+        }
+
+        IPixelCanvas RandomSquares__DrawVisual2(int count, int square_size, int canvas_size)
+        {
+            var rd = new Random();
+
+            var pc = new PixelArrayCanvas(canvas_size, canvas_size);
+
+            var dv = new DrawingVisual();
+
+            var geom = new RectangleGeometry(new System.Windows.Rect(0, 0, square_size, square_size));
+            geom.Freeze();
+
+            using (var cx = dv.RenderOpen())
+            {
+                var canvas = new RectangleGeometry(new Rect(0, 0, canvas_size, canvas_size));
+                canvas.Freeze();
+
+                cx.DrawGeometry(Brushes.Transparent, null, canvas);
+
+                var lols = new ConcurrentBag<DrawingWithExtras>();                
+
+                Parallel.For(0, count, i =>
+                 {
+                     var drawing = new GeometryDrawing(Brushes.Red, new Pen(Brushes.Red, 1), geom);
+                     drawing.Freeze();
+
+                     var trans = new TranslateTransform(rd.Next(0, canvas_size - square_size), rd.Next(0, canvas_size - square_size));
+                     trans.Freeze();
+
+                     lols.Add(new DrawingWithExtras { drawing = drawing, transform = trans });
+                 });
+
+                foreach(var lol in lols)
+                {
+                    cx.PushTransform(lol.transform);
+                    cx.DrawDrawing(lol.drawing);
+                    cx.Pop();
+                }
+            }
+
+            pc.DrawVisual(0, 0, dv, BlendMode.Copy);
+
+            return pc;
+        }
+
+
+        IEnumerable<IDrawingRenderInfoProvider> produceSquares(int count, int square_size, int canvas_size)
+        {
+            Random rd = new Random();
+
+            for(int i = 0; i < count; i++)
+            {
+                var dp = new SquareDrawingInfoProvider();
+                dp.rd = rd;
+                dp.square_size = square_size;
+                dp.canvas_size = canvas_size;
+
+                yield return dp;
+            }
+        }
+
+        public class SquareDrawingInfoProvider : IDrawingRenderInfoProvider
+        {
+            public Random rd;
+            public int square_size;
+            public int canvas_size;
+
+            public DrawingRenderInfo GetDrawingRenderInfo()
+            {
+                var di = new DrawingRenderInfo();
+                di.Transform = new TranslateTransform(rd.Next(0, canvas_size - square_size), rd.Next(0, canvas_size - square_size));
+                di.Transform.Freeze();
+
+                var geom = new RectangleGeometry(new Rect(0, 0, square_size, square_size));
+                geom.Freeze();
+
+                di.Drawing = new GeometryDrawing(Brushes.Red, null, geom);
+                di.Drawing.Freeze();
+
+                return di;
+            }
+        }
+
+        IPixelCanvas RandomSquares__DrawVisual3(int count, int square_size, int canvas_size)
+        {
+            var rd = new Random();
+
+            var pc = new PixelArrayCanvas(canvas_size, canvas_size);
+
+            var dv = new DrawingVisual();
+
+            var renderer = new DrawingRenderer();
+
+            using (var cx = dv.RenderOpen())
+            {
+                renderer.Render(cx, canvas_size, canvas_size, produceSquares(count, square_size, canvas_size));
+            }
+
+            pc.DrawVisual(0, 0, dv, BlendMode.Copy);
+
+            return pc;
+        }
+
+        IPixelCanvas RandomSquares__RAW(int count, int square_size, int canvas_size)
+        {
+            var rd = new Random();
+
+            var pc = new PixelArrayCanvas(canvas_size, canvas_size);
+
+            var color = pc.GetColor(System.Windows.Media.Colors.Red);
+
+            Parallel.For(0, count, i =>
+            {
+                var x = rd.Next(0, canvas_size - square_size);
+                var y = rd.Next(0, canvas_size - square_size);
+
+                pc.DrawRectangle(
+                    //pc.Bounds,
+                    x,
+                    y,
+                    square_size,
+                    square_size,
+                    color);
+            });
+
+            return pc;
+        }
+
+        struct DrawingWithExtras
+        {
+            public System.Windows.Media.Drawing drawing;
+            public Transform transform;
         }
 
 
