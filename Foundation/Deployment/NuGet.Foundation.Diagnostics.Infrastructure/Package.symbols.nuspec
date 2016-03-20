@@ -21,7 +21,7 @@
     <copyright>Copyright  2014</copyright>
     <dependencies>
       <group targetFramework="net45">
-        <dependency id="SquaredInfinity.Foundation" version="1.1.7-beta045" />
+        <dependency id="SquaredInfinity.Foundation" version="1.1.7-beta060" />
       </group>
     </dependencies>
     <references></references>

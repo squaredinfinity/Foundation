@@ -167,7 +167,8 @@ namespace Nuget.DeployAllProjects
         {
             AllProjects.Clear();
 
-            var psi = new ProcessStartInfo(NugetExePath, "list id:SquaredInfinity.Foundation -prerelease");
+            // list -verbosity detailed -source https://nuget.org/api/v2 id:SquaredInfinity.Foundation -prerelease
+            var psi = new ProcessStartInfo(NugetExePath, "list -source https://nuget.org/api/v2 id:SquaredInfinity.Foundation -prerelease");
             psi.RedirectStandardOutput = true;
             psi.UseShellExecute = false;
 
