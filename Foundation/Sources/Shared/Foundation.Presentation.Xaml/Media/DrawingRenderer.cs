@@ -10,24 +10,29 @@ namespace SquaredInfinity.Foundation.Presentation.Media
 {
     public class DrawingRenderer
     {
-        public virtual void Render(DrawingContext cx, double drawingWidth, double drawingHeight, IEnumerable<IDrawingRenderInfoProvider> drawingProviders)
+        public virtual void Render(
+            DrawingContext cx, 
+            double drawingWidth, 
+            double drawingHeight,
+            IEnumerable<DrawingRenderInfo> drawings)
         {
             // expand drawings to desired size using transparent rectangle
             var canvas = new RectangleGeometry(new Rect(0, 0, drawingWidth, drawingHeight));
             canvas.Freeze();
             cx.DrawGeometry(Brushes.Transparent, null, canvas);
 
-            Render(cx, drawingProviders);
+            Render(cx, drawings);
         }
 
-        public virtual void Render(DrawingContext cx, IEnumerable<IDrawingRenderInfoProvider> drawingProviders)
+        public virtual void Render(
+            DrawingContext cx,
+            IEnumerable<DrawingRenderInfo> drawings)
         {
-            var drawings = new ConcurrentBag<DrawingRenderInfo>();
+            var finished_drawings = new ConcurrentBag<DrawingRenderInfo>();
 
-            Parallel.ForEach(drawingProviders, dp =>
+            Parallel.ForEach(drawings, dp =>
             {
-                var di = dp.GetDrawingRenderInfo();
-                drawings.Add(di);
+                finished_drawings.Add(dp);
             });
 
             foreach (var di in drawings)

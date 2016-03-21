@@ -25,36 +25,36 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         [TestMethod]
         public void GeometryDrawingPerformanceComparison()
         {
-            int count = 100000000;
-            int shape_size = 2;
+            int count = 1000;
+            int shape_size = 250;
 
             var pc = (IPixelCanvas)null;
 
             var sw = Stopwatch.StartNew();
 
-            //pc = RandomSquares__DrawGeometry(count, 250, 2500);
-            //Trace.WriteLine("DG: " + sw.ElapsedMilliseconds);
-            //pc.Save(@"c:\temp\dg.png");
+            pc = RandomSquares__DrawGeometry(count, 250, 2500);
+            Trace.WriteLine("DG: " + sw.ElapsedMilliseconds);
+            pc.Save(@"c:\temp\dg.png");
 
-            //sw = Stopwatch.StartNew();
-            //pc = RandomSquares__DrawGeometry__Parallel(count, 250, 2500);
-            //Trace.WriteLine("DGP: " + sw.ElapsedMilliseconds);
-            //pc.Save(@"c:\temp\dgp.png");
+            sw = Stopwatch.StartNew();
+            pc = RandomSquares__DrawGeometry__Parallel(count, 250, 2500);
+            Trace.WriteLine("DGP: " + sw.ElapsedMilliseconds);
+            pc.Save(@"c:\temp\dgp.png");
 
-            //sw = Stopwatch.StartNew();
-            //pc = RandomSquares__DrawVisual(count, shape_size, 2500);
-            //Trace.WriteLine("DV: " + sw.ElapsedMilliseconds);
-            //pc.Save(@"c:\temp\dv.png");
+            sw = Stopwatch.StartNew();
+            pc = RandomSquares__DrawVisual(count, shape_size, 2500);
+            Trace.WriteLine("DV: " + sw.ElapsedMilliseconds);
+            pc.Save(@"c:\temp\dv.png");
 
-            //sw = Stopwatch.StartNew();
-            //pc = RandomSquares__DrawVisual2(count, shape_size, 2500);
-            //Trace.WriteLine("DV2: " + sw.ElapsedMilliseconds);
-            //pc.Save(@"c:\temp\dv2.png");
+            sw = Stopwatch.StartNew();
+            pc = RandomSquares__DrawVisual2(count, shape_size, 2500);
+            Trace.WriteLine("DV2: " + sw.ElapsedMilliseconds);
+            pc.Save(@"c:\temp\dv2.png");
 
-            //sw = Stopwatch.StartNew();
-            //pc = RandomSquares__DrawVisual3(count, shape_size, 2500);
-            //Trace.WriteLine("DV3: " + sw.ElapsedMilliseconds);
-            //pc.Save(@"c:\temp\dv3.png");
+            sw = Stopwatch.StartNew();
+            pc = RandomSquares__DrawVisual3(count, shape_size, 2500);
+            Trace.WriteLine("DV3: " + sw.ElapsedMilliseconds);
+            pc.Save(@"c:\temp\dv3.png");
 
 
             sw = Stopwatch.StartNew();
@@ -173,28 +173,11 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         }
 
 
-        IEnumerable<IDrawingRenderInfoProvider> produceSquares(int count, int square_size, int canvas_size)
+        IEnumerable<DrawingRenderInfo> produceSquares(int count, int square_size, int canvas_size)
         {
             Random rd = new Random();
 
             for(int i = 0; i < count; i++)
-            {
-                var dp = new SquareDrawingInfoProvider();
-                dp.rd = rd;
-                dp.square_size = square_size;
-                dp.canvas_size = canvas_size;
-
-                yield return dp;
-            }
-        }
-
-        public class SquareDrawingInfoProvider : IDrawingRenderInfoProvider
-        {
-            public Random rd;
-            public int square_size;
-            public int canvas_size;
-
-            public DrawingRenderInfo GetDrawingRenderInfo()
             {
                 var di = new DrawingRenderInfo();
                 di.Transform = new TranslateTransform(rd.Next(0, canvas_size - square_size), rd.Next(0, canvas_size - square_size));
@@ -206,7 +189,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
                 di.Drawing = new GeometryDrawing(Brushes.Red, null, geom);
                 di.Drawing.Freeze();
 
-                return di;
+                yield return di;
             }
         }
 
@@ -216,16 +199,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
 
             var pc = new PixelArrayCanvas(canvas_size, canvas_size);
 
-            var dv = new DrawingVisual();
-
-            var renderer = new DrawingRenderer();
-
-            using (var cx = dv.RenderOpen())
-            {
-                renderer.Render(cx, canvas_size, canvas_size, produceSquares(count, square_size, canvas_size));
-            }
-
-            pc.DrawVisual(0, 0, dv, BlendMode.Copy);
+            pc.DrawDrawings(0, 0, canvas_size, canvas_size, BlendMode.Copy, produceSquares(count, square_size, canvas_size));
 
             return pc;
         }

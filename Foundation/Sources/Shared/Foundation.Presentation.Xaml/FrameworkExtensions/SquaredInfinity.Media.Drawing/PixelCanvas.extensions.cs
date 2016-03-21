@@ -140,7 +140,7 @@ namespace SquaredInfinity.Foundation.Extensions
             int width, 
             int height,
             BlendMode blendMode,
-            IEnumerable<IDrawingRenderInfoProvider> drawingProviders)
+            IEnumerable<DrawingRenderInfo> drawings)
         {
             DrawingRenderer renderer = new DrawingRenderer();
 
@@ -148,7 +148,7 @@ namespace SquaredInfinity.Foundation.Extensions
 
             using (var cx = dv.RenderOpen())
             {
-                renderer.Render(cx, width, height, drawingProviders);
+                renderer.Render(cx, width, height, drawings);
             }
 
             pc.DrawVisual(0, 0, dv, blendMode);
