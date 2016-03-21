@@ -1,4 +1,5 @@
 ﻿using SquaredInfinity.Foundation.Media.Drawing;
+using SquaredInfinity.Foundation.Presentation.Media;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -130,6 +131,27 @@ namespace SquaredInfinity.Foundation.Extensions
                     new Rect(0, 0, width, height),
                     255, 255, 255, 255, blendMode);
             }
+        }
+
+        public static void DrawDrawings(
+            this IPixelCanvas pc, 
+            int x, 
+            int y, 
+            int width, 
+            int height,
+            BlendMode blendMode,
+            IEnumerable<IDrawingRenderInfoProvider> drawingProviders)
+        {
+            DrawingRenderer renderer = new DrawingRenderer();
+
+            var dv = new DrawingVisual();
+
+            using (var cx = dv.RenderOpen())
+            {
+                renderer.Render(cx, width, height, drawingProviders);
+            }
+
+            pc.DrawVisual(0, 0, dv, blendMode);
         }
 
 
@@ -403,8 +425,8 @@ namespace SquaredInfinity.Foundation.Extensions
                                 {
                                     // debug code
                                     debug_counter++;
-                                    debug_destination_pc[idx] = pc.GetColor(Colors.Red);
-                                    debug_source_pc[sourceIdx] = pc.GetColor(Colors.Red);
+                                    debug_destination_pc[idx] = pc.GetColor(System.Windows.Media.Colors.Red);
+                                    debug_source_pc[sourceIdx] = pc.GetColor(System.Windows.Media.Colors.Red);
                                     debug_destination_pc.Save(@"c:\temp\blend\{0}_destination.bmp".FormatWith(debug_counter));
                                     debug_source_pc.Save(@"c:\temp\blend\{0}_source.bmp".FormatWith(debug_counter));
                                     // end debug code
@@ -428,8 +450,8 @@ namespace SquaredInfinity.Foundation.Extensions
                                     var isa = 255 - source_alpha;
 
                                     // debug code
-                                    debug_destination_pc[idx] = pc.GetColor(Colors.Red);
-                                    debug_source_pc[sourceIdx] = pc.GetColor(Colors.Red);
+                                    debug_destination_pc[idx] = pc.GetColor(System.Windows.Media.Colors.Red);
+                                    debug_source_pc[sourceIdx] = pc.GetColor(System.Windows.Media.Colors.Red);
                                     var deb_part = new PixelArrayCanvas(3, 1);
                                     deb_part[0] = source_pixel;
                                     deb_part[1] = destPixel;
