@@ -140,6 +140,31 @@ namespace SquaredInfinity.Foundation.Extensions
             int width,
             int height,
             BlendMode blendMode,
+            IEnumerable<DrawingRenderInfo> drawings)
+        {
+            pc.DrawDrawings(x, y, width, height, blendMode, ParallelExtensions.DefaultParallelOptions, null, drawings);
+        }
+
+        public static void DrawDrawings(
+            this IPixelCanvas pc,
+            int x,
+            int y,
+            int width,
+            int height,
+            BlendMode blendMode,
+            Action<DrawingContext> prepareDrawingContext,
+            IEnumerable<DrawingRenderInfo> drawings)
+        {
+            pc.DrawDrawings(x, y, width, height, blendMode, ParallelExtensions.DefaultParallelOptions, prepareDrawingContext, drawings);
+        }
+
+        public static void DrawDrawings(
+            this IPixelCanvas pc,
+            int x,
+            int y,
+            int width,
+            int height,
+            BlendMode blendMode,
             ParallelOptions parallelOptions,
             IEnumerable<DrawingRenderInfo> drawings)
         {
@@ -163,7 +188,8 @@ namespace SquaredInfinity.Foundation.Extensions
 
             using (var cx = dv.RenderOpen())
             {
-                prepareDrawingContext(cx);
+                if(prepareDrawingContext != null)
+                    prepareDrawingContext(cx);
 
                 renderer.Render(cx, parallelOptions, width, height, drawings);
             }
