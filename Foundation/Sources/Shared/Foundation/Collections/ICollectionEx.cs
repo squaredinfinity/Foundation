@@ -21,6 +21,8 @@ namespace SquaredInfinity.Foundation.Collections
         /// <param name="newItems"></param>
         void Reset(IEnumerable<TItem> newItems);
         IReadOnlyList<TItem> GetSnapshot();
+
+        void CopyTo(int index, TItem[] array, int arrayIndex, int count);
     }
 
     public interface ICollectionEx : IBulkUpdatesCollection

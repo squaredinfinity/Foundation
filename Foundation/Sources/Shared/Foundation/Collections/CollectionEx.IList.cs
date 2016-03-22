@@ -16,7 +16,7 @@ namespace SquaredInfinity.Foundation.Collections
         ICollection<TItem>,
         ICollection
     {
-        IList<TItem> _items;
+        List<TItem> _items;
 
         object _syncRoot;
 
@@ -60,7 +60,7 @@ namespace SquaredInfinity.Foundation.Collections
             get { return _items[index]; }
             set
             {
-                if (_items.IsReadOnly)
+                if (((IList<TItem>)_items).IsReadOnly)
                     throw new NotSupportedException();
 
                 using (CollectionLock.AcquireWriteLockIfNotHeld())
@@ -75,7 +75,7 @@ namespace SquaredInfinity.Foundation.Collections
 
         bool ICollection<TItem>.IsReadOnly
         {
-            get { return _items.IsReadOnly; }
+            get { return ((IList<TItem>)_items).IsReadOnly; }
         }
 
         bool ICollection.IsSynchronized
@@ -117,7 +117,7 @@ namespace SquaredInfinity.Foundation.Collections
         {
             get
             {
-                return this._items.IsReadOnly;
+                return ((IList<TItem>)_items).IsReadOnly;
             }
         }
 
@@ -125,7 +125,7 @@ namespace SquaredInfinity.Foundation.Collections
         {
             get
             {
-                return _items.IsReadOnly;
+                return ((IList<TItem>)_items).IsReadOnly;
             }
         }
 
@@ -167,15 +167,6 @@ namespace SquaredInfinity.Foundation.Collections
 
                 IncrementVersion();
             }
-        }
-
-        /// <summary>
-        /// Copies the entire <see cref="T:System.Collections.ObjectModel.Collection`1"/> to a compatible one-dimensional <see cref="T:System.Array"/>, starting at the specified index of the target array.
-        /// </summary>
-        /// <param name="array">The one-dimensional <see cref="T:System.Array"/> that is the destination of the elements copied from <see cref="T:System.Collections.ObjectModel.Collection`1"/>. The <see cref="T:System.Array"/> must have zero-based indexing.</param><param name="index">The zero-based index in <paramref name="array"/> at which copying begins.</param><exception cref="T:System.ArgumentNullException"><paramref name="array"/> is null.</exception><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index"/> is less than zero.</exception><exception cref="T:System.ArgumentException">The number of elements in the source <see cref="T:System.Collections.ObjectModel.Collection`1"/> is greater than the available space from <paramref name="index"/> to the end of the destination <paramref name="array"/>.</exception>
-        public void CopyTo(TItem[] array, int index)
-        {
-            _items.CopyTo(array, index);
         }
 
         /// <summary>

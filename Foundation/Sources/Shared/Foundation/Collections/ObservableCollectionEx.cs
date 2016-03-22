@@ -22,7 +22,13 @@ namespace SquaredInfinity.Foundation.Collections
             Initialize(monitorElementsForChanges);
         }
 
-        public ObservableCollectionEx(bool monitorElementsForChanges, IList<TItem> items)
+        public ObservableCollectionEx(bool monitorElementsForChanges, IEnumerable<TItem> items)
+            : base(items)
+        {
+            Initialize(monitorElementsForChanges);
+        }
+
+        public ObservableCollectionEx(bool monitorElementsForChanges, List<TItem> items)
             : base(items)
         {
             Initialize(monitorElementsForChanges);
