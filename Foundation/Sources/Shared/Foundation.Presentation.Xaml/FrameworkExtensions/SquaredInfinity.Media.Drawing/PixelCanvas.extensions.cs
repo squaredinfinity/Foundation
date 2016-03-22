@@ -134,12 +134,27 @@ namespace SquaredInfinity.Foundation.Extensions
         }
 
         public static void DrawDrawings(
+            this IPixelCanvas pc,
+            int x,
+            int y,
+            int width,
+            int height,
+            BlendMode blendMode,
+            ParallelOptions parallelOptions,
+            IEnumerable<DrawingRenderInfo> drawings)
+        {
+            pc.DrawDrawings(x, y, width, height, blendMode, parallelOptions, null, drawings);
+        }
+
+        public static void DrawDrawings(
             this IPixelCanvas pc, 
             int x, 
             int y, 
             int width, 
             int height,
             BlendMode blendMode,
+            ParallelOptions parallelOptions,
+            Action<DrawingContext> prepareDrawingContext,
             IEnumerable<DrawingRenderInfo> drawings)
         {
             DrawingRenderer renderer = new DrawingRenderer();
@@ -148,7 +163,9 @@ namespace SquaredInfinity.Foundation.Extensions
 
             using (var cx = dv.RenderOpen())
             {
-                renderer.Render(cx, width, height, drawings);
+                prepareDrawingContext(cx);
+
+                renderer.Render(cx, parallelOptions, width, height, drawings);
             }
 
             pc.DrawVisual(0, 0, dv, blendMode);

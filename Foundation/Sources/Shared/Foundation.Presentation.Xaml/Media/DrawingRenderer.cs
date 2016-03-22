@@ -11,7 +11,8 @@ namespace SquaredInfinity.Foundation.Presentation.Media
     public class DrawingRenderer
     {
         public virtual void Render(
-            DrawingContext cx, 
+            DrawingContext cx,
+            ParallelOptions parallelOptions,
             double drawingWidth, 
             double drawingHeight,
             IEnumerable<DrawingRenderInfo> drawings)
@@ -21,16 +22,17 @@ namespace SquaredInfinity.Foundation.Presentation.Media
             canvas.Freeze();
             cx.DrawGeometry(Brushes.Transparent, null, canvas);
 
-            Render(cx, drawings);
+            Render(cx, parallelOptions, drawings);
         }
 
         public virtual void Render(
             DrawingContext cx,
+            ParallelOptions parallelOptions,
             IEnumerable<DrawingRenderInfo> drawings)
         {
             var finished_drawings = new ConcurrentBag<DrawingRenderInfo>();
 
-            Parallel.ForEach(drawings, dp =>
+            Parallel.ForEach(drawings, parallelOptions, dp =>
             {
                 finished_drawings.Add(dp);
             });

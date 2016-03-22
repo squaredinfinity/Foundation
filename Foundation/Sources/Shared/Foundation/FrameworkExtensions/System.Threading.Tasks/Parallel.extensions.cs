@@ -20,11 +20,19 @@ namespace SquaredInfinity.Foundation.Extensions
             get { return _parallelOptions; }
         }
 
+        static ParallelOptions _disableParallelizationOptions = new ParallelOptions();
+        public static ParallelOptions DisableParallelizationOptions
+        {
+            get { return _disableParallelizationOptions; }
+            private set { _disableParallelizationOptions = value; }
+        }
+
         static ParallelExtensions()
         {
             try
             {
                 CompletedResult = CreateCompletedParallelLoopResult();
+                DisableParallelizationOptions = new ParallelOptions { MaxDegreeOfParallelism = 1 };
             }
             catch (Exception ex)
             {
