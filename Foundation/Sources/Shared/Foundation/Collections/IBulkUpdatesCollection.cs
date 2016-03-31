@@ -15,7 +15,7 @@ namespace SquaredInfinity.Foundation.Collections
         IBulkUpdate BeginBulkUpdate();
         void EndBulkUpdate(IBulkUpdate bulkUpdate);
 
-
+        bool IsBulkUpdateInProgress();
 
         void AddRange(IEnumerable items);
 
