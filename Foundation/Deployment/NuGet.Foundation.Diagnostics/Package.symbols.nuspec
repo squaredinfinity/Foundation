@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>SquaredInfinity.Foundation.Diagnostics</id>
-    <version>1.1.7-beta066</version>
+    <version>1.1.7-beta080</version>
     <title>SquaredInfinity.Foundation.Diagnostics</title>
     <authors>Jarek Kardas</authors>
     <owners></owners>
@@ -21,7 +21,7 @@
     <copyright>Copyright  2014</copyright>
     <dependencies>
       <group targetFramework="net45">
-        <dependency id="SquaredInfinity.Foundation" version="1.1.7-beta066" />
+        <dependency id="SquaredInfinity.Foundation" version="1.1.7-beta080" />
         <dependency id="SquaredInfinity.Foundation.Diagnostics.Infrastructure" version="1.1.7-beta045" />
       </group>
     </dependencies>
