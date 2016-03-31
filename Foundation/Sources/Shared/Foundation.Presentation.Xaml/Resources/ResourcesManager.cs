@@ -246,21 +246,21 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
         {
             var isc = new ImageSourceConverter();
             
-            return BitmapFrame.Create(resourceUri);
+            return new BitmapImage(resourceUri);
         }
 
         public static ImageSource LoadImageFromEntryAssembly(string resourceRelativeUri)
         {
             var uri = new Uri("pack://application:,,,/{0}".FormatWith(resourceRelativeUri), UriKind.Absolute);
 
-            return BitmapFrame.Create(uri);
+            return new BitmapImage(uri);
         }
 
         public static ImageSource LoadImageFromAssembly(string assemblyName, string resourceRelativeUri)
         {
             var uri = new Uri("pack://application:,,,/{0};component/{1}".FormatWith(assemblyName, resourceRelativeUri), UriKind.Absolute);
 
-            return BitmapFrame.Create(uri);
+            return new BitmapImage(uri);
         }
 
         public static T LoadResourceFromAssembly<T>(string assemblyName, string resourceDictionaryRelativeUri)
