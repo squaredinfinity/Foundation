@@ -98,7 +98,7 @@ namespace SquaredInfinity.Foundation.Extensions
             Pen pen,
             BlendMode blendMode)
         {
-            var size = geometry.Bounds.Size;
+            var size = geometry.GetRenderBounds(pen).Size;
             var width = (int)size.Width;
             var height = (int)size.Height;
             

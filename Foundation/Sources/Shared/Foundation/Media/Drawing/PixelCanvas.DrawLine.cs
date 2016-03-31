@@ -111,23 +111,12 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             var x_step = 0.0f;
             var y_step = 0.0f;
 
-            var steps = dx_abs;
-
-            //if (dx_abs < dy_abs)
-            //    steps = dy_abs;
-            
+            var steps = dx_abs;            
             if (dx_abs < dy_abs)
-            {
                 steps = dy_abs;
 
-                x_step = (dx + 1) / (float)(steps + 1);
-                y_step = dy / (float)steps;
-            }
-            else
-            {
-                x_step = dx / (float)steps;
-                y_step = dy / (float)steps;
-            }
+            x_step = dx / (float)steps;
+            y_step = dy / (float)steps;
 
             if (steps == 0)
                 return;
