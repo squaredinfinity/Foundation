@@ -37,7 +37,9 @@ namespace SquaredInfinity.Foundation.Presentation.Media
                 finished_drawings.Add(dp);
             });
 
-            foreach (var di in drawings)
+            var di = (DrawingRenderInfo)null;
+
+            while(finished_drawings.TryTake(out di))
             {
                 if (di.Transform != null)
                     cx.PushTransform(di.Transform);
