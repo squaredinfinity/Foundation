@@ -90,6 +90,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\MixedCompositeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\MultiplyNumberConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\NullOrEmptyToBoolConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\NumbersSumConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\NumberToBoolConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\SizeToRectConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\SplitCamelCaseConverter.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\ContextAwareDataTemplateSelectorService.Cache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\ContextAwareDataTemplateSelectorService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\DynamicDataTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\DynamicResourcesTraversingDataTemplateSelector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\IContextAwareDataTemplateProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\IContextAwareDataTemplateSelectorService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\MefTypeDataTemplateSelectorService.cs" />

@@ -160,6 +160,14 @@
         <SolidColorBrush Color="#F79646" po:Freeze="True" />
     </converters:IndexToBrushConverter>
 
+    <converters:NumbersSumConverter x:Key="Converters.Sum" />
+    <converters:CompositeConverter x:Key="Converters.SumToDouble">
+        <converters:NumbersSumConverter />
+        <converters:ToDoubleConverter />
+    </converters:CompositeConverter>
+
+    <converters:ToDoubleConverter x:Key="Converters.ToDouble" />
+
     <converters:ColorToGradientBrushConverter x:Key="Converters.ColorToGradientBrush" />
 
     <converters:ColumnHeaderRoleToBorderConverter x:Key="Converters.ColumnHeaderRoleToBorder" />

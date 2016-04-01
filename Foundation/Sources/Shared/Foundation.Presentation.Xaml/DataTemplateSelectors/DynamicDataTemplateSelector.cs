@@ -1,42 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
 {
-    public class DynamicDataTemplateSelector : ResourcesTraversingDataTemplateSelector
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>
+    /// Old DynamicDataTemplateSelector has been replaced with DynamicResourcesTraversingDataTemplateSelector.
+    /// </remarks>
+    public class DynamicDataTemplateSelector : DataTemplateSelector
     {
-        readonly Func<object, DependencyObject, string> GetTemplateResourceKey;
+        readonly Func<object, DependencyObject, DataTemplate> GetDataTemplate;
 
-        public DynamicDataTemplateSelector(Func<object, DependencyObject, string> getTemplateResourceKey)
+        public DynamicDataTemplateSelector(Func<object, DependencyObject, DataTemplate> getDataTemplate)
         {
-            this.GetTemplateResourceKey = getTemplateResourceKey;
+            this.GetDataTemplate = getDataTemplate;
         }
 
-        protected override bool TryFindDataTemplate(
-            ResourceDictionary resources,
-            FrameworkElement resourcesOwner,
-            DependencyObject itemContainer,
-            object item,
-            Type itemType,
-            out DataTemplate dataTemplate)
+        public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            var key = GetTemplateResourceKey(item, itemContainer);
-
-            if (key == null)
-            {
-                dataTemplate = null;
-                return false;
-            }
-
-            dataTemplate = resources[key] as DataTemplate;
-            if (dataTemplate != null)
-                return true;
-
-            return false;
+            return GetDataTemplate(item, container);
         }
     }
 }
