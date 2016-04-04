@@ -116,6 +116,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\Rules\ItemValueRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\Rules\MemberValueRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\TypeNameToResourceKeyMappingDataTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\TypeToDataTemplateMapping.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\TypeToDataTemplateMappings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\CollectionViewSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DefaultUIService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DialogMode.cs" />

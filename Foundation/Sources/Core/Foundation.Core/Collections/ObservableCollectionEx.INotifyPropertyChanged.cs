@@ -1,56 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
 using System.Text;
-using SquaredInfinity.Foundation.Extensions;
 using System.Threading;
+using SquaredInfinity.Foundation.Extensions;
 
-namespace SquaredInfinity.Foundation
+namespace SquaredInfinity.Foundation.Collections
 {
-    /// <summary> 
-    /// Implements INotifyPropertyChanged
-    /// </summary> 
-    [Serializable]
-    public class NotifyPropertyChangedObject : INotifyPropertyChanged, IFreezable, INotifyVersionChangedObject
+    public partial class ObservableCollectionEx<TItem> : INotifyPropertyChanged
     {
-        /// <summary> 
-        /// Occurs when [property changed]. 
-        /// </summary> 
-        [field:NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [field: NonSerialized]
-        public event EventHandler VersionChanged;
-
-        /// <summary>
-        /// Increments version and raises Version Changed event.
-        /// </summary>
-        protected void IncrementVersion()
-        {
-            var newVersion = Interlocked.Increment(ref _version);
-
-            OnVersionChanged();
-        }
-        
-        protected void OnVersionChanged()
-        {
-            if (VersionChanged != null)
-                VersionChanged(this, EventArgs.Empty);
-
-            RaisePropertyChanged("Version");
-        }
-
-        int _version;
-        public int Version
-        {
-            get { return _version; }
-        }
-
-        public void RaiseThisPropertyChanged([CallerMemberName] string propertyName = "")
+        protected void RaiseThisPropertyChanged([CallerMemberName] string propertyName = "")
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
@@ -81,7 +47,7 @@ namespace SquaredInfinity.Foundation
         public void RaiseIndexerChanged(string index)
         {
             if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs("Item[{0}]".FormatWith(index)));
+                PropertyChanged(this, new PropertyChangedEventArgs($"Item[{index}]"));
         }
         /// <summary> 
         /// Raises the property changed event for indexer (specific index) 
@@ -89,7 +55,7 @@ namespace SquaredInfinity.Foundation
         public void RaiseIndexerChanged(int index)
         {
             if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs("Item[{0}]".FormatWith(index)));
+                PropertyChanged(this, new PropertyChangedEventArgs($"Item[{index}]"));
         }
 
         /// <summary>
@@ -110,9 +76,6 @@ namespace SquaredInfinity.Foundation
             bool raisePropertyChanged = true,
             [CallerMemberName] string propertyName = null)
         {
-            if (IsFrozen)
-                return false;
-
             if (object.Equals(backingField, value))
                 return false;
 
@@ -124,23 +87,6 @@ namespace SquaredInfinity.Foundation
             IncrementVersion();
 
             return true;
-        }
-
-        bool _isFrozen = false;
-        bool IFreezable.IsFrozen
-        {
-            get { return _isFrozen; }
-        }
-
-        bool IsFrozen
-        {
-            get { return _isFrozen; }
-            set { TrySetThisPropertyValue(ref _isFrozen, value); }
-        }
-        
-        void IFreezable.Freeze()
-        {
-            IsFrozen = true;
         }
     }
 }

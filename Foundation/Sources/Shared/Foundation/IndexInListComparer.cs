@@ -8,7 +8,7 @@ namespace SquaredInfinity.Foundation
 {
     /// <summary>
     /// Compares indexes of items in the list.
-    /// Any subsequent changes to the list will not be reflected (i.e. indexes of items are chached internally when instance of this class is created)
+    /// Any subsequent changes to the list will not be reflected (i.e. indexes of items are cached internally when instance of this class is created)
     /// </summary>
     /// <typeparam name="TItem"></typeparam>
     public class IndexInListComparer<TItem> : IComparer<TItem>

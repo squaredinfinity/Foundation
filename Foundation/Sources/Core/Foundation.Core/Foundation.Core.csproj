@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4ED231BF-B533-4842-9B80-B0F30E360EAD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SquaredInfinity.Foundation</RootNamespace>
+    <AssemblyName>SquaredInfinity.Foundation.Core</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="Media\RYB.pdf" />
+    <None Include="project.json" />
+    <!-- A reference to the entire .NET Framework is automatically included -->
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ChainOfCommand.cs" />
+    <Compile Include="Collections\AfterItemReplacedEventArgs.cs" />
+    <Compile Include="Collections\CollectionEx.cs" />
+    <Compile Include="Collections\CollectionEx.IList.cs" />
+    <Compile Include="Collections\IBulkUpdatesCollection.cs" />
+    <Compile Include="Collections\ICollectionEx.cs" />
+    <Compile Include="Collections\INotifyCollectionVersionChanged.cs" />
+    <Compile Include="Collections\IObservableCollectionEx.cs" />
+    <Compile Include="Collections\ItemAddedEventArgs.cs" />
+    <Compile Include="Collections\ItemRemovedEventArgs.cs" />
+    <Compile Include="Collections\ObservableCollectionEx.cs" />
+    <Compile Include="Collections\ObservableCollectionEx.INotifyCollectionChanged.cs" />
+    <Compile Include="Collections\ObservableCollectionEx.INotifyPropertyChanged.cs" />
+    <Compile Include="CommandHandlerEventArgs.cs" />
+    <Compile Include="CommandHandlerEventArgs_T.cs" />
+    <Compile Include="DateTimeContext.cs" />
+    <Compile Include="EnumeratorBase.cs" />
+    <Compile Include="Framework Extensions\System.IO\Stream.extensions.cs" />
+    <Compile Include="Framework Extensions\System.Threading.Tasks\Task.extensions.cs" />
+    <Compile Include="Framework Extensions\System\Object.extensions.cs" />
+    <Compile Include="Freezable.cs" />
+    <Compile Include="ICloneEquatable.cs" />
+    <Compile Include="IDateTimeContext.cs" />
+    <Compile Include="IFreezable.cs" />
+    <Compile Include="INotifyVersionChangedObject.cs" />
+    <Compile Include="Iterator.cs" />
+    <Compile Include="Media\ColorChannel.cs" />
+    <Compile Include="Media\ColorChannelCollection.cs" />
+    <Compile Include="Media\ColorChannelDefinition.cs" />
+    <Compile Include="Media\Color.cs" />
+    <Compile Include="Media\IColor.cs" />
+    <Compile Include="Media\ColorSpaces\IColorSpace.cs" />
+    <Compile Include="Media\ColorSpaces\KnownColorSpaces.cs" />
+    <Compile Include="Media\ColorSpaces\LabColor.cs" />
+    <Compile Include="Media\ColorSpaces\LabColorSpace.cs" />
+    <Compile Include="Media\ColorSpaces\RGBColor.cs" />
+    <Compile Include="Media\ColorSpaces\RGBColorSpace.cs" />
+    <Compile Include="Media\ColorSpaces\ScRBGColor.cs" />
+    <Compile Include="Media\ColorSpaces\ScRGBColorSpace.cs" />
+    <Compile Include="Media\ColorSpaces\xyYColor.cs" />
+    <Compile Include="Media\ColorSpaces\xyYColorSpace.cs" />
+    <Compile Include="Media\ColorSpaces\XYZColor.cs" />
+    <Compile Include="Media\ColorSpaces\XyzColorSpace.cs" />
+    <Compile Include="Media\Drawing\BlendMode.cs" />
+    <Compile Include="Media\Drawing\IPixelCanvas.cs" />
+    <Compile Include="Media\Drawing\PixelArrayCanvas.cs" />
+    <Compile Include="Media\Drawing\PixelCanvas.Blit.cs" />
+    <Compile Include="Media\Drawing\PixelCanvas.Clear.cs" />
+    <Compile Include="Media\Drawing\PixelCanvas.CohenSutherland.cs" />
+    <Compile Include="Media\Drawing\PixelCanvas.cs" />
+    <Compile Include="Media\Drawing\PixelCanvas.DrawLine.cs" />
+    <Compile Include="Media\Drawing\PixelCanvas.DrawLineWu.cs" />
+    <Compile Include="Media\Drawing\PixelCanvas.IDisposable.cs" />
+    <Compile Include="ObjectExtensibility\Extension.cs" />
+    <Compile Include="ObjectExtensibility\ExtensionCollection.cs" />
+    <Compile Include="ObjectExtensibility\IExtensibleObject.cs" />
+    <Compile Include="ObjectExtensibility\IExtension.cs" />
+    <Compile Include="ObjectExtensibility\IExtensionCollection.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Text\UnicodeCharacters.cs" />
+    <Compile Include="Threading\ILock.cs" />
+    <Compile Include="Threading\IReadLockAcquisition.cs" />
+    <Compile Include="Threading\IUpgradeableReadLockAcquisition.cs" />
+    <Compile Include="Threading\IWriteLockAcquisition.cs" />
+    <Compile Include="Threading\ReaderWriterLockSlimEx.cs" />
+    <Compile Include="Threading\ReaderWriterLockSlimEx.ReadLockAcquisition.cs" />
+    <Compile Include="Threading\ReaderWriterLockSlimEx.UpgradeableReadLockAcquisition.cs" />
+    <Compile Include="Threading\ReaderWriterLockSlimEx.WriteLockAcquisition.cs" />
+    <Compile Include="VersionChangedEventArgs.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Foundation.Maths.Core\Foundation.Maths.Core.csproj">
+      <Project>{3d68571e-52ca-481b-b2b6-e22e5c214cb6}</Project>
+      <Name>Foundation.Maths.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Framework Extensions\System.ComponentModel\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
