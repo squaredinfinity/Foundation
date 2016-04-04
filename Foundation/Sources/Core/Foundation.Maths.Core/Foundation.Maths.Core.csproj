@@ -51,7 +51,9 @@
     <Compile Include="IntervalFlags.cs" />
     <Compile Include="Space2D\Point2D.cs" />
     <Compile Include="Space2D\Rectangle.cs" />
+    <Compile Include="Statistics\Max.cs" />
     <Compile Include="Statistics\Mean.cs" />
+    <Compile Include="Statistics\Min.cs" />
     <Compile Include="Statistics\OnlineStatistics.cs" />
     <Compile Include="Statistics\Range.cs" />
     <Compile Include="Statistics\RangeInfo.cs" />
