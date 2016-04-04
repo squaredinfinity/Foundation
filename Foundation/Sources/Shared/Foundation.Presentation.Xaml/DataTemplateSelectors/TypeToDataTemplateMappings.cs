@@ -8,11 +8,11 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
     [ContentProperty("DataTemplates")]
     public class TypeToDataTemplateMappings
     {
-        public List<TypeToDataTemplateMapping> DataTemplates { get; private set; }
+        public TypeToDataTemplateMappingCollection DataTemplates { get; private set; }
 
         public TypeToDataTemplateMappings()
         {
-            DataTemplates = new List<TypeToDataTemplateMapping>();
+            DataTemplates = new TypeToDataTemplateMappingCollection();
         }
     }
 }
