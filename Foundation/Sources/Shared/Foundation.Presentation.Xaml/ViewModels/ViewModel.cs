@@ -228,12 +228,7 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
         public ViewModelState State
         {
             get { return _state; }
-            set
-            {
-                _state = value;
-                RaisePropertyChanged(() => State);
-
-            }
+            set { TrySetThisPropertyValue(ref _state, value); }
         }
 
         public ViewModel()

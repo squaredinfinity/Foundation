@@ -14,6 +14,7 @@ using System.Collections;
 using System.Windows.Input;
 using SquaredInfinity.Foundation.Presentation.Controls;
 using System.Threading;
+using SquaredInfinity.Foundation.Maths;
 
 namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
 {
@@ -524,13 +525,13 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
                 }
                 else if (new_selected_count != 0)
                 {
-                    var even_count = MathExtensions.FindEvenNumber(Items.Count, ForwardBackwardDirection.Backward);
+                    var even_count = Items.Count.FindEvenNumber(ForwardBackwardDirection.Backward);
 
-                    new_selected_count = MathExtensions.FindDivisorWithoutReminder(even_count, new_selected_count, ForwardBackwardDirection.Forward);
+                    new_selected_count = even_count.FindDivisorWithoutReminder(new_selected_count, ForwardBackwardDirection.Forward);
                 }
 
                 if (Items.Count % 2 == 1 && Items.Count > new_selected_count)
-                    new_selected_count = MathExtensions.FindOddNumber(new_selected_count, ForwardBackwardDirection.Forward);
+                    new_selected_count = new_selected_count.FindOddNumber(ForwardBackwardDirection.Forward);
             }
 
             if (new_selected_count > Items.Count)
@@ -554,12 +555,12 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
                 }
                 else if (new_selected_count != 0)
                 {
-                    var even_count = MathExtensions.FindEvenNumber(Items.Count, ForwardBackwardDirection.Backward);
+                    var even_count = Items.Count.FindEvenNumber(ForwardBackwardDirection.Backward);
 
-                    new_selected_count = MathExtensions.FindDivisorWithoutReminder(even_count, new_selected_count, ForwardBackwardDirection.Backward);
+                    new_selected_count = even_count.FindDivisorWithoutReminder(new_selected_count, ForwardBackwardDirection.Backward);
 
                     if (new_selected_count != 0 && Items.Count % 2 == 1 && Items.Count > new_selected_count)
-                        new_selected_count = MathExtensions.FindOddNumber(new_selected_count, ForwardBackwardDirection.Forward);
+                        new_selected_count = new_selected_count.FindOddNumber(ForwardBackwardDirection.Forward);
                 }
             }
 

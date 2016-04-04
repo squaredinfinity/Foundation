@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SquaredInfinity.Foundation;
+using SquaredInfinity.Foundation.Maths;
+using SquaredInfinity.Foundation.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,7 +14,7 @@ namespace Foundation.UnitTests
         [TestMethod]
         public void FindOddNumber__DoesntTreatZeroAsOdd()
         {
-            var odd = MathExtensions.FindOddNumber(0, ForwardBackwardDirection.Forward);
+            var odd = 0.FindOddNumber(ForwardBackwardDirection.Forward);
 
             Assert.AreEqual(1, odd);
         }
@@ -20,7 +22,7 @@ namespace Foundation.UnitTests
         [TestMethod]
         public void FindOddNumber__ReturnsOriginIfOdd()
         {
-            var odd = MathExtensions.FindOddNumber(1, ForwardBackwardDirection.Forward);
+            var odd = 1.FindOddNumber(ForwardBackwardDirection.Forward);
 
             Assert.AreEqual(1, odd);
         }
@@ -28,7 +30,7 @@ namespace Foundation.UnitTests
         [TestMethod]
         public void FindOddNumber__CanDoForwardLookup()
         {
-            var odd = MathExtensions.FindOddNumber(0, ForwardBackwardDirection.Forward);
+            var odd = 0.FindOddNumber(ForwardBackwardDirection.Forward);
 
             Assert.AreEqual(1, odd);
         }
@@ -36,7 +38,7 @@ namespace Foundation.UnitTests
         [TestMethod]
         public void FindOddNumber__CanDoBackwardLookup()
         {
-            var odd = MathExtensions.FindOddNumber(0, ForwardBackwardDirection.Backward);
+            var odd = 0.FindOddNumber(ForwardBackwardDirection.Backward);
 
             Assert.AreEqual(-1, odd);
         }

@@ -6,16 +6,40 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
+#if CORE
+using Trace = System.Diagnostics.Debug;
+#endif
+
 namespace SquaredInfinity.Foundation
 {
+#if CORE
+    internal enum TraceEventType
+    {
+        Critical = 1,
+        Error = 2,
+        Warning = 4,
+        Information = 8,
+        Verbose = 16,
+        Start = 256,
+        Stop = 512,
+        Suspend = 1024,
+        Resume = 2048,
+        Transfer = 4096
+    }
+
+#endif
+
     internal partial class InternalTrace
     {
+#if !CORE
         public static readonly SourceSwitch Switch;
+#endif
 
         static string Name { get; set; }
 
         static InternalTrace()
         {
+#if !CORE
             string asmName = typeof(InternalTrace).Assembly.GetName().Name;
 
             // assemblies are name using xx.xx.xx.platform pattern
@@ -28,30 +52,37 @@ namespace SquaredInfinity.Foundation
 #else
             Switch = new SourceSwitch(Name, "Error");
 #endif
+#endif
         }
 
-        #region Error
+#region Error
 
         public static void Error(Exception ex, Func<string> getMessage)
         {
+#if !CORE
             if (!Switch.ShouldTrace(TraceEventType.Error))
                 return;
+#endif
 
             ProcessDiagnosticEvent(TraceEventType.Error, getMessage);
         }
 
         public static void Error(Exception ex, string message)
         {
+#if !CORE
             if (!Switch.ShouldTrace(TraceEventType.Error))
                 return;
+#endif
 
             ProcessDiagnosticEvent(TraceEventType.Error, message);
         }
 
         public static void Error(string message)
         {
+#if !CORE
             if (!Switch.ShouldTrace(TraceEventType.Error))
                 return;
+#endif
 
             ProcessDiagnosticEvent(TraceEventType.Error, message);
         }
@@ -59,36 +90,44 @@ namespace SquaredInfinity.Foundation
 
         public static void Error(Func<string> getMessage)
         {
+#if !CORE
             if (!Switch.ShouldTrace(TraceEventType.Error))
                 return;
+#endif
 
             ProcessDiagnosticEvent(TraceEventType.Error, getMessage);
         }
 
-        #endregion
+#endregion
 
-        #region Warning
+#region Warning
 
         public static void Warning(Exception ex, Func<string> getMessage)
         {
+#if !CORE
             if (!Switch.ShouldTrace(TraceEventType.Warning))
                 return;
+#endif
 
             ProcessDiagnosticEvent(TraceEventType.Warning, getMessage);
         }
 
         public static void Warning(Exception ex, string message)
         {
+#if !CORE
             if (!Switch.ShouldTrace(TraceEventType.Warning))
                 return;
+#endif
 
             ProcessDiagnosticEvent(TraceEventType.Warning, message);
         }
 
         public static void Warning(string message)
         {
+#if !CORE
             if (!Switch.ShouldTrace(TraceEventType.Warning))
                 return;
+#endif
 
             ProcessDiagnosticEvent(TraceEventType.Warning, message);
         }
@@ -96,28 +135,34 @@ namespace SquaredInfinity.Foundation
 
         public static void Warning(Func<string> getMessage)
         {
+#if !CORE
             if (!Switch.ShouldTrace(TraceEventType.Warning))
                 return;
+#endif
 
             ProcessDiagnosticEvent(TraceEventType.Warning, getMessage);
         }
 
-        #endregion
+#endregion
 
-        #region Information
+#region Information
 
         public static void Information(Exception ex, string message)
         {
+#if !CORE
             if (!Switch.ShouldTrace(TraceEventType.Information))
                 return;
+#endif
 
             ProcessDiagnosticEvent(TraceEventType.Information, message, ex);
         }
 
         public static void Information(string message)
         {
+#if !CORE
             if (!Switch.ShouldTrace(TraceEventType.Information))
                 return;
+#endif
 
             ProcessDiagnosticEvent(TraceEventType.Information, message);
         }
@@ -125,13 +170,15 @@ namespace SquaredInfinity.Foundation
 
         public static void Information(Func<string> getMessage)
         {
+#if !CORE
             if (!Switch.ShouldTrace(TraceEventType.Information))
                 return;
+#endif
 
             ProcessDiagnosticEvent(TraceEventType.Information, getMessage);
         }
 
-        #endregion
+#endregion
 
         static void ProcessDiagnosticEvent(TraceEventType type, string message, Exception ex = null)
         {
@@ -145,14 +192,14 @@ namespace SquaredInfinity.Foundation
                 prefix = "ERROR: ";
             else if (type == TraceEventType.Critical)
                 prefix = "CRITICAL: ";
-
+            
             if(string.IsNullOrEmpty(message))
-                System.Diagnostics.Trace.WriteLine("[" + prefix + Name + "]: " + "<no message>");
+                Trace.WriteLine("[" + prefix + Name + "]: " + "<no message>");
             else
-                System.Diagnostics.Trace.WriteLine("[" + prefix + Name + "]: " + message);
+                Trace.WriteLine("[" + prefix + Name + "]: " + message);
 
             if (ex != null)
-                System.Diagnostics.Trace.WriteLine("[" + prefix + Name + "]: " + ex.ToString());
+                Trace.WriteLine("[" + prefix + Name + "]: " + ex.ToString());
         }
         
         static void ProcessDiagnosticEvent(TraceEventType type, Func<string> getMessage, Exception ex = null)

@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SquaredInfinity.Foundation;
+using SquaredInfinity.Foundation.Maths;
+using SquaredInfinity.Foundation.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,7 +13,7 @@ namespace Foundation.UnitTests
         [TestMethod]
         public void FindEvenNumber__TreatsZeroAsEven()
         {
-            var even = MathExtensions.FindEvenNumber(-1, ForwardBackwardDirection.Forward);
+            var even = -1.FindEvenNumber(ForwardBackwardDirection.Forward);
 
             Assert.AreEqual(0, even);
         }
@@ -19,7 +21,7 @@ namespace Foundation.UnitTests
         [TestMethod]
         public void FindEvenNumber__ReturnsOriginIfEven()
         {
-            var even = MathExtensions.FindEvenNumber(0, ForwardBackwardDirection.Forward);
+            var even = 0.FindEvenNumber(ForwardBackwardDirection.Forward);
 
             Assert.AreEqual(0, even);
         }
@@ -27,7 +29,7 @@ namespace Foundation.UnitTests
         [TestMethod]
         public void FindEvenNumber__CanDoForwardLookup()
         {
-            var even = MathExtensions.FindEvenNumber(1, ForwardBackwardDirection.Forward);
+            var even = 1.FindEvenNumber(ForwardBackwardDirection.Forward);
 
             Assert.AreEqual(2, even);
         }
@@ -35,7 +37,7 @@ namespace Foundation.UnitTests
         [TestMethod]
         public void FindEvenNumber__CanDoBackwardLookup()
         {
-            var even = MathExtensions.FindEvenNumber(-1, ForwardBackwardDirection.Backward);
+            var even = -1.FindEvenNumber(ForwardBackwardDirection.Backward);
 
             Assert.AreEqual(-2, even);
         }

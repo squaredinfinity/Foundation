@@ -77,6 +77,14 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\Foundation.Core\Foundation.Core.csproj">
+      <Project>{4ed231bf-b533-4842-9b80-b0f30e360ead}</Project>
+      <Name>Foundation.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Core\Foundation.Maths.Core\Foundation.Maths.Core.csproj">
+      <Project>{3d68571e-52ca-481b-b2b6-e22e5c214cb6}</Project>
+      <Name>Foundation.Maths.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\DotNet45\Foundation.Diagnostics.DotNet45\Foundation.Diagnostics.DotNet45.csproj">
       <Project>{ab8007f5-ad2a-42b8-9375-98ae0ad89f80}</Project>
       <Name>Foundation.Diagnostics.DotNet45</Name>

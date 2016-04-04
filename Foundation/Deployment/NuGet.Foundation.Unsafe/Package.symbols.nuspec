@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>SquaredInfinity.Foundation.Unsafe</id>
-    <version>1.1.7-beta080</version>
+    <version>1.1.7-beta082</version>
     <title>SquaredInfinity.Foundation.Unsafe</title>
     <authors>Jarek Kardas</authors>
     <owners></owners>
@@ -21,7 +21,7 @@
     <copyright>Copyright  2014</copyright>
     <dependencies>
       <group targetFramework="net45">
-        <dependency id="SquaredInfinity.Foundation" version="1.1.7-beta080" />
+        <dependency id="SquaredInfinity.Foundation" version="1.1.7-beta082" />
       </group>
     </dependencies>
     <references></references>

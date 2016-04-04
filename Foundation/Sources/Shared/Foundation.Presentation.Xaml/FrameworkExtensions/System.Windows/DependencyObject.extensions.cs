@@ -12,6 +12,7 @@ using System.Windows.Documents;
 using System.Windows.Interop;
 using System.Diagnostics;
 using System.Windows.Media.Media3D;
+using SquaredInfinity.Foundation.Maths.Graphs.Trees;
 
 namespace SquaredInfinity.Foundation.Extensions
 {

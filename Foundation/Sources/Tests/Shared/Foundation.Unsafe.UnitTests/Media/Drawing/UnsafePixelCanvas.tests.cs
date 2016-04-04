@@ -6,16 +6,16 @@ using System.Text;
 
 namespace Foundation.Unsafe.UnitTests.Media.Drawing
 {
-    [TestClass]
-    public class UnsafePixelCanvasTests
-    {
-        [TestMethod]
-        public void MyTestMethod()
-        {
-            var pc = new UnsafePixelCanvas(50, 50);
-            pc.DrawLineDDA(0, 0, 50, 50, pc.GetColor(255,0,0,0));
+    //[TestClass]
+    //public class UnsafePixelCanvasTests
+    //{
+    //    [TestMethod]
+    //    public void MyTestMethod()
+    //    {
+    //        var pc = new UnsafePixelCanvas(50, 50);
+    //        pc.DrawLineDDA(0, 0, 50, 50, pc.GetColor(255,0,0,0));
 
-            var x = pc.GetPixels();
-        }
-    }
+    //        var x = pc.GetPixels();
+    //    }
+    //}
 }

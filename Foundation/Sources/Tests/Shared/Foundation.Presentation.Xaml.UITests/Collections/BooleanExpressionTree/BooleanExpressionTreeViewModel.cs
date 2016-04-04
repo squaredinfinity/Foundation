@@ -50,7 +50,7 @@ namespace SquaredInfinity.Foundation.Presentation.Xaml.UITests.Collections.Boole
             if (ExpTree.Root == null)
             {
                 ExpTree.ReplaceRootAndSubtree(new_node);
-                RaisePropertyChanged(() => ExpTree);
+                RaisePropertyChanged(nameof(ExpTree));
             }
             else
                 ExpTree.InjectInto(new_node, ExpTree.Root);

@@ -12,26 +12,18 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
         public event Action<IHostAwareViewModel> InteractionCompleting;
         public event Action<IHostAwareViewModel> InteractionCompleted;
 
-        IViewModelHost viewModelHost;
+        IViewModelHost _viewModelHost;
         public IViewModelHost ViewModelHost
         {
-            get { return viewModelHost; }
-            set
-            {
-                viewModelHost = value;
-                RaisePropertyChanged(() => ViewModelHost);
-            }
+            get { return _viewModelHost; }
+            set { TrySetThisPropertyValue(ref _viewModelHost, value); }
         }
 
-        UserInteractionOutcome interactionOutcome = UserInteractionOutcome.Unset;
+        UserInteractionOutcome _interactionOutcome = UserInteractionOutcome.Unset;
         public UserInteractionOutcome InteractionOutcome
         {
-            get { return interactionOutcome; }
-            set
-            {
-                interactionOutcome = value;
-                RaisePropertyChanged(() => InteractionOutcome);
-            }
+            get { return _interactionOutcome; }
+            set { TrySetThisPropertyValue(ref _interactionOutcome, value); }
         }
 
         public virtual void CompleteInteraction()
@@ -64,15 +56,11 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
             return true;
         }
 
-        string title;
+        string _title;
         public string Title
         {
-            get { return title; }
-            set
-            {
-                title = value;
-                RaisePropertyChanged(() => Title);
-            }
+            get { return _title; }
+            set { TrySetThisPropertyValue(ref _title, value); }
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using SquaredInfinity.Foundation.Extensions;
 using SquaredInfinity.Foundation.Presentation.Behaviors;
+using SquaredInfinity.Foundation.Maths.Graphs.Trees;
 
 namespace SquaredInfinity.Foundation.Presentation.Windows
 {

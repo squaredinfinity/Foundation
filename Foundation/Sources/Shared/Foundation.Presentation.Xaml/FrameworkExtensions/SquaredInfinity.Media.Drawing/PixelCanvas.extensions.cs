@@ -1,4 +1,5 @@
-﻿using SquaredInfinity.Foundation.Media.Drawing;
+﻿using SquaredInfinity.Foundation.Maths.Space2D;
+using SquaredInfinity.Foundation.Media.Drawing;
 using SquaredInfinity.Foundation.Presentation.Media;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Shapes = System.Windows.Shapes;
 
 namespace SquaredInfinity.Foundation.Extensions
 {
@@ -54,7 +55,7 @@ namespace SquaredInfinity.Foundation.Extensions
         
         public static void DrawLine(this IPixelCanvas pc, int x1, int y1, int x2, int y2, System.Windows.Media.Color color, double width)
         {
-            var l = new Line();
+            var l = new Shapes.Line();
             l.X1 = x1;
             l.Y1 = y1;
             l.X2 = x2;
@@ -62,11 +63,11 @@ namespace SquaredInfinity.Foundation.Extensions
             l.Stroke = new SolidColorBrush(color);
             l.StrokeThickness = width;
 
-            l.Arrange(pc.Bounds);
+            l.Arrange(pc.Bounds.ToRect());
 
             var sw = Stopwatch.StartNew();
 
-            var bitmap_source = l.RenderToBitmap(pc.Bounds.Size, new Point(x1, y1));
+            var bitmap_source = l.RenderToBitmap(pc.Bounds.ToSize(), new Point(x1, y1));
 
             var pixels = new int[pc.Length];
 
@@ -126,9 +127,9 @@ namespace SquaredInfinity.Foundation.Extensions
                 bmp.CopyPixels(pixels, pc2.Stride, 0);
 
                 pc.Blit(
-                    new Rect(x, y, width, height),
+                    new Rectangle(x, y, width, height),
                     pc2,
-                    new Rect(0, 0, width, height),
+                    new Rectangle(0, 0, width, height),
                     255, 255, 255, 255, blendMode);
             }
         }
@@ -279,9 +280,9 @@ namespace SquaredInfinity.Foundation.Extensions
                 bmp.CopyPixels(pixels, pc2.Stride, 0);
 
                 pc.Blit(
-                    new Rect(x, y, width, height),
+                    new Rectangle(x, y, width, height),
                     pc2,
-                    new Rect(0, 0, width, height),
+                    new Rectangle(0, 0, width, height),
                     255, 255, 255, 255, blendMode);
             }
         }
@@ -301,7 +302,7 @@ namespace SquaredInfinity.Foundation.Extensions
         /// <param name="blendMode"></param>
         public static void DEBUG__Blit(
             this IPixelCanvas pc,
-            Rect destination_rect,
+            Rectangle destination_rect,
             IPixelCanvas source,
             Rect source_rect,
             byte alpha,

@@ -166,8 +166,6 @@
         <converters:ToDoubleConverter />
     </converters:CompositeConverter>
 
-    <converters:ToDoubleConverter x:Key="Converters.ToDouble" />
-
     <converters:ColorToGradientBrushConverter x:Key="Converters.ColorToGradientBrush" />
 
     <converters:ColumnHeaderRoleToBorderConverter x:Key="Converters.ColumnHeaderRoleToBorder" />

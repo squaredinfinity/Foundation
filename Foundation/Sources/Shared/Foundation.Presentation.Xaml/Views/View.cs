@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using SquaredInfinity.Foundation.Extensions;
 using SquaredInfinity.Foundation.Presentation.ViewModels;
+using SquaredInfinity.Foundation.Maths.Graphs.Trees;
 
 namespace SquaredInfinity.Foundation.Presentation.Views
 {

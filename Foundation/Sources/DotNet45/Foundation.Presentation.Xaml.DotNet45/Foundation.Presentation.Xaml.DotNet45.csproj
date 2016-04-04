@@ -51,6 +51,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Foundation.Core\Foundation.Core.csproj">
+      <Project>{4ed231bf-b533-4842-9b80-b0f30e360ead}</Project>
+      <Name>Foundation.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Foundation.Maths.Core\Foundation.Maths.Core.csproj">
+      <Project>{3d68571e-52ca-481b-b2b6-e22e5c214cb6}</Project>
+      <Name>Foundation.Maths.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Foundation.DotNet45\Foundation.DotNet45.csproj">
       <Project>{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}</Project>
       <Name>Foundation.DotNet45</Name>

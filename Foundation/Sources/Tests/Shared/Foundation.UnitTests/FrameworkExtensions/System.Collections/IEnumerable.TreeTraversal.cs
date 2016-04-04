@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Foundation.Maths.Graphs.Trees;
 
 namespace SquaredInfinity.Foundation.FrameworkExtensions.System.Collections
 {

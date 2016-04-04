@@ -139,6 +139,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DragAndDrop\Utilities\HitTestUtilities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DragAndDrop\Utilities\ItemsControlExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DragAndDrop\Utilities\VisualTreeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\SquaredInfinity.Maths.Space2D\Rectangle.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\SquaredInfinity.Media.Drawing\PixelCanvas.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Controls\ItemsControl.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Controls\TreeViewItem.extensions.cs" />
