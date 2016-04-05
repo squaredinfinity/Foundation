@@ -27,7 +27,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
         /// </remarks>
         /// <param name="samples">array of samples</param>
         /// <param name="mode">calculation mode (biased or unbiased)</param>
-        public static double Calculate(IReadOnlyList<double> samples)
+        public static VarianceInfo Calculate(IReadOnlyList<double> samples)
         {
             return Calculate(samples, VarianceMode.Unbiased);
         }
@@ -44,7 +44,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
         /// </remarks>
         /// <param name="samples">array of samples</param>
         /// <param name="mode">calculation mode (biased or unbiased)</param>
-        public static double Calculate(IReadOnlyList<double> samples, VarianceMode mode)
+        public static VarianceInfo Calculate(IReadOnlyList<double> samples, VarianceMode mode)
         {
             return Calculate(samples, mode, VarianceAlgorithm.Online);
         }
@@ -62,43 +62,46 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
         /// <param name="samples">array of samples</param>
         /// <param name="mode">calculation mode (biased or unbiased)</param>
         /// <param name="algorithm">algorithm to use for calculations</param>
-        public static double Calculate(IReadOnlyList<double> samples, VarianceMode mode, VarianceAlgorithm algorithm)
+        public static VarianceInfo Calculate(IReadOnlyList<double> samples, VarianceMode mode, VarianceAlgorithm algorithm)
         {
             if (mode == VarianceMode.Biased && samples.Count <= 0)
-                return double.NaN;
+                return VarianceInfo.NaN;
             else if (mode == VarianceMode.Unbiased && samples.Count <= 1)
-                return double.NaN;
+                return VarianceInfo.NaN;
 
             //# https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
 
-            var M2 = double.NaN;
+            var partial_variance_info = new VarianceInfo();
 
             if (algorithm == VarianceAlgorithm.Online)
-                M2 = M2_OnlineAlgorithm(samples);
+                partial_variance_info = M1M2_OnlineAlgorithm(samples);
             else
                 throw new NotSupportedException($"{algorithm} is not supported");
 
             if (mode == VarianceMode.Biased)
-                return M2 / samples.Count;
+                partial_variance_info.M2Denominator = samples.Count;
             else
-                return M2 / (samples.Count - 1);
+                partial_variance_info.M2Denominator = (samples.Count - 1);
+
+            return partial_variance_info;
         }
 
-        static double M2_OnlineAlgorithm(IReadOnlyList<double> samples)
+        static VarianceInfo M1M2_OnlineAlgorithm(IReadOnlyList<double> samples)
         {
-            var mean = 0.0;
+            var M1 = 0.0;
             var M2 = 0.0;
 
             for (var n = 0; n < samples.Count;)
             {
                 var x = samples[n];
                 n++;
-                var delta = x - mean;
-                mean += delta / n;
-                M2 += delta * (x - mean);
+                var delta = x - M1;
+                M1 += delta / n;
+                M2 += delta * (x - M1);
             }
 
-            return M2;
+            var result = new VarianceInfo(M1, M2, double.NaN);
+            return result;
         }
 
         #region Observable Implementation
@@ -115,7 +118,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
         /// </remarks>
         /// <param name="samples">observable samples</param>
         /// <param name="mode">calculation mode (biased or unbiased)</param>
-        public static IObservable<double> Calculate(IObservable<double> samples)
+        public static IObservable<VarianceInfo> Calculate(IObservable<double> samples)
         {
             return Calculate(samples, VarianceMode.Unbiased);
         }
@@ -132,27 +135,29 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
         /// </remarks>
         /// <param name="samples">observable samples</param>
         /// <param name="mode">calculation mode (biased or unbiased)</param>
-        public static IObservable<double> Calculate(IObservable<double> samples, VarianceMode mode)
+        public static IObservable<VarianceInfo> Calculate(IObservable<double> samples, VarianceMode mode)
         {
             var count = 0;
 
-            return M2_OnlineAlgorithm(samples).Select(M2 =>
+            return M1M2_OnlineAlgorithm(samples).Select(M1M2 =>
             {
                 count++;
 
                 if (mode == VarianceMode.Biased && count <= 0)
                 {
-                    return double.NaN;
+                    return VarianceInfo.NaN;
                 }
                 else if (mode == VarianceMode.Unbiased && count <= 1)
                 {
-                    return double.NaN;
+                    return VarianceInfo.NaN;
                 }
 
                 if (mode == VarianceMode.Biased)
-                    return M2 / count;
+                    M1M2.M2Denominator = count;
                 else
-                    return M2 / (count - 1);
+                    M1M2.M2Denominator = (count - 1);
+
+                return M1M2;
             });
         }
 
@@ -169,16 +174,17 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
         /// <param name="samples">observable samples</param>
         /// <param name="mode">calculation mode (biased or unbiased)</param>
         /// <param name="algorithm">algorithm to use for calculations</param>
-        public static IObservable<double> Calculate(IObservable<double> samples, VarianceMode mode, VarianceAlgorithm algorithm)
+        public static IObservable<VarianceInfo> Calculate(IObservable<double> samples, VarianceMode mode, VarianceAlgorithm algorithm)
         {
-            return Observable.Create<double>(o =>
+            return Observable.Create<VarianceInfo>(o =>
             {
                 var count = 0;
+                VarianceInfo m1m2 = new VarianceInfo();
 
-                var M2_Observable = (IObservable<double>)null;
+                var M2_Observable = (IObservable<VarianceInfo>)null;
 
                 if (algorithm == VarianceAlgorithm.Online)
-                    M2_Observable = M2_OnlineAlgorithm(samples);
+                    M2_Observable = M1M2_OnlineAlgorithm(samples);
                 else
                     throw new NotSupportedException($"{algorithm} is not supported");
 
@@ -188,39 +194,41 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
 
                     if (mode == VarianceMode.Biased && count <= 0)
                     {
-                        o.OnNext(double.NaN);
+                        m1m2 = VarianceInfo.NaN;
+                        o.OnNext(m1m2);
                         return;
                     }
                     else if (mode == VarianceMode.Unbiased && count <= 1)
                     {
-                        o.OnNext(double.NaN);
+                        m1m2 = VarianceInfo.NaN;
+                        o.OnNext(m1m2);
                         return;
                     }
 
                     if (mode == VarianceMode.Biased)
-                        o.OnNext(M2 / count);
+                        m1m2.M2Denominator = count;
                     else
-                        o.OnNext(M2 / (count - 1));
+                        m1m2.M2Denominator = (count - 1);
+
+                    o.OnNext(m1m2);
                 });
 
                 return Disposable.Empty;
             });
         }
 
-        static IObservable<double> M2_OnlineAlgorithm(IObservable<double> samples)
+        static IObservable<VarianceInfo> M1M2_OnlineAlgorithm(IObservable<double> samples)
         {
-            var n = 0;
-            var mean = 0.0;
-            var M2 = 0.0;
-            
+            var m1m2 = new VarianceInfo();
+
             return samples.Select(x =>
             {
-                n++;
-                var delta = x - mean;
-                mean += delta / n;
-                M2 += delta * (x - mean);
+                m1m2.Count++;
+                var delta = x - m1m2.M1;
+                m1m2.M1 += delta / m1m2.Count;
+                m1m2.M2 += delta * (x - m1m2.M1);
 
-                return M2;
+                return m1m2;
             });
         }
 

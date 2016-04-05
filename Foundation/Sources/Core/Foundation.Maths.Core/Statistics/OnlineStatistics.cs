@@ -13,7 +13,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
         public Int64 Count {  get { return _count; } set { _count = value; } }
 
         public RangeInfo Range;
-        public double Variance;
+        public VarianceInfo Variance;
     }
 
     public static class OnlineStatistics
@@ -25,13 +25,14 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
             Int64 n = 0;
 
 
-            var count = samples.Select(x => n++);
+            var count = samples.Select(x => ++n);
             var range = Range.Calculate(samples);
             var variance = Variance.Calculate(samples);
 
 
-            return samples.CombineLatest(count, range, variance, (s, c, r, v) =>
-             {
+            //return samples.Zip(count, range, variance, (s, c, r, v) =>
+            return samples.Zip(count, range, variance, (s, c, r, v) =>
+            {
                  stats.Count = c;
                  stats.Range = r;
                  stats.Variance = v;
