@@ -15,9 +15,6 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
     /// </summary>
     public static class Variance
     {
-        //# Naming Conventions:
-        //  M2 - Sum of squares of differences {\sum(x - \bar x)^2}
-
         /// <summary>
         /// Calculates a Variance of a sample (set of numbers) using Unbiased Mode (Bessel's correction).
         /// </summary>

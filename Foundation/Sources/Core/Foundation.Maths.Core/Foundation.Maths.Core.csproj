@@ -29,7 +29,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;CORE</DefineConstants>
+    <DefineConstants>TRACE;CORE;SIGN</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -66,6 +66,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="!Overview.txt" />
+    <Content Include="Statistics\!info.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Framework Extensions\System.Collections\" />
   </ItemGroup>
   <Import Project="..\..\Shared\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

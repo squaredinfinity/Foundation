@@ -23,5 +23,10 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
         {
             _interval = new Interval(min, max);
         }
+
+        public static implicit operator double(RangeInfo ri)
+        {
+            return ri.Range;
+        }
     }
 }

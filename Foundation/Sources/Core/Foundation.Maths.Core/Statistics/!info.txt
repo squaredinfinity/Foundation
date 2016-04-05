@@ -1,0 +1,4 @@
+﻿
+//# Naming Conventions:
+//	M1 - Mean
+//  M2 - Sum of squares of differences {\sum(x - \bar x)^2} (i.e. just the nominator of a Variance)
