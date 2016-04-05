@@ -24,9 +24,11 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
 
             Int64 n = 0;
 
+
             var count = samples.Select(x => n++);
             var range = Range.Calculate(samples);
             var variance = Variance.Calculate(samples);
+
 
             return samples.CombineLatest(count, range, variance, (s, c, r, v) =>
              {
