@@ -168,7 +168,4 @@
     <Compile Include="$(MSBuildThisFileDirectory)_RetryPolicy\RetryPolicy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_RetryPolicy\TransientFaultFilter.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Media\" />
-  </ItemGroup>
 </Project>
