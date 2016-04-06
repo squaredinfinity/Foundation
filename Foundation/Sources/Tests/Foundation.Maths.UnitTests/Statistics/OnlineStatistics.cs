@@ -18,7 +18,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
             OnlineStatistics.Calculate(TestSamples.Sample_1_to_10.ToObservable())
                 .Subscribe(x =>
                 {
-                    Trace.WriteLine($"c:{x.Count}, min:{x.Range.Min}, max:{x.Range.Max}, r:{x.Range.Range}, m: {x.Variance.Mean}, v: {x.Variance}");
+                    Trace.WriteLine($"c:{x.Count}, min:{x.Range.Min}, max:{x.Range.Max}, r:{x.Range}, m: {x.Mean}, v: {x.Variance}, σ: {x.StdDev}");
                 });
         }
     }

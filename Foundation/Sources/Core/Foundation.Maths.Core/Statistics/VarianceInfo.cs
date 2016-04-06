@@ -60,5 +60,10 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
         {
             return Variance.ToString();
         }
+
+        public string ToString(string format)
+        {
+            return Variance.ToString(format);
+        }
     }
 }

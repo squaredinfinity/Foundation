@@ -59,6 +59,7 @@
     <Compile Include="Statistics\Range.cs" />
     <Compile Include="Statistics\RangeInfo.cs" />
     <Compile Include="Statistics\StdDev.cs" />
+    <Compile Include="Statistics\StdDevInfo.cs" />
     <Compile Include="Statistics\Variance.cs" />
     <Compile Include="Statistics\VarianceAlgorithm.cs" />
     <Compile Include="Statistics\VarianceInfo.cs" />

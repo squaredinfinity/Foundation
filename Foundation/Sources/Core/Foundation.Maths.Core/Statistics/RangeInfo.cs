@@ -28,5 +28,15 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
         {
             return ri.Range;
         }
+
+        public override string ToString()
+        {
+            return Range.ToString();
+        }
+
+        public string ToString(string format)
+        {
+            return Range.ToString(format);
+        }
     }
 }
