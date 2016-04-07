@@ -44,6 +44,7 @@
     <Compile Include="Framework Extensions\System\Decimal.extensions.cs" />
     <Compile Include="Framework Extensions\System\Enum.extensions.cs" />
     <Compile Include="Framework Extensions\System\Int32.extensions.cs" />
+    <Compile Include="Framework Extensions\System\Random.extensions.cs" />
     <Compile Include="Graphs\Trees\TreeTraversalMode.cs" />
     <Compile Include="Int32Interval.cs" />
     <Compile Include="Interval.cs" />
