@@ -12,7 +12,7 @@ namespace SquaredInfinity.Foundation.Extensions
         {
             return new Rect(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
         }
-
+         
         public static Size ToSize(this Rectangle rectangle)
         {
             return new Size(rectangle.Width, rectangle.Height);
