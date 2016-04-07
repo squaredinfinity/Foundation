@@ -14,7 +14,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics.Distributions
         double Mean { get; set; }
         double Sigma { get; set; }
 
-        double GetNext()
+        public double GetNext()
         {
             return Normal.Calculate(Mean, Sigma, RandomNumberProvider.NextDouble());
         }
