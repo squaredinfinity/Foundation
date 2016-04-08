@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SquaredInfinity.Foundation.Extensions;
 using System.Text;
 
 namespace SquaredInfinity.Foundation
@@ -11,8 +12,9 @@ namespace SquaredInfinity.Foundation
 
         public bool IsTransientFault(Exception ex)
         {
-            if (!ex.GetType().IsSubclassOf(typeof(Exception)))
-                return false;
+            // TODO: this never worked, was it supposed to by !(ex is TException) ??
+            //if (!ex.GetType().IsSubclassOf(typeof(Exception)))
+            //    return false;
 
             return IsTransientFault((TException)ex);
         }

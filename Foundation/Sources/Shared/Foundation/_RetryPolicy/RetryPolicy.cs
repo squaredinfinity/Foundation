@@ -214,9 +214,7 @@ namespace SquaredInfinity.Foundation
             if (!success)
             {
                 throw new AggregateException(
-                    "Operation failed to execute {0} times."
-                    .FormatWith(
-                    failedAttempts.Count),
+                    $"Operation failed to execute {failedAttempts.Count} times.",
                     failedAttempts.Distinct(ExceptionEqualityComparer.Default).ToArray());
             }
 
