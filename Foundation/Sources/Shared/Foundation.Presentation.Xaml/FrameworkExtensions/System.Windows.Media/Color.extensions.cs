@@ -9,12 +9,12 @@ namespace SquaredInfinity.Foundation.Extensions
 {
     public static class ColorExtensions
     {
-        public static ScRBGColor ToScRGBColor(this System.Windows.Media.Color color)
+        public static ScRGBColor ToScRGBColor(this System.Windows.Media.Color color)
         {
-            return new ScRBGColor(color.ScA, color.ScR, color.ScG, color.ScB);
+            return new ScRGBColor(color.ScA, color.ScR, color.ScG, color.ScB);
         }
 
-        public static System.Windows.Media.Color ToWindowsMediaColor(this ScRBGColor color)
+        public static System.Windows.Media.Color ToWindowsMediaColor(this ScRGBColor color)
         {
             return System.Windows.Media.Color.FromScRgb((float)color.Alpha, (float)color.R, (float)color.G, (float)color.B);
         }
@@ -23,7 +23,7 @@ namespace SquaredInfinity.Foundation.Extensions
         {
             var xyz = KnownColorSpaces.Lab.ToXYZColor(color) as XYZColor;
 
-            var scrgb = KnownColorSpaces.scRGB.FromXYZColor(xyz) as ScRBGColor;
+            var scrgb = KnownColorSpaces.scRGB.FromXYZColor(xyz) as ScRGBColor;
 
             return System.Windows.Media.Color.FromScRgb((float)scrgb.Alpha, (float)scrgb.R, (float)scrgb.G, (float)scrgb.B);
         }

@@ -44,7 +44,7 @@ namespace SquaredInfinity.Foundation.Media.ColorSpaces
 
         protected override IColor GetColor(double alpha, double red, double green, double blue)
         {
-            return new ScRBGColor(alpha, red, green, blue);
+            return new ScRGBColor(alpha, red, green, blue);
         }
     }
 }

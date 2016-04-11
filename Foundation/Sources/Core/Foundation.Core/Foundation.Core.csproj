@@ -77,7 +77,7 @@
     <Compile Include="Media\ColorSpaces\LabColorSpace.cs" />
     <Compile Include="Media\ColorSpaces\RGBColor.cs" />
     <Compile Include="Media\ColorSpaces\RGBColorSpace.cs" />
-    <Compile Include="Media\ColorSpaces\ScRBGColor.cs" />
+    <Compile Include="Media\ColorSpaces\ScRGBColor.cs" />
     <Compile Include="Media\ColorSpaces\ScRGBColorSpace.cs" />
     <Compile Include="Media\ColorSpaces\xyYColor.cs" />
     <Compile Include="Media\ColorSpaces\xyYColorSpace.cs" />
@@ -93,6 +93,7 @@
     <Compile Include="Media\Drawing\PixelCanvas.DrawLine.cs" />
     <Compile Include="Media\Drawing\PixelCanvas.DrawLineWu.cs" />
     <Compile Include="Media\Drawing\PixelCanvas.IDisposable.cs" />
+    <Compile Include="Media\KnownColors.cs" />
     <Compile Include="ObjectExtensibility\Extension.cs" />
     <Compile Include="ObjectExtensibility\ExtensionCollection.cs" />
     <Compile Include="ObjectExtensibility\IExtensibleObject.cs" />

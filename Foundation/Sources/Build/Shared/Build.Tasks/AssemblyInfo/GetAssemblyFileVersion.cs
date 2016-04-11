@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Microsoft.Build.Framework;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 
-namespace Build.Tasks.AssemblyInfo
+namespace SquaredInfinity.Build.Tasks.AssemblyInfo
 {
     public class GetAssemblyFileVersion : CustomBuildTask
     {

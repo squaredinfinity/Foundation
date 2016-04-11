@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Microsoft.Build.Framework;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
 
-namespace Build.Tasks.NuGet
+namespace SquaredInfinity.Build.Tasks.NuGet
 {
     public class NuGetPush : CustomBuildTask
     {

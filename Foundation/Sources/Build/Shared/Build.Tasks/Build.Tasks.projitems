@@ -6,7 +6,7 @@
     <SharedGUID>fce412da-cdcf-4473-b36e-eb87e086324c</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Build.Tasks</Import_RootNamespace>
+    <Import_RootNamespace>SquaredInfinity.Build.Tasks</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo\GetAssemblyFileVersion.cs" />

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0DA3DCAD-BED8-4032-A426-C0703DC653CF}"
 	ProjectSection(SolutionItems) = preProject
@@ -182,22 +182,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{0CBE61C0
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Build.Tasks", "Sources\Build\Shared\Build.Tasks\Build.Tasks.shproj", "{FCE412DA-CDCF-4473-B36E-EB87E086324C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Build.Tasks.14", "Sources\Build\14\Build.Tasks.14\Build.Tasks.14.csproj", "{EAEA2949-6FFC-4C3F-A548-19668FC817E4}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Sources\Shared\Foundation.Charting\Foundation.Charting.projitems*{faaaef38-4736-460d-96f4-3fbff0719a0f}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Experimental\Experimental.projitems*{8f2a3bde-adfd-4e07-936e-a9ffde16ceb1}*SharedItemsImports = 13
-		Sources\Shared\Internal\Internal.projitems*{9e769e5b-9ccd-4c6a-8099-8e469c0f76c5}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Charting\Foundation.Charting.projitems*{9e769e5b-9ccd-4c6a-8099-8e469c0f76c5}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{9e769e5b-9ccd-4c6a-8099-8e469c0f76c5}*SharedItemsImports = 4
 		Sources\Shared\Internal\Internal.projitems*{3d68571e-52ca-481b-b2b6-e22e5c214cb6}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Unsafe.UnitTests\Foundation.Unsafe.UnitTests.projitems*{0baa98f5-c1fe-4a36-b8ad-58fa11e32eeb}*SharedItemsImports = 13
-		Sources\Shared\Foundation.Presentation.Xaml\Foundation.Presentation.Xaml.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
 		Sources\Shared\Internal\Internal.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
+		Sources\Shared\Foundation.Presentation.Xaml\Foundation.Presentation.Xaml.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
 		Sources\Shared\Fonts\Fonts.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Presentation.Xaml.UITests\Foundation.Presentation.Xaml.UITests.projitems*{6605fdb2-0502-4ac4-8cf0-fa6b70e31359}*SharedItemsImports = 13
+		Sources\Build\Shared\Build.Tasks\Build.Tasks.projitems*{eaea2949-6ffc-4c3f-a548-19668fc817e4}*SharedItemsImports = 4
 		Sources\Shared\Internal\Internal.projitems*{ab8007f5-ad2a-42b8-9375-98ae0ad89f80}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Diagnostics\Foundation.Diagnostics.projitems*{ab8007f5-ad2a-42b8-9375-98ae0ad89f80}*SharedItemsImports = 4
-		Sources\Shared\Internal\Internal.projitems*{e74aa52f-639c-45ad-a395-351bde0558c1}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Presentation.Xaml.Styles.Modern\Foundation.Presentation.Xaml.Styles.Modern.projitems*{e74aa52f-639c-45ad-a395-351bde0558c1}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{e74aa52f-639c-45ad-a395-351bde0558c1}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Presentation.Xaml.UITests\Foundation.Presentation.Xaml.UITests.projitems*{6315ae26-783d-46f9-a2ff-accb15d5f2f0}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Data\Foundation.Data.projitems*{ec3d00ea-42f1-45f2-9bc3-19d571d7229b}*SharedItemsImports = 13
 		Sources\Shared\Internal\Internal.projitems*{c0789a63-1639-41c1-9ede-6eae6c20a312}*SharedItemsImports = 13
@@ -210,19 +213,19 @@ Global
 		Sources\Shared\Foundation.Diagnostics.Infrastructure\Foundation.Diagnostics.Infrastructure.projitems*{9d01a869-8311-4009-85f3-f0383be62655}*SharedItemsImports = 13
 		Sources\Shared\Internal\Internal.projitems*{d434072a-9ac1-49c0-9ffb-bc602a58cb02}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Unsafe\Foundation.Unsafe.projitems*{d434072a-9ac1-49c0-9ffb-bc602a58cb02}*SharedItemsImports = 4
-		Sources\Shared\Internal\Internal.projitems*{f924eefe-30b9-4d94-b7ef-359c6a406795}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Serialization\Foundation.Serialization.projitems*{f924eefe-30b9-4d94-b7ef-359c6a406795}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{f924eefe-30b9-4d94-b7ef-359c6a406795}*SharedItemsImports = 4
 		Sources\Shared\Foundation\Foundation.projitems*{46be36ce-c049-4746-8a80-85a28b96e923}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Diagnostics\Foundation.Diagnostics.projitems*{ce6b616f-505c-4034-b7e3-9818bf5c57c0}*SharedItemsImports = 13
-		Sources\Shared\Foundation.Experimental\Experimental.projitems*{da40cf2e-db1c-4746-9c6a-0c89d3c9b84d}*SharedItemsImports = 4
 		Sources\Shared\Internal\Internal.projitems*{da40cf2e-db1c-4746-9c6a-0c89d3c9b84d}*SharedItemsImports = 4
-		Sources\Shared\Internal\Internal.projitems*{1a2db9fe-7d95-47f2-8b28-7e9b0a319b14}*SharedItemsImports = 4
+		Sources\Shared\Foundation.Experimental\Experimental.projitems*{da40cf2e-db1c-4746-9c6a-0c89d3c9b84d}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Data\Foundation.Data.projitems*{1a2db9fe-7d95-47f2-8b28-7e9b0a319b14}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{1a2db9fe-7d95-47f2-8b28-7e9b0a319b14}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Serialization.UnitTests\Foundation.Serialization.UnitTests.projitems*{491c7d2d-1abd-4ae4-8553-49a2369a4190}*SharedItemsImports = 4
-		Sources\Shared\Internal\Internal.projitems*{47649697-1872-43a2-a4f2-7038d07cb4da}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Cache\Foundation.Cache.projitems*{47649697-1872-43a2-a4f2-7038d07cb4da}*SharedItemsImports = 4
-		Sources\Shared\Internal\Internal.projitems*{231d0bb0-926b-47ce-b7b1-9e8e49dce51e}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{47649697-1872-43a2-a4f2-7038d07cb4da}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Diagnostics.Infrastructure\Foundation.Diagnostics.Infrastructure.projitems*{231d0bb0-926b-47ce-b7b1-9e8e49dce51e}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{231d0bb0-926b-47ce-b7b1-9e8e49dce51e}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Serialization.UnitTests\Foundation.Serialization.UnitTests.projitems*{85660d59-e428-4eb1-97e3-52d2d9106bc4}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Cache\Foundation.Cache.projitems*{88786b88-a3bf-486f-ace3-18fbb9f075f1}*SharedItemsImports = 13
 		Sources\Shared\Fonts\Fonts.projitems*{a3368f6c-e1b8-48f6-8f4f-767cea9a9acf}*SharedItemsImports = 13
@@ -230,10 +233,10 @@ Global
 		Sources\Tests\Shared\Foundation.Diagnostics.UnitTests\Foundation.Diagnostics.UnitTests.projitems*{559a2c15-2fb8-4ac2-b9dd-43d032ddda73}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Presentation.Xaml\Foundation.Presentation.Xaml.projitems*{9e46be90-83d2-44f7-b334-2694be8e8dc3}*SharedItemsImports = 13
 		Sources\Shared\Internal\Internal.projitems*{4ed231bf-b533-4842-9b80-b0f30e360ead}*SharedItemsImports = 4
-		Sources\Shared\Internal\Internal.projitems*{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}*SharedItemsImports = 4
 		Sources\Shared\Foundation\Foundation.projitems*{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}*SharedItemsImports = 4
-		Sources\Shared\Internal\Internal.projitems*{7eac6223-18db-415d-8393-071d83fb0d9d}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Win32Api\Foundation.Win32Api.projitems*{7eac6223-18db-415d-8393-071d83fb0d9d}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{7eac6223-18db-415d-8393-071d83fb0d9d}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Unsafe.UnitTests\Foundation.Unsafe.UnitTests.projitems*{d83bf372-ec7a-414a-95bb-52de6adcd590}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.UnitTests\Foundation.UnitTests.projitems*{241d132f-a539-46fa-98b1-fd9e388ee10c}*SharedItemsImports = 4
 	EndGlobalSection
@@ -391,6 +394,10 @@ Global
 		{0EA360CE-E8E9-47B4-9B2E-1AFDAC03B53E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EA360CE-E8E9-47B4-9B2E-1AFDAC03B53E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EA360CE-E8E9-47B4-9B2E-1AFDAC03B53E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAEA2949-6FFC-4C3F-A548-19668FC817E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAEA2949-6FFC-4C3F-A548-19668FC817E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAEA2949-6FFC-4C3F-A548-19668FC817E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAEA2949-6FFC-4C3F-A548-19668FC817E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -460,5 +467,6 @@ Global
 		{CAA422FF-57CC-42D1-B4DE-2A062CAE3217} = {9B4D9910-B430-4643-8C5F-DF5844C1A45A}
 		{0EA360CE-E8E9-47B4-9B2E-1AFDAC03B53E} = {9B4D9910-B430-4643-8C5F-DF5844C1A45A}
 		{FCE412DA-CDCF-4473-B36E-EB87E086324C} = {0CBE61C0-64A8-476B-875D-D20718503061}
+		{EAEA2949-6FFC-4C3F-A548-19668FC817E4} = {0CBE61C0-64A8-476B-875D-D20718503061}
 	EndGlobalSection
 EndGlobal
