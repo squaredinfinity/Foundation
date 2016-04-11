@@ -178,6 +178,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.UnitTests", "Sou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Maths.UnitTests", "Sources\Tests\Foundation.Maths.UnitTests\Foundation.Maths.UnitTests.csproj", "{0EA360CE-E8E9-47B4-9B2E-1AFDAC03B53E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{0CBE61C0-64A8-476B-875D-D20718503061}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Build.Tasks", "Sources\Build\Shared\Build.Tasks\Build.Tasks.shproj", "{FCE412DA-CDCF-4473-B36E-EB87E086324C}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Sources\Shared\Foundation.Charting\Foundation.Charting.projitems*{faaaef38-4736-460d-96f4-3fbff0719a0f}*SharedItemsImports = 13
@@ -186,8 +190,8 @@ Global
 		Sources\Shared\Foundation.Charting\Foundation.Charting.projitems*{9e769e5b-9ccd-4c6a-8099-8e469c0f76c5}*SharedItemsImports = 4
 		Sources\Shared\Internal\Internal.projitems*{3d68571e-52ca-481b-b2b6-e22e5c214cb6}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Unsafe.UnitTests\Foundation.Unsafe.UnitTests.projitems*{0baa98f5-c1fe-4a36-b8ad-58fa11e32eeb}*SharedItemsImports = 13
-		Sources\Shared\Internal\Internal.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Presentation.Xaml\Foundation.Presentation.Xaml.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
 		Sources\Shared\Fonts\Fonts.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Presentation.Xaml.UITests\Foundation.Presentation.Xaml.UITests.projitems*{6605fdb2-0502-4ac4-8cf0-fa6b70e31359}*SharedItemsImports = 13
 		Sources\Shared\Internal\Internal.projitems*{ab8007f5-ad2a-42b8-9375-98ae0ad89f80}*SharedItemsImports = 4
@@ -199,6 +203,7 @@ Global
 		Sources\Shared\Internal\Internal.projitems*{c0789a63-1639-41c1-9ede-6eae6c20a312}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Serialization\Foundation.Serialization.projitems*{6392a547-9bf9-4882-9ade-417b4aa747f2}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Presentation.Xaml.Styles.Modern\Foundation.Presentation.Xaml.Styles.Modern.projitems*{281200fa-790f-4aa6-863e-9928b6782131}*SharedItemsImports = 13
+		Sources\Build\Shared\Build.Tasks\Build.Tasks.projitems*{fce412da-cdcf-4473-b36e-eb87e086324c}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Win32Api\Foundation.Win32Api.projitems*{7863e449-f6f5-45fb-ae02-6acd4eac304a}*SharedItemsImports = 13
 		Sources\Tests\Shared\Foundation.UnitTests\Foundation.UnitTests.projitems*{d8c7e818-fcb0-4bb5-86db-cdb2ecc98b63}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Unsafe\Foundation.Unsafe.projitems*{7bfbff4e-7033-4db9-8ed8-e14cba4f8740}*SharedItemsImports = 13
@@ -209,8 +214,8 @@ Global
 		Sources\Shared\Foundation.Serialization\Foundation.Serialization.projitems*{f924eefe-30b9-4d94-b7ef-359c6a406795}*SharedItemsImports = 4
 		Sources\Shared\Foundation\Foundation.projitems*{46be36ce-c049-4746-8a80-85a28b96e923}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Diagnostics\Foundation.Diagnostics.projitems*{ce6b616f-505c-4034-b7e3-9818bf5c57c0}*SharedItemsImports = 13
-		Sources\Shared\Internal\Internal.projitems*{da40cf2e-db1c-4746-9c6a-0c89d3c9b84d}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Experimental\Experimental.projitems*{da40cf2e-db1c-4746-9c6a-0c89d3c9b84d}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{da40cf2e-db1c-4746-9c6a-0c89d3c9b84d}*SharedItemsImports = 4
 		Sources\Shared\Internal\Internal.projitems*{1a2db9fe-7d95-47f2-8b28-7e9b0a319b14}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Data\Foundation.Data.projitems*{1a2db9fe-7d95-47f2-8b28-7e9b0a319b14}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Serialization.UnitTests\Foundation.Serialization.UnitTests.projitems*{491c7d2d-1abd-4ae4-8553-49a2369a4190}*SharedItemsImports = 4
@@ -454,5 +459,6 @@ Global
 		{AC5853D7-E05B-4439-BDE5-9C9E8ABBD356} = {B40914FC-34A2-48E6-B726-CD22F332F287}
 		{CAA422FF-57CC-42D1-B4DE-2A062CAE3217} = {9B4D9910-B430-4643-8C5F-DF5844C1A45A}
 		{0EA360CE-E8E9-47B4-9B2E-1AFDAC03B53E} = {9B4D9910-B430-4643-8C5F-DF5844C1A45A}
+		{FCE412DA-CDCF-4473-B36E-EB87E086324C} = {0CBE61C0-64A8-476B-875D-D20718503061}
 	EndGlobalSection
 EndGlobal
