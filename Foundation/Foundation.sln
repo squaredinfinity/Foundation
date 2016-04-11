@@ -184,6 +184,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Build.Tasks.14", "Sources\B
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Build.Tasks", "Sources\Build\Shared\Build.Tasks\Build.Tasks.shproj", "{FCE412DA-CDCF-4473-B36E-EB87E086324C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6A00682B-54ED-4FD9-B098-5139FED69DC5}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\nuget.exe = .nuget\nuget.exe
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Sources\Shared\Foundation.Charting\Foundation.Charting.projitems*{faaaef38-4736-460d-96f4-3fbff0719a0f}*SharedItemsImports = 13
