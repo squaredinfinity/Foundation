@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>fce412da-cdcf-4473-b36e-eb87e086324c</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Build.Tasks</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo\GetAssemblyFileVersion.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CustomBuildTask.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NuGet\NuGetPush.cs" />
+  </ItemGroup>
+</Project>
