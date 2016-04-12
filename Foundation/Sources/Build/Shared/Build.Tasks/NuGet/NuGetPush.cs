@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Build.Tasks.NuGet
 {
@@ -80,24 +81,22 @@ namespace SquaredInfinity.Build.Tasks.NuGet
             var psi = new ProcessStartInfo(NuGetExePath);
             psi.Arguments = arguments;
 
-            psi.RedirectStandardOutput = true;
-            psi.RedirectStandardError = true;
-            psi.UseShellExecute = false;
-
             LogInformation($"Executing:  \"{NuGetExePath}\" {psi.Arguments}");
 
-            var process = Process.Start(psi);
+            var std_output = string.Empty;
+            var std_err = string.Empty;
+            var exit_code = -1;
 
-            if (!process.WaitForExit((int)TimeSpan.FromSeconds(30).TotalMilliseconds) || process.ExitCode < 0)
-            {
-                LogError($"NuGet Push failed: {process.StandardError.ReadToEnd()}");
-                return false;
-            }
-            else
+            if(psi.StartAndWaitForExit(TimeSpan.FromSeconds(30), out exit_code, out std_output, out std_err) && std_err.IsNullOrEmpty())
             {
                 LogInformation($"NuGet Push complete.");
-                LogVerbose("NuGet Output: " + process.StandardOutput.ReadToEnd());
+                LogVerbose("NuGet Output: " + std_output);
                 return true;
+            }
+            else
+            { 
+                LogError($"NuGet Push failed with exit code {exit_code}, {std_err}");
+                return false;
             }
         }
     }
