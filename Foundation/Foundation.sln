@@ -155,6 +155,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6A00682B-54ED-4FD9-B098-5139FED69DC5}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\nuget.exe = .nuget\nuget.exe
+		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Graphics.Core", "Sources\Core\Foundation.Graphics.Core\Foundation.Graphics.Core.csproj", "{03FA2790-6CB6-4ED0-A2B9-8A6CF8B958BE}"
