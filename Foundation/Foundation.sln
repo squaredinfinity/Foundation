@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0DA3DCAD-BED8-4032-A426-C0703DC653CF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution items", ".solution items", "{0DA3DCAD-BED8-4032-A426-C0703DC653CF}"
 	ProjectSection(SolutionItems) = preProject
 		default.runsettings = default.runsettings
 	EndProjectSection
@@ -27,9 +27,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Presentation.Xaml.UITests.Common", "Sources\Common\Tests\Foundation.Presentation.Xaml.UITests.Common\Foundation.Presentation.Xaml.UITests.Common.csproj", "{EC89CEBA-2D3C-4D16-9622-614ADE1CC0CE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".documentation", ".documentation", "{2571A7F4-6A81-421E-AC34-50BA59DB6417}"
-	ProjectSection(SolutionItems) = preProject
-		..\LICENSE = ..\LICENSE
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Diagnostics", "Documentation\Foundation.Diagnostics\Foundation.Diagnostics.csproj", "{E673F697-FEB4-49FB-9F0C-8F5C45F5E19A}"
 EndProject
@@ -198,23 +195,30 @@ Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "Foundation.Unsafe.NuGet", "
 EndProject
 Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "Foundation.Win32Api.NuGet", ".deployment\Foundation.Win32Api.NuGet\Foundation.Win32Api.NuGet.nuproj", "{F936C994-7439-4623-A40D-FA5BC1C830AD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".sources", ".sources", "{7077A8A4-338F-4AE7-891D-BA9E9BFDA587}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".old_crap", ".old_crap", "{9282E06D-088B-4117-A991-EF2DBA98FE5D}"
+	ProjectSection(SolutionItems) = preProject
+		..\LICENSE = ..\LICENSE
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Sources\Shared\Foundation.Charting\Foundation.Charting.projitems*{faaaef38-4736-460d-96f4-3fbff0719a0f}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Experimental\Experimental.projitems*{8f2a3bde-adfd-4e07-936e-a9ffde16ceb1}*SharedItemsImports = 13
-		Sources\Shared\Internal\Internal.projitems*{9e769e5b-9ccd-4c6a-8099-8e469c0f76c5}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Charting\Foundation.Charting.projitems*{9e769e5b-9ccd-4c6a-8099-8e469c0f76c5}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{9e769e5b-9ccd-4c6a-8099-8e469c0f76c5}*SharedItemsImports = 4
 		Sources\Shared\Internal\Internal.projitems*{3d68571e-52ca-481b-b2b6-e22e5c214cb6}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Unsafe.UnitTests\Foundation.Unsafe.UnitTests.projitems*{0baa98f5-c1fe-4a36-b8ad-58fa11e32eeb}*SharedItemsImports = 13
-		Sources\Shared\Internal\Internal.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
 		Sources\Shared\Fonts\Fonts.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Presentation.Xaml\Foundation.Presentation.Xaml.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{48e58f39-a7b8-44d9-afbf-7985e42208c9}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Presentation.Xaml.UITests\Foundation.Presentation.Xaml.UITests.projitems*{6605fdb2-0502-4ac4-8cf0-fa6b70e31359}*SharedItemsImports = 13
 		Sources\Build\Shared\Build.Tasks\Build.Tasks.projitems*{eaea2949-6ffc-4c3f-a548-19668fc817e4}*SharedItemsImports = 4
-		Sources\Shared\Internal\Internal.projitems*{ab8007f5-ad2a-42b8-9375-98ae0ad89f80}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Diagnostics\Foundation.Diagnostics.projitems*{ab8007f5-ad2a-42b8-9375-98ae0ad89f80}*SharedItemsImports = 4
-		Sources\Shared\Internal\Internal.projitems*{e74aa52f-639c-45ad-a395-351bde0558c1}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{ab8007f5-ad2a-42b8-9375-98ae0ad89f80}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Presentation.Xaml.Styles.Modern\Foundation.Presentation.Xaml.Styles.Modern.projitems*{e74aa52f-639c-45ad-a395-351bde0558c1}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{e74aa52f-639c-45ad-a395-351bde0558c1}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Presentation.Xaml.UITests\Foundation.Presentation.Xaml.UITests.projitems*{6315ae26-783d-46f9-a2ff-accb15d5f2f0}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Data\Foundation.Data.projitems*{ec3d00ea-42f1-45f2-9bc3-19d571d7229b}*SharedItemsImports = 13
 		Sources\Shared\Internal\Internal.projitems*{c0789a63-1639-41c1-9ede-6eae6c20a312}*SharedItemsImports = 13
@@ -226,22 +230,22 @@ Global
 		Sources\Tests\Shared\Foundation.UnitTests\Foundation.UnitTests.projitems*{d8c7e818-fcb0-4bb5-86db-cdb2ecc98b63}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Unsafe\Foundation.Unsafe.projitems*{7bfbff4e-7033-4db9-8ed8-e14cba4f8740}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Diagnostics.Infrastructure\Foundation.Diagnostics.Infrastructure.projitems*{9d01a869-8311-4009-85f3-f0383be62655}*SharedItemsImports = 13
-		Sources\Shared\Internal\Internal.projitems*{d434072a-9ac1-49c0-9ffb-bc602a58cb02}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Unsafe\Foundation.Unsafe.projitems*{d434072a-9ac1-49c0-9ffb-bc602a58cb02}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{d434072a-9ac1-49c0-9ffb-bc602a58cb02}*SharedItemsImports = 4
 		Sources\Shared\Internal\Internal.projitems*{e35dabdd-0af8-4753-a747-1fb0f2963e00}*SharedItemsImports = 4
-		Sources\Shared\Internal\Internal.projitems*{f924eefe-30b9-4d94-b7ef-359c6a406795}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Serialization\Foundation.Serialization.projitems*{f924eefe-30b9-4d94-b7ef-359c6a406795}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{f924eefe-30b9-4d94-b7ef-359c6a406795}*SharedItemsImports = 4
 		Sources\Shared\Foundation\Foundation.projitems*{46be36ce-c049-4746-8a80-85a28b96e923}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Diagnostics\Foundation.Diagnostics.projitems*{ce6b616f-505c-4034-b7e3-9818bf5c57c0}*SharedItemsImports = 13
-		Sources\Shared\Internal\Internal.projitems*{da40cf2e-db1c-4746-9c6a-0c89d3c9b84d}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Experimental\Experimental.projitems*{da40cf2e-db1c-4746-9c6a-0c89d3c9b84d}*SharedItemsImports = 4
-		Sources\Shared\Internal\Internal.projitems*{1a2db9fe-7d95-47f2-8b28-7e9b0a319b14}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{da40cf2e-db1c-4746-9c6a-0c89d3c9b84d}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Data\Foundation.Data.projitems*{1a2db9fe-7d95-47f2-8b28-7e9b0a319b14}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{1a2db9fe-7d95-47f2-8b28-7e9b0a319b14}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Serialization.UnitTests\Foundation.Serialization.UnitTests.projitems*{491c7d2d-1abd-4ae4-8553-49a2369a4190}*SharedItemsImports = 4
-		Sources\Shared\Internal\Internal.projitems*{47649697-1872-43a2-a4f2-7038d07cb4da}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Cache\Foundation.Cache.projitems*{47649697-1872-43a2-a4f2-7038d07cb4da}*SharedItemsImports = 4
-		Sources\Shared\Internal\Internal.projitems*{231d0bb0-926b-47ce-b7b1-9e8e49dce51e}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{47649697-1872-43a2-a4f2-7038d07cb4da}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Diagnostics.Infrastructure\Foundation.Diagnostics.Infrastructure.projitems*{231d0bb0-926b-47ce-b7b1-9e8e49dce51e}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{231d0bb0-926b-47ce-b7b1-9e8e49dce51e}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Serialization.UnitTests\Foundation.Serialization.UnitTests.projitems*{85660d59-e428-4eb1-97e3-52d2d9106bc4}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Cache\Foundation.Cache.projitems*{88786b88-a3bf-486f-ace3-18fbb9f075f1}*SharedItemsImports = 13
 		Sources\Shared\Fonts\Fonts.projitems*{a3368f6c-e1b8-48f6-8f4f-767cea9a9acf}*SharedItemsImports = 13
@@ -249,8 +253,8 @@ Global
 		Sources\Tests\Shared\Foundation.Diagnostics.UnitTests\Foundation.Diagnostics.UnitTests.projitems*{559a2c15-2fb8-4ac2-b9dd-43d032ddda73}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Presentation.Xaml\Foundation.Presentation.Xaml.projitems*{9e46be90-83d2-44f7-b334-2694be8e8dc3}*SharedItemsImports = 13
 		Sources\Shared\Internal\Internal.projitems*{4ed231bf-b533-4842-9b80-b0f30e360ead}*SharedItemsImports = 4
-		Sources\Shared\Internal\Internal.projitems*{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}*SharedItemsImports = 4
 		Sources\Shared\Foundation\Foundation.projitems*{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}*SharedItemsImports = 4
+		Sources\Shared\Internal\Internal.projitems*{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}*SharedItemsImports = 4
 		Sources\Shared\Internal\Internal.projitems*{7eac6223-18db-415d-8393-071d83fb0d9d}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Win32Api\Foundation.Win32Api.projitems*{7eac6223-18db-415d-8393-071d83fb0d9d}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Unsafe.UnitTests\Foundation.Unsafe.UnitTests.projitems*{d83bf372-ec7a-414a-95bb-52de6adcd590}*SharedItemsImports = 4
@@ -804,14 +808,17 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{4E62F88D-AB89-4AEB-932D-B8D1EE78F59D} = {D95634A3-6069-430C-A3B5-97347AE8EF5F}
 		{1A2DB9FE-7D95-47F2-8B28-7E9B0A319B14} = {D95634A3-6069-430C-A3B5-97347AE8EF5F}
+		{3E3D143E-A6C5-4DED-8927-AEACF1F0784A} = {7077A8A4-338F-4AE7-891D-BA9E9BFDA587}
+		{D95634A3-6069-430C-A3B5-97347AE8EF5F} = {7077A8A4-338F-4AE7-891D-BA9E9BFDA587}
 		{48E58F39-A7B8-44D9-AFBF-7985E42208C9} = {D95634A3-6069-430C-A3B5-97347AE8EF5F}
 		{231D0BB0-926B-47CE-B7B1-9E8E49DCE51E} = {D95634A3-6069-430C-A3B5-97347AE8EF5F}
 		{AB8007F5-AD2A-42B8-9375-98AE0AD89F80} = {D95634A3-6069-430C-A3B5-97347AE8EF5F}
 		{EC89CEBA-2D3C-4D16-9622-614ADE1CC0CE} = {9B4D9910-B430-4643-8C5F-DF5844C1A45A}
-		{E673F697-FEB4-49FB-9F0C-8F5C45F5E19A} = {2571A7F4-6A81-421E-AC34-50BA59DB6417}
+		{E673F697-FEB4-49FB-9F0C-8F5C45F5E19A} = {9282E06D-088B-4117-A991-EF2DBA98FE5D}
 		{3DFF87ED-8DD9-4FB3-B982-03BA514F321E} = {3E3D143E-A6C5-4DED-8927-AEACF1F0784A}
 		{95283A9F-CED0-4F97-9768-882E4901E02E} = {9B4D9910-B430-4643-8C5F-DF5844C1A45A}
-		{670BC845-8631-4016-8D1E-D5BE178314C0} = {2571A7F4-6A81-421E-AC34-50BA59DB6417}
+		{670BC845-8631-4016-8D1E-D5BE178314C0} = {9282E06D-088B-4117-A991-EF2DBA98FE5D}
+		{F1F8CE39-483F-4EC0-A52C-E64285898893} = {9282E06D-088B-4117-A991-EF2DBA98FE5D}
 		{7EAC6223-18DB-415D-8393-071D83FB0D9D} = {D95634A3-6069-430C-A3B5-97347AE8EF5F}
 		{E74AA52F-639C-45AD-A395-351BDE0558C1} = {D95634A3-6069-430C-A3B5-97347AE8EF5F}
 		{3F869AD2-C74E-4E60-B0B5-5BCBBA56834F} = {FE5524BE-5B37-4D2A-9081-CB156FD55B10}
@@ -820,6 +827,7 @@ Global
 		{1A75C3D1-C7F5-46FD-A1FC-39DBFC1A4299} = {9B4D9910-B430-4643-8C5F-DF5844C1A45A}
 		{642B95B1-8638-4703-8EA5-41C2CAD6E4DF} = {9B4D9910-B430-4643-8C5F-DF5844C1A45A}
 		{1CF345D4-6686-4019-8E16-38D55DBF8816} = {9B4D9910-B430-4643-8C5F-DF5844C1A45A}
+		{712712DF-B140-4C54-9EB0-D506C3280824} = {7077A8A4-338F-4AE7-891D-BA9E9BFDA587}
 		{C0789A63-1639-41C1-9EDE-6EAE6C20A312} = {712712DF-B140-4C54-9EB0-D506C3280824}
 		{46BE36CE-C049-4746-8A80-85A28B96E923} = {712712DF-B140-4C54-9EB0-D506C3280824}
 		{FAAAEF38-4736-460D-96F4-3FBFF0719A0F} = {712712DF-B140-4C54-9EB0-D506C3280824}
@@ -850,11 +858,14 @@ Global
 		{281200FA-790F-4AA6-863E-9928B6782131} = {712712DF-B140-4C54-9EB0-D506C3280824}
 		{DA40CF2E-DB1C-4746-9C6A-0C89D3C9B84D} = {D95634A3-6069-430C-A3B5-97347AE8EF5F}
 		{8F2A3BDE-ADFD-4E07-936E-A9FFDE16CEB1} = {712712DF-B140-4C54-9EB0-D506C3280824}
+		{B752CCD8-4014-4F9A-A1A5-0C0802221E9F} = {7077A8A4-338F-4AE7-891D-BA9E9BFDA587}
 		{4ED231BF-B533-4842-9B80-B0F30E360EAD} = {B752CCD8-4014-4F9A-A1A5-0C0802221E9F}
 		{3D68571E-52CA-481B-B2B6-E22E5C214CB6} = {B752CCD8-4014-4F9A-A1A5-0C0802221E9F}
+		{B40914FC-34A2-48E6-B726-CD22F332F287} = {7077A8A4-338F-4AE7-891D-BA9E9BFDA587}
 		{AC5853D7-E05B-4439-BDE5-9C9E8ABBD356} = {B40914FC-34A2-48E6-B726-CD22F332F287}
 		{CAA422FF-57CC-42D1-B4DE-2A062CAE3217} = {9B4D9910-B430-4643-8C5F-DF5844C1A45A}
 		{0EA360CE-E8E9-47B4-9B2E-1AFDAC03B53E} = {9B4D9910-B430-4643-8C5F-DF5844C1A45A}
+		{0CBE61C0-64A8-476B-875D-D20718503061} = {7077A8A4-338F-4AE7-891D-BA9E9BFDA587}
 		{EAEA2949-6FFC-4C3F-A548-19668FC817E4} = {0CBE61C0-64A8-476B-875D-D20718503061}
 		{FCE412DA-CDCF-4473-B36E-EB87E086324C} = {0CBE61C0-64A8-476B-875D-D20718503061}
 		{03FA2790-6CB6-4ED0-A2B9-8A6CF8B958BE} = {B752CCD8-4014-4F9A-A1A5-0C0802221E9F}
