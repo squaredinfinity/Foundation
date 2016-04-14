@@ -41,8 +41,8 @@
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
 
-    <ProjectConfiguration Include="Publish - RELEASE|AnyCPU">
-      <Configuration>Publish - RELEASE</Configuration>
+    <ProjectConfiguration Include="Publish - STABLE|AnyCPU">
+      <Configuration>Publish - STABLE</Configuration>
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
 

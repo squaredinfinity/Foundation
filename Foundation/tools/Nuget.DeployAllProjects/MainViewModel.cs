@@ -16,6 +16,7 @@ using SquaredInfinity.Foundation.Settings;
 using SquaredInfinity.Foundation.Serialization.FlexiXml;
 using System.Windows;
 using SquaredInfinity.Foundation;
+using System.Collections.Concurrent;
 
 namespace Nuget.DeployAllProjects
 {
@@ -379,29 +380,41 @@ namespace Nuget.DeployAllProjects
 
         public void DeployProject(ProjectInfo project)
         {
-            string semantic_version = null;
+            DeployProject(project, new ConcurrentBag<ProjectInfo>());
+        }
 
-            UpdateAssemblyInfo(project, ProcessDependantProjects, out semantic_version);
+        public void DeployProject(ProjectInfo project, ConcurrentBag<ProjectInfo> list_of_processed_projects)
+        {
+            if (!list_of_processed_projects.Contains(project))
+            {
+                list_of_processed_projects.Add(project);
 
-            //# build projects for all frameworks
+                string semantic_version = null;
 
-            var solution_file_path = new FileInfo("../../../../Foundation.sln").FullName;
+                UpdateAssemblyInfo(project, ProcessDependantProjects, out semantic_version);
 
-            //# build nuproj
+                //# build projects for all frameworks
 
-            var rel_qual = ReleaseQuality.ToString().ToUpper();
+                var solution_file_path = new FileInfo("../../../../Foundation.sln").FullName;
 
-            if (!DeployRemotely)
-                rel_qual = "LOCAL";
+                //# build nuproj
 
-            var project_file_path = new FileInfo($"../../../../.deployment/{project.Name}.NuGet/{project.Name}.NuGet.nuproj").FullName;
+                var rel_qual = ReleaseQuality.ToString().ToUpper();
 
-            ExecuteApplicationUsingCommandLine(
-                    application: @"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe",
-                    arguments: $"\"{solution_file_path}\" /build \"Publish - {rel_qual}\" /project \"{project_file_path}\" /projectconfig \"Publish - {rel_qual}\" /out build.log",
-                    showUi: true,
-                    continueAfterExecution: true,
-                    waitForExit: true);
+                if (!DeployRemotely)
+                    rel_qual = "LOCAL";
+
+                var project_file_path = new FileInfo($"../../../../.deployment/{project.Name}.NuGet/{project.Name}.NuGet.nuproj").FullName;
+
+                //Trace.WriteLine($"\"{solution_file_path}\" /build \"Publish - {rel_qual}\" /project \"{project_file_path}\" /projectconfig \"Publish - {rel_qual}\" /out build.log");
+
+                ExecuteApplicationUsingCommandLine(
+                        application: @"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe",
+                        arguments: $"\"{solution_file_path}\" /build \"Publish - {rel_qual}\" /project \"{project_file_path}\" /projectconfig \"Publish - {rel_qual}\" /out build.log",
+                        showUi: true,
+                        continueAfterExecution: true,
+                        waitForExit: true);
+            }
 
 
             if (ProcessDependantProjects)
@@ -420,7 +433,7 @@ namespace Nuget.DeployAllProjects
 
                             dep_proj.LocalVersion = project.LocalVersion;
 
-                            DeployProject(dep_proj);
+                            DeployProject(dep_proj, list_of_processed_projects);
                         }
                     }
                 }
@@ -449,13 +462,31 @@ namespace Nuget.DeployAllProjects
             }
         }
 
-        public class ProjectInfo
+        public class ProjectInfo : IEquatable<ProjectInfo>
         {
             public int BuildOrder { get; set; }
             public string Name { get; set; }
             public string LocalVersion { get; set; }
             public string RemoteVersion { get; set; }
             public FileInfo AssemblyInfoFile { get; internal set; }
+
+            public override int GetHashCode()
+            {
+                return Name.GetHashCode();
+            }
+
+            public override bool Equals(object obj)
+            {
+                return this.Equals(obj as ProjectInfo);
+            }
+
+            public bool Equals(ProjectInfo other)
+            {
+                if (other == null)
+                    return false;
+
+                return Name.Equals(other.Name);
+            }
         }
 
         public static void CopyDirectoryRecursively(DirectoryInfo source, DirectoryInfo target) 

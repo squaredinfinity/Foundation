@@ -36,8 +36,8 @@
     <NuGetApiKey />
     <RemoteRepository />
     <LocalRepository>c:\local_nugets</LocalRepository>
-    
-    <ConfigurationName_RELEASE>Publish - RELEASE</ConfigurationName_RELEASE>
+
+    <ConfigurationName_STABLE>Publish - STABLE</ConfigurationName_STABLE>
     <ConfigurationName_RC>Publish - RC</ConfigurationName_RC>
     <ConfigurationName_BETA>Publish - BETA</ConfigurationName_BETA>
     <ConfigurationName_LOCAL>Publish - LOCAL</ConfigurationName_LOCAL>
@@ -47,7 +47,7 @@
     <PreRelease_LOCAL>alpha</PreRelease_LOCAL>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)' == '$(ConfigurationName_RELEASE)' ">
+  <PropertyGroup Condition=" '$(Configuration)' == '$(ConfigurationName_STABLE)' ">
     <Publish>true</Publish>
     <NuGetRepository>$(RemoteRepository)</NuGetRepository>
   </PropertyGroup>
