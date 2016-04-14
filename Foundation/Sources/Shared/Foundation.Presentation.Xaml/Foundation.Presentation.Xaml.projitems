@@ -219,4 +219,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Xaml\All.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)Xaml\Converters.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)Xaml\DataTemplateSelectors.xaml" />
+  </ItemGroup>
 </Project>

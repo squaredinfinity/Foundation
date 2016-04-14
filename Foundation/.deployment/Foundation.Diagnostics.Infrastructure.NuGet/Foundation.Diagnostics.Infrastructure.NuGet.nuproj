@@ -39,7 +39,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sources\DotNet45\Foundation.Diagnostics.Infrastructure.DotNet45\Foundation.Diagnostics.Infrastructure.DotNet45.csproj" />
-    <ProjectReference Include="..\Foundation.NuGet\Foundation.NuGet.nuproj" />
   </ItemGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
 </Project>

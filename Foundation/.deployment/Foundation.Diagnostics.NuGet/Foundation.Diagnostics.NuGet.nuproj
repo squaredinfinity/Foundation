@@ -10,13 +10,11 @@
 
     EACH PROJECT REFERENCED BY NUGETS MUST REFERENCE PACKAGE NuProj.Common
   -->
-
   <PropertyGroup>
     <AssemblyInfoPath>$(SolutionDir)\Sources\shared\Internal\AssemblyInfo.diagnostics.shared.cs</AssemblyInfoPath>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.build\nuget-default-config.targets" />
   <Import Project="$(SolutionDir)\.build\nuget-deployment.targets" />
-
   <PropertyGroup Label="Globals">
     <ProjectGuid>61c2a020-28ce-4179-8a34-2699e1b63404</ProjectGuid>
   </PropertyGroup>
@@ -40,8 +38,10 @@
     </Tags>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Sources\DotNet45\Foundation.Diagnostics.DotNet45\Foundation.Diagnostics.DotNet45.csproj" />
     <ProjectReference Include="..\Foundation.Diagnostics.Infrastructure.NuGet\Foundation.Diagnostics.Infrastructure.NuGet.nuproj" />
     <ProjectReference Include="..\Foundation.NuGet\Foundation.NuGet.nuproj" />
+    <ProjectReference Include="..\Foundation.Serialization.NuGet\Foundation.Serialization.NuGet.nuproj" />
   </ItemGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
 </Project>

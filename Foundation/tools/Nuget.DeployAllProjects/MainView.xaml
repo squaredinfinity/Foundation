@@ -10,14 +10,19 @@
                         <Grid>
                             <StackPanel Orientation="Vertical">
                                 <TextBox Text="{TemplatedParentBinding ViewModel.LocalDeploymentDirectoryFullPath, UpdateSourceTrigger=PropertyChanged}" />
+                                
                                 <CheckBox IsChecked="{TemplatedParentBinding ViewModel.DeployRemotely}"
                                           Content="Deploy Remotely"
                                           x:Name="deploy_remotely_input" />
+                                
                                 <TextBox Text="{TemplatedParentBinding ViewModel.RemoteDeploymentServers, UpdateSourceTrigger=PropertyChanged}"
                                          Visibility="{Binding ElementName=deploy_remotely_input, Path=IsChecked, Converter={StaticResource Converters.VisibleWhenTrue}}" />
 
                                 <CheckBox IsChecked="{TemplatedParentBinding ViewModel.ProcessDependantProjects}"
                                           Content="Process Dependant Projects" />
+
+                                <ComboBox ItemsSource="{TemplatedParentBinding ViewModel.ReleaseQuality, Converter={StaticResource Converters.EnumToValues}}"
+                                          SelectedItem="{TemplatedParentBinding ViewModel.ReleaseQuality}" />
 
                                 <ListView ItemsSource="{TemplatedParentBinding ViewModel.AllProjects}"
                                           SelectionMode="Multiple"

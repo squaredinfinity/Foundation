@@ -19,6 +19,13 @@ using SquaredInfinity.Foundation;
 
 namespace Nuget.DeployAllProjects
 {
+    public enum ReleaseQuality
+    {
+        Beta,
+        RC,
+        Stable
+    }
+
     public class MainViewModel : ViewModel
     {
         string _nugetExePath;
@@ -87,6 +94,20 @@ namespace Nuget.DeployAllProjects
             }
         }
 
+
+        ReleaseQuality _releaseQuality = ReleaseQuality.Beta;
+        public ReleaseQuality ReleaseQuality
+        {
+            get { return _releaseQuality; }
+            set
+            {
+                if(TrySetThisPropertyValue(ref _releaseQuality, value))
+                {
+                    SettingsService.SetSetting<ReleaseQuality>("Deployment.ReleaseQuality", SettingScope.UserMachine, value);
+                }
+            }
+        }
+
         XamlObservableCollectionEx<ProjectInfo> _allProjects = new XamlObservableCollectionEx<ProjectInfo>();
         public XamlObservableCollectionEx<ProjectInfo> AllProjects
         {
@@ -118,21 +139,29 @@ namespace Nuget.DeployAllProjects
             this.LocalDeploymentDirectoryFullPath = SettingsService.GetSetting<string>("Deployment.LocalDeploymentDirectory", SettingScope.UserMachine, () => Environment.CurrentDirectory);
             this.NugetExePath = SettingsService.GetSetting<string>("Deployment.NugetExePath", SettingScope.UserMachine, () => @"../../../../.nuget/nuget.exe");
             this.RemoteDeploymentServers = SettingsService.GetSetting<string>("Deployment.RemoteDeploymentServers", SettingScope.UserMachine, () => "nuget.org");
-            
-            ProjectToBuildOrder.Add("Foundation", 1);
+
+            ProjectToBuildOrder.Add("Foundation.Maths", 1);
             ProjectToBuildOrder.Add("Foundation.Diagnostics.Infrastructure", 1);
 
+            ProjectToBuildOrder.Add("Foundation", 2);
+
+            ProjectToBuildOrder.Add("Foundation.Maths.Statistics", 10);
+            ProjectToBuildOrder.Add("Foundation.Graphics", 10);
             ProjectToBuildOrder.Add("Foundation.Serialization", 10);
             ProjectToBuildOrder.Add("Foundation.Unsafe", 10);
             ProjectToBuildOrder.Add("Foundation.Win32Api", 10);
             ProjectToBuildOrder.Add("Foundation.Cache", 10);
             ProjectToBuildOrder.Add("Foundation.Data", 10);
-            ProjectToBuildOrder.Add("Foundation.Presentation.Xaml", 10);
             ProjectToBuildOrder.Add("Foundation.Experimental", 10);
 
-            ProjectToBuildOrder.Add("Foundation.Presentation.Xaml.Styles.Modern", 100);
+            ProjectToBuildOrder.Add("Foundation.Presentation.Xaml", 20); // depends on graphics
+            ProjectToBuildOrder.Add("Foundation.Diagnostics", 20); // depends on serialization
 
-            ProjectToBuildOrder.Add("Foundation.Diagnostics", 20);
+            ProjectToBuildOrder.Add("Foundation.Presentation.Xaml.Styles.Modern", 100); // depends on presentation.xaml
+
+
+
+            ProjectToDependencies.Add("Foundation", "Foundation.Maths");
 
             ProjectToDependencies.Add("Foundation.Serialization", "Foundation");
             ProjectToDependencies.Add("Foundation.Serialization", "Foundation.Diagnostics.Infrastructure");
@@ -149,7 +178,14 @@ namespace Nuget.DeployAllProjects
             ProjectToDependencies.Add("Foundation.Data", "Foundation");
             ProjectToDependencies.Add("Foundation.Data", "Foundation.Diagnostics.Infrastructure");
 
+            ProjectToDependencies.Add("Foundation.Graphics", "Foundation");
+            ProjectToDependencies.Add("Foundation.Graphics", "Foundation.Maths");
+            ProjectToDependencies.Add("Foundation.Graphics", "Foundation.Diagnostics.Infrastructure");
+
+            ProjectToDependencies.Add("Foundation.Maths.Statistics", "Foundation.Maths");
+
             ProjectToDependencies.Add("Foundation.Presentation.Xaml", "Foundation");
+            ProjectToDependencies.Add("Foundation.Presentation.Xaml", "Foundation.Graphics");
             ProjectToDependencies.Add("Foundation.Presentation.Xaml", "Foundation.Diagnostics.Infrastructure");
 
             ProjectToDependencies.Add("Foundation.Diagnostics", "Foundation");
@@ -188,7 +224,7 @@ namespace Nuget.DeployAllProjects
                 pi.Name = kvp.Key;
                 pi.BuildOrder = kvp.Value;
 
-                var asminfo_file_path = "../../../../Sources/Shared/{0}/AssemblyInfo.cs".FormatWith(pi.Name);
+                var asminfo_file_path = $"../../../../Sources/Shared/Internal/AssemblyInfo.{pi.Name.ToLower().Replace("foundation.", "")}.shared.cs";
                 pi.AssemblyInfoFile = new FileInfo(asminfo_file_path);
 
                 if (!File.Exists(asminfo_file_path))
@@ -328,7 +364,7 @@ namespace Nuget.DeployAllProjects
                             dep_proj.LocalVersion = dep_proj_ver.ToString();
 
                             string _ignore;
-                            UpdateAssemblyInfo(dep_proj, processDependantProjects: false, semantic_version:out _ignore);
+                            UpdateAssemblyInfo(dep_proj, processDependantProjects: true, semantic_version:out _ignore);
                         }
                     }
                 }
@@ -351,88 +387,22 @@ namespace Nuget.DeployAllProjects
 
             var solution_file_path = new FileInfo("../../../../Foundation.sln").FullName;
 
-            foreach (var target in new[] { "DotNet45" })
-            {
-                var project_file_path = new FileInfo("../../../../Sources/{0}/{1}.{0}/{1}.{0}.csproj".FormatWith(target, project.Name)).FullName;
+            //# build nuproj
 
+            var rel_qual = ReleaseQuality.ToString().ToUpper();
 
+            if (!DeployRemotely)
+                rel_qual = "LOCAL";
 
-                ExecuteApplicationUsingCommandLine(
+            var project_file_path = new FileInfo($"../../../../.deployment/{project.Name}.NuGet/{project.Name}.NuGet.nuproj").FullName;
+
+            ExecuteApplicationUsingCommandLine(
                     application: @"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe",
-                    arguments: "\"{0}\" /rebuild Release /project \"{1}\" /projectconfig Release /out build.log".FormatWith(solution_file_path, project_file_path),
+                    arguments: $"\"{solution_file_path}\" /build \"Publish - {rel_qual}\" /project \"{project_file_path}\" /projectconfig \"Publish - {rel_qual}\" /out build.log",
                     showUi: true,
                     continueAfterExecution: true,
                     waitForExit: true);
-            }
 
-            //# find nuspec in deplyoment project
-
-            var nuspec_file = new FileInfo("../../../../Deployment/Nuget.{0}/Package.symbols.nuspec".FormatWith(project.Name));
-
-            if (!nuspec_file.Exists)
-            {
-                MessageBox.Show("Cannot find " + nuspec_file.FullName);
-                return;
-            }
-
-            //# update nuspec with dependencies using remote versions of other projects
-            var nuspec_xml = XDocument.Parse(File.ReadAllText(nuspec_file.FullName));
-
-            // update version
-            var el_version = nuspec_xml.XPathSelectElement("package/metadata/version");
-            el_version.Value = semantic_version;
-
-            // update Squared Infinity dependencies
-            var dependencies = nuspec_xml.XPathSelectElements("package/metadata/dependencies/group/dependency").ToArray();
-
-            if (dependencies.Length > 0)
-            {
-                foreach (var dep in dependencies)
-                {
-                    if (!dep.Attribute("id").Value.StartsWith("SquaredInfinity."))
-                        continue;
-
-                    var dep_name = dep.Attribute("id").Value.Substring("SquaredInfinity.".Length);
-
-                    var dep_proj =
-                        (from p in AllProjects
-                         where string.Equals(p.Name, dep_name, StringComparison.InvariantCultureIgnoreCase)
-                         select p).Single();
-
-                    dep.Attribute("version").Value = ToNugetVersion(dep_proj.LocalVersion);
-                }
-            }
-
-            nuspec_xml.Save(nuspec_file.FullName);
-
-            //# build nuget package
-
-            var nugetexe_file = new FileInfo(NugetExePath);
-            if (!nugetexe_file.Exists)
-            {
-                MessageBox.Show("cannot find " + NugetExePath);
-                return;
-            }
-
-            ExecuteApplicationUsingCommandLine(
-                application: "\"{0}\"".FormatWith(nugetexe_file.FullName),
-                arguments: "pack \"{0}\" -OutputDirectory {1}".FormatWith(nuspec_file.FullName, LocalDeploymentDirectoryFullPath),
-                showUi: true,
-                continueAfterExecution: true,
-                waitForExit: true);
-
-            if(DeployRemotely)
-            {
-                var nupkg_file_name = "SquaredInfinity.{0}.{1}.nupkg".FormatWith(project.Name, semantic_version);
-                var nupkg_full_path = Path.Combine(LocalDeploymentDirectoryFullPath, nupkg_file_name);
-
-                ExecuteApplicationUsingCommandLine(
-                application: "\"{0}\"".FormatWith(nugetexe_file.FullName),
-                arguments: "push \"{0}\"".FormatWith(nupkg_full_path),
-                showUi: true,
-                continueAfterExecution: true,
-                waitForExit: true);
-            }
 
             if (ProcessDependantProjects)
             {
@@ -510,110 +480,10 @@ namespace Nuget.DeployAllProjects
             }
         }
 
-        public void UpdateAllProjects()
-        {
-            // find all Package.symbols.nuspec files in solution under deployment project
-            foreach (var file in Directory.EnumerateFiles("../../../../Deployment", "Package.symbols.nuspec", SearchOption.AllDirectories))
-            {
-                var xml = XDocument.Parse(File.ReadAllText(file));
-
-                // update version
-                var el_version = xml.XPathSelectElement("package/metadata/version");
-                el_version.Value = VersionNumber;
-
-                // update Squared Infinity dependencies
-
-                var dependencies = xml.XPathSelectElements("package/metadata/dependencies/group/dependency").ToArray();
-
-                if (dependencies.Length > 0)
-                {
-                    foreach (var dep in dependencies)
-                    {
-                        if (!dep.Attribute("id").Value.StartsWith("SquaredInfinity."))
-                            continue;
-
-                        dep.Attribute("version").Value = VersionNumber;
-                    }
-                }
-
-                xml.Save(file);
-
-                // ensure sources structure
-                var packageRoot = Path.GetDirectoryName(file);
-
-                var srcRoot = Path.Combine(packageRoot, "src");
-
-                for (int i = 0; i < 10; i++)
-                {
-                    try
-                    {
-                        if (Directory.Exists(srcRoot))
-                        {
-                            Directory.Delete(srcRoot, recursive: true);
-                            Thread.Sleep(50);
-                        }
-
-                        Directory.CreateDirectory(srcRoot);
-                        Directory.CreateDirectory(Path.Combine(srcRoot, "Shared"));
-                        Directory.CreateDirectory(Path.Combine(srcRoot, "Common"));
-                        Directory.CreateDirectory(Path.Combine(srcRoot, "DotNet45"));
-
-                        break;
-                    }
-                    catch (Exception ex)
-                    {
-                        Trace.WriteLine(ex.ToString());
-                    }
-                }
-
-                // copy source code files specific to this project
-                var projectName = xml.XPathSelectElement("package/metadata/id").Value.Substring("SquaredInfinity.".Length);
-
-
-                var solution_root = new DirectoryInfo("../../../../");
-                var sources_root = new DirectoryInfo("../../../../Sources");
-
-                // sources/common
-                var commonTargetDir = new DirectoryInfo(Path.Combine(sources_root.FullName, "Common"));
-            }
-
-            // build solution in release version
-
-            var solution_file_path = new FileInfo("../../../../Foundation.sln").FullName;
-
-            ExecuteApplicationUsingCommandLine(
-                application: @"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe",
-                arguments: "\"{0}\" /rebuild Release".FormatWith(solution_file_path),
-                showUi: true,
-                continueAfterExecution: true,
-                waitForExit: true);
-        }
-
-
-        public void PublishSelected()
-        {
-            foreach(var project in SelectedProjects)
-            {
-             //   PublishProject(project);
-            }
-        }
-
-        void PublishProject(string projectName)
-        {
-            var solution_file_path = new FileInfo("../../../../Foundation.sln").FullName;
-
-            ExecuteApplicationUsingCommandLine(
-               application: @"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe",
-               arguments: "\"{0}\" /rebuild Release /project {1} Release".FormatWith(solution_file_path, projectName),
-               showUi: true,
-               continueAfterExecution:true,
-               waitForExit: true);
-        }
-
         public void ExecuteApplicationUsingCommandLine(
             string application, 
             string arguments, 
-            string                                           workingDirectory = "",
+            string workingDirectory = "",
             bool showUi = true, 
             bool continueAfterExecution = true,
             bool runAsAdmin = false, 

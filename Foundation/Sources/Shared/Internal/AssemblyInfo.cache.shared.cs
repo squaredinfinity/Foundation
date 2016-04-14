@@ -4,6 +4,8 @@ using System.Runtime.InteropServices;
 
 #if CACHE
 
-[assembly: AssemblyVersion("1.1.9.0")]
+[assembly: AssemblyVersion("1.1.10.5")]
+[assembly: AssemblyFileVersion("1.1.10.5")]
+[assembly: AssemblyInformationalVersion("1.1.10-beta005")]
 
 #endif
