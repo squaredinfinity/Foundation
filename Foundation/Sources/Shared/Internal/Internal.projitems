@@ -9,6 +9,19 @@
     <Import_RootNamespace>Internal</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.win32api.shared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.unsafe.shared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.serialization.shared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.presentation.xaml.shared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.experimental.shared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.diagnostics.shared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.diagnostics.infrastructure.shared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.data.shared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cache.shared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.foundation.shared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.graphics.shared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.maths.shared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.maths.statistics.shared.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.shared.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InternalTrace.cs" />
   </ItemGroup>

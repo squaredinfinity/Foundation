@@ -17,7 +17,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;FOUNDATION</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -25,7 +25,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;SIGN</DefineConstants>
+    <DefineConstants>TRACE;FOUNDATION;SIGN</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\SquaredInfinity.Foundation.DotNet45.XML</DocumentationFile>
@@ -50,10 +50,6 @@
     <ProjectReference Include="..\..\Core\Foundation.Core\Foundation.Core.csproj">
       <Project>{4ed231bf-b533-4842-9b80-b0f30e360ead}</Project>
       <Name>Foundation.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\Foundation.Maths.Core\Foundation.Maths.Core.csproj">
-      <Project>{3d68571e-52ca-481b-b2b6-e22e5c214cb6}</Project>
-      <Name>Foundation.Maths.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\Shared\Foundation\Foundation.projitems" Label="Shared" />

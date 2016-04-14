@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CORE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;MATHS;CORE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -29,7 +29,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;CORE;SIGN</DefineConstants>
+    <DefineConstants>TRACE;MATHS;CORE;SIGN</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -38,9 +38,9 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="ForwardBackwardDirection.cs" />
+    <Compile Include="Framework Extensions\System.Collections\IEnumerable.extensions.cs" />
     <Compile Include="Framework Extensions\System\Decimal.extensions.cs" />
     <Compile Include="Framework Extensions\System\Enum.extensions.cs" />
     <Compile Include="Framework Extensions\System\Int32.extensions.cs" />
@@ -55,29 +55,11 @@
     <Compile Include="RandomNumbers\IRandomNumberProvider.cs" />
     <Compile Include="Space2D\Point2D.cs" />
     <Compile Include="Space2D\Rectangle.cs" />
-    <Compile Include="Statistics\Distributions\IDistribution.cs" />
-    <Compile Include="Statistics\Distributions\Normal.cs" />
-    <Compile Include="Statistics\Distributions\NormalDistribution.cs" />
-    <Compile Include="Statistics\Max.cs" />
-    <Compile Include="Statistics\Mean.cs" />
-    <Compile Include="Statistics\Min.cs" />
-    <Compile Include="Statistics\OnlineStatistics.cs" />
-    <Compile Include="Statistics\Range.cs" />
-    <Compile Include="Statistics\RangeInfo.cs" />
-    <Compile Include="Statistics\StdDev.cs" />
-    <Compile Include="Statistics\StdDevInfo.cs" />
-    <Compile Include="Statistics\Variance.cs" />
-    <Compile Include="Statistics\VarianceAlgorithm.cs" />
-    <Compile Include="Statistics\VarianceInfo.cs" />
-    <Compile Include="Statistics\VarianceMode.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="!Overview.txt" />
-    <Content Include="Statistics\!info.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Framework Extensions\System.Collections\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="..\..\Shared\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

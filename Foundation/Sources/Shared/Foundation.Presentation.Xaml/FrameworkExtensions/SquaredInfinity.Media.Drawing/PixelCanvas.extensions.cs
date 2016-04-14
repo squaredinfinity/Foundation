@@ -1,5 +1,5 @@
 ﻿using SquaredInfinity.Foundation.Maths.Space2D;
-using SquaredInfinity.Foundation.Media.Drawing;
+using SquaredInfinity.Foundation.Graphics.Drawing;
 using SquaredInfinity.Foundation.Presentation.Media;
 using System;
 using System.Collections.Generic;

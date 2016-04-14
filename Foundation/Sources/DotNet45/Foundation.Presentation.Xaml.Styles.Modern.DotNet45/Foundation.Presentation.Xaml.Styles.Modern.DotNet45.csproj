@@ -31,6 +31,16 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.DotNet45.XML</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish - LOCAL|AnyCPU'">
+    <OutputPath>bin\Publish - LOCAL\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release\SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.DotNet45.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />

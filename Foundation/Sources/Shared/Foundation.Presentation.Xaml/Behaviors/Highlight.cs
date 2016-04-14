@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Media.ColorSpaces;
+﻿using SquaredInfinity.Foundation.Graphics.ColorSpaces;
 using SquaredInfinity.Foundation.Extensions;
 using System;
 using System.Collections.Generic;

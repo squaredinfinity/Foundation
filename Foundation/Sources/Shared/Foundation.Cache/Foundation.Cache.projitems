@@ -9,7 +9,6 @@
     <Import_RootNamespace>Foundation.Cache</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AsyncCacheItemDetails.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CacheGroup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CacheService.CacheObjectRetrivalTask.cs" />

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- 
+    IMPORT NUGET-DEPLOYMENT.TARGETS TO ALLOW NUGET PUSH
+
+    TARGET AND TASKS ASSEMBLIES MY BE LOCATED IN THE SOLUTION (.build/*.*)
+
+    NUGET.EXE MUST BE LOCATED IN THE SOLUTION (.nuget/nuget.exe)
+    SOLUTION PACKAGE REFERENCE TO NuProj MUST BE SET (.nuget/packages.config)
+
+    EACH PROJECT REFERENCED BY NUGETS MUST REFERENCE PACKAGE NuProj.Common
+  -->
+  
+  <PropertyGroup>
+    <AssemblyInfoPath>$(SolutionDir)\Sources\shared\Internal\AssemblyInfo.data.shared.cs</AssemblyInfoPath>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.build\nuget-default-config.targets" />
+  <Import Project="$(SolutionDir)\.build\nuget-deployment.targets" />
+
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>bc10a352-40a2-4451-91e4-c75cf8fb42f4</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NuProjPath Condition=" '$(NuProjPath)' == '' ">$(MSBuildExtensionsPath)\NuProj\</NuProjPath>
+  </PropertyGroup>
+  <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
+  <PropertyGroup Label="Configuration">
+    <Id>SquaredInfinity.Foundation.Data</Id>
+    <Title>Foundation | Data</Title>
+    <Summary>Foundation | Data</Summary>
+    <Description>Foundation | Data</Description>
+    <ReleaseNotes>
+    </ReleaseNotes>
+    <ProjectUrl>
+    </ProjectUrl>
+    <LicenseUrl>
+    </LicenseUrl>
+    <Tags>SquaredInfinity Data</Tags>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sources\DotNet45\Foundation.Data.DotNet45\Foundation.Data.DotNet45.csproj" />
+    <ProjectReference Include="..\Foundation.Diagnostics.Infrastructure.NuGet\Foundation.Diagnostics.Infrastructure.NuGet.nuproj" />
+    <ProjectReference Include="..\Foundation.NuGet\Foundation.NuGet.nuproj" />
+  </ItemGroup>
+  <Import Project="$(NuProjPath)\NuProj.targets" />
+</Project>

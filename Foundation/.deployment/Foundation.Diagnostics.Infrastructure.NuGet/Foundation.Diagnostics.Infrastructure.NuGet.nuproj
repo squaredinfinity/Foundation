@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- 
+    IMPORT NUGET-DEPLOYMENT.TARGETS TO ALLOW NUGET PUSH
+
+    TARGET AND TASKS ASSEMBLIES MY BE LOCATED IN THE SOLUTION (.build/*.*)
+
+    NUGET.EXE MUST BE LOCATED IN THE SOLUTION (.nuget/nuget.exe)
+    SOLUTION PACKAGE REFERENCE TO NuProj MUST BE SET (.nuget/packages.config)
+
+    EACH PROJECT REFERENCED BY NUGETS MUST REFERENCE PACKAGE NuProj.Common
+  -->
+  <PropertyGroup>
+    <AssemblyInfoPath>$(SolutionDir)\Sources\shared\Internal\AssemblyInfo.diagnostics.infrastructure.shared.cs</AssemblyInfoPath>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.build\nuget-default-config.targets" />
+  <Import Project="$(SolutionDir)\.build\nuget-deployment.targets" />
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>33470783-dc9d-4ec8-85e3-55e21314a5cf</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NuProjPath Condition=" '$(NuProjPath)' == '' ">$(MSBuildExtensionsPath)\NuProj\</NuProjPath>
+  </PropertyGroup>
+  <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
+  <PropertyGroup Label="Configuration">
+    <Id>SquaredInfinity.Foundation.Diagnostics.Infrastructure</Id>
+    <Title>Foundation | Diagnostics Infrastructure</Title>
+    <Summary>
+    </Summary>
+    <Description>Diagnostics (Infrastructure)</Description>
+    <ReleaseNotes>
+    </ReleaseNotes>
+    <ProjectUrl>
+    </ProjectUrl>
+    <LicenseUrl>
+    </LicenseUrl>
+    <Tags>
+    </Tags>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sources\DotNet45\Foundation.Diagnostics.Infrastructure.DotNet45\Foundation.Diagnostics.Infrastructure.DotNet45.csproj" />
+    <ProjectReference Include="..\Foundation.NuGet\Foundation.NuGet.nuproj" />
+  </ItemGroup>
+  <Import Project="$(NuProjPath)\NuProj.targets" />
+</Project>

@@ -8,12 +8,10 @@ using SquaredInfinity.Foundation.Extensions;
 
 namespace SquaredInfinity.Build.Tasks.NuGet
 {
-    public class NuGetPush : CustomBuildTask
+    public class NuGetPush : NuGetTask
     {
         public string Source { get; set; }
         public string ApiKey { get; set; }
-
-        public string NuGetExePath { get; set; }
 
         [Required]
         public string PackagePath { get; set; }
@@ -26,45 +24,12 @@ namespace SquaredInfinity.Build.Tasks.NuGet
 
         protected override bool DoExecute()
         {
-            if (string.IsNullOrEmpty(NuGetExePath))
-            {
-                // try find exe by checking current and each parent directory until the root is found.
-                LogVerbose("NuGetExe Path not specified. Searching..");
-
-                var dir = new DirectoryInfo(Environment.CurrentDirectory);
-
-                while (dir != null)
-                {
-                    var nuget_dir_path = Path.Combine(dir.FullName, ".nuget");
-                    var nuget_file = new FileInfo(Path.Combine(nuget_dir_path, "nuget.exe"));
-
-                    LogVerbose($"Checking {nuget_file.FullName}");
-
-                    if (nuget_file.Exists)
-                    {
-                        NuGetExePath = nuget_file.FullName;
-                        break;
-                    }
-
-                    dir = dir.Parent;
-                }
-            }
-
-            if (string.IsNullOrEmpty(NuGetExePath))
-            {
-                LogError($"Unable to find nuget.exe. Make sure to set NuGetExePath or add .nuget/nuget.exe in parent directory.");
+            if (!base.DoExecute())
                 return false;
-            }
-
-            if (!File.Exists(NuGetExePath))
-            {
-                LogError($"Provided path to nuget.exe: {NuGetExePath} is invalid. File does not exist.");
-                return false;
-            }
 
             if (!File.Exists(PackagePath))
             {
-                LogError($"Provider path to nuget package {PackagePath} is invalid. File does not exist.");
+                LogError($"Provided path {PackagePath} is invalid. File does not exist.");
                 return false;
             }
 
@@ -87,7 +52,7 @@ namespace SquaredInfinity.Build.Tasks.NuGet
             var std_err = string.Empty;
             var exit_code = -1;
 
-            if(psi.StartAndWaitForExit(TimeSpan.FromSeconds(30), out exit_code, out std_output, out std_err) && std_err.IsNullOrEmpty())
+            if(psi.StartAndWaitForExit(TimeSpan.FromMilliseconds(TimeOut), out exit_code, out std_output, out std_err) && std_err.IsNullOrEmpty())
             {
                 LogInformation($"NuGet Push complete.");
                 LogVerbose("NuGet Output: " + std_output);

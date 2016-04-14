@@ -1,4 +1,5 @@
 ﻿using Microsoft.Build.Framework;
+using Microsoft.Build.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,14 +8,25 @@ namespace SquaredInfinity.Build.Tasks
 {
     public abstract class CustomBuildTask : ITask
     {
+        protected TaskLoggingHelper TaskLoggingHelper { get; private set; }
+        
         public IBuildEngine BuildEngine { get; set; }
 
         public ITaskHost HostObject { get; set; }
+
+        public int TimeOut { get; set; }
+
+        public CustomBuildTask()
+        {
+            TimeOut = (int) TimeSpan.FromSeconds(10).TotalMilliseconds;
+        }
 
         public bool Execute()
         {
             try
             {
+                TaskLoggingHelper = new TaskLoggingHelper(this);
+
                 return DoExecute();
             }
             catch (Exception ex)
@@ -27,55 +39,27 @@ namespace SquaredInfinity.Build.Tasks
 
         protected void LogError(Exception ex)
         {
-            LogError(ex.ToString());
+            TaskLoggingHelper.LogErrorFromException(ex, showStackTrace: true);
         }
 
         protected void LogError(string message)
         {
-            var build_event =
-                    new BuildMessageEventArgs(
-                        "ERROR: " + message,
-                        string.Empty,
-                        this.GetType().Name,
-                        MessageImportance.High);
-
-            BuildEngine.LogMessageEvent(build_event);
+            TaskLoggingHelper.LogError(message);
         }
 
         protected void LogVerbose(string message)
         {
-            var build_event =
-                    new BuildMessageEventArgs(
-                        message,
-                        string.Empty,
-                        this.GetType().Name,
-                        MessageImportance.Low);
-
-            BuildEngine.LogMessageEvent(build_event);
+            TaskLoggingHelper.LogMessage(MessageImportance.Low, message);
         }
 
         protected void LogInformation(string message)
         {
-            var build_event =
-                    new BuildMessageEventArgs(
-                        "INFO: " + message,
-                        string.Empty,
-                        this.GetType().Name,
-                        MessageImportance.Normal);
-
-            BuildEngine.LogMessageEvent(build_event);
+            TaskLoggingHelper.LogMessage(MessageImportance.Normal, message);
         }
 
         protected void LogWaring(string message)
         {
-            var build_event =
-                    new BuildMessageEventArgs(
-                        "WARNING: " + message,
-                        string.Empty,
-                        this.GetType().Name,
-                        MessageImportance.High);
-
-            BuildEngine.LogMessageEvent(build_event);
+            TaskLoggingHelper.LogWarning(message);
         }
 
         protected abstract bool DoExecute();

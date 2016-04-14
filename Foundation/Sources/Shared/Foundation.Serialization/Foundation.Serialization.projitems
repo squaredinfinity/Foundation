@@ -9,7 +9,6 @@
     <Import_RootNamespace>SquaredInfinity.Foundation.Serialization</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CreateInstanceContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EnumerableTypeSerializationStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EnumerableTypeSerializationStrategy_T.cs" />

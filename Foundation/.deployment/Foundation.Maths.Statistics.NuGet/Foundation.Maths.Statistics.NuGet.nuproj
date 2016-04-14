@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- 
+    IMPORT NUGET-DEPLOYMENT.TARGETS TO ALLOW NUGET PUSH
+
+    TARGET AND TASKS ASSEMBLIES MY BE LOCATED IN THE SOLUTION (.build/*.*)
+
+    NUGET.EXE MUST BE LOCATED IN THE SOLUTION (.nuget/nuget.exe)
+    SOLUTION PACKAGE REFERENCE TO NuProj MUST BE SET (.nuget/packages.config)
+
+    EACH PROJECT REFERENCED BY NUGETS MUST REFERENCE PACKAGE NuProj.Common
+  -->
+
+  <PropertyGroup>
+    <AssemblyInfoPath>$(SolutionDir)\Sources\shared\Internal\AssemblyInfo.maths.statistics.shared.cs</AssemblyInfoPath>
+  </PropertyGroup>
+
+  <Import Project="$(SolutionDir)\.build\nuget-default-config.targets" />
+  <Import Project="$(SolutionDir)\.build\nuget-deployment.targets" />
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>be2ff6c0-456f-4d72-b5fb-c2f07f77e7ee</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NuProjPath Condition=" '$(NuProjPath)' == '' ">$(MSBuildExtensionsPath)\NuProj\</NuProjPath>
+  </PropertyGroup>
+  <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
+  <PropertyGroup Label="Configuration">
+    <Id>SquaredInfinity.Foundation.Maths.Statistics</Id>
+    <Title>Foundation | Maths (Statistics)</Title>
+    <Summary>
+    </Summary>
+    <Description>Foundation | Maths (Statistics)</Description>
+    <ReleaseNotes>
+    </ReleaseNotes>
+    <ProjectUrl>
+    </ProjectUrl>
+    <LicenseUrl>
+    </LicenseUrl>
+    <Tags>
+    </Tags>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sources\Core\Foundation.Maths.Statistics.Core\Foundation.Maths.Statistics.Core.csproj" />
+    <ProjectReference Include="..\Foundation.Maths.NuGet\Foundation.Maths.NuGet.nuproj" />
+  </ItemGroup>
+  <Import Project="$(NuProjPath)\NuProj.targets" />
+</Project>

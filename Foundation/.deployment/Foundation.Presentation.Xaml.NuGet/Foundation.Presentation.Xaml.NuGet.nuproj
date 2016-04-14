@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- 
+    IMPORT NUGET-DEPLOYMENT.TARGETS TO ALLOW NUGET PUSH
+
+    TARGET AND TASKS ASSEMBLIES MY BE LOCATED IN THE SOLUTION (.build/*.*)
+
+    NUGET.EXE MUST BE LOCATED IN THE SOLUTION (.nuget/nuget.exe)
+    SOLUTION PACKAGE REFERENCE TO NuProj MUST BE SET (.nuget/packages.config)
+
+    EACH PROJECT REFERENCED BY NUGETS MUST REFERENCE PACKAGE NuProj.Common
+  -->
+  
+  <PropertyGroup>
+    <AssemblyInfoPath>$(SolutionDir)\Sources\shared\Internal\AssemblyInfo.presentation.xaml.shared.cs</AssemblyInfoPath>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.build\nuget-default-config.targets" />
+  <Import Project="$(SolutionDir)\.build\nuget-deployment.targets" />
+
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>a9aac380-b91b-4768-9938-351fbb005e98</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NuProjPath Condition=" '$(NuProjPath)' == '' ">$(MSBuildExtensionsPath)\NuProj\</NuProjPath>
+  </PropertyGroup>
+  <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
+  <PropertyGroup Label="Configuration">
+    <Id>SquaredInfinity.Foundation.Presentation.Xaml</Id>
+    <Title>Foundation | Presentation (Xaml)</Title>
+    <Summary>
+    </Summary>
+    <Description>Presentation (Xaml)</Description>
+    <ReleaseNotes>
+    </ReleaseNotes>
+    <ProjectUrl>
+    </ProjectUrl>
+    <LicenseUrl>
+    </LicenseUrl>
+    <Tags>
+    </Tags>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sources\DotNet45\Foundation.Presentation.Xaml.DotNet45\Foundation.Presentation.Xaml.DotNet45.csproj" />
+    <ProjectReference Include="..\Foundation.Graphics.NuGet\Foundation.Graphics.NuGet.nuproj" />
+    <ProjectReference Include="..\Foundation.NuGet\Foundation.NuGet.nuproj" />
+  </ItemGroup>
+  <Import Project="$(NuProjPath)\NuProj.targets" />
+</Project>

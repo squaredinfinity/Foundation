@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+<!-- 
+		NUGET PACKAGE SETTINGS
+-->
+ <PropertyGroup Label="Configuration">
+    <Authors>Jarek Kardas</Authors>
+    <Owners>Squared Infinity Ltd.</Owners>
+    <Copyright>Copyright © Squared Infinity Ltd. (Jarek Kardas)</Copyright>
+  </PropertyGroup>
+
+<!-- 
+		BUILD CONFIGURATIONS
+-->
+
+
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|AnyCPU">
+      <Configuration>Debug</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+
+    <ProjectConfiguration Include="Release|AnyCPU">
+      <Configuration>Release</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+
+    <ProjectConfiguration Include="Publish - LOCAL|AnyCPU">
+      <Configuration>Publish - LOCAL</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+
+    <ProjectConfiguration Include="Publish - BETA|AnyCPU">
+      <Configuration>Publish - BETA</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+
+    <ProjectConfiguration Include="Publish - RC|AnyCPU">
+      <Configuration>Publish - RC</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+
+    <ProjectConfiguration Include="Publish - RELEASE|AnyCPU">
+      <Configuration>Publish - RELEASE</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+
+  </ItemGroup>
+
+
+</Project>

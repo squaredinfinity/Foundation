@@ -9,7 +9,6 @@
     <Import_RootNamespace>SquaredInfinity.Foundation.Win32Api</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)credui.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)credui.entities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)credui.externs.cs" />

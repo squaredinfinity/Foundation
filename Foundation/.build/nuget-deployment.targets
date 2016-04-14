@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!--
+      CONFIGURE NUPROJ
+
+      These are the properties used to configure NuProj (http://nuproj.net/documentation)
+  -->
+
+ <PropertyGroup>
+    <NuProjPath Condition=" '$(NuProjPath)' == '' ">$(MSBuildExtensionsPath)\NuProj\</NuProjPath>
+    <NuProjToolsExist Condition="Exists('$(NuProjPath)\NuProj.props')">true</NuProjToolsExist>
+
+    <!-- MyNuProjPath = packages\nuproj.... -->
+    <MyNuProjPath Condition=" '$(NuProjToolsExist)' != 'true' ">$(MyCheckinRoot)packages\NuProj.0.10.4-beta-gf7fc34e7d8\tools\</MyNuProjPath>
+    <NuProjTargetsPath Condition=" '$(NuProjToolsExist)' != 'true' ">$(MyNuProjPath)NuProj.targets</NuProjTargetsPath>
+
+    <NuProjPath Condition=" '$(NuProjToolsExist)' != 'true' ">$(SolutionDir)\$(MyNuProjPath)</NuProjPath>  
+
+    <VersionDependsOn>$(VersionDependsOn);GetNuPkgVersion</VersionDependsOn>
+  </PropertyGroup>
+
+  <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
+  <Import Project="$(NuProjPath)\NuProj.targets" />
+
+
+  <!--
+      CONFIGURE NUGET PROPERTIES
+
+      These are the properties used to get version and deployment information for NuGet
+  -->
+
+  <PropertyGroup>
+    <SI_TasksDirPath>$(SolutionDir)\.build</SI_TasksDirPath>
+    <AssemblyInfoPath Condition=" '$(AssemblyInfoPath)' == '' ">$(SolutionDir)\Sources\shared\Internal\AssemblyInfo.cs</AssemblyInfoPath>
+    <NuGetApiKey />
+    <RemoteRepository />
+    <LocalRepository>c:\local_nugets</LocalRepository>
+    
+    <ConfigurationName_RELEASE>Publish - RELEASE</ConfigurationName_RELEASE>
+    <ConfigurationName_RC>Publish - RC</ConfigurationName_RC>
+    <ConfigurationName_BETA>Publish - BETA</ConfigurationName_BETA>
+    <ConfigurationName_LOCAL>Publish - LOCAL</ConfigurationName_LOCAL>
+
+    <PreRelease_RC>rc</PreRelease_RC>
+    <PreRelease_BETA>beta</PreRelease_BETA>
+    <PreRelease_LOCAL>alpha</PreRelease_LOCAL>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == '$(ConfigurationName_RELEASE)' ">
+    <Publish>true</Publish>
+    <NuGetRepository>$(RemoteRepository)</NuGetRepository>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == '$(ConfigurationName_RC)' ">
+    <Publish>true</Publish>
+    <NuGetRepository>$(RemoteRepository)</NuGetRepository>
+    <PreReleaseName>$(PreRelease_RC)</PreReleaseName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == '$(ConfigurationName_BETA)' ">
+    <Publish>true</Publish>
+    <NuGetRepository>$(RemoteRepository)</NuGetRepository>
+    <PreReleaseName>$(PreRelease_BETA)</PreReleaseName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == '$(ConfigurationName_LOCAL)' ">
+    <Publish>true</Publish>
+    <NuGetRepository>$(LocalRepository)</NuGetRepository>
+    <PreReleaseName>$(PreRelease_LOCAL)</PreReleaseName>
+  </PropertyGroup>
+
+
+  <!-- CUSTOM TASK IMPORTS -->
+
+  <UsingTask AssemblyFile="$(SI_TasksDirPath)/SquaredInfinity.Build.Tasks.14.dll" TaskName="SquaredInfinity.Build.Tasks.AssemblyInfo.GetAssemblyVersion" />
+  <UsingTask AssemblyFile="$(SI_TasksDirPath)/SquaredInfinity.Build.Tasks.14.dll" TaskName="SquaredInfinity.Build.Tasks.AssemblyInfo.ConstructSemanticVersion" />
+  <UsingTask AssemblyFile="$(SI_TasksDirPath)/SquaredInfinity.Build.Tasks.14.dll" TaskName="SquaredInfinity.Build.Tasks.NuGet.NuGetPush" />
+  <UsingTask AssemblyFile="$(SI_TasksDirPath)/SquaredInfinity.Build.Tasks.14.dll" TaskName="SquaredInfinity.Build.Tasks.NuGet.NuGetRestoreFromSolution" />
+
+  <!--
+      CONSTRUCT SEMANTIC VERSION
+
+      Constructs semantic version for nuget package give Assembly Version from AssemblyInfo.cs and Pre-Release Name
+  -->
+  
+  <Target Name="GetBuildVersion">
+    <GetAssemblyVersion AssemblyInfoPath="$(AssemblyInfoPath)">
+      <Output TaskParameter="AssemblyVersion" PropertyName="AssemblyVersion" />
+    </GetAssemblyVersion>
+    <ConstructSemanticVersion Version="$(AssemblyVersion)" PreReleaseName="$(PreReleaseName)">
+      <Output TaskParameter="SemanticVersion" PropertyName="NugetPackageVersion" />
+    </ConstructSemanticVersion>
+  </Target>
+  
+<!--
+      OVERRIDE GET NUPKG VERSION STEP
+
+      
+  -->
+
+  <Target Name="GetNuPkgVersion" DependsOnTargets="GetBuildVersion">
+    <PropertyGroup>
+      <Version>$(NugetPackageVersion)</Version>
+    </PropertyGroup>
+  </Target>
+
+<!--
+      RESTORE SOLUTION PACKAGES
+
+      
+  -->
+
+  <Target Name="Restore Solution Packages" AfterTargets="PrepareForBuild">
+    <NuGetRestoreFromSolution SolutionPath="$(SolutionPath)" />
+  </Target>
+
+<!--
+      PUSH THE PACKAGE TO NUGET REPORSITORY
+
+      
+  -->
+
+  <Target Name="push" AfterTargets="Build" Condition=" '$(Publish)' == 'true' ">
+    <Message Text="$(Configuration)" />
+    <NuGetPush PackagePath="$(NuGetOutputPath)" Source="$(NuGetRepository)" ApiKey="$(NuGetApiKey)" />
+  </Target>
+
+</Project>

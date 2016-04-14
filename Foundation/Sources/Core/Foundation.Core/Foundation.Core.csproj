@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CORE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;FOUNDATION;CORE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -29,17 +29,15 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;CORE;SIGN</DefineConstants>
+    <DefineConstants>TRACE;FOUNDATION;CORE;SIGN</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="Media\RYB.pdf" />
     <None Include="project.json" />
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ChainOfCommand.cs" />
     <Compile Include="Collections\AfterItemReplacedEventArgs.cs" />
     <Compile Include="Collections\CollectionEx.cs" />
@@ -66,34 +64,6 @@
     <Compile Include="IFreezable.cs" />
     <Compile Include="INotifyVersionChangedObject.cs" />
     <Compile Include="Iterator.cs" />
-    <Compile Include="Media\ColorChannel.cs" />
-    <Compile Include="Media\ColorChannelCollection.cs" />
-    <Compile Include="Media\ColorChannelDefinition.cs" />
-    <Compile Include="Media\Color.cs" />
-    <Compile Include="Media\IColor.cs" />
-    <Compile Include="Media\ColorSpaces\IColorSpace.cs" />
-    <Compile Include="Media\ColorSpaces\KnownColorSpaces.cs" />
-    <Compile Include="Media\ColorSpaces\LabColor.cs" />
-    <Compile Include="Media\ColorSpaces\LabColorSpace.cs" />
-    <Compile Include="Media\ColorSpaces\RGBColor.cs" />
-    <Compile Include="Media\ColorSpaces\RGBColorSpace.cs" />
-    <Compile Include="Media\ColorSpaces\ScRGBColor.cs" />
-    <Compile Include="Media\ColorSpaces\ScRGBColorSpace.cs" />
-    <Compile Include="Media\ColorSpaces\xyYColor.cs" />
-    <Compile Include="Media\ColorSpaces\xyYColorSpace.cs" />
-    <Compile Include="Media\ColorSpaces\XYZColor.cs" />
-    <Compile Include="Media\ColorSpaces\XyzColorSpace.cs" />
-    <Compile Include="Media\Drawing\BlendMode.cs" />
-    <Compile Include="Media\Drawing\IPixelCanvas.cs" />
-    <Compile Include="Media\Drawing\PixelArrayCanvas.cs" />
-    <Compile Include="Media\Drawing\PixelCanvas.Blit.cs" />
-    <Compile Include="Media\Drawing\PixelCanvas.Clear.cs" />
-    <Compile Include="Media\Drawing\PixelCanvas.CohenSutherland.cs" />
-    <Compile Include="Media\Drawing\PixelCanvas.cs" />
-    <Compile Include="Media\Drawing\PixelCanvas.DrawLine.cs" />
-    <Compile Include="Media\Drawing\PixelCanvas.DrawLineWu.cs" />
-    <Compile Include="Media\Drawing\PixelCanvas.IDisposable.cs" />
-    <Compile Include="Media\KnownColors.cs" />
     <Compile Include="ObjectExtensibility\Extension.cs" />
     <Compile Include="ObjectExtensibility\ExtensionCollection.cs" />
     <Compile Include="ObjectExtensibility\IExtensibleObject.cs" />
@@ -110,12 +80,6 @@
     <Compile Include="Threading\ReaderWriterLockSlimEx.UpgradeableReadLockAcquisition.cs" />
     <Compile Include="Threading\ReaderWriterLockSlimEx.WriteLockAcquisition.cs" />
     <Compile Include="VersionChangedEventArgs.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Foundation.Maths.Core\Foundation.Maths.Core.csproj">
-      <Project>{3d68571e-52ca-481b-b2b6-e22e5c214cb6}</Project>
-      <Name>Foundation.Maths.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Framework Extensions\System.ComponentModel\" />

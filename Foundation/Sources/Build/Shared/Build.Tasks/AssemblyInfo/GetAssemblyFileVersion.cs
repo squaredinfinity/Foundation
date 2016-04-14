@@ -7,53 +7,26 @@ using System.Text.RegularExpressions;
 
 namespace SquaredInfinity.Build.Tasks.AssemblyInfo
 {
-    public class GetAssemblyFileVersion : CustomBuildTask
+    public class GetAssemblyFileVersion : GetAssemblyInfoPartUsingSingleLineRegex
     {
-        public string FileVersionRegex { get; set; }
-
-        [Required]
-        public string AssemblyInfoPath { get; set; }
-
         [Output]
         public string FileVersion { get; set; }
 
         public GetAssemblyFileVersion()
         {
-            FileVersionRegex = @"AssemblyFileVersion\(""(?<version>.*)""";
+            PartRegex = @"AssemblyFileVersion\(""(?<version>.*)""";
         }
 
-        protected override bool DoExecute()
+        protected override bool TryProcessSingleLine(string line, Match match)
         {
-            if (!File.Exists(AssemblyInfoPath))
-            {
-                LogError($"File {AssemblyInfoPath} could not be found.");
+            var version_group = match.Groups["version"];
 
+            if (!version_group.Success)
                 return false;
-            }
 
-            using (var sr = new StreamReader(AssemblyInfoPath))
-            {
-                var line = string.Empty;
+            FileVersion = version_group.Value;
 
-                var regex = new Regex(FileVersionRegex);
-
-                while ((line = sr.ReadLine()) != null)
-                {
-                    var match = regex.Match(line);
-
-                    if (!match.Success)
-                        continue;
-
-                    var version_group = match.Groups["version"];
-
-                    if (!version_group.Success)
-                        continue;
-
-                    FileVersion = version_group.Value;
-
-                    LogInformation($"Found File Version: {FileVersion} in {AssemblyInfoPath}.");
-                }
-            }
+            LogInformation($"Found Assembly File Version: {FileVersion} in {AssemblyInfoPath}.");
 
             return true;
         }

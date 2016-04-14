@@ -10,7 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ApplicationLifecycleEvents.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AttachedObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AttachedObjectCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigurationCache.cs" />

@@ -9,8 +9,15 @@
     <Import_RootNamespace>SquaredInfinity.Build.Tasks</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo\ConstructSemanticVersion.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo\GetAssemblyConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo\GetAssemblyFileVersion.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo\GetAssemblyInfoPartUsingSingleLineRegex.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo\GetAssemblyVersion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CustomBuildTask.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NuGet\FindNugetExe.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NuGet\NuGetPush.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NuGet\NuGetRestoreFromSolution.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NuGet\NuGetTask.cs" />
   </ItemGroup>
 </Project>

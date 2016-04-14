@@ -29,8 +29,18 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish - LOCAL|AnyCPU'">
+    <OutputPath>bin\Publish - LOCAL\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Build.Framework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Build.Utilities.Core, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,10 +54,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\Foundation.Maths.Core\Foundation.Maths.Core.csproj">
-      <Project>{3d68571e-52ca-481b-b2b6-e22e5c214cb6}</Project>
-      <Name>Foundation.Maths.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\DotNet45\Foundation.DotNet45\Foundation.DotNet45.csproj">
       <Project>{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}</Project>
       <Name>Foundation.DotNet45</Name>

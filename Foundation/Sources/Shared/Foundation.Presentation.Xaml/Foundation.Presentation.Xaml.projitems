@@ -9,7 +9,6 @@
     <Import_RootNamespace>SquaredInfinity.Foundation.Presentation</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BackgroundRenderingService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Button.Image.cs" />
