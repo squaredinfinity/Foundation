@@ -28,7 +28,7 @@
   <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
   <PropertyGroup Label="Configuration">
     <Id>SquaredInfinity.Foundation</Id>
-    <Title>Foundation</Title>
+    <Title>Foundation (Squared Infinity)</Title>
     <Summary>
     </Summary>
     <Description>Foundation</Description>
