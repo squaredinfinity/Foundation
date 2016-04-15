@@ -73,6 +73,7 @@
     <Compile Include="Drawing\PixelCanvas.IDisposable.cs" />
     <Compile Include="IColor.cs" />
     <Compile Include="KnownColors.cs" />
+    <Compile Include="Orientation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
