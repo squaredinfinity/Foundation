@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo\GetAssemblyInfoPartUsingSingleLineRegex.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo\GetAssemblyVersion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CustomBuildTask.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DesignTimeResolveAssemblyReferences.cache" />
     <Compile Include="$(MSBuildThisFileDirectory)NuGet\FindNugetExe.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NuGet\NuGetPush.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NuGet\NuGetRestoreFromSolution.cs" />
