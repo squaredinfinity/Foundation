@@ -11,5 +11,6 @@ namespace SquaredInfinity.Foundation.Graphics
         Unspecified = 0,
         Horizontal = 1,
         Vertical = 2,
+        Auto
     }
 }
