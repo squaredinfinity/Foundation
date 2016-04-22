@@ -42,6 +42,7 @@
     <Compile Include="Collections\AfterItemReplacedEventArgs.cs" />
     <Compile Include="Collections\CollectionEx.cs" />
     <Compile Include="Collections\CollectionEx.IList.cs" />
+    <Compile Include="Collections\DisposableCollection.cs" />
     <Compile Include="Collections\IBulkUpdatesCollection.cs" />
     <Compile Include="Collections\ICollectionEx.cs" />
     <Compile Include="Collections\INotifyCollectionVersionChanged.cs" />

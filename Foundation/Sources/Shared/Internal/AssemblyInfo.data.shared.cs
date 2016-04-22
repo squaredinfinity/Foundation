@@ -4,8 +4,8 @@ using System.Runtime.InteropServices;
 
 #if DATA
 
-[assembly: AssemblyVersion("1.2.1.2")]
-[assembly: AssemblyFileVersion("1.2.1.2")]
-[assembly: AssemblyInformationalVersion("1.2.1-beta002")]
+[assembly: AssemblyVersion("1.2.1.4")]
+[assembly: AssemblyFileVersion("1.2.1.4")]
+[assembly: AssemblyInformationalVersion("1.2.1-beta004")]
 
 #endif
