@@ -5,11 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Maths
-{
+{ 
+    [Flags]
     public enum IntervalFlags : byte
     {
-        Exclusive = 0,
-        FromInclusive = 1,
-        ToInclusive = 2
+        /// <summary>
+        /// Both ends exclusive (from, to) = { x | a < x < b }
+        /// </summary>
+        Open = 0,
+
+        LeftClosed = 1,
+
+        RightClosed = 2,
+
+        /// <summary>
+        /// Both ends inclusive [from, to] = { x | a <= x <= b }
+        /// </summary>
+        Closed = LeftClosed | RightClosed
     }
 }

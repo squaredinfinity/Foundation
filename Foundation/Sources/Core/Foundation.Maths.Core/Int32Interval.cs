@@ -20,25 +20,25 @@ namespace SquaredInfinity.Foundation.Maths
 
         public bool IsFromInclusive
         {
-            get { return _flags.HasFlag(IntervalFlags.FromInclusive); }
+            get { return _flags.HasFlag(IntervalFlags.LeftClosed); }
             set
             {
                 if (value == true)
-                    _flags.Set(IntervalFlags.FromInclusive);
+                    _flags.Set(IntervalFlags.LeftClosed);
                 else
-                    _flags.Unset(IntervalFlags.FromInclusive);
+                    _flags.Unset(IntervalFlags.LeftClosed);
             }
         }
 
         public bool IsToInclusive
         {
-            get { return _flags.HasFlag(IntervalFlags.ToInclusive); }
+            get { return _flags.HasFlag(IntervalFlags.RightClosed); }
             set
             {
                 if (value == true)
-                    _flags.Set(IntervalFlags.ToInclusive);
+                    _flags.Set(IntervalFlags.RightClosed);
                 else
-                    _flags.Unset(IntervalFlags.ToInclusive);
+                    _flags.Unset(IntervalFlags.RightClosed);
             }
         }
 
@@ -64,7 +64,7 @@ namespace SquaredInfinity.Foundation.Maths
             this._from = inclusiveFrom;            
             this._to = inclusiveTo;
 
-            _flags = IntervalFlags.FromInclusive | IntervalFlags.ToInclusive;
+            _flags = IntervalFlags.LeftClosed | IntervalFlags.RightClosed;
         }
 
         public Int32Interval(int from, bool isFromInclusive, int to, bool itToInclusive)
@@ -75,15 +75,15 @@ namespace SquaredInfinity.Foundation.Maths
             _flags = 0;
 
             if (isFromInclusive)
-                _flags.Set(IntervalFlags.FromInclusive);
+                _flags.Set(IntervalFlags.LeftClosed);
 
             if (IsToInclusive)
-                _flags.Set(IntervalFlags.ToInclusive);
+                _flags.Set(IntervalFlags.RightClosed);
         }
 
         public bool Contains(int value)
         {
-            if (_flags.HasFlag(IntervalFlags.FromInclusive))
+            if (_flags.HasFlag(IntervalFlags.LeftClosed))
             {
                 if (!(value >= _from))
                     return false;
@@ -95,7 +95,7 @@ namespace SquaredInfinity.Foundation.Maths
             }
 
 
-            if (_flags.HasFlag(IntervalFlags.ToInclusive))
+            if (_flags.HasFlag(IntervalFlags.RightClosed))
             {
                 if (!(value <= _to))
                     return false;

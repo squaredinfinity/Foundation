@@ -24,22 +24,37 @@ namespace SquaredInfinity.Foundation.Extensions
 
              if (underlyingType == typeof(int))
              {
-                 var enumValue = (int)(object)me;
-                 var flagValue = (int)(object)flag;
+                var enumValue = (int)(object)me;
+                var flagValue = (int)(object)flag;
 
-                 var result = (TEnum)(object)(enumValue | flagValue);
+                var result = (TEnum)Enum.ToObject(typeof(TEnum), (object)(enumValue | flagValue));
 
-                 return result;
+                return result;
              }
              else
+             if(underlyingType == typeof(uint))
              {
-                 var enumValue = (uint)(object)me;
-                 var flagValue = (uint)(object)flag;
+                var enumValue = (uint)(object)me;
+                var flagValue = (uint)(object)flag;
 
-                 var result = (TEnum)(object)(enumValue | flagValue);
+                var result = (TEnum)Enum.ToObject(typeof(TEnum), (object)(enumValue | flagValue));
 
-                 return result;
+                return result;
              }
+            else
+            if (underlyingType == typeof(byte))
+            {
+                var enumValue = (byte)(object)me;
+                var flagValue = (byte)(object)flag;
+
+                var result = (TEnum)Enum.ToObject(typeof(TEnum), (object)(enumValue | flagValue));
+
+                return result;
+            }
+            else
+            {
+                throw new NotSupportedException($"Enums with underlying type of {underlyingType.Name} are not supported.");
+            }
         }
 
         public static Enum Set(this Enum me, Enum flag)

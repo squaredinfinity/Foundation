@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Foundation.Graphics.Drawing;
 using SquaredInfinity.Foundation.Presentation.Media;
 using System;
 using System.Collections.Concurrent;

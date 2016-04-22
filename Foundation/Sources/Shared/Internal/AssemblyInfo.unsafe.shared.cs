@@ -4,8 +4,8 @@ using System.Runtime.InteropServices;
 
 #if UNSAFE
 
-[assembly: AssemblyVersion("1.2.0.1")]
-[assembly: AssemblyFileVersion("1.2.0.1")]
-[assembly: AssemblyInformationalVersion("1.2.0.1")]
+[assembly: AssemblyVersion("1.2.1.2")]
+[assembly: AssemblyFileVersion("1.2.1.2")]
+[assembly: AssemblyInformationalVersion("1.2.1-beta002")]
 
 #endif

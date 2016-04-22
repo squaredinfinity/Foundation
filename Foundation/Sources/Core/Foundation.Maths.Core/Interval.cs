@@ -2,6 +2,7 @@
 using SquaredInfinity.Foundation.Extensions;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics;
 
 namespace SquaredInfinity.Foundation.Maths
 {
@@ -9,7 +10,8 @@ namespace SquaredInfinity.Foundation.Maths
     /// Represents an Interval of doubles
     /// https://en.wikipedia.org/wiki/Interval_(mathematics)
     /// </summary>
-    public struct Interval
+    [DebuggerDisplay("{DebuggerDisplay}")]
+    public struct Interval : IEquatable<Interval>
     {
         public static readonly Interval Empty;
 
@@ -34,25 +36,25 @@ namespace SquaredInfinity.Foundation.Maths
 
         public bool IsFromInclusive
         {
-            get { return _flags.HasFlag(IntervalFlags.FromInclusive); }
+            get { return _flags.HasFlag(IntervalFlags.LeftClosed); }
             set
             {
                 if (value == true)
-                    _flags.Set(IntervalFlags.FromInclusive);
+                    _flags.Set(IntervalFlags.LeftClosed);
                 else
-                    _flags.Unset(IntervalFlags.FromInclusive);
+                    _flags.Unset(IntervalFlags.LeftClosed);
             }
         }
 
         public bool IsToInclusive
         {
-            get { return _flags.HasFlag(IntervalFlags.ToInclusive); }
+            get { return _flags.HasFlag(IntervalFlags.RightClosed); }
             set
             {
                 if (value == true)
-                    _flags.Set(IntervalFlags.ToInclusive);
+                    _flags.Set(IntervalFlags.RightClosed);
                 else
-                    _flags.Unset(IntervalFlags.ToInclusive);
+                    _flags.Unset(IntervalFlags.RightClosed);
             }
         }
 
@@ -60,13 +62,23 @@ namespace SquaredInfinity.Foundation.Maths
         {
             get
             {
-                return 
-                    _from == _to 
-                    &&
-                    // both ends exclusive
-                    _flags == 0;
+                return
+                    // (from, from) - exclisve both ends
+                    (_from == _to && _flags == IntervalFlags.Open)
+                    ||
+                    // [from, from) or (from, from] - one end exclusive
+                    (_from == _to && (_flags == IntervalFlags.LeftClosed || _flags == IntervalFlags.RightClosed))
+                    ||
+                    // [to, from] or (to, from), where to > from
+                    (_from > _to);
             }
         }
+
+        // [from, from] - inclusive both ends
+        public bool IsDegenerate => _from == _to && _flags == IntervalFlags.Closed;
+        public bool IsProper => !IsEmpty && !IsDegenerate;
+        public bool IsOpen => _flags == IntervalFlags.Open;
+        public bool IsClosed => _flags == IntervalFlags.Closed;
 
         static Interval()
         {
@@ -78,7 +90,7 @@ namespace SquaredInfinity.Foundation.Maths
             this._from = inclusiveFrom;            
             this._to = inclusiveTo;
 
-            _flags = IntervalFlags.FromInclusive | IntervalFlags.ToInclusive;
+            _flags = IntervalFlags.Open;
         }
 
         public Interval(double from, bool isFromInclusive, double to, bool isToInclusive)
@@ -86,14 +98,16 @@ namespace SquaredInfinity.Foundation.Maths
             this._from = from;
             this._to = to;
 
-            _flags = IntervalFlags.Exclusive;
-
+            _flags = IntervalFlags.Open;
+            
             if (isFromInclusive)
-                _flags.Set(IntervalFlags.FromInclusive);
+                _flags = _flags.Set(IntervalFlags.LeftClosed);
 
             if (isToInclusive)
-                _flags.Set(IntervalFlags.ToInclusive);
+                _flags = _flags.Set(IntervalFlags.RightClosed);
         }
+
+        #region Contains 
 
         public bool Contains(double value)
         {
@@ -102,35 +116,39 @@ namespace SquaredInfinity.Foundation.Maths
             
                 if(IsFromInclusive)
                 {
-                    if (!value.IsGreaterThanOrClose(From))
+                    if (!value.IsGreaterThanOrClose(_from))
                         return false;
                 }
                 else
                 {
-                    if (!value.IsGreaterThan(From))
+                    if (!value.IsGreaterThan(_from))
                         return false;
                 }
 
             
                 if(IsToInclusive)
                 {
-                    if (!value.IsLessThanOrClose(To))
+                    if (!value.IsLessThanOrClose(_to))
                         return false;
                 }
                 else
                 {
-                    if (!value.IsLessThan(To))
+                    if (!value.IsLessThan(_to))
                         return false;
                 }
 
             return true;
         }
 
+        #endregion
+
+        #region Expand
+
         /// <summary>
         /// Expands current interval exactly to fit provided interval.
         /// </summary>
         /// <param name="other"></param>
-        public void Union(Interval other)
+        public void Expand(Interval other)
         {
             if (other._from < _from)
                 _from = other._from;
@@ -138,5 +156,147 @@ namespace SquaredInfinity.Foundation.Maths
             if (other._to > _to)
                 _to = other._to;
         }
+
+        #endregion
+
+        #region Union
+
+        /// <summary>
+        /// The union of two intervals is an interval if and only if they have a non - empty intersection or an open end - point of one interval is a closed end-point of the other
+        /// (e.g. (a, b) \cup[b, c] = (a, c]).
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        //public static Interval Union(Interval a, Interval b)
+        //{
+
+        //}
+
+        #endregion
+
+        #region Intersection
+
+        public Interval Intersect(Interval b)
+        {
+            return Intersect(this, b);
+        }
+
+        public static Interval Intersect(Interval a, Interval b)
+        {
+            if (a.IsEmpty || b.IsEmpty)
+                return Interval.Empty;
+
+            var a_from = new IntervalEdge(a._from, a.IsFromInclusive);
+            var b_from = new IntervalEdge(b._from, b.IsFromInclusive);
+
+            var a_to = new IntervalEdge(a._to, a.IsToInclusive);
+            var b_to = new IntervalEdge(b._to, b.IsToInclusive);
+
+            var from = MathEx.Max(a_from, b_from);
+            var to = MathEx.Min(a_to, b_to);
+
+            return new Interval(from.Value, from.IsClosed, to.Value, to.IsClosed);
+        }
+
+        public bool IntersectsWith(Interval other)
+        {
+            if (this.IsEmpty || other.IsEmpty)
+                return false;
+
+            if(other.IsFromInclusive)
+            {
+                if (Contains(other._from))
+                    return true;
+            }
+            else
+            {
+                if (other._from.IsGreaterThan(_from) && other._from.IsLessThan(_to))
+                    return true;
+            }
+
+            if (other.IsToInclusive)
+            {
+                if (Contains(other._to))
+                    return true;
+            }
+            else
+            {
+                if (other._to.IsGreaterThan(_from) && other._to.IsLessThan(_to))
+                    return true;
+            }
+
+            return false;
+        }
+
+        #endregion
+
+        #region Equality + HashCode
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+
+                hash = hash * 23 + Flags.GetHashCode();
+                hash = hash * 23 + From.GetHashCode();
+                hash = hash * 23 + To.GetHashCode();
+
+                return hash;
+            }
+        }
+
+        public override bool Equals(object other)
+        {
+            if (!(other is Interval))
+                return false;
+
+            return this.Equals((Interval) other);
+        }
+
+        public bool Equals(Interval other)
+        {
+            return
+                Enum.Equals(Flags, other.Flags)
+                &&
+                double.Equals(From, other.From)
+                &&
+                double.Equals(To, other.To);
+        }
+
+        public static bool operator ==(Interval a, Interval b)
+        {
+            return Interval.Equals(a, b);
+        }
+
+        public static bool operator !=(Interval a, Interval b)
+        {
+            return !Interval.Equals(a, b);
+        }
+
+        #endregion
+
+        #region To String + Debugger Display
+
+        public string DebuggerDisplay
+        {
+            get { return ToString(); }
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            sb.Append(IsFromInclusive ? "[" : "(");
+            sb.Append(_from);
+            sb.Append(",");
+            sb.Append(_to);
+            sb.Append(IsToInclusive ? "]" : ")");
+
+            return sb.ToString();
+        }
+
+        #endregion
     }
 }
