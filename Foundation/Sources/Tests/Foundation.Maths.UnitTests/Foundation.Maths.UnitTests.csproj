@@ -66,6 +66,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <EmbeddedResource Include="Parsing\SamplePerLine__ValidInput.txt" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Statistics\OnlineStatistics.cs" />
     <Compile Include="Statistics\Range.tests.cs" />
@@ -73,14 +74,31 @@
     <Compile Include="TestSamples.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Foundation.Core\Foundation.Core.csproj">
+      <Project>{4ed231bf-b533-4842-9b80-b0f30e360ead}</Project>
+      <Name>Foundation.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Foundation.Graphics.Core\Foundation.Graphics.Core.csproj">
+      <Project>{03fa2790-6cb6-4ed0-a2b9-8a6cf8b958be}</Project>
+      <Name>Foundation.Graphics.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\Foundation.Maths.Core\Foundation.Maths.Core.csproj">
       <Project>{3d68571e-52ca-481b-b2b6-e22e5c214cb6}</Project>
       <Name>Foundation.Maths.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Foundation.Maths.Statistics.Core\Foundation.Maths.Statistics.Core.csproj">
+      <Project>{e35dabdd-0af8-4753-a747-1fb0f2963e00}</Project>
+      <Name>Foundation.Maths.Statistics.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DotNet45\Foundation.Presentation.Xaml.DotNet45\Foundation.Presentation.Xaml.DotNet45.csproj">
+      <Project>{48e58f39-a7b8-44d9-afbf-7985e42208c9}</Project>
+      <Name>Foundation.Presentation.Xaml.DotNet45</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <Compile Include="Parsing\SamplePerLineParser.tests.cs" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -11,7 +11,13 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
         /// <summary>
         /// Uses Online Algorithm for calculating Variance
         /// https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Online_algorithm
+        /// This algorithm should be able to handle large amount of samples, but some accuracy of the result may be lost due to rounding.
         /// </summary>
-        Online
+        Online,
+        /// <summary>
+        /// Keeps the sum of all samples and uses that sum to calculate Variance.
+        /// Using this algorithm may cause double overflow with large amount of samples used.2
+        /// </summary>
+        SumsAndSumSquares,
     }
 }

@@ -49,6 +49,9 @@
     <Compile Include="Int32Interval.cs" />
     <Compile Include="Interval.cs" />
     <Compile Include="Framework Extensions\System\Double.extensions.cs" />
+    <Compile Include="Parsing\ISamplesParser.cs" />
+    <Compile Include="Parsing\SamplePerLineParser.cs" />
+    <Compile Include="Parsing\SamplesParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IntervalFlags.cs" />
     <Compile Include="RandomNumbers\DotNetRandomNumberProvider.cs" />
