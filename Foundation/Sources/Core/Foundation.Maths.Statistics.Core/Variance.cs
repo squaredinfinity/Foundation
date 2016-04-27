@@ -75,6 +75,8 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
 
             if (algorithm == VarianceAlgorithm.Online)
                 partial_variance_info = M1M2_OnlineAlgorithm(samples);
+            else if (algorithm == VarianceAlgorithm.SumsAndSumSquares)
+                partial_variance_info = M1M2_SumsAndSquares(samples);
             else
                 throw new NotSupportedException($"{algorithm} is not supported");
 
@@ -84,6 +86,25 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
                 partial_variance_info.M2Denominator = (samples.Count - 1);
 
             return partial_variance_info;
+        }
+
+        static VarianceInfo M1M2_SumsAndSquares(IReadOnlyList<double> samples)
+        {
+            // sum of samples
+            var sum_x = 0.0;
+
+            // sum of sample squares
+            var sum_x2 = 0.0;
+            
+            for(int i = 0; i < samples.Count; i++)
+            {
+                sum_x += samples[i];
+                sum_x2 += samples[i] * samples[i];
+            }
+
+            var m2 = sum_x2 - ((sum_x * sum_x) / samples.Count);
+
+            return new VarianceInfo(samples.Count, sum_x / samples.Count, m2, double.NaN);
         }
 
         static VarianceInfo M1M2_OnlineAlgorithm(IReadOnlyList<double> samples)
@@ -100,8 +121,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
                 M2 += delta * (x - M1);
             }
 
-            var result = new VarianceInfo(M1, M2, double.NaN);
-            return result;
+            return new VarianceInfo(samples.Count, M1, M2, double.NaN);
         }
 
         #region Observable Implementation
@@ -227,6 +247,29 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
                 var delta = x - m1m2.M1;
                 m1m2.M1 += delta / m1m2.Count;
                 m1m2.M2 += delta * (x - m1m2.M1);
+
+                return m1m2;
+            });
+        }
+
+        static IObservable<VarianceInfo> M1M2_SumsAndSquares(IObservable<double> samples)
+        {
+            // sum of samples
+            var sum_x = 0.0;
+
+            // sum of sample squares
+            var sum_x2 = 0.0;
+
+            var m1m2 = new VarianceInfo();
+
+            return samples.Select(x =>
+            {
+                sum_x += x;
+                sum_x2 += x * x;
+
+                m1m2.Count++;
+                m1m2.M1 = sum_x / m1m2.Count;
+                m1m2.M2 = ((sum_x * sum_x) / m1m2.Count);
 
                 return m1m2;
             });

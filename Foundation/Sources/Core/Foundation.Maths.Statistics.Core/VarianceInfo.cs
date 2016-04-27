@@ -38,9 +38,9 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
             }
         }
 
-        public VarianceInfo(double m1, double m2, double m2Denominator)
+        public VarianceInfo(long count, double m1, double m2, double m2Denominator)
         {
-            this._count = 0;
+            this._count = count;
             this._m1 = m1;
             this._m2 = m2;
             this._m2Denominator = m2Denominator;
@@ -48,7 +48,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
 
         static VarianceInfo()
         {
-            NaN = new VarianceInfo(double.NaN, double.NaN, double.NaN);
+            NaN = new VarianceInfo(0, double.NaN, double.NaN, double.NaN);
         }
 
         public static implicit operator double(VarianceInfo vi)

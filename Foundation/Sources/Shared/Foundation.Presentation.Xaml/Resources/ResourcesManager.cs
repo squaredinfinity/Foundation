@@ -197,17 +197,35 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
         }
 
         /// <summary>
-        /// 
+        /// Retrives a resource with specified relative name from this assembly.
+        /// NOTE: this only works when AssemblyName is the same as the default namespace 
+        /// (e.g. Assembly Name is MyAssembly and default namespace is also MyAssembly)
+        /// If that's not the case then use overload with full name
         /// </summary>
         /// <param name="resourceName">name relative to assembly (e.g. Reosurces.MyResource.xml)</param>
         /// <returns></returns>
-        public static Stream LoadEmbeddedResourceFromThisAssembly(string resourceName)
+        public static Stream LoadEmbeddedResourceFromThisAssembly(string relativeResourceName)
         {
             var asm = Assembly.GetCallingAssembly();
 
             var asm_name = asm.GetName().Name;
 
-            var resource_full_name = "{0}.{1}".FormatWith(asm_name, resourceName);
+            var resource_full_name = "{0}.{1}".FormatWith(asm_name, relativeResourceName);
+
+            return asm.GetManifestResourceStream(resource_full_name);
+        }
+
+        /// <summary>
+        /// Retrives a resource with specified full name from this assembly.
+        /// </summary>
+        /// <param name="resourceNamespace">namespace of the resource (e.g. MyNamespace.Reosurces)</param>
+        /// <param name="resourceName">name of the resource (e.g. MyResource.xml)</param>
+        /// <returns></returns>
+        public static Stream LoadEmbeddedResourceFromThisAssembly(string resourceNamespace, string resourceName)
+        {
+            var asm = Assembly.GetCallingAssembly();
+            
+            var resource_full_name = "{0}.{1}".FormatWith(resourceNamespace, resourceName);
 
             return asm.GetManifestResourceStream(resource_full_name);
         }

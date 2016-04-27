@@ -51,6 +51,9 @@
     <Compile Include="Framework Extensions\System\Double.extensions.cs" />
     <Compile Include="IntervalEdge.cs" />
     <Compile Include="MathEx.cs" />
+    <Compile Include="Parsing\ISamplesParser.cs" />
+    <Compile Include="Parsing\SamplePerLineParser.cs" />
+    <Compile Include="Parsing\SamplesParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IntervalFlags.cs" />
     <Compile Include="RandomNumbers\DotNetRandomNumberProvider.cs" />
