@@ -77,6 +77,8 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
                 partial_variance_info = M1M2_OnlineAlgorithm(samples);
             else if (algorithm == VarianceAlgorithm.SumsAndSumSquares)
                 partial_variance_info = M1M2_SumsAndSquares(samples);
+            else if (algorithm == VarianceAlgorithm.SumsAndSumSquaresWithShift)
+                partial_variance_info = M1M2_SumsAndSumSquaresWithShift(samples);
             else
                 throw new NotSupportedException($"{algorithm} is not supported");
 
@@ -88,40 +90,97 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
             return partial_variance_info;
         }
 
+        /// <summary>
+        /// https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Na.C3.AFve_algorithm
+        /// </summary>
+        /// <param name="samples"></param>
+        /// <returns></returns>
         static VarianceInfo M1M2_SumsAndSquares(IReadOnlyList<double> samples)
         {
+            //  NOTE:
+            //          Calculations performed on decimals to maximize precision
+            //          With many samples sum could become very large
+            //          this could lead to loss of low-order bits from small numbers added to it
+            //          Here decimal type is used to extend available storage space for each number
+            //          Alternatively Kahan summation algorithm could be used to keep track of accumulated summation errors
+            //          https://en.wikipedia.org/wiki/Kahan_summation_algorithm
+            //  ALGORITHM:
+            //          Calculate sum of all data points:  \sum_0^n  x_{i} 
+            //          Calculate sum of squares of data points:  \sum_0^n  x_{i}^2 
+
             // sum of samples
-            var sum_x = 0.0;
+            var sum_x = 0.0M;
 
             // sum of sample squares
-            var sum_x2 = 0.0;
+            var sum_x2 = 0.0M;
             
             for(int i = 0; i < samples.Count; i++)
             {
-                sum_x += samples[i];
-                sum_x2 += samples[i] * samples[i];
+                sum_x += (decimal)samples[i];
+                sum_x2 += (decimal)samples[i] * (decimal)samples[i];
             }
 
             var m2 = sum_x2 - ((sum_x * sum_x) / samples.Count);
 
-            return new VarianceInfo(samples.Count, sum_x / samples.Count, m2, double.NaN);
+            return new VarianceInfo(samples.Count, (double)(sum_x / samples.Count), (double)m2, double.NaN);
         }
 
+        /// <summary>
+        /// https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Na.C3.AFve_algorithm
+        /// </summary>
+        /// <param name="samples"></param>
+        /// <param name="shift">the value of shift (k) to use. If not specified the shift will be automatically applied from underlying data.</param>
+        /// <returns></returns>
+        static VarianceInfo M1M2_SumsAndSumSquaresWithShift(IReadOnlyList<double> samples, double shift = double.NaN)
+        { 
+            // sum of samples
+            var sum_x = 0.0M;
+
+            // sum of sample squares
+            var sum_x2 = 0.0M;
+
+            var k = shift;
+
+            for (int i = 0; i < samples.Count; i++)
+            {
+                if (double.IsNaN(samples[i]))
+                    continue;
+
+                if (double.IsNaN(k))
+                    k = samples[i];                    
+
+                sum_x =+ (decimal)samples[i] - (decimal)k;
+                sum_x2 += ((decimal)samples[i] - (decimal)k) * ((decimal)samples[i] - (decimal)k);
+            }
+
+            var m2 = sum_x2 - ((sum_x * sum_x) / samples.Count);
+
+            return new VarianceInfo(samples.Count, (double)(sum_x / samples.Count), (double)m2, double.NaN);
+        }
+
+        /// <summary>
+        /// https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Online_algorithm
+        /// </summary>
+        /// <param name="samples"></param>
+        /// <returns></returns>
         static VarianceInfo M1M2_OnlineAlgorithm(IReadOnlyList<double> samples)
         {
-            var M1 = 0.0;
-            var M2 = 0.0;
+            var M1 = 0.0M;
+            var M2 = 0.0M;
 
             for (var n = 0; n < samples.Count;)
             {
                 var x = samples[n];
                 n++;
-                var delta = x - M1;
-                M1 += delta / n;
-                M2 += delta * (x - M1);
+
+                var delta = (decimal)x - M1; // deviation of this value from known sample mean
+
+                M1 += delta / n; // update known sample mean to include this value
+
+                M2 += delta * ((decimal)x - M1);
             }
 
-            return new VarianceInfo(samples.Count, M1, M2, double.NaN);
+            return new VarianceInfo(samples.Count, (double)M1, (double)M2, double.NaN);
         }
 
         #region Observable Implementation

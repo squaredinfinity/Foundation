@@ -90,5 +90,16 @@ namespace SquaredInfinity.Foundation.Extensions
 
             return search_origin;
         }
+
+        /// <summary>
+        /// Returns digit at specified position.
+        /// </summary>
+        /// <param name="number"></param>
+        /// <param name="position">the position of digit to return. units position is 0, tens position is 1, hunderets position is 2 etc.</param>
+        /// <returns></returns>
+        public static int DigitAt(this Int32 number, uint position)
+        {
+            return (number / (int)Math.Pow(10, position)) % 10;
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace SquaredInfinity.Foundation.Maths.Parsing
     /// </summary>
     public class SamplePerLineParser : SamplesParser
     {
-        protected override IEnumerable<double> DoParseSamples(Stream input)
+        protected override IEnumerable<double> DoParse(Stream input)
         {
             using (var sr = new StreamReader(input))
             {

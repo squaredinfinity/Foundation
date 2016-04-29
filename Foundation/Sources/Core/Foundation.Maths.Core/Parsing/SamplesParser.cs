@@ -9,11 +9,11 @@ namespace SquaredInfinity.Foundation.Maths.Parsing
 {
     public abstract class SamplesParser : ISamplesParser
     {
-        public IEnumerable<double> ParseSamples(Stream input)
+        public IEnumerable<double> Parse(Stream input)
         {
-            return DoParseSamples(input);   
+            return DoParse(input);   
         }
 
-        protected abstract IEnumerable<double> DoParseSamples(Stream input);
+        protected abstract IEnumerable<double> DoParse(Stream input);
     }
 }

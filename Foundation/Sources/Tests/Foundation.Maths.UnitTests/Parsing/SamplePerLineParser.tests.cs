@@ -18,7 +18,7 @@ namespace SquaredInfinity.Foundation.Maths.Parsing
             var sample_stream = ResourcesManager.LoadEmbeddedResourceFromThisAssembly(@"SquaredInfinity.Foundation.Maths.Parsing", "SamplePerLine__ValidInput.txt");
 
             var parser = new SamplePerLineParser();
-            var samples = parser.ParseSamples(sample_stream);
+            var samples = parser.Parse(sample_stream);
 
             var samples_array = samples.ToArray();
 

@@ -9,6 +9,6 @@ namespace SquaredInfinity.Foundation.Maths.Parsing
 {
     public interface ISamplesParser
     {
-        IEnumerable<double> ParseSamples(Stream input);
+        IEnumerable<double> Parse(Stream input);
     }
 }
