@@ -113,7 +113,7 @@ namespace SquaredInfinity.Foundation.Extensions
 
             if (fElement != null)
             {
-                if(!fElement.ActualHeight.IsCloseTo(visualSize.Height) || !fElement.ActualWidth.IsCloseTo(visualSize.Width))
+                if (!fElement.ActualHeight.IsCloseTo(visualSize.Height) || !fElement.ActualWidth.IsCloseTo(visualSize.Width))
                 {
                     old_size = new Size(fElement.Width, fElement.Height);
 
@@ -148,8 +148,16 @@ namespace SquaredInfinity.Foundation.Extensions
             {
                 fElement.Width = old_size.Value.Width;
                 fElement.Height = old_size.Value.Height;
-                fElement.Arrange(new Rect(new Size));
-                fElement.UpdateLayout();
+
+                if (old_size.Value.Width.IsInfinityOrNaN() || old_size.Value.Height.IsInfinityOrNaN())
+                {
+                    fElement.InvalidateVisual();
+                }
+                else
+                {
+                    fElement.Arrange(new Rect(old_size.Value));
+                    fElement.UpdateLayout();
+                }
             }
 
             return rtb;
