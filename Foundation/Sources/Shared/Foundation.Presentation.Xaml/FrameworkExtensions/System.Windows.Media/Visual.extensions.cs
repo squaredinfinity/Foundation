@@ -22,6 +22,19 @@ namespace SquaredInfinity.Foundation.Extensions
 
         public static BitmapSource RenderToBitmap(
             this Visual visual,
+            Size size,
+            FlowDirection flowDirection = FlowDirection.LeftToRight,
+            double dpiX = 96.0,
+            double dpiY = 96.0)
+        {
+            if (visual == null)
+                throw new ArgumentException("visual");
+
+            return visual.RenderToBitmap(size, new Point(0, 0), size, PixelFormats.Pbgra32);
+        }
+
+        public static BitmapSource RenderToBitmap(
+            this Visual visual,
             PixelFormat pixelFormat,
             FlowDirection flowDirection = FlowDirection.LeftToRight,
             double dpiX = 96.0,
@@ -94,6 +107,23 @@ namespace SquaredInfinity.Foundation.Extensions
 
             var dv = new DrawingVisual();
 
+            // size visual if needed
+            var fElement = visual as FrameworkElement;
+            var old_size = (Size?)null;
+
+            if (fElement != null)
+            {
+                if(!fElement.ActualHeight.IsCloseTo(visualSize.Height) || !fElement.ActualWidth.IsCloseTo(visualSize.Width))
+                {
+                    old_size = new Size(fElement.Width, fElement.Height);
+
+                    fElement.Width = visualSize.Width;
+                    fElement.Height = visualSize.Height;
+                    fElement.Arrange(new Rect(visualSize));
+                    fElement.UpdateLayout();
+                }
+            }
+
             using (var ctx = dv.RenderOpen())
             {
                 var vb = new VisualBrush(visual);
@@ -113,6 +143,14 @@ namespace SquaredInfinity.Foundation.Extensions
             }
 
             rtb.Render(dv);
+
+            if (fElement != null && old_size != null)
+            {
+                fElement.Width = old_size.Value.Width;
+                fElement.Height = old_size.Value.Height;
+                fElement.Arrange(new Rect(new Size));
+                fElement.UpdateLayout();
+            }
 
             return rtb;
         }
