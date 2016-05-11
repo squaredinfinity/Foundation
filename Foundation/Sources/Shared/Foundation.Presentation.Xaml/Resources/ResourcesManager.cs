@@ -27,6 +27,19 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
             XamlResourcesImporter.ImportAnLoadAllResources(compositionService);
         }
 
+        #region Load Compiled Resource Dictionary
+
+        public static ResourceDictionary LoadCompiledResourceDictionaryFromThisAssembly(string resourceDictionaryRelativeUri)
+        {
+            string assemblyName = Assembly.GetCallingAssembly().FullName.Substring(@"[^\s,]*");
+
+            var uri = new Uri("{0};component/{1}".FormatWith(assemblyName, resourceDictionaryRelativeUri), UriKind.Relative);
+
+            var resourceDictionary = LoadCompiledResourceDictionary(uri);
+
+            return resourceDictionary;
+        }
+
         /// <summary>
         /// Loads a compiled (BAML) resource dictionary.
         /// </summary>
@@ -47,6 +60,10 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
 
             return result;
         }
+
+        #endregion
+
+        #region Load And Merge Complied Resource Dictionary
 
         /// <summary>
         /// Loads a compiled (BAML) resource dictionary and merges it with current Application dictionaries
@@ -75,6 +92,15 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
             }
         }
 
+        public static void LoadAndMergeCompiledResourceDictionaryFromThisAssembly(string resourceDictionaryRelativeUri)
+        {
+            string assemblyName = Assembly.GetCallingAssembly().FullName.Substring(@"[^\s,]*");
+
+            LoadAndMergeCompiledResourceDictionaryFromAssembly(assemblyName, resourceDictionaryRelativeUri);
+        }
+
+        #endregion
+
         public static void MergeResourceDictionary(ResourceDictionary dict)
         {
             Application.Current.Resources.MergedDictionaries.Add(dict);
@@ -89,13 +115,6 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
             {
                 MergeResourceDictionary(md);
             }
-        }
-
-        public static void LoadAndMergeCompiledResourceDictionaryFromThisAssembly(string resourceDictionaryRelativeUri)
-        {
-            string assemblyName = Assembly.GetCallingAssembly().FullName.Substring(@"[^\s,]*");
-
-            LoadAndMergeCompiledResourceDictionaryFromAssembly(assemblyName, resourceDictionaryRelativeUri);
         }
 
         /// <summary>
@@ -120,6 +139,8 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
             }
             return result;
         }
+
+        #region Load And Merge Resource Dictionary
 
         /// <summary>
         /// Loads the and merge resource dictionary.
@@ -157,6 +178,8 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
             LoadAndMergeResourceDictionaryFromAssembly(assemblyName, resourceDictionaryRelativeUri);
         }
 
+        #endregion
+
         public static bool CheckResourceExists(Uri resourceUri)
         {
             try
@@ -171,30 +194,7 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
             }
         }
 
-        /// <summary>
-        /// Loads the resource.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="resourceUri">The resource URI.</param>
-        /// <returns></returns>
-        public static T LoadResource<T>(string resourceUri)
-            where T : class
-        {
-            var resourceInfo = Application.GetResourceStream(new Uri(resourceUri, UriKind.Relative));
-            using (StreamReader reader = new StreamReader(resourceInfo.Stream))
-            {
-                string xaml = reader.ReadToEnd();
-                if (!string.IsNullOrEmpty(xaml))
-                {
-#if SILVERLIGHT
-                    return XamlReader.Load(xaml) as T;
-#else
-                    return XamlServices.Parse(xaml) as T;
-#endif
-                }
-            }
-            return null;
-        }
+        #region Load Embedded Resrouce
 
         /// <summary>
         /// Retrives a resource with specified relative name from this assembly.
@@ -230,6 +230,35 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
             return asm.GetManifestResourceStream(resource_full_name);
         }
 
+        #endregion Load Embedded Resource
+
+        #region Load Resource
+
+        /// <summary>
+        /// Loads the resource.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="resourceUri">The resource URI.</param>
+        /// <returns></returns>
+        public static T LoadResource<T>(string resourceUri)
+            where T : class
+        {
+            var resourceInfo = Application.GetResourceStream(new Uri(resourceUri, UriKind.Relative));
+            using (StreamReader reader = new StreamReader(resourceInfo.Stream))
+            {
+                string xaml = reader.ReadToEnd();
+                if (!string.IsNullOrEmpty(xaml))
+                {
+#if SILVERLIGHT
+                    return XamlReader.Load(xaml) as T;
+#else
+                    return XamlServices.Parse(xaml) as T;
+#endif
+                }
+            }
+            return null;
+        }
+
         /// <summary>
         /// Loads the resource from ResourceDictionary specified by uri.
         /// </summary>
@@ -251,6 +280,8 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
             return result;
         }
 
+        #endregion
+
         /// <summary>
         /// registeres pack uri scheme - use this when main application is a console app or unit test runner and not real wpf app
         /// </summary>
@@ -259,6 +290,8 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
             //! creating instance of Application class will register pack uri scheme
             var ignored = new System.Windows.Application();
         }
+
+        #region Load Image
 
         public static ImageSource LoadImage(Uri resourceUri)
         {
@@ -280,6 +313,10 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
 
             return new BitmapImage(uri);
         }
+
+        #endregion
+
+        #region Load Resource
 
         public static T LoadResourceFromAssembly<T>(string assemblyName, string resourceDictionaryRelativeUri)
             where T : class
@@ -308,6 +345,10 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
             string assemblyName = Assembly.GetCallingAssembly().FullName.Substring(@"[^\s,]*");
             return LoadResource<T>("{0};component/{1}".FormatWith(assemblyName, resourceRelativeUri));
         }
+
+        #endregion
+
+        #region Get Absolute Uri
 
         /// <summary>
         /// Gets the absolute resource url for resource in this application.
@@ -351,5 +392,7 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
 
             return new Uri(uri, UriKind.Absolute);
         }
+
+        #endregion
     }
 }
