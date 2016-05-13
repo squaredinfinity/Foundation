@@ -9,36 +9,37 @@ namespace SquaredInfinity.Foundation.Extensions
 {
     public static class IEnumerableExtensions
     {
-        //public static IEnumerable<T> TreeTraversal<T>(this IEnumerable<T> list)
-        //{
-        //    return list.TreeTraversal(TreeTraversalMode.Default);
-        //}
+        public static IEnumerable<T> TreeTraversal<T>(this IEnumerable<T> list)
+        {
+            return list.TreeTraversal(TreeTraversalMode.Default);
+        }
 
-        //public static IEnumerable<TTreeNode> TreeTraversal<TTreeNode>(
-        //    this IEnumerable<TTreeNode> list,
-        //    TreeTraversalMode traversalMode)
-        //{
-        //    //  if list is of T type itself (e.g. it's a node in a tree hierarchy)
-        //    //  then process the list itself
-        //    if (list.GetType().IsTypeEquivalentTo(typeof(TTreeNode)) || list.GetType().ImplementsOrExtends(typeof(TTreeNode)))
-        //    {
-        //        return ((TTreeNode)list).TreeTraversal(traversalMode, DefaultGetChildrenFunc);
-        //    }
-        //    else
-        //    {
-        //        switch (traversalMode)
-        //        {
-        //            case TreeTraversalMode.BreadthFirst:
-        //                return BreadthFirstTreeTraversalInternal(list, DefaultGetChildrenFunc);
-        //            case TreeTraversalMode.DepthFirst:
-        //                return DepthFirstTreeTraversalInternal(list, DefaultGetChildrenFunc);
-        //            case TreeTraversalMode.BottomUp:
-        //                return BottomUpTreeTraversalInternal(list, DefaultGetChildrenFunc);
-        //        }
+        public static IEnumerable<TTreeNode> TreeTraversal<TTreeNode>(
+            this IEnumerable<TTreeNode> list,
+            TreeTraversalMode traversalMode)
+        {
+            //  if list is of T type itself (e.g. it's a node in a tree hierarchy)
+            //  then process the list itself
+            // NOT SUPPORTED IN CORE:
+            //if (list.GetType().IsTypeEquivalentTo(typeof(TTreeNode)) || list.GetType().ImplementsOrExtends(typeof(TTreeNode)))
+            //{
+            //    return ((TTreeNode)list).TreeTraversal(traversalMode, DefaultGetChildrenFunc);
+            //}
+            //else
+            {
+                switch (traversalMode)
+                {
+                    case TreeTraversalMode.BreadthFirst:
+                        return BreadthFirstTreeTraversalInternal(list, DefaultGetChildrenFunc);
+                    case TreeTraversalMode.DepthFirst:
+                        return DepthFirstTreeTraversalInternal(list, DefaultGetChildrenFunc);
+                    case TreeTraversalMode.BottomUp:
+                        return BottomUpTreeTraversalInternal(list, DefaultGetChildrenFunc);
+                }
 
-        //        return null;
-        //    }
-        //}
+                return null;
+            }
+        }
 
         public static IEnumerable<TTreeNode> DefaultGetChildrenFunc<TTreeNode>(TTreeNode parent)
         {

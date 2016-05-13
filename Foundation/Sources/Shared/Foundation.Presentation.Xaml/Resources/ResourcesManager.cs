@@ -104,17 +104,6 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
         public static void MergeResourceDictionary(ResourceDictionary dict)
         {
             Application.Current.Resources.MergedDictionaries.Add(dict);
-            return;
-
-            foreach (var key in dict.Keys)
-            {
-                Application.Current.Resources[key] = dict[key];
-            }
-
-            foreach(var md in dict.MergedDictionaries)
-            {
-                MergeResourceDictionary(md);
-            }
         }
 
         /// <summary>

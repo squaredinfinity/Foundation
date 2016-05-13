@@ -14,13 +14,29 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
 
         public void ImportAnLoadAllResources(ICompositionService compositionService)
         {
-            compositionService.SatisfyImportsOnce(this);
+            //compositionService.SatisfyImportsOnce(this);
+            var cc = (compositionService as System.ComponentModel.Composition.Hosting.CompositionContainer);
 
-            var providers = XamlResourcesProviders.OrderBy(x => x.Metadata.ImportOrder);
+            var all_providers = cc.GetExports<IXamlResourcesProvider, IXamlResourcesProviderMetadata>();
 
-            foreach (var provider in providers)
+            var z = all_providers.ToArray();
+
+            var providers = z.OrderBy(x => x.Metadata.ImportOrder);
+
+            using (var enumerator = providers.GetEnumerator())
             {
-                provider.Value.LoadAndMergeResources();
+                while(enumerator.MoveNext())
+                {
+                    try
+                    {
+                        InternalTrace.Information($"Importing xaml resources from {enumerator.Current.Value.GetType().FullName}...");
+                        enumerator.Current.Value.LoadAndMergeResources();
+                    }
+                    catch(Exception ex)
+                    {
+                        InternalTrace.Error(ex.ToString());
+                    }
+                }
             }
         }
     }

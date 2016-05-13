@@ -161,11 +161,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\CommandMethodBinding.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\CommandMethodBinding.InvokeMethodCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\CompareMethodBinding.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\LoadImageFromThisAssembly.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\LoadImageFromMainAssembly.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\MethodResultBinding.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\MethodResultBinding.MethodWithParametersResultConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\PredicateMethodBinding.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\PredicateMethodBinding.PredicateMethodConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\ResourceFromThisAssembly.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\SmartBinding.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\StringFormatBinding.cs">
       <SubType>Code</SubType>

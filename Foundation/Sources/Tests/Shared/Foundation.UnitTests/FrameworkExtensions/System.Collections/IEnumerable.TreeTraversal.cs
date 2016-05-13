@@ -7,13 +7,19 @@ using System.Threading.Tasks;
 using SquaredInfinity.Foundation.Extensions;
 using SquaredInfinity.Foundation.Maths.Graphs.Trees;
 
-namespace SquaredInfinity.Foundation.FrameworkExtensions.System.Collections
+namespace SquaredInfinity.Foundation.Extensions
 {
 
     // NOTE:    TreeTraversal methods do not have to be implemented as extension methods (they can be instance methods on type itself)
     //          This here is only to show that TreeTraversal can be used with external types which we cannot extend.
     public static class TreeNodeExtensions
     {
+        public static IEnumerable<IEnumerableExtensions__TreeTraversal.TreeNode> TreeTraversal(
+            this IEnumerableExtensions__TreeTraversal.TreeNode root)
+        {
+            return root.TreeTraversal(TreeTraversalMode.Default);
+        }
+
         public static IEnumerable<IEnumerableExtensions__TreeTraversal.TreeNode> TreeTraversal(
             this IEnumerableExtensions__TreeTraversal.TreeNode root,
             TreeTraversalMode traversalMode)
