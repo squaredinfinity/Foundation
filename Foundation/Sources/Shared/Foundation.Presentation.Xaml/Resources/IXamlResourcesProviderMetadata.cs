@@ -9,10 +9,6 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
 {
     public interface IXamlResourcesProviderMetadata
     {
-        /// <summary>
-        /// Default: int.MaxValue => will be loaded last, after any other resources with custom Import Order
-        /// </summary>
-        [DefaultValue(int.MaxValue)]
-        int ImportOrder { get; }
+        uint ImportOrder { get; }
     }
 }

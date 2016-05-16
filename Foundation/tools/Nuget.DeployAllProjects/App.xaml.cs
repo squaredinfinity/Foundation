@@ -25,7 +25,7 @@ namespace Nuget.DeployAllProjects
             compositionContainer.Compose(new CompositionBatch());
 
             //# Import Xaml Resources
-            ResourcesManager.ImportAndLoadAllResources(compositionContainer);
+            ResourcesManager.ImportAndMergeAllResources(compositionContainer);
         }
     }
 }

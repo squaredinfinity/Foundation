@@ -19,12 +19,21 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
     {
         static XamlResourcesImporter XamlResourcesImporter = new XamlResourcesImporter();
 
-        public static void ImportAndLoadAllResources(ICompositionService compositionService)
+
+        public static IEnumerable<ResourceDictionary> ImportAllResources(ICompositionService compositionService)
         {
             if (compositionService == null)
-                throw new ArgumentNullException("compositionService");
+                throw new ArgumentNullException(nameof(compositionService));
 
-            XamlResourcesImporter.ImportAnLoadAllResources(compositionService);
+            return XamlResourcesImporter.ImportAllResources(compositionService, merge: false);
+        }
+
+        public static void ImportAndMergeAllResources(ICompositionService compositionService)
+        {
+            if (compositionService == null)
+                throw new ArgumentNullException(nameof(compositionService));
+
+            var all_resources = XamlResourcesImporter.ImportAllResources(compositionService, merge:true);
         }
 
         #region Load Compiled Resource Dictionary
@@ -69,7 +78,7 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
         /// Loads a compiled (BAML) resource dictionary and merges it with current Application dictionaries
         /// </summary>
         /// <param name="resourceDictionaryUri"></param>
-        public static void LoadAnMergeCompiledResourceDictionary(Uri resourceDictionaryUri)
+        public static void LoadAndMergeCompiledResourceDictionary(Uri resourceDictionaryUri)
         {
             Application.Current.Resources.MergedDictionaries.Add(LoadCompiledResourceDictionary(resourceDictionaryUri));
         }
@@ -101,9 +110,24 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
 
         #endregion
 
-        public static void MergeResourceDictionary(ResourceDictionary dict)
+        public static void MergeResourceDictionary(ResourceDictionary dictionaryToMerge)
         {
-            Application.Current.Resources.MergedDictionaries.Add(dict);
+            MergeResourceDictionary(Application.Current.Resources, dictionaryToMerge);
+        }
+
+        public static void MergeResourceDictionary(ResourceDictionary target, ResourceDictionary dictionaryToMerge)
+        {
+            target.MergedDictionaries.Add(dictionaryToMerge);
+        }
+
+        public static void MergeAllResourceDictionaries(IEnumerable<ResourceDictionary> dictionaries)
+        {
+            MergeAllResourceDictionaries(Application.Current.Resources, dictionaries);
+        }
+
+        public static void MergeAllResourceDictionaries(ResourceDictionary target, IEnumerable<ResourceDictionary> dictionaries)
+        {
+            target.MergedDictionaries.AddRange(dictionaries);
         }
 
         /// <summary>

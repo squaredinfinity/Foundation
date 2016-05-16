@@ -11,25 +11,23 @@ using System.Windows.Media;
 
 namespace SquaredInfinity.Foundation.Presentation
 {
-    [ExportAttribute(typeof(IXamlResourcesProvider))]
-    [XamlResourcesProviderMetadata(ImportOrder = XamlResources.ImportOrder)]
+    [XamlResourcesProviderMetadata()]
     public class XamlResources : IXamlResourcesProvider
     {
-        /// <summary>
-        /// Order is set to int.MinValue so that this resources are imported first
-        /// </summary>
-        public const int ImportOrder = int.MinValue;
+        public const uint ImportOrder = int.MaxValue - 1;
 
-        public void LoadAndMergeResources()
+        public IEnumerable<ResourceDictionary> LoadResources()
         {
             // All resources are loaded from ResroucesDictionary All.xaml located in this assembly
-            ResourcesManager.LoadAndMergeCompiledResourceDictionaryFromThisAssembly(@"Xaml\All.xaml");
-
+            var all = ResourcesManager.LoadCompiledResourceDictionaryFromThisAssembly(@"Xaml\All.xaml");
+            yield return all;
+            
             var data_template_selectors = new SharedResourceDictionary { DictionaryName = "Foundation.DataTemplateSelectors" };
             data_template_selectors.Add("DataTemplateSelectors.TypeNameToResourceKey", new TypeNameToResourceKeyMappingDataTemplateSelector());
             data_template_selectors.Add("DataTemplateSelectors.ContextAware", new ContextAwareDataTemplateSelector());
             data_template_selectors.Add("DataTemplateSelectors.ContextAware.Tooltip", new ContextAwareDataTemplateSelector { IsTooltip = true });
-            ResourcesManager.MergeResourceDictionary(data_template_selectors);
+
+            yield return data_template_selectors;
         }
     }
 }

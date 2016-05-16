@@ -25,7 +25,7 @@ namespace Foundation.Presentation.Xaml.UITests
             compositionContainer.Compose(new CompositionBatch());
 
             //# Import Xaml Resources
-            ResourcesManager.ImportAndLoadAllResources(compositionContainer);
+            ResourcesManager.ImportAndMergeAllResources(compositionContainer);
 
             //# Alternative way to load default SquaredInfinity.Presentation.Foundation resources (without MEF)
             // var resources = new SquaredInfinity.Foundation.Presentation.XamlResources();

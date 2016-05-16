@@ -10,12 +10,15 @@ namespace SquaredInfinity.Foundation
     /// 
     /// </summary>
     /// <remarks>
+    /// MAX: 0
+    /// MIN: int.MaxValue - 1
+    /// UNDEFINED: int.MaxValue
     /// </remarks>
     public struct LogicalOrder : IEquatable<LogicalOrder>, IComparable<LogicalOrder>
     {
         static readonly uint UndefinedValue = int.MaxValue;
 
-        public static readonly LogicalOrder Min = UndefinedValue + 1;
+        public static readonly LogicalOrder Min = UndefinedValue - 1;
         public static readonly LogicalOrder Max = 0;
         public static readonly LogicalOrder Undefined = UndefinedValue;
 
@@ -26,16 +29,16 @@ namespace SquaredInfinity.Foundation
             this.Value = value;
         }
 
-        public void DecreaseBy(uint delta)
+        public LogicalOrder PushBackBy(uint delta)
         {
             // cast to long to avoid int overflow
-            Value = (uint)Math.Min((long) Value + delta, Min);
+            return (uint)Math.Min((long) Value + delta, Min);
         }
 
-        public void IncreaseBy(uint delta)
+        public LogicalOrder BringForwardBy(uint delta)
         {
             // cast to long to avoid overflow
-            Value = (uint)Math.Max((long)Value - delta, Max);
+            return (uint)Math.Max((long)Value - delta, Max);
         }
 
         #region Equality, Hash Code, Comparisons

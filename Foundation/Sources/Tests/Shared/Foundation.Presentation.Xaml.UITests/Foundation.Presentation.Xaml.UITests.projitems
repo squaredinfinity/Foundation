@@ -122,5 +122,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)App.config" />
+    <None Include="$(MSBuildThisFileDirectory)XamlResources.xaml" />
   </ItemGroup>
 </Project>

@@ -13,8 +13,10 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
     {
         public XamlResourcesProviderMetadataAttribute() :
             base(typeof(IXamlResourcesProvider))
-        { }
+        {
+            ImportOrder = (uint)LogicalOrder.Max;
+        }
 
-        public int ImportOrder { get; set; }
+        public uint ImportOrder { get; set; }
     }
 }

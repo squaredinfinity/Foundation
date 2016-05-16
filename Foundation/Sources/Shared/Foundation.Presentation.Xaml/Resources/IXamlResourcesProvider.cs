@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SquaredInfinity.Foundation.Presentation.Resources
 {
     public interface IXamlResourcesProvider
     {
-        void LoadAndMergeResources();
+        IEnumerable<ResourceDictionary> LoadResources();
     }
 }

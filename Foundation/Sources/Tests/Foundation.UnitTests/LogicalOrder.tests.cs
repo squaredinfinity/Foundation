@@ -39,7 +39,7 @@ namespace Foundation.UnitTests
         public void CanDecreasePriority()
         {
             var x = new LogicalOrder(100);
-            x.DecreaseBy(50);
+            x = x.PushBackBy(50);
 
             var y = new LogicalOrder(100);
 
@@ -50,7 +50,7 @@ namespace Foundation.UnitTests
         public void CanIncreasePriority()
         {
             var x = new LogicalOrder(100);
-            x.IncreaseBy(50);
+            x = x.BringForwardBy(50);
 
             var y = new LogicalOrder(100);
 

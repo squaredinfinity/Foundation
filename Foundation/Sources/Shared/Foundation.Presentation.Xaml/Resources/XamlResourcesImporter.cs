@@ -1,36 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SquaredInfinity.Foundation.Presentation.Resources
 {
     internal class XamlResourcesImporter
     {
-        [ImportMany]
-        Lazy<IXamlResourcesProvider, IXamlResourcesProviderMetadata>[] XamlResourcesProviders;
-
-        public void ImportAnLoadAllResources(ICompositionService compositionService)
+        public IEnumerable<ResourceDictionary> ImportAllResources(ICompositionService compositionService, bool merge)
         {
-            //compositionService.SatisfyImportsOnce(this);
+            var result = new List<ResourceDictionary>();
+
             var cc = (compositionService as System.ComponentModel.Composition.Hosting.CompositionContainer);
 
             var all_providers = cc.GetExports<IXamlResourcesProvider, IXamlResourcesProviderMetadata>();
 
-            var z = all_providers.ToArray();
+            var ordered_providers = all_providers.OrderBy(x => x.Metadata.ImportOrder).ToList();
 
-            var providers = z.OrderBy(x => x.Metadata.ImportOrder);
-
-            using (var enumerator = providers.GetEnumerator())
+            using (var enumerator = ordered_providers.GetEnumerator())
             {
                 while(enumerator.MoveNext())
                 {
                     try
                     {
                         InternalTrace.Information($"Importing xaml resources from {enumerator.Current.Value.GetType().FullName}...");
-                        enumerator.Current.Value.LoadAndMergeResources();
+
+                        var resources = enumerator.Current.Value.LoadResources().ToArray();
+
+                        result.AddRange(resources);
+
+                        if(merge)
+                            foreach (var dict in resources)
+                                ResourcesManager.MergeResourceDictionary(dict);
                     }
                     catch(Exception ex)
                     {
@@ -38,6 +43,8 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
                     }
                 }
             }
+
+            return result;
         }
     }
 }

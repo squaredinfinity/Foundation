@@ -3,19 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Text;
+using System.Windows;
 
 namespace SquaredInfinity.Foundation.Presentation.Xaml.UITests
 {
-    [ExportAttribute(typeof(IXamlResourcesProvider))]
     [XamlResourcesProviderMetadata(ImportOrder = XamlResources.ImportOrder)]
     public class XamlResources : IXamlResourcesProvider
     {
         // Import Order is higher than Foundation.Presentation Import Order (on which resources from this assembly may depend)
-        public const int ImportOrder = SquaredInfinity.Foundation.Presentation.XamlResources.ImportOrder + 100;
+        public const uint ImportOrder = SquaredInfinity.Foundation.Presentation.XamlResources.ImportOrder + 100;
 
-        public void LoadAndMergeResources()
+        public IEnumerable<ResourceDictionary> LoadResources()
         {
-            ResourcesManager.LoadAndMergeCompiledResourceDictionaryFromThisAssembly("XamlResources.xaml");
+            yield return ResourcesManager.LoadCompiledResourceDictionaryFromThisAssembly("XamlResources.xaml");
         }
     }
 }
