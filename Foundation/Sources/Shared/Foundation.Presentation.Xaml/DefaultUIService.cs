@@ -11,15 +11,38 @@ namespace SquaredInfinity.Foundation.Presentation
 {
     public class DefaultUIService : UIService
     {
-        readonly Func<ViewHostWindow> GetNewDialogWindow;
-        readonly Func<ViewHostWindow> GetNewToolWindow;
+        readonly Func<ViewHostWindow> CreateNewDialogWindow;
+        readonly Func<ViewHostWindow> CreateNewToolWindow;
 
-        public DefaultUIService(Dispatcher uiDispatcher, Func<ViewHostWindow> getNewDialogWindow, Func<ViewHostWindow> getNewToolWindow)
+        public DefaultUIService(Dispatcher uiDispatcher, Func<ViewHostWindow> createNewDialogWindow, Func<ViewHostWindow> createNewToolWindow)
             : base(uiDispatcher)
         {
-            this.GetNewDialogWindow = getNewDialogWindow;
-            this.GetNewToolWindow = getNewToolWindow;
+            this.CreateNewDialogWindow = createNewDialogWindow;
+            this.CreateNewToolWindow = createNewToolWindow;
         }
+
+        protected ViewHostWindow GetNewDialogWindow()
+        {
+            var window = CreateNewDialogWindow();
+
+            if (window is Window)
+                OnAfterWindowCreated(window as Window);
+
+            return window;
+        }
+
+        protected ViewHostWindow GetNewToolWindow()
+        {
+            var window = CreateNewToolWindow();
+
+            if (window is Window)
+                OnAfterWindowCreated(window as Window);
+
+            return window;
+        }
+
+        protected virtual void OnAfterWindowCreated(Window window)
+        { }
 
         public override IHostAwareViewModel GetDefaultAlertViewModel(string alertMessage, string alertDialogTitle)
         {
@@ -104,6 +127,9 @@ namespace SquaredInfinity.Foundation.Presentation
             else
             {
                 viewHost = getWindow();
+
+                if (viewHost is Window)
+                    OnAfterWindowCreated(viewHost as Window);
             }
 
             viewHost.Owner = Application.Current.MainWindow;
@@ -167,6 +193,9 @@ namespace SquaredInfinity.Foundation.Presentation
             else
             {
                 viewHost = getWindow();
+
+                if (viewHost is Window)
+                    OnAfterWindowCreated(viewHost as Window);
             }
 
             viewHost.Owner = Application.Current.MainWindow;
