@@ -50,7 +50,7 @@ namespace SquaredInfinity.Foundation
 #if DEBUG
             Switch = new SourceSwitch(Name, "Information");
 #else
-            Switch = new SourceSwitch(Name, "Error");
+            Switch = new SourceSwitch(Name, "Warning");
 #endif
 #endif
         }
@@ -178,13 +178,35 @@ namespace SquaredInfinity.Foundation
             ProcessDiagnosticEvent(TraceEventType.Information, getMessage);
         }
 
-#endregion
+        #endregion
+
+        public static void Verbose(string message)
+        {
+#if !CORE
+            if (!Switch.ShouldTrace(TraceEventType.Verbose))
+                return;
+#endif
+
+            ProcessDiagnosticEvent(TraceEventType.Verbose, message);
+        }
+
+        public static void Verbose(Func<string> getMessage)
+        {
+#if !CORE
+            if (!Switch.ShouldTrace(TraceEventType.Verbose))
+                return;
+#endif
+
+            ProcessDiagnosticEvent(TraceEventType.Verbose, getMessage);
+        }
 
         static void ProcessDiagnosticEvent(TraceEventType type, string message, Exception ex = null)
         {
             var prefix = "";
 
-            if (type == TraceEventType.Information)
+            if (type == TraceEventType.Verbose)
+                prefix = "VERBOSE: ";
+            else if (type == TraceEventType.Information)
                 prefix = "INFORMATION: ";
             else if (type == TraceEventType.Warning)
                 prefix = "WARNNING: ";

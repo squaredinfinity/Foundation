@@ -34,6 +34,7 @@
     <LicenseUrl>
     </LicenseUrl>
     <Tags>SquaredInfinity Cache</Tags>
+    <EmbedSourceFiles>true</EmbedSourceFiles>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sources\DotNet45\Foundation.Cache.DotNet45\Foundation.Cache.DotNet45.csproj" />

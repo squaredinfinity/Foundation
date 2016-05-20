@@ -10,13 +10,11 @@
 
     EACH PROJECT REFERENCED BY NUGETS MUST REFERENCE PACKAGE NuProj.Common
   -->
-  
   <PropertyGroup>
     <AssemblyInfoPath>$(SolutionDir)\Sources\shared\Internal\AssemblyInfo.data.shared.cs</AssemblyInfoPath>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.build\nuget-default-config.targets" />
   <Import Project="$(SolutionDir)\.build\nuget-deployment.targets" />
-
   <PropertyGroup Label="Globals">
     <ProjectGuid>bc10a352-40a2-4451-91e4-c75cf8fb42f4</ProjectGuid>
   </PropertyGroup>
@@ -36,6 +34,7 @@
     <LicenseUrl>
     </LicenseUrl>
     <Tags>SquaredInfinity Data</Tags>
+    <EmbedSourceFiles>true</EmbedSourceFiles>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sources\DotNet45\Foundation.Data.DotNet45\Foundation.Data.DotNet45.csproj" />

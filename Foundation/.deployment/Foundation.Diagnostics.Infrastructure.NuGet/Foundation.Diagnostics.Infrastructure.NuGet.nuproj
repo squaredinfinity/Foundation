@@ -36,6 +36,7 @@
     </LicenseUrl>
     <Tags>
     </Tags>
+    <EmbedSourceFiles>true</EmbedSourceFiles>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sources\DotNet45\Foundation.Diagnostics.Infrastructure.DotNet45\Foundation.Diagnostics.Infrastructure.DotNet45.csproj" />

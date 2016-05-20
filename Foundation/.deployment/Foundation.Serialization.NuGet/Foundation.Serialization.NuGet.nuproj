@@ -10,13 +10,11 @@
 
     EACH PROJECT REFERENCED BY NUGETS MUST REFERENCE PACKAGE NuProj.Common
   -->
-  
   <PropertyGroup>
     <AssemblyInfoPath>$(SolutionDir)\Sources\shared\Internal\AssemblyInfo.serialization.shared.cs</AssemblyInfoPath>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.build\nuget-default-config.targets" />
   <Import Project="$(SolutionDir)\.build\nuget-deployment.targets" />
-
   <PropertyGroup Label="Globals">
     <ProjectGuid>91e1e547-e670-409b-91a4-801951b45594</ProjectGuid>
   </PropertyGroup>
@@ -38,6 +36,7 @@
     </LicenseUrl>
     <Tags>
     </Tags>
+    <EmbedSourceFiles>true</EmbedSourceFiles>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sources\DotNet45\Foundation.Serialization.DotNet45\Foundation.Serialization.DotNet45.csproj" />

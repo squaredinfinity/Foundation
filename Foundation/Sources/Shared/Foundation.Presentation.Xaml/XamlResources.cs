@@ -22,7 +22,7 @@ namespace SquaredInfinity.Foundation.Presentation
             var all = ResourcesManager.LoadCompiledResourceDictionaryFromThisAssembly(@"Xaml\All.xaml");
             yield return all;
             
-            var data_template_selectors = new SharedResourceDictionary { DictionaryName = "Foundation.DataTemplateSelectors" };
+            var data_template_selectors = new SharedResourceDictionary { UniqueName = "Foundation.DataTemplateSelectors" };
             data_template_selectors.Add("DataTemplateSelectors.TypeNameToResourceKey", new TypeNameToResourceKeyMappingDataTemplateSelector());
             data_template_selectors.Add("DataTemplateSelectors.ContextAware", new ContextAwareDataTemplateSelector());
             data_template_selectors.Add("DataTemplateSelectors.ContextAware.Tooltip", new ContextAwareDataTemplateSelector { IsTooltip = true });

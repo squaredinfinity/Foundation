@@ -17,11 +17,16 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
 
             var cc = (compositionService as System.ComponentModel.Composition.Hosting.CompositionContainer);
 
-            var all_providers = cc.GetExports<IXamlResourcesProvider, IXamlResourcesProviderMetadata>();
+            var providers_with_metadata = cc.GetExports<IXamlResourcesProvider, IXamlResourcesProviderMetadata>();
 
-            var ordered_providers = all_providers.OrderBy(x => x.Metadata.ImportOrder).ToList();
+            var ordered_providers = providers_with_metadata.OrderBy(x => x.Metadata.ImportOrder).ToList();
 
-            using (var enumerator = ordered_providers.GetEnumerator())
+            var providers_no_metadata = cc.GetExports<IXamlResourcesProvider>();
+
+            var all_providers =
+                ordered_providers.Concat(providers_no_metadata).Distinct();
+
+            using (var enumerator = all_providers.GetEnumerator())
             {
                 while(enumerator.MoveNext())
                 {

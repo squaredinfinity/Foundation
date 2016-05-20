@@ -10,13 +10,11 @@
 
     EACH PROJECT REFERENCED BY NUGETS MUST REFERENCE PACKAGE NuProj.Common
   -->
-
   <PropertyGroup>
     <AssemblyInfoPath>$(SolutionDir)\Sources\shared\Internal\AssemblyInfo.win32api.shared.cs</AssemblyInfoPath>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.build\nuget-default-config.targets" />
   <Import Project="$(SolutionDir)\.build\nuget-deployment.targets" />
-
   <PropertyGroup Label="Globals">
     <ProjectGuid>f936c994-7439-4623-a40d-fa5bc1c830ad</ProjectGuid>
   </PropertyGroup>
@@ -38,6 +36,7 @@
     </LicenseUrl>
     <Tags>
     </Tags>
+    <EmbedSourceFiles>true</EmbedSourceFiles>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sources\DotNet45\Foundation.Win32Api.DotNet45\Foundation.Win32Api.DotNet45.csproj" />

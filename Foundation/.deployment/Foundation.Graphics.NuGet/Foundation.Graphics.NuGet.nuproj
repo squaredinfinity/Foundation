@@ -36,6 +36,7 @@
     </LicenseUrl>
     <Tags>
     </Tags>
+    <EmbedSourceFiles>true</EmbedSourceFiles>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sources\Core\Foundation.Graphics.Core\Foundation.Graphics.Core.csproj" />

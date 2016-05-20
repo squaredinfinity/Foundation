@@ -28,12 +28,12 @@ namespace SquaredInfinity.Foundation.Presentation.Resources
             return XamlResourcesImporter.ImportAllResources(compositionService, merge: false);
         }
 
-        public static void ImportAndMergeAllResources(ICompositionService compositionService)
+        public static IEnumerable<ResourceDictionary> ImportAndMergeAllResources(ICompositionService compositionService)
         {
             if (compositionService == null)
                 throw new ArgumentNullException(nameof(compositionService));
 
-            var all_resources = XamlResourcesImporter.ImportAllResources(compositionService, merge:true);
+            return XamlResourcesImporter.ImportAllResources(compositionService, merge:true);
         }
 
         #region Load Compiled Resource Dictionary

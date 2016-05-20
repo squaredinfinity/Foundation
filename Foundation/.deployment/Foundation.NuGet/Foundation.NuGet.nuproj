@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-   <!-- 
+  <!-- 
     IMPORT NUGET-DEPLOYMENT.TARGETS TO ALLOW NUGET PUSH
 
     TARGET AND TASKS ASSEMBLIES MY BE LOCATED IN THE SOLUTION (.build/*.*)
@@ -10,15 +10,11 @@
 
     EACH PROJECT REFERENCED BY NUGETS MUST REFERENCE PACKAGE NuProj.Common
   -->
-
   <PropertyGroup>
     <AssemblyInfoPath>$(SolutionDir)\Sources\shared\Internal\AssemblyInfo.foundation.shared.cs</AssemblyInfoPath>
   </PropertyGroup>
-
   <Import Project="$(SolutionDir)\.build\nuget-default-config.targets" />
   <Import Project="$(SolutionDir)\.build\nuget-deployment.targets" />
-
-
   <PropertyGroup Label="Globals">
     <ProjectGuid>1ec9977a-8d0a-436a-8358-98dc7b122681</ProjectGuid>
   </PropertyGroup>
@@ -40,6 +36,7 @@
     </LicenseUrl>
     <Tags>
     </Tags>
+    <EmbedSourceFiles>true</EmbedSourceFiles>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sources\Core\Foundation.Core\Foundation.Core.csproj" />

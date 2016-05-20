@@ -14,6 +14,7 @@ namespace SquaredInfinity.Foundation.Maths
     public struct Interval : IEquatable<Interval>
     {
         public static readonly Interval Empty;
+        public static readonly Interval Undefined;
 
         IntervalFlags _flags;
         public IntervalFlags Flags {  get { return _flags; } set { _flags = value; } }

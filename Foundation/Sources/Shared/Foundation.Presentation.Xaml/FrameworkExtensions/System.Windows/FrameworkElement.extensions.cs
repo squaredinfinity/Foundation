@@ -13,6 +13,14 @@ namespace SquaredInfinity.Foundation.Extensions
 {
     public static class FrameworkElementExtensions
     {
+        public static string GetDebugName(this FrameworkElement fe)
+        {
+            if (fe.Name.IsNullOrEmpty())
+                return fe.GetType().Name;
+            else
+                return fe.Name;
+        }
+
         /// <summary>
         /// BindingOperation.ClearBinding alternative which handles Data Template scenarios
         /// see details: http://social.msdn.microsoft.com/Forums/vstudio/en-US/e45c7a9d-840d-4508-8c81-ef40f1c74c10/bindingoperationsclearbinding-reverting-to-data-template-binding?forum=wpf

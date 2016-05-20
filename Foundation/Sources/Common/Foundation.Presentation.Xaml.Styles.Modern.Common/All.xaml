@@ -5,10 +5,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
 
-        <SharedResourceDictionary DictionaryName="Foundation.Converters" />
-        <SharedResourceDictionary DictionaryName="Foundation.DataTemplateSelectors" />
+        <ResourceDictionaryReference DictionaryName="Foundation.Converters" />
+        <ResourceDictionaryReference DictionaryName="Foundation.DataTemplateSelectors" />
 
-        <SharedResourceDictionary DictionaryName="Foundation.Brushes"
+        <SharedResourceDictionary UniqueName="Foundation.Brushes"
                                   Source="{ResourceFromThisAssembly Brushes.xaml}"/>
 
         <ResourceDictionary Source="{ResourceFromThisAssembly /Styles/Button.xaml}" />

@@ -9,7 +9,7 @@
 
     <ResourceDictionary.MergedDictionaries>
 
-        <p:SharedResourceDictionary DictionaryName="Foundation.Converters"
+        <p:SharedResourceDictionary UniqueName="Foundation.Converters"
                                     Source="{mx:ResourceFromThisAssembly RelativePath=/Xaml/Converters.xaml}" />
 
         <!--<p:SharedResourceDictionary DictionaryName="Foundation.DataTemplateSelectors"

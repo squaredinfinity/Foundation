@@ -11,6 +11,24 @@ namespace SquaredInfinity.Foundation.Maths
     public class IntervalIntersectsWithTests
     {
         [TestMethod]
+        public void UndefinedInterval__ReturnsFalse()
+        {
+            var a = new Interval(-10, 10);
+            var b = Interval.Undefined;
+
+            Assert.IsFalse(a.IntersectsWith(b));
+            Assert.IsFalse(b.IntersectsWith(a));
+            Assert.IsFalse(b.IntersectsWith(b));
+
+            a = Interval.Undefined;
+            b = Interval.Undefined;
+
+            Assert.IsFalse(a.IntersectsWith(b));
+            Assert.IsFalse(b.IntersectsWith(a));
+            Assert.IsFalse(b.IntersectsWith(b));
+        }
+
+        [TestMethod]
         public void EmptyInterval__ReturnsFalse()
         {
             var a = new Interval(-10, 10);
