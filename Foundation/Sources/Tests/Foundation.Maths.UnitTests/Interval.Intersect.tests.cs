@@ -8,24 +8,8 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Foundation.Maths
 {
     [TestClass]
-    public class IntervalIntersectTests
+    public class Interval__Intersect
     {
-        [TestMethod]
-        public void UndefinedInterval__ReturnsEmptyInterval()
-        {
-            var a = new Interval(-10, 10);
-            var b = Interval.Undefined;
-
-            Assert.IsTrue(Interval.Intersect(a, b).IsEmpty);
-            Assert.IsTrue(Interval.Intersect(b, a).IsEmpty);
-
-            a = Interval.Undefined;
-            b = Interval.Undefined;
-
-            Assert.IsTrue(Interval.Intersect(a, b).IsEmpty);
-            Assert.IsTrue(Interval.Intersect(b, a).IsEmpty);
-        }
-
         [TestMethod]
         public void EmptyInterval__ReturnsEmptyInterval()
         {

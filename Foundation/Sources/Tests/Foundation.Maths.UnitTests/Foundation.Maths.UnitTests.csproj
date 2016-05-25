@@ -69,7 +69,8 @@
   <ItemGroup>
     <Compile Include="Framework Extensions\System\double.DigitAt.tests.cs" />
     <Compile Include="Framework Extensions\System\double.RoundToSignificantFigures.tests.cs" />
-    <Compile Include="Interval.Intersect.tests - Copy.cs" />
+    <Compile Include="Interval.Expand.tests.cs" />
+    <Compile Include="Interval.Intersect.tests.cs" />
     <Compile Include="Interval.IntersectsWith.tests.cs" />
     <EmbeddedResource Include="Parsing\SamplePerLine__ValidInput.txt" />
     <Compile Include="Parsing\NISTDataFileParser.cs" />

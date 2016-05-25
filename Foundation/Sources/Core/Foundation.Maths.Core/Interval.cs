@@ -14,7 +14,6 @@ namespace SquaredInfinity.Foundation.Maths
     public struct Interval : IEquatable<Interval>
     {
         public static readonly Interval Empty;
-        public static readonly Interval Undefined;
 
         IntervalFlags _flags;
         public IntervalFlags Flags {  get { return _flags; } set { _flags = value; } }
@@ -64,6 +63,9 @@ namespace SquaredInfinity.Foundation.Maths
             get
             {
                 return
+                    // NaN, NaN - both ends
+                    (double.IsNaN(_from) && double.IsNaN(_to))
+                    ||
                     // (from, from) - exclisve both ends
                     (_from == _to && _flags == IntervalFlags.Open)
                     ||
@@ -83,7 +85,7 @@ namespace SquaredInfinity.Foundation.Maths
 
         static Interval()
         {
-            Empty = new Interval();
+            Empty = new Interval(double.NaN, double.NaN);
         }
 
         public Interval(double inclusiveFrom, double inclusiveTo)
@@ -146,16 +148,21 @@ namespace SquaredInfinity.Foundation.Maths
         #region Expand
 
         /// <summary>
-        /// Expands current interval exactly to fit provided interval.
+        /// Creates new Interval by expanding this interval exactly to fit provided interval.
         /// </summary>
         /// <param name="other"></param>
-        public void Expand(Interval other)
+        public Interval Expand(Interval other)
         {
-            if (other._from < _from)
-                _from = other._from;
+            var new_from = _from;
+            var new_to = _to;
 
-            if (other._to > _to)
-                _to = other._to;
+            if (other._from < _from || double.IsNaN(_from))
+                new_from = other._from;
+
+            if (other._to > _to || double.IsNaN(_to))
+                new_to = other._to;
+
+            return new Interval(new_from, IsFromInclusive, new_to, IsToInclusive);
         }
 
         #endregion

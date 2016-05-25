@@ -98,10 +98,9 @@ namespace SquaredInfinity.Foundation.Maths.Space2D
 
         #region Offset
 
-        public void Offset(double dx, double dy)
+        public Rectangle Offset(double dx, double dy)
         {
-            _x += dx;
-            _y += dy;
+            return new Rectangle(_x += dx, _y += dy, width, height);
         }
 
         #endregion
