@@ -11,6 +11,7 @@
                        xmlns:local_uiservice="clr-namespace:SquaredInfinity.Foundation.Presentation.Xaml.UITests.UIService"
                        xmlns:local_boolExpTree="clr-namespace:SquaredInfinity.Foundation.Presentation.Xaml.UITests.Collections.BooleanExpressionTree"
                        xmlns:local_controls="clr-namespace:SquaredInfinity.Foundation.Presentation.Xaml.UITests.Controls"
+                       xmlns:local_mvvm="clr-namespace:SquaredInfinity.Foundation.Presentation.Xaml.UITests.MVVM"
                        Style="{StaticResource Styles.ModernWindow}"
                        mc:Ignorable="d"
                        Title="MainWindow" Height="350" Width="525">
@@ -61,6 +62,9 @@
         </TabItem>
         <TabItem Header="Markup Extensions">
             <local_markupextensions:MarkupExtensionsView />
+        </TabItem>
+        <TabItem Header="MVVM">
+            <local_mvvm:UsingViewCommandView />
         </TabItem>
         <TabItem Header="UI Service">
             <local_uiservice:UIServiceView />

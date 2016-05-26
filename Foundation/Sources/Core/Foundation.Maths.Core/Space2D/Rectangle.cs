@@ -100,7 +100,7 @@ namespace SquaredInfinity.Foundation.Maths.Space2D
 
         public Rectangle Offset(double dx, double dy)
         {
-            return new Rectangle(_x += dx, _y += dy, width, height);
+            return new Rectangle(_x += dx, _y += dy, _width, _height);
         }
 
         #endregion

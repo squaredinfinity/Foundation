@@ -21,6 +21,9 @@
         
         <ResourceDictionary Source="{ResourceFromThisAssembly /MarkupExtensions/MarkupExtensionsView.xaml}" />
 
+        <ResourceDictionary Source="{ResourceFromThisAssembly /MVVM/ViewCommandView.xaml}" />
+        <ResourceDictionary Source="{ResourceFromThisAssembly /MVVM/UsingViewCommandView.xaml}" />
+
         <ResourceDictionary Source="{ResourceFromThisAssembly /UIService/UIServiceView.xaml}" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

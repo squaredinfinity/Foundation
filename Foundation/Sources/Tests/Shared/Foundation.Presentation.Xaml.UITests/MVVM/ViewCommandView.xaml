@@ -1,0 +1,35 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                    xmlns:behaviors="http://schemas.squaredinfinity.com/foundation/behaviors"
+                    xmlns:local="clr-namespace:SquaredInfinity.Foundation.Presentation.Xaml.UITests.MVVM"
+                    mc:Ignorable="d" >
+
+    <Style TargetType="{x:Type local:ViewCommandView}">
+        <Style.Setters>
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="CommandParameter" Value="{Binding ViewModel.MyText, RelativeSource={RelativeSource Self}}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type local:ViewCommandView}">
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Width="250"
+                                     Text="{TemplatedParentBinding ViewModel.MyText}" />
+                            <!-- 
+                            Do Me button performs default command 
+                            Default Command Parameter is set in the template of this view and referenced via template binding
+                            -->
+                            <Button Content="Do Me"
+                                    Command="{TemplateBinding Command}"
+                                    CommandParameter="{TemplateBinding CommandParameter}"/>
+                        </StackPanel>
+                   
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+</ResourceDictionary>

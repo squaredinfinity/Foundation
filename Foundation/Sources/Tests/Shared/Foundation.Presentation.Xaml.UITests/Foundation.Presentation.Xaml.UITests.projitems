@@ -42,6 +42,10 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\MarkupExtensionsView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\MarkupExtensionsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MVVM\UsingViewCommandView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MVVM\UsingViewCommandViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MVVM\ViewCommandView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MVVM\ViewCommandViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UIService\UIServiceView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UIService\UIServiceViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources.cs" />
@@ -101,6 +105,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)MVVM\ViewCommandView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)MVVM\UsingViewCommandView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)UIService\UIServiceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -122,6 +134,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)App.config" />
+    <None Include="$(MSBuildThisFileDirectory)App.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)Behaviors\ClearButtonView.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)Behaviors\ClickView.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)Behaviors\ColumnHeadersView.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)Behaviors\DragAndDropView.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)Behaviors\WatermarkView.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)Binding\ObservableCollectionExView.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)Collections\BooleanExpressionTree\BooleanExpressionTreeView.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)Collections\BooleanExpressionTree\ConnectiveNodeView.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)Collections\BooleanExpressionTree\PredicateNodeView.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)Controls\AdaptiveSelectorView.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)Fonts\FontsView.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)MainWindow.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)MarkupExtensions\MarkupExtensionsView.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)MVVM\UsingViewCommandView.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)MVVM\ViewCommandView.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)UIService\UIServiceView.xaml" />
     <None Include="$(MSBuildThisFileDirectory)XamlResources.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)_internal\GenericView.xaml" />
   </ItemGroup>
 </Project>

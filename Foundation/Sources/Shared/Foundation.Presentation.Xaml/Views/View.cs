@@ -9,11 +9,52 @@ using System.Windows.Data;
 using SquaredInfinity.Foundation.Extensions;
 using SquaredInfinity.Foundation.Presentation.ViewModels;
 using SquaredInfinity.Foundation.Maths.Graphs.Trees;
+using System.Windows.Input;
 
 namespace SquaredInfinity.Foundation.Presentation.Views
 {
     public partial class View : Control
     {
+        IDisposable SUBSCRIPTION_AfterViewModelRaised;
+        IDisposable SUBSCRIPTION_FindDataContextInVisualTree;
+
+        #region Command
+
+        /// <summary>
+        /// Command executed when default action of this view occurs.
+        /// </summary>
+        public ICommand Command
+        {
+            get { return (ICommand)GetValue(CommandProperty); }
+            set { SetValue(CommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty CommandProperty =
+            DependencyProperty.Register(
+                "Command",
+                typeof(ICommand),
+                typeof(View),
+                new FrameworkPropertyMetadata(null));
+
+        #endregion
+
+        #region Command Parameter
+
+        public ICommand CommandParameter
+        {
+            get { return (ICommand)GetValue(CommandParameterProperty); }
+            set { SetValue(CommandParameterProperty, value); }
+        }
+
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register(
+                "CommandParameter",
+                typeof(object),
+                typeof(View),
+                new FrameworkPropertyMetadata(null));
+
+        #endregion
+
         #region View Model
 
         /// <summary>
@@ -27,7 +68,7 @@ namespace SquaredInfinity.Foundation.Presentation.Views
         /// otherwise ViewModel DP will be set to Placeholder value.
         /// 
         /// </summary>
-        
+
         IHostAwareViewModel ViewModelPlaceholder { get; set; }
         
         bool IsTemplateLoaded { get; set; }
@@ -257,11 +298,14 @@ namespace SquaredInfinity.Foundation.Presentation.Views
 
         protected virtual void DisposeManagedResources()
         {
-            if (ViewModel != null)
-            {
-                ViewModel.Dispose();
-                ViewModel = null;
-            }
+            ViewModel?.Dispose();
+            ViewModel = null;
+
+            SUBSCRIPTION_AfterViewModelRaised?.Dispose();
+            SUBSCRIPTION_AfterViewModelRaised = null;
+
+            SUBSCRIPTION_FindDataContextInVisualTree?.Dispose();
+            SUBSCRIPTION_FindDataContextInVisualTree = null;
         }
 
         protected virtual void DisposeUnmanagedResources()
@@ -378,9 +422,6 @@ namespace SquaredInfinity.Foundation.Presentation.Views
 
         protected virtual void OnBeforeOldViewModelRemoved(object oldDataContext, IHostAwareViewModel oldViewModel)
         { }
-
-        IDisposable SUBSCRIPTION_AfterViewModelRaised;
-        IDisposable SUBSCRIPTION_FindDataContextInVisualTree;
 
         void OnBeforeNewViewModelAddedInternal(object newDataContext, IHostAwareViewModel newViewModel)
         {

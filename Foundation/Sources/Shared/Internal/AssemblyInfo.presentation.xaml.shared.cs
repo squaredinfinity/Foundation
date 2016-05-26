@@ -4,8 +4,8 @@ using System.Runtime.InteropServices;
 
 #if PRESENTATION_XAML
 
-[assembly: AssemblyVersion("1.3.0.1")]
-[assembly: AssemblyFileVersion("1.3.0.1")]
-[assembly: AssemblyInformationalVersion("1.3.0-beta001")]
+[assembly: AssemblyVersion("1.3.0.3")]
+[assembly: AssemblyFileVersion("1.3.0.3")]
+[assembly: AssemblyInformationalVersion("1.3.0-beta003")]
 
 #endif
