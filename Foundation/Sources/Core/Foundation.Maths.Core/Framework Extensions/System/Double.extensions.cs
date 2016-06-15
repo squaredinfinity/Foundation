@@ -61,6 +61,35 @@ namespace SquaredInfinity.Foundation.Extensions
         /// <summary>
         /// Checks if double precision number is equal to another double precision number given the precision of [DoubleExtensions.DefaultPrecision].
         /// For example: 0.01 != 0.1 * 0.1 due to floating point accuracy problems [http://en.wikipedia.org/wiki/Floating_point#Accuracy_problems] (0.1 * 0.1 == 0.010000000000000002)
+        /// In addition checks if two doubles represent same special value (e.g. -Infinity == -Infinity, but -Infintiy != +Infinity)
+        /// -Infintiy == -Infintiy
+        /// +Infinity == +Infinity
+        /// NaN == NaN
+        /// </summary>
+        /// <param name="d1">The d1.</param>
+        /// <param name="d2">The d2.</param>
+        /// <param name="precision">The precision.</param>
+        /// <returns></returns>
+        public static bool IsCloseToOrSameSpecialValue(this double d1, double d2)
+        {
+            if (AreClose(d1, d2))
+                return true;
+
+            if (double.IsNaN(d1) && double.IsNaN(d2))
+                return true;
+
+            if (double.IsNegativeInfinity(d1) && double.IsNegativeInfinity(d2))
+                return true;
+
+            if (double.IsPositiveInfinity(d1) && double.IsPositiveInfinity(d2))
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if double precision number is equal to another double precision number given the precision of [DoubleExtensions.DefaultPrecision].
+        /// For example: 0.01 != 0.1 * 0.1 due to floating point accuracy problems [http://en.wikipedia.org/wiki/Floating_point#Accuracy_problems] (0.1 * 0.1 == 0.010000000000000002)
         /// </summary>
         /// <param name="d1">The d1.</param>
         /// <param name="d2">The d2.</param>

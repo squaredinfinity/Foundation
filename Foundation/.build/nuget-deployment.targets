@@ -33,8 +33,8 @@
   <PropertyGroup>
     <SI_TasksDirPath>$(SolutionDir)\.build</SI_TasksDirPath>
     <AssemblyInfoPath Condition=" '$(AssemblyInfoPath)' == '' ">$(SolutionDir)\Sources\shared\Internal\AssemblyInfo.cs</AssemblyInfoPath>
-    <NuGetApiKey />
-    <RemoteRepository />
+    <NuGetApiKey>5ed852f7-ffda-4235-9a9a-beb45796ab18</NuGetApiKey>
+    <RemoteRepository>https://www.nuget.org/api/v2/package</RemoteRepository>
     <LocalRepository>c:\local_nugets</LocalRepository>
 
     <ConfigurationName_STABLE>Publish - STABLE</ConfigurationName_STABLE>
