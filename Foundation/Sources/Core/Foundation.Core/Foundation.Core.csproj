@@ -49,6 +49,7 @@
     <Compile Include="Collections\IObservableCollectionEx.cs" />
     <Compile Include="Collections\ItemAddedEventArgs.cs" />
     <Compile Include="Collections\ItemRemovedEventArgs.cs" />
+    <Compile Include="Collections\MultiMap.cs" />
     <Compile Include="Collections\ObservableCollectionEx.cs" />
     <Compile Include="Collections\ObservableCollectionEx.INotifyCollectionChanged.cs" />
     <Compile Include="Collections\ObservableCollectionEx.INotifyPropertyChanged.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="EnumeratorBase.cs" />
     <Compile Include="Framework Extensions\System.IO\Stream.extensions.cs" />
     <Compile Include="Framework Extensions\System.Threading.Tasks\Task.extensions.cs" />
+    <Compile Include="Framework Extensions\System\IEnumerable.extensions.cs" />
     <Compile Include="Framework Extensions\System\IObservable.extensions.cs" />
     <Compile Include="Framework Extensions\System\Object.extensions.cs" />
     <Compile Include="Freezable.cs" />

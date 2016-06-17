@@ -14,7 +14,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Concurrent\IConcurrentCollectionEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\IVirtualizedDataItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\IVirtualizedDataItemsProvider_T.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collections\MultiMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\OrderedDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\PageCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\PriorityQueue.cs" />

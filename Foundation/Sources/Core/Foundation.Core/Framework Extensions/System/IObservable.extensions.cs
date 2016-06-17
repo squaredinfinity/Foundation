@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Framework_Extensions.System
+namespace SquaredInfinity.Foundation
 {
     public static class IObservableExtensions
     {
