@@ -35,7 +35,7 @@ namespace SquaredInfinity.Foundation.Maths
             var a = Interval.Empty;
             var b = new Interval(-10, 10);
 
-            a.Expand(b);
+            a = a.Expand(b);
 
             Assert.IsTrue(a == b);
         }

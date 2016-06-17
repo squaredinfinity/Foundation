@@ -91,12 +91,12 @@ namespace SquaredInfinity.Foundation.Maths
 
         public static bool operator >(IntervalEdge a, IntervalEdge b)
         {
-            return a.CompareTo(b) > 0;
+            return a.CompareTo(b) < 0;
         }
 
         public static bool operator <(IntervalEdge a, IntervalEdge b)
         {
-            return a.CompareTo(b) < 0;
+            return a.CompareTo(b) > 0;
         }
 
         #endregion
