@@ -58,6 +58,7 @@
     <Compile Include="EnumeratorBase.cs" />
     <Compile Include="Framework Extensions\System.IO\Stream.extensions.cs" />
     <Compile Include="Framework Extensions\System.Threading.Tasks\Task.extensions.cs" />
+    <Compile Include="Framework Extensions\System\IObservable.extensions.cs" />
     <Compile Include="Framework Extensions\System\Object.extensions.cs" />
     <Compile Include="Freezable.cs" />
     <Compile Include="ICloneEquatable.cs" />
