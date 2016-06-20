@@ -128,5 +128,29 @@ namespace SquaredInfinity.Foundation.Extensions
                 return result;
             }
         }
+
+        /// <summary>
+        /// Performs logical OR on multiple enum values
+        /// </summary>
+        /// <typeparam name="TEnum"></typeparam>
+        /// <param name="initalValue"></param>
+        /// <param name="values"></param>
+        /// <returns></returns>
+        public static TEnum Or<TEnum>(TEnum initalValue, IEnumerable<TEnum> values)
+            //  Can't do this, constraint cannot be special class Enum
+            //- where TEnum : Enum
+        {
+            var result = initalValue as Enum;
+
+            if (result == null)
+                throw new ArgumentException("TEnum must be an Enum");
+
+            foreach (var v in values)
+            {
+                result = (Enum)Enum.ToObject(typeof(TEnum), (object)(result.Set(v)));
+            }
+
+            return (TEnum)Enum.ToObject(typeof(TEnum), (object)(result));
+        }
     }
 }
