@@ -244,7 +244,7 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 
         MemberVisibility GetMemberVisibility(PropertyInfo pi)
         {
-            if (((BindingFlags)PROPERTY_BindingFlags.GetValue(pi, null)).IsFlagSet(BindingFlags.Public))
+            if (((BindingFlags)PROPERTY_BindingFlags.GetValue(pi, null)).HasFlag(BindingFlags.Public))
                 return MemberVisibility.Public;
 
             return MemberVisibility.NonPublic;
@@ -252,7 +252,7 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 
         MemberVisibility GetMemberVisibility(FieldInfo fi)
         {
-            if (((BindingFlags)FIELD_BindingFlags.GetValue(fi, null)).IsFlagSet(BindingFlags.Public))
+            if (((BindingFlags)FIELD_BindingFlags.GetValue(fi, null)).HasFlag(BindingFlags.Public))
                 return MemberVisibility.Public;
 
             return MemberVisibility.NonPublic;

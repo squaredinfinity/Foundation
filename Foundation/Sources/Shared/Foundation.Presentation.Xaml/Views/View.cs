@@ -103,7 +103,7 @@ namespace SquaredInfinity.Foundation.Presentation.Views
 
         void RaiseViewModelEvent(IViewModel vm, IViewModelEvent ev, ViewModelEventRoutingStrategy routingStrategy)
         {
-            if (routingStrategy.IsFlagSet(ViewModelEventRoutingStrategy.Bubble))
+            if (routingStrategy.HasFlag(ViewModelEventRoutingStrategy.Bubble))
             {
                 var preview_args = new ViewModelEventArgs(vm, ev, ViewModelEventRoutingStrategy.Bubble);
 
@@ -116,7 +116,7 @@ namespace SquaredInfinity.Foundation.Presentation.Views
                     return;
             }
 
-            if (routingStrategy.IsFlagSet(ViewModelEventRoutingStrategy.Tunnel))
+            if (routingStrategy.HasFlag(ViewModelEventRoutingStrategy.Tunnel))
             {
                 var args = new ViewModelEventArgs(vm, ev, ViewModelEventRoutingStrategy.Tunnel);
 
@@ -129,7 +129,7 @@ namespace SquaredInfinity.Foundation.Presentation.Views
                     return;
             }
 
-            if(routingStrategy.IsFlagSet(ViewModelEventRoutingStrategy.BroadcastToChildren))
+            if(routingStrategy.HasFlag(ViewModelEventRoutingStrategy.BroadcastToChildren))
             {
                 // search visual tree for children deriving from View
 

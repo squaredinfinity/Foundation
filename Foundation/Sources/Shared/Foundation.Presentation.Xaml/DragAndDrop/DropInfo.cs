@@ -44,7 +44,7 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
             KeyStates = e.KeyStates;
             AllowedEffects = e.Effects;
 
-            if (AllowedEffects.IsFlagSet(DragDropEffects.Copy) && Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+            if (AllowedEffects.HasFlag(DragDropEffects.Copy) && Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
                 ActualDropEffect = DragDropEffects.Copy;
             else
                 ActualDropEffect = DragDropEffects.Move;

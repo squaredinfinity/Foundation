@@ -41,7 +41,7 @@ namespace SquaredInfinity.Foundation.Presentation.Converters
 
                 var trueValue = Enum.Parse(value.GetType(), parameter as string) as Enum;
 
-                result = (value as Enum).IsFlagSet(trueValue);
+                result = (value as Enum).HasFlag(trueValue);
             }
             else
             {
