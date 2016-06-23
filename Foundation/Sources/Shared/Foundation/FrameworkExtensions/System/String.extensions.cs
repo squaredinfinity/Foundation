@@ -1,4 +1,5 @@
 ﻿using SquaredInfinity.Foundation.Text;
+using SquaredInfinity.Foundation.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -253,21 +254,6 @@ namespace SquaredInfinity.Foundation.Extensions
         public static string FormatWith(this string str, params object[] args)
         {
             return string.Format(str, args);
-        }
-
-        /// <summary>
-        /// Determines whether the specified string [is null or empty].
-        /// </summary>
-        /// <param name="str">input string</param>
-        /// <returns>
-        /// 	<c>true</c> if the specified string [is null or empty]; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsNullOrEmpty(this string str, bool treatWhitespaceOnlyStringAsEmpty = true)
-        {
-            if (treatWhitespaceOnlyStringAsEmpty)
-                return string.IsNullOrWhiteSpace(str);
-            else
-                return string.IsNullOrEmpty(str);
         }
 
         /// <summary>

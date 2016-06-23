@@ -67,6 +67,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ColonOperator.CreateArray.tests.cs" />
     <Compile Include="Framework Extensions\System\double.DigitAt.tests.cs" />
     <Compile Include="Framework Extensions\System\double.RoundToSignificantFigures.tests.cs" />
     <Compile Include="Interval.tests.cs" />

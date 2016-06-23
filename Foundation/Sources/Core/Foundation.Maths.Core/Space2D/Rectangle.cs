@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Maths.Space2D
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public struct Rectangle : IEquatable<Rectangle>
     {
         public static readonly Rectangle Empty = new Rectangle();
@@ -140,5 +142,10 @@ namespace SquaredInfinity.Foundation.Maths.Space2D
         }
 
         #endregion
+
+        public string DebuggerDisplay
+        {
+            get { return $"({Left},{Right}), w:{Width}, h:{Height}"; }
+        }
     }
 }

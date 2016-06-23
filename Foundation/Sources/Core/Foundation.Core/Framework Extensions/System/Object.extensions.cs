@@ -24,27 +24,6 @@ namespace SquaredInfinity.Foundation.Extensions
             return obj;
         }
 
-        public static string ToString(this object obj, string valueWhenNull)
-        {
-            if (obj == null)
-                return valueWhenNull;
-
-            return obj.ToString();
-        }
-
-        public static string ToString(this object obj, string valueWhenNull, string valueWhenEmpty)
-        {
-            if (obj == null)
-                return valueWhenNull;
-
-            var toString = obj.ToString();
-
-            if (string.IsNullOrEmpty(toString))
-                return valueWhenEmpty;
-
-            return toString;
-        }
-
         /// <summary>
         /// Determines whether the specified object (value) is in a list.
         /// </summary>

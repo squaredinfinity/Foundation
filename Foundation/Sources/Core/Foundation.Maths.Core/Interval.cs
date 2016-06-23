@@ -239,6 +239,8 @@ namespace SquaredInfinity.Foundation.Maths
 
         #endregion
 
+        #region LinSpace
+
         /// <summary>
         /// Returns an array of 100 evenly spaced points between From and To of this interval.
         /// If interval is Closed, From and To will be included in returned points.
@@ -283,6 +285,8 @@ namespace SquaredInfinity.Foundation.Maths
 
             return result;
         }
+
+        #endregion
 
         #region Equality + HashCode
 
