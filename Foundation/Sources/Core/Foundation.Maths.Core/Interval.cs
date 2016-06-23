@@ -93,7 +93,7 @@ namespace SquaredInfinity.Foundation.Maths
             this._from = inclusiveFrom;            
             this._to = inclusiveTo;
 
-            _flags = IntervalFlags.Open;
+            _flags = IntervalFlags.Closed;
         }
 
         public Interval(double from, bool isFromInclusive, double to, bool isToInclusive)
@@ -238,6 +238,51 @@ namespace SquaredInfinity.Foundation.Maths
         }
 
         #endregion
+
+        /// <summary>
+        /// Returns an array of 100 evenly spaced points between From and To of this interval.
+        /// If interval is Closed, From and To will be included in returned points.
+        /// </summary>
+        /// <returns></returns>
+        public double[] LinSpace()
+        {
+            return LinSpace(n: 100);
+        }
+
+        /// <summary>
+        /// Returns an array of n evenly spaced points between From and To of this interval.
+        /// If interval is Closed, From and To will be included in returned points.
+        /// From edge of the interval must be a valid number (i.e. not Infinity or NaN)
+        /// </summary>
+        /// <returns></returns>
+        public double[] LinSpace(int n)
+        {
+            if (_from.IsInfinityOrNaN())
+                throw new ArgumentOutOfRangeException($"Left side of the interval cannot be Infinity or NaN");
+
+            var result = new double[n];
+
+            // if interval is open, increase number of points between ranges, since edges will not be included
+            if (!_flags.HasFlag(IntervalFlags.LeftClosed))
+                n++;
+            if (!_flags.HasFlag(IntervalFlags.RightClosed))
+                n++;
+
+            var spacing = (_to - _from) / (n - 1);
+
+            var current_value = _from;
+
+            if (!Flags.HasFlag(IntervalFlags.LeftClosed))
+                current_value += spacing;
+
+            for(int i = 0; i < result.Length; i++)
+            {
+                result[i] = current_value;
+                current_value += spacing;
+            }
+
+            return result;
+        }
 
         #region Equality + HashCode
 

@@ -506,6 +506,19 @@ namespace SquaredInfinity.Foundation.Extensions
             return (int)(Math.Truncate((decimal)n / (decimal)Math.Pow(10, n_order_of_magnitude - omg_diff)) % 10);
         }
 
+        /// <summary>
+        /// Round towards zero.
+        /// </summary>
+        /// <param name="d"></param>
+        /// <returns></returns>
+        public static double Fix(this double d)
+        {
+            if (d > 0.0)
+                return d.RoundDown();
+            else
+                return d.RoundUp();
+        }
+
         ///// <summary>
         ///// Zeroes least significant digits in a given number starting from a digit at given position.
         ///// </summary>
