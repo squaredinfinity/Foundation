@@ -32,9 +32,9 @@ namespace SquaredInfinity.Foundation.Maths
         public void NonEmpty_NotIntersectingInterval__ReturnsEmptyInterval()
         {
             // (-10; 10)
-            var a = new Interval(-10, 10);
+            var a = new Interval(-10, false, 10, false);
             // (-100; -10)
-            var b = new Interval(-100, -10);
+            var b = new Interval(-100, false, -10, false);
 
             Assert.IsTrue(a.Intersect(b).IsEmpty);
             Assert.IsTrue(b.Intersect(a).IsEmpty);
@@ -42,13 +42,13 @@ namespace SquaredInfinity.Foundation.Maths
             // [-10; 10)
             a = new Interval(-10, true, 10, false);
             // (-100; -10)
-            b = new Interval(-100, -10);
+            b = new Interval(-100, false, -10, false);
 
             Assert.IsTrue(a.Intersect(b).IsEmpty);
             Assert.IsTrue(b.Intersect(a).IsEmpty);
 
             // (-10; 10)
-            a = new Interval(-10, 10);
+            a = new Interval(-10, false, 10, false);
             // (-100; -10]
             b = new Interval(-100, false, -10, true);
 
