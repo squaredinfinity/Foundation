@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Maths
+namespace SquaredInfinity.Foundation.Maths.Parsing
 {
     public class ColonOperator
     {
@@ -47,6 +47,12 @@ namespace SquaredInfinity.Foundation.Maths
 
         public bool TryCreateArray(string input, ref double[] result)
         {
+            if(input.IsNullOrEmpty())
+            {
+                result = null;
+                return false;
+            }
+
             var terms = input.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
 
             if(terms.Length == 2)

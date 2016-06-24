@@ -9,24 +9,26 @@ using System.Diagnostics;
 namespace SquaredInfinity.Foundation.Maths.Parsing.Terms
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
-    public class ArrayExpansion
+    public class NumberSequenceTerm : Term
     {
         readonly static ColonOperator ColonOperator = new ColonOperator();
+        readonly static ArrayParser ArrayParser = new ArrayParser();
 
         public string Input { get; set; }
-
-        public double[] Expand()
+        
+        protected override object DoGetValue()
         {
             if (Input.IsNullOrEmpty())
                 return new double[0];
 
             var result = (double[])null;
 
-            if(ColonOperator.TryCreateArray(Input, ref result))
-            {
+            if (ArrayParser.TryCreateArray(Input, ref result))
                 return result;
-            }
-            
+
+            if (ColonOperator.TryCreateArray(Input, ref result))
+                return result;
+
             return new double[0];
         }
 

@@ -38,7 +38,8 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColonOperator.cs" />
+    <Compile Include="Parsing\ArrayParser.cs" />
+    <Compile Include="Parsing\ColonOperator.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="ForwardBackwardDirection.cs" />
     <Compile Include="Framework Extensions\System.Collections\IEnumerable.extensions.cs" />
@@ -57,7 +58,10 @@
     <Compile Include="Parsing\ISamplesParser.cs" />
     <Compile Include="Parsing\SamplePerLineParser.cs" />
     <Compile Include="Parsing\SamplesParser.cs" />
-    <Compile Include="Parsing\Terms\ArrayExpansion.cs" />
+    <Compile Include="Parsing\Terms\NumberSequenceTerm.cs" />
+    <Compile Include="Parsing\Terms\ITerm.cs" />
+    <Compile Include="Parsing\Terms\NumberTerm.cs" />
+    <Compile Include="Parsing\Terms\Term.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IntervalFlags.cs" />
     <Compile Include="RandomNumbers\DotNetRandomNumberProvider.cs" />
