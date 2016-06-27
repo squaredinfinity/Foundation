@@ -31,11 +31,20 @@
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\UserActionParameters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tagging\ITagCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tagging\TagCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XamlResources.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\AdaptiveSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\AdaptiveSelector.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)Themes\Generic.xaml" />
   </ItemGroup>
 </Project>

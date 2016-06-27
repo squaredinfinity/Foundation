@@ -9,13 +9,6 @@
                     mc:Ignorable="d" >
 
     <Style TargetType="{x:Type local:AdaptiveSelectorView}">
-        <Style.Resources>
-            <DropShadowEffect x:Key="shadow-z-depth-1" BlurRadius="5" ShadowDepth="1" Direction="270" Color="#CCCCCC"/>
-            <DropShadowEffect x:Key="shadow-z-depth-2" BlurRadius="8" ShadowDepth="2.5" Direction="270" Color="#BBBBBB"/>
-            <DropShadowEffect x:Key="shadow-z-depth-3" BlurRadius="14" ShadowDepth="4.5" Direction="270" Color="#BBBBBB"/>
-            <DropShadowEffect x:Key="shadow-z-depth-4" BlurRadius="25" ShadowDepth="8" Direction="270" Color="#BBBBBB"/>
-            <DropShadowEffect x:Key="shadow-z-depth-5" BlurRadius="35" ShadowDepth="13" Direction="270" Color="#BBBBBB"/>
-        </Style.Resources>
         <Style.Setters>
             <Setter Property="VerticalAlignment" Value="Stretch" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -106,76 +99,6 @@
                                             </Setter>
                                         </Style>
                                     </controls:AdaptiveSelector.ItemContainerStyle>
-                                    <controls:AdaptiveSelector.Template>
-                                        <ControlTemplate TargetType="{x:Type controls:AdaptiveSelector}">
-                                            <Grid>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="1" />
-                                                    <RowDefinition Height="Auto" />
-                                                </Grid.RowDefinitions>
-
-                                                <Border Grid.Row="0"
-                                                                BorderBrush="Black"
-                                                                BorderThickness="1"
-                                                                Background="White"
-                                                                Effect="{StaticResource shadow-z-depth-1}">
-                                                    <ItemsPresenter />
-                                                </Border>
-
-                                                <!-- SELECTION MARKERS -->
-                                                <ItemsControl Grid.Row="2" 
-                                                              ItemsSource="{TemplatedParentBinding SelectionMarkers}"
-                                                              Visibility="{MethodResultBinding GetSelectionMarkersVisibility, 
-                                                              RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}},
-                                                              ReevaluateTriggerBinding={Binding Version, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}}">
-                                                    <ItemsControl.ItemContainerStyle>
-                                                        <Style TargetType="{x:Type ContentPresenter}">
-                                                            <Setter Property="Canvas.Left" Value="{Binding Left}" />
-                                                            <Setter Property="Width" Value="{Binding Width}" />
-                                                        </Style>
-                                                    </ItemsControl.ItemContainerStyle>
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <Thumb Width="{Binding Width}" 
-                                                                           Height="20"
-                                                                           behaviors:Loaded.Command="{CommandMethodBinding InitializeSelectionMarkerThumb, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}"
-                                                                           behaviors:Loaded.CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
-                                                                           behaviors:Unloaded.Command="{CommandMethodBinding StopThumbMonitoring, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}"
-                                                                           behaviors:Unloaded.CommandParameter="{Binding RelativeSource={RelativeSource Self}}">
-                                                                <Thumb.Template>
-                                                                    <ControlTemplate TargetType="{x:Type Thumb}">
-                                                                        <Grid>
-                                                                            <Path Stretch="Fill" 
-                                                                                              MaxWidth="50"
-                                                                                          HorizontalAlignment="Stretch"
-                                                                                          VerticalAlignment="Stretch"
-                                                                                          StrokeThickness="0"
-                                                                                          Fill="{MethodResultBinding GetItemBackground, 
-                                                                                                ParameterBinding={Binding Item}, 
-                                                                                                RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}},
-                                                                                                Converter={StaticResource Converters.ColorToGradientBrush}, ReevaluateTriggerBinding={Binding Version, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}}"
-                                                                                                  Data="F1 M 0,0L 1,-2L 2,0L 2,2L 0,2 Z "
-                                                                                          Effect="{StaticResource shadow-z-depth-2}">
-                                                                            </Path>
-                                                                        </Grid>
-                                                                    </ControlTemplate>
-                                                                </Thumb.Template>
-                                                            </Thumb>
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                    <ItemsControl.ItemsPanel>
-                                                        <ItemsPanelTemplate>
-                                                            <Canvas VerticalAlignment="Stretch"
-                                                                    HorizontalAlignment="Stretch" />
-                                                        </ItemsPanelTemplate>
-                                                    </ItemsControl.ItemsPanel>
-                                                </ItemsControl>
-
-                                            </Grid>
-                                        </ControlTemplate>
-                                    </controls:AdaptiveSelector.Template>
-
                                     <controls:AdaptiveSelector.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel Orientation="Horizontal" />
