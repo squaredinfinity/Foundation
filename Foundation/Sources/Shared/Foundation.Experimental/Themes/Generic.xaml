@@ -40,10 +40,13 @@
 
                             <!-- SELECTION MARKERS -->
                             <ItemsControl Grid.Row="2" 
-                                                              ItemsSource="{TemplatedParentBinding SelectionMarkers}"
-                                                              Visibility="{MethodResultBinding GetSelectionMarkersVisibility, 
-                                                              RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}},
-                                                              ReevaluateTriggerBinding={Binding Version, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}}">
+                                          BorderBrush="Black"
+                                          Height="20"
+                                          BorderThickness="1"
+                                          ItemsSource="{TemplatedParentBinding SelectionMarkers}"
+                                          Visibility="{MethodResultBinding GetSelectionMarkersVisibility, 
+                                RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}},
+                                ReevaluateTriggerBinding={Binding Version, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}}">
                                 <ItemsControl.ItemContainerStyle>
                                     <Style TargetType="{x:Type ContentPresenter}">
                                         <Setter Property="Canvas.Left" Value="{Binding Left}" />
@@ -53,11 +56,11 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Thumb Width="{Binding Width}" 
-                                                                           Height="20"
-                                                                           behaviors:Loaded.Command="{CommandMethodBinding InitializeSelectionMarkerThumb, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}"
-                                                                           behaviors:Loaded.CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
-                                                                           behaviors:Unloaded.Command="{CommandMethodBinding StopThumbMonitoring, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}"
-                                                                           behaviors:Unloaded.CommandParameter="{Binding RelativeSource={RelativeSource Self}}">
+                                               Height="15"
+                                               behaviors:Loaded.Command="{CommandMethodBinding InitializeSelectionMarkerThumb, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}"
+                                               behaviors:Loaded.CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                               behaviors:Unloaded.Command="{CommandMethodBinding StopThumbMonitoring, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}"
+                                               behaviors:Unloaded.CommandParameter="{Binding RelativeSource={RelativeSource Self}}">
                                             <Thumb.Template>
                                                 <ControlTemplate TargetType="{x:Type Thumb}">
                                                     <Grid>
