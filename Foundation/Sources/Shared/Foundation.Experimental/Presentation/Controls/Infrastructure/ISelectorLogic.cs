@@ -14,8 +14,8 @@ namespace SquaredInfinity.Foundation.Presentation
         void OnItemSelected(object selectorIdentifier, object selectedItem);
         void OnItemUnselected(object selectorIdentifier, object unselectedItem);
         IReadOnlyList<IUserAction> GetAvailableUserAction(object selectorIdentifier, object item);
-        Color? GetItemBackgroundColor(object selectorIdentifier, object item);
         IAdaptiveSelectorItemGroup GetItemGroup(object selectorIdentifier, object item);
         Visibility GetSelectionMarkersVisibility(object selectorIdentifier, int allItemsCount, int selectedItemsCount);
+        Color? GetItemBackgroundColor(object selectorIdentifier, object item, bool isSelected);
     }
 }

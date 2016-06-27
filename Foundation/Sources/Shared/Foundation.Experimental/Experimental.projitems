@@ -23,7 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\SelectionMarker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\UniformItemsSize.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\IAdaptiveSelectorItemGroup.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\ISelectorBehaviorController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\ISelectorLogic.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\IUserAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\IUserActionParameters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\SelectorLogic.cs" />

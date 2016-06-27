@@ -15,7 +15,7 @@ namespace SquaredInfinity.Foundation.Presentation
             return new IUserAction[0];
         }
 
-        public virtual Color? GetItemBackgroundColor(object selectorIdentifier, object item)
+        public virtual Color? GetItemBackgroundColor(object selectorIdentifier, object item, bool isSelected)
         {
             var group = GetItemGroup(selectorIdentifier, item);
 

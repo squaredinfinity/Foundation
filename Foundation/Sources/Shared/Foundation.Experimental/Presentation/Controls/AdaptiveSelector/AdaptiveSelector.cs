@@ -366,14 +366,16 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
 
         public Color GetItemBackground(object item)
         {
-            var color = SelectorLogic.GetItemBackgroundColor(SelectorIdentifier, item);
+            var is_selected = SelectedItems.Contains(item);
+
+            var color = SelectorLogic.GetItemBackgroundColor(SelectorIdentifier, item, is_selected);
 
             if (color != null)
                 return color.Value;
 
             color = SelectionHighlight;
 
-            if (SelectedItems.Contains(item))
+            if (is_selected)
             {
                 return SelectionHighlight;
             }

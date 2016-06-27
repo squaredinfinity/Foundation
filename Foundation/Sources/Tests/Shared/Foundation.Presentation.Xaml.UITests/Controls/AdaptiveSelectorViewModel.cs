@@ -60,7 +60,7 @@ namespace SquaredInfinity.Foundation.Presentation.Xaml.UITests.Controls
             base.OnItemUnselected(selectorIdentifier, unselectedItem);
         }
 
-        public override Color? GetItemBackgroundColor(object selectorIdentifier, object item)
+        public override Color? GetItemBackgroundColor(object selectorIdentifier, object item, bool isSelected)
         {
             if (object.Equals(ModeOneItem, item))
                 return ModeOneColor;
@@ -68,7 +68,7 @@ namespace SquaredInfinity.Foundation.Presentation.Xaml.UITests.Controls
             if (object.Equals(ModeTwoItem, item))
                 return ModeTwoColor;
 
-            return base.GetItemBackgroundColor(selectorIdentifier, item);
+            return base.GetItemBackgroundColor(selectorIdentifier, item, isSelected);
         }
     }
 }
