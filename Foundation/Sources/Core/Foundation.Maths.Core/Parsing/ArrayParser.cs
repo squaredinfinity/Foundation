@@ -9,6 +9,8 @@ namespace SquaredInfinity.Foundation.Maths.Parsing
 {
     public class ArrayParser
     {
+        readonly static ColonOperator ColonOperator = new ColonOperator();
+
         public bool TryCreateArray(string input, ref double[] result)
         {
             result = null;
@@ -30,7 +32,20 @@ namespace SquaredInfinity.Foundation.Maths.Parsing
                 if (double.TryParse(t, out n))
                     numbers.Add(n);
                 else
-                    return false;
+                {
+                    var expanded_array = (double[])null;
+
+                    if (ColonOperator.TryCreateArray(t, ref expanded_array))
+                    {
+                        numbers.AddRange(expanded_array);
+                    }
+                    else
+                    {
+                        // parsing failed, at the moment default action is to just continue, 
+                        // but maybe optionally exception should be thrown instead?
+                        continue;
+                    }
+                }
             }
 
             result = numbers.ToArray();
