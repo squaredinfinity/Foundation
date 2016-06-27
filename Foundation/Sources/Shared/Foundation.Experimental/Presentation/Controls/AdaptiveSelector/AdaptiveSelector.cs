@@ -264,21 +264,7 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
             if (SelectionMarkerVisibility != null)
                 return SelectionMarkerVisibility.Value;
 
-            // 0 or 1 item, don't show markers
-            if (Items.Count < 2)
-            {
-                return Visibility.Collapsed;
-            }
-
-            // not all items selected, show markers
-            if (SelectedItems.Count < Items.Count)
-            {
-                return Visibility.Visible;
-            }
-            else // all items selected, don't show markers
-            {
-                return Visibility.Collapsed;
-            }
+            return SelectorLogic.GetSelectionMarkersVisibility(Items.Count, SelectedItems.Count);
         }
 
         public void InitializeSelectionMarkerThumb(Thumb thumb)
