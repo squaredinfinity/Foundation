@@ -19,5 +19,19 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
             get { return _isDragging; }
             set { TrySetThisPropertyValue(ref _isDragging, value); }
         }
+
+        double _left = 0.0;
+        public double Left
+        {
+            get { return _left; }
+            set { TrySetThisPropertyValue(ref _left, value); }
+        }
+
+        double _width = 0.0;
+        public double Width
+        {
+            get { return _width; }
+            set { TrySetThisPropertyValue(ref _width, value); }
+        }
     }
 }

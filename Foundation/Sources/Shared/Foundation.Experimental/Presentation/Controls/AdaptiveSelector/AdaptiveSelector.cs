@@ -286,11 +286,7 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
             // set initial offset
             var selection_marker = thumb.DataContext as SelectionMarker;
 
-            var offset = GetOffset(selection_marker.Item);
-
-            var cp = thumb.FindVisualParent<ContentPresenter>();
-
-            Canvas.SetLeft(cp, offset);
+            RefreshMarker(selection_marker);
 
             BeginThumbMonitoring(thumb);
         }
@@ -317,8 +313,8 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
 
             var offset = GetOffset(selection_marker.Item);
 
-            Canvas.SetLeft(cp, offset);
-
+            selection_marker.Left = offset;
+            
             selection_marker.IsDragging = false;
 
             if (selection_marker.Item == null)
@@ -346,8 +342,7 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
 
             var new_left = (old_left + e.HorizontalChange).Clamp(0 - full_width_offset, ActualWidth - full_width_offset);
 
-            Canvas.SetLeft(cp, new_left);
-
+            selection_marker.Left = new_left;
             // change selection
 
             var offset_including_marker_point = new_left + (cp.ActualWidth / 2);
@@ -428,9 +423,33 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
             this.SelectionChanged += AdaptiveSelector_SelectionChanged;
             this.MouseWheel += MultiSelectionSlider_MouseWheel;
 
+            this.SizeChanged += AdaptiveSelector_SizeChanged;
+
         }
 
+        void AdaptiveSelector_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            RefreshMarkers();
+        }
 
+        void RefreshMarkers()
+        {
+            foreach (var m in SelectionMarkers)
+            {
+                RefreshMarker(m);
+            }
+        }
+
+        void RefreshMarker(SelectionMarker marker)
+        {
+            var offset = GetOffset(marker.Item);
+
+            marker.Left = offset;
+
+            var width = GetThumbWidth(marker.Item);
+
+            marker.Width = width;
+        }
 
         protected override void OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
@@ -698,7 +717,7 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
             return null;
         }
 
-        public double GetOffset(object item)
+        double GetOffset(object item)
         {
             var item_ix = Items.IndexOf(item);
 
@@ -721,7 +740,7 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
             return offset + thumb_width / 4;
         }
 
-        public double GetThumbWidth(object item)
+        double GetThumbWidth(object item)
         {
             var item_width = GetWidth(item);
 
