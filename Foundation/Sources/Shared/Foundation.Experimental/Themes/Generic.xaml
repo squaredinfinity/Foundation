@@ -40,9 +40,7 @@
 
                             <!-- SELECTION MARKERS -->
                             <ItemsControl Grid.Row="2" 
-                                          BorderBrush="Black"
                                           Height="20"
-                                          BorderThickness="1"
                                           ItemsSource="{TemplatedParentBinding SelectionMarkers}"
                                           Visibility="{MethodResultBinding GetSelectionMarkersVisibility, 
                                 RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}},
