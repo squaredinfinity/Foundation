@@ -30,7 +30,7 @@ namespace SquaredInfinity.Foundation.Presentation
             return null;
         }
 
-        public virtual Visibility GetSelectionMarkersVisibility(int allItemsCount, int selectedItemsCount)
+        public virtual Visibility GetSelectionMarkersVisibility(object selectorIdentifier, int allItemsCount, int selectedItemsCount)
         {            
             // 0 or 1 item, don't show markers
             if (allItemsCount < 2)

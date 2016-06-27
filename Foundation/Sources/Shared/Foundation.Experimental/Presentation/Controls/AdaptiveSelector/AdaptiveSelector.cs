@@ -264,7 +264,7 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
             if (SelectionMarkerVisibility != null)
                 return SelectionMarkerVisibility.Value;
 
-            return SelectorLogic.GetSelectionMarkersVisibility(Items.Count, SelectedItems.Count);
+            return SelectorLogic.GetSelectionMarkersVisibility(SelectorIdentifier, Items.Count, SelectedItems.Count);
         }
 
         public void InitializeSelectionMarkerThumb(Thumb thumb)
