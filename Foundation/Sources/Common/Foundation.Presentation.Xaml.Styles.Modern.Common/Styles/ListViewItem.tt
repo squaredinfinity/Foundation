@@ -90,7 +90,7 @@
                         </Trigger>
 
                         <Trigger Property="ItemsControl.AlternationIndex" Value="0">
-                            <Setter Property="Background" Value="{TemplateBinding Background}" />
+                            <Setter Property="Background" Value="{Binding Background, RelativeSource={RelativeSource Self}}" />
                         </Trigger>
                         <Trigger Property="ItemsControl.AlternationIndex" Value="1">
                             <Setter Property="Background" Value="<#=listitem_odd_background#>" />
