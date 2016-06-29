@@ -69,6 +69,7 @@
     <Compile Include="INotifyVersionChangedObject.cs" />
     <Compile Include="Iterator.cs" />
     <Compile Include="LogicalOrder.cs" />
+    <Compile Include="NamedObject.cs" />
     <Compile Include="ObjectExtensibility\Extension.cs" />
     <Compile Include="ObjectExtensibility\ExtensionCollection.cs" />
     <Compile Include="ObjectExtensibility\IExtensibleObject.cs" />
