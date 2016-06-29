@@ -48,6 +48,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\TreeView.MultiSelection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\TreeView.PreventAutomaticScrolling.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\TreeView.SelectionChangedInhibitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\View.ForwardViewModelEvents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\_supporttypes\ItemContainerGenerator_ItemsChangedHander.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\XamlObservableCollectionEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\XamlVirtualizingCollection.cs" />

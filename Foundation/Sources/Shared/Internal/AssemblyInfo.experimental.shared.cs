@@ -4,8 +4,8 @@ using System.Runtime.InteropServices;
 
 #if EXPERIMENTAL
 
-[assembly: AssemblyVersion("1.3.7.3")]
-[assembly: AssemblyFileVersion("1.3.7.3")]
-[assembly: AssemblyInformationalVersion("1.3.7-beta003")]
+[assembly: AssemblyVersion("1.3.7.4")]
+[assembly: AssemblyFileVersion("1.3.7.4")]
+[assembly: AssemblyInformationalVersion("1.3.7-beta004")]
 
 #endif

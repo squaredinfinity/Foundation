@@ -16,8 +16,6 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
         
         public bool IsHandled { get; set; }
 
-        public object Payload { get; private set; }
-
         public ViewModelEventArgs(
             IViewModel sender, 
             IViewModelEvent @event, 
