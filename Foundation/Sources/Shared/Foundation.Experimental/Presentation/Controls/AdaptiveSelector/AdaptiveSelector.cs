@@ -241,7 +241,6 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
 
         #endregion
 
-
         IEqualityComparer<object> _itemEqualityComparer = EqualityComparer<object>.Default;
 
         /// <summary>
@@ -394,13 +393,80 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
             ItemsPresenter = this.FindVisualDescendant<ItemsPresenter>();
         }
 
+        #region Selection Mode
+
+        public SelectionBehavior SelectionBehavior
+        {
+            get { return (SelectionBehavior)GetValue(SelectionBehaviorProperty); }
+            set { SetValue(SelectionBehaviorProperty, value); }
+        }
+        
+        public static readonly DependencyProperty SelectionBehaviorProperty =
+            DependencyProperty.Register(
+                "SelectionBehavior", 
+                typeof(SelectionBehavior),
+                typeof(AdaptiveSelector), 
+                new PropertyMetadata(SelectionBehavior.SingleWithToggleAllowMulti));
+
+        #endregion
+
+
         public void ToggleSelection(object item)
         {
+            if (SelectionBehavior == SelectionBehavior.SingleWithToggleAllowMulti)
+            {
+                // if no items selected, just select
+                if (SelectedItems.Count == 0)
+                {
+                    SelectedItems.Add(item);
+                    return;
+                }
 
-            if (SelectedItems.Contains(item))
-                SelectedItems.Remove(item);
+                if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                {
+                    if (SelectedItems.Contains(item))
+                    {
+                        SelectedItems.Remove(item);
+                        return;
+                    }
+                    else
+                    {
+                        SelectedItems.Add(item);
+                        return;
+                    }
+                }
+                else
+                if (SelectedItems.Count >= 1)
+                {
+                    // select this item, even if already selected
+                    SelectedItems.Clear();
+                    SelectedItems.Add(item);
+                    return;
+                }
+            }
             else
-                SelectedItems.Add(item);
+            if (SelectionBehavior == SelectionBehavior.Multi)
+            {
+                if (SelectedItems.Contains(item))
+                    SelectedItems.Remove(item);
+                else
+                    SelectedItems.Add(item);
+            }
+            else
+            if(SelectionBehavior == SelectionBehavior.SingleWithToggle)
+            {
+                if (SelectedItems.Contains(item))
+                {
+                    SelectedItems.Clear();
+                    return;
+                }
+                else
+                {
+                    SelectedItems.Clear();
+                    SelectedItems.Add(item);
+                    return;
+                }
+            }
         }
 
         public AdaptiveSelector()

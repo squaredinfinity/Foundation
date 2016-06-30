@@ -20,6 +20,7 @@
                                 <controls:AdaptiveSelector ItemsSource="{TemplatedParentBinding ViewModel.Numbers}" 
                                                            BindableSelectedItems="{TemplatedParentBinding ViewModel.SelectedNumbers}"
                                                            SelectorLogic="{TemplatedParentBinding ViewModel.SelectorLogic}"
+                                                           
                                                            SelectionHighlight="#B3B3B3"
                                                            Margin="25,0,25,0"
                                                            HorizontalAlignment="Stretch"
