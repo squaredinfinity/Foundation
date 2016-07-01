@@ -406,27 +406,77 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
                 "SelectionBehavior", 
                 typeof(SelectionBehavior),
                 typeof(AdaptiveSelector), 
-                new PropertyMetadata(SelectionBehavior.SingleWithToggleAllowMulti));
+                new PropertyMetadata(SelectionBehavior.MultiWithToggle));
 
         #endregion
 
 
-        public void ToggleSelection(object item)
+        public void SelectItem(object item)
         {
-            if (SelectionBehavior == SelectionBehavior.SingleWithToggleAllowMulti)
+            bool previously_selected = SelectedItems.Contains(item);
+
+            if(SelectionBehavior.HasFlag(SelectionBehavior.Single))
             {
-                // if no items selected, just select
-                if (SelectedItems.Count == 0)
+                if (SelectedItems.Count > 0)
                 {
-                    SelectedItems.Add(item);
-                    return;
+                    for (int i = SelectedItems.Count - 1; i >= 0; i--)
+                    {
+                        if (!object.Equals(item, SelectedItems[i]))
+                            SelectedItems.RemoveAt(i);
+                    }
                 }
 
+                // we are left with empty selection or only item selected
+
+                if(previously_selected)
+                {
+                    if (SelectionBehavior.HasFlag(SelectionBehavior.MustHaveSelection))
+                    {
+                        // cannot toggle selection, do nothing
+                        return;
+                    }
+                    else if(SelectionBehavior.HasFlag(SelectionBehavior.AllowToggle))
+                    {
+                        // remove item
+                        SelectedItems.Remove(item);
+                    }
+                    else
+                    {
+                        // toggle disable, item already selected, do nothing
+                    }
+                }
+                else
+                {
+                    // add item to selection
+                    SelectedItems.Add(item);
+                }
+            }
+            else
+            {
+                SelectItemInMultiMode(item, previously_selected);
+            }
+        }
+
+        void SelectItemInMultiMode(object item, bool previously_selected)
+        {
+            if (SelectionBehavior.HasFlag(SelectionBehavior.MutliWithoutCtrl))
+            {
+                // nothing to do here
+            }
+            else
+            {
                 if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
                 {
                     if (SelectedItems.Contains(item))
                     {
-                        SelectedItems.Remove(item);
+                        if (SelectedItems.Count == 1 && SelectionBehavior.HasFlag(SelectionBehavior.MustHaveSelection))
+                        {
+                            // do nothing
+                        }
+                        else
+                        {
+                            SelectedItems.Remove(item);
+                        }
                         return;
                     }
                     else
@@ -436,35 +486,51 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
                     }
                 }
                 else
-                if (SelectedItems.Count >= 1)
                 {
-                    // select this item, even if already selected
-                    SelectedItems.Clear();
-                    SelectedItems.Add(item);
-                    return;
-                }
-            }
-            else
-            if (SelectionBehavior == SelectionBehavior.Multi)
-            {
-                if (SelectedItems.Contains(item))
-                    SelectedItems.Remove(item);
-                else
-                    SelectedItems.Add(item);
-            }
-            else
-            if(SelectionBehavior == SelectionBehavior.SingleWithToggle)
-            {
-                if (SelectedItems.Contains(item))
-                {
-                    SelectedItems.Clear();
-                    return;
-                }
-                else
-                {
-                    SelectedItems.Clear();
-                    SelectedItems.Add(item);
-                    return;
+                    var had_several_items = SelectedItems.Count > 1;
+
+                    // clear other items and select this item, even if already selected
+                    for (int i = SelectedItems.Count - 1; i >= 0; i--)
+                    {
+                        if (!object.Equals(item, SelectedItems[i]))
+                            SelectedItems.RemoveAt(i);
+                    }
+
+                    if (had_several_items)
+                    {
+                        if (!SelectedItems.Contains(item))
+                            SelectedItems.Add(item);
+
+                        return;
+                    }
+                    else
+                    {
+                        if (SelectionBehavior.HasFlag(SelectionBehavior.AllowToggle))
+                        {
+                            if (SelectionBehavior.HasFlag(SelectionBehavior.MustHaveSelection))
+                            {
+                                if (!SelectedItems.Contains(item))
+                                    SelectedItems.Add(item);
+                            }
+                            else
+                            {
+                                if (previously_selected)
+                                {
+                                    SelectedItems.Remove(item);
+                                }
+                                else
+                                {
+                                    if (!SelectedItems.Contains(item))
+                                        SelectedItems.Add(item);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (!SelectedItems.Contains(item))
+                                SelectedItems.Add(item);
+                        }
+                    }
                 }
             }
         }

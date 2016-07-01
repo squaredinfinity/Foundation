@@ -88,7 +88,7 @@
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="controls:MultiSelectionSliderItem">
                                                         <Border BorderBrush="Black"
-                                                                behaviors:Click.Command="{CommandMethodBinding ToggleSelection, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}"
+                                                                behaviors:Click.Command="{CommandMethodBinding SelectItem, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}"
                                                                 behaviors:Click.CommandParameter="{Binding}"
                                                                 Background="{MethodResultBinding GetItemBackground, 
                                                             RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}, 
