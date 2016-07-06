@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Media;
 using System.Windows;
 using System.Windows.Controls;
+using System.Reactive.Subjects;
 
 namespace SquaredInfinity.Foundation.Presentation
 {
@@ -13,6 +14,17 @@ namespace SquaredInfinity.Foundation.Presentation
         public virtual IReadOnlyList<IUserAction> GetAvailableUserAction(object selectorIdentifier, object item)
         {
             return new IUserAction[0];
+        }
+
+        readonly Subject<EventArgs> _itemBackgroundRefreshRequested = new Subject<EventArgs>();
+        public IObservable<EventArgs> ItemBackgroundRefreshRequested
+        {
+            get { return _itemBackgroundRefreshRequested; }
+        }
+
+        public void RaiseItemBackgroundRefreshRequest()
+        {
+            _itemBackgroundRefreshRequested.OnNext(EventArgs.Empty);
         }
 
         public virtual Color? GetItemBackgroundColor(object selectorIdentifier, object item, bool isSelected)

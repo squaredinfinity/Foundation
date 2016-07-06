@@ -40,6 +40,10 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
             if (baseValue == null)
                 return new DummySelectorLogic();
 
+            var adsel = d as AdaptiveSelector;
+
+            (baseValue as ISelectorLogic).ItemBackgroundRefreshRequested.WeakSubscribe(adsel, (_t, _args) => _t.IncrementVersion());
+
             return baseValue;
         }
 
