@@ -8,12 +8,19 @@ namespace SquaredInfinity.Foundation.Tagging
     public interface ITagCollection : IEnumerable<Tag>
     {
         void Add(string tag);
+        void Add(string tag, object value);
+
         void AddOrUpdate(string tag, object value);
         void Remove(string tag);
         void AddOrUpdateFrom(ITagCollection other);
 
         bool Contains(string tag);
+
+        object GetTagValue(string tag);
         bool TryGetTagValue(string tag, out object value);
+
+        object this[string tag] { get; set; }
+        object this[Tag tag] { get; set; }
     }
 
     public struct Tag : IEquatable<Tag>
