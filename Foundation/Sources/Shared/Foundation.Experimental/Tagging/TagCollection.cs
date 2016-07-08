@@ -8,21 +8,10 @@ using System.Collections;
 
 namespace SquaredInfinity.Foundation.Tagging
 {
-    public interface ITagCollection : IEnumerable<KeyValuePair<string, object>>
-    {
-        void AddTag(string tag);
-        void AddOrUpdateTag(string tag, object value);
-        void RemoveTag(string tag);
-        void AddFrom(ITagCollection other);
-
-        bool ContainsTag(string tag);
-        bool TryGetTagValue(string tag, out object value);
-    }
-
     [DebuggerDisplay("{DebuggerDisplay}")]
     public class TagCollection : ITagCollection
     {
-        readonly Dictionary<string, object> Storage;
+        readonly Dictionary<string, Tag> Storage = new Dictionary<string, Tag>();
 
         public TagCollection()
             : this (StringComparer.InvariantCultureIgnoreCase)
@@ -30,7 +19,7 @@ namespace SquaredInfinity.Foundation.Tagging
 
         public TagCollection(IEqualityComparer<string> equalityComparer)
         {
-            Storage = new Dictionary<string, object>(equalityComparer);
+            Storage = new Dictionary<string, Tag>(equalityComparer);
         }
 
         public string DebuggerDisplay
@@ -41,31 +30,31 @@ namespace SquaredInfinity.Foundation.Tagging
             }
         }
 
-        public void AddFrom(ITagCollection other)
+        public void AddOrUpdateFrom(ITagCollection other)
         {
             if (other == null)
                 return;
 
-            foreach(var kvp in other)
+            foreach(var tag in other)
             {
-                Storage[kvp.Key] = kvp.Value;
+                Storage[tag.Key] = tag;
             }
         }
 
-        public void AddOrUpdateTag(string tag, object value)
+        public void AddOrUpdate(string tag, object value)
         {
-            Storage[tag] = value;
+            Storage[tag] = new Tag(tag, value);
         }
 
-        public void AddTag(string tag)
+        public void Add(string tag)
         {
             if (!Storage.ContainsKey(tag))
-                Storage.Add(tag, null);
+                Storage.Add(tag, new Tag(tag));
         }
 
-        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
+        public IEnumerator<Tag> GetEnumerator()
         {
-            return Storage.GetEnumerator();
+            return Storage.Values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -73,12 +62,12 @@ namespace SquaredInfinity.Foundation.Tagging
             return Storage.GetEnumerator();
         }
 
-        public void RemoveTag(string tag)
+        public void Remove(string tag)
         {
             Storage.Remove(tag);
         }
 
-        public bool ContainsTag(string tag)
+        public bool Contains(string tag)
         {
             return Storage.ContainsKey(tag);
         }
