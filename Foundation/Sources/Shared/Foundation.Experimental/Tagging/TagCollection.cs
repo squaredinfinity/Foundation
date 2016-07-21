@@ -4,6 +4,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Collections;
 
@@ -12,7 +13,7 @@ namespace SquaredInfinity.Foundation.Tagging
     [DebuggerDisplay("{DebuggerDisplay}")]
     public class TagCollection : ITagCollection
     {
-        readonly Dictionary<string, Tag> Storage = new Dictionary<string, Tag>();
+        readonly MultiMap<string, object> Storage = new MultiMap<string, object>();
 
         public TagCollection()
             : this (StringComparer.InvariantCultureIgnoreCase)
@@ -20,7 +21,7 @@ namespace SquaredInfinity.Foundation.Tagging
 
         public TagCollection(IEqualityComparer<string> equalityComparer)
         {
-            Storage = new Dictionary<string, Tag>(equalityComparer);
+            Storage = new MultiMap<string, object>();
         }
 
         public string DebuggerDisplay
@@ -31,29 +32,27 @@ namespace SquaredInfinity.Foundation.Tagging
             }
         }
 
-        public object this[string tag]
+        #region this
+
+        public IReadOnlyList<object> this[string tag]
         {
             get
             {
-                return this.GetTagValue(tag);
-            }
-            set
-            {
-                AddOrUpdate(tag, value);
+                return this.GetTagValues(tag);
             }
         }
 
-        public object this[Tag tag]
+        public IReadOnlyList<object> this[Tag tag]
         {
             get
             {
-                return this.GetTagValue(tag.Key);
-            }
-            set
-            {
-                this.AddOrUpdate(tag.Key, value);
+                return this.GetTagValues(tag.Key);
             }
         }
+
+        #endregion
+
+        #region Add
 
         public void AddOrUpdateFrom(ITagCollection other)
         {
@@ -62,66 +61,98 @@ namespace SquaredInfinity.Foundation.Tagging
 
             foreach(var tag in other)
             {
-                Storage[tag.Key] = tag;
+                Storage[tag.Key].Clear();
+                Storage[tag.Key].Add(tag.Value);
             }
         }
 
         public void AddOrUpdate(string tag, object value)
         {
-            Storage[tag] = new Tag(tag, value);
+            Storage[tag].Clear();
+            Storage[tag].Add(value);
         }
 
         public void Add(string tag)
         {
-            if (Storage.ContainsKey(tag))
-                throw new ArgumentException($"tag with key {tag.ToStringWithNullOrEmpty()} already exists.");
-            else
-                Storage.Add(tag, new Tag(tag));
+            Storage.Add(tag, Tag.UnspecifiedValue);
         }
 
         public void Add(string tag, object value)
         {
-            if (Storage.ContainsKey(tag))
-                throw new ArgumentException($"tag with key {tag.ToStringWithNullOrEmpty()} already exists.");
-            else
-                Storage.Add(tag, new Tag(tag, value));
+            Storage.Add(tag, value);
         }
+
+        #endregion
+
+        #region Get Enumerator
 
         public IEnumerator<Tag> GetEnumerator()
         {
-            return Storage.Values.GetEnumerator();
+            return
+                (from kvp in Storage
+                 from v in kvp.Value
+                 where !object.Equals(v, Tag.UnspecifiedValue)
+                 select new Tag(kvp.Key, v))
+                 .GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return Storage.GetEnumerator();
+            return
+                 (from kvp in Storage
+                  from v in kvp.Value
+                  where !object.Equals(v, Tag.UnspecifiedValue)
+                  select new Tag(kvp.Key, v))
+                  .GetEnumerator();
         }
+
+        #endregion
 
         public void Remove(string tag)
         {
             Storage.Remove(tag);
         }
 
+        #region Contains
+
         public bool Contains(string tag)
         {
             return Storage.ContainsKey(tag);
         }
 
-        public object GetTagValue(string tag)
+        public bool Contains(string tag, object value)
         {
-            return Storage[tag];
+            var values = (HashSet<object>)null;
+
+            if (!Storage.TryGetValue(tag, out values))
+                return false;
+
+            return values.Contains(value);
         }
 
-        public bool TryGetTagValue(string tag, out object value)
+        #endregion
+
+        #region (Try) Get Tag Values
+
+        public IReadOnlyList<object> GetTagValues(string tag)
         {
-            if(Storage.ContainsKey(tag))
+            return Storage[tag].Except(Tag.UnspecifiedValue).ToArray();
+        }
+
+        public bool TryGetTagValues(string tag, out IReadOnlyList<object> values)
+        {
+            var hs = (HashSet<object>)null;
+
+            if (!Storage.TryGetValue(tag, out hs))
             {
-                value = Storage[tag];
-                return true;
+                values = null;
+                return false;
             }
 
-            value = null;
-            return false;
+            values = hs.Except(Tag.UnspecifiedValue).ToArray();
+            return true;
         }
+
+        #endregion
     }
 }

@@ -9,22 +9,26 @@ namespace SquaredInfinity.Foundation.Tagging
     {
         void Add(string tag);
         void Add(string tag, object value);
-
         void AddOrUpdate(string tag, object value);
+
         void Remove(string tag);
+
         void AddOrUpdateFrom(ITagCollection other);
 
         bool Contains(string tag);
+        bool Contains(string tag, object value);
+        
+        IReadOnlyList<object> GetTagValues(string tag);
+        bool TryGetTagValues(string tag, out IReadOnlyList<object> value);
 
-        object GetTagValue(string tag);
-        bool TryGetTagValue(string tag, out object value);
-
-        object this[string tag] { get; set; }
-        object this[Tag tag] { get; set; }
+        IReadOnlyList<object> this[string tag] { get; }
+        IReadOnlyList<object> this[Tag tag] { get; }
     }
 
     public struct Tag : IEquatable<Tag>
     {
+        public static readonly string UnspecifiedValue = "*706afdf6-e67d-4184-b1cc-89859605788b*";
+
         public string Key { get; set; }
         public object Value { get; set; }
 

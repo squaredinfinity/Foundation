@@ -14,7 +14,10 @@ namespace SquaredInfinity.Foundation.Collections
     public class MultiMap<TKey, TItem> : Dictionary<TKey, HashSet<TItem>>
     {
         public MultiMap()
-            : base()
+        { }
+
+        public MultiMap(IEqualityComparer<TKey> keyComparer)
+            : base(keyComparer)
         { }
 
         public bool Add(TKey key, TItem value)
