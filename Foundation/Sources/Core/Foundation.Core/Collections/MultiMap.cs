@@ -122,5 +122,13 @@ namespace SquaredInfinity.Foundation.Collections
             }
             return result;
         }
+
+        public void EnsureKeyExists(TKey key)
+        {
+            if(!ContainsKey(key))
+            {
+                base.Add(key, new HashSet<TItem>());
+            }
+        }
     }
 }

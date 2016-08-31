@@ -61,6 +61,7 @@ namespace SquaredInfinity.Foundation.Tagging
 
             foreach(var tag in other)
             {
+                Storage.EnsureKeyExists(tag.Key);
                 Storage[tag.Key].Clear();
                 Storage[tag.Key].Add(tag.Value);
             }
@@ -68,6 +69,7 @@ namespace SquaredInfinity.Foundation.Tagging
 
         public void AddOrUpdate(string tag, object value)
         {
+            Storage.EnsureKeyExists(tag);
             Storage[tag].Clear();
             Storage[tag].Add(value);
         }
