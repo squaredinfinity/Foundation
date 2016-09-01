@@ -5,8 +5,12 @@ using System.Text;
 
 namespace SquaredInfinity.Foundation.Types.Mapping
 {
-    public struct CreateInstanceContext
+    public class CreateInstanceContext
     {
-        public bool IsFullyConstructed;
+        public bool IsFullyConstructed { get; private set; }
+        public void MarkAsFullyConstructed()
+        {
+            IsFullyConstructed = true;
+        }
     }
 }

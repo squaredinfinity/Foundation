@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Reflection;
 using SquaredInfinity.Foundation.Types.Description.IL;
 using System.Collections;
+using System.Data;
 
 namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 {
@@ -20,13 +21,20 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
         internal static readonly XNamespace XmlNamespace = XNamespace.Get("http://schemas.squaredinfinity.com/serialization/flexixml");
 
         public FlexiXmlSerializer()
-        { 
-
+        {
+            OnInitialize();
         }
 
         public FlexiXmlSerializer(ITypeDescriptor typeDescriptor)
         {
             this.TypeDescriptor = typeDescriptor;
+
+            OnInitialize();
+        }
+
+        public virtual void OnInitialize()
+        {
+            
         }
         
         FlexiXmlTypeSerializationStrategy<T> CreateDefaultTypeSerializationStrategy<T>()

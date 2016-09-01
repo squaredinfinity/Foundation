@@ -12,6 +12,7 @@ using SquaredInfinity.Foundation.Extensions;
 using System.Reflection;
 using SquaredInfinity.Foundation.Types.Description.IL;
 using System.Threading;
+using System.Data;
 
 namespace SquaredInfinity.Foundation.Types.Mapping
 {
@@ -50,11 +51,36 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         }
    
         public TypeMapper()
-        { }
+        {
+            OnInitialize();
+        }
 
         public TypeMapper(ITypeDescriptor typeDescriptor)
         {
             TypeDescriptor = typeDescriptor;
+
+            OnInitialize();
+        }
+
+        public virtual void OnInitialize()
+        {
+            GetOrCreateTypeMappingStrategy<DataTable, DataTable>()
+            .CreateTargetInstance((_source, _cx) =>
+            {
+                // clone
+                var _clone = _source.Clone();
+
+                // import rows
+                foreach(var row in _source.Rows.OfType<DataRow>())
+                {
+                    _clone.ImportRow(row);
+                }
+
+                // mark as fully constructed so no further mapping is done
+                _cx.MarkAsFullyConstructed();
+
+                return _clone;
+            });
         }
 
         #region Deep Clone
@@ -385,7 +411,12 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                     var sourceValType = mappedValueCandidate.GetType();
                     var targetValType = (Type)null;
 
-                    if (targetMemberDescription.CanSetValue && targetMemberValue == null)
+                    if(!targetMemberDescription.CanSetValue && targetMemberValue == null)
+                    {
+                        // cannot set the value and cannot map anything because it's null
+                        // just ignore and move on
+                    }
+                    else if (targetMemberDescription.CanSetValue && targetMemberValue == null)
                     {
                         // target value is null
                         // if source type and target type are compatible, clone source value

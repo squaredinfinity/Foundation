@@ -272,6 +272,9 @@ namespace SquaredInfinity.Foundation.Extensions
         {
             me = me.FindNearestVisual();
 
+            if (me == null)
+                return null;
+
             DependencyObject parent = me.GetVisualParent();
 
             while (parent != null && parent != stopSearchAt)

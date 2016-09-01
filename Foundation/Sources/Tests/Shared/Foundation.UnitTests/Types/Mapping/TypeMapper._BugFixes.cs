@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -253,6 +254,29 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                 get { return _items; }
                 set { _items = value; }
             }
+        }
+
+        #endregion
+
+        #region BUG 007
+
+        [TestMethod]
+        public void Bug005__CloneDataTable__NotSupported_Thrown()
+        {
+            var dt = new DataTable();
+            dt.Columns.Add("str", typeof(string));
+            dt.Columns.Add("int", typeof(int));
+
+            dt.Rows.Add("one", 1);
+            dt.Rows.Add("two", 2);
+
+            var tm = new TypeMapper();  
+
+            var clone = tm.DeepClone(dt);
+
+            Assert.IsNotNull(clone);
+            Assert.AreEqual(dt.Rows.Count, clone.Rows.Count);
+            Assert.AreEqual(dt.Columns.Count, clone.Columns.Count);
         }
 
         #endregion

@@ -2,6 +2,7 @@
 using SquaredInfinity.Foundation.Collections;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -174,10 +175,10 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
 
         #endregion
 
-        #region BUG next
+        #region BUG 005
 
         [TestMethod]
-        public void Bug005__TypeInformation_LookupOnly__DeserializatonOfACollectionResultsInAnExtraNullElement()
+        public void Bug006__TypeInformation_LookupOnly__DeserializatonOfACollectionResultsInAnExtraNullElement()
         {
             var col = new BUG005_Collection();
             col.Add(7);
