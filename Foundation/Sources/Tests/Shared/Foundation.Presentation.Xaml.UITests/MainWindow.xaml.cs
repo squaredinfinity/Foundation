@@ -1,5 +1,7 @@
-﻿using SquaredInfinity.Foundation.Presentation.Windows;
+﻿using SquaredInfinity.Foundation.Collections;
+using SquaredInfinity.Foundation.Presentation.Windows;
 using SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.Windows;
+using SquaredInfinity.Foundation.Tagging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +27,16 @@ namespace Foundation.Presentation.Xaml.UITests
         public MainWindow()
         {
             InitializeComponent();
+
+            var tc = new TagCollection();
+            tc.Add("one", 1);
+            tc.Add("one", 2);
+
+            var tc2 = new TagCollection();
+            tc2.AddOrUpdateFrom(tc);
+            tc2.AddOrUpdateFrom(tc);
+
+            int a = 1;
         }
     }
 }

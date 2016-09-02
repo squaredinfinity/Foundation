@@ -84,6 +84,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingChangedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tagging\ITagCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tagging\Tag.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tagging\TagCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Threading\AsyncLoop.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Threading\AsyncOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Threading\IAsyncLoop.cs" />

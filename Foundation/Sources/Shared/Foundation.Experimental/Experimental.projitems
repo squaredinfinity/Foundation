@@ -30,8 +30,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\UserAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\UserActionParameters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\SelectionBehavior.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Tagging\ITagCollection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Tagging\TagCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources.cs" />
   </ItemGroup>
   <ItemGroup>

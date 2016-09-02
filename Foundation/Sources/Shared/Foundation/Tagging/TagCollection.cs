@@ -54,7 +54,7 @@ namespace SquaredInfinity.Foundation.Tagging
 
         #region Add
 
-        public void AddOrUpdateFrom(ITagCollection other)
+        public void AddOrUpdateFrom(ITagCollection other, bool overrideOldValue = true)
         {
             if (other == null)
                 return;
@@ -62,15 +62,21 @@ namespace SquaredInfinity.Foundation.Tagging
             foreach(var tag in other)
             {
                 Storage.EnsureKeyExists(tag.Key);
-                Storage[tag.Key].Clear();
+
+                if (overrideOldValue)
+                    Storage[tag.Key].Clear();
+
                 Storage[tag.Key].Add(tag.Value);
             }
         }
 
-        public void AddOrUpdate(string tag, object value)
+        public void AddOrUpdate(string tag, object value, bool overrideOldValue = true)
         {
             Storage.EnsureKeyExists(tag);
-            Storage[tag].Clear();
+
+            if (overrideOldValue)
+                Storage[tag].Clear();
+
             Storage[tag].Add(value);
         }
 
