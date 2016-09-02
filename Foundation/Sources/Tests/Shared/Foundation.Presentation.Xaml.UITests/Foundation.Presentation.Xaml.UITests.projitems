@@ -46,6 +46,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)MVVM\UsingViewCommandViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MVVM\ViewCommandView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MVVM\ViewCommandViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MVVM\VMEventsView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MVVM\VMEventsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MVVM\VMEvents_AnotherView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MVVM\VMEvents_AnotherViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MVVM\VMEvents_ProducerView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MVVM\VMEvents_ProducerViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UIService\UIServiceView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UIService\UIServiceViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources.cs" />
@@ -109,6 +115,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)MVVM\VMEventsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)MVVM\VMEvents_AnotherView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)MVVM\VMEvents_ProducerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)MVVM\UsingViewCommandView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -148,6 +166,9 @@
     <None Include="$(MSBuildThisFileDirectory)Fonts\FontsView.xaml" />
     <None Include="$(MSBuildThisFileDirectory)MainWindow.xaml" />
     <None Include="$(MSBuildThisFileDirectory)MarkupExtensions\MarkupExtensionsView.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)MVVM\VMEvents_ProducerView.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)MVVM\VMEvents_AnotherView.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)MVVM\VMEventsView.xaml" />
     <None Include="$(MSBuildThisFileDirectory)MVVM\UsingViewCommandView.xaml" />
     <None Include="$(MSBuildThisFileDirectory)MVVM\ViewCommandView.xaml" />
     <None Include="$(MSBuildThisFileDirectory)UIService\UIServiceView.xaml" />

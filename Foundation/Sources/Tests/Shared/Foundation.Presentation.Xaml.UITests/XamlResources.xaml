@@ -24,6 +24,10 @@
         <ResourceDictionary Source="{ResourceFromThisAssembly /MVVM/ViewCommandView.xaml}" />
         <ResourceDictionary Source="{ResourceFromThisAssembly /MVVM/UsingViewCommandView.xaml}" />
 
+        <ResourceDictionary Source="{ResourceFromThisAssembly /MVVM/VMEventsView.xaml}" />
+        <ResourceDictionary Source="{ResourceFromThisAssembly /MVVM/VMEvents_AnotherView.xaml}" />
+        <ResourceDictionary Source="{ResourceFromThisAssembly /MVVM/VMEvents_ProducerView.xaml}" />
+
         <ResourceDictionary Source="{ResourceFromThisAssembly /UIService/UIServiceView.xaml}" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

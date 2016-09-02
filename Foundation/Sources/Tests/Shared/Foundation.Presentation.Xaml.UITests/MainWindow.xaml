@@ -64,7 +64,14 @@
             <local_markupextensions:MarkupExtensionsView />
         </TabItem>
         <TabItem Header="MVVM">
-            <local_mvvm:UsingViewCommandView />
+            <TabControl>
+                <TabItem Header="View Command">
+                    <local_mvvm:UsingViewCommandView />
+                </TabItem>
+                <TabItem Header="View Model Events">
+                    <local_mvvm:VMEventsView />
+                </TabItem>
+            </TabControl>
         </TabItem>
         <TabItem Header="UI Service">
             <local_uiservice:UIServiceView />

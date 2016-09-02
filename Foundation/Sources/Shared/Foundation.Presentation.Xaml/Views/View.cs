@@ -161,11 +161,6 @@ namespace SquaredInfinity.Foundation.Presentation.Views
 
         void OnViewModelEventInternal(ViewModelEventRoutedEventArgs args)
         {
-            OnViewModelEventInternal(args.ViewModelEventArgs);
-
-            if (args.ViewModelEventArgs.IsHandled)
-                return;
-
             if (ViewModel == null)
                 return;
 

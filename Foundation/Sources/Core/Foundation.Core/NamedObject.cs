@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace SquaredInfinity.Foundation
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public class NamedObject
     {
         public string Name { get; private set; }
@@ -13,6 +15,11 @@ namespace SquaredInfinity.Foundation
         {
             this.Name = name;
             this.Object = obj;
+        }
+
+        public string DebuggerDisplay
+        {
+            get { return Name; }
         }
     }
 }

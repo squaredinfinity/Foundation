@@ -46,6 +46,20 @@ namespace SquaredInfinity.Foundation.Types.Mapping
             return this;
         }
 
+        public ITypeMappingStrategy<TFrom, TTo> IgnoreMember(string memberName)
+        {
+            foreach (var kvp in TargetMembersMappings)
+            {
+                if (kvp.Key.Name == memberName)
+                {
+                    TargetMembersMappings.Remove(kvp.Key);
+                    return this;
+                }
+            }
+
+            return this;
+        }
+
         public ITypeMappingStrategy<TFrom, TTo> IgnoreAllMembers()
         {
             TargetMembersMappings.Clear();

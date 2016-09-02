@@ -34,6 +34,8 @@ namespace SquaredInfinity.Foundation.Types.Mapping
         // todo: this should return interface (other than type mapping stragegy?
         // fluid-sort-of wrapper to hide members of ITypeMappingStrategy ?
         ITypeMappingStrategy<TFrom, TTo> IgnoreAllMembers();
+        ITypeMappingStrategy<TFrom, TTo> IgnoreMember(string memberName);
+
         ITypeMappingStrategy<TFrom, TTo> MapMember<TMember>(
             Expression<
             Func<TTo, object>> targetMemberExpression,
