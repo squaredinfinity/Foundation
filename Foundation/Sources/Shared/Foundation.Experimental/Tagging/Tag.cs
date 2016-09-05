@@ -8,8 +8,6 @@ namespace SquaredInfinity.Foundation.Tagging
     [DebuggerDisplay("{DebuggerDisplay}")]
     public struct Tag : IEquatable<Tag>
     {
-        public static readonly string UnspecifiedValue = "*706afdf6-e67d-4184-b1cc-89859605788b*";
-
         public string Key { get; set; }
         public object Value { get; set; }
 

@@ -30,6 +30,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\UserAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\Infrastructure\UserActionParameters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\SelectionBehavior.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tagging\ITagCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tagging\Tag.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tagging\TagCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -41,9 +44,5 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\AdaptiveSelector.xaml" />
-    <None Include="$(MSBuildThisFileDirectory)Themes\Generic.xaml" />
   </ItemGroup>
 </Project>

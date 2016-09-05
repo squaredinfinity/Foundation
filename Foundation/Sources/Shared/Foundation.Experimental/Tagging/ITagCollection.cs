@@ -9,11 +9,12 @@ namespace SquaredInfinity.Foundation.Tagging
     {
         void Add(string tag);
         void Add(string tag, object value);
-        void AddOrUpdate(string tag, object value);
+        void AddRange(string tag, IEnumerable<object> values);
+        void AddOrUpdate(string tag, object value, bool overrideOldValues = false);
 
         void Remove(string tag);
 
-        void AddOrUpdateFrom(ITagCollection other);
+        void AddOrUpdateFrom(ITagCollection other, bool overrideOldValues = false);
 
         bool Contains(string tag);
         bool Contains(string tag, object value);

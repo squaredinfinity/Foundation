@@ -54,27 +54,44 @@ namespace SquaredInfinity.Foundation.Tagging
 
         #region Add
 
-        public void AddOrUpdateFrom(ITagCollection other, bool overrideOldValue = true)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <param name="overrideOldValues">If true, old tags that also exist in 'other' collection will be removed before new values are imported. Otherwise new values will be added to the set together with old values.</param>
+        public void AddOrUpdateFrom(ITagCollection other, bool overrideOldValues = false)
         {
             if (other == null)
                 return;
+
+            if(overrideOldValues)
+            {
+                foreach(var tag in other)
+                {
+                    if (Storage.ContainsKey(tag.Key))
+                        Storage[tag.Key].Clear();
+                }
+            }
 
             foreach(var tag in other)
             {
                 Storage.EnsureKeyExists(tag.Key);
 
-                if (overrideOldValue)
-                    Storage[tag.Key].Clear();
-
                 Storage[tag.Key].Add(tag.Value);
             }
         }
 
-        public void AddOrUpdate(string tag, object value, bool overrideOldValue = true)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <param name="value"></param>
+        /// <param name="overrideOldValues">If true and tag already exists, its values will be removed before new value is imported. Otherwise new value will be added to the set together with old values.</param>
+        public void AddOrUpdate(string tag, object value, bool overrideOldValues = false)
         {
             Storage.EnsureKeyExists(tag);
 
-            if (overrideOldValue)
+            if (overrideOldValues)
                 Storage[tag].Clear();
 
             Storage[tag].Add(value);
@@ -82,12 +99,20 @@ namespace SquaredInfinity.Foundation.Tagging
 
         public void Add(string tag)
         {
-            Storage.Add(tag, Tag.UnspecifiedValue);
+            Storage.Add(tag, true);
         }
 
         public void Add(string tag, object value)
         {
             Storage.Add(tag, value);
+        }
+
+        public void AddRange(string tag, IEnumerable<object> values)
+        {
+            foreach(var v in values)
+            {
+                Storage.Add(tag, v);
+            }
         }
 
         #endregion
@@ -99,7 +124,6 @@ namespace SquaredInfinity.Foundation.Tagging
             return
                 (from kvp in Storage
                  from v in kvp.Value
-                 where !object.Equals(v, Tag.UnspecifiedValue)
                  select new Tag(kvp.Key, v))
                  .GetEnumerator();
         }
@@ -109,7 +133,6 @@ namespace SquaredInfinity.Foundation.Tagging
             return
                  (from kvp in Storage
                   from v in kvp.Value
-                  where !object.Equals(v, Tag.UnspecifiedValue)
                   select new Tag(kvp.Key, v))
                   .GetEnumerator();
         }
@@ -144,7 +167,7 @@ namespace SquaredInfinity.Foundation.Tagging
 
         public IReadOnlyList<object> GetTagValues(string tag)
         {
-            return Storage[tag].Except(Tag.UnspecifiedValue).ToArray();
+            return Storage[tag].ToArray();
         }
 
         public bool TryGetTagValues(string tag, out IReadOnlyList<object> values)
@@ -157,7 +180,7 @@ namespace SquaredInfinity.Foundation.Tagging
                 return false;
             }
 
-            values = hs.Except(Tag.UnspecifiedValue).ToArray();
+            values = hs.ToArray();
             return true;
         }
 
