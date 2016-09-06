@@ -33,7 +33,11 @@
                                     <controls:AdaptiveSelector.ItemContainerStyle>
                                         <Style TargetType="controls:MultiSelectionSliderItem">                                            
                                             <Setter Property="Tag" Value="{Binding RelativeSource={RelativeSource AncestorType=controls:AdaptiveSelector}}" />
-                                            <Setter Property="ContextMenu">
+                                          <Setter Property="behaviors:Click.Command" Value="{CommandMethodBinding SelectItem, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}"/>
+                                          <Setter Property="behaviors:Click.CommandParameter" Value="{Binding}" />
+                                          <Setter Property="behaviors:KeyUp.Command" Value="{CommandMethodBinding HandleKeyInput, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}"/>
+                                          <Setter Property="behaviors:KeyUp.CommandParameter" Value="{Binding}" />
+                                          <Setter Property="ContextMenu">
                                                 <Setter.Value>
                                                     <ContextMenu DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}"
                                                                                  ItemsSource="{MethodResultBinding Tag.GetAvailableActions, ParameterBinding={Binding DataContext}}">
@@ -82,8 +86,6 @@
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="controls:MultiSelectionSliderItem">
                                                         <Border BorderBrush="Black"
-                                                                behaviors:Click.Command="{CommandMethodBinding SelectItem, RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}}"
-                                                                behaviors:Click.CommandParameter="{Binding}"
                                                                 Background="{MethodResultBinding GetItemBackground, 
                                                             RelativeSource={RelativeSource AncestorType={x:Type controls:AdaptiveSelector}}, 
                                                             Converter={StaticResource Converters.ColorToGradientBrush}, 

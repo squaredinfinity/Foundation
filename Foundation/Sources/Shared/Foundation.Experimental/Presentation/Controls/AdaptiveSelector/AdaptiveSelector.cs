@@ -414,6 +414,28 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
 
         #endregion
 
+        public virtual void HandleKeyInput(Dictionary<string, object> parameters)
+        {
+            var keyEventArgs = parameters["args"] as KeyEventArgs;
+            var item = parameters["payload"];
+
+            if (keyEventArgs.Key == Key.Space)
+            {
+                SelectItem(item);
+            }
+            else if (keyEventArgs.Key == Key.Left)
+            {
+                SelectItem(item);
+            }
+            else
+            {
+                if (keyEventArgs.Key != Key.Right)
+                    return;
+
+                SelectItem(item);
+            }
+        }
+
 
         public void SelectItem(object item)
         {

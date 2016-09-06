@@ -40,6 +40,7 @@
 
                             <!-- SELECTION MARKERS -->
                             <ItemsControl Grid.Row="2" 
+                                          Focusable="false"
                                           Height="20"
                                           ItemsSource="{TemplatedParentBinding SelectionMarkers}"
                                           Visibility="{MethodResultBinding GetSelectionMarkersVisibility, 
