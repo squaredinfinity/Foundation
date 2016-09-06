@@ -17,6 +17,7 @@
                     <ControlTemplate TargetType="{x:Type local:AdaptiveSelectorView}">
                         <TabControl>
                             <TabItem Header="Items Source (default logic)">
+                              
                                 <controls:AdaptiveSelector ItemsSource="{TemplatedParentBinding ViewModel.Numbers}" 
                                                            BindableSelectedItems="{TemplatedParentBinding ViewModel.SelectedNumbers}"
                                                            SelectorLogic="{TemplatedParentBinding ViewModel.SelectorLogic}"

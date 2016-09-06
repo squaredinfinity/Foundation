@@ -54,6 +54,7 @@
     <ProjectReference Include="..\..\Core\Foundation.Maths.Core\Foundation.Maths.Core.csproj">
       <Project>{3d68571e-52ca-481b-b2b6-e22e5c214cb6}</Project>
       <Name>Foundation.Maths.Core</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\Shared\Foundation\Foundation.projitems" Label="Shared" />
