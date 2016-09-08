@@ -10,12 +10,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.xaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CF_HTML.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\DefaultObjectPoolStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\DefaultObjectPoolStoreMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\IObjectPoolItemAcquisition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\IObjectPoolStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\ObjectPool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\ObjectPoolItemAcquisition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IClipboardService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\AdaptiveSelector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\AdaptiveSelectorItemGroup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Controls\AdaptiveSelector\DummySelectorBehaviorController.cs" />

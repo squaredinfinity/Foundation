@@ -81,6 +81,10 @@
       <Project>{4ed231bf-b533-4842-9b80-b0f30e360ead}</Project>
       <Name>Foundation.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Core\Foundation.Graphics.Core\Foundation.Graphics.Core.csproj">
+      <Project>{03fa2790-6cb6-4ed0-a2b9-8a6cf8b958be}</Project>
+      <Name>Foundation.Graphics.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Core\Foundation.Maths.Core\Foundation.Maths.Core.csproj">
       <Project>{3d68571e-52ca-481b-b2b6-e22e5c214cb6}</Project>
       <Name>Foundation.Maths.Core</Name>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SquaredInfinity.Foundation.IntraMessaging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -62,5 +63,33 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
             get { return _title; }
             set { TrySetThisPropertyValue(ref _title, value); }
         }
+
+        #region IntraMessage
+
+        public void Receive(IIntraMessage msg)
+        {
+            OnIntraMessageReceived(msg);
+        }
+
+        protected virtual void OnIntraMessageReceived(IIntraMessage msg)
+        {
+            var routing_strategy = ViewModelEventRoutingStrategy.Bubble;
+
+            var event_name = msg.UniqueName;
+
+            if(msg.Properties.ContainsKey("event.name"))
+            {
+                event_name = (string) msg.Properties["event.name"];
+            }
+
+            if(msg.Properties.ContainsKey(typeof(ViewModelEventRoutingStrategy)))
+            {
+                routing_strategy = (ViewModelEventRoutingStrategy)msg.Properties[typeof(ViewModelEventRoutingStrategy)];
+            }
+
+            RaiseEvent(msg.UniqueName, msg.Payload, routing_strategy);
+        }
+
+        #endregion
     }
 }

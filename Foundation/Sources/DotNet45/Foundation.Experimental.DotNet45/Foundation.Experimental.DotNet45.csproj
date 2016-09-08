@@ -37,6 +37,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
       <Private>True</Private>
@@ -70,6 +71,11 @@
     <ProjectReference Include="..\..\Core\Foundation.Core\Foundation.Core.csproj">
       <Project>{4ed231bf-b533-4842-9b80-b0f30e360ead}</Project>
       <Name>Foundation.Core</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Foundation.Graphics.Core\Foundation.Graphics.Core.csproj">
+      <Project>{03fa2790-6cb6-4ed0-a2b9-8a6cf8b958be}</Project>
+      <Name>Foundation.Graphics.Core</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\Core\Foundation.Maths.Core\Foundation.Maths.Core.csproj">
