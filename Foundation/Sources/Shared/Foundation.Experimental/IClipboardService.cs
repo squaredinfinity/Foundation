@@ -14,6 +14,7 @@ namespace SquaredInfinity.Foundation
         void Copy(FrameworkElement fe);
         void Copy(FrameworkElement fe, Size size);
         void CopyAsHtml(FrameworkElement fe);
+        void CopyAsHtml(FrameworkElement fe, Size size);
     }
 
     public class ClipboardService : IClipboardService
