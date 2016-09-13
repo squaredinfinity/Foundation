@@ -11,38 +11,50 @@ namespace SquaredInfinity.Foundation
     public interface IClipboardService
     {
         void Clear();
-        void Copy(FrameworkElement fe);
-        void Copy(FrameworkElement fe, Size size);
-        void CopyAsHtml(FrameworkElement fe);
-        void CopyAsHtml(FrameworkElement fe, Size size);
+
+        IClipboardObject CreateClipboardObject();
     }
 
-    public class ClipboardService : IClipboardService
+    public interface IClipboardObject
     {
-        public virtual void Clear()
+        DataObject Data { get; }
+
+        IClipboardObject Add(FrameworkElement fe);
+        IClipboardObject Add(FrameworkElement fe, Size size);
+        IClipboardObject AddAsHtml(FrameworkElement fe);
+        IClipboardObject AddAsHtml(FrameworkElement fe, Size size);
+        IClipboardObject AddAsHtml(FrameworkElement fe, Size imageSize, Size imageElementSize);
+
+        void CopyToClipboard();
+    }
+
+    public class ClipboardObject : IClipboardObject
+    {
+        IClipboardService ClipboardService { get; set; }
+        public DataObject Data { get; } = new DataObject();
+
+        public ClipboardObject(IClipboardService service)
         {
-            Clipboard.Clear();
+            this.ClipboardService = service;
         }
 
-        public void Copy(FrameworkElement fe)
+        public IClipboardObject Add(FrameworkElement fe)
         {
-            Copy(fe, new Size(fe.ActualWidth, fe.ActualHeight));
+            return Add(fe, new Size(fe.ActualWidth, fe.ActualHeight));
         }
 
-        public virtual void Copy(FrameworkElement fe, Size size)
+        public IClipboardObject Add(FrameworkElement fe, Size size)
         {
             if (fe == null)
                 throw new NullReferenceException(nameof(fe));
 
-            var data = new DataObject();
-
             var bmp = fe.RenderToBitmap(size);
 
             var mf = bmp.CreateMetafile();
-            data.SetData(DataFormats.EnhancedMetafile, mf);
 
-            Clipboard.Clear();
-            Clipboard.SetDataObject(data);
+            Data.SetData(DataFormats.EnhancedMetafile, mf);
+
+            return this;
         }
 
         /// <summary>
@@ -50,17 +62,24 @@ namespace SquaredInfinity.Foundation
         /// https://tools.ietf.org/html/rfc2397
         /// </summary>
         /// <param name="fe"></param>
-        public void CopyAsHtml(FrameworkElement fe)
+        public IClipboardObject AddAsHtml(FrameworkElement fe)
         {
-            CopyAsHtml(fe, new Size(fe.ActualWidth, fe.ActualHeight));
+            var size = new Size(fe.ActualWidth, fe.ActualHeight);
+
+            return AddAsHtml(fe, imageSize: size, imageElementSize: size);
         }
 
-        public virtual void CopyAsHtml(FrameworkElement fe, Size size)
+        public IClipboardObject AddAsHtml(FrameworkElement fe, Size size)
+        {
+            return AddAsHtml(fe, imageSize: size, imageElementSize: size);
+        }
+
+        public IClipboardObject AddAsHtml(FrameworkElement fe, Size imageSize, Size imageElementSize)
         {
             if (fe == null)
                 throw new NullReferenceException(nameof(fe));
 
-            var bmp = fe.RenderToBitmap(size);
+            var bmp = fe.RenderToBitmap(imageSize);
 
             var img_src = string.Empty;
 
@@ -81,13 +100,30 @@ namespace SquaredInfinity.Foundation
                 img_src = new Uri(tmp, UriKind.Absolute).ToString();
             }
 
-            var html_data = CF_HTML.PrepareHtmlFragment($"<img height=\"{fe.ActualHeight}\" width=\"{fe.ActualWidth}\" src=\"{img_src}\" />");
-                        
-            var data = new DataObject();
-            data.SetData(DataFormats.Html, html_data);
+            var html_data = CF_HTML.PrepareHtmlFragment($"<img height=\"{imageElementSize.Height}\" width=\"{imageElementSize.Width}\" src=\"{img_src}\" />");
 
+            Data.SetData(DataFormats.Html, html_data);
+
+            return this;
+        }
+
+        public void CopyToClipboard()
+        {
             Clipboard.Clear();
-            Clipboard.SetDataObject(data);
+            Clipboard.SetDataObject(Data);
+        }
+    }
+
+    public class ClipboardService : IClipboardService
+    {
+        public virtual void Clear()
+        {
+            Clipboard.Clear();
+        }
+
+        public IClipboardObject CreateClipboardObject()
+        {
+            return new ClipboardObject(this);
         }
     }
 }
