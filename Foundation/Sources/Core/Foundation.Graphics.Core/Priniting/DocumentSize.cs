@@ -16,8 +16,8 @@ namespace SquaredInfinity.Foundation.Graphics.Priniting
         {
             A4_Portrait = new PaperSize(GraphicsUnits.Centimiters, 21.0, 29.7);
 
-            A4_Portrait_NormalMargin = new DocumentSize(A4_Portrait, new MarginsSize(GraphicsUnits.Centimiters, 2.54, 2.54, 2.54, 2.54));
-            A4_Portrait_NarrowMargin = new DocumentSize(A4_Portrait, new MarginsSize(GraphicsUnits.Centimiters, 2.54, 2.54, 2.54, 2.54));
+            A4_Portrait_NormalMargin = new DocumentSize(A4_Portrait, MarginsSize.Normal);
+            A4_Portrait_NarrowMargin = new DocumentSize(A4_Portrait, MarginsSize.Narrow);
         }
 
         public PaperSize Size { get; private set; }
