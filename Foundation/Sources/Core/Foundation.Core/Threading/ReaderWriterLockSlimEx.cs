@@ -177,7 +177,7 @@ namespace SquaredInfinity.Foundation.Threading
 
             if (ok)
             {
-                ok = InternalLock.TryEnterReadLock(timeout));
+                ok = InternalLock.TryEnterReadLock(timeout);
 
                 if (ok)
                 {

@@ -54,7 +54,7 @@ namespace SquaredInfinity.Foundation.Threading
 
                     if (ok)
                     {
-                        writeLockAcquisition = new WriteLockAcquisition(Owner, child_locks);
+                        writeLockAcquisition = new WriteLockAcquisition(Owner, disposables);
                         return true;
                     }
                     else
