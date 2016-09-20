@@ -6,12 +6,13 @@ using System.Windows.Media;
 using System.Windows;
 using System.Windows.Controls;
 using System.Reactive.Subjects;
+using SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector;
 
 namespace SquaredInfinity.Foundation.Presentation
 {
     public abstract class SelectorLogic : NotifyPropertyChangedObject, ISelectorLogic
     {
-        public virtual IReadOnlyList<IUserAction> GetAvailableUserAction(object selectorIdentifier, object item)
+        public virtual IReadOnlyList<IUserAction> GetAvailableUserAction(AdaptiveSelector selector, object selectorIdentifier, object item)
         {
             return new IUserAction[0];
         }
@@ -27,9 +28,9 @@ namespace SquaredInfinity.Foundation.Presentation
             _itemBackgroundRefreshRequested.OnNext(EventArgs.Empty);
         }
 
-        public virtual Color? GetItemBackgroundColor(object selectorIdentifier, object item, bool isSelected)
+        public virtual Color? GetItemBackgroundColor(AdaptiveSelector selector, object selectorIdentifier, object item, bool isSelected)
         {
-            var group = GetItemGroup(selectorIdentifier, item);
+            var group = GetItemGroup(selector, selectorIdentifier, item);
 
             if (group != null)
                 return group.Color;
@@ -37,12 +38,12 @@ namespace SquaredInfinity.Foundation.Presentation
             return null;
         }
 
-        public virtual IAdaptiveSelectorItemGroup GetItemGroup(object selectorIdentifier, object item)
+        public virtual IAdaptiveSelectorItemGroup GetItemGroup(AdaptiveSelector selector, object selectorIdentifier, object item)
         {
             return null;
         }
 
-        public virtual Visibility GetSelectionMarkersVisibility(object selectorIdentifier, int allItemsCount, int selectedItemsCount)
+        public virtual Visibility GetSelectionMarkersVisibility(AdaptiveSelector selector, object selectorIdentifier, int allItemsCount, int selectedItemsCount)
         {            
             // 0 or 1 item, don't show markers
             if (allItemsCount < 2)
@@ -61,10 +62,10 @@ namespace SquaredInfinity.Foundation.Presentation
             }
         }
 
-        public virtual void OnItemSelected(object selectorIdentifier, object selectedItem)
+        public virtual void OnItemSelected(AdaptiveSelector selector, object selectorIdentifier, object selectedItem)
         { }
 
-        public virtual void OnItemUnselected(object selectorIdentifier, object unselectedItem)
+        public virtual void OnItemUnselected(AdaptiveSelector selector, object selectorIdentifier, object unselectedItem)
         { }
     }
 }

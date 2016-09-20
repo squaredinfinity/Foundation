@@ -52,5 +52,7 @@ namespace SquaredInfinity.Foundation.Presentation
         bool IsUIThread { get; }
 
         void ChangeDispatcher(Dispatcher newDispatcher);
+        void Run(Action action);
+        void RunAsync(Action action);
     }
 }

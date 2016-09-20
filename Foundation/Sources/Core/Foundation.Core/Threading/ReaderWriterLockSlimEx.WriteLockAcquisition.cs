@@ -12,16 +12,20 @@ namespace SquaredInfinity.Foundation.Threading
         class WriteLockAcquisition : IWriteLockAcquisition
         {
             ReaderWriterLockSlimEx Owner;
+            IDisposable Disposable;
 
-            public WriteLockAcquisition(ReaderWriterLockSlimEx owner)
+            public WriteLockAcquisition(ReaderWriterLockSlimEx owner, IDisposable disposeWhenDone)
             {
                 this.Owner = owner;
+                this.Disposable = disposeWhenDone;
             }
 
             public void Dispose()
             {
                 if (Owner.InternalLock.IsWriteLockHeld)
                     Owner.InternalLock.ExitWriteLock();
+
+                Disposable?.Dispose();
             }
         }
     }

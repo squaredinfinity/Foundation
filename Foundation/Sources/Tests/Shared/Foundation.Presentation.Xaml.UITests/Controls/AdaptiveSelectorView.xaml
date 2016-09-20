@@ -48,11 +48,11 @@
                                                                     <Setter.Value>
                                                                         <DataTemplate>
                                                                             <TextBlock>
-                                                                                                <Run Text="{Binding IconGlyph, Mode=OneWay}"
-                                                                                                     FontSize="18"
-                                                                                                     Foreground="{StaticResource Brushes.Accent}"
-                                                                                                     FontFamily="{x:Static media:FontFamilies.FontsiFontFamily}" />
-                                                                                                <Run Text="{Binding DisplayName, Mode=OneWay}" />
+                                                                              <!--<Run Text="{Binding IconGlyph, Mode=OneWay}"
+                                                                                   FontSize="18"
+                                                                                   Foreground="{StaticResource Brushes.Accent}"
+                                                                                   FontFamily="{x:Static media:FontFamilies.FontsiFontFamily}" />-->
+                                                                              <Run Text="{Binding DisplayName, Mode=OneWay}" />
                                                                             </TextBlock>
                                                                         </DataTemplate>
                                                                     </Setter.Value>

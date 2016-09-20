@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,41 +13,54 @@ namespace SquaredInfinity.Foundation.Threading
         class UpgradeableReadLockAcquisition : IUpgradeableReadLockAcquisition
         {
             ReaderWriterLockSlimEx Owner;
+            IDisposable Disposable;
 
-            public UpgradeableReadLockAcquisition(ReaderWriterLockSlimEx owner)
+            public UpgradeableReadLockAcquisition(ReaderWriterLockSlimEx owner, IDisposable disposeWhenDone)
             {
                 this.Owner = owner;
+                this.Disposable = disposeWhenDone;
             }
 
             public IReadLockAcquisition DowngradeToReadLock()
             {
+                var disposables = Owner.LockChildren(LockTypes.Read);
                 Owner.InternalLock.EnterReadLock();
 
-                return new ReadLockAcquisition(Owner);
+                return new ReadLockAcquisition(Owner, disposables);
             }
 
             public bool TryDowngradeToReadLock(TimeSpan timeout, out IReadLockAcquisition readLockAcquisition)
             {
-                if(Owner.InternalLock.TryEnterReadLock(timeout.Milliseconds))
-                {
-                    readLockAcquisition = new ReadLockAcquisition(Owner);
+                var disposables = (IDisposable)null;
 
-                    return true;
-                }
-                else
+                var ok = Owner.TryLockChildren(LockTypes.Read, timeout, out disposables);
+
+                if (ok)
                 {
-                    readLockAcquisition = null;
-                    return false;
+                    ok = Owner.InternalLock.TryEnterReadLock(timeout.Milliseconds);
+
+                    if (ok)
+                    {
+                        readLockAcquisition = new ReadLockAcquisition(Owner, disposables);
+
+                        return true;
+                    }
+                    else
+                    {
+                        disposables?.Dispose();
+                    }
                 }
+
+                readLockAcquisition = null;
+                return false;
             }
 
             public IWriteLockAcquisition UpgradeToWriteLock()
             {
-                Owner.InternalLock.EnterWriteLock();
+                var disposables = Owner.LockChildren(LockTypes.Write);
+                Owner.InternalLock.EnterWriteLock();                
 
-                //Owner.InternalLock.ExitUpgradeableReadLock();
-
-                return new WriteLockAcquisition(Owner);
+                return new WriteLockAcquisition(Owner, disposables);
             }
 
             public bool TryUpgradeToWriteLock(TimeSpan timeout, out IWriteLockAcquisition writeLockAcquisition)
@@ -59,6 +73,8 @@ namespace SquaredInfinity.Foundation.Threading
             {
                 if (Owner.InternalLock.IsUpgradeableReadLockHeld)
                     Owner.InternalLock.ExitUpgradeableReadLock();
+
+                Disposable?.Dispose();
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,45 +13,66 @@ namespace SquaredInfinity.Foundation.Threading
         class ReadLockAcquisition : IReadLockAcquisition
         {
             ReaderWriterLockSlimEx Owner;
+            IDisposable Disposable;
 
-            public ReadLockAcquisition(ReaderWriterLockSlimEx owner)
+            public ReadLockAcquisition(ReaderWriterLockSlimEx owner, IDisposable disposeWhenDone)
             {
                 this.Owner = owner;
+                this.Disposable = disposeWhenDone;
             }
 
             public IWriteLockAcquisition AcquireWriteLock()
             {
+                var disposables = Owner.LockChildren(LockTypes.Write);
                 Owner.InternalLock.EnterWriteLock();
 
-                return new WriteLockAcquisition(Owner);
+                return new WriteLockAcquisition(Owner, disposables);
             }
 
             public bool TryAcquireWriteLock(TimeSpan timeout, out IWriteLockAcquisition writeLockAcquisition)
             {
-                if (Owner.InternalLock.RecursionPolicy == LockRecursionPolicy.NoRecursion && 
+                if (Owner.InternalLock.RecursionPolicy == LockRecursionPolicy.NoRecursion &&
                     (Owner.InternalLock.IsReadLockHeld || Owner.InternalLock.IsUpgradeableReadLockHeld || Owner.InternalLock.IsWriteLockHeld))
                 {
                     writeLockAcquisition = null;
                     return false;
                 }
 
-                if (Owner.InternalLock.RecursionPolicy == LockRecursionPolicy.SupportsRecursion && 
+                if (Owner.InternalLock.RecursionPolicy == LockRecursionPolicy.SupportsRecursion &&
                     !(Owner.InternalLock.IsUpgradeableReadLockHeld || Owner.InternalLock.IsWriteLockHeld))
                 {
                     writeLockAcquisition = null;
                     return false;
                 }
 
-                var ok = Owner.InternalLock.TryEnterWriteLock(timeout);
+                var disposables = (IDisposable)null;
+                var ok = Owner.TryLockChildren(LockTypes.Write, timeout, out disposables);
 
-                writeLockAcquisition = new WriteLockAcquisition(Owner);
-                return true;
+                if (ok)
+                {
+                    ok = Owner.InternalLock.TryEnterWriteLock(timeout);
+
+                    if (ok)
+                    {
+                        writeLockAcquisition = new WriteLockAcquisition(Owner, child_locks);
+                        return true;
+                    }
+                    else
+                    {
+                        disposables?.Dispose();
+                    }
+                }
+
+                writeLockAcquisition = null;
+                return false;
             }
 
             public void Dispose()
             {
                 if (Owner.InternalLock.IsReadLockHeld)
                     Owner.InternalLock.ExitReadLock();
+
+                 Disposable?.Dispose();
             }
         }
     }

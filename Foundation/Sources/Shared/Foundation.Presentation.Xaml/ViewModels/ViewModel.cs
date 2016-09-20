@@ -253,6 +253,12 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
         {
             if (AfterViewModelEventRaised != null)
             {
+                if (!UIService.IsUIThread)
+                {
+                    UIService.Run(() => RaiseEvent(eventName, payload, routingStrategy));
+                    return;
+                }
+
                 var ev = new ViewModelEvent(eventName);
                 ev.Payload = payload;
 

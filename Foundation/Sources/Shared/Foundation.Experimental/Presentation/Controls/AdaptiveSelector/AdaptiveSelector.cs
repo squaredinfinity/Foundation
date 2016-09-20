@@ -150,13 +150,13 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
                 foreach (var item in (IList)e.NewValue)
                 {
                     initial_items.Add(item);
-                    ad_sel.SelectorLogic.OnItemSelected(ad_sel.SelectorIdentifier, item);
+                    ad_sel.SelectorLogic.OnItemSelected(ad_sel, ad_sel.SelectorIdentifier, item);
                 }
 
                 foreach (var item in initial_items)
                 {
                     ad_sel.SelectedItems.Add(item);
-                    ad_sel.SelectorLogic.OnItemUnselected(ad_sel.SelectorIdentifier, item);
+                    ad_sel.SelectorLogic.OnItemUnselected(ad_sel, ad_sel.SelectorIdentifier, item);
                 }
             }
 
@@ -206,7 +206,7 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
                             var item_to_remove = bound_collection[i];
                             bound_collection.RemoveAt(i);
 
-                            ad_sel.SelectorLogic.OnItemUnselected(ad_sel.SelectorIdentifier, item_to_remove);
+                            ad_sel.SelectorLogic.OnItemUnselected(ad_sel, ad_sel.SelectorIdentifier, item_to_remove);
                         }
                     }
 
@@ -216,7 +216,7 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
                         if (!bound_collection.Contains(item))
                         {
                             bound_collection.Add(item);
-                            ad_sel.SelectorLogic.OnItemSelected(ad_sel.SelectorIdentifier, item);
+                            ad_sel.SelectorLogic.OnItemSelected(ad_sel, ad_sel.SelectorIdentifier, item);
                         }
                     }
                 }
@@ -267,7 +267,7 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
             if (SelectionMarkerVisibility != null)
                 return SelectionMarkerVisibility.Value;
 
-            return SelectorLogic.GetSelectionMarkersVisibility(SelectorIdentifier, Items.Count, SelectedItems.Count);
+            return SelectorLogic.GetSelectionMarkersVisibility(this, SelectorIdentifier, Items.Count, SelectedItems.Count);
         }
 
         public void InitializeSelectionMarkerThumb(Thumb thumb)
@@ -371,7 +371,7 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
         {
             var is_selected = SelectedItems.Contains(item);
 
-            var color = SelectorLogic.GetItemBackgroundColor(SelectorIdentifier, item, is_selected);
+            var color = SelectorLogic.GetItemBackgroundColor(this, SelectorIdentifier, item, is_selected);
 
             if (color != null)
                 return color.Value;
@@ -436,6 +436,39 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
             }
         }
 
+        public void UnselectItem(object item)
+        {
+            if (SelectedItems.Count > 0)
+            {
+                for (int i = SelectedItems.Count - 1; i >= 0; i--)
+                {
+                    if (object.Equals(item, SelectedItems[i]))
+                        SelectedItems.RemoveAt(i);
+                }
+            }
+        }
+
+        public bool IsSelected(object item)
+        {
+            if (SelectedItems.Count > 0)
+            {
+                for (int i = SelectedItems.Count - 1; i >= 0; i--)
+                {
+                    if (object.Equals(item, SelectedItems[i]))
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        public void EnsureItemSelected(object item)
+        {
+            if (IsSelected(item))
+                return;
+
+            SelectedItems.Add(item);
+        }
 
         public void SelectItem(object item)
         {
@@ -647,14 +680,14 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
                 SelectionMarkers.Add(new_marker);
 
 
-                var group = (object) SelectorLogic.GetItemGroup(SelectorIdentifier, item);
+                var group = (object) SelectorLogic.GetItemGroup(this, SelectorIdentifier, item);
 
                 if (group != null)
                 {
                     // disable others within same group
                     var other_with_same_group =
                         (from si in this.SelectedItems.Cast<object>()
-                         let si_group = SelectorLogic.GetItemGroup(SelectorIdentifier, si)
+                         let si_group = SelectorLogic.GetItemGroup(this, SelectorIdentifier, si)
                              // same group, different item
                          where object.Equals(si_group, @group) && !ItemEqualityComparer.Equals(si, item)
                          select si).ToList();
@@ -961,7 +994,7 @@ namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
 
         public IEnumerable<IUserAction> GetAvailableActions(object item)
         {
-            return SelectorLogic.GetAvailableUserAction(SelectorIdentifier, item);
+            return SelectorLogic.GetAvailableUserAction(this, SelectorIdentifier, item);
         }
 
         public void ExecuteAction(Dictionary<string, object> parameters)

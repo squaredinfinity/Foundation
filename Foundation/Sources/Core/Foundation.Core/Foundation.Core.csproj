@@ -42,7 +42,6 @@
     <Compile Include="Collections\AfterItemReplacedEventArgs.cs" />
     <Compile Include="Collections\CollectionEx.cs" />
     <Compile Include="Collections\CollectionEx.IList.cs" />
-    <Compile Include="Collections\DisposableCollection.cs" />
     <Compile Include="Collections\IBulkUpdatesCollection.cs" />
     <Compile Include="Collections\ICollectionEx.cs" />
     <Compile Include="Collections\INotifyCollectionVersionChanged.cs" />
@@ -81,6 +80,7 @@
     <Compile Include="Threading\IReadLockAcquisition.cs" />
     <Compile Include="Threading\IUpgradeableReadLockAcquisition.cs" />
     <Compile Include="Threading\IWriteLockAcquisition.cs" />
+    <Compile Include="Threading\LockTypes.cs" />
     <Compile Include="Threading\ReaderWriterLockSlimEx.cs" />
     <Compile Include="Threading\ReaderWriterLockSlimEx.ReadLockAcquisition.cs" />
     <Compile Include="Threading\ReaderWriterLockSlimEx.UpgradeableReadLockAcquisition.cs" />

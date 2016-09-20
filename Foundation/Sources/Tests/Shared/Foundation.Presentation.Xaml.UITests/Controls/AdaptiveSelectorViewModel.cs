@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Media;
+using SquaredInfinity.Foundation.Presentation.Controls;
+using SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector;
 
 namespace SquaredInfinity.Foundation.Presentation.Xaml.UITests.Controls
 {
@@ -16,8 +18,8 @@ namespace SquaredInfinity.Foundation.Presentation.Xaml.UITests.Controls
         readonly XamlObservableCollectionEx<int> _selectedNumbers = new XamlObservableCollectionEx<int>();
         public XamlObservableCollectionEx<int> SelectedNumbers { get { return _selectedNumbers; } }
 
-        CustomSelectorLogic _selectorBehaviorController = new CustomSelectorLogic();
-        public CustomSelectorLogic SelectorBehaviorController { get { return new CustomSelectorLogic(); } }
+        CustomSelectorLogic _selectorLogic = new CustomSelectorLogic();
+        public CustomSelectorLogic SelectorLogic { get { return _selectorLogic; } }
     }
 
     public class CustomSelectorLogic : SelectorLogic
@@ -32,9 +34,12 @@ namespace SquaredInfinity.Foundation.Presentation.Xaml.UITests.Controls
         // different modes will be distinguished by colour (Red and Blue)
         // First selected item wil lalways be mode 1, second will always be mode 2 (if mode from first item have not been removed)
 
-        public override void OnItemSelected(object selectorIdentifier, object selectedItem)
+        public override void OnItemSelected(AdaptiveSelector selector, object selectorIdentifier, object selectedItem)
         {
-            base.OnItemSelected(selectorIdentifier, selectedItem);
+            base.OnItemSelected(selector, selectorIdentifier, selectedItem);
+
+            if (object.Equals(ModeOneItem, selectedItem) || object.Equals(ModeTwoItem, selectedItem))
+                return;
 
             if (ModeOneItem == null)
             {
@@ -46,7 +51,7 @@ namespace SquaredInfinity.Foundation.Presentation.Xaml.UITests.Controls
             }
         }
 
-        public override void OnItemUnselected(object selectorIdentifier, object unselectedItem)
+        public override void OnItemUnselected(AdaptiveSelector selector, object selectorIdentifier, object unselectedItem)
         {
             if(object.Equals(ModeOneItem, unselectedItem))
             {
@@ -57,10 +62,10 @@ namespace SquaredInfinity.Foundation.Presentation.Xaml.UITests.Controls
                 ModeTwoItem = null;
             }
 
-            base.OnItemUnselected(selectorIdentifier, unselectedItem);
+            base.OnItemUnselected(selector, selectorIdentifier, unselectedItem);
         }
 
-        public override Color? GetItemBackgroundColor(object selectorIdentifier, object item, bool isSelected)
+        public override Color? GetItemBackgroundColor(AdaptiveSelector selector, object selectorIdentifier, object item, bool isSelected)
         {
             if (object.Equals(ModeOneItem, item))
                 return ModeOneColor;
@@ -68,7 +73,56 @@ namespace SquaredInfinity.Foundation.Presentation.Xaml.UITests.Controls
             if (object.Equals(ModeTwoItem, item))
                 return ModeTwoColor;
 
-            return base.GetItemBackgroundColor(selectorIdentifier, item, isSelected);
+            return base.GetItemBackgroundColor(selector, selectorIdentifier, item, isSelected);
+        }
+
+        public override IReadOnlyList<IUserAction> GetAvailableUserAction(AdaptiveSelector selector, object selectorIdentifier, object item)
+        {
+            var result = new List<IUserAction>();
+
+            var ua = new UserAction("set Mode One", (x) =>
+            {
+                selector.UnselectItem(ModeOneItem);
+
+                ModeOneItem = item;
+
+                selector.EnsureItemSelected(item);
+            });
+
+            if(!object.Equals(item, ModeOneItem))
+                result.Add(ua);
+
+            ua = new UserAction("set Mode Two", (x) =>
+            {
+                selector.UnselectItem(ModeTwoItem);
+
+                ModeTwoItem = item;
+
+                selector.EnsureItemSelected(item);
+            });
+
+            if (!object.Equals(item, ModeTwoItem))
+                result.Add(ua);
+
+            ua = new UserAction("swap", (x) =>
+            {
+                var one = ModeOneItem;
+                var two = ModeTwoItem;
+
+                selector.UnselectItem(one);
+                selector.UnselectItem(two);
+
+                ModeOneItem = two;
+                ModeTwoItem = one;
+
+                selector.EnsureItemSelected(ModeOneItem);
+                selector.EnsureItemSelected(ModeTwoItem);
+            });
+
+            if(ModeOneItem != null && ModeTwoItem != null)
+                result.Add(ua);
+
+            return result;
         }
     }
 }

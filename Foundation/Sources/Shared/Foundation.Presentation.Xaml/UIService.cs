@@ -143,5 +143,21 @@ namespace SquaredInfinity.Foundation.Presentation
         {
             return UIDispatcher.CheckAccess();
         }
+
+        public void Run(Action action)
+        {
+            if(IsUIThread)
+            {
+                action();
+                return;
+            }
+
+            UIDispatcher.Invoke(action);
+        }
+
+        public void RunAsync(Action action)
+        {
+            UIDispatcher.BeginInvoke(action);
+        }
     }
 }

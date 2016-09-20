@@ -1,6 +1,8 @@
-﻿using System;
+﻿using SquaredInfinity.Foundation.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +16,24 @@ namespace SquaredInfinity.Foundation.Threading
         public bool IsReadLockHeld { get { return InternalLock.IsReadLockHeld; } }
         public bool IsUpgradeableReadLockHeld { get { return InternalLock.IsUpgradeableReadLockHeld; } }
         public bool IsWriteLockHeld { get { return InternalLock.IsWriteLockHeld; } }
-        
+
+        #region Child Locks
+
+        readonly HashSet<ILock> ChildLocks = new HashSet<ILock>();
+
+        public void AddChild(ILock childLock)
+        {
+            ChildLocks.Add(childLock);
+        }
+
+        public void RemoveChild(ILock childLock)
+        {
+            ChildLocks.Remove(childLock);
+        }
+
+        #endregion
+
+
         public ReaderWriterLockSlimEx(LockRecursionPolicy recursionPolicy = LockRecursionPolicy.NoRecursion)
             : this(new ReaderWriterLockSlim(recursionPolicy))
         { }
@@ -24,11 +43,111 @@ namespace SquaredInfinity.Foundation.Threading
             this.InternalLock = readerWriterLock;
         }
 
+
+        protected virtual IDisposable LockChildren(LockTypes lockType)
+        {
+            var result = new CompositeDisposable();
+
+            foreach(var child in ChildLocks)
+            {
+                if(lockType == LockTypes.Read)
+                {
+                    result.Add(child.AcquireReadLockIfNotHeld());
+                }
+                else if(lockType == LockTypes.UpgradeableRead)
+                {
+                    result.Add(child.AcquireUpgradeableReadLock());
+                }
+                else if(lockType == LockTypes.Write)
+                {
+                    result.Add(child.AcquireWriteLockIfNotHeld());
+                }
+                else
+                {
+                    throw new NotSupportedException(lockType.ToString());
+                }
+            }
+
+            return result;
+        }
+
+
+        public virtual bool TryLockChildren(LockTypes lockType, TimeSpan timeout, out IDisposable childDisposables)
+        {
+            var all_child_disposables = new CompositeDisposable();
+            childDisposables = all_child_disposables;
+
+            bool all_good = true;
+
+            foreach(var child in ChildLocks)
+            {
+                if (!all_good)
+                    break;
+
+                if (lockType == LockTypes.Read)
+                {
+                    var acqusition = (IReadLockAcquisition)null;
+                    if (child.TryAcquireReadLock(timeout, out acqusition))
+                    {
+                        all_child_disposables.Add(acqusition);
+                    }
+                    else
+                    {
+                        all_good = false;
+                    }
+                }
+                else if (lockType == LockTypes.UpgradeableRead)
+                {
+                    var acqusition = (IUpgradeableReadLockAcquisition)null;
+                    if (child.TryAcquireUpgradeableReadLock(timeout, out acqusition))
+                    {
+                        all_child_disposables.Add(acqusition);
+                    }
+                    else
+                    {
+                        all_good = false;
+                    }
+                }
+                else if (lockType == LockTypes.Write)
+                {
+                    var acqusition = (IWriteLockAcquisition)null;
+                    if (child.TryAcquireWriteLock(timeout, out acqusition))
+                    {
+                        all_child_disposables.Add(acqusition);
+                    }
+                    else
+                    {
+                        all_good = false;
+                    }
+                }
+                else
+                {
+                    throw new NotSupportedException(lockType.ToString());
+                }
+            }
+
+            if(all_good)
+            {
+                return true;
+            }
+            else
+            {
+                all_child_disposables.Clear();
+                return false;
+            }
+        }
+
+        protected virtual void UnlockChildren(IDisposable childLocks)
+        {
+            childLocks.Dispose();
+        }
+
         public IReadLockAcquisition AcquireReadLock()
         {
+            var disposables = LockChildren(LockTypes.Read);
             InternalLock.EnterReadLock();
 
-            return new ReadLockAcquisition(owner: this);
+            return new ReadLockAcquisition(owner: this, disposeWhenDone: disposables);
         }
 
         public IReadLockAcquisition AcquireReadLockIfNotHeld()
@@ -38,9 +157,10 @@ namespace SquaredInfinity.Foundation.Threading
             if(isAnyLockHeld)
                 return null;
 
+            var disposables = LockChildren(LockTypes.Read);
             InternalLock.EnterReadLock();
 
-            return new ReadLockAcquisition(owner: this);
+            return new ReadLockAcquisition(owner: this, disposeWhenDone: disposables);
         }
 
         public bool TryAcquireReadLock(TimeSpan timeout, out IReadLockAcquisition readLockAcquisition)
@@ -52,24 +172,34 @@ namespace SquaredInfinity.Foundation.Threading
                 return false;
             }
 
-            if (InternalLock.TryEnterReadLock(timeout))
+            var disposables = (IDisposable)null;
+            var ok = TryLockChildren(LockTypes.Read, timeout, out disposables);
+
+            if (ok)
             {
-                readLockAcquisition = new ReadLockAcquisition(owner: this);
-                return true;
+                ok = InternalLock.TryEnterReadLock(timeout));
+
+                if (ok)
+                {
+                    readLockAcquisition = new ReadLockAcquisition(owner: this, disposeWhenDone: LockChildren(LockTypes.Read));
+                    return true;
+                }
+                else
+                {
+                    disposables?.Dispose();
+                }
             }
-            else
-            {
-                readLockAcquisition = null;
-                return false;
-            }
-            
+
+            readLockAcquisition = null;
+            return false;
         }
 
         public IUpgradeableReadLockAcquisition AcquireUpgradeableReadLock()
         {
+            var disposables = LockChildren(LockTypes.UpgradeableRead);
             InternalLock.EnterUpgradeableReadLock();
 
-            return new UpgradeableReadLockAcquisition(owner: this);
+            return new UpgradeableReadLockAcquisition(owner: this, disposeWhenDone: disposables);
         }
 
         public bool TryAcquireUpgradeableReadLock(TimeSpan timeout, out IUpgradeableReadLockAcquisition upgradeableReadLockAcquisition)
@@ -88,23 +218,35 @@ namespace SquaredInfinity.Foundation.Threading
                 return false;
             }
 
-            if(InternalLock.TryEnterUpgradeableReadLock(timeout))
+            IDisposable disposables = (IDisposable)null;
+
+            var ok = TryLockChildren(LockTypes.UpgradeableRead, timeout, out disposables);
+
+            if (ok)
             {
-                upgradeableReadLockAcquisition = new UpgradeableReadLockAcquisition(owner: this);
-                return true;
+                ok = InternalLock.TryEnterUpgradeableReadLock(timeout);
+
+                if (ok)
+                {
+                    upgradeableReadLockAcquisition = new UpgradeableReadLockAcquisition(owner: this, disposeWhenDone: disposables);
+                    return true;
+                }
+                else
+                {
+                    disposables?.Dispose();
+                }
             }
-            else
-            {
-                upgradeableReadLockAcquisition = null;
-                return false;
-            }
+
+            upgradeableReadLockAcquisition = null;
+            return false;
         }
 
         public IWriteLockAcquisition AcquireWriteLock()
         {
+            var disposables = LockChildren(LockTypes.Write);
             InternalLock.EnterWriteLock();
 
-            return new WriteLockAcquisition(owner:this);
+            return new WriteLockAcquisition(owner: this, disposeWhenDone: disposables);
         }
 
         public IWriteLockAcquisition AcquireWriteLockIfNotHeld()
@@ -112,9 +254,10 @@ namespace SquaredInfinity.Foundation.Threading
             if (InternalLock.IsWriteLockHeld)
                 return null;
 
+            var disposables = LockChildren(LockTypes.Write);
             InternalLock.EnterWriteLock();
 
-            return new WriteLockAcquisition(owner: this);
+            return new WriteLockAcquisition(owner: this, disposeWhenDone: disposables);
         }
 
         public bool TryAcquireWriteLock(TimeSpan timeout, out IWriteLockAcquisition writeableLockAcquisition)
@@ -133,16 +276,27 @@ namespace SquaredInfinity.Foundation.Threading
                 return false;
             }
 
-            if (InternalLock.TryEnterWriteLock(timeout))
+            var disposables = (IDisposable)null;
+
+            var ok = TryLockChildren(LockTypes.Write, timeout, out disposables);
+
+            if (ok)
             {
-                writeableLockAcquisition = new WriteLockAcquisition(owner: this);
-                return true;
+                ok = InternalLock.TryEnterWriteLock(timeout);
+
+                if (ok)
+                {
+                    writeableLockAcquisition = new WriteLockAcquisition(owner: this, disposeWhenDone: disposables);
+                    return true;
+                }
+                else
+                {
+                    disposables?.Dispose();
+                }
             }
-            else
-            {
-                writeableLockAcquisition = null;
-                return false;
-            }
+
+            writeableLockAcquisition = null;
+            return false;
         }
     }
 }
