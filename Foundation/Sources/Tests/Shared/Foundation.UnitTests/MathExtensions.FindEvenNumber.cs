@@ -37,7 +37,7 @@ namespace Foundation.UnitTests
         [TestMethod]
         public void FindEvenNumber__CanDoBackwardLookup()
         {
-            var even = -1.FindEvenNumber(ForwardBackwardDirection.Backward);
+            var even = (-1).FindEvenNumber(ForwardBackwardDirection.Backward);
 
             Assert.AreEqual(-2, even);
         }
