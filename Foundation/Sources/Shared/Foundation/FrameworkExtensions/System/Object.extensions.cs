@@ -149,7 +149,7 @@ namespace SquaredInfinity.Foundation.Extensions
             if (TryConvert(obj, targetType, out result))
                 return result;
 
-            throw new InvalidOperationException("Unable to convert object to type {0}".FormatWith(targetType.FullName));
+            throw new InvalidOperationException($"Unable to convert object to type {targetType.FullName}");
         }
 
         public static TTarget Convert<TTarget>(this object obj)

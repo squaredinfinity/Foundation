@@ -1,4 +1,5 @@
 ﻿using SquaredInfinity.Foundation.Collections;
+using SquaredInfinity.Foundation.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace SquaredInfinity.Foundation.Threading
 
         public void AddChild(ILock childLock)
         {
-            ChildLocks.Add(childLock);
+            ChildLocks.AddIfNotNull(childLock);
         }
 
         public void RemoveChild(ILock childLock)
@@ -52,15 +53,15 @@ namespace SquaredInfinity.Foundation.Threading
             {
                 if(lockType == LockTypes.Read)
                 {
-                    result.Add(child.AcquireReadLockIfNotHeld());
+                    result.AddIfNotNull(child.AcquireReadLockIfNotHeld());
                 }
                 else if(lockType == LockTypes.UpgradeableRead)
                 {
-                    result.Add(child.AcquireUpgradeableReadLock());
+                    result.AddIfNotNull(child.AcquireUpgradeableReadLock());
                 }
                 else if(lockType == LockTypes.Write)
                 {
-                    result.Add(child.AcquireWriteLockIfNotHeld());
+                    result.AddIfNotNull(child.AcquireWriteLockIfNotHeld());
                 }
                 else
                 {
@@ -89,7 +90,7 @@ namespace SquaredInfinity.Foundation.Threading
                     var acqusition = (IReadLockAcquisition)null;
                     if (child.TryAcquireReadLock(timeout, out acqusition))
                     {
-                        all_child_disposables.Add(acqusition);
+                        all_child_disposables.AddIfNotNull(acqusition);
                     }
                     else
                     {
@@ -101,7 +102,7 @@ namespace SquaredInfinity.Foundation.Threading
                     var acqusition = (IUpgradeableReadLockAcquisition)null;
                     if (child.TryAcquireUpgradeableReadLock(timeout, out acqusition))
                     {
-                        all_child_disposables.Add(acqusition);
+                        all_child_disposables.AddIfNotNull(acqusition);
                     }
                     else
                     {
@@ -113,7 +114,7 @@ namespace SquaredInfinity.Foundation.Threading
                     var acqusition = (IWriteLockAcquisition)null;
                     if (child.TryAcquireWriteLock(timeout, out acqusition))
                     {
-                        all_child_disposables.Add(acqusition);
+                        all_child_disposables.AddIfNotNull(acqusition);
                     }
                     else
                     {

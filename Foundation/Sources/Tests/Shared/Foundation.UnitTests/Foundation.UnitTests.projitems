@@ -76,6 +76,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)TestEntities\TypeWithEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Threading\AsyncLoop.bugs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Threading\AsyncLoop.tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Threading\ReaderWriterLockSlimEx.ChildLocks.tests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Threading\ReaderWriterLockSlimEx.tests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\Description\Reflection\ReflectionBasedTypeDescriptor.DescribeType.tests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\Description\Reflection\ReflectionBasedTypeDescriptor._BugFixes.cs" />

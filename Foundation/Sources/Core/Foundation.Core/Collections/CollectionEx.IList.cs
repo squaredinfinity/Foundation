@@ -63,7 +63,7 @@ namespace SquaredInfinity.Foundation.Collections
                 if (((IList<TItem>)_items).IsReadOnly)
                     throw new NotSupportedException();
 
-                using (CollectionLock.AcquireWriteLockIfNotHeld())
+                using (Lock.AcquireWriteLockIfNotHeld())
                 {
                     if (index < 0 || index >= _items.Count)
                         throw new ArgumentOutOfRangeException();
@@ -135,7 +135,7 @@ namespace SquaredInfinity.Foundation.Collections
         /// <param name="item">The object to be added to the end of the <see cref="T:System.Collections.ObjectModel.Collection`1"/>. The value can be null for reference types.</param>
         public void Add(TItem item)
         {
-            using (CollectionLock.AcquireWriteLockIfNotHeld())
+            using (Lock.AcquireWriteLockIfNotHeld())
             {
                 var index = _items.Count;
 
@@ -148,7 +148,7 @@ namespace SquaredInfinity.Foundation.Collections
         /// </summary>
         public void Clear()
         {
-            using (CollectionLock.AcquireWriteLockIfNotHeld())
+            using (Lock.AcquireWriteLockIfNotHeld())
             {
                 var oldItems = new TItem[Count];
                 CopyTo(oldItems, 0);
@@ -274,7 +274,7 @@ namespace SquaredInfinity.Foundation.Collections
         /// <param name="index">The zero-based index at which <paramref name="item"/> should be inserted.</param><param name="item">The object to insert. The value can be null for reference types.</param><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index"/> is less than zero.-or-<paramref name="index"/> is greater than <see cref="P:System.Collections.ObjectModel.Collection`1.Count"/>.</exception>
         public void Insert(int index, TItem item)
         {
-            using (CollectionLock.AcquireWriteLockIfNotHeld())
+            using (Lock.AcquireWriteLockIfNotHeld())
             {
                 if (index < 0 || index > _items.Count)
                     throw new ArgumentOutOfRangeException();
@@ -299,7 +299,7 @@ namespace SquaredInfinity.Foundation.Collections
         /// <param name="item">The object to remove from the <see cref="T:System.Collections.ObjectModel.Collection`1"/>. The value can be null for reference types.</param>
         public bool Remove(TItem item)
         {
-            using (var readLock = CollectionLock.AcquireWriteLockIfNotHeld())
+            using (var readLock = Lock.AcquireWriteLockIfNotHeld())
             {
                 int index = _items.IndexOf(item);
 
@@ -325,7 +325,7 @@ namespace SquaredInfinity.Foundation.Collections
         /// <param name="index">The zero-based index of the element to remove.</param><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index"/> is less than zero.-or-<paramref name="index"/> is equal to or greater than <see cref="P:System.Collections.ObjectModel.Collection`1.Count"/>.</exception>
         public void RemoveAt(int index)
         {
-            using (var readLock = CollectionLock.AcquireWriteLockIfNotHeld())
+            using (var readLock = Lock.AcquireWriteLockIfNotHeld())
             {
                 var item = _items[index];
 

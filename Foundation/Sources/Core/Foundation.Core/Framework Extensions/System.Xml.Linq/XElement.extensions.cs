@@ -50,10 +50,10 @@ namespace SquaredInfinity.Foundation.Extensions
 
             var childNameWithDot = "." + name;
 
-            var stringComp = StringComparison.InvariantCulture;
+            var stringComp = StringComparison.OrdinalIgnoreCase;
 
             if (!isCaseSensitive)
-                stringComp = StringComparison.InvariantCultureIgnoreCase;
+                stringComp = StringComparison.OrdinalIgnoreCase;
 
             var result =
                 (from el in element.Elements()
@@ -199,7 +199,7 @@ namespace SquaredInfinity.Foundation.Extensions
             {
                 var qName = GetQName(element);
                 var index = (element.ElementsBeforeSelf(element.Name).Count() + 1);
-                return "{0}[{1}]".FormatWith(qName, index);
+                return $"{qName}[{index}]";
             }
             else
             {

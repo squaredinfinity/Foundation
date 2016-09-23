@@ -81,7 +81,7 @@ namespace SquaredInfinity.Foundation
         public void RaiseIndexerChanged(string index)
         {
             if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs("Item[{0}]".FormatWith(index)));
+                PropertyChanged(this, new PropertyChangedEventArgs($"Item[{index}]"));
         }
         /// <summary> 
         /// Raises the property changed event for indexer (specific index) 
@@ -89,7 +89,7 @@ namespace SquaredInfinity.Foundation
         public void RaiseIndexerChanged(int index)
         {
             if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs("Item[{0}]".FormatWith(index)));
+                PropertyChanged(this, new PropertyChangedEventArgs($"Item[{index}]"));
         }
 
         /// <summary>

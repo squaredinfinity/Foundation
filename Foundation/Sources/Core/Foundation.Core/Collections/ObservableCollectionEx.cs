@@ -242,7 +242,7 @@ namespace SquaredInfinity.Foundation.Collections
 
         public void Sort(IComparer<TItem> comparer)
         {
-            using (CollectionLock.AcquireWriteLock())
+            using (Lock.AcquireWriteLock())
             {
                 var copy = GetSnapshot();
 

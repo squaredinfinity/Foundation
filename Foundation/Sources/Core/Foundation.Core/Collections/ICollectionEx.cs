@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SquaredInfinity.Foundation.Threading;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace SquaredInfinity.Foundation.Collections
         ICollectionEx,
         IReadOnlyList<TItem>
     {
+        ILock Lock { get; }
         new int Count { get; }
 
         void Replace(TItem oldItem, TItem newItem);

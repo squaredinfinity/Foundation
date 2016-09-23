@@ -14,16 +14,16 @@ namespace SquaredInfinity.Foundation.Extensions
         {
             if(me.IsNamespaceDeclaration)
             {
-                if (me.Name.LocalName.Equals("xmlns", StringComparison.InvariantCultureIgnoreCase))
+                if (me.Name.LocalName.Equals("xmlns", StringComparison.OrdinalIgnoreCase))
                     return "xmlns";
 
-                return "xmlns:{0}".FormatWith(me.Name.LocalName);
+                return $"xmlns:{me.Name.LocalName}";
             }
 
             var match = Regex.Match(me.ToString(), "^(?<namespacePrefix>[^:^ ^\"]+):.+");
             if (match.Success)
             {
-                return "{0}:{1}".FormatWith(match.Groups["namespacePrefix"].Value, me.Name.LocalName);
+                return $"{match.Groups["namespacePrefix"].Value}:{me.Name.LocalName}";
             }
             
             return me.Name.LocalName;

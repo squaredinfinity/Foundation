@@ -22,7 +22,7 @@ namespace SquaredInfinity.Foundation.Presentation.ObjectExtensibility
 
         public TExtension GetByType<TExtension>()
         {
-            using (CollectionLock.AcquireReadLock())
+            using (Lock.AcquireReadLock())
             {
                 var extension = GetExtensionInternal_NoLock(typeof(TExtension).FullName);
 
@@ -36,7 +36,7 @@ namespace SquaredInfinity.Foundation.Presentation.ObjectExtensibility
         public TExtension GetOrAdd<TExtension>(Func<TExtension> createValue)
             where TExtension : IExtension<TOwner>
         {
-            using (CollectionLock.AcquireReadLock())
+            using (Lock.AcquireReadLock())
             {
                 var extension = GetExtensionInternal_NoLock(typeof(TExtension).FullName);
 
@@ -45,7 +45,7 @@ namespace SquaredInfinity.Foundation.Presentation.ObjectExtensibility
             }
 
             // failed to find extension, create a new value and insert
-            using (CollectionLock.AcquireUpgradeableReadLock())
+            using (Lock.AcquireUpgradeableReadLock())
             {
                 var extension = GetExtensionInternal_NoLock(typeof(TExtension).FullName);
 
@@ -67,7 +67,7 @@ namespace SquaredInfinity.Foundation.Presentation.ObjectExtensibility
                 if (extensionType == null)
                     throw new ArgumentNullException("extensionType");
 
-                using (CollectionLock.AcquireReadLock())
+                using (Lock.AcquireReadLock())
                 {
                     return GetExtensionInternal_NoLock(extensionType.FullName);
                 }
@@ -78,7 +78,7 @@ namespace SquaredInfinity.Foundation.Presentation.ObjectExtensibility
         {
             get
             {
-                using (CollectionLock.AcquireReadLock())
+                using (Lock.AcquireReadLock())
                 {
                     return GetExtensionInternal_NoLock(extensionTypeFullOrPartialName);
                 }

@@ -394,15 +394,13 @@ namespace SquaredInfinity.Foundation.Types.Mapping
                         if(!targetMemberDescription.CanSetValue)
                         {
                             InternalTrace.Information(
-                                () => 
-                                    "Unable to map property {0} on type {1}. target property is read-only"
-                                    .FormatWith(targetMemberDescription.Name, targetMemberDescription.DeclaringType.Name));
+                                () =>
+                                    $"Unable to map property {targetMemberDescription.Name} on type {targetMemberDescription.DeclaringType.Name}. target property is read-only");
                         }
 
                         InternalTrace.Information(
                                 () =>
-                                    "Unable to map property {0} on type {1}."
-                                    .FormatWith(targetMemberDescription.Name, targetMemberDescription.DeclaringType.Name));
+                                    $"Unable to map property {targetMemberDescription.Name} on type {targetMemberDescription.DeclaringType.Name}.");
 
                         // skip mapping of this property
                         continue;

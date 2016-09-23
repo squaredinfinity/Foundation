@@ -26,42 +26,42 @@ namespace SquaredInfinity.Foundation.Collections
         /// <summary>
         /// Lock providing atomic access fo elements in collection
         /// </summary>
-        readonly protected ILock CollectionLock;
+        public ILock Lock { get; protected set; }
         
         public CollectionEx()
         {
             _items = new List<TItem>();
-            CollectionLock = new ReaderWriterLockSlimEx(LockRecursionPolicy.NoRecursion);
+            Lock = new ReaderWriterLockSlimEx(LockRecursionPolicy.NoRecursion);
         }
 
         public CollectionEx(IEnumerable<TItem> items)
         {
             _items = new List<TItem>(items);
-            CollectionLock = new ReaderWriterLockSlimEx(LockRecursionPolicy.NoRecursion);
+            Lock = new ReaderWriterLockSlimEx(LockRecursionPolicy.NoRecursion);
         }
 
         public CollectionEx(List<TItem> items)
         {
             _items = items;
-            CollectionLock = new ReaderWriterLockSlimEx(LockRecursionPolicy.NoRecursion);
+            Lock = new ReaderWriterLockSlimEx(LockRecursionPolicy.NoRecursion);
         }
 
         public CollectionEx(LockRecursionPolicy recursionPolicy)
         {
             _items = new List<TItem>();
-            CollectionLock = new ReaderWriterLockSlimEx(recursionPolicy);
+            Lock = new ReaderWriterLockSlimEx(recursionPolicy);
         }
 
         public CollectionEx(LockRecursionPolicy recursionPolicy, IEnumerable<TItem> items)
         {
             _items = new List<TItem>(items);
-            CollectionLock = new ReaderWriterLockSlimEx(recursionPolicy);
+            Lock = new ReaderWriterLockSlimEx(recursionPolicy);
         }
 
         public CollectionEx(LockRecursionPolicy recursionPolicy, List<TItem> items)
         {
             _items = items;
-            CollectionLock = new ReaderWriterLockSlimEx(recursionPolicy);
+            Lock = new ReaderWriterLockSlimEx(recursionPolicy);
         }
 
         int IReadOnlyCollection<TItem>.Count
@@ -83,7 +83,7 @@ namespace SquaredInfinity.Foundation.Collections
             if (oldIndex == newIndex)
                 return;
 
-            using (CollectionLock.AcquireWriteLockIfNotHeld())
+            using (Lock.AcquireWriteLockIfNotHeld())
             {
                 TItem item = this[oldIndex];
 
@@ -156,7 +156,7 @@ namespace SquaredInfinity.Foundation.Collections
 
         public virtual void Replace(TItem oldItem, TItem newItem)
         {
-            using (CollectionLock.AcquireWriteLockIfNotHeld())
+            using (Lock.AcquireWriteLockIfNotHeld())
             {
                 var index = IndexOf(oldItem);
 
@@ -179,7 +179,7 @@ namespace SquaredInfinity.Foundation.Collections
 
         protected virtual void Replace(int index, TItem newItem)
         {
-            using (CollectionLock.AcquireWriteLockIfNotHeld())
+            using (Lock.AcquireWriteLockIfNotHeld())
             {
                 if (index < 0)
                     throw new IndexOutOfRangeException("specified item does not exist in the collection.");
@@ -299,9 +299,9 @@ namespace SquaredInfinity.Foundation.Collections
 
         void OnVersionChanged(long newVersion) 
         {
-            if (!CollectionLock.IsReadLockHeld && !CollectionLock.IsUpgradeableReadLockHeld && !CollectionLock.IsWriteLockHeld)
+            if (!Lock.IsReadLockHeld && !Lock.IsUpgradeableReadLockHeld && !Lock.IsWriteLockHeld)
             {
-                using (CollectionLock.AcquireReadLock())
+                using (Lock.AcquireReadLock())
                 {
                     if (VersionChanged != null)
                         VersionChanged(this, new VersionChangedEventArgs(newVersion));
@@ -335,7 +335,7 @@ namespace SquaredInfinity.Foundation.Collections
 
         public IReadOnlyList<TItem> GetSnapshot()
         {
-            using(CollectionLock.AcquireReadLockIfNotHeld())
+            using(Lock.AcquireReadLockIfNotHeld())
             {
                 var snapshot = this.ToArray();
 
@@ -355,7 +355,7 @@ namespace SquaredInfinity.Foundation.Collections
 
         public IBulkUpdate BeginBulkUpdate()
         {
-            var write_lock = CollectionLock.AcquireWriteLockIfNotHeld();
+            var write_lock = Lock.AcquireWriteLockIfNotHeld();
 
             // write lock != null => somebody else is doing update
             // make sure that we are in normal state, otherwsie there's a bug somewhere

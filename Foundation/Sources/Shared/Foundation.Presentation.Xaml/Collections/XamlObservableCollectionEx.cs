@@ -62,11 +62,11 @@ namespace SquaredInfinity.Foundation.Collections
 
             if (writeAccess)
             {
-                lockAcquisition = CollectionLock.AcquireWriteLockIfNotHeld();
+                lockAcquisition = Lock.AcquireWriteLockIfNotHeld();
             }
             else
             {
-                lockAcquisition = CollectionLock.AcquireReadLockIfNotHeld();
+                lockAcquisition = Lock.AcquireReadLockIfNotHeld();
             }
 
             using(lockAcquisition)
@@ -95,7 +95,7 @@ namespace SquaredInfinity.Foundation.Collections
 
                             var op = Dispatcher.BeginInvoke(new Action(() =>
                                 {
-                                    using (var writeLock = CollectionLock.AcquireWriteLock())
+                                    using (var writeLock = Lock.AcquireWriteLock())
                                     {
                                         var item = list[i];
 

@@ -42,7 +42,7 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
         {
             get
             {
-                return "{0} ({1})".FormatWith(Name, MemberType.FullName);
+                return $"{Name} ({MemberType.FullName})";
             }
         }
 

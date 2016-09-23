@@ -22,8 +22,8 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <local:VMEvents_ProducerView Grid.Column="0"
-                                                         behaviors:ForwardViewModelEvents.Target="{Binding ElementName=another_view}"/>
+                            <!--<local:VMEvents_ProducerView Grid.Column="0"
+                                                         behaviors:ForwardViewModelEvents.Target="{Binding ElementName=another_view}"/>-->
 
                             <local:VMEvents_AnotherView Grid.Column="2" 
                                                         x:Name="another_view"/>

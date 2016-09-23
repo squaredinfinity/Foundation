@@ -108,8 +108,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
     <Compile Include="Parsing\SamplePerLineParser.tests.cs" />
+    <None Include="packages.config" />
     <None Include="Statistics\Data\NIST\Analysis of Variance\SiRstv.dat" />
     <None Include="Statistics\Data\NIST\Analysis of Variance\SmLs01.dat" />
     <None Include="Statistics\Data\NIST\Analysis of Variance\SmLs02.dat" />

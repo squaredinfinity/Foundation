@@ -5,6 +5,7 @@ using System.Text;
 using SquaredInfinity.Foundation.Extensions;
 using System.Threading;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation
 {
@@ -206,7 +207,7 @@ namespace SquaredInfinity.Foundation
 
                         var retryDelay = Rand.Next(minDelayInMiliseconds, maxDelayInMiliseconds);
 
-                        Thread.Sleep(retryDelay);
+                        Task.Delay(retryDelay);
                     }
                 }
             }

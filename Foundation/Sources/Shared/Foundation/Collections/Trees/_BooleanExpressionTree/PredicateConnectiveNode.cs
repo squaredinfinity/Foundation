@@ -46,7 +46,7 @@ namespace SquaredInfinity.Foundation.Collections.Trees
 
         public string DebuggerDisplay
         {
-            get { return "{0}".FormatWith(Operator.ToString(valueWhenNull: "[Null]")); }
+            get { return $"{Operator.ToString(valueWhenNull: "[Null]")}"; }
         }
 
         public override IExpressionTreeNode InjectInto(IExpressionTreeNode targetNode, Func<IPredicateConnectiveNode> createConnectiveNode)

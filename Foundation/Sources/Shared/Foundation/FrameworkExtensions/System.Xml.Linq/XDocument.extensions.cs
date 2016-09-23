@@ -11,6 +11,18 @@ namespace SquaredInfinity.Foundation.Extensions
 {
     public static class XDocumentExtensions
     {
+        public static XmlDocument ToXmlDocument(this XDocument me)
+        {
+            var xmlDocument = new XmlDocument();
+
+            using (var xmlReader = me.CreateReader())
+            {
+                xmlDocument.Load(xmlReader);
+            }
+
+            return xmlDocument;
+        }
+
         public static bool TryParse(string xmlString, LoadOptions loadOptions, out XDocument parsedDocument)
         {
             parsedDocument = null;
@@ -47,18 +59,6 @@ namespace SquaredInfinity.Foundation.Extensions
                 InternalTrace.Information(ex, "failed parsing xml document");
                 return false;
             }
-        }
-        
-        public static XmlDocument ToXmlDocument(this XDocument me)
-        {
-            var xmlDocument = new XmlDocument();
-
-            using (var xmlReader = me.CreateReader())
-            {
-                xmlDocument.Load(xmlReader);
-            }
-
-            return xmlDocument;
         }
     }
 }

@@ -9,7 +9,8 @@
     <Import_RootNamespace>SquaredInfinity.Foundation</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)CloneComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AsyncLoop.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AsyncOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Concurrent\ConcurrentHashSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Concurrent\IConcurrentCollectionEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\IVirtualizedDataItem.cs" />
@@ -30,15 +31,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collections\VirtualizingCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\ConvertibleTypeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\IConvertibleType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CompositeComparer_T.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Composition\FeatureExportMetadataAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Composition\IFeatureMetadata.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\ExceptionContextData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DynamicComparer_T.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ExceptionEqualityComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\Microsoft.Win32\RegistryKey.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Collections\ICollection.Extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Collections\IDictionary.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Collections\IEnumerable.Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Collections\IList.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Collections\IReadOnlyList.extensions.cs" />
@@ -47,52 +43,25 @@
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Linq.Expressions\Expression.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Reflection\MemberInfo.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Threading.Tasks\Parallel.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml.Linq\XAttribute.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml.Linq\XContainer.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml.Linq\XDocument.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml.Linq\XElement.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml.Linq\XNode.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml.Linq\XObject.extensions.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml\XmlDocument.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Boolean.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Char.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\DateTimeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Exception.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Int32.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Int64.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\IServiceProvider.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Long.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Object.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\String.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Type.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\ULong.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GCMemoryUsagePressure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IAsyncLoop.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IAsyncOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ILGeneration\IL.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IndexInAnotherListComparer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IndexInListComparer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IntraMessaging\IIntraMessage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IntraMessaging\IIntraMessageNode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IntraMessaging\IntraMessage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IntraMessaging\IntraMessageNode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IntraMessaging\IntraMessagePropertyCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InvocationThrottle.ActionInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InvocationThrottle.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ISerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NotifyPropertyChangedObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NotifyPropertyChangedObjectWrapper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ReferenceEqualityComparer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SerializedDataInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\FileSystemSettingsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\ISettingsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingChangedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingsService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Threading\AsyncLoop.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Threading\AsyncOperation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Threading\IAsyncLoop.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Threading\IAsyncOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TypeResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\Description\IEnumerableTypeDescription.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\Description\IL\ILBasedEnumerableTypeDescription.cs" />
@@ -166,9 +135,5 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)WeakEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)_RetryPolicy\DynamicTransientFaultFilter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)_RetryPolicy\ITransientFaultFilter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)_RetryPolicy\RetryPolicy.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)_RetryPolicy\TransientFaultFilter.cs" />
   </ItemGroup>
 </Project>

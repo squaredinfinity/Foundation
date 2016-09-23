@@ -458,14 +458,14 @@ namespace SquaredInfinity.Foundation
 
             if (!senderType.IsAssignableFrom(delegateInvokeParameters[0].ParameterType))
             {
-                throw new InvalidOperationException("Delegate sender should be of type {0}.".FormatWith(senderType.FullName));
+                throw new InvalidOperationException($"Delegate sender should be of type {senderType.FullName}.");
             }
 
             var eventArgsType = typeof(TEventArgs);
 
             if (!eventArgsType.IsAssignableFrom(delegateInvokeParameters[1].ParameterType))
             {
-                throw new InvalidOperationException("Delegate event args should be of type {0}".FormatWith(eventArgsType.FullName));
+                throw new InvalidOperationException($"Delegate event args should be of type {eventArgsType.FullName}");
             }
         }
 

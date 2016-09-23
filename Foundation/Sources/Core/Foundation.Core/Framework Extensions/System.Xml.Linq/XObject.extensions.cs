@@ -15,14 +15,9 @@ namespace SquaredInfinity.Foundation.Extensions
             var lineInfo = obj as IXmlLineInfo;
 
             if (obj.NodeType == XmlNodeType.Element)
-                return "{0} ({1}, {2})".FormatWith(
-                    (obj as XElement).Name.LocalName,
-                    lineInfo.LineNumber,
-                    lineInfo.LinePosition);
+                return $"{(obj as XElement).Name.LocalName} ({lineInfo.LineNumber}, {lineInfo.LinePosition})";
 
-            return "({0}, {1})".FormatWith(
-                lineInfo.LineNumber,
-                lineInfo.LinePosition);
+            return $"({lineInfo.LineNumber}, {lineInfo.LinePosition})";
         }
 
         public static TAnnotation GetOrCreateAnnotation<TAnnotation>(this XObject xobject)
