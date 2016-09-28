@@ -44,7 +44,7 @@
 
     <PreRelease_RC>rc</PreRelease_RC>
     <PreRelease_BETA>beta</PreRelease_BETA>
-    <PreRelease_LOCAL>beta</PreRelease_LOCAL>
+    <PreRelease_LOCAL></PreRelease_LOCAL>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == '$(ConfigurationName_STABLE)' ">

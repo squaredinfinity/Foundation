@@ -72,7 +72,20 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
             }
         }
 
-        protected IUIService UIService { get; private set; }
+        IUIService _uiService;
+        protected IUIService UIService
+        {
+            get
+            {
+                if(_uiService == null)
+                {
+                    throw new ArgumentNullException("UI Service is not set. Pass an instance to ViewModel constructor.");
+                }
+
+                return _uiService;
+            }
+            private set { _uiService = value; }
+        }
 
         void RaiseAfterDataContextChanged(object newDataContext)
         {

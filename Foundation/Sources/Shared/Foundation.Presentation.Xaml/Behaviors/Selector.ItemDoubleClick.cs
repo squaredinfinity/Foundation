@@ -57,9 +57,9 @@ namespace SquaredInfinity.Foundation.Presentation.Behaviors
                 return;
 
             // check if double click comes from [child] item, of from selector area (e.g. scrollbar)
-            var sourceFe = e.OriginalSource as FrameworkElement;
+            var sourceDO = e.OriginalSource  as DependencyObject;
 
-            var lbi = sourceFe.FindVisualParent<ListBoxItem>(stopSearchAt: selector);
+            var lbi = sourceDO.FindVisualParent<ListBoxItem>(stopSearchAt: selector);
 
             if (lbi == null)
                 return;
