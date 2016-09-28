@@ -60,5 +60,16 @@ namespace SquaredInfinity.Foundation.Maths.Space2D
             _x += point.X;
             _y += point.Y;
         }
+
+        public double Distance(Point2D other)
+        {
+            // d = |x - y| = Sqrt(Sum((xi - yi)^2))
+
+            var sum = Math.Pow(other.X - X, 2) + Math.Pow(other.Y - Y, 2);
+
+            var d = Math.Sqrt(sum);
+
+            return d;
+        }
     }
 }

@@ -151,6 +151,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Media\Visual.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows\DependencyObject.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows\FrameworkElement.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows\Point.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows\Rect.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows\Size.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows\Vector.extensions.cs" />
