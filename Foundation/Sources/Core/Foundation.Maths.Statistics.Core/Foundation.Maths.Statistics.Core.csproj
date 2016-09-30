@@ -8,7 +8,7 @@
     <ProjectGuid>{E35DABDD-0AF8-4753-A747-1FB0F2963E00}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Foundation.Maths.Statistics.Core</RootNamespace>
+    <RootNamespace>Foundation.Maths.Statistics</RootNamespace>
     <AssemblyName>Foundation.Maths.Statistics.Core</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
@@ -52,6 +52,7 @@
     <Compile Include="OnlineStatistics.cs" />
     <Compile Include="Range.cs" />
     <Compile Include="RangeInfo.cs" />
+    <Compile Include="SimpleMovingAverage.cs" />
     <Compile Include="StdDev.cs" />
     <Compile Include="StdDevInfo.cs" />
     <Compile Include="Variance.cs" />
