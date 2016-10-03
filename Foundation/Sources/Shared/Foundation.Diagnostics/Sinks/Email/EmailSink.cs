@@ -11,7 +11,7 @@ using System.IO.Compression;
 using SquaredInfinity.Foundation.Extensions;
 using SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors;
 
-namespace Foundation.Diagnostics.Sinks.Email
+namespace SquaredInfinity.Foundation.Diagnostics.Sinks.Email
 {
     public class EmailSink : Sink
     {

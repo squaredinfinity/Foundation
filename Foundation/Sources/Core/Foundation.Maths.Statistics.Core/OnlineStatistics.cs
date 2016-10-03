@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using SquaredInfinity.Foundation.Extensions;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
@@ -7,49 +9,6 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Maths.Statistics
 {
-    public class OnlineStatisticsInfo
-    {
-        public UInt64 Count { get; internal set; }
-        public double Mean { get; internal set; }
-        public RangeInfo Range { get; internal set; }
-        public double Min {  get { return Range.Min; } }
-        public double Max { get { return Range.Max; } }
-        public VarianceInfo Variance { get; internal set; }
-        public StdDevInfo StdDev { get; internal set; }
-
-        readonly internal Dictionary<object, object> AdditionalStatisticsResults = new Dictionary<object, object>();
-        public T GetValue<T>(object key)
-        {
-            return (T) AdditionalStatisticsResults[key];
-        }
-    }
-
-    public class AdditionalStatistic<TKey, TValue>
-    {
-        public TKey Key { get; private set; }
-        public Func<IObservable<double>, IObservable<TValue>> Calculate { get; private set; }
-
-        public AdditionalStatistic(TKey key, Func<IObservable<double>, IObservable<TValue>> calculate)
-        {
-            this.Key = key;
-            this.Calculate = calculate;
-        }
-    }
-
-    public enum KnownStatistics
-    {
-        None        = 0x0,
-        Count       = 0x1,
-        Min         = 0x2,
-        Max         = 0x4,
-        Range       = 0x8,
-        Mean        = 0x10,
-        Variance    = 0x20,
-        StdDev      = 0x40,
-
-        All = Count | Min | Max | Range | Mean | Variance | StdDev
-    }
-
     public static class OnlineStatistics
     {
         public static IObservable<OnlineStatisticsInfo> Calculate(IObservable<double> samples)
@@ -65,7 +24,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
         public static IObservable<OnlineStatisticsInfo> Calculate(
             IObservable<double> samples,
             KnownStatistics defaultStatistics,
-            IDictionary<object, Func<IObservable<double>, IObservable<object>>> additionalStatistics)
+            params AdditionalStatistic[] additionalStatistics)
         {
             var stats = new OnlineStatisticsInfo();
             var all_stats = samples.Select(x => stats);
@@ -136,15 +95,18 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
 
             #endregion
 
-            foreach (var kvp in additionalStatistics)
+            if (additionalStatistics != null)
             {
-                all_stats =
-                    all_stats.Zip<OnlineStatisticsInfo, object, OnlineStatisticsInfo>(kvp.Value(samples), (stats_info, x) =>
+                foreach (var astat in additionalStatistics)
                 {
-                    stats_info.AdditionalStatisticsResults.Add(kvp.Key, x);
+                    all_stats =
+                        all_stats.Zip<OnlineStatisticsInfo, object, OnlineStatisticsInfo>(astat.Calculate(samples), (stats_info, x) =>
+                    {
+                        stats_info.AdditionalStatisticsResults.AddOrUpdate(astat.Key, x);
 
-                    return stats_info;
-                });
+                        return stats_info;
+                    });
+                }
             }
 
             return all_stats;

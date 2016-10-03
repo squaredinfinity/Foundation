@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reactive.Linq;
 
-namespace Foundation.Maths.Statistics
+namespace SquaredInfinity.Foundation.Maths.Statistics
 {
     public class SimpleMovingAverage
     {

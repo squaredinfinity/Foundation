@@ -8,8 +8,8 @@
     <ProjectGuid>{E35DABDD-0AF8-4753-A747-1FB0F2963E00}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Foundation.Maths.Statistics</RootNamespace>
-    <AssemblyName>Foundation.Maths.Statistics.Core</AssemblyName>
+    <RootNamespace>SquaredInfinity.Foundation.Maths.Statistics</RootNamespace>
+    <AssemblyName>SquaredInfinity.Foundation.Maths.Statistics.Core</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,6 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\Foundation.Core\Foundation.Core.csproj">
+      <Project>{4ed231bf-b533-4842-9b80-b0f30e360ead}</Project>
+      <Name>Foundation.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Foundation.Maths.Core\Foundation.Maths.Core.csproj">
       <Project>{3d68571e-52ca-481b-b2b6-e22e5c214cb6}</Project>
       <Name>Foundation.Maths.Core</Name>
@@ -42,6 +46,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdditionalStatistic.cs" />
+    <Compile Include="KnownStatistics.cs" />
+    <Compile Include="OnlineStatisticsInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Distributions\IDistribution.cs" />
     <Compile Include="Distributions\Normal.cs" />
