@@ -96,7 +96,6 @@ namespace SquaredInfinity.Foundation
             it.Invoke(() => 
                 {
                     Assert.AreNotEqual(tid, Thread.CurrentThread.ManagedThreadId);
-
                     are.Set();
                 });
             
@@ -110,7 +109,7 @@ namespace SquaredInfinity.Foundation
         public void MultipleRequestsForInvocationDelayActualInvocationUntilMaxTimespanElapsed()
         {
             var min = TimeSpan.FromMilliseconds(50);
-            var max = TimeSpan.FromMilliseconds(500);
+            var max = TimeSpan.FromMilliseconds(250);
 
             var it = new InvocationThrottle(min, max);
             var tid = Thread.CurrentThread.ManagedThreadId;
@@ -122,14 +121,82 @@ namespace SquaredInfinity.Foundation
 
             while (!should_break && (DateTime.UtcNow - start_time).TotalMilliseconds < 1000)
             {
-                it.Invoke(() =>
+                it.Invoke((ct) =>
                 {
+                    if (ct.IsCancellationRequested)
+                        return;
+
                     invocation_time = DateTime.UtcNow;
                     should_break = true;
                 });
             }
 
-            Assert.IsTrue((invocation_time - start_time).TotalMilliseconds >= 500);
+            Assert.IsTrue((invocation_time - start_time).TotalMilliseconds >= 250);
+            Assert.IsTrue((invocation_time - start_time).TotalMilliseconds < 500);
+        }
+
+        [TestMethod]
+        public void MultipleRequestsForInvocationDelayActualInvocationUntilMaxTimespanElapsed__EvenIfActionTakesLongerThanMaxAllowedInterval()
+        {
+            var min = TimeSpan.FromMilliseconds(50);
+            var max = TimeSpan.FromMilliseconds(150);
+
+            var it = new InvocationThrottle(min, max);
+            var tid = Thread.CurrentThread.ManagedThreadId;
+
+            var start_time = DateTime.UtcNow;
+            var invocation_time = DateTime.UtcNow;
+
+            var should_break = false;
+
+            Trace.WriteLine("MAIN THREAD" + Thread.CurrentThread.ManagedThreadId);
+            
+            int total_count = 0;
+            int last_x = 0;
+
+
+            while (!should_break && (DateTime.UtcNow - start_time).TotalMilliseconds < 10000)
+            {
+                var sw = Stopwatch.StartNew();
+
+                var x = Interlocked.Increment(ref total_count);
+                
+                it.Invoke((ct) =>
+                {
+                    Trace.WriteLine("executing " + x);
+
+                    Task.Delay(300).Wait(); // action takes longer
+                    if (ct.IsCancellationRequested)
+                        return;
+
+                    invocation_time = DateTime.UtcNow;
+                    //Trace.WriteLine("DONE" + Thread.CurrentThread.ManagedThreadId);
+                    //should_break = true;
+
+                    last_x = x;
+
+                    Trace.WriteLine("executed " + x);
+                    
+                });
+
+                
+                sw.Stop();
+
+                if(sw.Elapsed.TotalMilliseconds > 50)
+                {
+                    Trace.WriteLine("invocation took too long");
+                }
+            }
+
+            // wait for all tasks to finish
+            Task.Delay(500).Wait();
+
+            Trace.WriteLine("last: " + last_x);
+            Trace.WriteLine("total: " + total_count);
+
+            Assert.AreEqual(total_count, last_x);
+
+            Assert.IsTrue((invocation_time - start_time).TotalMilliseconds >= 250);
         }
 
         [TestMethod]

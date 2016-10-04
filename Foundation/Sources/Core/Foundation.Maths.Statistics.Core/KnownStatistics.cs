@@ -16,7 +16,8 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
         Mean = 0x10,
         Variance = 0x20,
         StdDev = 0x40,
+        LastValue = 0x80,
 
-        All = Count | Min | Max | Range | Mean | Variance | StdDev
+        All = Count | Min | Max | Range | Mean | Variance | StdDev | LastValue
     }
 }

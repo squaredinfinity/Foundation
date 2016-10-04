@@ -9,6 +9,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
     public class OnlineStatisticsInfo
     {
         public UInt64 Count { get; internal set; }
+        public double LastValue { get; internal set; }
         public double Mean { get; internal set; }
         public RangeInfo Range { get; internal set; }
         public double Min { get { return Range.Min; } }

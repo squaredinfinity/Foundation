@@ -17,23 +17,36 @@ namespace SquaredInfinity.Foundation
         DateTime? LastInvokeUTC = null;
         DateTime LastTimerResetUTC = DateTime.MinValue;
 
+        TimeSpan _actionTimeout = Timeout.InfiniteTimeSpan;
+        public TimeSpan ActionTimout
+        {
+            get { return _actionTimeout; }
+            set
+            {
+                _actionTimeout = value;
+                LastActionInfo.Timeout = _actionTimeout;
+            }
+        }
+
+        readonly ActionInfo LastActionInfo = new ActionInfo();
+
         readonly object Lock = new object();
 
         System.Timers.Timer ThrottleTimer;
 
         public InvocationThrottle(TimeSpan min)
+            : this(min, null)
+        {}
+
+        public InvocationThrottle(TimeSpan min, TimeSpan? max)
         {
+            ActionTimout = Timeout.InfiniteTimeSpan;
+
             if (min.Ticks <= 0)
                 this.TimeSpanMin = TimeSpan.FromTicks(1);
             else
                 this.TimeSpanMin = min;
 
-            InitializeTimer();
-        }
-
-        public InvocationThrottle(TimeSpan min, TimeSpan max)
-        {
-            this.TimeSpanMin = min;
             this.TimeSpanMax = max;
 
             InitializeTimer();
@@ -45,34 +58,43 @@ namespace SquaredInfinity.Foundation
             ThrottleTimer.Elapsed += ThrottleTimer_Elapsed;
         }
 
+        public void Update(TimeSpan min, TimeSpan max)
+        {
+            lock (Lock)
+            {
+                TimeSpanMin = min;
+                TimeSpanMax = max;
+
+                ThrottleTimer.Interval = TimeSpanMin.TotalMilliseconds;
+            }
+        }
+
         void ThrottleTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             lock (Lock)
             {
                 ThrottleTimer.Stop();
-
+                
                 if (LastTimerResetUTC >= e.SignalTime.ToUniversalTime())
                 {
                     // Timer Elapsed, but got canceled before it could stop this event from occuring;
                     return;
                 }
-
-                LastActionInfo2.TryInvokeAsync();
+                
+                LastActionInfo.TryInvokeAsync(should_run_to_completion: false);
                 LastInvokeUTC = e.SignalTime.ToUniversalTime();
                 LastInvokeRequestUTC = null;
             }
         }
 
-        readonly ActionInfo LastActionInfo2 = new ActionInfo();
-
         public void Invoke(Action action)
         {
-            DoInvoke(() => LastActionInfo2.SetAction(action));
+            DoInvoke(() => LastActionInfo.SetAction(action));
         }
 
         public void Invoke(Action<CancellationToken> cancellableAction)
         {
-            DoInvoke(() => LastActionInfo2.SetAction(cancellableAction));
+            DoInvoke(() => LastActionInfo.SetAction(cancellableAction));
         }
 
         void DoInvoke(Action set_action)
@@ -112,8 +134,18 @@ namespace SquaredInfinity.Foundation
                 // if min time passed then check if max time span passed
                 if (should_invoke)
                 {
+                    // if is past max since last invoke request
+                    // and is past max since last complete
+                    // make sure it finishes before processing further
+                    var should_run_to_completion =
+                        TimeSpanMax != null
+                        &&
+                        (current_invoke_request_time - LastInvokeUTC >= TimeSpanMax
+                        ||
+                        current_invoke_request_time - LastActionInfo.LastCompleteTimeUtc >= TimeSpanMax);
+
                     // invoke, stop the timer, update times
-                    LastActionInfo2.TryInvokeAsync();
+                    LastActionInfo.TryInvokeAsync(should_run_to_completion);
 
                     LastInvokeUTC = current_invoke_request_time;
                     ThrottleTimer.Stop();

@@ -17,12 +17,11 @@ namespace SquaredInfinity.Foundation
             Action<CancellationToken> CancellableAction = null;
             Action Action = null;
 
-            Task LastTask = null;
+            DoActionPayload LastAction = null;
 
-            CancellationTokenSource LastTaskCancellationTokenSource;
+            public TimeSpan Timeout { get; internal set; }
 
-
-            bool ShouldContinueWinNextAction = false;
+            public DateTime LastCompleteTimeUtc { get; internal set; } = DateTime.MinValue;
 
             public ActionInfo()
             { }
@@ -32,47 +31,79 @@ namespace SquaredInfinity.Foundation
                 public Action Action;
                 public Action<CancellationToken> CancellableAction;
                 public CancellationTokenSource CancellationTokenSource;
+
+                public bool ShouldContinueWithNextAction { get; internal set; } = true;
+                public bool ShouldRunToCompletion { get; internal set; }
+                public Task Task { get; internal set; }
             }
 
-            public bool TryInvokeAsync()
+            public bool TryInvokeAsync(bool should_run_to_completion)
             {
                 lock (Sync)
                 {
+                    // there's no pending action or cancellable action
+                    // just return
                     if (Action == null && CancellableAction == null)
                     {
                         return false;
                     }
 
-                    if (LastTask != null && CancellableAction == null)
+                    // last task is set, but cannot be cancelled
+                    // when it's finished it should continue with next action (if one has already been set)
+                    if (LastAction != null && LastAction.CancellableAction == null)
                     {
-                        ShouldContinueWinNextAction = true;
+                        LastAction.ShouldContinueWithNextAction = true;
                         return false;
                     }
 
-                    if (CancellableAction != null)
+                    // if last task should run to completion, don't cancel it
+                    // new action will be processed after last completes
+                    if(LastAction != null && LastAction.ShouldRunToCompletion)
                     {
-                        if (LastTaskCancellationTokenSource != null)
-                            LastTaskCancellationTokenSource.Cancel();
+                        LastAction.ShouldContinueWithNextAction = true;
+                        return false;
                     }
-
-
-                    LastTaskCancellationTokenSource = new CancellationTokenSource();
+                    
+                    // last task doesn't have to finish, and can be cancelled
+                    // cancel it now
+                    if (LastAction != null && LastAction.CancellationTokenSource != null)
+                    {
+                        LastAction.CancellationTokenSource.Cancel();
+                    }
 
                     var payload = new DoActionPayload
                     {
                         Action = Action,
                         CancellableAction = CancellableAction,
-                        CancellationTokenSource = LastTaskCancellationTokenSource
+                        CancellationTokenSource = new CancellationTokenSource(Timeout),
+                        ShouldRunToCompletion = should_run_to_completion
                     };
 
-                    LastTask = new Task(DoAction, payload, LastTaskCancellationTokenSource.Token);
-                    LastTask.ContinueWith(_prev => OnLastTaskFinished(), TaskContinuationOptions.ExecuteSynchronously);
-                    LastTask.Start();
+                    var new_task = new Task(DoAction, payload, payload.CancellationTokenSource.Token);
+
+                    if (LastAction != null)
+                    {
+                        payload.Task = LastAction.Task.ContinueWith(_prev => new_task, payload.CancellationTokenSource.Token, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
+                    }
+                    else
+                    {
+                        payload.Task = new_task;
+                    }
+
+                    // call self after finished to invoke any pending actions
+                    payload.Task =
+                        payload.Task
+                        .ContinueWith(_prev => OnLastTaskFinished(payload), TaskContinuationOptions.ExecuteSynchronously);
+
+                    // start task if there's no previous action
+                    // othwerwise task will be a continueation of previous
+                    if(LastAction == null)
+                        new_task.Start();
+
+                    LastAction = payload;
 
                     Action = null;
                     CancellableAction = null;
-
-                    ShouldContinueWinNextAction = false;
 
                     return true;
                 }
@@ -85,6 +116,7 @@ namespace SquaredInfinity.Foundation
                 if (payload.Action != null)
                 {
                     payload.Action();
+                    
                     return;
                 }
 
@@ -96,19 +128,26 @@ namespace SquaredInfinity.Foundation
 
             }
 
-            void OnLastTaskFinished()
+            void OnLastTaskFinished(DoActionPayload payload)
             {
                 lock (Sync)
                 {
-                    LastTask = null;
+                    var should_continue_with_next_action = false;
 
-                    if (!ShouldContinueWinNextAction)
-                        return;
+                    if (LastAction != null)
+                    {
+                        should_continue_with_next_action = LastAction.ShouldContinueWithNextAction;
+                    }
 
-                    TryInvokeAsync();
+                    LastAction = null;
+
+                    if(!payload.CancellationTokenSource.IsCancellationRequested)
+                        LastCompleteTimeUtc = DateTime.UtcNow;
+
+                    if(should_continue_with_next_action)
+                        TryInvokeAsync(should_run_to_completion: false);
                 }
             }
-
 
             public void SetAction(Action action)
             {

@@ -207,7 +207,7 @@ namespace SquaredInfinity.Foundation
 
                         var retryDelay = Rand.Next(minDelayInMiliseconds, maxDelayInMiliseconds);
 
-                        Task.Delay(retryDelay);
+                        Task.Delay(retryDelay).Wait();
                     }
                 }
             }

@@ -29,6 +29,22 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
             var stats = new OnlineStatisticsInfo();
             var all_stats = samples.Select(x => stats);
 
+            #region LastValue
+
+            if (defaultStatistics.HasFlag(KnownStatistics.LastValue))
+            {
+                var last_value = samples.Select(x => x);
+
+                all_stats =
+                   all_stats.Zip(last_value, (stats_info, x) =>
+                   {
+                       stats_info.LastValue = x;
+                       return stats_info;
+                   });
+            }
+
+            #endregion
+
             #region Count
 
             if (defaultStatistics.HasFlag(KnownStatistics.Count))
@@ -38,7 +54,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
                 var count = samples.Select(x => ++n);
 
                 all_stats =
-                   all_stats.Zip<OnlineStatisticsInfo, UInt64, OnlineStatisticsInfo>(count, (stats_info, x) =>
+                   all_stats.Zip(count, (stats_info, x) =>
                    {
                        stats_info.Count = x;
                        return stats_info;
@@ -56,7 +72,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
                 var range = Range.Calculate(samples);
 
                 all_stats =
-                   all_stats.Zip<OnlineStatisticsInfo, RangeInfo, OnlineStatisticsInfo>(range, (stats_info, x) =>
+                   all_stats.Zip(range, (stats_info, x) =>
                    {
                        stats.Range = x;
                        return stats_info;
@@ -74,7 +90,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
                 var std_dev = StdDev.Calculate(samples);
 
                 all_stats =
-                   all_stats.Zip<OnlineStatisticsInfo, StdDevInfo, OnlineStatisticsInfo>(std_dev, (stats_info, x) =>
+                   all_stats.Zip(std_dev, (stats_info, x) =>
                    {
                        stats.StdDev = x;
                        stats.Variance = x.Variance;
@@ -86,7 +102,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
                 var variance = Variance.Calculate(samples);
 
                 all_stats =
-                   all_stats.Zip<OnlineStatisticsInfo, VarianceInfo, OnlineStatisticsInfo>(variance, (stats_info, x) =>
+                   all_stats.Zip(variance, (stats_info, x) =>
                    {
                        stats.Variance = x;
                        return stats_info;
@@ -100,7 +116,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
                 foreach (var astat in additionalStatistics)
                 {
                     all_stats =
-                        all_stats.Zip<OnlineStatisticsInfo, object, OnlineStatisticsInfo>(astat.Calculate(samples), (stats_info, x) =>
+                        all_stats.Zip(astat.Calculate(samples), (stats_info, x) =>
                     {
                         stats_info.AdditionalStatisticsResults.AddOrUpdate(astat.Key, x);
 
