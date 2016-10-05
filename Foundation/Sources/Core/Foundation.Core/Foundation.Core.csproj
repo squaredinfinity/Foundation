@@ -60,6 +60,7 @@
     <Compile Include="DynamicComparer_T.cs" />
     <Compile Include="EnumeratorBase.cs" />
     <Compile Include="ExceptionEqualityComparer.cs" />
+    <Compile Include="Framework Extensions\System.Collections.Concurrent\ConcurrentBag.extensions.cs" />
     <Compile Include="Framework Extensions\System.Collections\ICollection.Extensions.cs" />
     <Compile Include="Framework Extensions\System.Collections\IDictionary.extensions.cs" />
     <Compile Include="Framework Extensions\System.Collections\IEnumerable.Extensions.cs" />
