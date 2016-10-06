@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
                     Trace.WriteLine($"c:{x.Count}, min:{x.Range.Min}, max:{x.Range.Max}, r:{x.Range}, m: {x.Mean}, v: {x.Variance}, σ: {x.StdDev}");
                 });
 
+            
 
             var sma_1 = new SimpleMovingAverage(1);
             var sma_2 = new SimpleMovingAverage(2);

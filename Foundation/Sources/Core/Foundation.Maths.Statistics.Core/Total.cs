@@ -9,28 +9,33 @@ using System.Numerics;
 
 namespace SquaredInfinity.Foundation.Maths.Statistics
 {
-    public static class Count
+    public static class Total
     {
         /// <summary>
-        /// Calculates the Count of given samples.
+        /// Calculates the Total of given samples.
         /// </summary>
         /// <param name="samples"></param>
-        public static UInt64 Calculate(IReadOnlyList<double> samples)
+        public static Decimal Calculate(IReadOnlyList<double> samples)
         {
-            return (UInt64) samples.Count;
+            var x = 0.0M;
+
+            for (int i = 0; i < samples.Count; i++)
+                x += Convert.ToDecimal(samples[i]);
+
+            return x;
         }
 
         /// <summary>
         /// Calculates the Count of given samples.
         /// </summary>
         /// <param name="samples"></param>
-        public static IObservable<UInt64> Calculate(IObservable<double> samples)
+        public static IObservable<Decimal> Calculate(IObservable<double> samples)
         {
-            var result = (UInt64)0;
+            var result = (Decimal)0;
 
             return samples.Select(x =>
             {
-                result++;
+                result += Convert.ToDecimal(x);
 
                 return result;
             });

@@ -7,16 +7,8 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Collections
 {
-    public interface IBulkUpdate : IDisposable
-    { }
-
-    public interface IBulkUpdatesCollection
+    public interface IBulkUpdatesCollection : ISupportsBulkUpdate
     {
-        IBulkUpdate BeginBulkUpdate();
-        void EndBulkUpdate(IBulkUpdate bulkUpdate);
-
-        bool IsBulkUpdateInProgress();
-
         void AddRange(IEnumerable items);
 
         void RemoveRange(int index, int count);

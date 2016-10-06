@@ -14,23 +14,20 @@ namespace SquaredInfinity.Foundation
     /// <summary> 
     /// Implements INotifyPropertyChanged
     /// </summary> 
-    [Serializable]
     public class NotifyPropertyChangedObject : INotifyPropertyChanged, IFreezable, INotifyVersionChangedObject
     {
         /// <summary> 
         /// Occurs when [property changed]. 
         /// </summary> 
-        [field:NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [field: NonSerialized]
         public event EventHandler VersionChanged;
 
         /// <summary>
         /// Increments version and raises Version Changed event.
         /// </summary>
         protected void IncrementVersion()
-        {
+        { 
             var newVersion = Interlocked.Increment(ref _version);
 
             OnVersionChanged();

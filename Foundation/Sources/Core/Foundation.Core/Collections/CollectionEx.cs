@@ -348,11 +348,6 @@ namespace SquaredInfinity.Foundation.Collections
 
         protected int State = STATE__NORMAL;
 
-        public bool IsInBulkUpdate
-        {
-            get { return State == STATE__BULKUPDATE; }
-        }
-
         public IBulkUpdate BeginBulkUpdate()
         {
             var write_lock = Lock.AcquireWriteLockIfNotHeld();
@@ -393,31 +388,6 @@ namespace SquaredInfinity.Foundation.Collections
         protected virtual void OnAfterBulkUpdate()
         {
 
-        }
-    }
-
-    class BulkUpdate : IBulkUpdate
-    {
-        readonly IBulkUpdatesCollection Owner;
-        readonly IWriteLockAcquisition LockAcquisition;
-        bool HasFinished = false;
-
-        public BulkUpdate(IBulkUpdatesCollection owner, IWriteLockAcquisition lockAcquisition)
-        {
-            this.Owner = owner;
-            LockAcquisition = lockAcquisition;
-        }
-
-        public void Dispose()
-        {
-            if (HasFinished)
-                return;
-
-            HasFinished = true;
-            Owner.EndBulkUpdate(this);
-
-            if (LockAcquisition != null)
-                LockAcquisition.Dispose();
         }
     }
 }

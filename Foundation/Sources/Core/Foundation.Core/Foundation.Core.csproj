@@ -38,6 +38,10 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include=".Bulk Update\BulkUpdate.cs" />
+    <Compile Include=".Bulk Update\IBulkUpdate.cs" />
+    <Compile Include=".Bulk Update\ISupportsBulkUpdate.cs" />
+    <Compile Include=".Bulk Update\SupportsBulkUpdate.cs" />
     <Compile Include="ChainOfCommand.cs" />
     <Compile Include="CloneComparer.cs" />
     <Compile Include="Collections\AfterItemReplacedEventArgs.cs" />
@@ -99,6 +103,7 @@
     <Compile Include="Iterator.cs" />
     <Compile Include="LogicalOrder.cs" />
     <Compile Include="NamedObject.cs" />
+    <Compile Include="NotifyPropertyChangedObject.cs" />
     <Compile Include="ObjectExtensibility\Extension.cs" />
     <Compile Include="ObjectExtensibility\ExtensionCollection.cs" />
     <Compile Include="ObjectExtensibility\IExtensibleObject.cs" />
@@ -118,10 +123,10 @@
     <Compile Include="Threading\ReaderWriterLockSlimEx.UpgradeableReadLockAcquisition.cs" />
     <Compile Include="Threading\ReaderWriterLockSlimEx.WriteLockAcquisition.cs" />
     <Compile Include="VersionChangedEventArgs.cs" />
-    <Compile Include="_RetryPolicy\DynamicTransientFaultFilter.cs" />
-    <Compile Include="_RetryPolicy\ITransientFaultFilter.cs" />
-    <Compile Include="_RetryPolicy\RetryPolicy.cs" />
-    <Compile Include="_RetryPolicy\TransientFaultFilter.cs" />
+    <Compile Include=".Retry Policy\DynamicTransientFaultFilter.cs" />
+    <Compile Include=".Retry Policy\ITransientFaultFilter.cs" />
+    <Compile Include=".Retry Policy\RetryPolicy.cs" />
+    <Compile Include=".Retry Policy\TransientFaultFilter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Framework Extensions\System.ComponentModel\" />
