@@ -49,9 +49,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
 
             if (defaultStatistics.HasFlag(KnownStatistics.Count))
             {
-                UInt64 n = 0;
-
-                var count = samples.Select(x => ++n);
+                var count = Count.Calculate(samples);
 
                 all_stats =
                    all_stats.Zip(count, (stats_info, x) =>
@@ -81,7 +79,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
 
             #endregion
 
-            #region Std Dev | Variance
+            #region Std Dev | Variance | Mean
 
             // std dev includes variance, no point calculating it twice
 
@@ -94,10 +92,11 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
                    {
                        stats.StdDev = x;
                        stats.Variance = x.Variance;
+                       stats.Mean = x.Variance.Mean;
                        return stats_info;
                    });
             }
-            else if(defaultStatistics.HasFlag(KnownStatistics.Variance))
+            else if(defaultStatistics.HasFlag(KnownStatistics.Variance) || defaultStatistics.HasFlag(KnownStatistics.Mean))
             {
                 var variance = Variance.Calculate(samples);
 
@@ -105,6 +104,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
                    all_stats.Zip(variance, (stats_info, x) =>
                    {
                        stats.Variance = x;
+                       stats.Mean = x.Mean;
                        return stats_info;
                    });
             }

@@ -4,8 +4,8 @@ using System.Runtime.InteropServices;
 
 #if WIN32API
 
-[assembly: AssemblyVersion("1.4.11.0")]
-[assembly: AssemblyFileVersion("1.4.11.0")]
-[assembly: AssemblyInformationalVersion("1.4.11.0")]
+[assembly: AssemblyVersion("1.4.14.0")]
+[assembly: AssemblyFileVersion("1.4.14.0")]
+[assembly: AssemblyInformationalVersion("1.4.14.0")]
 
 #endif

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Foundation.Maths.Statistics
 {
     [TestClass]
-    public class OnlineStatisticsUnitTests
+    public class OnlineStatisticsTests
     {
         [TestMethod]
         public void MyTestMethod()

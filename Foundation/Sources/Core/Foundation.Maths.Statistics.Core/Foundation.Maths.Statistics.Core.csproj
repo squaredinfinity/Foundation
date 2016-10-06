@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdditionalStatistic.cs" />
+    <Compile Include="Count.cs" />
     <Compile Include="KnownStatistics.cs" />
     <Compile Include="OnlineStatisticsInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
