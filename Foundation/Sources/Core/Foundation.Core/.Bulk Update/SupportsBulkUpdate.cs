@@ -17,11 +17,6 @@ namespace SquaredInfinity.Foundation
 
         protected int State = STATE__NORMAL;
 
-        public bool IsInBulkUpdate
-        {
-            get { return State == STATE__BULKUPDATE; }
-        }
-
         public bool IsBulkUpdateInProgress()
         {
             return State == STATE__BULKUPDATE;
