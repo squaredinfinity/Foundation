@@ -10,53 +10,35 @@ namespace SquaredInfinity.Foundation
 {
     public class SupportsBulkUpdate : NotifyPropertyChangedObject, ISupportsBulkUpdate
     {
-        public ILock Lock { get; private set; } = new ReaderWriterLockSlimEx(LockRecursionPolicy.NoRecursion);
+        public ILock Lock { get; protected set; } = new ReaderWriterLockSlimEx(LockRecursionPolicy.NoRecursion);
 
-        protected const int STATE__NORMAL = 0;
-        protected const int STATE__BULKUPDATE = 1;
-
-        protected int State = STATE__NORMAL;
+        int BulkUpdateCount = 0;
 
         public bool IsBulkUpdateInProgress()
         {
-            return State == STATE__BULKUPDATE;
+            return BulkUpdateCount != 0;
         }
 
         public IBulkUpdate BeginBulkUpdate()
         {
             var write_lock = Lock.AcquireWriteLockIfNotHeld();
 
-            // write lock != null and not normal state => somebody else is doing update
-            // make sure that we are in normal state, otherwsie there's a bug somewhere
-            if (write_lock != null && Interlocked.CompareExchange(ref State, STATE__BULKUPDATE, STATE__NORMAL) != STATE__NORMAL)
-            {
-                throw new Exception("UNEXPECTED: Bulk Update Operation has already started");
-            }
+            Interlocked.Increment(ref BulkUpdateCount);
 
-            if (write_lock == null)
-            {
-                // bulk update already in progress
-                return null;
-            }
-            else
-            {
-                // start new bulk update
-                return new BulkUpdate(this, write_lock);
-            }
+            return new BulkUpdate(this, write_lock);
         }
 
         public void EndBulkUpdate(IBulkUpdate bulkUpdate)
         {
-            if (Interlocked.CompareExchange(ref State, STATE__NORMAL, STATE__BULKUPDATE) != STATE__BULKUPDATE)
-            {
-                throw new Exception("UNEXPECTED: Bulk Update Operation has already ended");
-            }
-
-            IncrementVersion();
+            var _count = Interlocked.Decrement(ref BulkUpdateCount);
 
             bulkUpdate.Dispose();
 
-            OnAfterBulkUpdate();
+            if (_count == 0)
+            {
+                IncrementVersion();
+                OnAfterBulkUpdate();
+            }
         }
 
         protected virtual void OnAfterBulkUpdate()
