@@ -269,15 +269,21 @@ namespace SquaredInfinity.Foundation.Collections
 
         #endregion
 
+        
+
         protected override void OnAfterBulkUpdate()
         {
             base.OnAfterBulkUpdate();
 
-            RaiseCollectionReset();
+            OnAfterCollectionReset();
         }
 
+        public event EventHandler<EventArgs> AfterReset;
         protected override void OnAfterCollectionReset()
         {
+            if (AfterReset != null)
+                AfterReset(this, EventArgs.Empty);
+
             RaiseCollectionReset();
         }
         
