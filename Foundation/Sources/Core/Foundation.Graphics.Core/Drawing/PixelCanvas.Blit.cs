@@ -38,8 +38,7 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
             Rectangle destination_rect,
             IPixelCanvas source,
             Rectangle source_rect,
-            BlendMode blendMode
-            )
+            BlendMode blendMode)
         {
             Blit(destination_rect, source, source_rect, 255, 255, 255, 255, blendMode);
         }
