@@ -82,7 +82,6 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
             BlendMode blendMode);
 
         bool IntersectsWith(Rectangle rect);
-        bool TryCohenSutherlandClip(Rectangle bounds, ref double x0, ref double y0, ref double x1, ref double y1);
         void ReplaceFromPixels(int[] pixels, int width, int height);
     }
 }

@@ -17,15 +17,13 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
     {
         public void DrawRectangle(Rectangle bounds, int x1, int y1, int width, int height, int color)
         {
-            var x1_d = (double)x1;
-            var y1_d = (double)y1;
-            var x2_d = (double)x1 + width;
-            var y2_d = (double)y1 + height;
+            var actual_rectangle = new Rectangle(x1, y1, width, height);
+            actual_rectangle.Clip(bounds);
 
-            if (!TryCohenSutherlandClip(bounds, ref x1_d, ref y1_d, ref x2_d, ref y2_d))
+            if (actual_rectangle.IsEmpty)
                 return;
 
-            DrawRectangle((int)x1_d, (int)y1_d, (int)(x2_d -x1_d), (int)(y2_d - y1_d), color);
+            DrawRectangle((int)actual_rectangle.X, (int)actual_rectangle.Y, (int)actual_rectangle.Width, (int)actual_rectangle.Height, color);
         }
 
         /// <summary>

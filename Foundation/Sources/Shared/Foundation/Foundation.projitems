@@ -9,6 +9,7 @@
     <Import_RootNamespace>SquaredInfinity.Foundation</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.TypeForwarding.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AsyncLoop.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AsyncOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Concurrent\ConcurrentHashSet.cs" />

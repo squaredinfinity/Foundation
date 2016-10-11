@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Maths.Space2D
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public struct Point2D : IEquatable<Point2D>
     {
         double _x;
@@ -70,6 +72,11 @@ namespace SquaredInfinity.Foundation.Maths.Space2D
             var d = Math.Sqrt(sum);
 
             return d;
+        }
+
+        public string DebuggerDisplay
+        {
+            get { return $"{X},{Y}"; }
         }
     }
 }

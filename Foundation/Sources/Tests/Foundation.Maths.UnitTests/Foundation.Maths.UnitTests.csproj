@@ -113,6 +113,7 @@
     <None Include="app.config" />
     <Compile Include="Parsing\SamplePerLineParser.tests.cs" />
     <None Include="packages.config" />
+    <Compile Include="Space2D\Rectangle.Clip.tests.cs" />
     <None Include="Statistics\Data\NIST\Analysis of Variance\SiRstv.dat" />
     <None Include="Statistics\Data\NIST\Analysis of Variance\SmLs01.dat" />
     <None Include="Statistics\Data\NIST\Analysis of Variance\SmLs02.dat" />

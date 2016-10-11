@@ -1,4 +1,5 @@
 ﻿using System;
+using SquaredInfinity.Foundation.Extensions;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,6 +11,9 @@ namespace SquaredInfinity.Foundation.Maths.Space2D
     [DebuggerDisplay("{DebuggerDisplay}")]
     public struct Rectangle : IEquatable<Rectangle>
     {
+        //! NOTE:   Instance methods change this instance
+        //          Static methods create a new instance
+
         public static readonly Rectangle Empty = new Rectangle();
 
         double _x;
@@ -28,6 +32,26 @@ namespace SquaredInfinity.Foundation.Maths.Space2D
         public double Top { get { return _y; } set { _y = value; } }
         public double Bottom {  get { return _y + _height; } }
 
+        public Point2D TopLeft
+        {
+            get { return new Point2D(_x, _y); }
+        }
+
+        public Point2D BottomLeft
+        {
+            get { return new Point2D(_x, _y + _height); }
+        }
+
+        public Point2D TopRight
+        {
+            get { return new Point2D(_x + _width, _y); }
+        }
+
+        public Point2D BottomRight
+        {
+            get { return new Point2D(_x + _width, _y + _height); }
+        }
+
         public bool IsEmpty { get { return _width <= 0 || _height <= 0; } }
 
         public Rectangle(double x, double y, double width, double height)
@@ -39,6 +63,23 @@ namespace SquaredInfinity.Foundation.Maths.Space2D
         }
 
         #region Contains
+
+        public bool Contains(Point2D point)
+        {
+            if (IsEmpty)
+                return false;
+            
+            return
+                _x >= point.X
+                &&
+                _y >= point.Y
+                &&
+                // Right, access fields directly for performance
+                _x + _width <= point.X
+                &&
+                // Bottom, access fields directly for performance
+                _y + _height <= point.Y;
+        }
 
         public bool Contains(Rectangle other)
         {
@@ -80,12 +121,57 @@ namespace SquaredInfinity.Foundation.Maths.Space2D
                 other._y + other._height >= _y;
         }
 
+        public void Intersect(Rectangle other)
+        {
+            var x = Intersect(this, other);
+            
+            this._x = x._x;
+            this._y = x._y;
+            this._width = x._width;
+            this._height = x._height;
+        }
+
+        public static Rectangle Intersect(Rectangle a, Rectangle b)
+        {
+            if (a.IsEmpty || b.IsEmpty)
+                return Rectangle.Empty;
+
+            var x1 = Math.Max(a._x, b._x);
+            var x2 = Math.Min(a._x + a._width, b._x + b._width);
+            var y1 = Math.Max(a._y, b._y);
+            var y2 = Math.Min(a._y + a._height, b._y + b._height);
+
+            if (x2.IsGreaterThanOrClose(x1) && y2.IsGreaterThanOrClose(y1))
+                return new Rectangle(x1, y1, x2 - x1, y2 - y1);
+
+            return Rectangle.Empty;
+        }
+
         #endregion
 
         #region Union
 
+        public void Union(Rectangle other)
+        {
+            var x = Union(this, other);
+
+            this._x = x._x;
+            this._y = x._y;
+            this._width = x._width;
+            this._height = x._height;
+        }
+
         public static Rectangle Union(Rectangle r1, Rectangle r2)
         {
+            if (r1.IsEmpty && r2.IsEmpty)
+                return Rectangle.Empty;
+
+            if (r1.IsEmpty)
+                return r2;
+
+            if (r2.IsEmpty)
+                return r1;
+
             var x = Math.Min(r1._x, r2._x);
             var y = Math.Min(r1._y, r2._y);
 
@@ -100,9 +186,76 @@ namespace SquaredInfinity.Foundation.Maths.Space2D
 
         #region Offset
 
-        public Rectangle Offset(double dx, double dy)
+        public void Offset(Point2D offset)
         {
-            return new Rectangle(_x += dx, _y += dy, _width, _height);
+            _x += offset.X;
+            _y += offset.Y;
+        }
+
+        public void Offset(double dx, double dy)
+        {
+            _x += dx;
+            _y += dy;
+        }
+
+
+        public static Rectangle Offset(Rectangle rect, Point2D offset)
+        {
+            return new Rectangle(rect._x += offset.X, rect._y += offset.Y, rect._width, rect._height);
+        }
+
+        public static Rectangle Offset(Rectangle rect, double dx, double dy)
+        {
+            return new Rectangle(rect._x += dx, rect._y += dy, rect._width, rect._height);
+        }
+
+        #endregion
+
+        #region Clip
+
+        public void Clip(Rectangle clip)
+        {
+            var x = Clip(this, clip);
+
+            this._x = x._x;
+            this._y = x._y;
+            this._width = x._width;
+            this._height = x._height;
+        }
+
+        /// <summary>
+        /// Clips original rectangle to size of the clip rectangle.
+        /// </summary>
+        /// <param name="original"></param>
+        /// <param name="clip"></param>
+        /// <returns></returns>
+        public static Rectangle Clip(Rectangle original, Rectangle clip)
+        {
+            var clipped = original.Clone();
+
+            // left
+            if (clip._x > clipped._x)
+            {
+                clipped._width -= clip._x - clipped._x;
+                clipped._x = clip._x;
+            }
+
+            // top
+            if (clip._y > clipped._y)
+            {
+                clipped._height -= clip._y - clipped._y;
+                clipped._y = clip._y;
+            }
+
+            // right
+            if (clip._x + clip._width < clipped._x + clipped._width)
+                clipped._width = (clip._x + clip._width) - clipped._x;
+
+            // bottom
+            if (clip._y + clip._height < clipped._y + clipped._height)
+                clipped._height = (clip._y + clip._height) - clipped._y;
+
+            return clipped;
         }
 
         #endregion
@@ -132,20 +285,43 @@ namespace SquaredInfinity.Foundation.Maths.Space2D
         public bool Equals(Rectangle other)
         {
             return
-                _x.Equals(other._x)
+                _x.IsCloseTo(other._x)
                 &&
-                _y.Equals(other._y)
+                _y.IsCloseTo(other._y)
                 &&
-                _width.Equals(other._width)
+                _width.IsCloseTo(other._width)
                 &&
-                _height.Equals(other._height);
+                _height.IsCloseTo(other._height);
+        }
+
+        #endregion
+
+        #region Operators
+
+        public static bool operator ==(Rectangle left, Rectangle right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Rectangle left, Rectangle right)
+        {
+            return !(left == right);
+        }
+
+        #endregion
+
+        #region Clone
+
+        public Rectangle Clone()
+        {
+            return new Rectangle(_x, _y, _width, _height);
         }
 
         #endregion
 
         public string DebuggerDisplay
         {
-            get { return $"({Left},{Right}), w:{Width}, h:{Height}"; }
+            get { return $"({X},{Y}), w:{Width}, h:{Height}"; }
         }
     }
 }
