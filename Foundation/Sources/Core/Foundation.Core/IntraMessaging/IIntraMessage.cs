@@ -11,6 +11,9 @@ namespace SquaredInfinity.Foundation.IntraMessaging
         string UniqueName { get; }
         object Payload { get; }
 
+        DateTime TimeStamp { get; }
+        bool IsSynchronous { get; }
+
         IntraMessagePropertyCollection Properties { get; }
     }
 }

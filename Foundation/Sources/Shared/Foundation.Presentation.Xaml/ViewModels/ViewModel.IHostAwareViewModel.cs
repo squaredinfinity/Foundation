@@ -1,4 +1,5 @@
 ﻿using SquaredInfinity.Foundation.IntraMessaging;
+using SquaredInfinity.Foundation.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,23 +72,19 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
             OnIntraMessageReceived(msg);
         }
 
+        const string EVENT_NAME = "__EVENT_NAME__";
+        const string ROUTING_STRATEGY = "__ROUTING_STRATEGY__";
+
+
         protected virtual void OnIntraMessageReceived(IIntraMessage msg)
         {
             var routing_strategy = ViewModelEventRoutingStrategy.Bubble;
+            msg.Properties.IfContainsKey(ROUTING_STRATEGY, x => routing_strategy = (ViewModelEventRoutingStrategy)x);
 
             var event_name = msg.UniqueName;
+            msg.Properties.IfContainsKey(EVENT_NAME, x => event_name = (string)x);
 
-            if(msg.Properties.ContainsKey("event.name"))
-            {
-                event_name = (string) msg.Properties["event.name"];
-            }
-
-            if(msg.Properties.ContainsKey(typeof(ViewModelEventRoutingStrategy)))
-            {
-                routing_strategy = (ViewModelEventRoutingStrategy)msg.Properties[typeof(ViewModelEventRoutingStrategy)];
-            }
-
-            RaiseEvent(msg.UniqueName, msg.Payload, routing_strategy);
+            RaiseEvent(msg.UniqueName, msg, routing_strategy, canRunAsynchronously: !msg.IsSynchronous);
         }
 
         #endregion

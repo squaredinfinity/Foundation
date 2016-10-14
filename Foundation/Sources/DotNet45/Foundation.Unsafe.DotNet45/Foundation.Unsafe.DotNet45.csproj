@@ -46,6 +46,16 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Foundation.Graphics.Core\Foundation.Graphics.Core.csproj">
+      <Project>{03FA2790-6CB6-4ED0-A2B9-8A6CF8B958BE}</Project>
+      <Name>Foundation.Graphics.Core</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Foundation.Maths.Core\Foundation.Maths.Core.csproj">
+      <Project>{3D68571E-52CA-481B-B2B6-E22E5C214CB6}</Project>
+      <Name>Foundation.Maths.Core</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Foundation.DotNet45\Foundation.DotNet45.csproj">
       <Project>{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}</Project>
       <Name>Foundation.DotNet45</Name>

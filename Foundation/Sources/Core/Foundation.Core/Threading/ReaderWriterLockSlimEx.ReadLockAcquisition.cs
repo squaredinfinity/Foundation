@@ -23,8 +23,10 @@ namespace SquaredInfinity.Foundation.Threading
 
             public IWriteLockAcquisition AcquireWriteLock()
             {
-                var disposables = Owner.LockChildren(LockTypes.Write);
+                // lock parent first
                 Owner.InternalLock.EnterWriteLock();
+                // then its children
+                var disposables = Owner.LockChildren(LockTypes.Write);
 
                 return new WriteLockAcquisition(Owner, disposables);
             }

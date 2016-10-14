@@ -262,13 +262,22 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
         protected internal void RaiseEvent(
             string eventName,
             object payload = null,
-            ViewModelEventRoutingStrategy routingStrategy = ViewModelEventRoutingStrategy.Default)
+            ViewModelEventRoutingStrategy routingStrategy = ViewModelEventRoutingStrategy.Default,
+            bool canRunAsynchronously = false)
         {
             if (AfterViewModelEventRaised != null)
             {
                 if (!UIService.IsUIThread)
                 {
-                    UIService.Run(() => RaiseEvent(eventName, payload, routingStrategy));
+                    if (canRunAsynchronously)
+                    {
+                        UIService.RunAsync(() => RaiseEvent(eventName, payload, routingStrategy));
+                    }
+                    else
+                    {
+                        UIService.Run(() => RaiseEvent(eventName, payload, routingStrategy));
+                    }
+
                     return;
                 }
 

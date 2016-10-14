@@ -2,6 +2,7 @@
 using SquaredInfinity.Foundation.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Text;
@@ -10,9 +11,12 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Threading
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public partial class ReaderWriterLockSlimEx : ILock
     {
         readonly internal ReaderWriterLockSlim InternalLock;
+
+        public string Name { get; private set; }
 
         public bool IsReadLockHeld { get { return InternalLock.IsReadLockHeld; } }
         public bool IsUpgradeableReadLockHeld { get { return InternalLock.IsUpgradeableReadLockHeld; } }
@@ -34,13 +38,21 @@ namespace SquaredInfinity.Foundation.Threading
 
         #endregion
 
+        public ReaderWriterLockSlimEx(string name, LockRecursionPolicy recursionPolicy = LockRecursionPolicy.NoRecursion)
+            : this(name, new ReaderWriterLockSlim(recursionPolicy))
+        { }
 
         public ReaderWriterLockSlimEx(LockRecursionPolicy recursionPolicy = LockRecursionPolicy.NoRecursion)
             : this(new ReaderWriterLockSlim(recursionPolicy))
         { }
 
         public ReaderWriterLockSlimEx(ReaderWriterLockSlim readerWriterLock)
+            : this(Guid.NewGuid().ToString(), readerWriterLock)
+        {}
+
+        public ReaderWriterLockSlimEx(string name, ReaderWriterLockSlim readerWriterLock)
         {
+            this.Name = name;
             this.InternalLock = readerWriterLock;
         }
 
@@ -145,8 +157,10 @@ namespace SquaredInfinity.Foundation.Threading
 
         public IReadLockAcquisition AcquireReadLock()
         {
-            var disposables = LockChildren(LockTypes.Read);
+            // lock parent first
             InternalLock.EnterReadLock();
+            // then its children
+            var disposables = LockChildren(LockTypes.Read);
 
             return new ReadLockAcquisition(owner: this, disposeWhenDone: disposables);
         }
@@ -158,8 +172,10 @@ namespace SquaredInfinity.Foundation.Threading
             if(isAnyLockHeld)
                 return null;
 
-            var disposables = LockChildren(LockTypes.Read);
+            // lock parent first
             InternalLock.EnterReadLock();
+            // then its children
+            var disposables = LockChildren(LockTypes.Read);
 
             return new ReadLockAcquisition(owner: this, disposeWhenDone: disposables);
         }
@@ -197,8 +213,10 @@ namespace SquaredInfinity.Foundation.Threading
 
         public IUpgradeableReadLockAcquisition AcquireUpgradeableReadLock()
         {
-            var disposables = LockChildren(LockTypes.UpgradeableRead);
+            // lock parent first
             InternalLock.EnterUpgradeableReadLock();
+            // then its children
+            var disposables = LockChildren(LockTypes.UpgradeableRead);
 
             return new UpgradeableReadLockAcquisition(owner: this, disposeWhenDone: disposables);
         }
@@ -244,8 +262,10 @@ namespace SquaredInfinity.Foundation.Threading
 
         public IWriteLockAcquisition AcquireWriteLock()
         {
-            var disposables = LockChildren(LockTypes.Write);
+            // lock parent first
             InternalLock.EnterWriteLock();
+            // then its children
+            var disposables = LockChildren(LockTypes.Write);
 
             return new WriteLockAcquisition(owner: this, disposeWhenDone: disposables);
         }
@@ -255,8 +275,10 @@ namespace SquaredInfinity.Foundation.Threading
             if (InternalLock.IsWriteLockHeld)
                 return null;
 
-            var disposables = LockChildren(LockTypes.Write);
+            // lock parent first
             InternalLock.EnterWriteLock();
+            // then its children
+            var disposables = LockChildren(LockTypes.Write);
 
             return new WriteLockAcquisition(owner: this, disposeWhenDone: disposables);
         }
@@ -298,6 +320,11 @@ namespace SquaredInfinity.Foundation.Threading
 
             writeableLockAcquisition = null;
             return false;
+        }
+
+        public string DebuggerDisplay
+        {
+            get { return $"{Name}, r: {IsReadLockHeld}, ur: {IsUpgradeableReadLockHeld}, w: {IsWriteLockHeld}"; }
         }
     }
 }

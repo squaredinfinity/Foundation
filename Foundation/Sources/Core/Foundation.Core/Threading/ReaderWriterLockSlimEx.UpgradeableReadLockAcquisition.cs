@@ -23,8 +23,9 @@ namespace SquaredInfinity.Foundation.Threading
 
             public IReadLockAcquisition DowngradeToReadLock()
             {
-                var disposables = Owner.LockChildren(LockTypes.Read);
                 Owner.InternalLock.EnterReadLock();
+
+                var disposables = Owner.LockChildren(LockTypes.Read);
 
                 return new ReadLockAcquisition(Owner, disposables);
             }
@@ -57,8 +58,10 @@ namespace SquaredInfinity.Foundation.Threading
 
             public IWriteLockAcquisition UpgradeToWriteLock()
             {
+                // lock parent first
+                Owner.InternalLock.EnterWriteLock();
+                // then its children
                 var disposables = Owner.LockChildren(LockTypes.Write);
-                Owner.InternalLock.EnterWriteLock();                
 
                 return new WriteLockAcquisition(Owner, disposables);
             }

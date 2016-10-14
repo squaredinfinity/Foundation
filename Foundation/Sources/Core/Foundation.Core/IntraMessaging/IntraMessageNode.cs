@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.IntraMessaging
 {
@@ -10,7 +11,7 @@ namespace SquaredInfinity.Foundation.IntraMessaging
         {
             OnMessageReceived(msg);
         }
-
+        
         protected abstract void OnMessageReceived(IIntraMessage msg);
     }
 }

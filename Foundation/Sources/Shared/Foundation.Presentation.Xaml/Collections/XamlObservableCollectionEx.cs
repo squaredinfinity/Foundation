@@ -48,12 +48,20 @@ namespace SquaredInfinity.Foundation.Collections
             : base(monitorElementsForChanges, new List<TItem>(capacity))
         {
             Dispatcher = dispatcher;
-            
+
             //NOTE: BindingOperations.EnableCollectionSynchronization is not needed when SynchornizationContext.Current is null (e.g. running as windows service or 
             //TODO: it may also be null in unit tests though :|
             //if(System.Threading.SynchronizationContext.Current != null)
 
-             BindingOperations.EnableCollectionSynchronization(this, context: null, synchronizationCallback: BindingSync);
+            if (dispatcher != null)
+            {
+                if (dispatcher.Thread.ManagedThreadId == Thread.CurrentThread.ManagedThreadId)
+                    BindingOperations.EnableCollectionSynchronization(this, context: null, synchronizationCallback: BindingSync);
+                else
+                {
+                    dispatcher.InvokeAsync(() => BindingOperations.EnableCollectionSynchronization(this, context: null, synchronizationCallback: BindingSync));
+                }
+            }
         }
 
         protected virtual void BindingSync(IEnumerable collection, object context, Action accessMethod, bool writeAccess)
