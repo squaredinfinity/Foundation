@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -21,11 +22,11 @@ namespace SquaredInfinity.Foundation.Threading
 
             List<ILock> locks = new List<ILock>(capacity: c);
 
-            Lock.Factory.CollectDiagnostics = true;
+            LockFactory.Current.CollectDiagnostics = true;
 
             for(int i = 0; i < c; i++)
             {
-                locks.Add(Lock.Factory.CreateLock());
+                locks.Add(LockFactory.Current.CreateLock());
             }
 
 

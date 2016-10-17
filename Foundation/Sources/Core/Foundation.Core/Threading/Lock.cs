@@ -12,6 +12,7 @@ namespace SquaredInfinity.Foundation.Threading
     {
         bool CollectDiagnostics { get; set; }
         ILock CreateLock();
+        ILock CreateLock(string name);
     }
 
     public interface IDiagnosticLock : ILock
@@ -21,7 +22,7 @@ namespace SquaredInfinity.Foundation.Threading
         OnlineStatisticsInfo WriteStats { get; }
     }
 
-    public class LockFactory : ILockFactory
+    public class DefaultLockFactory : ILockFactory
     {
         readonly object SYNC_KnownLock = new object();
         readonly List<WeakReference<IDiagnosticLock>> KnownLocks = new List<WeakReference<IDiagnosticLock>>();
@@ -30,9 +31,14 @@ namespace SquaredInfinity.Foundation.Threading
 
         public ILock CreateLock()
         {
+            return CreateLock("");
+        }
+
+        public ILock CreateLock(string name)
+        {
             if (CollectDiagnostics)
             {
-                var new_lock = new DiagnosticReaderWriterLockSlimEx();
+                var new_lock = new DiagnosticReaderWriterLockSlimEx(name);
 
                 lock (SYNC_KnownLock)
                     KnownLocks.Add(new WeakReference<IDiagnosticLock>(new_lock));
@@ -41,13 +47,13 @@ namespace SquaredInfinity.Foundation.Threading
             }
             else
             {
-                return new ReaderWriterLockSlimEx();
+                return new ReaderWriterLockSlimEx(name);
             }
         }
     }
 
-    public static class Lock
+    public static class LockFactory
     {
-        public static ILockFactory Factory { get; set; } = new LockFactory();
+        public static ILockFactory Current { get; set; } = new DefaultLockFactory();
     }
 }

@@ -9,7 +9,7 @@ namespace SquaredInfinity.Foundation.Collections.Concurrent
 {
     public class ConcurrentHashSet<TItem> : IConcurrentCollectionEx<TItem>
     {
-        readonly ILock CollectionLock = new ReaderWriterLockSlimEx();
+        readonly ILock CollectionLock = LockFactory.Current.CreateLock();
 
         readonly HashSet<TItem> InternalSet;
 

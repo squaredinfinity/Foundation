@@ -31,7 +31,6 @@ namespace SquaredInfinity.Foundation.Types.Description.Reflection
 
         readonly ILock TypeDescriptionCacheLock = new ReaderWriterLockSlimEx(System.Threading.LockRecursionPolicy.SupportsRecursion);
 
-
         public ITypeDescription DescribeType(Type type)
         {
             var memberTypeDescription = (ITypeDescription)null;

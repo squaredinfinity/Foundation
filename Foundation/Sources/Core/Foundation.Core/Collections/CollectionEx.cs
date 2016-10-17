@@ -31,19 +31,19 @@ namespace SquaredInfinity.Foundation.Collections
         public CollectionEx()
         {
             _items = new List<TItem>();
-            Lock = new ReaderWriterLockSlimEx(LockRecursionPolicy.NoRecursion);
+            Lock = LockFactory.Current.CreateLock();
         }
 
         public CollectionEx(IEnumerable<TItem> items)
         {
             _items = new List<TItem>(items);
-            Lock = new ReaderWriterLockSlimEx(LockRecursionPolicy.NoRecursion);
+            Lock = LockFactory.Current.CreateLock();
         }
 
         public CollectionEx(List<TItem> items)
         {
             _items = items;
-            Lock = new ReaderWriterLockSlimEx(LockRecursionPolicy.NoRecursion);
+            Lock = LockFactory.Current.CreateLock();
         }
 
         public CollectionEx(LockRecursionPolicy recursionPolicy)

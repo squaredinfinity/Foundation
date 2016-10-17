@@ -27,7 +27,8 @@ namespace SquaredInfinity.Foundation.Threading
         public OnlineStatisticsInfo WriteStats { get; private set; } = new OnlineStatisticsInfo();
 
 
-        public DiagnosticReaderWriterLockSlimEx()
+        public DiagnosticReaderWriterLockSlimEx(string name)
+            : base(name)
         {
             var s =
             OnlineStatistics.Calculate(

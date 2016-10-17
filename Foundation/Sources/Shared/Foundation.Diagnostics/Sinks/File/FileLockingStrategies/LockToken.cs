@@ -21,7 +21,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.Sinks.File.FileLockingStrategie
         public void Write(string value)
         {
             Writer.Write(value);
-            Writer.Flush();
+            Writer.Flush();  
         }
 
         public void Dispose()

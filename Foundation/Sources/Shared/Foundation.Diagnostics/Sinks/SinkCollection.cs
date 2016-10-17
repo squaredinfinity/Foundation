@@ -16,7 +16,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.Sinks
         public IReadOnlyList<IRawMessageSink> MustWaitForWriteRawMessageSinks { get; private set; }
         public IReadOnlyList<IRawMessageSink> FireAndForgetRawMessageSinks { get; private set; }
 
-        readonly ILock CacheLock = new ReaderWriterLockSlimEx();
+        readonly ILock CacheLock = LockFactory.Current.CreateLock();
 
         public SinkCollection() 
         {

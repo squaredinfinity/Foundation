@@ -10,7 +10,7 @@ namespace SquaredInfinity.Foundation
 {
     public class SupportsBulkUpdate : NotifyPropertyChangedObject, ISupportsBulkUpdate
     {
-        public ILock Lock { get; protected set; } = new ReaderWriterLockSlimEx(LockRecursionPolicy.NoRecursion);
+        public ILock Lock { get; protected set; } = LockFactory.Current.CreateLock();
 
         int BulkUpdateCount = 0;
 

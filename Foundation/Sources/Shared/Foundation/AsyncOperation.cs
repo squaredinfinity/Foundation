@@ -56,7 +56,7 @@ namespace SquaredInfinity.Foundation.Threading
 
     public class AsyncAction : IAsyncAction
     {
-        ILock Lock = new ReaderWriterLockSlimEx();
+        readonly ILock Lock;
 
         IAsyncOperationRequest CurrentOperation { get; set; }
         IAsyncOperationRequest NextOperation { get; set; }
@@ -157,12 +157,22 @@ namespace SquaredInfinity.Foundation.Threading
         }
 
         public AsyncAction(Action actionToExecute)
+            : this("", actionToExecute)
+        { }
+
+        public AsyncAction(string name, Action actionToExecute)
         {
+            Lock = LockFactory.Current.CreateLock(name);
             this.ActionToExecute = actionToExecute;
         }
 
         public AsyncAction(Action<CancellationToken> cancellableActionToExecute)
+            : this("", cancellableActionToExecute)
+        { }
+
+        public AsyncAction(string name, Action<CancellationToken> cancellableActionToExecute)
         {
+            Lock = LockFactory.Current.CreateLock(name);
             this.CancellableActionToExecute = cancellableActionToExecute;
         }
 
@@ -183,7 +193,7 @@ namespace SquaredInfinity.Foundation.Threading
 
     public class AsyncAction<T> : IAsyncAction<T>
     {
-        ILock Lock = new ReaderWriterLockSlimEx();
+        readonly ILock Lock;
 
         IAsyncOperationRequest CurrentOperation { get; set; }
         IAsyncOperationRequest NextOperation { get; set; }
@@ -227,12 +237,22 @@ namespace SquaredInfinity.Foundation.Threading
         }
 
         public AsyncAction(Action<T> actionToExecute)
+            : this("", actionToExecute)
+        { }
+
+        public AsyncAction(string name, Action<T> actionToExecute)
         {
+            Lock = LockFactory.Current.CreateLock(name);
             this.ActionToExecute = actionToExecute;
         }
 
         public AsyncAction(Action<T, CancellationToken> cancellableActionToExecute)
+            : this("", cancellableActionToExecute)
+        { }
+
+        public AsyncAction(string name, Action<T, CancellationToken> cancellableActionToExecute)
         {
+            Lock = LockFactory.Current.CreateLock(name);
             this.CancellableActionToExecute = cancellableActionToExecute;
         }
 
