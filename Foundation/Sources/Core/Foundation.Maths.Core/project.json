@@ -1,6 +1,7 @@
 ﻿{
   "supports": {},
   "dependencies": {
+    "Rx-Linq": "2.2.5",
     "Rx-Main": "2.2.5"
   },
   "frameworks": {

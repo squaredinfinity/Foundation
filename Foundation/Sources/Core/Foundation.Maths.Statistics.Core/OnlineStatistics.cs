@@ -118,7 +118,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
                     all_stats =
                         all_stats.Zip(astat.Calculate(samples), (stats_info, x) =>
                     {
-                        stats_info.AdditionalStatisticsResults.AddOrUpdate(astat.Key, x);
+                        stats_info.AdditionalStatisticsResults[astat.Key] = x;
 
                         return stats_info;
                     });

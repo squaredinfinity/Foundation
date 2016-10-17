@@ -16,10 +16,10 @@ namespace SquaredInfinity.Foundation.Maths.Framework_Extensions.System
         public void CanProcessLargeNumbers()
         {
             var x = 1234567890123456.0;
-            Assert.IsTrue(1234567890123460.0.IsCloseTo(x.RoundToSignificantFigures(15)));
+            Assert.IsTrue(1234567890123460.0.IsCloseTo(x.RoundToSignificantFigures(10)));
 
             x = 12345678901234567.0;
-            Assert.IsTrue(12345678901234600.0.IsCloseTo(x.RoundToSignificantFigures(15)));
+            Assert.IsTrue(12345678901234600.0.IsCloseTo(x.RoundToSignificantFigures(10)));
         }
 
         [TestMethod]

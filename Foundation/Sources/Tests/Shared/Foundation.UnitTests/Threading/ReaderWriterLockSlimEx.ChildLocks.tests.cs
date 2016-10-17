@@ -15,6 +15,54 @@ namespace SquaredInfinity.Foundation.Threading
         TimeSpan TEST_DefaultTimeout = TimeSpan.FromMilliseconds(50);
 
         [TestMethod]
+        public void MyTestMethod()
+        {
+            var c = 25;
+
+            List<ILock> locks = new List<ILock>(capacity: c);
+
+            Lock.Factory.CollectDiagnostics = true;
+
+            for(int i = 0; i < c; i++)
+            {
+                locks.Add(Lock.Factory.CreateLock());
+            }
+
+
+            var r = new Random();
+
+            Parallel.For(0, 100000, _ =>
+            {
+                var l = locks[r.Next(0, locks.Count)];
+
+                switch (r.Next() % 3)
+                {
+                    case 0:
+                        using (l.AcquireReadLock())
+                        {
+                            Task.Delay(r.Next(0, 100));
+                        }
+                        break;
+                    case 1:
+                        using (l.AcquireUpgradeableReadLock())
+                        {
+                            Task.Delay(r.Next(0, 100));
+                        }
+                        break;
+                    case 2:
+                        using (l.AcquireWriteLock())
+                        {
+                            Task.Delay(r.Next(0, 100));
+                        }
+                        break;
+                }
+            });
+            
+
+            Assert.IsFalse(true);
+        }
+
+        [TestMethod]
         public void using_child_locks__avoids_deadlock_situations()
         {
             // Lock_1 (more coarse than Lock_2)

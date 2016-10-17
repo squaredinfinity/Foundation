@@ -49,6 +49,10 @@
       <HintPath>..\..\..\..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -73,6 +77,10 @@
     <ProjectReference Include="..\..\..\Core\Foundation.Maths.Core\Foundation.Maths.Core.csproj">
       <Project>{3d68571e-52ca-481b-b2b6-e22e5c214cb6}</Project>
       <Name>Foundation.Maths.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Core\Foundation.Maths.Statistics.Core\Foundation.Maths.Statistics.Core.csproj">
+      <Project>{e35dabdd-0af8-4753-a747-1fb0f2963e00}</Project>
+      <Name>Foundation.Maths.Statistics.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\DotNet45\Foundation.DotNet45\Foundation.DotNet45.csproj">
       <Project>{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}</Project>

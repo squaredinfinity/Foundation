@@ -16,6 +16,8 @@ namespace SquaredInfinity.Foundation.Threading
     {
         readonly internal ReaderWriterLockSlim InternalLock;
 
+        public Guid UniqueId { get; } = Guid.NewGuid();
+
         public string Name { get; private set; }
 
         public bool IsReadLockHeld { get { return InternalLock.IsReadLockHeld; } }
@@ -24,16 +26,23 @@ namespace SquaredInfinity.Foundation.Threading
 
         #region Child Locks
 
+        readonly object ChildLocksSync = new object();
         readonly HashSet<ILock> ChildLocks = new HashSet<ILock>();
 
         public void AddChild(ILock childLock)
         {
-            ChildLocks.AddIfNotNull(childLock);
+            lock (ChildLocksSync)
+            {
+                ChildLocks.AddIfNotNull(childLock);
+            }
         }
 
         public void RemoveChild(ILock childLock)
         {
-            ChildLocks.Remove(childLock);
+            lock (ChildLocksSync)
+            {
+                ChildLocks.Remove(childLock);
+            }
         }
 
         #endregion
@@ -61,23 +70,26 @@ namespace SquaredInfinity.Foundation.Threading
         {
             var result = new CompositeDisposable();
 
-            foreach(var child in ChildLocks)
+            lock (ChildLocksSync)
             {
-                if(lockType == LockTypes.Read)
+                foreach (var child in ChildLocks)
                 {
-                    result.AddIfNotNull(child.AcquireReadLockIfNotHeld());
-                }
-                else if(lockType == LockTypes.UpgradeableRead)
-                {
-                    result.AddIfNotNull(child.AcquireUpgradeableReadLock());
-                }
-                else if(lockType == LockTypes.Write)
-                {
-                    result.AddIfNotNull(child.AcquireWriteLockIfNotHeld());
-                }
-                else
-                {
-                    throw new NotSupportedException(lockType.ToString());
+                    if (lockType == LockTypes.Read)
+                    {
+                        result.AddIfNotNull(child.AcquireReadLockIfNotHeld());
+                    }
+                    else if (lockType == LockTypes.UpgradeableRead)
+                    {
+                        result.AddIfNotNull(child.AcquireUpgradeableReadLock());
+                    }
+                    else if (lockType == LockTypes.Write)
+                    {
+                        result.AddIfNotNull(child.AcquireWriteLockIfNotHeld());
+                    }
+                    else
+                    {
+                        throw new NotSupportedException(lockType.ToString());
+                    }
                 }
             }
 
@@ -155,7 +167,7 @@ namespace SquaredInfinity.Foundation.Threading
             childLocks.Dispose();
         }
 
-        public IReadLockAcquisition AcquireReadLock()
+        public virtual IReadLockAcquisition AcquireReadLock()
         {
             // lock parent first
             InternalLock.EnterReadLock();
@@ -165,7 +177,7 @@ namespace SquaredInfinity.Foundation.Threading
             return new ReadLockAcquisition(owner: this, disposeWhenDone: disposables);
         }
 
-        public IReadLockAcquisition AcquireReadLockIfNotHeld()
+        public virtual IReadLockAcquisition AcquireReadLockIfNotHeld()
         {
             var isAnyLockHeld = InternalLock.IsReadLockHeld || InternalLock.IsUpgradeableReadLockHeld || InternalLock.IsWriteLockHeld;
 
@@ -180,7 +192,7 @@ namespace SquaredInfinity.Foundation.Threading
             return new ReadLockAcquisition(owner: this, disposeWhenDone: disposables);
         }
 
-        public bool TryAcquireReadLock(TimeSpan timeout, out IReadLockAcquisition readLockAcquisition)
+        public virtual bool TryAcquireReadLock(TimeSpan timeout, out IReadLockAcquisition readLockAcquisition)
         {
             if (InternalLock.RecursionPolicy == LockRecursionPolicy.NoRecursion &&
                 (InternalLock.IsReadLockHeld || InternalLock.IsUpgradeableReadLockHeld || InternalLock.IsWriteLockHeld))
@@ -211,7 +223,7 @@ namespace SquaredInfinity.Foundation.Threading
             return false;
         }
 
-        public IUpgradeableReadLockAcquisition AcquireUpgradeableReadLock()
+        public virtual IUpgradeableReadLockAcquisition AcquireUpgradeableReadLock()
         {
             // lock parent first
             InternalLock.EnterUpgradeableReadLock();
@@ -221,7 +233,7 @@ namespace SquaredInfinity.Foundation.Threading
             return new UpgradeableReadLockAcquisition(owner: this, disposeWhenDone: disposables);
         }
 
-        public bool TryAcquireUpgradeableReadLock(TimeSpan timeout, out IUpgradeableReadLockAcquisition upgradeableReadLockAcquisition)
+        public virtual bool TryAcquireUpgradeableReadLock(TimeSpan timeout, out IUpgradeableReadLockAcquisition upgradeableReadLockAcquisition)
         {
             if (InternalLock.RecursionPolicy == LockRecursionPolicy.NoRecursion &&
                 (InternalLock.IsReadLockHeld || InternalLock.IsUpgradeableReadLockHeld || InternalLock.IsWriteLockHeld))
@@ -260,7 +272,7 @@ namespace SquaredInfinity.Foundation.Threading
             return false;
         }
 
-        public IWriteLockAcquisition AcquireWriteLock()
+        public virtual IWriteLockAcquisition AcquireWriteLock()
         {
             // lock parent first
             InternalLock.EnterWriteLock();
@@ -270,7 +282,7 @@ namespace SquaredInfinity.Foundation.Threading
             return new WriteLockAcquisition(owner: this, disposeWhenDone: disposables);
         }
 
-        public IWriteLockAcquisition AcquireWriteLockIfNotHeld()
+        public virtual IWriteLockAcquisition AcquireWriteLockIfNotHeld()
         {
             if (InternalLock.IsWriteLockHeld)
                 return null;
@@ -283,7 +295,7 @@ namespace SquaredInfinity.Foundation.Threading
             return new WriteLockAcquisition(owner: this, disposeWhenDone: disposables);
         }
 
-        public bool TryAcquireWriteLock(TimeSpan timeout, out IWriteLockAcquisition writeableLockAcquisition)
+        public virtual bool TryAcquireWriteLock(TimeSpan timeout, out IWriteLockAcquisition writeableLockAcquisition)
         {
             if (InternalLock.RecursionPolicy == LockRecursionPolicy.NoRecursion &&
                 (InternalLock.IsReadLockHeld || InternalLock.IsUpgradeableReadLockHeld || InternalLock.IsWriteLockHeld))
@@ -324,7 +336,7 @@ namespace SquaredInfinity.Foundation.Threading
 
         public string DebuggerDisplay
         {
-            get { return $"{Name}, r: {IsReadLockHeld}, ur: {IsUpgradeableReadLockHeld}, w: {IsWriteLockHeld}"; }
+            get { return $"{Name} {UniqueId}, r: {IsReadLockHeld}, ur: {IsUpgradeableReadLockHeld}, w: {IsWriteLockHeld}"; }
         }
     }
 }

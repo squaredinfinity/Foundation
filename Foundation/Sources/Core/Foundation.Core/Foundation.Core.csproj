@@ -113,10 +113,12 @@
     <Compile Include="ReferenceEqualityComparer.cs" />
     <Compile Include="SerializedDataInfo.cs" />
     <Compile Include="Text\UnicodeCharacters.cs" />
+    <Compile Include="Threading\DiagnosticReaderWriterLockSlimEx.cs" />
     <Compile Include="Threading\ILock.cs" />
     <Compile Include="Threading\IReadLockAcquisition.cs" />
     <Compile Include="Threading\IUpgradeableReadLockAcquisition.cs" />
     <Compile Include="Threading\IWriteLockAcquisition.cs" />
+    <Compile Include="Threading\Lock.cs" />
     <Compile Include="Threading\LockTypes.cs" />
     <Compile Include="Threading\ReaderWriterLockSlimEx.cs" />
     <Compile Include="Threading\ReaderWriterLockSlimEx.ReadLockAcquisition.cs" />
@@ -130,11 +132,17 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Framework Extensions\System.ComponentModel\" />
+    <Folder Include="ObjectExtensibility\IntraMessaging\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Foundation.Maths.Core\Foundation.Maths.Core.csproj">
       <Project>{3d68571e-52ca-481b-b2b6-e22e5c214cb6}</Project>
       <Name>Foundation.Maths.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundation.Maths.Statistics.Core\Foundation.Maths.Statistics.Core.csproj">
+      <Project>{e35dabdd-0af8-4753-a747-1fb0f2963e00}</Project>
+      <Name>Foundation.Maths.Statistics.Core</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

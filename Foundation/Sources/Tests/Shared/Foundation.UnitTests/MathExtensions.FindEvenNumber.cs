@@ -13,7 +13,7 @@ namespace Foundation.UnitTests
         [TestMethod]
         public void FindEvenNumber__TreatsZeroAsEven()
         {
-            var even = -1.FindEvenNumber(ForwardBackwardDirection.Forward);
+            var even = (-1).FindEvenNumber(ForwardBackwardDirection.Forward);
 
             Assert.AreEqual(0, even);
         }

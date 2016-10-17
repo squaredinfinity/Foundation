@@ -31,12 +31,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics
 
         public override string ToString()
         {
-            return Range.ToString();
-        }
-
-        public string ToString(string format)
-        {
-            return Range.ToString(format);
+            return Interval.ToString();
         }
     }
 }
