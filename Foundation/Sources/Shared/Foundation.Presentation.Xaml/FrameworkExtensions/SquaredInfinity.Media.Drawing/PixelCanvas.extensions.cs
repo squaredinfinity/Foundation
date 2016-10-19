@@ -25,7 +25,7 @@ namespace SquaredInfinity.Foundation.Extensions
 
             var bounds = new Int32Rect(0, 0, pc.Width, pc.Height);
 
-            wb.WritePixels(bounds, pc.GetPixels(), pc.Stride, 0);
+            wb.WritePixels(bounds, pc.GetPixels(), pc.Stride, 0); 
 
             return wb;
         }
@@ -294,7 +294,7 @@ namespace SquaredInfinity.Foundation.Extensions
             if (blendMode == BlendMode.Copy && width == pc.Width && height == pc.Height)
             {
                 var pac = pc as PixelArrayCanvas;
-                if(pac != null)
+                if(pac == null)
                 {
                     throw new NotSupportedException("BlendMode.Copy is only supported with PixelArrayCanvas");
                 }
