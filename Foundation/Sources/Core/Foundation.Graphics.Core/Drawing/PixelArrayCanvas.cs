@@ -12,6 +12,7 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
     public class PixelArrayCanvas : PixelCanvas
     {
         int[] _pixels;
+        public int[] Pixels {  get { return _pixels; } }
         public override int[] GetPixels()
         {
             return _pixels;
@@ -81,13 +82,16 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
 
         public override void ReplaceFromPixels(int[] pixels, int width, int height)
         {
-            Width = width;
-            Height = height;
-            Length = width * height;
-            Stride = width * 4;
-            Bounds = new Rectangle(0, 0, width, height);
+            UpdateBounds(width, height);
 
             _pixels = pixels;
+        }
+
+        public override void Resize(int width, int height)
+        {
+            Array.Resize(ref _pixels, width * height);
+
+            UpdateBounds(width, height);
         }
     }
 }

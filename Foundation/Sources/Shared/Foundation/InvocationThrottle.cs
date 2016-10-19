@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation
 {
-    public partial class InvocationThrottle
+    public partial class InvocationThrottle_OLD
     {
         TimeSpan TimeSpanMin;
         TimeSpan? TimeSpanMax;
@@ -24,21 +24,21 @@ namespace SquaredInfinity.Foundation
             set
             {
                 _actionTimeout = value;
-                LastActionInfo.Timeout = _actionTimeout;
+                CurrentActionInfo.Timeout = _actionTimeout;
             }
         }
 
-        readonly ActionInfo LastActionInfo = new ActionInfo();
+        readonly ActionInfo CurrentActionInfo = new ActionInfo();
 
         readonly object Lock = new object();
 
         System.Timers.Timer ThrottleTimer;
 
-        public InvocationThrottle(TimeSpan min)
+        public InvocationThrottle_OLD(TimeSpan min)
             : this(min, null)
         {}
 
-        public InvocationThrottle(TimeSpan min, TimeSpan? max)
+        public InvocationThrottle_OLD(TimeSpan min, TimeSpan? max)
         {
             ActionTimout = Timeout.InfiniteTimeSpan;
 
@@ -81,7 +81,7 @@ namespace SquaredInfinity.Foundation
                     return;
                 }
                 
-                LastActionInfo.TryInvokeAsync(should_run_to_completion: false);
+                CurrentActionInfo.TryInvokeAsync(should_run_to_completion: false);
                 LastInvokeUTC = e.SignalTime.ToUniversalTime();
                 LastInvokeRequestUTC = null;
             }
@@ -89,12 +89,12 @@ namespace SquaredInfinity.Foundation
 
         public void Invoke(Action action)
         {
-            DoInvoke(() => LastActionInfo.SetAction(action));
+            DoInvoke(() => CurrentActionInfo.SetAction(action));
         }
 
         public void Invoke(Action<CancellationToken> cancellableAction)
         {
-            DoInvoke(() => LastActionInfo.SetAction(cancellableAction));
+            DoInvoke(() => CurrentActionInfo.SetAction(cancellableAction));
         }
 
         void DoInvoke(Action set_action)
@@ -142,10 +142,10 @@ namespace SquaredInfinity.Foundation
                         &&
                         (current_invoke_request_time - LastInvokeUTC >= TimeSpanMax
                         ||
-                        current_invoke_request_time - LastActionInfo.LastCompleteTimeUtc >= TimeSpanMax);
+                        current_invoke_request_time - CurrentActionInfo.LastCompleteTimeUtc >= TimeSpanMax);
 
                     // invoke, stop the timer, update times
-                    LastActionInfo.TryInvokeAsync(should_run_to_completion);
+                    CurrentActionInfo.TryInvokeAsync(should_run_to_completion);
 
                     LastInvokeUTC = current_invoke_request_time;
                     ThrottleTimer.Stop();

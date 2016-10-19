@@ -60,11 +60,11 @@ namespace SquaredInfinity.Foundation.Data
             return ExecuteReaderInternalWithRetry<TEntity>(ConnectionFactory, procName, new TParameter[0], createEntity);
         }
 
-        public Task<List<TEntity>> ExecuteReaderAsync<TEntity>(
+        public async Task<List<TEntity>> ExecuteReaderAsync<TEntity>(
             string procName,
             Func<TDataReader, TEntity> createEntity)
         {
-            return Task.Factory.StartNew(() => ExecuteReader<TEntity>(procName, createEntity).ToList());
+            return await Task.Run(() => ExecuteReader<TEntity>(procName, createEntity).ToList()).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         #region Execute Reader - create entity
@@ -77,12 +77,12 @@ namespace SquaredInfinity.Foundation.Data
             return ExecuteReaderInternalWithRetry<TEntity>(ConnectionFactory, procName, parameters, createEntity);
         }
 
-        public Task<List<TEntity>> ExecuteReaderAsync<TEntity>(
+        public async Task<List<TEntity>> ExecuteReaderAsync<TEntity>(
             string procName,
             IEnumerable<TParameter> parameters,
             Func<TDataReader, TEntity> createEntity)
         {
-            return Task.Factory.StartNew(() => ExecuteReader<TEntity>(procName, parameters, createEntity).ToList());
+            return await Task.Run(() => ExecuteReader<TEntity>(procName, parameters, createEntity).ToList()).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         IEnumerable<TEntity> ExecuteReaderInternalWithRetry<TEntity>(
@@ -134,12 +134,12 @@ namespace SquaredInfinity.Foundation.Data
             ExecuteReaderInternalWithRetry(ConnectionFactory, procName, parameters, processReader);
         }
 
-        public Task ExecuteReaderAsync<TEntity>(
+        public async Task ExecuteReaderAsync<TEntity>(
             string procName,
             IEnumerable<TParameter> parameters,
             Action<TDataReader> processReader)
         {
-            return Task.Factory.StartNew(() => ExecuteReader(procName, parameters, processReader));
+            await Task.Run(() => ExecuteReader(procName, parameters, processReader)).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         void ExecuteReaderInternalWithRetry(
@@ -190,10 +190,10 @@ namespace SquaredInfinity.Foundation.Data
             return ExecuteReader(procName, new TParameter[0]);
         }
 
-        public Task<List<Dictionary<string, object>>> ExecuteReaderAsync(
+        public async Task<List<Dictionary<string, object>>> ExecuteReaderAsync(
             string procName)
         {
-            return Task.Factory.StartNew(() => ExecuteReader(procName).ToList());
+            return await Task.Run(() => ExecuteReader(procName).ToList()).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         public IEnumerable<Dictionary<string, object>> ExecuteReader(
@@ -203,11 +203,11 @@ namespace SquaredInfinity.Foundation.Data
             return ExecuteReaderInternalWithRetry(ConnectionFactory, procName, parameters);
         }
 
-        public Task<List<Dictionary<string, object>>> ExecuteReaderAsync(
+        public async Task<List<Dictionary<string, object>>> ExecuteReaderAsync(
             string procName,
             IEnumerable<TParameter> parameters)
         {
-            return Task.Factory.StartNew(() => ExecuteReader(procName, parameters).ToList());
+            return await Task.Run(() => ExecuteReader(procName, parameters).ToList()).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         IEnumerable<Dictionary<string, object>> ExecuteReaderInternalWithRetry(
@@ -259,9 +259,9 @@ namespace SquaredInfinity.Foundation.Data
             return ExecuteReaderSingleRowInternalWithRetry(ConnectionFactory, procName, new TParameter[0]);
         }
 
-        public Task<Dictionary<string, object>> ExecuteReaderSingleRowAsync(string procName)
+        public async Task<Dictionary<string, object>> ExecuteReaderSingleRowAsync(string procName)
         {
-            return Task.Factory.StartNew(() => ExecuteReaderSingleRow(procName));
+            return await Task.Run(() => ExecuteReaderSingleRow(procName)).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         public Dictionary<string, object> ExecuteReaderSingleRow(string procName, IEnumerable<TParameter> parameters)
@@ -269,9 +269,9 @@ namespace SquaredInfinity.Foundation.Data
             return ExecuteReaderSingleRowInternalWithRetry(ConnectionFactory, procName, parameters);
         }
 
-        public Task<Dictionary<string, object>> ExecuteReaderSingleRowAsync(string procName, IEnumerable<TParameter> parameters)
+        public async Task<Dictionary<string, object>> ExecuteReaderSingleRowAsync(string procName, IEnumerable<TParameter> parameters)
         {
-            return Task.Factory.StartNew(() => ExecuteReaderSingleRow(procName, parameters));
+            return await Task.Run(() => ExecuteReaderSingleRow(procName, parameters)).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         Dictionary<string, object> ExecuteReaderSingleRowInternalWithRetry(
@@ -302,9 +302,9 @@ namespace SquaredInfinity.Foundation.Data
             ExecuteNonQuery(ConnectionFactory, CommandType.StoredProcedure, procName);
         }
 
-        public Task ExecuteAsync(string procName)
+        public async Task ExecuteAsync(string procName)
         {
-            return Task.Factory.StartNew(() => Execute(procName));
+            await Task.Run(() => Execute(procName)).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         public void ExecuteNonQuery(string procName, params TParameter[] parameters)
@@ -312,9 +312,9 @@ namespace SquaredInfinity.Foundation.Data
             ExecuteNonQuery(ConnectionFactory, CommandType.StoredProcedure, procName, parameters);
         }
 
-        public Task ExecuteNonQueryAsync(string procName, params TParameter[] parameters)
+        public async Task ExecuteNonQueryAsync(string procName, params TParameter[] parameters)
         {
-            return Task.Factory.StartNew(() => ExecuteNonQuery(procName, parameters));
+            await Task.Run(() => ExecuteNonQuery(procName, parameters)).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         public void ExecuteNonQueryText(string sql)
@@ -396,9 +396,9 @@ namespace SquaredInfinity.Foundation.Data
             return MapToClrValue<T>(result);
         }
 
-        public Task<T> ExecuteScalarAsync<T>(string procName)
+        public async Task<T> ExecuteScalarAsync<T>(string procName)
         {
-            return Task.Factory.StartNew(() => ExecuteScalar<T>(procName));
+            return await Task.Run(() => ExecuteScalar<T>(procName)).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         public T ExecuteScalar<T>(string procName, IEnumerable<TParameter> parameters)
@@ -413,9 +413,9 @@ namespace SquaredInfinity.Foundation.Data
             return MapToClrValue<T>(result);
         }
 
-        public Task<T> ExecuteScalarAsync<T>(string procName, IEnumerable<TParameter> parameters)
+        public async Task<T> ExecuteScalarAsync<T>(string procName, IEnumerable<TParameter> parameters)
         {
-            return Task.Factory.StartNew(() => ExecuteScalar<T>(procName, parameters));
+            return await Task.Run(() => ExecuteScalar<T>(procName, parameters)).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         object ExecuteScalarInternalWithRetry(

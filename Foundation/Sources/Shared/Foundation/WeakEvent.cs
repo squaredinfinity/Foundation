@@ -341,7 +341,7 @@ namespace SquaredInfinity.Foundation
 
         public void InvokeWithThrottle(object sender, TEventArgs e)
         {
-            Throttle.Invoke(() => Invoke(sender, e));
+            Throttle.InvokeAsync(() => Invoke(sender, e));
         }
 
         public void Invoke(object sender, TEventArgs e)

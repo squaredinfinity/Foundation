@@ -83,5 +83,7 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
 
         bool IntersectsWith(Rectangle rect);
         void ReplaceFromPixels(int[] pixels, int width, int height);
+
+        void Resize(int width, int height);
     }
 }

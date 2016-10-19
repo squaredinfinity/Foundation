@@ -17,7 +17,7 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
         public int Length
         {
             get { return _length; }
-            protected set { _length = value; }
+            private set { _length = value; }
         }
 
         protected int _stride;
@@ -27,7 +27,7 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
         public int Stride
         {
             get { return _stride; }
-            protected set { _stride = value; }
+            private set { _stride = value; }
         }
 
         protected int _width;
@@ -37,7 +37,7 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
         public int Width
         {
             get { return _width; }
-            protected set { _width = value; }
+            private set { _width = value; }
         }
 
 
@@ -48,7 +48,7 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
         public int Height
         {
             get { return _height; }
-            protected set { _height = value; }
+            private set { _height = value; }
         }
 
         public abstract int[] GetPixels();
@@ -57,10 +57,15 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
         public Rectangle Bounds
         {
             get { return _bounds; }
-            protected set { _bounds = value; }
+            private set { _bounds = value; }
         }
         
         public PixelCanvas(int width, int height)
+        {
+            UpdateBounds(width, height);
+        }
+
+        protected void UpdateBounds(int width, int height)
         {
             Width = width;
             Height = height;
@@ -79,6 +84,8 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
         public abstract int[] GetRow(int row);
 
         public abstract void SetRow(int row, int[] pixels);
+
+        public abstract void Resize(int width, int height);
 
         public int GetColor(int a, int r, int g, int b)
         {

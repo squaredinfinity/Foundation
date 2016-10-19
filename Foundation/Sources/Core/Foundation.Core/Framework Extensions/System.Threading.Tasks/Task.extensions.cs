@@ -22,7 +22,7 @@ namespace SquaredInfinity.Foundation.Extensions
         //     during the execution of the System.Threading.Tasks.Task. If the task was
         //     canceled, the System.AggregateException contains an System.OperationCanceledException
         //     in its System.AggregateException.InnerExceptions collection.
-        public static void Wait(this Task task, bool ignoreCanceledExceptions)
+        public static bool Wait(this Task task, bool ignoreCanceledExceptions)
         {
             if (ignoreCanceledExceptions)
             {
@@ -31,14 +31,16 @@ namespace SquaredInfinity.Foundation.Extensions
                     task.Wait();
                 }
                 catch (TaskCanceledException)
-                { /* expected */ }
+                { return false; }
                 catch (OperationCanceledException)
-                { /* expected */ }
+                { return false; }
             }
             else
             {
                 task.Wait();
             }
+
+            return true;
         }
 
         //
@@ -62,23 +64,25 @@ namespace SquaredInfinity.Foundation.Extensions
         //     during the execution of the System.Threading.Tasks.Task. If the task was
         //     canceled, the System.AggregateException contains an System.OperationCanceledException
         //     in its System.AggregateException.InnerExceptions collection.
-        public static void Wait(this Task task, CancellationToken cancellationToken, bool ignoreCanceledExceptions)
+        public static bool Wait(this Task task, CancellationToken cancellationToken, bool ignoreCanceledExceptions)
         {
             if (ignoreCanceledExceptions)
             {
                 try
                 {
                     task.Wait(cancellationToken);
-               }
+                }
                 catch (TaskCanceledException)
-                { /* expected */ }
+                { return false; }
                 catch (OperationCanceledException)
-                { /* expected */ }
+                { return false; }
             }
             else
             {
-                task.Wait();
+                task.Wait(cancellationToken);
             }
+
+            return true;
         }
 
         //

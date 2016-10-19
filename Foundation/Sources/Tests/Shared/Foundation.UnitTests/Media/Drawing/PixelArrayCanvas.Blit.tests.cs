@@ -22,28 +22,28 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         [TestMethod]
         public void Blit()
         {
-            var pc_1 = new UnsafePixelCanvas(10, 10);
-            var pc_2 = new UnsafePixelCanvas(10, 10);
+            //var pc_1 = new UnsafePixelCanvas(10, 10);
+            //var pc_2 = new UnsafePixelCanvas(10, 10);
 
-            var sw = Stopwatch.StartNew();
+            //var sw = Stopwatch.StartNew();
 
-            for (int i = 0; i < 10000; i++)
-            {
-
-                
-                pc_1.DrawLineDDA(1, 1, 8, 1, System.Windows.Media.Colors.Black.ChangeAlpha(127));
+            //for (int i = 0; i < 10000; i++)
+            //{
 
                 
-                pc_2.DrawLineDDA(1, 1, 1, 8, System.Windows.Media.Colors.Black.ChangeAlpha(127));
+            //    pc_1.DrawLineDDA(1, 1, 8, 1, System.Windows.Media.Colors.Black.ChangeAlpha(127));
 
-                pc_1.Save(@"c:\temp\pc_1.bmp");
-                pc_2.Save(@"c:\temp\pc_2.bmp");
+                
+            //    pc_2.DrawLineDDA(1, 1, 1, 8, System.Windows.Media.Colors.Black.ChangeAlpha(127));
 
-                pc_1.Blit(new Rectangle(0, 0, 10, 10), pc_2, new Rectangle(0 , 0, 10, 10), BlendMode.Alpha);
-            }
+            //    pc_1.Save(@"c:\temp\pc_1.bmp");
+            //    pc_2.Save(@"c:\temp\pc_2.bmp");
 
-            sw.Stop();
-            Trace.WriteLine("elapsed " + sw.Elapsed.TotalMilliseconds);
+            //    pc_1.Blit(new Rectangle(0, 0, 10, 10), pc_2, new Rectangle(0 , 0, 10, 10), BlendMode.Alpha);
+            //}
+
+            //sw.Stop();
+            //Trace.WriteLine("elapsed " + sw.Elapsed.TotalMilliseconds);
 
             //pc_1.Save(@"c:\temp\pc_blit.bmp");
         }

@@ -15,9 +15,9 @@ namespace SquaredInfinity.Foundation
     public class InvocationThrottleTests
     {
         [TestMethod]
-        public void InvokesOnlyOneAtTheTimeAndLastOneWins()
+        public void Invokes_Only_One_Action_At_A_Time()
         {
-            var it = new InvocationThrottle(min: TimeSpan.FromMilliseconds(1), max: TimeSpan.FromMilliseconds(2));
+            var it = new InvocationThrottle2(min: TimeSpan.FromMilliseconds(1), max: TimeSpan.FromMilliseconds(2));
 
             int im_doing_stuff = 0;
             bool hasException = false;
@@ -26,11 +26,16 @@ namespace SquaredInfinity.Foundation
 
             ConcurrentBag<AutoResetEvent> ares = new ConcurrentBag<AutoResetEvent>();
 
+            // invoke action in a look
             for (int i = 0; i < 10; i++)
             {
                 var local_i = i;
 
-                it.Invoke(() => 
+                // some actions will be cancelled bevause min time has not passed
+                // those should never even start running
+
+                // there always should be at most one action running at a tim
+                it.InvokeAsync(() => 
                     {
                         var are = new AutoResetEvent(initialState: false);
                         ares.Add(are);
@@ -40,7 +45,8 @@ namespace SquaredInfinity.Foundation
                             Interlocked.Increment(ref invocation_count);
                             LongAction(ref im_doing_stuff);
 
-                            if((local_i < 9 && invocation_count != 1) || (local_i == 9 && invocation_count != 2))
+                            // given min of 1s, this should be invoked only once
+                            if(local_i < 9 && invocation_count != 1)
                             {
                                 throw new Exception();
                             }
@@ -65,6 +71,17 @@ namespace SquaredInfinity.Foundation
 
         }
 
+        void LongAction(ref int execution_marker)
+        {
+            if(Interlocked.Increment(ref execution_marker) != 1)
+                throw new Exception();
+
+            Thread.Sleep(100);
+
+            if (Interlocked.Decrement(ref execution_marker) != 0)
+                throw new Exception();
+        }
+
         public static void OnMtaThread(Action action)
         {
             var thread = new Thread(new ThreadStart(action));
@@ -73,27 +90,16 @@ namespace SquaredInfinity.Foundation
             thread.Join();
         }
 
-        void LongAction(ref int execition_marker)
-        {
-            if (Interlocked.CompareExchange(ref execition_marker, 1, 0) == 1)
-                throw new Exception();
-
-            Thread.Sleep(100);
-
-            if (Interlocked.CompareExchange(ref execition_marker, 0, 1) == 0)
-                throw new Exception();
-        }
-
         [TestMethod]
-        public void ActionIsInvokedOnDifferentThread()
+        public void Action_Invoked_On_Different_Thread()
         {
-            var it = new InvocationThrottle(TimeSpan.MinValue);
+            var it = new InvocationThrottle2();
 
             var are = new AutoResetEvent(initialState: false);
 
             var tid = Thread.CurrentThread.ManagedThreadId;
 
-            it.Invoke(() => 
+            it.InvokeAsync(() => 
                 {
                     Assert.AreNotEqual(tid, Thread.CurrentThread.ManagedThreadId);
                     are.Set();
@@ -104,14 +110,13 @@ namespace SquaredInfinity.Foundation
             Assert.IsTrue(true);
         }
 
-
         [TestMethod]
-        public void MultipleRequestsForInvocationDelayActualInvocationUntilMaxTimespanElapsed()
+        public void Multiple_Requests_For_Invocation_Delay_Actual_Invocation_Until_Max_Timespan_Elapsed()
         {
             var min = TimeSpan.FromMilliseconds(50);
             var max = TimeSpan.FromMilliseconds(250);
 
-            var it = new InvocationThrottle(min, max);
+            var it = new InvocationThrottle2(min, max);
             var tid = Thread.CurrentThread.ManagedThreadId;
             
             var start_time = DateTime.UtcNow;
@@ -121,7 +126,7 @@ namespace SquaredInfinity.Foundation
 
             while (!should_break && (DateTime.UtcNow - start_time).TotalMilliseconds < 1000)
             {
-                it.Invoke((ct) =>
+                it.InvokeAsync((ct) =>
                 {
                     if (ct.IsCancellationRequested)
                         return;
@@ -136,71 +141,40 @@ namespace SquaredInfinity.Foundation
         }
 
         [TestMethod]
-        public void MultipleRequestsForInvocationDelayActualInvocationUntilMaxTimespanElapsed__EvenIfActionTakesLongerThanMaxAllowedInterval()
+        public void Does_Not_Invoke_Actions_Before_Min_Passed()
         {
-            var min = TimeSpan.FromMilliseconds(50);
-            var max = TimeSpan.FromMilliseconds(150);
+            var it = new InvocationThrottle2(TimeSpan.FromMilliseconds(50), TimeSpan.FromMilliseconds(100));
 
-            var it = new InvocationThrottle(min, max);
-            var tid = Thread.CurrentThread.ManagedThreadId;
+            var failed = false;
 
-            var start_time = DateTime.UtcNow;
-            var invocation_time = DateTime.UtcNow;
+            var sw = Stopwatch.StartNew();
+            var are = new AutoResetEvent(false);
 
-            var should_break = false;
-
-            Trace.WriteLine("MAIN THREAD" + Thread.CurrentThread.ManagedThreadId);
-            
-            int total_count = 0;
-            int last_x = 0;
-
-
-            while (!should_break && (DateTime.UtcNow - start_time).TotalMilliseconds < 10000)
+            for(int i = 0; i < 100; i++)
             {
-                var sw = Stopwatch.StartNew();
-
-                var x = Interlocked.Increment(ref total_count);
-                
-                it.Invoke((ct) =>
+                it.InvokeAsync((ct) =>
                 {
-                    Trace.WriteLine("executing " + x);
+                    sw.Stop();
 
-                    Task.Delay(300).Wait(); // action takes longer
-                    if (ct.IsCancellationRequested)
-                        return;
+                    var _i = i;
+                    if (_i != 100)
+                        failed = true;
 
-                    invocation_time = DateTime.UtcNow;
-                    //Trace.WriteLine("DONE" + Thread.CurrentThread.ManagedThreadId);
-                    //should_break = true;
-
-                    last_x = x;
-
-                    Trace.WriteLine("executed " + x);
-                    
+                    are.Set();
                 });
-
-                
-                sw.Stop();
-
-                if(sw.Elapsed.TotalMilliseconds > 50)
-                {
-                    Trace.WriteLine("invocation took too long");
-                }
             }
 
-            // wait for all tasks to finish
-            Task.Delay(500).Wait();
+            are.WaitOne();
 
-            Trace.WriteLine("last: " + last_x);
-            Trace.WriteLine("total: " + total_count);
+            if (failed)
+                Assert.Fail();
 
-            Assert.AreEqual(total_count, last_x);
+            Assert.IsTrue(sw.Elapsed.TotalMilliseconds > 50);
 
-            Assert.IsTrue((invocation_time - start_time).TotalMilliseconds >= 250);
         }
 
         [TestMethod]
-        public void WaitsMinTimespanBeforeExecuting()
+        public void Waits_Min_Before_Executing()
         {
             var min = TimeSpan.FromMilliseconds(50);
 
@@ -227,6 +201,12 @@ namespace SquaredInfinity.Foundation
 
                 Assert.IsTrue(sw.Elapsed.TotalMilliseconds >= min.TotalMilliseconds, "failed iteration {0}, elapse: {1}".FormatWith(i.ToString(), sw.Elapsed.TotalMilliseconds));
             }
+        }
+
+        [TestMethod]
+        public void MyTestMethod()
+        {
+
         }
     }
 }

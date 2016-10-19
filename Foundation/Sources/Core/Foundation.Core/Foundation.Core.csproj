@@ -70,6 +70,7 @@
     <Compile Include="Framework Extensions\System.Collections\IEnumerable.Extensions.cs" />
     <Compile Include="Framework Extensions\System.Collections\IReadOnlyList.extensions.cs" />
     <Compile Include="Framework Extensions\System.IO\Stream.extensions.cs" />
+    <Compile Include="Framework Extensions\System.Threading.Tasks\Parallel.extensions.cs" />
     <Compile Include="Framework Extensions\System.Threading.Tasks\Task.extensions.cs" />
     <Compile Include="Framework Extensions\System.Xml.Linq\XAttribute.extensions.cs" />
     <Compile Include="Framework Extensions\System.Xml.Linq\XContainer.extensions.cs" />

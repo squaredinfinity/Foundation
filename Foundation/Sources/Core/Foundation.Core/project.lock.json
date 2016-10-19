@@ -181,7 +181,8 @@
   "projectFileDependencyGroups": {
     "": [
       "Rx-Core >= 2.2.5",
-      "Rx-Linq >= 2.2.5"
+      "Rx-Linq >= 2.2.5",
+      "Rx-PlatformServices >= 2.2.5"
     ],
     ".NETPortable,Version=v4.5,Profile=Profile7": []
   }

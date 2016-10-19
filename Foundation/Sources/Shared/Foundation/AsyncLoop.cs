@@ -44,7 +44,7 @@ namespace SquaredInfinity.Foundation.Threading
                 TaskScheduler.Default);
         }
 
-        static void OperationLoop(WeakDelegate<Action> loopBodyReference, TimeSpan loopIterationDelay, CancellationToken cancellationToken)
+        static async void OperationLoop(WeakDelegate<Action> loopBodyReference, TimeSpan loopIterationDelay, CancellationToken cancellationToken)
         {
             while (true)
             {
@@ -56,7 +56,7 @@ namespace SquaredInfinity.Foundation.Threading
                     if (!loopBodyReference.TryExecute())
                         return;
 
-                    Task.Delay(loopIterationDelay, cancellationToken).Wait();
+                    await Task.Delay(loopIterationDelay, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
                 }
                 catch (ThreadAbortException)
                 { /* expected */ }

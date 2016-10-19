@@ -167,7 +167,10 @@ namespace SquaredInfinity.Foundation.Tagging
 
         public IReadOnlyList<object> GetTagValues(string tag)
         {
-            return Storage[tag].ToArray();
+            if (Storage.ContainsKey(tag))
+                return Storage[tag].ToArray();
+            else
+                return new List<object>();
         }
 
         public bool TryGetTagValues(string tag, out IReadOnlyList<object> values)

@@ -84,7 +84,7 @@ namespace SquaredInfinity.Foundation.Collections
         }
 
 
-        public Task AddRangeAsync(IEnumerable<TItem> items, CancellationToken cancellationToken)
+        public async Task AddRangeAsync(IEnumerable<TItem> items, CancellationToken cancellationToken)
         {
             if (items == null)
             {
@@ -94,7 +94,7 @@ namespace SquaredInfinity.Foundation.Collections
             {
                 List<TItem> list = new List<TItem>(items);
 
-                return Task.Factory.StartNew(() =>
+                await Task.Run(() =>
                     {
                         for (int i = 0; i < list.Count; i++)
                         {
@@ -124,7 +124,7 @@ namespace SquaredInfinity.Foundation.Collections
                             
                             op.Task.Wait(ignoreCanceledExceptions:true);
                         }
-                    }, cancellationToken);
+                    }, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
             }
         }
     }

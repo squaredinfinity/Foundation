@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Shapes = System.Windows.Shapes;
+using System.Threading;
 
 namespace SquaredInfinity.Foundation.Extensions
 {
@@ -143,7 +144,7 @@ namespace SquaredInfinity.Foundation.Extensions
             BlendMode blendMode,
             IEnumerable<DrawingRenderInfo> drawings)
         {
-            pc.DrawDrawings(x, y, width, height, blendMode, ParallelExtensions.DefaultParallelOptions, null, drawings);
+            pc.DrawDrawings(x, y, width, height, blendMode, ParallelExtensions.GetDefaultParallelOptions(CancellationToken.None), null, drawings);
         }
 
         public static void DrawDrawings(
@@ -156,7 +157,7 @@ namespace SquaredInfinity.Foundation.Extensions
             Action<DrawingContext> prepareDrawingContext,
             IEnumerable<DrawingRenderInfo> drawings)
         {
-            pc.DrawDrawings(x, y, width, height, blendMode, ParallelExtensions.DefaultParallelOptions, prepareDrawingContext, drawings);
+            pc.DrawDrawings(x, y, width, height, blendMode, ParallelExtensions.GetDefaultParallelOptions(CancellationToken.None), prepareDrawingContext, drawings);
         }
 
         public static void DrawDrawings(
@@ -193,6 +194,31 @@ namespace SquaredInfinity.Foundation.Extensions
                     prepareDrawingContext(cx);
 
                 renderer.Render(cx, parallelOptions, width, height, drawings);
+            }
+
+            pc.DrawVisual(0, 0, dv, blendMode);
+        }
+
+        public static void DrawDrawing(
+            this IPixelCanvas pc,
+            int x,
+            int y,
+            int width,
+            int height,
+            BlendMode blendMode,
+            Action<DrawingContext> prepareDrawingContext,
+            DrawingRenderInfo drawing)
+        {
+            DrawingRenderer renderer = new DrawingRenderer();
+
+            var dv = new DrawingVisual();
+
+            using (var cx = dv.RenderOpen())
+            {
+                if (prepareDrawingContext != null)
+                    prepareDrawingContext(cx);
+
+                renderer.Render(cx, width, height, drawing);
             }
 
             pc.DrawVisual(0, 0, dv, blendMode);
@@ -264,20 +290,22 @@ namespace SquaredInfinity.Foundation.Extensions
             var height = (int)visual.ContentBounds.Height;
 
             var bmp = visual.RenderToBitmap();
-
-            int[] pixels;
-
+            
             if (blendMode == BlendMode.Copy && width == pc.Width && height == pc.Height)
             {
-                pixels = pc.GetPixels();
-                bmp.CopyPixels(pixels, pc.Stride, 0);
+                var pac = pc as PixelArrayCanvas;
+                if(pac != null)
+                {
+                    throw new NotSupportedException("BlendMode.Copy is only supported with PixelArrayCanvas");
+                }
+
+                bmp.CopyPixels(pac.Pixels, pc.Stride, 0);
             }
             else
             {
                 var pc2 = new PixelArrayCanvas(width, height);
-                pixels = pc2.GetPixels();
 
-                bmp.CopyPixels(pixels, pc2.Stride, 0);
+                bmp.CopyPixels(pc2.Pixels, pc2.Stride, 0);
 
                 pc.Blit(
                     new Rectangle(x, y, width, height),

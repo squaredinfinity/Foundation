@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -22,6 +23,9 @@ namespace SquaredInfinity.Foundation.Presentation.Media
             canvas.Freeze();
             cx.DrawGeometry(Brushes.Transparent, null, canvas);
 
+            if (parallelOptions.CancellationToken.IsCancellationRequested)
+                return;
+
             Render(cx, parallelOptions, drawings);
         }
 
@@ -39,24 +43,46 @@ namespace SquaredInfinity.Foundation.Presentation.Media
 
             var di = (DrawingRenderInfo)null;
 
-            while(finished_drawings.TryTake(out di))
+            while (finished_drawings.TryTake(out di))
             {
-                if (di.Transform != null)
-                    cx.PushTransform(di.Transform);
-                if (di.Opacity != null)
-                    cx.PushOpacity(di.Opacity.Value);
-                if (di.Clip != null)
-                    cx.PushClip(di.Clip);
-
-                cx.DrawDrawing(di.Drawing);
-
-                if (di.Clip != null)
-                    cx.Pop();
-                if (di.Opacity != null)
-                    cx.Pop();
-                if (di.Transform != null)
-                    cx.Pop();
+                // NOTE: actual rendering must happen on thread cx has been created
+                Render(cx, di);
             }
+        }
+
+        public virtual void Render(
+            DrawingContext cx,
+            double drawingWidth,
+            double drawingHeight,
+            DrawingRenderInfo drawing)
+        {
+            // expand drawings to desired size using transparent rectangle
+            var canvas = new RectangleGeometry(new Rect(0, 0, drawingWidth, drawingHeight));
+            canvas.Freeze();
+            cx.DrawGeometry(Brushes.Transparent, null, canvas);
+
+            Render(cx, drawing);
+        }
+
+        public virtual void Render(
+            DrawingContext cx,
+            DrawingRenderInfo drawing)
+        {
+            if (drawing.Transform != null)
+                cx.PushTransform(drawing.Transform);
+            if (drawing.Opacity != null)
+                cx.PushOpacity(drawing.Opacity.Value);
+            if (drawing.Clip != null)
+                cx.PushClip(drawing.Clip);
+
+            cx.DrawDrawing(drawing.Drawing);
+
+            if (drawing.Clip != null)
+                cx.Pop();
+            if (drawing.Opacity != null)
+                cx.Pop();
+            if (drawing.Transform != null)
+                cx.Pop();
         }
     }
 }
