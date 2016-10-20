@@ -22,6 +22,70 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         [TestMethod]
         public void Blit()
         {
+            int count = 100;
+
+            var sw = Stopwatch.StartNew();
+
+            Render(count, 100);
+
+            Trace.WriteLine("100x100: " + sw.GetElapsedAndRestart().TotalMilliseconds);
+
+            Render(count, 1000);
+
+            Trace.WriteLine("1kx1k: " + sw.GetElapsedAndRestart().TotalMilliseconds);
+
+            Render(count, 2000);
+
+            Trace.WriteLine("2kx2k: " + sw.GetElapsedAndRestart().TotalMilliseconds);
+        }
+
+        void Render(int points, int size)
+        {
+            var sw = Stopwatch.StartNew();
+
+            var r = new Random();
+            var pen = new Pen(Brushes.DeepPink, 2);
+            pen.Freeze();
+
+            Trace.WriteLine("after freeze: " + sw.GetElapsedAndRestart().TotalMilliseconds);
+
+            var d = new DrawingGroup();
+            using (var cx = d.Open())
+            {
+                for (int i = 0; i < points; i++)
+                {
+                    cx.DrawLine(pen, new Point(r.Next(0, 50), r.Next(0, 50)), new Point(r.Next(0, 50), r.Next(0, 50)));
+                }
+            }
+            d.Freeze();
+
+            var dv = new DrawingVisual();
+            using (var cx = dv.RenderOpen())
+            {
+                cx.DrawDrawing(d);
+
+                //for (int i = 0; i < points; i++)
+                //{
+                //    cx.DrawLine(pen, new Point(r.Next(0, 50), r.Next(0, 50)), new Point(r.Next(0, 50), r.Next(0, 50)));
+                //}
+            }
+
+            Trace.WriteLine("after draw: " + sw.GetElapsedAndRestart().TotalMilliseconds);
+
+            var trb = new RenderTargetBitmap(size, size, 96, 96, PixelFormats.Pbgra32);
+            trb.Render(dv);
+
+            Trace.WriteLine("after render: " + sw.GetElapsedAndRestart().TotalMilliseconds);
+
+            var x = trb.GetPixels();
+
+            Trace.WriteLine("after get pixels: " + sw.GetElapsedAndRestart().TotalMilliseconds);
+                //trb.Save($@"C:\temp\shit\{size}.png");
+        }
+
+    [TestMethod]
+        public void Bli23t()
+        {
             //var pc_1 = new UnsafePixelCanvas(10, 10);
             //var pc_2 = new UnsafePixelCanvas(10, 10);
 

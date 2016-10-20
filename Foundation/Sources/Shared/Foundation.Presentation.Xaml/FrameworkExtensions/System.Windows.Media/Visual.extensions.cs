@@ -43,9 +43,17 @@ namespace SquaredInfinity.Foundation.Extensions
             if (visual == null)
                 throw new ArgumentException("visual");
 
-            var bounds = VisualTreeHelper.GetDescendantBounds(visual);
-
-            return visual.RenderToBitmap(bounds.Size, new Point(0, 0), bounds.Size, pixelFormat);
+            var cv = visual as ContainerVisual;
+            if (cv != null)
+            {
+                var bounds = cv.DescendantBounds;
+                return visual.RenderToBitmap(bounds.Size, bounds.Location, bounds.Size, pixelFormat);
+            }
+            else
+            {
+                var bounds = VisualTreeHelper.GetDescendantBounds(visual);
+                return visual.RenderToBitmap(bounds.Size, bounds.Location, bounds.Size, pixelFormat);
+            }
         }
 
         public static BitmapSource RenderToBitmap(
@@ -140,6 +148,9 @@ namespace SquaredInfinity.Foundation.Extensions
                 }
 
                 ctx.DrawRectangle(vb, null, new Rect(visualPositionOnBitmap, visualSize));
+
+                if (flowDirection == FlowDirection.RightToLeft)
+                    ctx.Pop();
             }
 
             rtb.Render(dv);
