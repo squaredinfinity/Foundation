@@ -11,10 +11,9 @@ namespace SquaredInfinity.Foundation.Threading
 {
     public class AsyncLoop : IAsyncLoop
     {
-        //CancellationTokenSource CancellationTokenSource;
-        Task OperationTask;
-
         WeakDelegate<Action> LoopBodyReference { get; set; }
+        CancellationToken CancellationToken { get; set; }
+        TimeSpan LoopIterationDelay { get; set; }
 
         public string Name { get; private set; }
 
@@ -29,48 +28,52 @@ namespace SquaredInfinity.Foundation.Threading
             this.Name = name;
             LoopBodyReference = new WeakDelegate<Action>(this, loopBody);
         }
-        
+
+        Timer Timer;
+
         public void Start(TimeSpan loopIterationDelay, CancellationToken cancellationToken)
         {
-            var _loopBody = LoopBodyReference;
-            var _loopIterationDelay = loopIterationDelay;
-            var _cancellationToken = cancellationToken;
+            if (Timer != null)
+            {
+                Timer.Change(Timeout.Infinite, Timeout.Infinite);
+                Timer.Dispose();
+            }
 
-            OperationTask = 
-                Task.Factory.StartNew(
-                () => OperationLoop(LoopBodyReference, _loopIterationDelay, _cancellationToken), 
-                cancellationToken, 
-                TaskCreationOptions.LongRunning, 
-                TaskScheduler.Default);
+            LoopIterationDelay = loopIterationDelay;
+            CancellationToken = cancellationToken;
+
+            // start now
+            Timer = new Timer(OnTick, (object)null, 0, Timeout.Infinite);
         }
 
-        static async void OperationLoop(WeakDelegate<Action> loopBodyReference, TimeSpan loopIterationDelay, CancellationToken cancellationToken)
+        public void Start(TimeSpan startDelay, TimeSpan loopIterationDelay, CancellationToken cancellationToken)
         {
-            while (true)
+            if (Timer != null)
             {
-                if (cancellationToken.IsCancellationRequested)
-                    return;
+                Timer.Change(Timeout.Infinite, Timeout.Infinite);
+                Timer.Dispose();
+            }
 
-                try
-                {
-                    if (!loopBodyReference.TryExecute())
-                        return;
+            LoopIterationDelay = loopIterationDelay;
+            CancellationToken = cancellationToken;
+            Timer = new Timer(OnTick, (object)null, startDelay, Timeout.InfiniteTimeSpan);
+        }
 
-                    await Task.Delay(loopIterationDelay, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
-                }
-                catch (ThreadAbortException)
-                { /* expected */ }
-                catch (Exception ex)
-                {
-                    InternalTrace.Warning(ex, "Failed executing operation loop");
-                    // TODO notify about error via event (?)
-                }
+        void OnTick(object state)
+        {
+            if (CancellationToken.IsCancellationRequested)
+                return;
+
+            if(LoopBodyReference.TryExecute())
+            {
+                if (!CancellationToken.IsCancellationRequested)
+                    Timer.Change(LoopIterationDelay, Timeout.InfiniteTimeSpan);
             }
         }
-            
-        ~AsyncLoop()
-        {
 
+        public void Dispose()
+        {
+            Timer?.Dispose();
         }
     }
 }

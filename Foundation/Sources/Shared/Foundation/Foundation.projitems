@@ -43,6 +43,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Diagnostics\Stopwatch.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Linq.Expressions\Expression.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Reflection\MemberInfo.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Threading\Dispatcher.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml.Linq\XDocument.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml\XmlDocument.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Exception.extensions.cs" />
@@ -53,7 +54,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)IAsyncLoop.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IAsyncOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ILGeneration\IL.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)InvocationThrottle.ActionInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InvocationThrottleWorkItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InvocationThrottle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NotifyPropertyChangedObjectWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\FileSystemSettingsService.cs" />
@@ -134,8 +135,5 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)WeakEvent.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Threading.Tasks\" />
   </ItemGroup>
 </Project>

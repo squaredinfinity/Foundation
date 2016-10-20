@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Threading
 {
-    public interface IAsyncLoop
+    public interface IAsyncLoop : IDisposable
     {
         void Start(TimeSpan loopIterationDelay, CancellationToken cancellationToken);
         //TimeSpan LoopIterationDelay { get; set; }

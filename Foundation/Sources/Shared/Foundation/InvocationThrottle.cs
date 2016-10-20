@@ -8,157 +8,329 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation
 {
-    public partial class InvocationThrottle_OLD
+    public class InvocationThrottle
     {
-        TimeSpan TimeSpanMin;
-        TimeSpan? TimeSpanMax;
+        readonly object Sync = new object();
 
-        DateTime? LastInvokeRequestUTC = null;
-        DateTime? LastInvokeUTC = null;
-        DateTime LastTimerResetUTC = DateTime.MinValue;
+        public TimeSpan Min { get; private set; } = TimeSpan.FromMilliseconds(50);
+        public TimeSpan? Max { get; private set; } = null;
 
-        TimeSpan _actionTimeout = Timeout.InfiniteTimeSpan;
-        public TimeSpan ActionTimout
-        {
-            get { return _actionTimeout; }
-            set
-            {
-                _actionTimeout = value;
-                CurrentActionInfo.Timeout = _actionTimeout;
-            }
-        }
+        public TaskScheduler Scheduler { get; private set; } = TaskScheduler.Default;
 
-        readonly ActionInfo CurrentActionInfo = new ActionInfo();
+        public InvocationThrottleWorkItem CurrentWorkItem { get; private set; } = null;
+        public InvocationThrottleWorkItem PendingWorkItem { get; private set; } = null;
 
-        readonly object Lock = new object();
+        readonly System.Threading.Timer MinTimer;
+        DateTime LastMinTimerResetUTC;
 
-        System.Timers.Timer ThrottleTimer;
+        public InvocationThrottle()
+            : this(TaskScheduler.Default)
+        { }
 
-        public InvocationThrottle_OLD(TimeSpan min)
+        public InvocationThrottle(TaskScheduler scheduler)
+            : this(scheduler, TimeSpan.FromMilliseconds(50), TimeSpan.FromMilliseconds(250))
+        { }
+
+        public InvocationThrottle(int min)
+            : this(TimeSpan.FromMilliseconds(min))
+        { }
+
+        public InvocationThrottle(TimeSpan min)
             : this(min, null)
-        {}
+        { }
 
-        public InvocationThrottle_OLD(TimeSpan min, TimeSpan? max)
+        public InvocationThrottle(TaskScheduler scheduler, TimeSpan min)
+            : this(scheduler, min, null)
+        { }
+
+        public InvocationThrottle(int min, int max)
+            : this(TimeSpan.FromMilliseconds(min), TimeSpan.FromMilliseconds(max))
+        { }
+
+        public InvocationThrottle(TimeSpan min, TimeSpan? max)
+            : this(TaskScheduler.Default, min, max)
+        { }
+
+        public InvocationThrottle(TaskScheduler scheduler, TimeSpan min, TimeSpan? max)
         {
-            ActionTimout = Timeout.InfiniteTimeSpan;
+            Scheduler = scheduler;
 
-            if (min.Ticks <= 0)
-                this.TimeSpanMin = TimeSpan.FromTicks(1);
-            else
-                this.TimeSpanMin = min;
+            Min = min;
+            Max = max;
 
-            this.TimeSpanMax = max;
-
-            InitializeTimer();
+            MinTimer = new Timer(OnTimer, (object)null, Timeout.Infinite, Timeout.Infinite);
         }
 
-        void InitializeTimer()
+        private void OnTimer(object state)
         {
-            ThrottleTimer = new System.Timers.Timer(TimeSpanMin.TotalMilliseconds);
-            ThrottleTimer.Elapsed += ThrottleTimer_Elapsed;
-        }
-
-        public void Update(TimeSpan min, TimeSpan max)
-        {
-            lock (Lock)
+            lock (Sync)
             {
-                TimeSpanMin = min;
-                TimeSpanMax = max;
+                var signal_time = DateTime.Now.ToUniversalTime();
 
-                ThrottleTimer.Interval = TimeSpanMin.TotalMilliseconds;
-            }
-        }
-
-        void ThrottleTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            lock (Lock)
-            {
-                ThrottleTimer.Stop();
-                
-                if (LastTimerResetUTC >= e.SignalTime.ToUniversalTime())
+                if (LastMinTimerResetUTC >= signal_time)
                 {
+                    Debug.WriteLine($"Timer Elapsed, but got canceled before it could stop this event from occuring");
                     // Timer Elapsed, but got canceled before it could stop this event from occuring;
                     return;
                 }
-                
-                CurrentActionInfo.TryInvokeAsync(should_run_to_completion: false);
-                LastInvokeUTC = e.SignalTime.ToUniversalTime();
-                LastInvokeRequestUTC = null;
+
+                Debug.WriteLine($"Timer Elapsed, calling OnNext()");
+                OnNext();
             }
         }
 
-        public void Invoke(Action action)
+        public void Update(TimeSpan min, TimeSpan? max = null)
         {
-            DoInvoke(() => CurrentActionInfo.SetAction(action));
-        }
-
-        public void Invoke(Action<CancellationToken> cancellableAction)
-        {
-            DoInvoke(() => CurrentActionInfo.SetAction(cancellableAction));
-        }
-
-        void DoInvoke(Action set_action)
-        {
-            lock (Lock)
+            lock (Sync)
             {
-                set_action();
+                Min = min;
+                Max = max;
+            }
+        }
 
-                var current_invoke_request_time = DateTime.UtcNow;
-
-                if (LastInvokeUTC == null)
-                    LastInvokeUTC = current_invoke_request_time;
-
-                bool passed_min_time =
-                    // no min so just invoke
-                    TimeSpanMin == TimeSpan.Zero
-                    ||
-                    // TimeSpanMin passed since last invoke
-                    (LastInvokeRequestUTC != null && current_invoke_request_time - LastInvokeRequestUTC.Value >= TimeSpanMin);
-
-                bool passed_max_time =
-                    LastInvokeRequestUTC != null
-                    &&
-                    (TimeSpanMax == null
-                    ||
-                    current_invoke_request_time - LastInvokeUTC >= TimeSpanMax);
-
-                LastInvokeRequestUTC = current_invoke_request_time;
-
-                bool should_invoke =
-                    // is past min
-                    passed_min_time
-                    ||
-                    // is past max
-                    (TimeSpanMax != null && passed_max_time);
-
-                // if min time passed then check if max time span passed
-                if (should_invoke)
+        void MinTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            lock (Sync)
+            {
+                if (LastMinTimerResetUTC >= e.SignalTime.ToUniversalTime())
                 {
-                    // if is past max since last invoke request
-                    // and is past max since last complete
-                    // make sure it finishes before processing further
-                    var should_run_to_completion =
-                        TimeSpanMax != null
-                        &&
-                        (current_invoke_request_time - LastInvokeUTC >= TimeSpanMax
-                        ||
-                        current_invoke_request_time - CurrentActionInfo.LastCompleteTimeUtc >= TimeSpanMax);
-
-                    // invoke, stop the timer, update times
-                    CurrentActionInfo.TryInvokeAsync(should_run_to_completion);
-
-                    LastInvokeUTC = current_invoke_request_time;
-                    ThrottleTimer.Stop();
-                    //LastInvokeRequestUTC = current_invoke_request_time;
-                    LastInvokeRequestUTC = null;
-
+                    Debug.WriteLine($"Timer Elapsed, but got canceled before it could stop this event from occuring");
+                    // Timer Elapsed, but got canceled before it could stop this event from occuring;
                     return;
                 }
 
-                // restart the timer
-                LastTimerResetUTC = current_invoke_request_time;
-                ThrottleTimer.Stop();
-                ThrottleTimer.Start();
+                Debug.WriteLine($"Timer Elapsed, calling OnNext()");
+                OnNext();
+            }
+        }
+
+        void OnNext()
+        {
+            lock (Sync)
+            {
+                if (CurrentWorkItem != null)
+                {
+                    Debug.WriteLine($"On Next, Current not null, exit {CurrentWorkItem.Id}");
+                    return;
+                }
+
+                if (PendingWorkItem == null)
+                {
+                    Debug.WriteLine($"On Next, No Pending, exit");
+                    return;
+                }
+
+                var old_current = CurrentWorkItem;
+
+                CurrentWorkItem = PendingWorkItem;
+                PendingWorkItem = null;
+
+                var wi = CurrentWorkItem;
+
+                wi.CancellationTokenSource = new CancellationTokenSource();
+
+                var ct = wi.CancellationTokenSource.Token;
+
+                wi.Task = Task.Factory.StartNew(() =>
+                {
+                    bool success = false;
+
+                    try
+                    {
+                        if (ct.IsCancellationRequested)
+                        {
+                            Debug.WriteLine($"Invoke, canceled before started {wi.Id}");
+                        }
+                        else
+                        {
+                            Debug.WriteLine($"Invoke, {wi.Id}");
+                            wi.Action(wi.State, wi, ct);
+                            Debug.WriteLine($"Invoke success, {wi.Id}");
+                            success = true;
+                        }
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        Debug.WriteLine($"Invoke, canceled {wi.Id}");
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Invoke, exception {wi.Id}");
+                    }
+
+                    lock (Sync)
+                    {
+                        if (ct.IsCancellationRequested)
+                            success = false;
+
+                        var utc_now = DateTime.UtcNow;
+
+                        CurrentWorkItem = null;
+
+                        if (success)
+                            wi.CompleteTimeUtc = DateTime.UtcNow;
+
+                        // check if there is a task pending
+                        if (PendingWorkItem != null)
+                        {
+                            // it is, but within min,
+                            // or last call failed
+                            // reset timer to start from now
+                            if (success && utc_now - PendingWorkItem.RequestWindowTimeUTC < Min)
+                            {
+                                Debug.WriteLine($"Invoke, pending should be triggered by timer, old current: {wi.Id}, pending: {PendingWorkItem.Id}");
+                                // nothing to do here, timer will take care of it
+                                return;
+                            }
+                            else
+                            {
+                                // last call failed
+                                // or success but pending is waiting > min
+
+                                // invoke pending action immediately, since its been waiting long enough
+                                Debug.WriteLine($"Invoke, Calling On Next, old current: {wi.Id}, pending: {PendingWorkItem.Id}");
+                                OnNext();
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            // no work items pending
+                            // nothing else to do here
+                            Debug.WriteLine($"Invoke, no more pending items, do nothing {wi.Id}");
+                        }
+                    }
+                }, CancellationToken.None, TaskCreationOptions.None, Scheduler);
+            }
+        }
+
+        public void InvokeAsync(Action action)
+        {
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
+
+            InvokeAsync((state, wi, ct) => action(), null);
+
+        }
+
+        public void InvokeAsync(Action<CancellationToken> cancellableAction)
+        {
+            if (cancellableAction == null)
+                throw new ArgumentNullException(nameof(cancellableAction));
+
+            InvokeAsync((state, wi, ct) => cancellableAction(ct), null);
+        }
+
+        public void InvokeAsync(Action<object, CancellationToken> cancellableActionWithState, object state)
+        {
+            if (cancellableActionWithState == null)
+                throw new ArgumentNullException(nameof(cancellableActionWithState));
+
+            InvokeAsync((_state, _wi, _ct) => cancellableActionWithState(_state, _ct), state);
+        }
+
+        public void InvokeAsync(Action<object, InvocationThrottleWorkItem, CancellationToken> cancellableActionWithState, object state)
+        {
+            if (cancellableActionWithState == null)
+                throw new ArgumentNullException(nameof(cancellableActionWithState));
+
+            lock (Sync)
+            {
+                var wi = new InvocationThrottleWorkItem();
+                wi.RequestTimeUTC = DateTime.UtcNow;
+                wi.State = state;
+                wi.Action = cancellableActionWithState;
+
+                Debug.WriteLine($"Invoke Async {wi.Id}");
+
+                // Pending request alredy exists
+                if (PendingWorkItem != null)
+                {
+                    // within min distance of last pending request
+                    if (DateTime.UtcNow - PendingWorkItem.RequestTimeUTC < Min)
+                    {
+                        // update window request time (to be able to check for max later)
+                        wi.RequestWindowTimeUTC = PendingWorkItem.RequestWindowTimeUTC;
+                        PendingWorkItem = wi;
+
+                        // past Max waiting period, invoke
+                        if (Max != null && DateTime.UtcNow - wi.RequestWindowTimeUTC >= Max)
+                        {
+                            // past Max waiting time, invoke and ensure runs to completion
+                            wi.MustRunToCompletion = true;
+                            Debug.WriteLine($"Invoke Async, must run to completion {wi.Id}");
+                            OnNextIfReady();
+                            return;
+                        }
+
+                        Debug.WriteLine($"Invoke Async, Reset Timer, RequestWindow: {wi.RequestTimeUTC}, {wi.Id}");
+                        ResetMinTimer();
+
+                        return;
+                    }
+                    else // passed min distance, invoke
+                    {
+                        PendingWorkItem = wi;
+                        Debug.WriteLine($"Invoke Async, passed min distance {wi.Id}");
+                        OnNextIfReady();
+                        return;
+                    }
+                }
+                else // there's no pending request
+                {
+                    wi.RequestWindowTimeUTC = wi.RequestTimeUTC;
+                    PendingWorkItem = wi;
+                    Debug.WriteLine($"Invoke Async, no pending requests {wi.Id}");
+                    OnNextIfReady();
+                }
+            }
+        }
+
+        void OnNextIfReady()
+        {
+            lock (Sync)
+            {
+                if (CurrentWorkItem == null)
+                {
+                    if (PendingWorkItem.MustRunToCompletion)
+                    {
+                        Debug.WriteLine($"On Next If Ready, On Next() {PendingWorkItem.Id}");
+                        OnNext();
+                        return;
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"On Next If Ready, Reset Timer {PendingWorkItem.Id}");
+
+                        // wait Min before executing
+                        ResetMinTimer();
+
+                        return;
+                    }
+                }
+                else
+                {
+                    if (CurrentWorkItem.MustRunToCompletion)
+                    {
+                        Debug.WriteLine($"On Next If Ready, Current Must Run {PendingWorkItem.Id}");
+                        // continuation of Current work item will handle further processing
+                    }
+                    else
+                    {
+                        // cancel current
+                        Debug.WriteLine($"On Next If Ready, Cancel Current {PendingWorkItem.Id}");
+                        CurrentWorkItem.CancellationTokenSource.Cancel();
+                    }
+                }
+            }
+        }
+
+        void ResetMinTimer()
+        {
+            lock (Sync)
+            {
+                MinTimer.Change(Min, Timeout.InfiniteTimeSpan);
+                LastMinTimerResetUTC = DateTime.UtcNow;
             }
         }
     }

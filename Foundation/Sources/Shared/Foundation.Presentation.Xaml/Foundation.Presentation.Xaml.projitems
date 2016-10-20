@@ -149,6 +149,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Media\Geometry.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Media\ImageSource.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Media\Visual.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Threading\Dispatcher.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows\DependencyObject.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows\FrameworkElement.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows\Point.extensions.cs" />

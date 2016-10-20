@@ -17,7 +17,7 @@ namespace SquaredInfinity.Foundation
         [TestMethod]
         public void Invokes_Only_One_Action_At_A_Time()
         {
-            var it = new InvocationThrottle2(min: TimeSpan.FromMilliseconds(1), max: TimeSpan.FromMilliseconds(2));
+            var it = new InvocationThrottle(min: TimeSpan.FromMilliseconds(1), max: TimeSpan.FromMilliseconds(2));
 
             int im_doing_stuff = 0;
             bool hasException = false;
@@ -93,7 +93,7 @@ namespace SquaredInfinity.Foundation
         [TestMethod]
         public void Action_Invoked_On_Different_Thread()
         {
-            var it = new InvocationThrottle2();
+            var it = new InvocationThrottle();
 
             var are = new AutoResetEvent(initialState: false);
 
@@ -116,7 +116,7 @@ namespace SquaredInfinity.Foundation
             var min = TimeSpan.FromMilliseconds(50);
             var max = TimeSpan.FromMilliseconds(250);
 
-            var it = new InvocationThrottle2(min, max);
+            var it = new InvocationThrottle(min, max);
             var tid = Thread.CurrentThread.ManagedThreadId;
             
             var start_time = DateTime.UtcNow;
@@ -143,7 +143,7 @@ namespace SquaredInfinity.Foundation
         [TestMethod]
         public void Does_Not_Invoke_Actions_Before_Min_Passed()
         {
-            var it = new InvocationThrottle2(TimeSpan.FromMilliseconds(50), TimeSpan.FromMilliseconds(100));
+            var it = new InvocationThrottle(TimeSpan.FromMilliseconds(50), TimeSpan.FromMilliseconds(100));
 
             var failed = false;
 
@@ -187,7 +187,7 @@ namespace SquaredInfinity.Foundation
 
                 var sw = Stopwatch.StartNew();
 
-                it.Invoke(() =>
+                it.InvokeAsync(() =>
                         {
                             sw.Stop();
                             Assert.AreNotEqual(tid, Thread.CurrentThread.ManagedThreadId);
@@ -206,7 +206,39 @@ namespace SquaredInfinity.Foundation
         [TestMethod]
         public void MyTestMethod()
         {
+            var min = TimeSpan.FromMilliseconds(50);
 
+            var it = new InvocationThrottle(min);
+            var tid = Thread.CurrentThread.ManagedThreadId;
+
+            int invocation_count = 0;
+
+            for (int i = 1; i <= 2; i++)
+            {
+                var sw = Stopwatch.StartNew();
+
+                if(i == 2)
+                {
+
+                }
+
+                it.InvokeAsync(() =>
+                {
+                    Interlocked.Increment(ref invocation_count);
+
+                    sw.Stop();
+                    Assert.AreNotEqual(tid, Thread.CurrentThread.ManagedThreadId);
+                    
+                    if(invocation_count == 1)
+                        throw new Exception();
+                });
+
+                Thread.Sleep(75);
+            }
+
+            Thread.Sleep(1000);
+
+            Assert.AreEqual(2, invocation_count);
         }
     }
 }
