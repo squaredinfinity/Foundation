@@ -22,7 +22,7 @@ namespace SquaredInfinity.Foundation.Maths.Parsing
 
             for(int i = 0; i <= m; i++)
             {
-                result[i] = j + i;
+                result[i] = (j + i).RoundToMaxSupportedSignificantFigures();
             }
 
             return result;
@@ -39,7 +39,7 @@ namespace SquaredInfinity.Foundation.Maths.Parsing
 
             for (int ix = 0; ix <= m; ix++)
             {
-                result[ix] = j + ix * i;
+                result[ix] = (j + ix * i).RoundToMaxSupportedSignificantFigures();
             }
 
             return result;

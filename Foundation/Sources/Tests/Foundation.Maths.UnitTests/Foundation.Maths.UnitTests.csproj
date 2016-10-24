@@ -79,6 +79,7 @@
     <Compile Include="Interval.Intersect.tests.cs" />
     <Compile Include="Interval.IntersectsWith.tests.cs" />
     <EmbeddedResource Include="Parsing\SamplePerLine__ValidInput.txt" />
+    <Compile Include="Parsing\ColonOperator.tests.cs" />
     <Compile Include="Parsing\NISTDataFileParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Statistics\Data\NIST\NIST.tests.cs" />

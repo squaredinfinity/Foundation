@@ -17,6 +17,7 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
         {
             public string Context;
             public IContextAwareDataTemplateProvider DataTemplateProvider;
+            public WeakReference<object> Item;
 
             public bool TrySelectTemplate(
                 object item,
@@ -29,6 +30,20 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
 
                 if (DataTemplateProvider == null)
                     return false;
+
+                if (item == null)
+                    return false;
+
+                var cached_item = (object)null;
+
+                if(Item.TryGetTarget(out cached_item))
+                {
+                    if (cached_item == null)
+                        return false;
+
+                    if (cached_item.GetType() != item.GetType())
+                        return false;
+                }
 
                 if (!string.Equals(Context, context))
                     return false;

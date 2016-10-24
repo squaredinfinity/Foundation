@@ -28,8 +28,24 @@ namespace SquaredInfinity.Foundation.Maths.Framework_Extensions.System
             //  NOTE:    
             //      double guarantees precision of 15 digits (17 internall)
             //      this number has 18 digits and cannot be rounded properly    
-            var x = 123456789012345678.0;
-            Assert.IsFalse(123456789012346000.0.IsCloseTo(x.RoundToSignificantFigures(15)));
+
+            try
+            {
+                // this should work
+                var x = 12345678901234567.0;
+                var y = x.RoundToSignificantFigures(15);
+            }
+            catch(Exception)
+            { throw; }
+
+            try
+            {
+                // this shouldn't
+                var x = 123456789012345678.0;
+                var y = x.RoundToSignificantFigures(15);
+            }
+            catch (OverflowException)
+            { /* this was expected */ }
         }
 
         [TestMethod]

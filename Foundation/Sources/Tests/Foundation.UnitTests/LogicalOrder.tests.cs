@@ -16,19 +16,19 @@ namespace Foundation.UnitTests
         {
             // min < max
 
-            Assert.IsTrue(LogicalOrder.Min < LogicalOrder.Max);
+            Assert.IsTrue(LogicalOrder.Last < LogicalOrder.First);
 
             // max > min
 
-            Assert.IsTrue(LogicalOrder.Max > LogicalOrder.Min);
+            Assert.IsTrue(LogicalOrder.First > LogicalOrder.Last);
 
             // undefined < min
 
-            Assert.IsTrue(LogicalOrder.Undefined < LogicalOrder.Min);
+            Assert.IsTrue(LogicalOrder.Undefined < LogicalOrder.Last);
 
             // undefined < max
 
-            Assert.IsTrue(LogicalOrder.Undefined < LogicalOrder.Max);
+            Assert.IsTrue(LogicalOrder.Undefined < LogicalOrder.First);
 
             // undefined == undefined
 

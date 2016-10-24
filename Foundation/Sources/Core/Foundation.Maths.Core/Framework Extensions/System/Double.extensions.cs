@@ -20,15 +20,25 @@ namespace SquaredInfinity.Foundation.Extensions
         public static int MaxOrderOfMagnitude = 308;
 
         /// <summary>
-        /// Default precision used when comparing two double numbers.
+        /// Maximum technically possible precision used when comparing two double numbers.
         /// It is a very small (the smallest possible) number for which 1.0 + DefaultPrecision != 1.0
         /// The distance from 1.0 to the next largest double-precision number, that is eps = 2^(-52). 
         /// Double Mantissa is 52 bits long.
         /// http://msdn.microsoft.com/en-us/library/System.Double(v=vs.110).aspx
         /// </summary>
-        public const double DefaultPrecision = 2.220446049250313080847263336181640625E-16;
+        public const double MaxTheoreticalPrecision = 2.220446049250313080847263336181640625E-16;
 
-        public const double MaxSignificantFigures = 15;
+        /// <summary>
+        /// Reasonable precision that should cover most of use cases
+        /// No arithmetic operation on two doubles should generate a number with error > Reasonable Precision
+        /// e.g. 2.2 + 0.2 = 2.4000000000000004, Reasonable Precision should allow 2.2 + 0.2 == 0.4
+        /// Detects differences of 1E-15
+        /// </summary>
+        public const double MaxSupportedPrecision = 0.000000000000001;
+
+        public const double DefaultPrecision = MaxSupportedPrecision;
+
+        public const int MaxSignificantFigures = 15;
 
         /// <summary>
         /// Checks if two double precision numbers are equal given the precision of [DoubleExtensions.DefaultPrecision]
@@ -334,6 +344,22 @@ namespace SquaredInfinity.Foundation.Extensions
             return RoundDown(d, 0);
         }
 
+        //public static int GetNumberOfSignificantFigures(this double d)
+        //{
+
+        //}
+
+
+        /// <summary>
+        /// Rounds given double to 15 significant figures.
+        /// </summary>
+        /// <param name="d"></param>
+        /// <returns></returns>
+        public static double RoundToMaxSupportedSignificantFigures(this double d)
+        {
+            return d.RoundToSignificantFigures(MaxSignificantFigures);
+        }
+
         public static double RoundToSignificantFigures(this double d, int numberOfSignificantFigures, MidpointRounding mode = MidpointRounding.AwayFromZero)
         {
             if (numberOfSignificantFigures > MaxSignificantFigures)
@@ -508,6 +534,7 @@ namespace SquaredInfinity.Foundation.Extensions
 
         /// <summary>
         /// Round towards zero.
+        /// (method from Matlab: http://uk.mathworks.com/help/matlab/ref/fix.html)
         /// </summary>
         /// <param name="d"></param>
         /// <returns></returns>

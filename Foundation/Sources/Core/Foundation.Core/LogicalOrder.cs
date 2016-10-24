@@ -16,11 +16,12 @@ namespace SquaredInfinity.Foundation
     /// </remarks>
     public struct LogicalOrder : IEquatable<LogicalOrder>, IComparable<LogicalOrder>
     {
-        static readonly uint UndefinedValue = int.MaxValue;
-
-        public static readonly LogicalOrder Min = UndefinedValue - 1;
-        public static readonly LogicalOrder Max = 0;
-        public static readonly LogicalOrder Undefined = UndefinedValue;
+        public const uint UNDEFINED = int.MaxValue;
+        public static readonly LogicalOrder Undefined = UNDEFINED;
+        public const uint LAST = UNDEFINED - 1;
+        public static readonly LogicalOrder Last = UNDEFINED - 1;
+        public static uint FIRST = 0;
+        public static readonly LogicalOrder First = 0;
 
         public uint Value { get; set; }
 
@@ -32,26 +33,26 @@ namespace SquaredInfinity.Foundation
         public LogicalOrder PushBackBy(uint delta)
         {
             // cast to long to avoid int overflow
-            return (uint)Math.Min((long) Value + delta, Min);
+            return (uint)Math.Min((long) Value + delta, Last);
         }
 
         public LogicalOrder BringForwardBy(uint delta)
         {
             // cast to long to avoid overflow
-            return (uint)Math.Max((long)Value - delta, Max);
+            return (uint)Math.Max((long)Value - delta, First);
         }
 
         #region Equality, Hash Code, Comparisons
 
         public int CompareTo(LogicalOrder other)
         {
-            if (Value == UndefinedValue && other.Value == UndefinedValue)
+            if (Value == UNDEFINED && other.Value == UNDEFINED)
                 return 0;
 
-            if (Value == UndefinedValue)
+            if (Value == UNDEFINED)
                 return -1;
 
-            if (other.Value == UndefinedValue)
+            if (other.Value == UNDEFINED)
                 return 1;
 
             return Comparer<uint>.Default.Compare(Value, other.Value) * -1;

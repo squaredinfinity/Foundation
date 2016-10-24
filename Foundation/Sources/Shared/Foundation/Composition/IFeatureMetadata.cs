@@ -10,10 +10,9 @@ namespace SquaredInfinity.Foundation.Composition
     public interface IFeatureMetadata
     {
         // Summary:
-        //     Default: int.MaxValue => will be loaded last, after any other resources with
-        //     custom Import Order
-        [DefaultValue(2147483647)]
-        int ImportOrder { get; }
+        //     Default: LogicalOrder.UndefinedValue, will be loaded in low priority, but before LogicalValue.Min
+        [DefaultValue(LogicalOrder.UNDEFINED)]
+        uint ImportOrder { get; }
 
         string BuildQuality { get; }
     }

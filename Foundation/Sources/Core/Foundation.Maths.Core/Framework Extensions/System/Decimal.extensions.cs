@@ -14,5 +14,7 @@ namespace SquaredInfinity.Foundation.Extensions
         {
             return (d / 1.000000000000000000000000000000000m).ToString();
         }
+
+        
     }
 }

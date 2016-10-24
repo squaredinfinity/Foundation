@@ -11,9 +11,22 @@ namespace SquaredInfinity.Foundation.Composition
     [MetadataAttribute]
     public class FeatureExportMetadataAttribute : ExportAttribute, IFeatureMetadata
     {
-        public FeatureExportMetadataAttribute() { }
+        public FeatureExportMetadataAttribute(string contractName)
+            : base(contractName)
+        { }
 
-        public int ImportOrder { get; set; }
+        public FeatureExportMetadataAttribute(string contractName, Type contractType)
+            : base(contractName, contractType)
+        { }
+
+        public FeatureExportMetadataAttribute(Type contractType)
+            : base(contractType)
+        { }
+
+        public FeatureExportMetadataAttribute()
+        { }
+
+        public uint ImportOrder { get; set; }
 
         public string BuildQuality { get; set; }
     }

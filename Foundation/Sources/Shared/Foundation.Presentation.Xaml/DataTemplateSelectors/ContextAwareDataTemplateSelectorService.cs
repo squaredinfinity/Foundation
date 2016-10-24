@@ -18,6 +18,13 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
 
         Cache InternalCache = new Cache();
 
+        protected bool UseCache { get; set; } = true;
+
+        /// <summary>
+        /// Add selectors in logical order from Highest order to Lowest
+        /// </summary>
+        /// <param name="selector"></param>
+        /// <param name="context"></param>
         public virtual void RegisterDataTemplateSelector(IContextAwareDataTemplateProvider selector, string context = null)
         {
             if (context == null)
@@ -41,7 +48,7 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
             // Internal Cache is used to store last succesfull result.
             // Reason for that is that often same selector is called many times in a row (e.g. when in list view)
             
-            if (InternalCache.TrySelectTemplate(item, container, context, isTooltip, out dt))
+            if (UseCache && InternalCache.TrySelectTemplate(item, container, context, isTooltip, out dt))
                 return dt;
 
             // check this context specific selectors first
@@ -56,8 +63,13 @@ namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
 
                     if (provider.TrySelectTemplate(item, container, context, isTooltip, out dt))
                     {
-                        InternalCache.Context = context;
-                        InternalCache.DataTemplateProvider = provider;
+                        if (UseCache)
+                        {
+                            InternalCache.Context = context;
+                            InternalCache.DataTemplateProvider = provider;
+                            InternalCache.Item = new WeakReference<object>(item);
+                        }
+
                         return dt;
                     }
                 }
