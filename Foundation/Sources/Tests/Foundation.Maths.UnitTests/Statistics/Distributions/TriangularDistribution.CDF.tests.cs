@@ -2,6 +2,7 @@
 using SquaredInfinity.Foundation.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,35 @@ namespace SquaredInfinity.Foundation.Maths.Statistics.Distributions
     [TestClass]
     public partial class TriangularDistribution__CDF
     {
+        //[TestMethod]
+        //public void XXXX()
+        //{
+        //    var ud = new UniformDistribution(0, 100);
+
+        //    var sw = Stopwatch.StartNew();
+
+        //    for(int i = 0; i < 1000000; i++)
+        //    {
+        //        var x = ud.CDF(47.5);
+        //    }
+
+        //    sw.Stop();
+        //    Trace.WriteLine("UD: " + sw.Elapsed.TotalMilliseconds);
+
+
+        //    var td = new TriangularDistribution(0, 100, 50);
+
+        //    sw = Stopwatch.StartNew();
+
+        //    for (int i = 0; i < 1000000; i++)
+        //    {
+        //        var x = td.CDF(47.5);
+        //    }
+
+        //    sw.Stop();
+        //    Trace.WriteLine("TD: " + sw.Elapsed.TotalMilliseconds);
+        //}
+
         [TestMethod]
         public void x_equals_a__returns_0()
         {

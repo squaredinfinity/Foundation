@@ -45,6 +45,7 @@
     <Compile Include="AdditionalStatistic.cs" />
     <Compile Include="Distributions\Distribution.cs" />
     <Compile Include="Distributions\TriangularDistribution.cs" />
+    <Compile Include="Distributions\UniformDistribution.cs" />
     <Compile Include="Total.cs" />
     <Compile Include="Count.cs" />
     <Compile Include="KnownStatistics.cs" />

@@ -18,5 +18,6 @@ namespace SquaredInfinity.Foundation.Maths.Statistics.Distributions
         }
 
         public abstract double PDF(double x);
+        public abstract double CDF(double x);
     }
 }

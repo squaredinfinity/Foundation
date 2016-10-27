@@ -37,5 +37,10 @@ namespace SquaredInfinity.Foundation.Maths.Statistics.Distributions
 
             return x1 * Math.Exp(-x2);
         }
+
+        public override double CDF(double x)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

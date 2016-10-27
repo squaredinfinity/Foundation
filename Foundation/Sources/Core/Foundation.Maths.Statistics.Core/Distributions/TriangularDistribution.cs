@@ -34,7 +34,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics.Distributions
                 throw new ArgumentException("'b' must be greater than 'a', that is a < b ", nameof(b));
 
             if (c.IsLessThan(a) || c.IsGreaterThan(b))
-                throw new ArgumentException("a ≤ c ≤ b", nameof(c));
+                throw new ArgumentException("failed check: a ≤ c ≤ b", nameof(c));
 
             this.a = a;
             this.b = b;
@@ -76,7 +76,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics.Distributions
                 b_minus_a_TIMES_b_minus_c; // (b-a)(b-c)
         }
 
-        public double CDF(double x)
+        public override double CDF(double x)
         {
             // x ≤ a
             if (x.IsLessThanOrClose(a))
