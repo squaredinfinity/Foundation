@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Maths.Statistics.Distributions
 {
-    public class NormalDistribution : IDistribution
+    public class NormalDistribution : Distribution
     {
-        IRandomNumberProvider RandomNumberProvider { get; set; }
-
         public double Mean { get; private set; }
         public double Sigma { get; private set; }
 
@@ -27,9 +25,17 @@ namespace SquaredInfinity.Foundation.Maths.Statistics.Distributions
                 throw new ArgumentException($"{nameof(sigma)} must be a positive number");
         }
 
-        public double GetNext()
+        public override double PDF(double x)
         {
-            return Normal.Calculate(Mean, Sigma, RandomNumberProvider.NextDouble());
+            return PDF(Mean, Sigma, x);
+        }
+
+        public static double PDF(double mean, double sigma, double x)
+        {
+            var x1 = 1 / sigma / Math.Sqrt(2 * Math.PI);
+            var x2 = (x - mean) * (x - mean) / (2 * sigma * sigma);
+
+            return x1 * Math.Exp(-x2);
         }
     }
 }

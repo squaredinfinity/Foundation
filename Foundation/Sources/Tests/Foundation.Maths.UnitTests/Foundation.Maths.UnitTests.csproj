@@ -83,6 +83,7 @@
     <Compile Include="Parsing\NISTDataFileParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Statistics\Data\NIST\NIST.tests.cs" />
+    <Compile Include="Statistics\Distributions\TriangularDistribution.CDF.tests.cs" />
     <Compile Include="Statistics\OnlineStatistics.cs" />
     <Compile Include="Statistics\Range.tests.cs" />
     <Compile Include="Statistics\Variance.tests.cs" />

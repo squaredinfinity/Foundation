@@ -10,31 +10,23 @@ namespace SquaredInfinity.Foundation.Maths.Statistics.Distributions
 {
     public static class Normal
     {
-        public static double Calculate(double mean, double sigma, double x)
-        {
-            var x1 = 1 / sigma / Math.Sqrt(2 * Math.PI);
-            var x2 = (x - mean) * (x - mean) / (2 * sigma * sigma);
+        //public static IReadOnlyList<double> Calculate(double mean, double sigma, IReadOnlyList<double> xs)
+        //{
+        //    var result = new double[xs.Count];
+        //    for(int i = 0; i < xs.Count; i++)
+        //    {
+        //        result[i] = Calculate(mean, sigma, xs[i]);
+        //    }
 
-            return x1 * Math.Exp(-x2);
-        }
+        //    return result;
+        //}
 
-        public static IReadOnlyList<double> Calculate(double mean, double sigma, IReadOnlyList<double> xs)
-        {
-            var result = new double[xs.Count];
-            for(int i = 0; i < xs.Count; i++)
-            {
-                result[i] = Calculate(mean, sigma, xs[i]);
-            }
-
-            return result;
-        }
-
-        public static IObservable<double> Calculate(double mean, double sigma, IObservable<double> xs)
-        {
-            return xs.Select(x =>
-            {
-                return Calculate(mean, sigma, x);
-            });
-        }
+        //public static IObservable<double> Calculate(double mean, double sigma, IObservable<double> xs)
+        //{
+        //    return xs.Select(x =>
+        //    {
+        //        return Calculate(mean, sigma, x);
+        //    });
+        //}
     }
 }

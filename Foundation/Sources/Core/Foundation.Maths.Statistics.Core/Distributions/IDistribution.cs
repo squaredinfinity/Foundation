@@ -9,5 +9,7 @@ namespace SquaredInfinity.Foundation.Maths.Statistics.Distributions
     public interface IDistribution
     {
         double GetNext();
+
+        double PDF(double x);
     }
 }
