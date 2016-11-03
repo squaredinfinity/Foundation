@@ -15,7 +15,6 @@ namespace SquaredInfinity.Foundation.Extensions
         /// <param name="geometry"></param>
         /// <param name="bitmapSize"></param>
         /// <param name="geometryPositionOnBitmap"></param>
-        /// <param name="geometrySize"></param>
         /// <param name="brush">The Brush with which to fill the Geometry. This is optional, and can be null. If the brush is null, no fill is drawn.</param>
         /// <param name="pen">The Pen with which to stroke the Geometry. This is optional, and can be null. If the pen is null, no stroke is drawn</param>
         /// <param name="pixelFormat"></param>
@@ -41,12 +40,9 @@ namespace SquaredInfinity.Foundation.Extensions
 
             var dv = new DrawingVisual();
 
-            using (var ctx = dv.RenderOpen())
+            using (var cx = dv.RenderOpen())
             {
-                if(geometryPositionOnBitmap.X != 0 || geometryPositionOnBitmap.Y != 0)
-                    ctx.PushTransform(new TranslateTransform(geometryPositionOnBitmap.X, geometryPositionOnBitmap.Y));
-
-                ctx.DrawGeometry(brush, pen, geometry);
+                cx.Render(geometry, geometryPositionOnBitmap, brush, pen);
             }
 
             rtb.Render(dv);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Media;
 
-namespace SquaredInfinity.Foundation.Presentation.Media
+namespace SquaredInfinity.Foundation.Extensions
 {
     public class DrawingRenderInfo
     {

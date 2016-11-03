@@ -43,7 +43,6 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
             Blit(destination_rect, source, source_rect, 255, 255, 255, 255, blendMode);
         }
 
-
         /// <summary>
         /// http://en.wikipedia.org/wiki/Alpha_compositing
         /// </summary>
@@ -166,10 +165,7 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
                                     if (source_pixel != 0)
                                     {
                                         source_alpha = ((source_pixel >> 24) & 0xff);
-                                        source_red = ((source_pixel >> 16) & 0xff);
-                                        source_green = ((source_pixel >> 8) & 0xff);
-                                        source_blue = ((source_pixel) & 0xff);
-
+                                        
                                         // tint the pixel if needed
                                         if (is_tinted && source_alpha != 0)
                                         {
@@ -179,6 +175,12 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
                                             source_blue = ((((((source_blue * blue) * 0x8081) >> 23) * alpha) * 0x8081) >> 23);
 
                                             source_pixel = (source_alpha << 24) | (source_red << 16) | (source_green << 8) | source_blue;
+                                        }
+                                        else
+                                        {
+                                            source_red = ((source_pixel >> 16) & 0xff);
+                                            source_green = ((source_pixel >> 8) & 0xff);
+                                            source_blue = ((source_pixel) & 0xff);
                                         }
                                     }
                                     else
@@ -220,14 +222,14 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
                                     continue;
                                 }
 
-                                // get destination pixel rgb values
-                                destination_red = ((destPixel >> 16) & 0xff);
-                                destination_green = ((destPixel >> 8) & 0xff);
-                                destination_blue = ((destPixel) & 0xff);
-
                                 if (blendMode == BlendMode.Alpha)
                                 {
                                     var isa = 255 - source_alpha;
+
+                                    // get destination pixel rgb values
+                                    destination_red = ((destPixel >> 16) & 0xff);
+                                    destination_green = ((destPixel >> 8) & 0xff);
+                                    destination_blue = ((destPixel) & 0xff);
 
                                     destPixel = (((((source_alpha << 8) + isa * destination_alpha) >> 8) & 0xff) << 24) |
                                                 (((((source_red << 8) + isa * destination_red) >> 8) & 0xff) << 16) |

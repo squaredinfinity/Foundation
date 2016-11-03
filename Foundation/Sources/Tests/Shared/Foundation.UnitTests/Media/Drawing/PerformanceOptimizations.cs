@@ -270,7 +270,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             pc.DrawLineDDA(1, 1, 1, 8, foreground);
             pc.DrawLineDDA(2, 1, 2, 8, background);
             
-            pc.DrawLineDDA(4, 1, 4, 2, pc.GetColor((int)(out_a ),(int)(out_r ), (int)(out_g ),(int)(out_b )));
+            pc.DrawLineDDA(4, 1, 4, 2, PixelCanvas.GetColor((int)(out_a ),(int)(out_r ), (int)(out_g ),(int)(out_b )));
 
             var pc3 = new PixelArrayCanvas(10,10);
             pc3.DrawLineDDA(4,3,4,5, foreground);
@@ -282,7 +282,7 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             out_g = foreground_g + (background_g) * (1 - foreground_a) / out_a;
             out_b = foreground_b + (background_b) * (1 - foreground_a) / out_a;
 
-            pc.DrawLineDDA(4, 6, 4, 8, pc.GetColor((int)(out_a ), (int)(out_r ), (int)(out_g ), (int)(out_b )));
+            pc.DrawLineDDA(4, 6, 4, 8, PixelCanvas.GetColor((int)(out_a ), (int)(out_r ), (int)(out_g ), (int)(out_b )));
             
             pc.Save(@"c:\temp\blend_xxx.bmp");
 

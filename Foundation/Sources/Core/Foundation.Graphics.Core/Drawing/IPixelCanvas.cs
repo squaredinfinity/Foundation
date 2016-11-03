@@ -45,9 +45,12 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
         void DrawRectangle(int x1, int y1, int x2, int y2, int color);
 
         void DrawLine(int x1, int y1, int x2, int y2, int color);
+        void DrawLine(int x1, int y1, int x2, int y2, IPixelCanvas pen, BlendMode blendMode = BlendMode.Copy);
 
         void DrawLineDDA(Rectangle bounds, int x1, int y1, int x2, int y2, int color);
+        void DrawLineDDA(Rectangle bounds, int x1, int y1, int x2, int y2, IPixelCanvas pen, BlendMode blendMode = BlendMode.Copy);
         void DrawLineDDA(int x1, int y1, int x2, int y2, int color);
+        void DrawLineDDA(int x1, int y1, int x2, int y2, IPixelCanvas pen, BlendMode blendMode = BlendMode.Copy);
 
         /// <summary>
         /// Draws smooth line using Wu Algorithm
@@ -59,9 +62,7 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
 
         void Clear(int color);
         void Clear();
-
-        int GetColor(int a, int r, int g, int b);
-
+        
         void Blit(IPixelCanvas source, BlendMode blendMode);
         
         void Blit(

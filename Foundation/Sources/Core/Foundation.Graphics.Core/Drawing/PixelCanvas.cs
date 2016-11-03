@@ -81,13 +81,24 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
 
         public abstract int this[int position] {  get; set; }
 
+        public void SetPixelSafe(int x, int y, int color)
+        {
+            if (x < 0 || x > Width)
+                return;
+
+            if (y < 0 || y > Height)
+                return;
+
+            this[x, y] = color;
+        }
+
         public abstract int[] GetRow(int row);
 
         public abstract void SetRow(int row, int[] pixels);
 
         public abstract void Resize(int width, int height);
 
-        public int GetColor(int a, int r, int g, int b)
+        public static int GetColor(int a, int r, int g, int b)
         {
             // #    Overview
             //      ARGB channels have 1 byte each

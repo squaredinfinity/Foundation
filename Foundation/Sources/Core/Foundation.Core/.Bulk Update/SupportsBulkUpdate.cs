@@ -21,12 +21,17 @@ namespace SquaredInfinity.Foundation
 
         public IBulkUpdate BeginBulkUpdate()
         {
+            OnBeforeBeginBulkUpdate();
+
             var write_lock = Lock.AcquireWriteLockIfNotHeld();
 
             Interlocked.Increment(ref BulkUpdateCount);
 
             return new BulkUpdate(this, write_lock);
         }
+
+        protected void OnBeforeBeginBulkUpdate()
+        { }
 
         public void EndBulkUpdate(IBulkUpdate bulkUpdate)
         {

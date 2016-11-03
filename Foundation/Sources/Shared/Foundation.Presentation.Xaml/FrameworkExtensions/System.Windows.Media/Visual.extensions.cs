@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,12 +48,18 @@ namespace SquaredInfinity.Foundation.Extensions
             if (cv != null)
             {
                 var bounds = cv.DescendantBounds;
-                return visual.RenderToBitmap(bounds.Size, bounds.Location, bounds.Size, pixelFormat);
+
+                var size = new Size(bounds.Right, bounds.Bottom);
+
+                return visual.RenderToBitmap(size, bounds.Location, bounds.Size, pixelFormat);
             }
             else
             {
                 var bounds = VisualTreeHelper.GetDescendantBounds(visual);
-                return visual.RenderToBitmap(bounds.Size, bounds.Location, bounds.Size, pixelFormat);
+
+                var size = new Size(bounds.Right, bounds.Bottom);
+
+                return visual.RenderToBitmap(size, bounds.Location, bounds.Size, pixelFormat);
             }
         }
 
@@ -113,63 +120,31 @@ namespace SquaredInfinity.Foundation.Extensions
                                              dpiY,
                                              pixelFormat);
 
-            var dv = new DrawingVisual();
+            var dv = visual as DrawingVisual;
 
-            // size visual if needed
-            var fElement = visual as FrameworkElement;
-            var old_size = (Size?)null;
-
-            if (fElement != null)
+            if (dv != null)
             {
-                if (!fElement.ActualHeight.IsCloseTo(visualSize.Height) || !fElement.ActualWidth.IsCloseTo(visualSize.Width))
-                {
-                    old_size = new Size(fElement.Width, fElement.Height);
+                var transform = new TranslateTransform(-dv.ContentBounds.Left,-dv.ContentBounds.Top);
+                transform.Freeze();
 
-                    fElement.Width = visualSize.Width;
-                    fElement.Height = visualSize.Height;
-                    fElement.Arrange(new Rect(visualSize));
-                    fElement.UpdateLayout();
+                dv.Transform = transform;
+                
+                rtb.Render(dv);
+
+                dv.Transform = null;
+            }
+            else
+            {
+                dv = new DrawingVisual();
+
+                using (var ctx = dv.RenderOpen())
+                {
+                    ctx.Render(visual, visualPositionOnBitmap, visualSize, flowDirection);
                 }
+
+                rtb.Render(dv);
             }
 
-            using (var ctx = dv.RenderOpen())
-            {
-                var vb = new VisualBrush(visual);
-
-                if (flowDirection == FlowDirection.RightToLeft)
-                {
-                    var transformGroup = new TransformGroup();
-
-                    transformGroup.Children.Add(new ScaleTransform(-1, 1));
-
-                    transformGroup.Children.Add(new TranslateTransform(visualSize.Width - 1, 0));
-
-                    ctx.PushTransform(transformGroup);
-                }
-
-                ctx.DrawRectangle(vb, null, new Rect(visualPositionOnBitmap, visualSize));
-
-                if (flowDirection == FlowDirection.RightToLeft)
-                    ctx.Pop();
-            }
-
-            rtb.Render(dv);
-
-            if (fElement != null && old_size != null)
-            {
-                fElement.Width = old_size.Value.Width;
-                fElement.Height = old_size.Value.Height;
-
-                if (old_size.Value.Width.IsInfinityOrNaN() || old_size.Value.Height.IsInfinityOrNaN())
-                {
-                    fElement.InvalidateVisual();
-                }
-                else
-                {
-                    fElement.Arrange(new Rect(old_size.Value));
-                    fElement.UpdateLayout();
-                }
-            }
 
             return rtb;
         }

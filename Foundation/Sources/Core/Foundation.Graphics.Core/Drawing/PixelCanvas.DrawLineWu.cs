@@ -99,7 +99,7 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
 
 
             // draw initial pixel at full intensity
-            this[x1, y1] = color; // todo: blend source with dest, when option is added
+            SetPixelSafe(x1, y1, color); // todo: blend source with dest, when option is added
 
             // previously we swapped points based on y position (from top to bottom)
             // now lets see what the relation of x positions is
@@ -126,7 +126,7 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
                 {
                     x1 += x_step;
 
-                    this[x1, y1] = color; // todo: alpha blend
+                    SetPixelSafe(x1, y1, color); // todo: alpha blend
                 }
 
                 return;
@@ -137,7 +137,7 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
                 while (delta_y-- != 0)
                 {
                     y1++;
-                    this[x1, y1] = color; // todo: alpha blend
+                    SetPixelSafe(x1, y1, color); // todo: alpha blend
                 }
 
                 return;
@@ -149,7 +149,7 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
                 {
                     x1 += x_step;
                     y1++;
-                    this[x1, y1] = color; // todo: alpha blend
+                    SetPixelSafe(x1, y1, color); // todo: alpha blend
                 }
                 return;
             }
@@ -208,7 +208,7 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
                     //var destination_green = ((destination_color >> 8) & 0xff); // 255
                     //var destination_blue = ((destination_color) & 0xff); // 255
 
-                    this[x1 + x_step, y1] = weighted_color;
+                    SetPixelSafe(x1 + x_step, y1, weighted_color); 
 
                     weight = intensity ^ WEIGHT_COMPLEMENT_MASK;
 
@@ -218,7 +218,7 @@ namespace SquaredInfinity.Foundation.Graphics.Drawing
                         (((source_green * weight) >> 8) << 8) |
                         ((source_blue * weight) >> 8);
 
-                    this[x1, y1] = weighted_color;
+                    SetPixelSafe(x1, y1, weighted_color);
                 }
             }
             else // it is X-major line

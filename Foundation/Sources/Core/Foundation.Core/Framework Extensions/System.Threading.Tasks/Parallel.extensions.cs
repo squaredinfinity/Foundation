@@ -66,21 +66,54 @@ namespace SquaredInfinity.Foundation.Extensions
 
         public static ParallelLoopResult ForEach<TSource>(IEnumerable<TSource> source, ParallelOptions options, Action<TSource> body)
         {
-            var collection = source as ICollection;
-
-            if (collection != null)
+            if (options.MaxDegreeOfParallelism == 1)
             {
-                if (collection.Count == 0)
-                    return CompletedResult;
+                var collection = source as ICollection;
 
-                if (collection.Count == 1)
+                if (collection != null)
                 {
-                    body(source.First());
-                    return CompletedResult;
+                    if (collection.Count == 0)
+                        return CompletedResult;
+
+                    if (collection.Count == 1)
+                    {
+                        body(source.First());
+                        return CompletedResult;
+                    }
                 }
+                else
+                {
+                    foreach(var item in source)
+                    {
+                        if (options.CancellationToken.IsCancellationRequested)
+                            return CompletedResult;
+
+                        body(item);
+                    }
+                }
+
+                return CompletedResult;
             }
 
             return Parallel.ForEach(source, options, body);
+        }
+
+        public static ParallelLoopResult For(int fromInclusive, int toExclusive, ParallelOptions options, Action<int> body)
+        {
+            if (options.MaxDegreeOfParallelism == 1)
+            {
+                for (int i = 0; i < toExclusive; i++)
+                {
+                    if (options.CancellationToken.IsCancellationRequested)
+                        return CompletedResult;
+
+                    body(i);
+                }
+
+                return CompletedResult;
+            }
+
+            return Parallel.For(fromInclusive, toExclusive, options, body);
         }
 
         public static void ForEachNoWait<TSource>(IEnumerable<TSource> source, Action<TSource> body)

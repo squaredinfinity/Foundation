@@ -13,6 +13,7 @@ using System.Windows;
 using SquaredInfinity.Foundation.Graphics.Drawing;
 using SquaredInfinity.Foundation.Maths.Space2D;
 using SquaredInfinity.Foundation.Media.Drawing;
+using System.Threading;
 
 namespace SquaredInfinity.Foundation.Media.Drawing
 {
@@ -22,21 +23,210 @@ namespace SquaredInfinity.Foundation.Media.Drawing
         [TestMethod]
         public void Blit()
         {
-            int count = 100;
+            var rd = new Random();
+
+            var rc = new RawDrawCommand((pc, ct) =>
+            {
+                pc.DrawRectangle(10, 10, 20, 20, pc.GetColor(Colors.Red));
+            });
+
+            var wpfc = new WpfDrawingContextDrawCommand((pc, cx, ct) =>
+            {
+                var c = pc.GetColor(Colors.Turquoise);
+
+                var pen = new Pen(Brushes.Turquoise, 2.0);
+                pen.Freeze();
+
+                for (int i = 0; i < 100; i++)
+                {
+                    var p1 =
+                    new Point(
+                            rd.Next(1000, 1300),
+                            rd.Next(1000, 1300));
+
+                    var p2 =
+                    new Point(
+                            rd.Next(1000, 1300),
+                            rd.Next(1000, 1300));
+
+                    if (p1.ToPoint2D().Distance(p2.ToPoint2D()).IsLessThan(1))
+                        continue;
+
+                    pc.DrawLineWu((int)p1.X, (int)p1.Y, (int)p2.X, (int)p2.Y, c);
+                    //_cx.DrawLine(pen, p1, p2);
+                }
+            });
+
+            var wpfc2 = new WpfDrawingContextDrawCommand((pc, cx, ct) =>
+            {
+                for (int i = 0; i < 1000; i++)
+                {
+                    var pen = new Pen(Brushes.Moccasin, 2.0);
+                    pen.Freeze();
+
+                    cx.DrawLine(pen,
+                        new Point(
+                            rd.Next(750, 900),
+                            rd.Next(750, 900)),
+                        new Point(
+                            rd.Next(750, 900),
+                            rd.Next(750, 900)));
+                }
+            });
+
+            var wpfc3 = new WpfDrawingContextDrawCommand((pc, cx, ct) =>
+            {
+                for (int i = 0; i < 1000; i++)
+                {
+                    var pen = new Pen(Brushes.Moccasin, 2.0);
+                    pen.Freeze();
+
+                    cx.DrawLine(pen,
+                        new Point(
+                            rd.Next(500, 600),
+                            rd.Next(500, 600)),
+                        new Point(
+                            rd.Next(500, 600),
+                            rd.Next(500, 600)));
+                }
+            });
+
+            var wpfc4 = new WpfDrawingContextDrawCommand((pc, cx, ct) =>
+            {
+                for (int i = 0; i < 1000; i++)
+                {
+                    var pen = new Pen(Brushes.Ivory, 2.0);
+                    pen.Freeze();
+
+                    cx.DrawLine(pen,
+                        new Point(
+                            rd.Next(0, 2000),
+                            rd.Next(50, 2500)),
+                        new Point(
+                            rd.Next(0, 2000),
+                            rd.Next(50, 2500)));
+                }
+            });
+
+            var wpfc5 = new WpfDrawingContextDrawCommand((pc, cx, ct) =>
+            {
+                for (int i = 0; i < 1000; i++)
+                {
+                    var pen = new Pen(Brushes.Navy, 2.0);
+                    pen.Freeze();
+
+                    cx.DrawLine(pen,
+                        new Point(
+                            rd.Next(0, 2000),
+                            rd.Next(50, 500)),
+                        new Point(
+                            rd.Next(0, 2000),
+                            rd.Next(50, 500)));
+                }
+            });
+
+            var wpfc6 = new WpfDrawingContextDrawCommand((pc, cx, ct) =>
+            {
+                for (int i = 0; i < 1000; i++)
+                {
+                    var pen = new Pen(Brushes.Crimson, 2.0);
+                    pen.Freeze();
+
+                    cx.DrawLine(pen,
+                        new Point(
+                            rd.Next(100, 200),
+                            rd.Next(100, 200)),
+                        new Point(
+                            rd.Next(100, 200),
+                            rd.Next(100, 200)));
+                }
+            });
+
+            var wpfc7 = new WpfDrawingContextDrawCommand((pc, cx, ct) =>
+            {
+                for (int i = 0; i < 1000; i++)
+                {
+                    var pen = new Pen(Brushes.Coral, 2.0);
+                    pen.Freeze();
+
+                    cx.DrawLine(pen,
+                        new Point(
+                            rd.Next(0, 50),
+                            rd.Next(0, 50)),
+                        new Point(
+                            rd.Next(0, 50),
+                            rd.Next(0, 50)));
+                }
+            });
 
             var sw = Stopwatch.StartNew();
+            var canvas = new PixelArrayCanvas(2000, 2000);
+            Trace.WriteLine("CREATED " + sw.GetElapsedAndRestart().TotalMilliseconds);
+            //pc.Execute(new CanvasCommand[] { rc, wpfc, wpfc2, wpfc3, wpfc4, wpfc5, wpfc6, wpfc7 });
+            canvas.Execute(new CanvasCommand[] { rc, wpfc }, CancellationToken.None);
+            Trace.WriteLine("EXECUTE " + sw.GetElapsedAndRestart().TotalMilliseconds);
+            var bmp = canvas.ToWriteableBitmap();
+            Trace.WriteLine("BMP " + sw.GetElapsedAndRestart().TotalMilliseconds);
+            canvas.Save(@"c:\temp\shit\1.png");
+            Trace.WriteLine("SAVE " + sw.GetElapsedAndRestart().TotalMilliseconds);
 
-            Render(count, 100);
 
-            Trace.WriteLine("100x100: " + sw.GetElapsedAndRestart().TotalMilliseconds);
+            //InvocationThrottle t = new InvocationThrottle();
 
-            Render(count, 1000);
+            //var total_ms = 0.0;
 
-            Trace.WriteLine("1kx1k: " + sw.GetElapsedAndRestart().TotalMilliseconds);
+            //for (int i = 0; i < 10000; i++)
+            //{
+            //    Thread.Sleep(10);
+            //    var g = Guid.NewGuid();
 
-            Render(count, 2000);
+            //    var sw = Stopwatch.StartNew();
+            //    t.InvokeAsync((ct) =>
+            //    {
+            //        Thread.Sleep(75);
+            //        Trace.WriteLine("RUN TO COMPLETION");
+            //    });
 
-            Trace.WriteLine("2kx2k: " + sw.GetElapsedAndRestart().TotalMilliseconds);
+            //    sw.Stop();
+            //    total_ms += sw.Elapsed.TotalMilliseconds;
+            //    Trace.WriteLine("WAIT: " + sw.Elapsed.Milliseconds);
+            //    Trace.WriteLine("WAIT ALL: " + total_ms);
+            //}
+
+            //Thread.Sleep(10000);
+
+            //var sw = Stopwatch.StartNew();
+
+            ////for (int i = 0; i < 10000; i++)
+            //{
+            //    var pen = new PixelArrayCanvas(10, 10);
+            //    pen.DrawRectangle(0, 0, 3, 3, pen.GetColor(Colors.Red));
+
+            //    var cv = new PixelArrayCanvas(1000, 1000);
+            //    cv.DrawLineWu(100, 100, 900, 900, cv.GetColor(Colors.Red));
+
+            //    cv.Save(@"c:\temp\shit\1.png");
+            //}
+
+            //sw.Stop();
+
+            //Trace.WriteLine(sw.Elapsed.TotalMilliseconds);
+
+            //int count = 100;
+
+            //var sw = Stopwatch.StartNew();
+
+            //Render(count, 100);
+
+            //Trace.WriteLine("100x100: " + sw.GetElapsedAndRestart().TotalMilliseconds);
+
+            //Render(count, 1000);
+
+            //Trace.WriteLine("1kx1k: " + sw.GetElapsedAndRestart().TotalMilliseconds);
+
+            //Render(count, 2000);
+
+            //Trace.WriteLine("2kx2k: " + sw.GetElapsedAndRestart().TotalMilliseconds);
         }
 
         void Render(int points, int size)

@@ -104,8 +104,27 @@ namespace SquaredInfinity.Foundation
             }
         }
 
+        public void Cancel(bool forced = true)
+        {
+            lock(Sync)
+            {
+                if(CurrentWorkItem != null)
+                {
+                    if (forced || !CurrentWorkItem.MustRunToCompletion)
+                    {
+                        CurrentWorkItem.CancellationTokenSource.Cancel();
+                    }
+                }
+
+                if (PendingWorkItem != null)
+                    PendingWorkItem = null;
+            }
+        }
+
         void OnNext()
         {
+            var work_item = (InvocationThrottleWorkItem)null;
+
             lock (Sync)
             {
                 if (CurrentWorkItem != null)
@@ -125,67 +144,86 @@ namespace SquaredInfinity.Foundation
                 CurrentWorkItem = PendingWorkItem;
                 PendingWorkItem = null;
 
-                var wi = CurrentWorkItem;
+                work_item = CurrentWorkItem;
 
-                wi.CancellationTokenSource = new CancellationTokenSource();
+                work_item.CancellationTokenSource = new CancellationTokenSource();
+            }
 
+            Debug.WriteLine($"On Next, Task.StartNew");
+
+            work_item.Task = Task.Factory.StartNew((_wi) =>
+            {
+                var wi = (InvocationThrottleWorkItem)_wi;
                 var ct = wi.CancellationTokenSource.Token;
 
-                wi.Task = Task.Factory.StartNew(() =>
-                {
-                    bool success = false;
+                bool success = false;
 
-                    try
+                try
+                {
+                    if (ct.IsCancellationRequested)
                     {
-                        if (ct.IsCancellationRequested)
+                        Debug.WriteLine($"Invoke, canceled before started {wi.Id}");
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"Invoke, {wi.Id}");
+                        wi.Action(wi.State, wi, ct);
+                        Debug.WriteLine($"Invoke success, {wi.Id}");
+                        success = true;
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    Debug.WriteLine($"Invoke, canceled {wi.Id}");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Invoke, exception {wi.Id}");
+                }
+
+                lock (Sync)
+                {
+                    if (ct.IsCancellationRequested)
+                        success = false;
+
+                    var utc_now = DateTime.UtcNow;
+
+                    var old_current = CurrentWorkItem;
+
+                    CurrentWorkItem = null;
+
+                    if (success)
+                        wi.CompleteTimeUtc = DateTime.UtcNow;
+
+                    // check if there is a task pending
+                    if (PendingWorkItem != null)
+                    {
+                        // it is, but within min,
+                        // or last call failed
+                        // reset timer to start from now
+                        if (success && utc_now - PendingWorkItem.RequestWindowTimeUTC < Min)
                         {
-                            Debug.WriteLine($"Invoke, canceled before started {wi.Id}");
+                            Debug.WriteLine($"Invoke, pending should be triggered by timer, old current: {wi.Id}, pending: {PendingWorkItem.Id}");
+                            // nothing to do here, timer will take care of it
+                            return;
                         }
                         else
                         {
-                            Debug.WriteLine($"Invoke, {wi.Id}");
-                            wi.Action(wi.State, wi, ct);
-                            Debug.WriteLine($"Invoke success, {wi.Id}");
-                            success = true;
-                        }
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        Debug.WriteLine($"Invoke, canceled {wi.Id}");
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine($"Invoke, exception {wi.Id}");
-                    }
+                            // last call failed
+                            // or success but pending is waiting > min
 
-                    lock (Sync)
-                    {
-                        if (ct.IsCancellationRequested)
-                            success = false;
-
-                        var utc_now = DateTime.UtcNow;
-
-                        CurrentWorkItem = null;
-
-                        if (success)
-                            wi.CompleteTimeUtc = DateTime.UtcNow;
-
-                        // check if there is a task pending
-                        if (PendingWorkItem != null)
-                        {
-                            // it is, but within min,
-                            // or last call failed
-                            // reset timer to start from now
-                            if (success && utc_now - PendingWorkItem.RequestWindowTimeUTC < Min)
+                            // make sure to update window, if current failed
+                            if (!success)
                             {
-                                Debug.WriteLine($"Invoke, pending should be triggered by timer, old current: {wi.Id}, pending: {PendingWorkItem.Id}");
-                                // nothing to do here, timer will take care of it
-                                return;
-                            }
-                            else
-                            {
-                                // last call failed
-                                // or success but pending is waiting > min
+                                if (PendingWorkItem.RequestWindowTimeUTC > old_current.RequestWindowTimeUTC)
+                                    PendingWorkItem.RequestWindowTimeUTC = old_current.RequestWindowTimeUTC;
+
+                                // total window past Max waiting period, invoke
+                                if (Max != null && PendingWorkItem.RequestTimeUTC - PendingWorkItem.RequestWindowTimeUTC >= Max)
+                                {
+                                    // past Max waiting time, invoke and ensure runs to completion
+                                    PendingWorkItem.MustRunToCompletion = true;
+                                }
 
                                 // invoke pending action immediately, since its been waiting long enough
                                 Debug.WriteLine($"Invoke, Calling On Next, old current: {wi.Id}, pending: {PendingWorkItem.Id}");
@@ -193,15 +231,16 @@ namespace SquaredInfinity.Foundation
                                 return;
                             }
                         }
-                        else
-                        {
-                            // no work items pending
-                            // nothing else to do here
-                            Debug.WriteLine($"Invoke, no more pending items, do nothing {wi.Id}");
-                        }
                     }
-                }, CancellationToken.None, TaskCreationOptions.None, Scheduler);
-            }
+                    else
+                    {
+                        // no work items pending
+                        // nothing else to do here
+                        Debug.WriteLine($"Invoke, no more pending items, do nothing {wi.Id}");
+                    }
+                }
+
+            }, work_item, CancellationToken.None, TaskCreationOptions.None, Scheduler);
         }
 
         public void InvokeAsync(Action action)
@@ -234,10 +273,16 @@ namespace SquaredInfinity.Foundation
             if (cancellableActionWithState == null)
                 throw new ArgumentNullException(nameof(cancellableActionWithState));
 
+            var invocation_time = DateTime.UtcNow;
+
+            var current_item = CurrentWorkItem;
+            if (current_item != null && current_item.RequestTimeUTC >= invocation_time)
+                return;
+
             lock (Sync)
             {
                 var wi = new InvocationThrottleWorkItem();
-                wi.RequestTimeUTC = DateTime.UtcNow;
+                wi.RequestTimeUTC = invocation_time;
                 wi.State = state;
                 wi.Action = cancellableActionWithState;
 
@@ -246,24 +291,27 @@ namespace SquaredInfinity.Foundation
                 // Pending request alredy exists
                 if (PendingWorkItem != null)
                 {
-                    // within min distance of last pending request
-                    if (DateTime.UtcNow - PendingWorkItem.RequestTimeUTC < Min)
+                    // update window request time (to be able to check for max later)
+                    wi.RequestWindowTimeUTC = PendingWorkItem.RequestWindowTimeUTC;
+                    wi.MustRunToCompletion = PendingWorkItem.MustRunToCompletion;
+
+                    // total window past Max waiting period, invoke
+                    if (Max != null && invocation_time - wi.RequestWindowTimeUTC >= Max)
                     {
-                        // update window request time (to be able to check for max later)
-                        wi.RequestWindowTimeUTC = PendingWorkItem.RequestWindowTimeUTC;
+                        // past Max waiting time, invoke and ensure runs to completion
+                        wi.MustRunToCompletion = true;
+                        PendingWorkItem = wi;
+                        Debug.WriteLine($"Invoke Async, must run to completion {wi.Id}");
+                        OnNextIfReady();
+                        return;
+                    }
+
+                    // within min distance of last pending request
+                    if (invocation_time - PendingWorkItem.RequestTimeUTC < Min)
+                    {
                         PendingWorkItem = wi;
 
-                        // past Max waiting period, invoke
-                        if (Max != null && DateTime.UtcNow - wi.RequestWindowTimeUTC >= Max)
-                        {
-                            // past Max waiting time, invoke and ensure runs to completion
-                            wi.MustRunToCompletion = true;
-                            Debug.WriteLine($"Invoke Async, must run to completion {wi.Id}");
-                            OnNextIfReady();
-                            return;
-                        }
-
-                        Debug.WriteLine($"Invoke Async, Reset Timer, RequestWindow: {wi.RequestTimeUTC}, {wi.Id}");
+                        Debug.WriteLine($"Invoke Async, Reset Timer, RequestWindow: {wi.RequestTimeUTC}, req-window: {(wi.RequestTimeUTC - wi.RequestWindowTimeUTC).TotalMilliseconds} ms, {wi.Id}");
                         ResetMinTimer();
 
                         return;
