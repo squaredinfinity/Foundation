@@ -80,6 +80,15 @@ namespace SquaredInfinity.Foundation.Extensions
     { 
         public static void Execute(this IPixelCanvas pc, IReadOnlyList<CanvasCommand> commands, CancellationToken ct)
         {
+            Execute(pc, () => new DrawingVisual(), commands, ct);
+        }
+
+        public static void Execute(
+            this IPixelCanvas pc,
+            Func<DrawingVisual> createDrawingVisual,
+            IReadOnlyList<CanvasCommand> commands, 
+            CancellationToken ct)
+        {
             var wpf_drawing_visual = (DrawingVisual)null;
             var wpf_drawing_context = (DrawingContext)null;
 
@@ -121,7 +130,7 @@ namespace SquaredInfinity.Foundation.Extensions
                 {
                     if(wpf_drawing_context == null)
                     {
-                        wpf_drawing_visual = new DrawingVisual();
+                        wpf_drawing_visual = createDrawingVisual();
                         wpf_drawing_context = wpf_drawing_visual.RenderOpen();
                     }
 

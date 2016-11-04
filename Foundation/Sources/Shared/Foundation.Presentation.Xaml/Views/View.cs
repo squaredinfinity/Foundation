@@ -257,6 +257,7 @@ namespace SquaredInfinity.Foundation.Presentation.Views
 
             this.Initialized += View_Initialized;
             this.Loaded += View_Loaded;
+            this.Unloaded += View_Unloaded;
         }
 
 
@@ -311,6 +312,11 @@ namespace SquaredInfinity.Foundation.Presentation.Views
         void View_Loaded(object sender, RoutedEventArgs e)
         {
             InitializeViewModelIfNeeded();
+        }
+
+        void View_Unloaded(object sender, RoutedEventArgs e)
+        {
+            ViewModel.Cleanup();
         }
 
         protected virtual void OnAfterDataContextChanged() { }

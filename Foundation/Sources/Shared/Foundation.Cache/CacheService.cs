@@ -9,7 +9,7 @@ namespace SquaredInfinity.Foundation.Cache
 {
     public partial class CacheService : ICacheService
     {
-        MemoryCache Cache = new MemoryCache("SquaredInfinity.Foundation.CacheService");
+        readonly MemoryCache Cache;
 
         ConcurrentDictionary<string, ILock> KeyLocks = new ConcurrentDictionary<string, ILock>(concurrencyLevel: 64, capacity: 2048);
 
@@ -168,10 +168,7 @@ namespace SquaredInfinity.Foundation.Cache
 
         public virtual void ClearAll()
         {
-            var oldCache = Cache;
-            Cache = new MemoryCache("CacheService");
-
-            oldCache.Dispose();
+            Cache.Trim(100);
 
             KeyLocks.Clear();
         }
@@ -196,12 +193,17 @@ namespace SquaredInfinity.Foundation.Cache
         }
 
         public CacheService()
-            : this(isCacheEnabled: true)
+            : this(new MemoryCache("SquaredInfinity.Foundation.CacheService"), isCacheEnabled: true)
         { }
 
         public CacheService(bool isCacheEnabled)
+            : this(new MemoryCache("SquaredInfinity.Foundation.CacheService"), isCacheEnabled)
+        { }
+
+        public CacheService(MemoryCache cache, bool isCacheEnabled)
         {
             IsCacheEnabled = isCacheEnabled;
+            Cache = cache;
         }
 
     }

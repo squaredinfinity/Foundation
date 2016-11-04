@@ -88,5 +88,13 @@ namespace SquaredInfinity.Foundation.Presentation.ViewModels
         }
 
         #endregion
+
+        public void Cleanup()
+        {
+            OnCleanup();
+        }
+
+        protected virtual void OnCleanup()
+        { }
     }
 }
