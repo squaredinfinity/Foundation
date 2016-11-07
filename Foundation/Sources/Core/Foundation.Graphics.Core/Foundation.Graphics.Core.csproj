@@ -70,6 +70,8 @@
     <Compile Include="Drawing\PixelCanvas.Clear.cs" />
     <Compile Include="Drawing\PixelCanvas.CohenSutherland.cs" />
     <Compile Include="Drawing\PixelCanvas.cs" />
+    <Compile Include="Drawing\PixelCanvas.DrawLineAA.cs" />
+    <Compile Include="Drawing\PixelCanvas.DrawRectangle.cs" />
     <Compile Include="Drawing\PixelCanvas.DrawLine.cs" />
     <Compile Include="Drawing\PixelCanvas.DrawLineWu.cs" />
     <Compile Include="Drawing\PixelCanvas.IDisposable.cs" />
