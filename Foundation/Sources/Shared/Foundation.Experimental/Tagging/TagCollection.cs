@@ -28,7 +28,7 @@ namespace SquaredInfinity.Foundation.Tagging
         {
             get
             {
-                return string.Join(",", this);
+                return "Tags: " + string.Join(",", this);
             }
         }
 
