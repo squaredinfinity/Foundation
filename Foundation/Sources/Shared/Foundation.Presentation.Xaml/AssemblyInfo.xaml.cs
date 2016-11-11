@@ -15,5 +15,7 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition(@"http://schemas.squaredinfinity.com/foundation/media",                  "SquaredInfinity.Foundation.Presentation.Media")]
 [assembly: XmlnsDefinition(@"http://schemas.squaredinfinity.com/foundation/windows",                "SquaredInfinity.Foundation.Presentation.Windows")]
 
+[assembly: XmlnsDefinition(@"http://schemas.squaredinfinity.com/foundation/internal",               "SquaredInfinity.Foundation.Presentation.Internal")]
+
 [assembly: XmlnsDefinition(@"http://schemas.microsoft.com/winfx/2006/xaml/presentation",            "SquaredInfinity.Foundation.Presentation.MarkupExtensions")]
 [assembly: XmlnsDefinition(@"http://schemas.microsoft.com/winfx/2006/xaml/presentation",            "SquaredInfinity.Foundation.Presentation")]

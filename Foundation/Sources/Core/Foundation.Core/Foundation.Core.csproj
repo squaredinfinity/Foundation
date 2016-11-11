@@ -143,7 +143,6 @@
     <ProjectReference Include="..\Foundation.Maths.Statistics.Core\Foundation.Maths.Statistics.Core.csproj">
       <Project>{e35dabdd-0af8-4753-a747-1fb0f2963e00}</Project>
       <Name>Foundation.Maths.Statistics.Core</Name>
-      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

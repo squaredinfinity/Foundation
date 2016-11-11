@@ -162,6 +162,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows\Vector.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows\Window.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IHostAwareViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\EnsureFoundationDictionaries.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IUIService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IViewModelHost.cs" />
@@ -189,12 +190,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\ObservableExtensionCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\PresentationWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\PresentationWrapperCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ResourceDictionaryReference.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\IXamlResourcesProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\IXamlResourcesProviderMetadata.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\ResourcesManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\XamlResourcesImporter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\XamlResourcesProviderMetadataAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SharedResourceDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SharedResourceDictionaryRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UIService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInteractionOutcome.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModelState.cs" />

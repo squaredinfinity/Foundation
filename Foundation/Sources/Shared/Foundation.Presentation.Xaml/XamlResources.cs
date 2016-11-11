@@ -29,5 +29,11 @@ namespace SquaredInfinity.Foundation.Presentation
 
             yield return data_template_selectors;
         }
+
+        public static void LoadAndMergeAll()
+        {
+            XamlResources xaml = new XamlResources();
+            ResourcesManager.MergeAllResourceDictionaries(xaml.LoadResources());
+        }
     }
 }

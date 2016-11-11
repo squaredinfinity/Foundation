@@ -7,19 +7,6 @@ namespace SquaredInfinity.Foundation.Extensions
 {
     public static class IDictionaryExtensions
     {
-        // todo: this is now available in .net4.5, quite sure wasn't there before   
-        //public static bool TryGetValue<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, out TValue value)
-        //{
-        //    if(dict != null && dict.ContainsKey(key))
-        //    {
-        //        value = dict[key];
-        //        return true;
-        //    }
-
-        //    value = default(TValue);
-        //    return false;
-        //}
-
         public static void IfContainsKey<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, Action<TValue> action)
         {
             if (dict.ContainsKey(key))
@@ -53,6 +40,14 @@ namespace SquaredInfinity.Foundation.Extensions
             {
                 dict[kvp.Key] = kvp.Value;
             }
+        }
+
+        public static TValue EnsureKeyValue<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, Func<TKey, TValue> createValue)
+        {
+            if (!dict.ContainsKey(key))
+                dict.Add(key, createValue(key));
+
+            return dict[key];
         }
     }
 }
