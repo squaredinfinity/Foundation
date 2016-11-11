@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace SquaredInfinity.Foundation
     /// MIN: int.MaxValue - 1
     /// UNDEFINED: int.MaxValue
     /// </remarks>
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public struct LogicalOrder : IEquatable<LogicalOrder>, IComparable<LogicalOrder>
     {
         public const uint UNDEFINED = int.MaxValue;
@@ -121,5 +123,22 @@ namespace SquaredInfinity.Foundation
         }
 
         #endregion
+
+        public string DebuggerDisplay
+        {
+            get
+            {
+                if (object.Equals(this, LogicalOrder.First))
+                    return $"FIRST ({Value})";
+
+                if (object.Equals(this, LogicalOrder.Last))
+                    return $"LAST ({Value})";
+
+                if (object.Equals(this, LogicalOrder.Undefined))
+                    return $"UNDEFINED ({Value})";
+
+                return $"{Value}";
+            }
+        }
     }
 }
