@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public class InvocationThrottle
     {
         readonly object Sync = new object();
@@ -379,6 +380,14 @@ namespace SquaredInfinity.Foundation
             {
                 MinTimer.Change(Min, Timeout.InfiniteTimeSpan);
                 LastMinTimerResetUTC = DateTime.UtcNow;
+            }
+        }
+
+        public string DebuggerDisplay
+        {
+            get
+            {
+                return $"Invocation Throttle, min: {Min.ToString()}";
             }
         }
     }
