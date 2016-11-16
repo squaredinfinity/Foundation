@@ -32,8 +32,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collections\VirtualizingCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\ConvertibleTypeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\IConvertibleType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Composition\FeatureExportMetadataAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Composition\IFeatureMetadata.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\ExceptionContextData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\Microsoft.Win32\RegistryKey.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Collections\IEnumerable.Extensions.cs" />

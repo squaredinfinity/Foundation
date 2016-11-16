@@ -9,6 +9,7 @@
     <Import_RootNamespace>Internal</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.collections.multimap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.win32api.shared.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.unsafe.shared.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.serialization.shared.cs" />

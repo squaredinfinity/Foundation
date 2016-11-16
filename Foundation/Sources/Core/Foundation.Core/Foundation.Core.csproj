@@ -38,115 +38,23 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include=".Bulk Update\BulkUpdate.cs" />
-    <Compile Include=".Bulk Update\IBulkUpdate.cs" />
-    <Compile Include=".Bulk Update\ISupportsBulkUpdate.cs" />
-    <Compile Include=".Bulk Update\SupportsBulkUpdate.cs" />
     <Compile Include="ChainOfCommand.cs" />
     <Compile Include="CloneComparer.cs" />
-    <Compile Include="Collections\AfterItemReplacedEventArgs.cs" />
-    <Compile Include="Collections\CollectionEx.cs" />
-    <Compile Include="Collections\CollectionEx.IList.cs" />
-    <Compile Include="Collections\IBulkUpdatesCollection.cs" />
-    <Compile Include="Collections\ICollectionEx.cs" />
-    <Compile Include="Collections\INotifyCollectionVersionChanged.cs" />
-    <Compile Include="Collections\IObservableCollectionEx.cs" />
-    <Compile Include="Collections\ItemAddedEventArgs.cs" />
-    <Compile Include="Collections\ItemRemovedEventArgs.cs" />
-    <Compile Include="Collections\MultiMap.cs" />
-    <Compile Include="Collections\ObservableCollectionEx.cs" />
-    <Compile Include="Collections\ObservableCollectionEx.INotifyCollectionChanged.cs" />
-    <Compile Include="Collections\ObservableCollectionEx.INotifyPropertyChanged.cs" />
     <Compile Include="CommandHandlerEventArgs.cs" />
     <Compile Include="CommandHandlerEventArgs_T.cs" />
-    <Compile Include="CompositeComparer_T.cs" />
-    <Compile Include="DateTimeContext.cs" />
-    <Compile Include="DynamicComparer_T.cs" />
     <Compile Include="EnumeratorBase.cs" />
-    <Compile Include="ExceptionEqualityComparer.cs" />
-    <Compile Include="Framework Extensions\System.Collections.Concurrent\ConcurrentBag.extensions.cs" />
-    <Compile Include="Framework Extensions\System.Collections\ICollection.Extensions.cs" />
-    <Compile Include="Framework Extensions\System.Collections\IDictionary.extensions.cs" />
-    <Compile Include="Framework Extensions\System.Collections\IEnumerable.Extensions.cs" />
-    <Compile Include="Framework Extensions\System.Collections\IReadOnlyList.extensions.cs" />
-    <Compile Include="Framework Extensions\System.IO\Stream.extensions.cs" />
-    <Compile Include="Framework Extensions\System.Threading.Tasks\Parallel.extensions.cs" />
-    <Compile Include="Framework Extensions\System.Threading.Tasks\Task.extensions.cs" />
-    <Compile Include="Framework Extensions\System.Xml.Linq\XAttribute.extensions.cs" />
-    <Compile Include="Framework Extensions\System.Xml.Linq\XContainer.extensions.cs" />
-    <Compile Include="Framework Extensions\System.Xml.Linq\XElement.extensions.cs" />
-    <Compile Include="Framework Extensions\System.Xml.Linq\XNode.extensions.cs" />
-    <Compile Include="Framework Extensions\System.Xml.Linq\XObject.extensions.cs" />
-    <Compile Include="Framework Extensions\System\Boolean.extensions.cs" />
-    <Compile Include="Framework Extensions\System\Char.extensions.cs" />
-    <Compile Include="Framework Extensions\System\DateTimeExtensions.cs" />
-    <Compile Include="Framework Extensions\System\Int32.extensions.cs" />
-    <Compile Include="Framework Extensions\System\Int64.extensions.cs" />
-    <Compile Include="Framework Extensions\System\IObservable.extensions.cs" />
-    <Compile Include="Framework Extensions\System\IServiceProvider.extensions.cs" />
-    <Compile Include="Framework Extensions\System\Long.extensions.cs" />
-    <Compile Include="Framework Extensions\System\Object.extensions.cs" />
-    <Compile Include="Framework Extensions\System\String.extensions.cs" />
-    <Compile Include="Framework Extensions\System\ULong.extensions.cs" />
-    <Compile Include="Freezable.cs" />
     <Compile Include="ICloneEquatable.cs" />
-    <Compile Include="IDateTimeContext.cs" />
-    <Compile Include="IFreezable.cs" />
-    <Compile Include="IndexInAnotherListComparer.cs" />
-    <Compile Include="IndexInListComparer.cs" />
-    <Compile Include="INotifyVersionChangedObject.cs" />
-    <Compile Include="IntraMessaging\IIntraMessage.cs" />
-    <Compile Include="IntraMessaging\IIntraMessageNode.cs" />
-    <Compile Include="IntraMessaging\IntraMessage.cs" />
-    <Compile Include="IntraMessaging\IntraMessageNode.cs" />
-    <Compile Include="IntraMessaging\IntraMessagePropertyCollection.cs" />
-    <Compile Include="ISerializer.cs" />
     <Compile Include="Iterator.cs" />
-    <Compile Include="LogicalOrder.cs" />
     <Compile Include="NamedObject.cs" />
-    <Compile Include="NotifyPropertyChangedObject.cs" />
-    <Compile Include="ObjectExtensibility\Extension.cs" />
-    <Compile Include="ObjectExtensibility\ExtensionCollection.cs" />
-    <Compile Include="ObjectExtensibility\IExtensibleObject.cs" />
-    <Compile Include="ObjectExtensibility\IExtension.cs" />
-    <Compile Include="ObjectExtensibility\IExtensionCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReferenceEqualityComparer.cs" />
-    <Compile Include="SerializedDataInfo.cs" />
-    <Compile Include="Text\UnicodeCharacters.cs" />
     <Compile Include="Threading\DiagnosticReaderWriterLockSlimEx.cs" />
-    <Compile Include="Threading\ILock.cs" />
-    <Compile Include="Threading\IReadLockAcquisition.cs" />
-    <Compile Include="Threading\IUpgradeableReadLockAcquisition.cs" />
-    <Compile Include="Threading\IWriteLockAcquisition.cs" />
-    <Compile Include="Threading\Lock.cs" />
-    <Compile Include="Threading\LockTypes.cs" />
-    <Compile Include="Threading\ReaderWriterLockSlimEx.cs" />
-    <Compile Include="Threading\ReaderWriterLockSlimEx.ReadLockAcquisition.cs" />
-    <Compile Include="Threading\ReaderWriterLockSlimEx.UpgradeableReadLockAcquisition.cs" />
-    <Compile Include="Threading\ReaderWriterLockSlimEx.WriteLockAcquisition.cs" />
-    <Compile Include="VersionChangedEventArgs.cs" />
-    <Compile Include=".Retry Policy\DynamicTransientFaultFilter.cs" />
-    <Compile Include=".Retry Policy\ITransientFaultFilter.cs" />
-    <Compile Include=".Retry Policy\RetryPolicy.cs" />
-    <Compile Include=".Retry Policy\TransientFaultFilter.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Framework Extensions\System.ComponentModel\" />
-    <Folder Include="ObjectExtensibility\IntraMessaging\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Foundation.Maths.Core\Foundation.Maths.Core.csproj">
       <Project>{3d68571e-52ca-481b-b2b6-e22e5c214cb6}</Project>
       <Name>Foundation.Maths.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Foundation.Maths.Statistics.Core\Foundation.Maths.Statistics.Core.csproj">
-      <Project>{e35dabdd-0af8-4753-a747-1fb0f2963e00}</Project>
-      <Name>Foundation.Maths.Statistics.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="..\..\Shared\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

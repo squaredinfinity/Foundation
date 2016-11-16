@@ -12,6 +12,8 @@ namespace SquaredInfinity.Foundation.Extensions
         public static IEnumerable<T> TreeTraversal<T>(this IEnumerable<T> list)
         {
             return list.TreeTraversal(TreeTraversalMode.Default);
+
+            
         }
 
         public static IEnumerable<TTreeNode> TreeTraversal<TTreeNode>(

@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DFE3FFAE-32C8-438B-82F3-A72A532355AA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SquaredInfinity.Foundation.Graphics.ColorSpaces</RootNamespace>
+    <AssemblyName>SquaredInfinity.Foundation.Graphics.ColorSpaces</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="RYB.pdf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ColorBase.cs" />
+    <Compile Include="ColorChannel.cs" />
+    <Compile Include="ColorChannelCollection.cs" />
+    <Compile Include="ColorChannelDefinition.cs" />
+    <Compile Include="IColor.cs" />
+    <Compile Include="IColorSpace.cs" />
+    <Compile Include="KnownColors.cs" />
+    <Compile Include="KnownColorSpaces.cs" />
+    <Compile Include="LabColor.cs" />
+    <Compile Include="LabColorSpace.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RGBColor.cs" />
+    <Compile Include="RGBColorSpace.cs" />
+    <Compile Include="ScRGBColor.cs" />
+    <Compile Include="ScRGBColorSpace.cs" />
+    <Compile Include="xyYColor.cs" />
+    <Compile Include="xyYColorSpace.cs" />
+    <Compile Include="XYZColor.cs" />
+    <Compile Include="XyzColorSpace.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Maths\Maths.Extensions\Maths.Extensions.csproj">
+      <Project>{2e471431-5262-463a-8259-6d5314493f36}</Project>
+      <Name>Maths.Extensions</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

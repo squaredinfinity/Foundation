@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F9428286-EB13-41CE-B001-3EAB4078F908}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SquaredInfinity.Foundation.Presentation.Converters</RootNamespace>
+    <AssemblyName>SquaredInfinity.Foundation.Presentation.Converters</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AddNumberConverter.cs" />
+    <Compile Include="BoolToNumberConverter.cs" />
+    <Compile Include="BoolToValueConverter.cs" />
+    <Compile Include="BoolToVisibilityConverter.cs" />
+    <Compile Include="BytesToImageSourceConverter.cs" />
+    <Compile Include="CollectionLastItemToVisibilityConverter.cs" />
+    <Compile Include="CollectionPositionToBoolConverter.cs" />
+    <Compile Include="ColorToGradientBrushConverter.cs" />
+    <Compile Include="ColorToSolidColorBrushConverter.cs" />
+    <Compile Include="ColumnHeaderRoleToBorderConverter.cs" />
+    <Compile Include="ComObjectConverter.cs" />
+    <Compile Include="CompareToBoolConverter.cs" />
+    <Compile Include="CompositeConverter.cs" />
+    <Compile Include="EnumerableCombiningConverter.cs" />
+    <Compile Include="EnumToBoolConverter.cs" />
+    <Compile Include="EnumToValuesConverter.cs" />
+    <Compile Include="FirstBindingConverter.cs" />
+    <Compile Include="GetApplicationResourceConverter.cs" />
+    <Compile Include="GetTimeConverter.cs" />
+    <Compile Include="GetTypeConverter.cs" />
+    <Compile Include="IndentToLeftMarginConverter.cs" />
+    <Compile Include="IndexToBrushConverter.cs" />
+    <Compile Include="InvertBoolConverter.cs" />
+    <Compile Include="IsOfTypeConverter.cs" />
+    <Compile Include="MixedCompositeConverter.cs" />
+    <Compile Include="MultiplyNumberConverter.cs" />
+    <Compile Include="NullOrEmptyToBoolConverter.cs" />
+    <Compile Include="NumbersSumConverter.cs" />
+    <Compile Include="NumberToBoolConverter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SizeToRectConverter.cs" />
+    <Compile Include="SplitCamelCaseConverter.cs" />
+    <Compile Include="TextFlattenAndTrimConverter.cs" />
+    <Compile Include="ToDoubleConverter.cs" />
+    <Compile Include="ToEnumerableConverter.cs" />
+    <Compile Include="ToListConverter.cs" />
+    <Compile Include="ToMapConverter.cs" />
+    <Compile Include="TreeViewItemLeftMarginConverter.cs" />
+    <Compile Include="ValueToBoolConverter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="PresentationFramework">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\PresentationFramework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

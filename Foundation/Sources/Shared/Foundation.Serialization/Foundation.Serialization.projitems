@@ -39,11 +39,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)InstanceId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InstanceIdRef.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ISerializationContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ISerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ITypeSerializationStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ITypeSerializationStrategy_T.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MemberSerializationStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ReferenceResolutionContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SerializationContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SerializedDataInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TypeSerializationStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TypeSerializationStrategy_T.cs" />
   </ItemGroup>

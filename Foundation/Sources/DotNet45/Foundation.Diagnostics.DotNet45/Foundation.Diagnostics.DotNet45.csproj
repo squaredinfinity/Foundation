@@ -66,10 +66,6 @@
       <Name>Foundation.Maths.Core</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\Foundation.Maths.Statistics.Core\Foundation.Maths.Statistics.Core.csproj">
-      <Project>{E35DABDD-0AF8-4753-A747-1FB0F2963E00}</Project>
-      <Name>Foundation.Maths.Statistics.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Foundation.Diagnostics.Infrastructure.DotNet45\Foundation.Diagnostics.Infrastructure.DotNet45.csproj">
       <Project>{231d0bb0-926b-47ce-b7b1-9e8e49dce51e}</Project>
       <Name>Foundation.Diagnostics.Infrastructure.DotNet45</Name>
