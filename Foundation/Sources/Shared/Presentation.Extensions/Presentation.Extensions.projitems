@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>b2d39bf6-8172-4979-9600-b906926e8562</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Presentation.Extensions</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)System.Drawing\Bitmap.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System.Windows.Controls\ItemsControl.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System.Windows.Controls\TreeViewItem.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System.Windows.Media.Imaging\BitmapSource.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System.Windows.Media\Color.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System.Windows.Media\DrawingContext.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System.Windows.Media\DrawingRenderInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System.Windows.Media\Geometry.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System.Windows.Media\ImageSource.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System.Windows.Media\Visual.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System.Windows.Threading\Dispatcher.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System.Windows\DependencyObject.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System.Windows\FrameworkElement.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System.Windows\Point.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System.Windows\Rect.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System.Windows\Size.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System.Windows\Vector.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System.Windows\Window.extensions.cs" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>dda5ec2e-4784-4770-99d2-23a4c77a0185</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Presentation.Behaviors</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Button.Image.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CheckBoxInListItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ColumnHeaders.Visibility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Columns.MinWidth.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Columns.ShouldAutoResize.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ContentTemplateSelector.RefreshTriggerBinding.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Control.Click.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Control.DoubleClick.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DialogHost.Height.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DialogHost.MinHeight.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DialogHost.MinWidth.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DialogHost.Width.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DragDrop.AttachedProperties.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DragDrop.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ForwardKeyEvents.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ForwardTextInput.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkElement.GotFocus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkElement.LayoutUpdated.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkElement.Loaded.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkElement.LostFocus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkElement.MouseMove.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkElement.SizeChanged.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkElement.Unloaded.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Highlight.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hyperlink.OpenInDefaultBrowser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ListBoxItem.IsSelectible.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ParentContentPresenter.Margin.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SelectionChanged.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Selector.ItemDoubleClick.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Selector.ItemsSourceWithPreserveSelection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Selector.MultiSelection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TextBoxBase.ClearButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TextBoxBase.Watermark.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TreeView.behaviors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TreeView.MultiSelection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TreeView.PreventAutomaticScrolling.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TreeView.SelectionChangedInhibitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)View.ForwardViewModelEvents.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_supporttypes\ItemContainerGenerator_ItemsChangedHander.cs" />
+  </ItemGroup>
+</Project>

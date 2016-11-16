@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E17BE1EE-47F2-4EA9-832C-0FFDB8F8CE8E}</ProjectGuid>
+    <ProjectGuid>{972C59D6-35AD-47E2-B614-375A798DC5D6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Wpf.DragAndDrop</RootNamespace>
-    <AssemblyName>Wpf.DragAndDrop</AssemblyName>
+    <RootNamespace>Wpf.DataTemplateSelectors</RootNamespace>
+    <AssemblyName>Wpf.DataTemplateSelectors</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

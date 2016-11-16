@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>1802becf-ff29-426b-b238-8d76755b8dcd</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Presentation.DataTemplateSelectors</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ContextAwareDataTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ContextAwareDataTemplateSelectorService.Cache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ContextAwareDataTemplateSelectorService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicDataTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicResourcesTraversingDataTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IContextAwareDataTemplateProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IContextAwareDataTemplateSelectorService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MefTypeDataTemplateSelectorService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ResourcesTraversingDataTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RuleBasedDataTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rules\DataTemplateSelectorRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rules\IDataTemplateSelectorRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rules\ItemValueRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rules\MemberValueRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TypeNameToResourceKeyMappingDataTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TypeToDataTemplateMapping.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TypeToDataTemplateMappingCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TypeToDataTemplateMappings.cs" />
+  </ItemGroup>
+</Project>

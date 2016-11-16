@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>ab899ba7-696a-4b69-acc6-81dca643a1e4</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Presentation.Converters</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AddNumberConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BoolToNumberConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BoolToValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BoolToVisibilityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BytesToImageSourceConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CollectionLastItemToVisibilityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CollectionPositionToBoolConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ColorToGradientBrushConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ColorToSolidColorBrushConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ColumnHeaderRoleToBorderConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ComObjectConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CompareToBoolConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CompositeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EnumerableCombiningConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EnumToBoolConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EnumToValuesConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FirstBindingConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GetApplicationResourceConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GetTimeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GetTypeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IndentToLeftMarginConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IndexToBrushConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InvertBoolConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IsOfTypeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MixedCompositeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MultiplyNumberConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NullOrEmptyToBoolConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NumbersSumConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NumberToBoolConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SizeToRectConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SplitCamelCaseConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TextFlattenAndTrimConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ToDoubleConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ToEnumerableConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ToListConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ToMapConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TreeViewItemLeftMarginConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ValueToBoolConverter.cs" />
+  </ItemGroup>
+</Project>

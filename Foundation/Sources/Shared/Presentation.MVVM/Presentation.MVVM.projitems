@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>deeb2ff3-c8dd-4395-bdd8-f3e88157da9c</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Presentation.MVVM</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AfterViewModelEventRaisedArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AlertViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DefaultUIService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DialogMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DialogScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IHostAwareViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IUIService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IViewModelEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IViewModelHost.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInteractionOutcome.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)View.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel.IHostAwareViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModelEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModelEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModelEventRoutedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModelEventRoutingStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModelState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)View_T.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\ViewHostWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\ViewHostWindow.IViewModelHost.cs" />
+  </ItemGroup>
+</Project>

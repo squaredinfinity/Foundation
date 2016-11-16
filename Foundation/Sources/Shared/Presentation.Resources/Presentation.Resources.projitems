@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>e76efb04-80c1-4ff8-b36a-6999d2dbb9f1</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Presentation.Resources</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)IXamlResourcesProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IXamlResourcesProviderMetadata.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ResourceDictionaryReference.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ResourcesManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SharedResourceDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SharedResourceDictionaryRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XamlResourcesImporter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XamlResourcesProviderMetadataAttribute.cs" />
+  </ItemGroup>
+</Project>

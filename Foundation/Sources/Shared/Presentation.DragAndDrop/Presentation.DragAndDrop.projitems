@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>1b5e36b5-643e-4aa4-8f15-c98cb325f3c8</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Presentation.DragAndDrop</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DefaultDragSource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DefaultDropTarget.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DragAdorner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DragInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DropInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DropTargetAdorner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DropTargetInsertionAdorner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IDragInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IDragSource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IDropInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IDropTarget.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEnumerable.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)KnownDropTargetAdorners.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\HitTestUtilities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\ItemsControlExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\VisualTreeExtensions.cs" />
+  </ItemGroup>
+</Project>

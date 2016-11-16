@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>22d3e09d-a209-46ab-ba7a-473c775a75e9</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Presentation.Extensions.SI</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)SquaredInfinity.Maths.Space2D\Rectangle.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SquaredInfinity.Media.Drawing\PixelCanvas.extensions.cs" />
+  </ItemGroup>
+</Project>

@@ -40,46 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Button.Image.cs" />
-    <Compile Include="CheckBoxInListItem.cs" />
-    <Compile Include="ColumnHeaders.Visibility.cs" />
-    <Compile Include="Columns.MinWidth.cs" />
-    <Compile Include="Columns.ShouldAutoResize.cs" />
-    <Compile Include="ContentTemplateSelector.RefreshTriggerBinding.cs" />
-    <Compile Include="Control.Click.cs" />
-    <Compile Include="Control.DoubleClick.cs" />
-    <Compile Include="DialogHost.Height.cs" />
-    <Compile Include="DialogHost.MinHeight.cs" />
-    <Compile Include="DialogHost.MinWidth.cs" />
-    <Compile Include="DialogHost.Width.cs" />
-    <Compile Include="DragDrop.AttachedProperties.cs" />
-    <Compile Include="DragDrop.cs" />
-    <Compile Include="ForwardKeyEvents.cs" />
-    <Compile Include="ForwardTextInput.cs" />
-    <Compile Include="FrameworkElement.GotFocus.cs" />
-    <Compile Include="FrameworkElement.LayoutUpdated.cs" />
-    <Compile Include="FrameworkElement.Loaded.cs" />
-    <Compile Include="FrameworkElement.LostFocus.cs" />
-    <Compile Include="FrameworkElement.MouseMove.cs" />
-    <Compile Include="FrameworkElement.SizeChanged.cs" />
-    <Compile Include="FrameworkElement.Unloaded.cs" />
-    <Compile Include="Highlight.cs" />
-    <Compile Include="Hyperlink.OpenInDefaultBrowser.cs" />
-    <Compile Include="ListBoxItem.IsSelectible.cs" />
-    <Compile Include="ParentContentPresenter.Margin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SelectionChanged.cs" />
-    <Compile Include="Selector.ItemDoubleClick.cs" />
-    <Compile Include="Selector.ItemsSourceWithPreserveSelection.cs" />
-    <Compile Include="Selector.MultiSelection.cs" />
-    <Compile Include="TextBoxBase.ClearButton.cs" />
-    <Compile Include="TextBoxBase.Watermark.cs" />
-    <Compile Include="TreeView.behaviors.cs" />
-    <Compile Include="TreeView.MultiSelection.cs" />
-    <Compile Include="TreeView.PreventAutomaticScrolling.cs" />
-    <Compile Include="TreeView.SelectionChangedInhibitor.cs" />
-    <Compile Include="View.ForwardViewModelEvents.cs" />
-    <Compile Include="_supporttypes\ItemContainerGenerator_ItemsChangedHander.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

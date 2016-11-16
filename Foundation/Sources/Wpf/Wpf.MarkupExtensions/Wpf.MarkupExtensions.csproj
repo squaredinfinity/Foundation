@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E17BE1EE-47F2-4EA9-832C-0FFDB8F8CE8E}</ProjectGuid>
+    <ProjectGuid>{D845E231-45FD-4C30-AD34-E2B6839A06AD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Wpf.DragAndDrop</RootNamespace>
-    <AssemblyName>Wpf.DragAndDrop</AssemblyName>
+    <RootNamespace>Wpf.MarkupExtensions</RootNamespace>
+    <AssemblyName>Wpf.MarkupExtensions</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

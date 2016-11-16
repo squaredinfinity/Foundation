@@ -10,37 +10,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.xaml.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BackgroundRenderingService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collections\XamlObservableCollectionEx.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collections\XamlVirtualizingCollection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Composition\ContextAwareDataTemplateProviderExportMetadataAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Composition\IContextAwareDataTemplateProviderMetadata.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\AdornerWithVisual.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\BackgroundLoadingListView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Canvas.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ISupportsBackgroundRendering.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TabControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Trees\_BooleanExpressionTrees\BooleanExpressionTreeControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ZoomableListView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\ContextAwareDataTemplateSelector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\ContextAwareDataTemplateSelectorService.Cache.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\ContextAwareDataTemplateSelectorService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\DynamicDataTemplateSelector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\DynamicResourcesTraversingDataTemplateSelector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\IContextAwareDataTemplateProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\IContextAwareDataTemplateSelectorService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\MefTypeDataTemplateSelectorService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\ResourcesTraversingDataTemplateSelector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\RuleBasedDataTemplateSelector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\Rules\DataTemplateSelectorRule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\Rules\IDataTemplateSelectorRule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\Rules\ItemValueRule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\Rules\MemberValueRule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\TypeNameToResourceKeyMappingDataTemplateSelector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\TypeToDataTemplateMapping.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\TypeToDataTemplateMappingCollection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataTemplateSelectors\TypeToDataTemplateMappings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Data\CollectionViewSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\EnsureFoundationDictionaries.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Media\Colors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Media\FontFamilies.cs" />
@@ -50,20 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\ObservableExtensionCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\PresentationWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensibility\PresentationWrapperCollection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ResourceDictionaryReference.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Resources\IXamlResourcesProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Resources\IXamlResourcesProviderMetadata.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Resources\ResourcesManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Resources\XamlResourcesImporter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Resources\XamlResourcesProviderMetadataAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SharedResourceDictionary.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SharedResourceDictionaryRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UIService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\View.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\ViewModelEventRoutedEventArgs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\View_T.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\ViewHostWindow.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\ViewHostWindow.IViewModelHost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources.cs" />
   </ItemGroup>
   <ItemGroup>
