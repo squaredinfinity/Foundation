@@ -35,6 +35,11 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\..\Maths\Maths.Space2D\Maths.Space2D.csproj">
+      <Project>{3CF6C84A-C53B-4F9F-A9BC-A72FBAA1A4B0}</Project>
+      <Name>Maths.Space2D</Name>
+      <Private>False</Private>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlendMode.cs" />
