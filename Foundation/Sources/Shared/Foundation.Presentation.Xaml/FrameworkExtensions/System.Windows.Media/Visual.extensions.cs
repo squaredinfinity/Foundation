@@ -119,7 +119,7 @@ namespace SquaredInfinity.Foundation.Extensions
                                              dpiX,
                                              dpiY,
                                              pixelFormat);
-
+            
             var dv = visual as DrawingVisual;
 
             if (dv != null)
