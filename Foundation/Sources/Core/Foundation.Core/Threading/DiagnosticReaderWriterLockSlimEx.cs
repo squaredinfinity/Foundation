@@ -1,15 +1,10 @@
-﻿using SquaredInfinity.Foundation.Maths.Statistics;
-using SquaredInfinity.Foundation.Extensions;
+﻿using SquaredInfinity.Foundation.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
-using System.Reactive.Disposables;
-using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using SquaredInfinity.Foundation.Collections;
 
 namespace SquaredInfinity.Foundation.Threading
 {

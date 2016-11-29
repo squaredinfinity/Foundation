@@ -66,7 +66,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.TextTemplates.Placeholders
                 {
                     if (functions.Count == 0)
                     {
-                        InternalTrace.Information(() => "No substitution found for pattern '{0}'".FormatWith(substitutionPattern));
+                        InternalTrace.Information(() => $"No substitution found for pattern '{substitutionPattern}'");
                         return false;
                     }
                 }
@@ -93,7 +93,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.TextTemplates.Placeholders
                     }
                     else
                     {
-                        InternalTrace.Information(() => "Failed to process function {0}".FormatWith(piDef.Name));
+                        InternalTrace.Information(() => $"Failed to process function {piDef.Name}");
                         return false;
                     }
                 }

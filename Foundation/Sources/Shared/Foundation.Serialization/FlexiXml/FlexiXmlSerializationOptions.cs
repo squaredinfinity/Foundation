@@ -58,12 +58,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
             //NamespaceAttributeName = FlexiXmlSerializer.XmlNamespace.GetName("ns");
 
             NullAttributeMarkupExtension = 
-                    "{0}{1}:{2}{3}"
-                    .FormatWith(
-                        "{",
-                        SerializationNamespaceName, 
-                        NullValueAttributeName.LocalName.ToString(),
-                        "}");
+                    $"{{{SerializationNamespaceName}:{NullValueAttributeName.LocalName.ToString()}}}";
         }
 
         public bool IsAttributeValueSerializationExtension(XAttribute attrib)

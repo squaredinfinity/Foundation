@@ -1,273 +1,273 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading;
+//using System.Threading.Tasks;
+//using SquaredInfinity.Foundation.Extensions;
 
-namespace SquaredInfinity.Foundation.Threading
-{
-    public interface IAsyncOperationRequest
-    {
-        bool IsCompleted { get; }
-        void Wait(bool ignoreCanceledExceptions);
-        bool Wait(TimeSpan timeout, bool ignoreCanceledExceptions);
-        void Cancel();
-    }
+//namespace SquaredInfinity.Foundation.Threading
+//{
+//    public interface IAsyncOperationRequest
+//    {
+//        bool IsCompleted { get; }
+//        void Wait(bool ignoreCanceledExceptions);
+//        bool Wait(TimeSpan timeout, bool ignoreCanceledExceptions);
+//        void Cancel();
+//    }
 
-    public class AsyncOperationRequest : IAsyncOperationRequest
-    {
-        Task Task;
-        CancellationTokenSource CancellationTokenSource;
+//    public class AsyncOperationRequest : IAsyncOperationRequest
+//    {
+//        Task Task;
+//        CancellationTokenSource CancellationTokenSource;
 
-        public bool IsCompleted
-        {
-            get { return Task.IsCompleted; }
-        }
+//        public bool IsCompleted
+//        {
+//            get { return Task.IsCompleted; }
+//        }
 
-        public AsyncOperationRequest(Task operationTask, CancellationTokenSource cancellationTokenSource)
-        {
-            this.Task = operationTask;
+//        public AsyncOperationRequest(Task operationTask, CancellationTokenSource cancellationTokenSource)
+//        {
+//            this.Task = operationTask;
 
-            this.CancellationTokenSource = cancellationTokenSource;
-        }
+//            this.CancellationTokenSource = cancellationTokenSource;
+//        }
 
-        public void Start()
-        {
-            Task.Start();
-        }
+//        public void Start()
+//        {
+//            Task.Start();
+//        }
 
-        public void Wait(bool ignoreCanceledExceptions)
-        {
-            Task.Wait(CancellationTokenSource.Token, ignoreCanceledExceptions);
-        }
+//        public void Wait(bool ignoreCanceledExceptions)
+//        {
+//            Task.Wait(CancellationTokenSource.Token, ignoreCanceledExceptions);
+//        }
 
-        public bool Wait(TimeSpan timeout, bool ignoreCanceledExceptions)
-        {
-            return Task.Wait((int)timeout.TotalMilliseconds, CancellationTokenSource.Token, ignoreCanceledExceptions);
-        }
+//        public bool Wait(TimeSpan timeout, bool ignoreCanceledExceptions)
+//        {
+//            return Task.Wait((int)timeout.TotalMilliseconds, CancellationTokenSource.Token, ignoreCanceledExceptions);
+//        }
 
-        public void Cancel()
-        {
-            CancellationTokenSource.Cancel();
-        }
-    }
+//        public void Cancel()
+//        {
+//            CancellationTokenSource.Cancel();
+//        }
+//    }
 
-    public class AsyncAction : IAsyncAction
-    {
-        readonly ILock Lock;
+//    public class AsyncAction : IAsyncAction
+//    {
+//        readonly ILock Lock;
 
-        IAsyncOperationRequest CurrentOperation { get; set; }
-        IAsyncOperationRequest NextOperation { get; set; }
+//        IAsyncOperationRequest CurrentOperation { get; set; }
+//        IAsyncOperationRequest NextOperation { get; set; }
 
-        Action ActionToExecute { get; set; }
-        Action<CancellationToken> CancellableActionToExecute { get; set; }
+//        Action ActionToExecute { get; set; }
+//        Action<CancellationToken> CancellableActionToExecute { get; set; }
         
-        public IAsyncOperationRequest RequestExecute()
-        {
-            return RequestExecute(beforeExecute: null, afterExecute: null);
-        }
+//        public IAsyncOperationRequest RequestExecute()
+//        {
+//            return RequestExecute(beforeExecute: null, afterExecute: null);
+//        }
         
-        public IAsyncOperationRequest RequestExecute(Action<CancellationToken> beforeExecute, Action<CancellationToken> afterExecute)
-        {
-            using (Lock.AcquireWriteLock())
-            {
-                CancelCurrentRequest();
+//        public IAsyncOperationRequest RequestExecute(Action<CancellationToken> beforeExecute, Action<CancellationToken> afterExecute)
+//        {
+//            using (Lock.AcquireWriteLock())
+//            {
+//                CancelCurrentRequest();
 
-                var cts = new CancellationTokenSource();
+//                var cts = new CancellationTokenSource();
 
-                var task = (Task)null;
+//                var task = (Task)null;
 
 
-                //# Before Execute
+//                //# Before Execute
 
-                if (beforeExecute != null)
-                {
-                    task =
-                        new Task(() => beforeExecute(cts.Token), cts.Token);
+//                if (beforeExecute != null)
+//                {
+//                    task =
+//                        new Task(() => beforeExecute(cts.Token), cts.Token);
 
-                    // ContinueWith() returns a continuation task, which may be ignored
-                    task.ContinueWith(_prevTask => task, cts.Token);
-                }
-                else
-                {
-                    task = new Task(() => { }, cts.Token);
-                }
+//                    // ContinueWith() returns a continuation task, which may be ignored
+//                    task.ContinueWith(_prevTask => task, cts.Token);
+//                }
+//                else
+//                {
+//                    task = new Task(() => { }, cts.Token);
+//                }
 
-                //# Execute
+//                //# Execute
 
-                if (CancellableActionToExecute != null)
-                {
-                    task =
-                        new Task(() =>
-                            CancellableActionToExecute(cts.Token),
-                            cts.Token);
-                }
+//                if (CancellableActionToExecute != null)
+//                {
+//                    task =
+//                        new Task(() =>
+//                            CancellableActionToExecute(cts.Token),
+//                            cts.Token);
+//                }
 
-                if (CancellableActionToExecute != null)
-                {
-                    if (task == null)
-                    {
-                        task =
-                           new Task(() =>
-                               CancellableActionToExecute(cts.Token),
-                               cts.Token);
-                    }
-                    else
-                    {
-                        task.ContinueWith(_prevTask => CancellableActionToExecute(cts.Token), cts.Token);
-                    }
-                }
-                else
-                {
-                    if (task == null)
-                    {
-                        task =
-                            new Task(() =>
-                                ActionToExecute(),
-                                cts.Token);
-                    }
-                    else
-                    {
-                        task.ContinueWith(_prevTask => 
-                            {
-                                if(!cts.IsCancellationRequested)
-                                    ActionToExecute();
+//                if (CancellableActionToExecute != null)
+//                {
+//                    if (task == null)
+//                    {
+//                        task =
+//                           new Task(() =>
+//                               CancellableActionToExecute(cts.Token),
+//                               cts.Token);
+//                    }
+//                    else
+//                    {
+//                        task.ContinueWith(_prevTask => CancellableActionToExecute(cts.Token), cts.Token);
+//                    }
+//                }
+//                else
+//                {
+//                    if (task == null)
+//                    {
+//                        task =
+//                            new Task(() =>
+//                                ActionToExecute(),
+//                                cts.Token);
+//                    }
+//                    else
+//                    {
+//                        task.ContinueWith(_prevTask => 
+//                            {
+//                                if(!cts.IsCancellationRequested)
+//                                    ActionToExecute();
 
-                            }, cts.Token);
-                    }
-                }
+//                            }, cts.Token);
+//                    }
+//                }
 
-                //# After Execute
+//                //# After Execute
 
-                if(afterExecute != null)
-                {
-                    task.ContinueWith(_prevTask => afterExecute(cts.Token), cts.Token);
-                }
+//                if(afterExecute != null)
+//                {
+//                    task.ContinueWith(_prevTask => afterExecute(cts.Token), cts.Token);
+//                }
 
-                var op = new AsyncOperationRequest(task, cts);
+//                var op = new AsyncOperationRequest(task, cts);
 
-                op.Start();
+//                op.Start();
 
-                CurrentOperation = op;
-            }
+//                CurrentOperation = op;
+//            }
 
-            return CurrentOperation;
-        }
+//            return CurrentOperation;
+//        }
 
-        public AsyncAction(Action actionToExecute)
-            : this("", actionToExecute)
-        { }
+//        public AsyncAction(Action actionToExecute)
+//            : this("", actionToExecute)
+//        { }
 
-        public AsyncAction(string name, Action actionToExecute)
-        {
-            Lock = LockFactory.Current.CreateLock(name);
-            this.ActionToExecute = actionToExecute;
-        }
+//        public AsyncAction(string name, Action actionToExecute)
+//        {
+//            Lock = LockFactory.Current.CreateLock(name);
+//            this.ActionToExecute = actionToExecute;
+//        }
 
-        public AsyncAction(Action<CancellationToken> cancellableActionToExecute)
-            : this("", cancellableActionToExecute)
-        { }
+//        public AsyncAction(Action<CancellationToken> cancellableActionToExecute)
+//            : this("", cancellableActionToExecute)
+//        { }
 
-        public AsyncAction(string name, Action<CancellationToken> cancellableActionToExecute)
-        {
-            Lock = LockFactory.Current.CreateLock(name);
-            this.CancellableActionToExecute = cancellableActionToExecute;
-        }
+//        public AsyncAction(string name, Action<CancellationToken> cancellableActionToExecute)
+//        {
+//            Lock = LockFactory.Current.CreateLock(name);
+//            this.CancellableActionToExecute = cancellableActionToExecute;
+//        }
 
-        public void Dispose()
-        {
-            CancelCurrentRequest();
-        }
+//        public void Dispose()
+//        {
+//            CancelCurrentRequest();
+//        }
 
-        void CancelCurrentRequest()
-        {
-            if (CurrentOperation != null)
-            {
-                CurrentOperation.Cancel();
-                CurrentOperation.Wait(ignoreCanceledExceptions: true);
-            }
-        }
-    }
+//        void CancelCurrentRequest()
+//        {
+//            if (CurrentOperation != null)
+//            {
+//                CurrentOperation.Cancel();
+//                CurrentOperation.Wait(ignoreCanceledExceptions: true);
+//            }
+//        }
+//    }
 
-    public class AsyncAction<T> : IAsyncAction<T>
-    {
-        readonly ILock Lock;
+//    public class AsyncAction<T> : IAsyncAction<T>
+//    {
+//        readonly ILock Lock;
 
-        IAsyncOperationRequest CurrentOperation { get; set; }
-        IAsyncOperationRequest NextOperation { get; set; }
+//        IAsyncOperationRequest CurrentOperation { get; set; }
+//        IAsyncOperationRequest NextOperation { get; set; }
 
-        Action<T> ActionToExecute { get; set; }
-        Action<T, CancellationToken> CancellableActionToExecute { get; set; }
+//        Action<T> ActionToExecute { get; set; }
+//        Action<T, CancellationToken> CancellableActionToExecute { get; set; }
                 
-        public IAsyncOperationRequest RequestExecute(T argument)
-        {
-            using (Lock.AcquireWriteLock())
-            {
-                CancelCurrentRequest();
+//        public IAsyncOperationRequest RequestExecute(T argument)
+//        {
+//            using (Lock.AcquireWriteLock())
+//            {
+//                CancelCurrentRequest();
 
-                var cts = new CancellationTokenSource();
+//                var cts = new CancellationTokenSource();
 
-                var task = (Task)null;
+//                var task = (Task)null;
 
-                if (CancellableActionToExecute != null)
-                {
-                    task =
-                        new Task(() =>
-                            CancellableActionToExecute(argument, cts.Token),
-                            cts.Token);
-                }
-                else
-                {
-                    task =
-                        new Task(() =>
-                            ActionToExecute(argument),
-                            cts.Token);
-                }
+//                if (CancellableActionToExecute != null)
+//                {
+//                    task =
+//                        new Task(() =>
+//                            CancellableActionToExecute(argument, cts.Token),
+//                            cts.Token);
+//                }
+//                else
+//                {
+//                    task =
+//                        new Task(() =>
+//                            ActionToExecute(argument),
+//                            cts.Token);
+//                }
 
-                var op = new AsyncOperationRequest(task, cts);
+//                var op = new AsyncOperationRequest(task, cts);
 
-                op.Start();
+//                op.Start();
 
-                CurrentOperation = op;
-            }
+//                CurrentOperation = op;
+//            }
 
-            return CurrentOperation;
-        }
+//            return CurrentOperation;
+//        }
 
-        public AsyncAction(Action<T> actionToExecute)
-            : this("", actionToExecute)
-        { }
+//        public AsyncAction(Action<T> actionToExecute)
+//            : this("", actionToExecute)
+//        { }
 
-        public AsyncAction(string name, Action<T> actionToExecute)
-        {
-            Lock = LockFactory.Current.CreateLock(name);
-            this.ActionToExecute = actionToExecute;
-        }
+//        public AsyncAction(string name, Action<T> actionToExecute)
+//        {
+//            Lock = LockFactory.Current.CreateLock(name);
+//            this.ActionToExecute = actionToExecute;
+//        }
 
-        public AsyncAction(Action<T, CancellationToken> cancellableActionToExecute)
-            : this("", cancellableActionToExecute)
-        { }
+//        public AsyncAction(Action<T, CancellationToken> cancellableActionToExecute)
+//            : this("", cancellableActionToExecute)
+//        { }
 
-        public AsyncAction(string name, Action<T, CancellationToken> cancellableActionToExecute)
-        {
-            Lock = LockFactory.Current.CreateLock(name);
-            this.CancellableActionToExecute = cancellableActionToExecute;
-        }
+//        public AsyncAction(string name, Action<T, CancellationToken> cancellableActionToExecute)
+//        {
+//            Lock = LockFactory.Current.CreateLock(name);
+//            this.CancellableActionToExecute = cancellableActionToExecute;
+//        }
 
-        public void Dispose()
-        {
-            CancelCurrentRequest();
-        }
+//        public void Dispose()
+//        {
+//            CancelCurrentRequest();
+//        }
 
-        void CancelCurrentRequest()
-        {
-            if (CurrentOperation != null)
-            {
-                CurrentOperation.Cancel();
-                CurrentOperation.Wait(ignoreCanceledExceptions: true);
-            }
-        }
-    }
-}
+//        void CancelCurrentRequest()
+//        {
+//            if (CurrentOperation != null)
+//            {
+//                CurrentOperation.Cancel();
+//                CurrentOperation.Wait(ignoreCanceledExceptions: true);
+//            }
+//        }
+//    }
+//}

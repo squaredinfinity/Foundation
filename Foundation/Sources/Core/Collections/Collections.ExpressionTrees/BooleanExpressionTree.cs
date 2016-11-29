@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Foundation.ComponentModel;
 
 namespace SquaredInfinity.Foundation.Collections.Trees
 {
@@ -11,34 +12,34 @@ namespace SquaredInfinity.Foundation.Collections.Trees
     {
         public event EventHandler<EventArgs> AfterTreeChanged;
 
-        IDisposable TreeChangedSubscription;
-
         IExpressionTreeNode _root;
         public IExpressionTreeNode Root 
         {
             get { return _root; }
             set
             {
-                if (TreeChangedSubscription != null)
-                    TreeChangedSubscription.Dispose();
+                var _old = _root;
+
+                if(_old != null)
+                {
+                    _old.AfterTreeChanged -= HandleAfterTreeChanged;
+                }
 
                 _root = value;
 
                 if(_root != null)
                 {
-                    TreeChangedSubscription =
-                        _root.CreateWeakEventHandler()
-                        .ForEvent<EventArgs>(
-                        (s, h) => s.AfterTreeChanged += h,
-                        (s, h) => s.AfterTreeChanged -= h)
-                        .Subscribe(new EventHandler<EventArgs>((_s, _args) =>
-                    {
-                        RaiseTreeChanged();
-                    }));
+                    _root.AfterTreeChanged -= HandleAfterTreeChanged;
+                    _root.AfterTreeChanged += HandleAfterTreeChanged;
                 }
 
                 RaiseThisPropertyChanged();
             }
+        }
+
+        void HandleAfterTreeChanged(object sender, EventArgs e)
+        {
+            RaiseTreeChanged();
         }
 
         public bool Evaluate(object payload)

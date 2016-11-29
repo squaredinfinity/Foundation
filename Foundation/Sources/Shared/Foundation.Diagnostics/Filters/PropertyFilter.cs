@@ -33,8 +33,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.Filters
             if (!diagnosticEvent.Properties.TryGetValue(Property, out propertyValue))
             {
                 InternalTrace.Warning(() =>
-                    "Diagnostic Property '{0}' not found on Diagnostic Event."
-                    .FormatWith(Property));
+                    $"Diagnostic Property '{Property}' not found on Diagnostic Event.");
 
                 meetsCriteria = false;
             }

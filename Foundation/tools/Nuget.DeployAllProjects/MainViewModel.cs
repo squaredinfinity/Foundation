@@ -265,7 +265,7 @@ namespace Nuget.DeployAllProjects
 
                     if(pi == null)
                     {
-                        MessageBox.Show("{0} does not exist in build order".FormatWith(project_name));
+                        MessageBox.Show($"{project_name} does not exist in build order");
                         continue;
                     }
 
@@ -313,19 +313,19 @@ namespace Nuget.DeployAllProjects
 
                 if (line.StartsWith("[assembly: AssemblyVersion"))
                 {
-                    asminfo_all_lines[i] = "[assembly: AssemblyVersion(\"{0}\")]".FormatWith(dot_net_version);
+                    asminfo_all_lines[i] = $"[assembly: AssemblyVersion(\"{dot_net_version}\")]";
                     continue;
                 }
 
                 if (line.StartsWith("[assembly: AssemblyFileVersion"))
                 {
-                    asminfo_all_lines[i] = "[assembly: AssemblyFileVersion(\"{0}\")]".FormatWith(dot_net_version);
+                    asminfo_all_lines[i] = $"[assembly: AssemblyFileVersion(\"{dot_net_version}\")]";
                     continue;
                 }
 
                 if (line.StartsWith("[assembly: AssemblyInformationalVersion"))
                 {
-                    asminfo_all_lines[i] = "[assembly: AssemblyInformationalVersion(\"{0}\")]".FormatWith(semantic_version);
+                    asminfo_all_lines[i] = $"[assembly: AssemblyInformationalVersion(\"{semantic_version}\")]";
                     continue;
                 }
             }
@@ -454,7 +454,7 @@ namespace Nuget.DeployAllProjects
                 //          i.e. beta002 instead of beta2
                 //          making beta002 < beta010
 
-                return "{0}.{1}.{2}-{3}{4}".FormatWith(ver.Major, ver.Minor, ver.Build, "beta", ver.Revision.ToString("000"));
+                return $"{ver.Major}.{ver.Minor}.{ver.Build}-beta{ver.Revision.ToString("000")}";
             }
             else
             {

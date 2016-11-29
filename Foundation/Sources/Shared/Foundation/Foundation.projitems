@@ -10,26 +10,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.TypeForwarding.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)AsyncLoop.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AsyncOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Concurrent\ConcurrentHashSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Concurrent\IConcurrentCollectionEx.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collections\IVirtualizedDataItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collections\IVirtualizedDataItemsProvider_T.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\OrderedDictionary.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collections\PageCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\PriorityQueue.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collections\ProviderBasedVirtualizingCollection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collections\Trees\_BooleanExpressionTree\BooleanExpressionTree.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collections\Trees\_BooleanExpressionTree\BooleanExpressionTreeNode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collections\Trees\_BooleanExpressionTree\BooleanExpressionTreeTraversingCollection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collections\Trees\_BooleanExpressionTree\ChildNodePosition.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collections\Trees\_BooleanExpressionTree\IExpressionTreeNode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collections\Trees\_BooleanExpressionTree\PredicateConnectiveNode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collections\Trees\_BooleanExpressionTree\PredicateNode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collections\VirtualizedDataItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collections\VirtualizedDataItemsPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collections\VirtualizingCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\ConvertibleTypeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\IConvertibleType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\ExceptionContextData.cs" />
@@ -49,11 +34,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\String.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Type.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GCMemoryUsagePressure.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IAsyncLoop.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IAsyncOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ILGeneration\IL.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)InvocationThrottleWorkItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)InvocationThrottle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NotifyPropertyChangedObjectWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\FileSystemSettingsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\ISettingsService.cs" />

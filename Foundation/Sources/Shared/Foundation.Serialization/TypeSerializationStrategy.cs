@@ -39,7 +39,7 @@ namespace SquaredInfinity.Foundation.Serialization
             {
                 get
                 {
-                    return "{0}: {1}".FormatWith(Strategy.MemberName.ToString(valueWhenNull:"[NULL]"), SerializationOption);
+                    return $"{Strategy.MemberName.ToStringWithNullOrEmpty()}: {SerializationOption}";
                 }
             }
 

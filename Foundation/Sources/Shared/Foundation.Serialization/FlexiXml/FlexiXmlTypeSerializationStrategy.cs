@@ -575,7 +575,7 @@ namespace SquaredInfinity.Foundation.Serialization.FlexiXml
                 }
 
                 // todo: log a warning, member cannot be deserialized from attribute
-                throw new Exception("Member {0} cannot be deserialized fro attribute".FormatWith(memberAttribute.Name));
+                throw new Exception($"Member {memberAttribute.Name} cannot be deserialized fro attribute");
             }
 
             // TODO: log warning, member cannot be deserialized because couldn't find it

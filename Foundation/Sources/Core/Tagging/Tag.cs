@@ -41,7 +41,8 @@ namespace SquaredInfinity.Foundation.Tagging
 
         public bool Equals(Tag other)
         {
-            return string.Equals(Key, other.Key, StringComparison.InvariantCultureIgnoreCase);
+            // TODO: invariant culture
+            return string.Equals(Key, other.Key, StringComparison.OrdinalIgnoreCase);
         }
 
         public string DebuggerDisplay

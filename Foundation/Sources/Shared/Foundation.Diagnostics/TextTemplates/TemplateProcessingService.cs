@@ -129,7 +129,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.TextTemplates
                 }
                 else
                 {
-                    InternalTrace.Warning(() => "Unable to process placeholder '{0}'".FormatWith(ph.RawValue));
+                    InternalTrace.Warning(() => $"Unable to process placeholder '{ph.RawValue}'");
                 }
             }
 

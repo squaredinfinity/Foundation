@@ -220,17 +220,6 @@ namespace SquaredInfinity.Foundation.Extensions
         }
 
         /// <summary>
-        /// Uses specified string as format template for string.Format()
-        /// </summary>
-        /// <param name="str"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        public static string FormatWith(this string str, params object[] args)
-        {
-            return string.Format(str, args);
-        }
-
-        /// <summary>
         /// Converts the string to a valid file name.
         /// Replaces all characters that are invalid in a filename with '-'.
         /// </summary>
@@ -242,7 +231,7 @@ namespace SquaredInfinity.Foundation.Extensions
 
             if (invalidFileNameChars.Contains(replacementChar))
             {
-                throw new ArgumentException("replacementChar [{0}] is an invalid filename char.".FormatWith(replacementChar));
+                throw new ArgumentException($"replacementChar [{replacementChar}] is an invalid filename char.");
             }
 
             StringBuilder sb = new StringBuilder();

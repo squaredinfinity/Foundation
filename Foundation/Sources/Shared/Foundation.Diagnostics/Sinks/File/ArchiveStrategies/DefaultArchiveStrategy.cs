@@ -156,10 +156,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.Sinks.File.ArchiveStrategies
                     // todo: support different archive naming strategies (e.g. numeric prefix indicating slot number in the archive)
 
                     var newFileName =
-                        "[{0}]  {1}"
-                        .FormatWith(
-                            DateTime.UtcNow.ToString("yyyy-MM-dd HH-mm-ss").ToValidFileName(),
-                            sink.LogFile.Name);
+                        $"[{DateTime.UtcNow.ToString("yyyy-MM-dd HH-mm-ss").ToValidFileName()}]  {sink.LogFile.Name}";
 
                     var newFileFullPath = Path.Combine(ArchiveLocation.FullName, newFileName);
 
@@ -204,9 +201,8 @@ namespace SquaredInfinity.Foundation.Diagnostics.Sinks.File.ArchiveStrategies
                 {
                     Logger.Warning(
                         ex, 
-                        () => 
-                            "Unable to delete {0} from the archive"
-                            .FormatWith(filesInArchive[numberOfFiles].FullName));
+                        () =>
+                            $"Unable to delete {filesInArchive[numberOfFiles].FullName} from the archive");
                 }
             }            
         }

@@ -152,8 +152,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.TextTemplates
                         // treat it as a formatting
                         InternalTrace.Information(
                             () =>
-                                "Unable to find meaning of Content and Instruction {0}. Assuming that this is format specification."
-                                .FormatWith(contentAndInstruction));
+                                $"Unable to find meaning of Content and Instruction {contentAndInstruction}. Assuming that this is format specification.");
 
                         var formatFuncDef = new FunctionDefinition();
                         formatFuncDef.Name = "format";

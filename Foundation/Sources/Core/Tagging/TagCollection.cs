@@ -1,12 +1,11 @@
-﻿using SquaredInfinity.Foundation.Collections;
-using SquaredInfinity.Foundation.Extensions;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Collections;
+using SquaredInfinity.Foundation.Collections;
 
 namespace SquaredInfinity.Foundation.Tagging
 {
@@ -16,7 +15,7 @@ namespace SquaredInfinity.Foundation.Tagging
         readonly MultiMap<string, object> Storage = new MultiMap<string, object>();
 
         public TagCollection()
-            : this (StringComparer.InvariantCultureIgnoreCase)
+            : this (StringComparer.OrdinalIgnoreCase) // TODO: Invariant Culture
         { }
 
         public TagCollection(IEqualityComparer<string> equalityComparer)

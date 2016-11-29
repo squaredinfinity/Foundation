@@ -18,7 +18,7 @@ namespace SquaredInfinity.Foundation.Extensions
 
             while (ex != null)
             {
-                sb.AppendLine("{0}+{1}".FormatWith(ex.GetType().FullName, ex.StackTrace));
+                sb.AppendLine($"{ex.GetType().FullName}+{ex.StackTrace}");
 
                 var aggregate = ex as AggregateException;
 

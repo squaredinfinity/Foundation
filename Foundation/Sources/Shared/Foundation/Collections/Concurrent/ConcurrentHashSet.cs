@@ -1,110 +1,110 @@
-﻿using SquaredInfinity.Foundation.Threading;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//using SquaredInfinity.Foundation.Threading;
+//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Collections.Concurrent
-{
-    public class ConcurrentHashSet<TItem> : IConcurrentCollectionEx<TItem>
-    {
-        readonly ILock CollectionLock = LockFactory.Current.CreateLock();
+//namespace SquaredInfinity.Foundation.Collections.Concurrent
+//{
+//    public class ConcurrentHashSet<TItem> : IConcurrentCollectionEx<TItem>
+//    {
+//        readonly ILock CollectionLock = LockFactory.Current.CreateLock();
 
-        readonly HashSet<TItem> InternalSet;
+//        readonly HashSet<TItem> InternalSet;
 
-        public ConcurrentHashSet()
-        {
-            InternalSet = new HashSet<TItem>();
-        }
+//        public ConcurrentHashSet()
+//        {
+//            InternalSet = new HashSet<TItem>();
+//        }
 
-        public bool TryAdd(TItem item)
-        {
-            using(CollectionLock.AcquireWriteLock())
-            {
-                if (InternalSet.Contains(item))
-                    return false;
+//        public bool TryAdd(TItem item)
+//        {
+//            using(CollectionLock.AcquireWriteLock())
+//            {
+//                if (InternalSet.Contains(item))
+//                    return false;
 
-                InternalSet.Add(item);
-                return true;
-            }
-        }
+//                InternalSet.Add(item);
+//                return true;
+//            }
+//        }
 
-        public IReadOnlyList<TItem> GetSnapshot()
-        {
-            using(CollectionLock.AcquireReadLock())
-            {
-                var snapshot = InternalSet.ToArray();
+//        public IReadOnlyList<TItem> GetSnapshot()
+//        {
+//            using(CollectionLock.AcquireReadLock())
+//            {
+//                var snapshot = InternalSet.ToArray();
 
-                return snapshot;
-            }
-        }
-
-
-        public bool Contains(TItem item)
-        {
-            using(CollectionLock.AcquireReadLock())
-            {
-                return InternalSet.Contains(item);
-            }
-        }
+//                return snapshot;
+//            }
+//        }
 
 
-        public void Reset(IEnumerable<TItem> newItems)
-        {
-            using(CollectionLock.AcquireWriteLock())
-            {
-                InternalSet.Clear();
+//        public bool Contains(TItem item)
+//        {
+//            using(CollectionLock.AcquireReadLock())
+//            {
+//                return InternalSet.Contains(item);
+//            }
+//        }
 
-                foreach(var item in newItems)
-                {
-                    InternalSet.Add(item);
-                }
-            }
-        }
 
-        public int Count
-        {
-            get { return InternalSet.Count; }
-        }
-    }
+//        public void Reset(IEnumerable<TItem> newItems)
+//        {
+//            using(CollectionLock.AcquireWriteLock())
+//            {
+//                InternalSet.Clear();
 
-    class SnapshotEnumerator<TItem> : IEnumerator<TItem>
-    {
-        readonly IReadOnlyList<TItem> Snapshot;
+//                foreach(var item in newItems)
+//                {
+//                    InternalSet.Add(item);
+//                }
+//            }
+//        }
 
-        readonly IEnumerator<TItem> InternalEnumerator;
+//        public int Count
+//        {
+//            get { return InternalSet.Count; }
+//        }
+//    }
 
-        public SnapshotEnumerator(IReadOnlyList<TItem> snapshot)
-        {
-            this.Snapshot = snapshot;
+//    class SnapshotEnumerator<TItem> : IEnumerator<TItem>
+//    {
+//        readonly IReadOnlyList<TItem> Snapshot;
 
-            this.InternalEnumerator = Snapshot.GetEnumerator();
-        }
+//        readonly IEnumerator<TItem> InternalEnumerator;
 
-        public TItem Current
-        {
-            get { return InternalEnumerator.Current; }
-        }
+//        public SnapshotEnumerator(IReadOnlyList<TItem> snapshot)
+//        {
+//            this.Snapshot = snapshot;
 
-        public void Dispose()
-        {
-            InternalEnumerator.Dispose();
-        }
+//            this.InternalEnumerator = Snapshot.GetEnumerator();
+//        }
 
-        object System.Collections.IEnumerator.Current
-        {
-            get { return InternalEnumerator.Current; }
-        }
+//        public TItem Current
+//        {
+//            get { return InternalEnumerator.Current; }
+//        }
 
-        public bool MoveNext()
-        {
-           return InternalEnumerator.MoveNext();
-        }
+//        public void Dispose()
+//        {
+//            InternalEnumerator.Dispose();
+//        }
 
-        public void Reset()
-        {
-            InternalEnumerator.Reset();
-        }
-    }
-}
+//        object System.Collections.IEnumerator.Current
+//        {
+//            get { return InternalEnumerator.Current; }
+//        }
+
+//        public bool MoveNext()
+//        {
+//           return InternalEnumerator.MoveNext();
+//        }
+
+//        public void Reset()
+//        {
+//            InternalEnumerator.Reset();
+//        }
+//    }
+//}

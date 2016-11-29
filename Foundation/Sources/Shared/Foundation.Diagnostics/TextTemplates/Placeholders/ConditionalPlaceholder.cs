@@ -27,7 +27,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.TextTemplates.Placeholders
                     }
                     else
                     {
-                        InternalTrace.Information(() => "Unable to process True branch for placeholder '{0}'".FormatWith(RawValue));
+                        InternalTrace.Information(() => $"Unable to process True branch for placeholder '{RawValue}'");
                         return false;
                     }
                 }

@@ -42,7 +42,7 @@ namespace SquaredInfinity.Foundation.Diagnostics.Configuration.Providers
 
             //# get default config from resource in this assemly
             var asm = Assembly.GetExecutingAssembly();
-            var resourceName = @"SquaredInfinity.Diagnostics.Resources.Default_Configs.config.{0}.xml".FormatWith(environmentName);
+            var resourceName = $@"SquaredInfinity.Diagnostics.Resources.Default_Configs.config.{environmentName}.xml";
 
             using (var configStream = asm.GetManifestResourceStream(resourceName))
             {

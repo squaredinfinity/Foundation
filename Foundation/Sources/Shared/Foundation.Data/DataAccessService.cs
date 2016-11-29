@@ -390,8 +390,7 @@ namespace SquaredInfinity.Foundation.Data
 
             if (result == null && !typeof(T).IsNullable())
                 throw new InvalidCastException(
-                    "{0} stored procedure returned NULL but expected type is non-nullable {1}"
-                    .FormatWith(procName, typeof(T).Name));
+                    $"{procName} stored procedure returned NULL but expected type is non-nullable {typeof(T).Name}");
 
             return MapToClrValue<T>(result);
         }
@@ -407,8 +406,7 @@ namespace SquaredInfinity.Foundation.Data
 
             if (result == null && !typeof(T).IsNullable())
                 throw new InvalidCastException(
-                    "{0} stored procedure returned NULL but expected type is non-nullable {1}"
-                    .FormatWith(procName, typeof(T).Name));
+                    $"{procName} stored procedure returned NULL but expected type is non-nullable {typeof(T).Name}");
 
             return MapToClrValue<T>(result);
         }
@@ -484,8 +482,7 @@ namespace SquaredInfinity.Foundation.Data
 
             if (result == null && !typeof(T).IsNullable())
                 throw new InvalidCastException(
-                    "{0} command returned NULL but expected type is non-nullable {1}"
-                    .FormatWith(sql, typeof(T).Name));
+                    $"{sql} command returned NULL but expected type is non-nullable {typeof(T).Name}");
 
             return MapToClrValue<T>(result);
         }
@@ -606,10 +603,7 @@ namespace SquaredInfinity.Foundation.Data
             else
             {
                 var ex = new InvalidCastException(
-                    "Unable to Map type {0} to {1}."
-                    .FormatWith(
-                        sourceType.Name,
-                        targetType.Name));
+                    $"Unable to Map type {sourceType.Name} to {targetType.Name}.");
 
                 // todo: add context data AssemblyQName
             }
@@ -646,11 +640,11 @@ namespace SquaredInfinity.Foundation.Data
         {
             if (objectType == null)
             {
-                return ExecuteScalarText<bool>("select case when OBJECT_ID('{0}') IS NULL then 0 else 1 end".FormatWith(objectName));
+                return ExecuteScalarText<bool>($"select case when OBJECT_ID('{objectName}') IS NULL then 0 else 1 end");
             }
             else
             {
-                return ExecuteScalarText<bool>("select case when OBJECT_ID('{0}', '{1}') IS NULL then 0 else 1 end".FormatWith(objectName, objectType));
+                return ExecuteScalarText<bool>($"select case when OBJECT_ID('{objectName}', '{objectType}') IS NULL then 0 else 1 end");
             }
         }
 

@@ -392,7 +392,7 @@ namespace SquaredInfinity.Foundation
 
                 if (eventInfo == null)
                 { 
-                    throw new InvalidOperationException("Could not find static event {0} on type {1}.".FormatWith(eventName, targetType.FullName));
+                    throw new InvalidOperationException($"Could not find static event {eventName} on type {targetType.FullName}.");
                 }
             }
             else
@@ -401,7 +401,7 @@ namespace SquaredInfinity.Foundation
 
                 if (eventInfo == null)
                 {
-                    throw new InvalidOperationException("Could not find event {0} on type {1}.".FormatWith(eventName, targetType.FullName));
+                    throw new InvalidOperationException($"Could not find event {eventName} on type {targetType.FullName}.");
                 }
             }
 
