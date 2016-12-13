@@ -35,6 +35,14 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\..\ComponentModel\ComponentModel.csproj">
+      <Project>{33e2de1f-6c1e-433b-a67e-3eae47be7109}</Project>
+      <Name>ComponentModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Extensions\Extensions.csproj">
+      <Project>{74e65f10-4d7b-4aa2-865d-e18dfcb475bf}</Project>
+      <Name>Extensions</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IVirtualizedDataItem.cs" />

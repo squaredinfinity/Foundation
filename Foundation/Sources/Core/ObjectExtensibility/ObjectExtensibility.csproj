@@ -39,6 +39,10 @@
       <Project>{de493e5d-e887-417d-98af-cdb8df72e4fa}</Project>
       <Name>Collections.CollectionEx</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Collections\Collections.Common\Collections.Common.csproj">
+      <Project>{3a8bf0fd-01de-414a-8cba-ca38369d635a}</Project>
+      <Name>Collections.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extension.cs" />

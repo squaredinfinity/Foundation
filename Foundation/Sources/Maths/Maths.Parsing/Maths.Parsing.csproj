@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DE493E5D-E887-417D-98AF-CDB8DF72E4FA}</ProjectGuid>
+    <ProjectGuid>{B6AD7DBA-7B76-4FB0-8F91-570FD3A228F8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SquaredInfinity.Foundation.Collections</RootNamespace>
-    <AssemblyName>SquaredInfinity.Foundation.Collections.CollectionEx</AssemblyName>
+    <RootNamespace>SquaredInfinity.Foundation.Maths.Parsing</RootNamespace>
+    <AssemblyName>SquaredInfinity.Foundation.Maths.Parsing</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,20 +35,28 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\..\BulkUpdates\BulkUpdates.csproj">
-      <Project>{74b09048-18ad-4200-bd68-38e9d68ef24f}</Project>
-      <Name>BulkUpdates</Name>
+    <ProjectReference Include="..\..\Core\Extensions\Extensions.csproj">
+      <Project>{74e65f10-4d7b-4aa2-865d-e18dfcb475bf}</Project>
+      <Name>Extensions</Name>
+      <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Collections.Common\Collections.Common.csproj">
-      <Project>{3a8bf0fd-01de-414a-8cba-ca38369d635a}</Project>
-      <Name>Collections.Common</Name>
+    <ProjectReference Include="..\Maths.Extensions\Maths.Extensions.csproj">
+      <Project>{2e471431-5262-463a-8259-6d5314493f36}</Project>
+      <Name>Maths.Extensions</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CollectionEx.cs" />
-    <Compile Include="CollectionEx.IList.cs" />
-    <Compile Include="ICollectionEx.cs" />
+    <Compile Include="ArrayParser.cs" />
+    <Compile Include="ColonOperator.cs" />
+    <Compile Include="ISamplesParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SamplePerLineParser.cs" />
+    <Compile Include="SamplesParser.cs" />
+    <Compile Include="Terms\ITerm.cs" />
+    <Compile Include="Terms\NumberSequenceTerm.cs" />
+    <Compile Include="Terms\NumberTerm.cs" />
+    <Compile Include="Terms\Term.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

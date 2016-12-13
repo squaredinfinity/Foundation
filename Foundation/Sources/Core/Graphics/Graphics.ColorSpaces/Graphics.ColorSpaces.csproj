@@ -58,13 +58,6 @@
     <Compile Include="XYZColor.cs" />
     <Compile Include="XyzColorSpace.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Maths\Maths.Extensions\Maths.Extensions.csproj">
-      <Project>{2e471431-5262-463a-8259-6d5314493f36}</Project>
-      <Name>Maths.Extensions</Name>
-      <Private>False</Private>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

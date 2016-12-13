@@ -46,9 +46,7 @@ namespace SquaredInfinity.Foundation.Collections
         public IVirtualizedDataItemsProvider<TDataItem> ItemsProvider { get; private set; }
         public int PageSize { get; private set; }
         public TimeSpan PageLoadTimeout { get; private set; }
-
-        IDisposable SUBSCRIPTION_ItemsProvider_AfterDataChanged;
-
+        
         public ProviderBasedVirtualizingCollection(IVirtualizedDataItemsProvider<TDataItem> itemsProvider)
             : this(itemsProvider, pageSize: 1, pageLoadTimeout: TimeSpan.FromSeconds(5))
         { }
@@ -59,16 +57,12 @@ namespace SquaredInfinity.Foundation.Collections
             this.PageSize = pageSize;
             this.PageLoadTimeout = pageLoadTimeout;
 
-            SUBSCRIPTION_ItemsProvider_AfterDataChanged =
-                ItemsProvider
-                .CreateWeakEventHandler()
-                .ForEvent(
-                (s, h) => s.AfterDataChanged += h,
-                (s, h) => s.AfterDataChanged -= h)
-                .Subscribe(new EventHandler((_s, _args1) =>
-                {
-                    HandleUnderlyingDataChange();
-                }));
+            ItemsProvider.AfterDataChanged += ItemsProvider_AfterDataChanged;
+        }
+
+        void ItemsProvider_AfterDataChanged(object sender, EventArgs e)
+        {
+            HandleUnderlyingDataChange();
         }
 
         protected virtual void HandleUnderlyingDataChange()

@@ -40,10 +40,6 @@
       <Name>ComponentModel</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Threading\Threading.Locks\Threading.Locks.csproj">
-      <Project>{c46cbfa1-31f2-4aa1-b0e9-c2c200f06439}</Project>
-      <Name>Threading.Locks</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BulkUpdate.cs" />

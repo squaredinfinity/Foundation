@@ -56,10 +56,6 @@
       <Name>Foundation.Maths.Core</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\Threading\Threading.Locks\Threading.Locks.csproj">
-      <Project>{c46cbfa1-31f2-4aa1-b0e9-c2c200f06439}</Project>
-      <Name>Threading.Locks</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\Shared\Foundation\Foundation.projitems" Label="Shared" />
   <Import Project="..\..\Shared\Internal\Internal.projitems" Label="Shared" />

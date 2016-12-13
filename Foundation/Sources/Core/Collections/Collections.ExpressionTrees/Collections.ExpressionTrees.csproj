@@ -43,6 +43,10 @@
       <Project>{74e65f10-4d7b-4aa2-865d-e18dfcb475bf}</Project>
       <Name>Extensions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Collections.Virtualization\Collections.Virtualization.csproj">
+      <Project>{89cb7f3c-a658-4946-9e0a-bdb1127f426e}</Project>
+      <Name>Collections.Virtualization</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BooleanExpressionTree.cs" />

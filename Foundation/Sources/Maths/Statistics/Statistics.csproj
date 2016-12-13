@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DE493E5D-E887-417D-98AF-CDB8DF72E4FA}</ProjectGuid>
+    <ProjectGuid>{9A84412F-32AC-47BE-810E-166594F5D4AB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SquaredInfinity.Foundation.Collections</RootNamespace>
-    <AssemblyName>SquaredInfinity.Foundation.Collections.CollectionEx</AssemblyName>
+    <RootNamespace>SquaredInfinity.Foundation.Maths.Statistics</RootNamespace>
+    <AssemblyName>SquaredInfinity.Foundation.Maths.Statistics</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,20 +35,47 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\..\BulkUpdates\BulkUpdates.csproj">
-      <Project>{74b09048-18ad-4200-bd68-38e9d68ef24f}</Project>
-      <Name>BulkUpdates</Name>
+    <Content Include="!info.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Count.cs" />
+    <Compile Include="Max.cs" />
+    <Compile Include="Mean.cs" />
+    <Compile Include="Min.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Range.cs" />
+    <Compile Include="RangeInfo.cs" />
+    <Compile Include="SimpleMovingAverage.cs" />
+    <Compile Include="StdDev.cs" />
+    <Compile Include="StdDevInfo.cs" />
+    <Compile Include="Total.cs" />
+    <Compile Include="Variance.cs" />
+    <Compile Include="VarianceAlgorithm.cs" />
+    <Compile Include="VarianceInfo.cs" />
+    <Compile Include="VarianceMode.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Maths.Extensions\Maths.Extensions.csproj">
+      <Project>{2e471431-5262-463a-8259-6d5314493f36}</Project>
+      <Name>Maths.Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Collections.Common\Collections.Common.csproj">
-      <Project>{3a8bf0fd-01de-414a-8cba-ca38369d635a}</Project>
-      <Name>Collections.Common</Name>
+    <ProjectReference Include="..\Maths\Maths.csproj">
+      <Project>{53ef3610-187e-4cb5-881d-f437038e44b0}</Project>
+      <Name>Maths</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CollectionEx.cs" />
-    <Compile Include="CollectionEx.IList.cs" />
-    <Compile Include="ICollectionEx.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Reference Include="System.Reactive.Interfaces, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\System.Reactive.Interfaces.3.1.1\lib\netstandard1.0\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=3.0.3000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\System.Reactive.Linq.3.1.1\lib\netstandard1.3\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

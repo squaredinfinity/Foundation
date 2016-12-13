@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SquaredInfinity.Foundation.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
