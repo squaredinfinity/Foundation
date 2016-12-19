@@ -56,10 +56,6 @@
       <Project>{3a8bf0fd-01de-414a-8cba-ca38369d635a}</Project>
       <Name>Collections.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\Extensions\Extensions.csproj">
-      <Project>{74e65f10-4d7b-4aa2-865d-e18dfcb475bf}</Project>
-      <Name>Extensions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Core\Foundation.Core\Foundation.Core.csproj">
       <Project>{4ed231bf-b533-4842-9b80-b0f30e360ead}</Project>
       <Name>Foundation.Core</Name>

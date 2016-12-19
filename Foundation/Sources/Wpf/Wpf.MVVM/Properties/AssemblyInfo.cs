@@ -8,9 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Wpf.MVVM")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Red Bull Technology")]
 [assembly: AssemblyProduct("Wpf.MVVM")]
-[assembly: AssemblyCopyright("Copyright © Red Bull Technology 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

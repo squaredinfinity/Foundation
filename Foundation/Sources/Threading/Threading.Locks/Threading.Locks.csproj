@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;THREADING_LOCKS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -29,23 +29,10 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;THREADING_LOCKS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\..\Core\Disposables\Disposables.csproj">
-      <Project>{571ccae2-5ebf-452f-9e2d-ff1a7773979a}</Project>
-      <Name>Disposables</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\Extensions\Extensions.csproj">
-      <Project>{74e65f10-4d7b-4aa2-865d-e18dfcb475bf}</Project>
-      <Name>Extensions</Name>
-      <Private>False</Private>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="DefaultLockFactory.cs" />
     <Compile Include="ILock.cs" />
@@ -55,12 +42,25 @@
     <Compile Include="IWriteLockAcquisition.cs" />
     <Compile Include="LockFactory.cs" />
     <Compile Include="LockModes.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReaderWriterLockSlimEx.cs" />
     <Compile Include="ReaderWriterLockSlimEx.ReadLockAcquisition.cs" />
     <Compile Include="ReaderWriterLockSlimEx.UpgradeableReadLockAcquisition.cs" />
     <Compile Include="ReaderWriterLockSlimEx.WriteLockAcquisition.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Foundation\Disposables\Disposables.csproj">
+      <Project>{0eaf4df7-1ffa-4565-a019-eb67f73c59d7}</Project>
+      <Name>Disposables</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Foundation\Extensions\Extensions.csproj">
+      <Project>{3c546790-47a6-4d56-96a9-4da42970fe45}</Project>
+      <Name>Extensions</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="..\..\Shared\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

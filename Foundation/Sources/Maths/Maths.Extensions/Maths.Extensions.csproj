@@ -42,13 +42,6 @@
     <Compile Include="System\Double.extensions.cs" />
     <Compile Include="System\Int32.extensions.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\Primitives\Primitives.csproj">
-      <Project>{f92ae0af-0dd4-4143-85bf-8d974824ad6c}</Project>
-      <Name>Primitives</Name>
-      <Private>False</Private>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

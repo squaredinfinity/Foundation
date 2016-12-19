@@ -39,10 +39,6 @@
       <Project>{33e2de1f-6c1e-433b-a67e-3eae47be7109}</Project>
       <Name>ComponentModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Extensions\Extensions.csproj">
-      <Project>{74e65f10-4d7b-4aa2-865d-e18dfcb475bf}</Project>
-      <Name>Extensions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Collections.Virtualization\Collections.Virtualization.csproj">
       <Project>{89cb7f3c-a658-4946-9e0a-bdb1127f426e}</Project>
       <Name>Collections.Virtualization</Name>

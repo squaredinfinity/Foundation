@@ -8,9 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Wpf.Converters")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Red Bull Technology")]
 [assembly: AssemblyProduct("Wpf.Converters")]
-[assembly: AssemblyCopyright("Copyright © Red Bull Technology 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

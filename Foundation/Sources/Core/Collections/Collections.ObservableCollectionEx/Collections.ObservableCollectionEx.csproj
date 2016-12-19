@@ -43,10 +43,6 @@
       <Project>{33e2de1f-6c1e-433b-a67e-3eae47be7109}</Project>
       <Name>ComponentModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Extensions\Extensions.csproj">
-      <Project>{74e65f10-4d7b-4aa2-865d-e18dfcb475bf}</Project>
-      <Name>Extensions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Collections.CollectionEx\Collections.CollectionEx.csproj">
       <Project>{de493e5d-e887-417d-98af-cdb8df72e4fa}</Project>
       <Name>Collections.CollectionEx</Name>

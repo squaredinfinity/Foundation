@@ -8,9 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Wpf.Data")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Red Bull Technology")]
 [assembly: AssemblyProduct("Wpf.Data")]
-[assembly: AssemblyCopyright("Copyright © Red Bull Technology 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
