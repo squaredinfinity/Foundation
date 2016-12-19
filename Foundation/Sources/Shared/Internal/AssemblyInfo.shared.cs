@@ -17,4 +17,6 @@
     [assembly: AssemblyVersion("1.6.0.0")]
 #elif THREADING_LOCKS
     [assembly: AssemblyVersion("1.6.0.0")]
+#elif WIN32API
+    [assembly: AssemblyVersion("1.6.0.0")]
 #endif
