@@ -43,7 +43,6 @@
     <Compile Include="IntervalEdge.cs" />
     <Compile Include="IntervalFlags.cs" />
     <Compile Include="Line2D.cs" />
-    <Compile Include="LineSegment2D.cs" />
     <Compile Include="MathEx.cs" />
     <Compile Include="Point2D.cs" />
     <Compile Include="Point3D.cs" />
@@ -52,6 +51,10 @@
     <Compile Include="Slope.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Foundation\Extensions\Extensions.csproj">
+      <Project>{3c546790-47a6-4d56-96a9-4da42970fe45}</Project>
+      <Name>Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Maths.Extensions\Maths.Extensions.csproj">
       <Project>{2e471431-5262-463a-8259-6d5314493f36}</Project>
       <Name>Maths.Extensions</Name>

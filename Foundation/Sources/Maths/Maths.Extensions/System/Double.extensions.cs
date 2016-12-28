@@ -365,6 +365,9 @@ namespace SquaredInfinity.Foundation.Extensions
             if (numberOfSignificantFigures > MaxSignificantFigures)
                 throw new ArgumentException($"{nameof(numberOfSignificantFigures)} must be <= {MaxSignificantFigures}");
 
+            if (d.IsCloseTo(0.0))
+                return 0.0;
+
             // double is accurate to MaxSignificantFigures by default
             // it will automatically do the rounding of 15th figure
             // so there's nothing to do here
