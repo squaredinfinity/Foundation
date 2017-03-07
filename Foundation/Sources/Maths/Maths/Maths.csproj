@@ -38,6 +38,10 @@
     <Content Include="!Overview.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IImplementation.cs" />
+    <Compile Include="IImplementationCollection.cs" />
+    <Compile Include="Implementation.cs" />
+    <Compile Include="ImplementationCollection.cs" />
     <Compile Include="Int32Interval.cs" />
     <Compile Include="Interval.cs" />
     <Compile Include="IntervalEdge.cs" />
@@ -46,6 +50,9 @@
     <Compile Include="MathEx.cs" />
     <Compile Include="Point2D.cs" />
     <Compile Include="Point3D.cs" />
+    <Compile Include="PrimeNumbers\IPrimeNumbersProvider.cs" />
+    <Compile Include="PrimeNumbers\PrimeNumbersProvider.cs" />
+    <Compile Include="PrimeNumbers\SieveofEratosthenes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rectangle.cs" />
     <Compile Include="Slope.cs" />
