@@ -55,6 +55,7 @@
     <Compile Include="System\Char.extensions.cs" />
     <Compile Include="System\DateTime.extensions.cs" />
     <Compile Include="System\Enum.extensions.cs" />
+    <Compile Include="System\Exception.extensions.cs" />
     <Compile Include="System\Int32.extensions.cs" />
     <Compile Include="System\Int64.extensions.cs" />
     <Compile Include="System\IObservable.extensions.cs" />

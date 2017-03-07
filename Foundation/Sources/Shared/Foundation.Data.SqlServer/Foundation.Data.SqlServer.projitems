@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>7993ed3f-7a2a-40b3-8add-82da5252054e</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SquaredInfinity.Foundation.Data.SqlServer</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)SqlConnectionFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqlDataAccessService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqlDatabaseObjectNameResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqlDataRecordEnumerableWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqlTransientFaultFilter.cs" />
+  </ItemGroup>
+</Project>

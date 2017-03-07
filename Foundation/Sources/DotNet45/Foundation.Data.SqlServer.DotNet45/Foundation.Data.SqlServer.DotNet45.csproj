@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1A2DB9FE-7D95-47F2-8B28-7E9B0A319B14}</ProjectGuid>
+    <ProjectGuid>{C0C7F383-E188-4A9A-A57D-B5C60BCED18A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SquaredInfinity.Foundation.Data</RootNamespace>
-    <AssemblyName>SquaredInfinity.Foundation.Data.DotNet45</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>Foundation.Data.SqlServer.DotNet45</RootNamespace>
+    <AssemblyName>Foundation.Data.SqlServer.DotNet45</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -17,7 +17,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;DATA</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -25,10 +25,9 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;DATA;SIGN</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\SquaredInfinity.Foundation.Data.DotNet45.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -37,7 +36,11 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Foundation.Core\Foundation.Core.csproj">
@@ -56,17 +59,14 @@
       <Project>{3c546790-47a6-4d56-96a9-4da42970fe45}</Project>
       <Name>Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Threading\Threading.Locks\Threading.Locks.csproj">
-      <Project>{c46cbfa1-31f2-4aa1-b0e9-c2c200f06439}</Project>
-      <Name>Threading.Locks</Name>
+    <ProjectReference Include="..\Foundation.Extensions.DotNet45\Foundation.Extensions.DotNet45.csproj">
+      <Project>{4dcd750d-55da-4753-bf59-90b08a399c99}</Project>
+      <Name>Foundation.Extensions.DotNet45</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
-  <Import Project="..\..\Shared\Foundation.Data\Foundation.Data.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\Foundation.Data.SqlServer\Foundation.Data.SqlServer.projitems" Label="Shared" />
   <Import Project="..\..\Shared\Internal\Internal.projitems" Label="Shared" />
-  <Import Project="..\..\Shared\Foundation.Extensions\Foundation.Extensions.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\Foundation.Data\Foundation.Data.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

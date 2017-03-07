@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SquaredInfinity.Foundation.Extensions;
 using System.Threading;
 using System.IO;
 using System.Threading.Tasks;
+using SquaredInfinity.Foundation.Extensions;
 using SquaredInfinity.Foundation.Comparers;
 
 namespace SquaredInfinity.Foundation

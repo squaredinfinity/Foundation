@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using SquaredInfinity.Foundation.Extensions;
 using System.Xml.Linq;
 using System.Data.SqlTypes;
-using SquaredInfinity.Foundation.Diagnostics;
 using System.Data;
 using System.Collections;
 using System.Data.Common;
 using Microsoft.SqlServer.Server;
+using SquaredInfinity.Foundation.Diagnostics;
 
 namespace SquaredInfinity.Foundation.Data.SqlServer
 {
