@@ -43,6 +43,10 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Comparers\Comparers.csproj">
+      <Project>{517e1ebf-1876-4a93-9d19-00b34f118aa9}</Project>
+      <Name>Comparers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\Foundation.Core\Foundation.Core.csproj">
       <Project>{4ed231bf-b533-4842-9b80-b0f30e360ead}</Project>
       <Name>Foundation.Core</Name>

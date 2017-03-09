@@ -8,7 +8,6 @@ namespace SquaredInfinity.Foundation.Threading
 {
     public interface ILockFactory
     {
-        bool CollectDiagnostics { get; set; }
         ILock CreateLock();
         ILock CreateLock(string name);
     }

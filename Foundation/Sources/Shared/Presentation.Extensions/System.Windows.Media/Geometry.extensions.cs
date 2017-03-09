@@ -40,6 +40,8 @@ namespace SquaredInfinity.Foundation.Extensions
 
             var dv = new DrawingVisual();
 
+            
+
             using (var cx = dv.RenderOpen())
             {
                 cx.Render(geometry, geometryPositionOnBitmap, brush, pen);

@@ -16,7 +16,7 @@ namespace SquaredInfinity.Foundation
 
     public class RetryPolicy
     {
-        public static class TransientFaultFilters
+        public static class KnownTransientFaultFilters
         {
             public static ITransientFaultFilter AnyException = new DynamicTransientFaultFilter<Exception>(ex => true);
             public static ITransientFaultFilter FileAccessDenied = new DynamicTransientFaultFilter<IOException>(ex => ex.HResult == -2147024864);
@@ -24,191 +24,172 @@ namespace SquaredInfinity.Foundation
 
         Random Rand = new Random();
 
-        const int Default_MaxRetryAttempts = 10;
-        const int Default_MinRetryDelayInMiliseconds = 50;
-        const int Default_MaxRetryDelayInMiliseconds = 100;
-
-        public int MaxRetryAttempts { get; private set; }
-        public int MinRetryDelayInMiliseconds { get; private set; }
-        public int MaxRetryDelayInMiliseconds { get; private set; }
-
-
-        public static RetryPolicy Default { get; set; }
-
-        public static RetryPolicy FileAccess { get; set; }
-
-        public RetryPolicy()
-            : this(Default_MaxRetryAttempts, TimeSpan.FromMilliseconds(Default_MinRetryDelayInMiliseconds), TimeSpan.FromMilliseconds(Default_MaxRetryDelayInMiliseconds))
+        IRetryPolicyOptions _defaultOptions = new RetryPolicyOptions();
+        public IRetryPolicyOptions DefaultOptions
         {
-            DefaultTransientFaultFilters = new List<ITransientFaultFilter>();
+            get { return _defaultOptions; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+
+                _defaultOptions = value;
+            }
         }
 
-        public RetryPolicy(IReadOnlyList<ITransientFaultFilter> transientFaultFilters)
-            : this(
-                  Default_MaxRetryAttempts, 
-                  TimeSpan.FromMilliseconds(Default_MinRetryDelayInMiliseconds),
-                  TimeSpan.FromMilliseconds(Default_MaxRetryDelayInMiliseconds),
-                  transientFaultFilters)
+        public static RetryPolicy Default { get; set; }
+        public static RetryPolicy FileAccess { get; set; }
+
+        #region Constructors
+
+        public RetryPolicy()
+            : this(new RetryPolicyOptions())
         { }
 
-        public RetryPolicy(int maxRetryAttempts, TimeSpan minRetryDelay, TimeSpan maxRetryDelay)
-            : this(
-                  maxRetryAttempts, 
-                  minRetryDelay, 
-                  maxRetryDelay, 
-                  new List<ITransientFaultFilter>())
-        { }
-
-        public RetryPolicy(
-            int maxRetryAttempts, 
-            TimeSpan minRetryDelay, 
-            TimeSpan maxRetryDelay, 
-            IReadOnlyList<ITransientFaultFilter> transientFaultFilters)
+        public RetryPolicy(IRetryPolicyOptions options)
         {
-            this.MaxRetryAttempts = maxRetryAttempts;
-            this.MinRetryDelayInMiliseconds = (int)minRetryDelay.TotalMilliseconds;
-            this.MaxRetryDelayInMiliseconds = (int)maxRetryDelay.TotalMilliseconds;
-
-            var tff = new List<ITransientFaultFilter>();
-            tff.AddRange(transientFaultFilters);
-
-            DefaultTransientFaultFilters = tff;
+            DefaultOptions = options;
         }
 
         static RetryPolicy()
         {
-
             //# set default policy
-            var dp = new RetryPolicy(new[] { TransientFaultFilters.AnyException });
+            var options = new RetryPolicyOptions();
+            options.TransientFaultFilters.Add(KnownTransientFaultFilters.AnyException);
+
+            var dp = new RetryPolicy(options);
             Default = dp;
 
 
             //# set default file access policy
-            dp = new RetryPolicy(new[] { TransientFaultFilters.FileAccessDenied });
+            options = new RetryPolicyOptions();
+            options.TransientFaultFilters.Add(KnownTransientFaultFilters.FileAccessDenied);
+            dp = new RetryPolicy(options);
             FileAccess = dp;
         }
 
-        public IReadOnlyList<ITransientFaultFilter> DefaultTransientFaultFilters { get; private set; }
+        #endregion
+
+        #region Execute Action
 
         public void Execute(Action action)
         {
-            Execute(action, DefaultTransientFaultFilters);
+            Execute(action, DefaultOptions);
         }
 
         public void Execute(
            Action action,
-           int maxRetryAttempts,
-           int minDelayInMiliseconds,
-           int maxDelayInMiliseconds)
+           IRetryPolicyOptions options)
         {
-            Execute(() =>
-            {
-                action();
-                return true;
-            },
-                maxRetryAttempts,
-                minDelayInMiliseconds,
-                maxDelayInMiliseconds,
-                DefaultTransientFaultFilters);
+            ExecuteAsyncInternal(
+                () =>
+                {
+                    action();
+                    return Task.FromResult(true);
+                }, options)
+                .Wait(options.CancellationToken);
         }
 
-        public void Execute(
-           Action action,
-           int maxRetryAttempts,
-           int minDelayInMiliseconds,
-           int maxDelayInMiliseconds,
-           IReadOnlyList<ITransientFaultFilter> transientFaultFilters)
+        public async Task ExecuteAsync(Action action)
         {
-            Execute(() =>
-            {
-                action();
-                return true;
-            },
-                maxRetryAttempts,
-                minDelayInMiliseconds,
-                maxDelayInMiliseconds,
-                transientFaultFilters);
+            await 
+                ExecuteAsync(action, DefaultOptions)
+                .ConfigureAwait(continueOnCapturedContext: false);
         }
 
-        public void Execute(Action action, IReadOnlyList<ITransientFaultFilter> transientFaultFilters)
+        public async Task ExecuteAsync(Action action, IRetryPolicyOptions options)
         {
-            Execute(() =>
-            {
-                action();
-                return true;
-            },
-                MaxRetryAttempts,
-                MinRetryDelayInMiliseconds,
-                MaxRetryDelayInMiliseconds,
-                transientFaultFilters);
+            await
+                ExecuteAsync(() =>
+                {
+                    action();
+                    return Task.FromResult(true);
+
+                }, options)
+                .ConfigureAwait(continueOnCapturedContext: false);
         }
+
+        #endregion
+
+        #region Execute Func
 
         public TResult Execute<TResult>(Func<TResult> func)
         {
-            return Execute(
-                func,
-                MaxRetryAttempts,
-                MinRetryDelayInMiliseconds,
-                MaxRetryDelayInMiliseconds,
-                DefaultTransientFaultFilters);
+            return Execute(func, DefaultOptions);
         }
 
         public TResult Execute<TResult>(
             Func<TResult> func,
-            int maxRetryAttempts,
-            int minDelayInMiliseconds,
-            int maxDelayInMiliseconds)
+            IRetryPolicyOptions options)
         {
-            return Execute<TResult>(
-                func,
-                maxRetryAttempts,
-                minDelayInMiliseconds,
-                maxDelayInMiliseconds,
-                DefaultTransientFaultFilters);
+            return 
+                ExecuteAsyncInternal(
+                    () => Task.FromResult(func()), options)
+                    .Result;
         }
 
-        public TResult Execute<TResult>(
-            Func<TResult> func,
-            int maxRetryAttempts,
-            int minDelayInMiliseconds,
-            int maxDelayInMiliseconds,
-            IReadOnlyList<ITransientFaultFilter> transientFaultFilters)
+        public async Task<TResult> ExecuteAsync<TResult>(
+            Func<Task<TResult>> func,
+            IRetryPolicyOptions options)
         {
-            if (transientFaultFilters == null)
-                transientFaultFilters = new List<ITransientFaultFilter>(capacity: 0);
+            return
+                await
+                Task.Run(async () =>
+                {
+                    return 
+                    await 
+                    func()
+                    .ConfigureAwait(continueOnCapturedContext: false);
 
+                }, options.CancellationToken).
+                ConfigureAwait(continueOnCapturedContext:false);
+        }
+
+        async Task<TResult> ExecuteAsyncInternal<TResult>(
+            Func<Task<TResult>> func,
+            IRetryPolicyOptions options)
+        { 
             var result = default(TResult);
 
-            List<Exception> failedAttempts = new List<Exception>(capacity: maxRetryAttempts);
-
-            var filters = transientFaultFilters.EmptyIfNull().ToArray();
+            List<Exception> failedAttempts = new List<Exception>(capacity: options.MaxRetryAttempts);
+            var max_retry_attempts = options.MaxRetryAttempts;
 
             bool success = false;
 
-            while (!success && maxRetryAttempts-- > 0)
+            while (!success && max_retry_attempts-- > 0)
             {
+                options.CancellationToken.ThrowIfCancellationRequested();
+
                 try
                 {
-                    result = func();
+                    result =
+                        await 
+                        func()
+                        .ConfigureAwait(continueOnCapturedContext: false); ;
+
                     success = true;
                 }
                 catch (Exception ex)
                 {
-                    if (transientFaultFilters.Count == 0)
+                    var transient_fault_filters = options.TransientFaultFilters;
+
+                    if (transient_fault_filters.Count == 0)
                         throw;
 
-                    for (int i = 0; i < transientFaultFilters.Count; i++)
+                    for (int i = 0; i < transient_fault_filters.Count; i++)
                     {
-                        var filter = transientFaultFilters[i];
+                        var filter = transient_fault_filters[i];
 
                         if (!filter.IsTransientFault(ex))
                             throw;
 
                         failedAttempts.Add(ex);
 
-                        var retryDelay = Rand.Next(minDelayInMiliseconds, maxDelayInMiliseconds);
+                        var retryDelay = Rand.Next(options.MinRetryDelayInMiliseconds, options.MaxRetryDelayInMiliseconds);
 
-                        Task.Delay(retryDelay).Wait();
+                        await 
+                            Task.Delay(retryDelay, options.CancellationToken)
+                            .ConfigureAwait(continueOnCapturedContext: false);
                     }
                 }
             }
@@ -222,6 +203,8 @@ namespace SquaredInfinity.Foundation
 
             return result;
         }
+
+        #endregion
     }
 }
 

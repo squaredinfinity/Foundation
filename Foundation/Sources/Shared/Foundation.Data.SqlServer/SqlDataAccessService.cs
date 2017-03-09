@@ -21,6 +21,11 @@ namespace SquaredInfinity.Foundation.Data.SqlServer
     public class SqlDataAccessService : DataAccessService<SqlConnection, SqlCommand, SqlParameter, SqlDataReader>
     {
         public SqlDataAccessService(
+            string connectionString)
+            : this(null, new ConnectionFactory<SqlConnection>(connectionString), TimeSpan.FromSeconds(30))
+        { }
+
+        public SqlDataAccessService(
             string connectionString, 
             TimeSpan defaultCommandTimeout)
             : this(null, new ConnectionFactory<SqlConnection>(connectionString), defaultCommandTimeout)
@@ -32,7 +37,10 @@ namespace SquaredInfinity.Foundation.Data.SqlServer
             TimeSpan defaultCommandTimeout)
             : base(logger, connectionFactory, defaultCommandTimeout)
         {
-            RetryPolicy = new RetryPolicy(new[] { new SqlTransientFaultFilter() });
+            var retry_policy_options = new RetryPolicyOptions();
+            retry_policy_options.TransientFaultFilters.Add(new SqlTransientFaultFilter());
+
+            RetryPolicy = new RetryPolicy(retry_policy_options);
         }
 
         /// <summary>
