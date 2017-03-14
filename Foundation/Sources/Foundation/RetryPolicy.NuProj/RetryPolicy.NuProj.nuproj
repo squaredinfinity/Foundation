@@ -20,6 +20,10 @@
       <Configuration>Debug</Configuration>
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Publish - BETA|AnyCPU">
+      <Configuration>Publish - BETA</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Publish - LOCAL|AnyCPU">
       <Configuration>Publish - LOCAL</Configuration>
       <Platform>AnyCPU</Platform>
@@ -30,8 +34,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Comparers.NuProj\Comparers.NuProj.nuproj" />
-    <ProjectReference Include="..\Extensions.NuProj\Extensions.NuProj.nuproj" />
     <ProjectReference Include="..\RetryPolicy\RetryPolicy.csproj" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

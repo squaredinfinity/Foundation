@@ -20,6 +20,10 @@
       <Configuration>Debug</Configuration>
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Publish - BETA|AnyCPU">
+      <Configuration>Publish - BETA</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Publish - LOCAL|AnyCPU">
       <Configuration>Publish - LOCAL</Configuration>
       <Platform>AnyCPU</Platform>
@@ -56,10 +60,6 @@
     </Tags>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="Readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Maths\Maths.Extensions.NuProj\Maths.Extensions.NuProj.nuproj" />
     <ProjectReference Include="..\Graphics.ColorSpaces\Graphics.ColorSpaces.csproj" />
   </ItemGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />

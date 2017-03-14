@@ -20,6 +20,10 @@
       <Configuration>Debug</Configuration>
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Publish - BETA|AnyCPU">
+      <Configuration>Publish - BETA</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Publish - LOCAL|AnyCPU">
       <Configuration>Publish - LOCAL</Configuration>
       <Platform>AnyCPU</Platform>
@@ -30,8 +34,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Foundation\Extensions.NuProj\Extensions.NuProj.nuproj" />
-    <ProjectReference Include="..\Maths.Extensions.NuProj\Maths.Extensions.NuProj.nuproj" />
     <ProjectReference Include="..\Maths\Maths.csproj" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -45,18 +47,20 @@
     <Id>SquaredInfinity.Maths</Id>
     <Version>1.0.0</Version>
     <Title>Squared Infinity ▪ Maths</Title>
-    <Authors>jarek.kardas</Authors>
-    <Owners>jarek.kardas</Owners>
-    <Summary>Maths.NuProj</Summary>
-    <Description>Maths.NuProj</Description>
+    <Authors>Squared Infinity</Authors>
+    <Owners>Squared Infinity</Owners>
+    <Summary>
+    </Summary>
+    <Description>Squared Infinity ▪ Maths</Description>
     <ReleaseNotes>
     </ReleaseNotes>
     <ProjectUrl>
     </ProjectUrl>
     <LicenseUrl>
     </LicenseUrl>
-    <Copyright>Copyright © jarek.kardas</Copyright>
-    <Tags>Maths.NuProj</Tags>
+    <Copyright>Copyright © Squared Infinity</Copyright>
+    <Tags>
+    </Tags>
   </PropertyGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
 </Project>

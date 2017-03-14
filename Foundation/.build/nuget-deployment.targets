@@ -33,7 +33,7 @@
   <PropertyGroup>
     <SI_TasksDirPath>$(SolutionDir)\.build</SI_TasksDirPath>
     <AssemblyInfoPath Condition=" '$(AssemblyInfoPath)' == '' ">$(SolutionDir)\Sources\shared\Internal\AssemblyInfo.cs</AssemblyInfoPath>
-    <NuGetApiKey>5ed852f7-ffda-4235-9a9a-beb45796ab18</NuGetApiKey>
+    <NuGetApiKey>232092ef-0511-4bd5-b472-4b778a7de767</NuGetApiKey>
     <RemoteRepository>https://www.nuget.org/api/v2/package</RemoteRepository>
     <LocalRepository>c:\local_nugets</LocalRepository>
 

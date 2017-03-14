@@ -20,6 +20,10 @@
       <Configuration>Debug</Configuration>
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Publish - BETA|AnyCPU">
+      <Configuration>Publish - BETA</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Publish - LOCAL|AnyCPU">
       <Configuration>Publish - LOCAL</Configuration>
       <Platform>AnyCPU</Platform>
@@ -45,18 +49,20 @@
     <Id>SquaredInfinity.Maths.Statistics.Distributions</Id>
     <Version>1.0.0</Version>
     <Title>Squared Infinity ▪ Maths ▪ Statistics ▪ Distributions</Title>
-    <Authors>jarek.kardas</Authors>
-    <Owners>jarek.kardas</Owners>
-    <Summary>Statistics.Distributions.NuProj</Summary>
-    <Description>Statistics.Distributions.NuProj</Description>
+    <Authors>Squared Infinity</Authors>
+    <Owners>Squared Infinity</Owners>
+    <Summary>
+    </Summary>
+    <Description>Squared Infinity ▪ Maths ▪ Statistics ▪ Distributions</Description>
     <ReleaseNotes>
     </ReleaseNotes>
     <ProjectUrl>
     </ProjectUrl>
     <LicenseUrl>
     </LicenseUrl>
-    <Copyright>Copyright © jarek.kardas</Copyright>
-    <Tags>Statistics.Distributions.NuProj</Tags>
+    <Copyright>Copyright © Squared Infinity</Copyright>
+    <Tags>
+    </Tags>
   </PropertyGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
 </Project>

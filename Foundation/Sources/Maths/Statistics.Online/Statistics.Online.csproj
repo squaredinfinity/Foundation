@@ -40,21 +40,22 @@
     <Compile Include="OnlineStatisticsInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Maths.Extensions\Maths.Extensions.csproj">
-      <Project>{2e471431-5262-463a-8259-6d5314493f36}</Project>
-      <Name>Maths.Extensions</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Maths\Maths.csproj">
-      <Project>{53ef3610-187e-4cb5-881d-f437038e44b0}</Project>
-      <Name>Maths</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Statistics\Statistics.csproj">
-      <Project>{9a84412f-32ac-47be-810e-166594f5d4ab}</Project>
-      <Name>Statistics</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
+    <Reference Include="SquaredInfinity.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.0-beta\lib\portable-net45+win\SquaredInfinity.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SquaredInfinity.Maths, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Maths.2.0.0-beta\lib\portable-net45+win\SquaredInfinity.Maths.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SquaredInfinity.Maths.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Maths.Extensions.2.0.0-beta\lib\portable-net45+win\SquaredInfinity.Maths.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SquaredInfinity.Primitives, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Primitives.2.0.0-beta\lib\portable-net45+win\SquaredInfinity.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Reactive.Linq, Version=3.0.3000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\System.Reactive.Linq.3.1.1\lib\netstandard1.3\System.Reactive.Linq.dll</HintPath>
       <Private>True</Private>

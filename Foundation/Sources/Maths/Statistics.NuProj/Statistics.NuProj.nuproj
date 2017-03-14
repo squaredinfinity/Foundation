@@ -20,14 +20,17 @@
       <Configuration>Debug</Configuration>
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Publish - BETA|AnyCPU">
+      <Configuration>Publish - BETA</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|AnyCPU">
       <Configuration>Release</Configuration>
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Maths.Extensions.NuProj\Maths.Extensions.NuProj.nuproj" />
-    <ProjectReference Include="..\Maths.NuProj\Maths.NuProj.nuproj" />
+    <ProjectReference Include="..\Statistics\Statistics.csproj" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>8c828370-64fc-4ab4-b687-8723cd84b31e</ProjectGuid>
@@ -40,18 +43,20 @@
     <Id>SquaredInfinity.Maths.Statistics</Id>
     <Version>1.0.0</Version>
     <Title>Squared Infinity ▪ Maths ▪ Statistics</Title>
-    <Authors>jarek.kardas</Authors>
-    <Owners>jarek.kardas</Owners>
-    <Summary>Statistics.NuProj</Summary>
-    <Description>Statistics.NuProj</Description>
+    <Authors>Squared Infinity</Authors>
+    <Owners>Squared Infinity</Owners>
+    <Summary>
+    </Summary>
+    <Description>Squared Infinity ▪ Maths ▪ Statistics</Description>
     <ReleaseNotes>
     </ReleaseNotes>
     <ProjectUrl>
     </ProjectUrl>
     <LicenseUrl>
     </LicenseUrl>
-    <Copyright>Copyright © jarek.kardas</Copyright>
-    <Tags>Statistics.NuProj</Tags>
+    <Copyright>Copyright © Squared Infinity</Copyright>
+    <Tags>
+    </Tags>
   </PropertyGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
 </Project>

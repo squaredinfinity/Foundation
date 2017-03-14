@@ -20,6 +20,10 @@
       <Configuration>Debug</Configuration>
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Publish - BETA|AnyCPU">
+      <Configuration>Publish - BETA</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Publish - LOCAL|AnyCPU">
       <Configuration>Publish - LOCAL</Configuration>
       <Platform>AnyCPU</Platform>
@@ -28,6 +32,9 @@
       <Configuration>Release</Configuration>
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Maths.Parsing\Maths.Parsing.csproj" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>e1d640fc-ae24-43db-9b28-6718e0aef19f</ProjectGuid>
@@ -40,25 +47,20 @@
     <Id>SquaredInfinity.Maths.Parsing</Id>
     <Version>1.0.0</Version>
     <Title>Squared Infinity ▪ Maths ▪ Parsing</Title>
-    <Authors>jarek.kardas</Authors>
-    <Owners>jarek.kardas</Owners>
-    <Summary>Maths.Parsing.NuProj</Summary>
-    <Description>Maths.Parsing.NuProj</Description>
+    <Authors>Squared Infinity</Authors>
+    <Owners>Squared Infinity</Owners>
+    <Summary>
+    </Summary>
+    <Description>Squared Infinity ▪ Maths ▪ Parsing</Description>
     <ReleaseNotes>
     </ReleaseNotes>
     <ProjectUrl>
     </ProjectUrl>
     <LicenseUrl>
     </LicenseUrl>
-    <Copyright>Copyright © jarek.kardas</Copyright>
-    <Tags>Maths.Parsing.NuProj</Tags>
+    <Copyright>Copyright © Squared Infinity</Copyright>
+    <Tags>
+    </Tags>
   </PropertyGroup>
-  <ItemGroup>
-    <Content Include="Readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Foundation\Extensions.NuProj\Extensions.NuProj.nuproj" />
-    <ProjectReference Include="..\Maths.Extensions.NuProj\Maths.Extensions.NuProj.nuproj" />
-  </ItemGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
 </Project>

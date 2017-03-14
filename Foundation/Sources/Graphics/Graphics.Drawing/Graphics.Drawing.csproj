@@ -51,10 +51,25 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Maths\Maths\Maths.csproj">
-      <Project>{53ef3610-187e-4cb5-881d-f437038e44b0}</Project>
-      <Name>Maths</Name>
-    </ProjectReference>
+    <Reference Include="SquaredInfinity.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.0-beta\lib\portable-net45+win\SquaredInfinity.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SquaredInfinity.Maths, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Maths.2.0.0-beta\lib\portable-net45+win\SquaredInfinity.Maths.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SquaredInfinity.Maths.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Maths.Extensions.2.0.0-beta\lib\portable-net45+win\SquaredInfinity.Maths.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SquaredInfinity.Primitives, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Primitives.2.0.0-beta\lib\portable-net45+win\SquaredInfinity.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

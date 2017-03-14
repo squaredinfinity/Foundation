@@ -20,6 +20,10 @@
       <Configuration>Debug</Configuration>
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Publish - BETA|AnyCPU">
+      <Configuration>Publish - BETA</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Publish - LOCAL|AnyCPU">
       <Configuration>Publish - LOCAL</Configuration>
       <Platform>AnyCPU</Platform>
@@ -40,24 +44,22 @@
     <Id>SquaredInfinity.Maths.Extensions</Id>
     <Version>1.0.0</Version>
     <Title>Squared Infinity ▪ Maths ▪ Extensions</Title>
-    <Authors>jarek.kardas</Authors>
-    <Owners>jarek.kardas</Owners>
-    <Summary>Maths.Extensions.NuProj</Summary>
-    <Description>Maths.Extensions.NuProj</Description>
+    <Authors>Squared Infinity</Authors>
+    <Owners>Squared Infinity</Owners>
+    <Summary>
+    </Summary>
+    <Description>Squared Infinity ▪ Maths ▪ Extensions</Description>
     <ReleaseNotes>
     </ReleaseNotes>
     <ProjectUrl>
     </ProjectUrl>
     <LicenseUrl>
     </LicenseUrl>
-    <Copyright>Copyright © jarek.kardas</Copyright>
-    <Tags>Maths.Extensions.NuProj</Tags>
+    <Copyright>Copyright © Squared Infinity</Copyright>
+    <Tags>
+    </Tags>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="Readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Foundation\Primitives.NuProj\Primitives.NuProj.nuproj" />
     <ProjectReference Include="..\Maths.Extensions\Maths.Extensions.csproj" />
   </ItemGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />

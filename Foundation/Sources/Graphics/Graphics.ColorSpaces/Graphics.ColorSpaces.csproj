@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="packages.config" />
     <None Include="RYB.pdf" />
   </ItemGroup>
   <ItemGroup>
@@ -58,13 +59,17 @@
     <Compile Include="XyzColorSpace.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Maths\Maths.Extensions\Maths.Extensions.csproj">
-      <Project>{2e471431-5262-463a-8259-6d5314493f36}</Project>
-      <Name>Maths.Extensions</Name>
-    </ProjectReference>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <Reference Include="SquaredInfinity.Maths.Extensions, Version=2.0.0.1, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Maths.Extensions.2.0.0-beta001\lib\portable-net45+win\SquaredInfinity.Maths.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SquaredInfinity.Primitives, Version=2.0.0.1, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Primitives.2.0.0-beta001\lib\portable-net45+win\SquaredInfinity.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
