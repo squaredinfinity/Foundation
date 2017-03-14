@@ -38,6 +38,42 @@ using System.Runtime.InteropServices;
 
 #endregion
 
+#region GRAPHICS
+
+#if GRAPHICS_CORE
+
+[assembly: AssemblyVersion("2.0.0.0")]
+[assembly: AssemblyFileVersion("2.0.0.0")]
+[assembly: AssemblyInformationalVersion("2.0.0.0")]
+
+#endif
+
+#if GRAPHICS_COLORSPACES
+
+[assembly: AssemblyVersion("2.0.0.0")]
+[assembly: AssemblyFileVersion("2.0.0.0")]
+[assembly: AssemblyInformationalVersion("2.0.0.0")]
+
+#endif
+
+#if GRAPHICS_DRAWING
+
+[assembly: AssemblyVersion("2.0.0.0")]
+[assembly: AssemblyFileVersion("2.0.0.0")]
+[assembly: AssemblyInformationalVersion("2.0.0.0")]
+
+#endif
+
+#if GRAPHICS_PRINTING
+
+[assembly: AssemblyVersion("2.0.0.0")]
+[assembly: AssemblyFileVersion("2.0.0.0")]
+[assembly: AssemblyInformationalVersion("2.0.0.0")]
+
+#endif
+
+#endregion
+
 #region DIAGNOSTICS
 
 #if DIAGNOSTICS_CORE

@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;GRAPHICS_COLORSPACES</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -29,7 +29,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;GRAPHICS_COLORSPACES</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -48,7 +48,6 @@
     <Compile Include="KnownColorSpaces.cs" />
     <Compile Include="LabColor.cs" />
     <Compile Include="LabColorSpace.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RGBColor.cs" />
     <Compile Include="RGBColorSpace.cs" />
     <Compile Include="ScRGBColor.cs" />
@@ -58,6 +57,16 @@
     <Compile Include="XYZColor.cs" />
     <Compile Include="XyzColorSpace.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Maths\Maths.Extensions\Maths.Extensions.csproj">
+      <Project>{2e471431-5262-463a-8259-6d5314493f36}</Project>
+      <Name>Maths.Extensions</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

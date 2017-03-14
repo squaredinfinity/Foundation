@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Maths.Space2D;
+﻿using SquaredInfinity.Foundation.Maths;
 using System;
 using System.Collections.Generic;
 using System.Linq;
