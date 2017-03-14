@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>872c18c7-b7e3-47c8-9ef7-15995c96a4ec</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Win32Api.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)credui.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)credui.entities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)credui.externs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)dwmapi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)dwmapi.entities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)dwmapi.externs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)gdi32.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)shell32.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)shell32.externs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)user32.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)user32.entities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)user32.externs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)windows.h.entities.cs" />
+  </ItemGroup>
+</Project>

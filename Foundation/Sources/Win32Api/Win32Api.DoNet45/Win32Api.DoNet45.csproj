@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{84836645-3F71-4B62-A9B5-78445BC6E054}</ProjectGuid>
+    <ProjectGuid>{585A71E6-1412-46FE-8CBD-10F09D6B7D61}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SquaredInfinity.Foundation.Win32Api</RootNamespace>
-    <AssemblyName>SquaredInfinity.Foundation.Win32Api.DotNet45</AssemblyName>
+    <AssemblyName>SquaredInfinity2.Foundation.Win32Api.DoNet45</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -35,7 +35,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,21 +46,8 @@
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="credui.cs" />
-    <Compile Include="credui.entities.cs" />
-    <Compile Include="credui.externs.cs" />
-    <Compile Include="dwmapi.cs" />
-    <Compile Include="dwmapi.entities.cs" />
-    <Compile Include="dwmapi.externs.cs" />
-    <Compile Include="gdi32.cs" />
-    <Compile Include="shell32.cs" />
-    <Compile Include="shell32.externs.cs" />
-    <Compile Include="user32.cs" />
-    <Compile Include="user32.entities.cs" />
-    <Compile Include="user32.externs.cs" />
-    <Compile Include="windows.h.entities.cs" />
-  </ItemGroup>
+  <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
+  <Import Project="..\Win32Api.Shared\Win32Api.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
