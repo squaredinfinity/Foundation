@@ -10,21 +10,6 @@ using SquaredInfinity.Foundation.Comparers;
 
 namespace SquaredInfinity.Foundation
 {
-    public interface IRetryPolicy
-    {
-        void Execute(Action action);
-        void Execute(IRetryPolicyOptions options, Action action);
-
-        Task ExecuteAsync(Action action);
-        Task ExecuteAsync(IRetryPolicyOptions options, Action action);
-
-        TResult Execute<TResult>(Func<TResult> func);
-        TResult Execute<TResult>(IRetryPolicyOptions options, Func<TResult> func);
-
-        Task<TResult> ExecuteAsync<TResult>(Func<Task<TResult>> func);
-        Task<TResult> ExecuteAsync<TResult>(IRetryPolicyOptions options, Func<Task<TResult>> func);
-    }
-
     // retry transient faults only
     // if non-transient fault occurs, break operation
     // if failed after x attempts -> throw aggregate exception

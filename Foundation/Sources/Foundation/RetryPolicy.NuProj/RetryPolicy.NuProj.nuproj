@@ -30,6 +30,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Comparers.NuProj\Comparers.NuProj.nuproj" />
     <ProjectReference Include="..\Extensions.NuProj\Extensions.NuProj.nuproj" />
     <ProjectReference Include="..\RetryPolicy\RetryPolicy.csproj" />
   </ItemGroup>
@@ -44,18 +45,20 @@
     <Id>SquaredInfinity.RetryPolicy</Id>
     <Version>1.0.0</Version>
     <Title>Squared Infinity ▪ Retry Policy</Title>
-    <Authors>jarek.kardas</Authors>
-    <Owners>jarek.kardas</Owners>
-    <Summary>RetryPolicy.NuProj</Summary>
-    <Description>RetryPolicy.NuProj</Description>
+    <Authors>Squared Infinity</Authors>
+    <Owners>Squared Infinity</Owners>
+    <Summary>
+    </Summary>
+    <Description>Squared Infinity ▪ Retry Policy</Description>
     <ReleaseNotes>
     </ReleaseNotes>
     <ProjectUrl>
     </ProjectUrl>
     <LicenseUrl>
     </LicenseUrl>
-    <Copyright>Copyright © jarek.kardas</Copyright>
-    <Tags>RetryPolicy.NuProj</Tags>
+    <Copyright>Copyright © Squared Infinity</Copyright>
+    <Tags>
+    </Tags>
   </PropertyGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
 </Project>

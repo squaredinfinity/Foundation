@@ -39,9 +39,14 @@
       <Project>{3c546790-47a6-4d56-96a9-4da42970fe45}</Project>
       <Name>Extensions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Comparers\Comparers.csproj">
+      <Project>{517e1ebf-1876-4a93-9d19-00b34f118aa9}</Project>
+      <Name>Comparers</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DynamicTransientFaultFilter.cs" />
+    <Compile Include="IRetryPolicy.cs" />
     <Compile Include="ITransientFaultFilter.cs" />
     <Compile Include="RetryPolicy.cs" />
     <Compile Include="RetryPolicyOptions.cs" />

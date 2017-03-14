@@ -1,5 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- 
+    IMPORT NUGET-DEPLOYMENT.TARGETS TO ALLOW NUGET PUSH
+
+    TARGET AND TASKS ASSEMBLIES MY BE LOCATED IN THE SOLUTION (.build/*.*)
+
+    NUGET.EXE MUST BE LOCATED IN THE SOLUTION (.nuget/nuget.exe)
+    SOLUTION PACKAGE REFERENCE TO NuProj MUST BE SET (.nuget/packages.config)
+
+    EACH PROJECT REFERENCED BY NUGETS MUST REFERENCE PACKAGE NuProj.Common
+  -->
+  <PropertyGroup>
+    <AssemblyInfoPath>$(SolutionDir)\Sources\Internal\AssemblyInfo.shared.cs</AssemblyInfoPath>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.build\nuget-default-config.targets" />
+  <Import Project="$(SolutionDir)\.build\nuget-deployment.targets" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|AnyCPU">
       <Configuration>Debug</Configuration>
@@ -17,6 +32,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Threading\Threading.Locks.NuProj\Threading.Locks.NuProj.nuproj" />
     <ProjectReference Include="..\BulkUpdates\BulkUpdates.csproj" />
+    <ProjectReference Include="..\ComponentModel.NuProj\ComponentModel.NuProj.nuproj" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>4d4ab2f6-5e1c-46a6-8bc5-ba3fe8ea8691</ProjectGuid>
@@ -29,18 +45,20 @@
     <Id>SquaredInfinity.BulkUpdates</Id>
     <Version>1.0.0</Version>
     <Title>Squared Infinity ▪ Bulk Updates</Title>
-    <Authors>jarek.kardas</Authors>
-    <Owners>jarek.kardas</Owners>
-    <Summary>BulkUpdates.NuProj</Summary>
-    <Description>BulkUpdates.NuProj</Description>
+    <Authors>Squared Infinity</Authors>
+    <Owners>Squared Infinity</Owners>
+    <Summary>
+    </Summary>
+    <Description>Squared Infinity ▪ Bulk Updates</Description>
     <ReleaseNotes>
     </ReleaseNotes>
     <ProjectUrl>
     </ProjectUrl>
     <LicenseUrl>
     </LicenseUrl>
-    <Copyright>Copyright © jarek.kardas</Copyright>
-    <Tags>BulkUpdates.NuProj</Tags>
+    <Copyright>Copyright © Squared Infinity</Copyright>
+    <Tags>
+    </Tags>
   </PropertyGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
 </Project>
