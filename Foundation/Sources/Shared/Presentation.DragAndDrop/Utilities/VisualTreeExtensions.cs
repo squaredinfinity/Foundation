@@ -5,9 +5,9 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Collections.Generic;
 using System.Windows.Media.Media3D;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 
-namespace SquaredInfinity.Foundation.Presentation.DragDrop.Utilities
+namespace SquaredInfinity.Presentation.DragDrop.Utilities
 {
   public static class VisualTreeExtensions
   {

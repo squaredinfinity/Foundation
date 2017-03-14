@@ -49,7 +49,6 @@
       <Name>Foundation.DotNet45</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="..\..\Shared\Internal\Internal.projitems" Label="Shared" />
   <Import Project="..\..\Shared\Foundation.Charting\Foundation.Charting.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

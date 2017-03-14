@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.ComponentModel
+namespace SquaredInfinity.ComponentModel
 {
     public class ConvertibleTypeConverter : TypeConverter
     {

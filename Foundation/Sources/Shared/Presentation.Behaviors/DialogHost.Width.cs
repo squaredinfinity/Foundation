@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace SquaredInfinity.Foundation.Presentation.Behaviors
+namespace SquaredInfinity.Presentation.Behaviors
 {
     public partial class DialogHost
     {

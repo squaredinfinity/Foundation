@@ -1,11 +1,11 @@
-﻿using SquaredInfinity.Foundation.Diagnostics.TextTemplates.Substitutions;
+﻿using SquaredInfinity.Diagnostics.TextTemplates.Substitutions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.TextTemplates
+namespace SquaredInfinity.Diagnostics.TextTemplates
 {
     public class TextTemplateProcessingContext
     {

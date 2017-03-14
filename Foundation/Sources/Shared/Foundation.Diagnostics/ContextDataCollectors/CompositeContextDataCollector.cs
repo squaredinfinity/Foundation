@@ -1,11 +1,11 @@
-﻿using SquaredInfinity.Foundation.ContextDataCollectors;
+﻿using SquaredInfinity.ContextDataCollectors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
+namespace SquaredInfinity.Diagnostics.ContextDataCollectors
 {
     public class CompositeContextDataCollector : ContextDataCollector, ICollection<IContextDataCollector>
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 
-namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
+namespace SquaredInfinity.Presentation.MarkupExtensions
 {
     public partial class PredicateMethodBinding : SmartBinding
     {

@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using SquaredInfinity.Foundation.Extensions;
-using SquaredInfinity.Foundation.Types.Description;
+using SquaredInfinity.Extensions;
+using SquaredInfinity.Types.Description;
 
-namespace SquaredInfinity.Foundation.Serialization
+namespace SquaredInfinity.Serialization
 {
     //public class EnumerableTypeSerializationStrategy : TypeSerializationStrategy
     //{

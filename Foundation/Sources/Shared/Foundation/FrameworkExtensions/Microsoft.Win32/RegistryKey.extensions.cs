@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Win32;
 
-namespace SquaredInfinity.Foundation.Extensions
+namespace SquaredInfinity.Extensions
 {
     public static class RegistryKeyExtensions
     {

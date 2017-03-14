@@ -4,15 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
-using SquaredInfinity.Foundation.Presentation.DragDrop.Utilities;
+using SquaredInfinity.Presentation.DragDrop.Utilities;
 using System.Windows.Controls;
 using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows.Data;
-using SquaredInfinity.Foundation.Extensions;
-using SquaredInfinity.Foundation.Collections;
+using SquaredInfinity.Extensions;
+using SquaredInfinity.Collections;
 
-namespace SquaredInfinity.Foundation.Presentation.DragDrop
+namespace SquaredInfinity.Presentation.DragDrop
 {
     /// <summary>
     /// Default Drop Target.

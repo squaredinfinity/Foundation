@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics
+namespace SquaredInfinity.Diagnostics
 {
     /// <summary>
     /// Provides additional data for the exception.

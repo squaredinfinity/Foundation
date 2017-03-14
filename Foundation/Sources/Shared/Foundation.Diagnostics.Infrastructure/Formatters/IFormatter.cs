@@ -1,11 +1,11 @@
-﻿using SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors;
+﻿using SquaredInfinity.Diagnostics.ContextDataCollectors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Formatters
+namespace SquaredInfinity.Diagnostics.Formatters
 {
     public interface IFormatter
     {

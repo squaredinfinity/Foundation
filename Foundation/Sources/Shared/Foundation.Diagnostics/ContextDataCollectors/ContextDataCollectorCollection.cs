@@ -1,5 +1,5 @@
-﻿using SquaredInfinity.Foundation.Collections;
-using SquaredInfinity.Foundation.ContextDataCollectors;
+﻿using SquaredInfinity.Collections;
+using SquaredInfinity.ContextDataCollectors;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
+namespace SquaredInfinity.Diagnostics.ContextDataCollectors
 {
     public class ContextDataCollectorCollection : CollectionEx<IContextDataCollector>, IContextDataCollectorCollection
     {

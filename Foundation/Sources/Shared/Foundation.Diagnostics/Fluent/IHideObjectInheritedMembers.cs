@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Fluent
+namespace SquaredInfinity.Diagnostics.Fluent
 {
     /// <summary>
     /// When implemented, this interface hides methods inherited from Object from Intellisense.

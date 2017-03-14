@@ -1,12 +1,12 @@
-﻿using SquaredInfinity.Foundation.Maths.RandomNumbers;
-using SquaredInfinity.Foundation.Extensions;
+﻿using SquaredInfinity.Maths.RandomNumbers;
+using SquaredInfinity.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Maths.Statistics.Distributions
+namespace SquaredInfinity.Maths.Statistics.Distributions
 {
     public class NormalDistribution : Distribution
     {

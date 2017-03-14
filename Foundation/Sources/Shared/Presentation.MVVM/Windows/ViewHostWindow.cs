@@ -1,5 +1,5 @@
-﻿using SquaredInfinity.Foundation.Presentation.ViewModels;
-using SquaredInfinity.Foundation.Presentation.Views;
+﻿using SquaredInfinity.Presentation.ViewModels;
+using SquaredInfinity.Presentation.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using SquaredInfinity.Foundation.Extensions;
-using SquaredInfinity.Foundation.Presentation.Behaviors;
-using SquaredInfinity.Foundation.Maths.Graphs.Trees;
+using SquaredInfinity.Extensions;
+using SquaredInfinity.Presentation.Behaviors;
+using SquaredInfinity.Maths.Graphs.Trees;
 
-namespace SquaredInfinity.Foundation.Presentation.Windows
+namespace SquaredInfinity.Presentation.Windows
 {
     public partial class ViewHostWindow : Window
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Comparers
+namespace SquaredInfinity.Comparers
 {
     public class CompositeComparer<T> : IComparer<T>
     {

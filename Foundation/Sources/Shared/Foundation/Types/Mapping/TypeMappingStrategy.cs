@@ -1,7 +1,7 @@
-﻿using SquaredInfinity.Foundation.Types.Description;
-using SquaredInfinity.Foundation.Types.Description.Reflection;
-using SquaredInfinity.Foundation.Types.Mapping.MemberMatching;
-using SquaredInfinity.Foundation.Types.Mapping.ValueResolving;
+﻿using SquaredInfinity.Types.Description;
+using SquaredInfinity.Types.Description.Reflection;
+using SquaredInfinity.Types.Mapping.MemberMatching;
+using SquaredInfinity.Types.Mapping.ValueResolving;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -9,10 +9,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using SquaredInfinity.Foundation.Extensions;
-using SquaredInfinity.Foundation.Collections;
+using SquaredInfinity.Extensions;
+using SquaredInfinity.Collections;
 
-namespace SquaredInfinity.Foundation.Types.Mapping
+namespace SquaredInfinity.Types.Mapping
 {
     public class TypeMappingStrategy<TFrom, TTo> : TypeMappingStrategy, ITypeMappingStrategy<TFrom, TTo>
     {

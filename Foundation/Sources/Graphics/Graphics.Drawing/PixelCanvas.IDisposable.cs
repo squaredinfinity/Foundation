@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Graphics.Drawing
+namespace SquaredInfinity.Graphics.Drawing
 {
     public partial class PixelCanvas
     {

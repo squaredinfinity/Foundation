@@ -4,7 +4,7 @@
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                     xmlns:controls="http://schemas.squaredinfinity.com/foundation/controls"
                     xmlns:behaviors="http://schemas.squaredinfinity.com/foundation/behaviors"
-                    xmlns:local="clr-namespace:SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector"
+                    xmlns:local="clr-namespace:SquaredInfinity.Presentation.Controls.AdaptiveSelector"
                     xmlns:media="http://schemas.squaredinfinity.com/foundation/media"
                     mc:Ignorable="d" >
 

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace SquaredInfinity.Foundation.Types.Mapping
+namespace SquaredInfinity.Types.Mapping
 {
     public class MappingContext
     {

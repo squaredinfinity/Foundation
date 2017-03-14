@@ -1,9 +1,9 @@
-﻿using SquaredInfinity.Foundation.ComponentModel;
+﻿using SquaredInfinity.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Collections
+namespace SquaredInfinity.Collections
 {
     public class VirtualizedDataItem<TDataItem> : NotifyPropertyChangedObject, IVirtualizedDataItem<TDataItem>
         where TDataItem : class

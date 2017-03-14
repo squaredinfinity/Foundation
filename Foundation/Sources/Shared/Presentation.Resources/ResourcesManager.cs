@@ -10,10 +10,10 @@ using System.Xaml;
 using System.IO;
 using SquaredInfinity.Foundation;
 
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.ComponentModel.Composition;
 
-namespace SquaredInfinity.Foundation.Presentation.Resources
+namespace SquaredInfinity.Presentation.Resources
 {
     public static class ResourcesManager
     {

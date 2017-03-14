@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Maths
+namespace SquaredInfinity.Maths
 {
     public interface IImplementation
     {

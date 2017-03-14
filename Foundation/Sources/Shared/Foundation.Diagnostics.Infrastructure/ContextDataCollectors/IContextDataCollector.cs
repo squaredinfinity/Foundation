@@ -1,11 +1,11 @@
-﻿using SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors;
-using SquaredInfinity.Foundation.Diagnostics.Filters;
+﻿using SquaredInfinity.Diagnostics.ContextDataCollectors;
+using SquaredInfinity.Diagnostics.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
+namespace SquaredInfinity.Diagnostics.ContextDataCollectors
 {
     public interface IContextDataCollector
     {

@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Types.Description;
+﻿using SquaredInfinity.Types.Description;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace SquaredInfinity.Foundation.Serialization.FlexiXml
+namespace SquaredInfinity.Serialization.FlexiXml
 {
     /// <summary>
     /// Serialization Context holds state information of current serialization / deserialization operation

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Maths.Parsing
+namespace SquaredInfinity.Maths.Parsing
 {
     /// <summary>
     /// Parses samples provided in a form of one sample per line

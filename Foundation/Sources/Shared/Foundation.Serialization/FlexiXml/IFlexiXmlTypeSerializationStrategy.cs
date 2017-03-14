@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Types.Description;
+﻿using SquaredInfinity.Types.Description;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace SquaredInfinity.Foundation.Serialization.FlexiXml
+namespace SquaredInfinity.Serialization.FlexiXml
 {
     public interface IFlexiXmlTypeSerializationStrategy : ITypeSerializationStrategy
     {

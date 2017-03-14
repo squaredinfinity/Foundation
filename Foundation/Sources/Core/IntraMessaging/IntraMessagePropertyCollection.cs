@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.IntraMessaging
+namespace SquaredInfinity.IntraMessaging
 {
     public class IntraMessagePropertyCollection : Dictionary<object, object>
     { }

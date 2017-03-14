@@ -1,6 +1,6 @@
-﻿using SquaredInfinity.Foundation.Presentation.Commands;
+﻿using SquaredInfinity.Presentation.Commands;
 using SquaredInfinity.Foundation;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 
-namespace SquaredInfinity.Foundation.Presentation
+namespace SquaredInfinity.Presentation
 {
     public abstract partial class ViewModel<TDataContext> : ViewModel
     {

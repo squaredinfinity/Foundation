@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Loggers
+namespace SquaredInfinity.Diagnostics.Loggers
 {
     public class TraceLogger : ILogger
     {

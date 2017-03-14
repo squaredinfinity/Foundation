@@ -1,13 +1,13 @@
 ﻿using SquaredInfinity.Foundation;
-using SquaredInfinity.Foundation.Data;
+using SquaredInfinity.Data;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Text;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Data;
 
-namespace SquaredInfinity.Foundation.Data
+namespace SquaredInfinity.Data
 {
     class CommandResultEnumerator<TConnection, TCommand, TDataReader, TParameter, TEntity> : EnumeratorBase<TEntity>
             where TConnection : DbConnection, new()

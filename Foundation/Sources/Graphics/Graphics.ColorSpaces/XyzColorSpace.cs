@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Graphics.ColorSpaces
+namespace SquaredInfinity.Graphics.ColorSpaces
 {
     /// <summary>
     /// CIE 1931 XYZ color space

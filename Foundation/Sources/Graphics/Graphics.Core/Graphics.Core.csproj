@@ -8,8 +8,8 @@
     <ProjectGuid>{B67ACCD0-1990-4FFA-B7F3-093A8438459F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SquaredInfinity.Foundation.Graphics</RootNamespace>
-    <AssemblyName>SquaredInfinity2.Foundation.Graphics.Core</AssemblyName>
+    <RootNamespace>SquaredInfinity.Graphics</RootNamespace>
+    <AssemblyName>SquaredInfinity.Graphics.Core</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

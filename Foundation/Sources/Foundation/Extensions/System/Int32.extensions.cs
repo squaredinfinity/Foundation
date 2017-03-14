@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Extensions
+namespace SquaredInfinity.Extensions
 {
     public static class Int32Extensions
     {

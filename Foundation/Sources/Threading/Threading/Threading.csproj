@@ -8,8 +8,8 @@
     <ProjectGuid>{0EB1021A-1DBB-43B4-B33E-CBA6B958C458}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SquaredInfinity.Foundation.Threading</RootNamespace>
-    <AssemblyName>SquaredInfinity2.Foundation.Threading</AssemblyName>
+    <RootNamespace>SquaredInfinity.Threading</RootNamespace>
+    <AssemblyName>SquaredInfinity.Threading</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

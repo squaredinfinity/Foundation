@@ -61,7 +61,6 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\Shared\Foundation.Data.SqlServer\Foundation.Data.SqlServer.projitems" Label="Shared" />
-  <Import Project="..\..\Shared\Internal\Internal.projitems" Label="Shared" />
   <Import Project="..\..\Shared\Foundation.Data\Foundation.Data.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Interop;
 
-namespace SquaredInfinity.Foundation.Win32Api
+namespace SquaredInfinity.Win32Api
 {
     public partial class dwmapi
     {

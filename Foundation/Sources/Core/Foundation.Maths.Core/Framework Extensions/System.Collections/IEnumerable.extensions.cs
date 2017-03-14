@@ -1,11 +1,11 @@
-﻿using SquaredInfinity.Foundation.Maths.Graphs.Trees;
+﻿using SquaredInfinity.Maths.Graphs.Trees;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Extensions
+namespace SquaredInfinity.Extensions
 {
     public static class IEnumerableExtensions
     {

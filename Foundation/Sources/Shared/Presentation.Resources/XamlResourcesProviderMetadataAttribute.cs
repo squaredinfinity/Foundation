@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Presentation.Resources
+namespace SquaredInfinity.Presentation.Resources
 {
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple=false)]

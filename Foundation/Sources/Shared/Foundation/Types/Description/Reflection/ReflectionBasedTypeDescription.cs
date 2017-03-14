@@ -4,9 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 
-namespace SquaredInfinity.Foundation.Types.Description.Reflection
+namespace SquaredInfinity.Types.Description.Reflection
 {
     public class ReflectionBasedTypeDescription : ITypeDescription
     {

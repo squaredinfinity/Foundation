@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 
-namespace SquaredInfinity.Foundation.Presentation
+namespace SquaredInfinity.Presentation
 {
     public partial class ResourceDictionaryReference : ResourceDictionary
     {

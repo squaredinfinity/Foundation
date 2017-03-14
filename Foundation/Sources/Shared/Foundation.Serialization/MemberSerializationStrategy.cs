@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Types.Description;
+﻿using SquaredInfinity.Types.Description;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Serialization
+namespace SquaredInfinity.Serialization
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
     public class MemberSerializationStrategy : IMemberSerializationStrategy

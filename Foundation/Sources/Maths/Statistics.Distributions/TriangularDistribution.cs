@@ -1,12 +1,12 @@
 ﻿using System;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
-namespace SquaredInfinity.Foundation.Maths.Statistics.Distributions
+namespace SquaredInfinity.Maths.Statistics.Distributions
 {
     /// <summary>
     /// https://en.wikipedia.org/wiki/Triangular_distribution#Use_of_the_distribution

@@ -1,5 +1,5 @@
-﻿using SquaredInfinity.Foundation.Collections.Trees;
-using SquaredInfinity.Foundation.Presentation.DragDrop;
+﻿using SquaredInfinity.Collections.Trees;
+using SquaredInfinity.Presentation.DragDrop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace SquaredInfinity.Foundation.Presentation.Controls.Trees
+namespace SquaredInfinity.Presentation.Controls.Trees
 {
     public class BooleanExpressionTreeControl : Control, IDropTarget, IDragSource
     {

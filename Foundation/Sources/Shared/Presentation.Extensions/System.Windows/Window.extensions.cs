@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace SquaredInfinity.Foundation.Extensions
+namespace SquaredInfinity.Extensions
 {
     public static class WindowExtensions
     {

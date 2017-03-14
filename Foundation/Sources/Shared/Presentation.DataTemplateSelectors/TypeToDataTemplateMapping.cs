@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 
-namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
+namespace SquaredInfinity.Presentation.DataTemplateSelectors
 {
     public class TypeToDataTemplateMapping
     {

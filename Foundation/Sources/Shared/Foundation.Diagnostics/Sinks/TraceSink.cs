@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Sinks
+namespace SquaredInfinity.Diagnostics.Sinks
 {
     public class TraceSink : Sink, IRawMessageSink
     {

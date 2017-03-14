@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Presentation.DragDrop
+namespace SquaredInfinity.Presentation.DragDrop
 {
   public class KnownDropTargetAdorners
   {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 
-namespace SquaredInfinity.Foundation.Serialization
+namespace SquaredInfinity.Serialization
 {
     public class TypeSerializationStrategy<TSerializationStrategy, T> 
         : TypeSerializationStrategy, ITypeSerializationStrategy<TSerializationStrategy, T>

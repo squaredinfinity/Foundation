@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace SquaredInfinity.Foundation.Presentation.Behaviors
+namespace SquaredInfinity.Presentation.Behaviors
 {
     public partial class SelectionChanged
     {

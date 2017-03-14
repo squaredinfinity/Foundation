@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Collections;
-using SquaredInfinity.Foundation.Threading;
+using SquaredInfinity.Threading;
 
-namespace SquaredInfinity.Foundation.Types.Description.Reflection
+namespace SquaredInfinity.Types.Description.Reflection
 {
     public class ReflectionBasedTypeDescriptor : ITypeDescriptor
     {

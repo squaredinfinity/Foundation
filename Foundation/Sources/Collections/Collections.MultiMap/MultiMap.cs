@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Collections
+namespace SquaredInfinity.Collections
 {
     /// <summary>
     /// http://en.wikipedia.org/wiki/Multimap

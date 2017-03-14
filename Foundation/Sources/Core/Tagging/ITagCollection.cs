@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Tagging
+namespace SquaredInfinity.Tagging
 {
     public interface ITagCollection : IEnumerable<Tag>
     {

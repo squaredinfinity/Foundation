@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 using Trace = System.Diagnostics.Debug;
 #endif
 
-//namespace SquaredInfinity.Foundation
+//namespace SquaredInfinity
 //{
 //#if CORE
 //    internal enum TraceEventType

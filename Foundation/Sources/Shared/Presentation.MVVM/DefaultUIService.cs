@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using SquaredInfinity.Foundation.Presentation.Views;
-using SquaredInfinity.Foundation.Presentation.Windows;
+using SquaredInfinity.Presentation.Views;
+using SquaredInfinity.Presentation.Windows;
 using System.Windows.Threading;
-using SquaredInfinity.Foundation.Presentation.ViewModels;
+using SquaredInfinity.Presentation.ViewModels;
 using System.Windows;
 
-namespace SquaredInfinity.Foundation.Presentation
+namespace SquaredInfinity.Presentation
 {
     public class DefaultUIService : UIService
     {

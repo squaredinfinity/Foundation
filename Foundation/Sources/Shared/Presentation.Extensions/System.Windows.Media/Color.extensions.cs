@@ -1,11 +1,11 @@
-﻿using SquaredInfinity.Foundation.Graphics.ColorSpaces;
+﻿using SquaredInfinity.Graphics.ColorSpaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Extensions
+namespace SquaredInfinity.Extensions
 {
     public static class ColorExtensions
     {

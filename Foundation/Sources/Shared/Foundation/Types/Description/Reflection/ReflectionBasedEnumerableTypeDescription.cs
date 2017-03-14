@@ -1,15 +1,15 @@
-﻿using SquaredInfinity.Foundation.Collections;
-using SquaredInfinity.Foundation.Collections.Concurrent;
+﻿using SquaredInfinity.Collections;
+using SquaredInfinity.Collections.Concurrent;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Reflection;
 
-namespace SquaredInfinity.Foundation.Types.Description.Reflection
+namespace SquaredInfinity.Types.Description.Reflection
 {
     public class ReflectionBasedEnumerableTypeDescription : ReflectionBasedTypeDescription, IEnumerableTypeDescription
     {

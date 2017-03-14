@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 
-namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
+namespace SquaredInfinity.Presentation.MarkupExtensions
 {
     public partial class CommandMethodBinding : SmartBinding
     {

@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace SquaredInfinity.Foundation.Presentation.Converters
+namespace SquaredInfinity.Presentation.Converters
 {
     public class EnumToValuesConverter : MarkupExtension, IValueConverter
     {

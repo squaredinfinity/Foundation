@@ -1,15 +1,15 @@
-﻿using SquaredInfinity.Foundation.Collections;
-using SquaredInfinity.Foundation.Threading;
+﻿using SquaredInfinity.Collections;
+using SquaredInfinity.Threading;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Collections.Concurrent;
 
-namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
+namespace SquaredInfinity.Presentation.DataTemplateSelectors
 {
     public partial class ContextAwareDataTemplateSelectorService : IContextAwareDataTemplateSelectorService
     {                

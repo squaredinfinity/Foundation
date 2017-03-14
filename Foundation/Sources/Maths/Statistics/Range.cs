@@ -1,12 +1,12 @@
 ﻿using System;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reactive.Linq;
 
-namespace SquaredInfinity.Foundation.Maths.Statistics
+namespace SquaredInfinity.Maths.Statistics
 {
     /// <summary>
     /// Contains methods for calculating Range, that is the difference between largest and smallest values.

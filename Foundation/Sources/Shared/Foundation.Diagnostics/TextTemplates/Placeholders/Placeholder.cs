@@ -4,10 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
-using SquaredInfinity.Foundation.Diagnostics.TextTemplates.Substitutions;
+using SquaredInfinity.Extensions;
+using SquaredInfinity.Diagnostics.TextTemplates.Substitutions;
 
-namespace SquaredInfinity.Foundation.Diagnostics.TextTemplates.Placeholders
+namespace SquaredInfinity.Diagnostics.TextTemplates.Placeholders
 {
     [DebuggerDisplay("{RawValue}")]
     public class Placeholder

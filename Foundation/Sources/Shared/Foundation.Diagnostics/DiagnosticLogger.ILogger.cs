@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics
+namespace SquaredInfinity.Diagnostics
 {
     public partial class DiagnosticLogger : ILogger
     {

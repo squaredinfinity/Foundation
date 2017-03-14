@@ -1,12 +1,12 @@
 ﻿using System;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.IO;
 
-namespace SquaredInfinity.Foundation
+namespace SquaredInfinity
 {
     public interface IClipboardService
     {

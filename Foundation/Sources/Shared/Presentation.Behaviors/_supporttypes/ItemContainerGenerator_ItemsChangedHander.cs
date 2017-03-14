@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Controls;
 
-namespace SquaredInfinity.Foundation.Presentation.Behaviors
+namespace SquaredInfinity.Presentation.Behaviors
 {
     internal class ItemContainerGenerator_ItemsChangedHander : IDisposable
     {

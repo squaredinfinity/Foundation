@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Serialization;
+﻿using SquaredInfinity.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace SquaredInfinity.Foundation.DotNet45.Serialization.FlexiXml
+namespace SquaredInfinity.DotNet45.Serialization.FlexiXml
 {
     public class FlexiXmlReferenceResolutionContext<TRoot, TypeToResolve> : ReferenceResolutionContext<TRoot, TypeToResolve>
     {

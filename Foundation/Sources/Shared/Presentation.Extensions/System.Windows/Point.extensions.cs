@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using SquaredInfinity.Foundation.Maths.Space2D;
+using SquaredInfinity.Maths.Space2D;
 
-namespace SquaredInfinity.Foundation.Extensions
+namespace SquaredInfinity.Extensions
 {
     public static class PointExtensions
     {

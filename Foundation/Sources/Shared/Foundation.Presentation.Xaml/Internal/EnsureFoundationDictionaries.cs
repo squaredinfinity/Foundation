@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 
-namespace SquaredInfinity.Foundation.Presentation.Internal
+namespace SquaredInfinity.Presentation.Internal
 {
     public class EnsureFoundationDictionaries : ResourceDictionary
     {

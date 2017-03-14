@@ -1,11 +1,11 @@
-﻿using SquaredInfinity.Foundation.Diagnostics.Filters.PatternEvaluation;
+﻿using SquaredInfinity.Diagnostics.Filters.PatternEvaluation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Filters
+namespace SquaredInfinity.Diagnostics.Filters
 {
     public class LoggerNameFilter : Filter
     {

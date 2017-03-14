@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Maths.Statistics
+namespace SquaredInfinity.Maths.Statistics
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
     public class OnlineStatisticsInfo

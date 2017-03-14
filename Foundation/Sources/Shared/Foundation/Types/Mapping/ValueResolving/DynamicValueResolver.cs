@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Types.Mapping.ValueResolving
+namespace SquaredInfinity.Types.Mapping.ValueResolving
 {
     public class DynamicValueResolver<TFrom, TTo> : ValueResolver<TFrom, TTo>, IDynamicValueResolver
     {

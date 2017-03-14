@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 
-namespace SquaredInfinity.Foundation.Presentation.DragDrop
+namespace SquaredInfinity.Presentation.DragDrop
 {
   /// <summary>
   /// Interface implemented by Drag Handlers.

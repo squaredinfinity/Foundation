@@ -7,10 +7,10 @@ using System.Windows.Media;
 using System.Reflection;
 using System.Collections;
 using System.Windows.Controls.Primitives;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.ComponentModel;
 
-namespace SquaredInfinity.Foundation.Presentation.DragDrop.Utilities
+namespace SquaredInfinity.Presentation.DragDrop.Utilities
 {
   public static class ItemsControlExtensions
   {

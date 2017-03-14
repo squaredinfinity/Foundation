@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Threading
+namespace SquaredInfinity.Threading
 {
     public interface IReadLockAcquisition : IDisposable
     {

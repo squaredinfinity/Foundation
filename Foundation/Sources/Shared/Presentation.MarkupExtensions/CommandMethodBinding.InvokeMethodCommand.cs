@@ -5,10 +5,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Input;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Windows;
 
-namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
+namespace SquaredInfinity.Presentation.MarkupExtensions
 {
     public partial class CommandMethodBinding : SmartBinding
     {

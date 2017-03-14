@@ -1,3 +1,3 @@
 ﻿using SquaredInfinity.Foundation;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Runtime.CompilerServices;

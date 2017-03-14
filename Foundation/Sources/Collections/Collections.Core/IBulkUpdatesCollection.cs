@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation;
+﻿using SquaredInfinity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Collections
+namespace SquaredInfinity.Collections
 {
     public interface IBulkUpdatesCollection : ISupportsBulkUpdate
     {

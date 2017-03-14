@@ -7,11 +7,11 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using SquaredInfinity.Foundation.Presentation.DragDrop.Utilities;
+using SquaredInfinity.Presentation.DragDrop.Utilities;
 using System.Windows.Media.Imaging;
-using SquaredInfinity.Foundation.Presentation.DragDrop;
+using SquaredInfinity.Presentation.DragDrop;
 
-namespace SquaredInfinity.Foundation.Presentation.Behaviors
+namespace SquaredInfinity.Presentation.Behaviors
 {
     public static partial class DragDrop
     {

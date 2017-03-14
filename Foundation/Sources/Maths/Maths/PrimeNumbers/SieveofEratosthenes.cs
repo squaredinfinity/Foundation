@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Maths.PrimeNumbers
+namespace SquaredInfinity.Maths.PrimeNumbers
 {
     /// <summary>
     /// https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes

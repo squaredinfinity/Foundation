@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Maths.Graphs.Trees
+namespace SquaredInfinity.Maths.Graphs.Trees
 {
     /// <summary>
     /// Tree traversal mode (Breadth First, Depth First, Bottom Up)

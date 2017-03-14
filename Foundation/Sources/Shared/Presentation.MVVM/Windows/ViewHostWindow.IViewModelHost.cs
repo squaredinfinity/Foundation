@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace SquaredInfinity.Foundation.Presentation.Windows
+namespace SquaredInfinity.Presentation.Windows
 {
     public partial class ViewHostWindow : IViewModelHost
     {

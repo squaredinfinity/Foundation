@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-namespace SquaredInfinity.Foundation
+namespace SquaredInfinity
 {
     /// <summary>
     /// Provides a DateTime context.

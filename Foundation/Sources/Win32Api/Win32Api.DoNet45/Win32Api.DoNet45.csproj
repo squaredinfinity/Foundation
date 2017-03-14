@@ -7,8 +7,8 @@
     <ProjectGuid>{585A71E6-1412-46FE-8CBD-10F09D6B7D61}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SquaredInfinity.Foundation.Win32Api</RootNamespace>
-    <AssemblyName>SquaredInfinity2.Foundation.Win32Api.DoNet45</AssemblyName>
+    <RootNamespace>SquaredInfinity.Win32Api</RootNamespace>
+    <AssemblyName>SquaredInfinity.Win32Api.DoNet45</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

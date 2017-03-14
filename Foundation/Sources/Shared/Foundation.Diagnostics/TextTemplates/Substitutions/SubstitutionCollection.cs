@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.TextTemplates.Substitutions
+namespace SquaredInfinity.Diagnostics.TextTemplates.Substitutions
 {
     // TODO: make it a dictionary, so that input can be a key
     public class SubstitutionCollection : IEnumerable<Substitution>

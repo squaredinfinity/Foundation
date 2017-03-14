@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Threading;
 
-namespace SquaredInfinity.Foundation.Serialization
+namespace SquaredInfinity.Serialization
 {
 
     /// <summary>

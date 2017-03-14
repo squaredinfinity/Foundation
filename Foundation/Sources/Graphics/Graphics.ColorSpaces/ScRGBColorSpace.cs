@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Graphics.ColorSpaces
+namespace SquaredInfinity.Graphics.ColorSpaces
 {
     /// <summary>
     /// http://en.wikipedia.org/wiki/ScRGB (D65)

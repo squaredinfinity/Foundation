@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
-using SquaredInfinity.Foundation.Diagnostics.Filters.PatternEvaluation;
+using SquaredInfinity.Extensions;
+using SquaredInfinity.Diagnostics.Filters.PatternEvaluation;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Filters
+namespace SquaredInfinity.Diagnostics.Filters
 {
     public class PropertyFilter : Filter
     {

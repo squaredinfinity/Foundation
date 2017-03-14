@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Configuration
+namespace SquaredInfinity.Diagnostics.Configuration
 {
     internal class ConfigurationCache
     {

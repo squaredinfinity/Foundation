@@ -1,9 +1,9 @@
-﻿using SquaredInfinity.Foundation.Presentation;
+﻿using SquaredInfinity.Presentation;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
+namespace SquaredInfinity.Presentation.Controls.AdaptiveSelector
 {
     class DummySelectorLogic : SelectorLogic
     { }

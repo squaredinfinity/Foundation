@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace SquaredInfinity.Foundation.Presentation.Resources
+namespace SquaredInfinity.Presentation.Resources
 {
     internal class XamlResourcesImporter
     {

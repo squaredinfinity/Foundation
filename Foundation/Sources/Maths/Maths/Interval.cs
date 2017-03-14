@@ -1,10 +1,10 @@
 ﻿using System;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
 
-namespace SquaredInfinity.Foundation.Maths
+namespace SquaredInfinity.Maths
 {
     /// <summary>
     /// Represents an Interval of doubles

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Data
+namespace SquaredInfinity.Data
 {
     public interface IDatabaseObjectNameResolver
     {

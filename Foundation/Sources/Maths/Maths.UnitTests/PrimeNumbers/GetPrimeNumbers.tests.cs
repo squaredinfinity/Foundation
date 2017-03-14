@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SquaredInfinity.Foundation.Maths.PrimeNumbers;
+using SquaredInfinity.Maths.PrimeNumbers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

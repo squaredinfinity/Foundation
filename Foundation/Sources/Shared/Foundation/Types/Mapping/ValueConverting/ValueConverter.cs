@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Types.Mapping.ValueConverting
+namespace SquaredInfinity.Types.Mapping.ValueConverting
 {
     public abstract class ValueConverter<TFrom, TTo> : IValueConverter<TFrom, TTo>
     {

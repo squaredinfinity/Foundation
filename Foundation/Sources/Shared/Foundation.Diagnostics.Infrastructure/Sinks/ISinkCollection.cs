@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Sinks
+namespace SquaredInfinity.Diagnostics.Sinks
 {
     public interface ISinkCollection : 
         ICollection<ISink>//, 

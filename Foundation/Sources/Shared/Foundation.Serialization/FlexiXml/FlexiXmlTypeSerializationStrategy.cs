@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Types.Description;
+﻿using SquaredInfinity.Types.Description;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Diagnostics;
 
-namespace SquaredInfinity.Foundation.Serialization.FlexiXml
+namespace SquaredInfinity.Serialization.FlexiXml
 {
     public class FlexiXmlTypeSerializationStrategy<T> : FlexiXmlTypeSerializationStrategy<FlexiXmlTypeSerializationStrategy<T>, T>
     {

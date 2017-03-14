@@ -5,10 +5,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Collections.Concurrent;
 
-namespace SquaredInfinity.Foundation
+namespace SquaredInfinity
 {
     public class TypeResolver
     {

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Windows.Input;
 
-namespace SquaredInfinity.Foundation.Presentation.Behaviors
+namespace SquaredInfinity.Presentation.Behaviors
 {
     public class ColumnHeaders
     {

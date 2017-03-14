@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors.Rules
+namespace SquaredInfinity.Presentation.DataTemplateSelectors.Rules
 {
     public class ItemValueRule : DataTemplateSelectorRule
     {

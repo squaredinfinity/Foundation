@@ -5,11 +5,11 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Collections;
-using SquaredInfinity.Foundation.Types.Description.Reflection;
+using SquaredInfinity.Types.Description.Reflection;
 
-namespace SquaredInfinity.Foundation.Types.Description.IL
+namespace SquaredInfinity.Types.Description.IL
 {
     public class ILBasedTypeDescriptor : ReflectionBasedTypeDescriptor
     {

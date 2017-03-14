@@ -1,12 +1,12 @@
-﻿using SquaredInfinity.Foundation.Collections;
-using SquaredInfinity.Foundation.Extensions;
+﻿using SquaredInfinity.Collections;
+using SquaredInfinity.Extensions;
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 
-namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
+namespace SquaredInfinity.Presentation.DataTemplateSelectors
 {
     public class TypeToDataTemplateMappingCollection : ObservableCollectionEx<TypeToDataTemplateMapping>
     {

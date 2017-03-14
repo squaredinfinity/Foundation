@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace SquaredInfinity.Foundation.Disposables
+namespace SquaredInfinity.Disposables
 {
     public class CompositeDisposable : ICollection<IDisposable>, IEnumerable<IDisposable>, IEnumerable, IDisposable
     {

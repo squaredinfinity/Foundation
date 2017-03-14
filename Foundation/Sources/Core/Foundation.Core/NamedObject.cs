@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace SquaredInfinity.Foundation
+namespace SquaredInfinity
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
     public class NamedObject

@@ -5,10 +5,10 @@ using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Windows;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Diagnostics;
 
-namespace SquaredInfinity.Foundation
+namespace SquaredInfinity
 {
   
 

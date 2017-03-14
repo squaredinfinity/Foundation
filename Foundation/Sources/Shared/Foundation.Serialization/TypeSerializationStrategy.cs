@@ -1,5 +1,5 @@
-﻿using SquaredInfinity.Foundation.Types.Description;
-using SquaredInfinity.Foundation.Extensions;
+﻿using SquaredInfinity.Types.Description;
+using SquaredInfinity.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Serialization
+namespace SquaredInfinity.Serialization
 {
     public enum MemberSerializationOption
     {

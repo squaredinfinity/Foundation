@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
 
-namespace SquaredInfinity.Foundation.ComponentModel
+namespace SquaredInfinity.ComponentModel
 {
     /// <summary> 
     /// Implements INotifyPropertyChanged

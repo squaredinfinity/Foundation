@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Presentation
+namespace SquaredInfinity.Presentation
 {
     public interface IViewModelHost
     {

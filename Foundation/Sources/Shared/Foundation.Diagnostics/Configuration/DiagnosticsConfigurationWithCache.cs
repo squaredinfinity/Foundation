@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
-using SquaredInfinity.Foundation.Diagnostics.Filters;
+using SquaredInfinity.Extensions;
+using SquaredInfinity.Diagnostics.Filters;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Configuration
+namespace SquaredInfinity.Diagnostics.Configuration
 {
     internal class DiagnosticsConfigurationWithCache : DiagnosticsConfiguration
     {

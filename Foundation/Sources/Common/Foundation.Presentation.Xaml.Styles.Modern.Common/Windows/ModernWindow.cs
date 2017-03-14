@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Presentation.Windows;
+﻿using SquaredInfinity.Presentation.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.Windows
+namespace SquaredInfinity.Presentation.Xaml.Styles.Modern.Windows
 {
     public class ModernWindow : ViewHostWindow
     {
@@ -59,7 +59,7 @@ namespace SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.Windows
             this.CommandBindings.Add(new CommandBinding(SystemCommands.RestoreWindowCommand, this.OnRestoreWindow, this.OnCanResizeWindow));
         }
 
-        protected override void OnViewModelEvent(SquaredInfinity.Foundation.Presentation.ViewModels.ViewModelEventArgs args)
+        protected override void OnViewModelEvent(SquaredInfinity.Presentation.ViewModels.ViewModelEventArgs args)
         {
             base.OnViewModelEvent(args);
         }

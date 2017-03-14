@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Win32Api
+namespace SquaredInfinity.Win32Api
 {
     public partial class user32
     {

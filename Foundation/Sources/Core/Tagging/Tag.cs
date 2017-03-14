@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Tagging
+namespace SquaredInfinity.Tagging
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
     public struct Tag : IEquatable<Tag>

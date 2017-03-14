@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 
-namespace SquaredInfinity.Foundation.Graphics.ColorSpaces
+namespace SquaredInfinity.Graphics.ColorSpaces
 {
     public class LabColor : ColorBase
     {

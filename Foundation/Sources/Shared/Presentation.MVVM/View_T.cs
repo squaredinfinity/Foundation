@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using SquaredInfinity.Foundation.Extensions;
-using SquaredInfinity.Foundation.Presentation.ViewModels;
+using SquaredInfinity.Extensions;
+using SquaredInfinity.Presentation.ViewModels;
 
-namespace SquaredInfinity.Foundation.Presentation.Views
+namespace SquaredInfinity.Presentation.Views
 {
     public class View<TViewModel> : View
         where TViewModel: IHostAwareViewModel

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Diagnostics;
 
-namespace SquaredInfinity.Foundation.Maths
+namespace SquaredInfinity.Maths
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
     struct IntervalEdge : IEquatable<IntervalEdge>, IComparable<IntervalEdge>

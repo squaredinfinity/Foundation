@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Maths
+namespace SquaredInfinity.Maths
 {
     public struct Int32Interval
     {

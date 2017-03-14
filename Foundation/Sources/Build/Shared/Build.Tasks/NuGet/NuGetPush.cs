@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 
 namespace SquaredInfinity.Build.Tasks.NuGet
 {

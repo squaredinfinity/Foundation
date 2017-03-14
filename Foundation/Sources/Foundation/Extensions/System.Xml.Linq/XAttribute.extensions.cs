@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
 
-namespace SquaredInfinity.Foundation.Extensions
+namespace SquaredInfinity.Extensions
 {
     public static class XAttributeExtensions
     {

@@ -1,5 +1,5 @@
-﻿using SquaredInfinity.Foundation.Presentation.DataTemplateSelectors;
-using SquaredInfinity.Foundation.Presentation.Resources;
+﻿using SquaredInfinity.Presentation.DataTemplateSelectors;
+using SquaredInfinity.Presentation.Resources;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
-namespace SquaredInfinity.Foundation.Presentation
+namespace SquaredInfinity.Presentation
 {
     [XamlResourcesProviderMetadata()]
     public class XamlResources : IXamlResourcesProvider

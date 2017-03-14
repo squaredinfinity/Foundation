@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Filters
+namespace SquaredInfinity.Diagnostics.Filters
 {
     public interface IFilter
     {

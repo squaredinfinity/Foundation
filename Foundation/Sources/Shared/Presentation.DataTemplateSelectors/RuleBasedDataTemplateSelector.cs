@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Presentation.DataTemplateSelectors.Rules;
+﻿using SquaredInfinity.Presentation.DataTemplateSelectors.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 
-namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
+namespace SquaredInfinity.Presentation.DataTemplateSelectors
 {
     [ContentProperty("Rules")]
     public class RuleBasedDataTemplateSelector : DataTemplateSelector

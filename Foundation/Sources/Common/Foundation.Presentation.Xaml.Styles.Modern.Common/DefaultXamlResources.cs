@@ -1,5 +1,5 @@
-﻿using SquaredInfinity.Foundation.Presentation;
-using SquaredInfinity.Foundation.Presentation.Resources;
+﻿using SquaredInfinity.Presentation;
+using SquaredInfinity.Presentation.Resources;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -10,12 +10,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
-namespace  SquaredInfinity.Foundation.Presentation.Styles.Modern
+namespace  SquaredInfinity.Presentation.Styles.Modern
 {
     [XamlResourcesProviderMetadata(ImportOrder = XamlResources.ImportOrder)]
     public partial class DefaultXamlResources : IXamlResourcesProvider
     {
-        public const uint ImportOrder = SquaredInfinity.Foundation.Presentation.XamlResources.ImportOrder + 100;
+        public const uint ImportOrder = SquaredInfinity.Presentation.XamlResources.ImportOrder + 100;
 
         public IEnumerable<ResourceDictionary> LoadResources()
         {

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Build.Framework;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Text;

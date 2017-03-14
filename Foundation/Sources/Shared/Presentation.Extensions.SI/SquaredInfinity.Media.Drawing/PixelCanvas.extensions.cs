@@ -1,6 +1,6 @@
-﻿using SquaredInfinity.Foundation.Maths.Space2D;
-using SquaredInfinity.Foundation.Graphics.Drawing;
-using SquaredInfinity.Foundation.Presentation.Media;
+﻿using SquaredInfinity.Maths.Space2D;
+using SquaredInfinity.Graphics.Drawing;
+using SquaredInfinity.Presentation.Media;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using Shapes = System.Windows.Shapes;
 using System.Threading;
 
-namespace SquaredInfinity.Foundation.Extensions
+namespace SquaredInfinity.Extensions
 {
     public class CanvasCommand
     { }

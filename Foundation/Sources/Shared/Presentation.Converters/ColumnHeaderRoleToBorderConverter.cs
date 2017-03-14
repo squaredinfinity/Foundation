@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace SquaredInfinity.Foundation.Presentation.Converters
+namespace SquaredInfinity.Presentation.Converters
 {
     public class ColumnHeaderRoleToBorderConverter : IValueConverter
     {

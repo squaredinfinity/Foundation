@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Serialization.FlexiXml;
+﻿using SquaredInfinity.Serialization.FlexiXml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Configuration.Providers
+namespace SquaredInfinity.Diagnostics.Configuration.Providers
 {
     public class XmlConfigurationProvider : IConfigurationProvider
     {

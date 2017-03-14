@@ -27,7 +27,7 @@ Foundation Presenation Xaml exposes different Xaml Resources (converters, data t
             ResourcesManager.ImportAndLoadAllResources(compositionContainer);
 
             //# Alternative way to load default SquaredInfinity.Presentation.Foundation resources (without MEF)
-            // var resources = new SquaredInfinity.Foundation.Presentation.XamlResources();
+            // var resources = new SquaredInfinity.Presentation.XamlResources();
             // resources.LoadAndMergeResources();
         }
     }
@@ -63,7 +63,7 @@ Assembly B resources will be imported after Assembly A resources thanks to highe
     public class XamlResources : IXamlResourcesProvider
     {
         // Import Order is higher than Foundation.Presentation Import Order (on which resources from this assembly may depend)
-        public const int ImportOrder = SquaredInfinity.Foundation.Presentation.XamlResources.ImportOrder + 100;
+        public const int ImportOrder = SquaredInfinity.Presentation.XamlResources.ImportOrder + 100;
 
         public void LoadAndMergeResources()
         {

@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 
-namespace SquaredInfinity.Foundation.Types.Description.Reflection
+namespace SquaredInfinity.Types.Description.Reflection
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
     public class ReflectionBasedTypeMemberDescription : ITypeMemberDescription, IEquatable<ITypeMemberDescription>

@@ -7,14 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using SquaredInfinity.Foundation.Extensions;
-using SquaredInfinity.Foundation.Diagnostics;
+using SquaredInfinity.Extensions;
+using SquaredInfinity.Diagnostics;
 using System.Collections;
 using System.Threading;
 using System.Dynamic;
 using System.Collections.ObjectModel;
 
-namespace SquaredInfinity.Foundation.Data
+namespace SquaredInfinity.Data
 {
     public interface IExecuteOptions
     {
@@ -113,7 +113,7 @@ namespace SquaredInfinity.Foundation.Data
             TimeSpan defaultCommandTimeout)
             : this(null, connectionFactory, defaultCommandTimeout)
         // todo: get default (static) logger using LoggerLocator.GetLogger().CreateLoggerForType<>() and here just assing this static logger
-        // by default this whould be InternalTrace limited to SquaredInfinity.Foundation.Data
+        // by default this whould be InternalTrace limited to SquaredInfinity.Data
         { }
 
         public DataAccessService(

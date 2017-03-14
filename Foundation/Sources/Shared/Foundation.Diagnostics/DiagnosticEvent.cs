@@ -6,9 +6,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 
-namespace SquaredInfinity.Foundation.Diagnostics
+namespace SquaredInfinity.Diagnostics
 {
     /// <summary>
     /// Represents information about the diagnostic event.
@@ -326,7 +326,7 @@ namespace SquaredInfinity.Foundation.Diagnostics
                 callerFrame != null 
                 && callerMethod != null 
                 && callerMethod.DeclaringType != null 
-                && callerMethod.DeclaringType.Namespace.StartsWith("SquaredInfinity.Foundation.Diagnostics"));
+                && callerMethod.DeclaringType.Namespace.StartsWith("SquaredInfinity.Diagnostics"));
         }
     }
 }

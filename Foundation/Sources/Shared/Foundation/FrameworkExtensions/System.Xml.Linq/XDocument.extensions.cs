@@ -5,9 +5,9 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.IO;
-//using SquaredInfinity.Foundation.Xml.Annotations;
+//using SquaredInfinity.Xml.Annotations;
 
-namespace SquaredInfinity.Foundation.Extensions
+namespace SquaredInfinity.Extensions
 {
     public static class XDocumentExtensions
     {

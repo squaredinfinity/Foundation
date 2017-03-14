@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Data;
 
-namespace SquaredInfinity.Foundation.Presentation.Converters
+namespace SquaredInfinity.Presentation.Converters
 {
     /// <summary>
     /// Not sure if this is safe to use, may be better to map ComObject to custom type first just to be safe.

@@ -5,9 +5,9 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 
-namespace SquaredInfinity.Foundation.ILGeneration
+namespace SquaredInfinity.ILGeneration
 {
     internal class IL : IILGenerator
     {

@@ -2,13 +2,13 @@
 using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
-using SquaredInfinity.Foundation.Presentation.DragDrop.Utilities;
+using SquaredInfinity.Presentation.DragDrop.Utilities;
 using System.Windows.Data;
 using System.Linq;
 using System.Windows.Input;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 
-namespace SquaredInfinity.Foundation.Presentation.DragDrop
+namespace SquaredInfinity.Presentation.DragDrop
 {
     /// <summary>
     /// Holds information about a the target of a drag drop operation.
@@ -38,7 +38,7 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
         /// </param>
         public DropInfo(object sender, DragEventArgs e, IDragInfo dragInfo)
         {
-            var dataFormat = SquaredInfinity.Foundation.Presentation.Behaviors.DragDrop.DataFormat.Name;
+            var dataFormat = SquaredInfinity.Presentation.Behaviors.DragDrop.DataFormat.Name;
             Data = (e.Data.GetDataPresent(dataFormat)) ? e.Data.GetData(dataFormat) : e.Data;
             DragInfo = dragInfo;
             KeyStates = e.KeyStates;
@@ -58,7 +58,7 @@ namespace SquaredInfinity.Foundation.Presentation.DragDrop
                 if (itemsControl != null)
                 {
                     // now check if this ItemsControl is a drop target
-                    if (SquaredInfinity.Foundation.Presentation.Behaviors.DragDrop.GetIsDropTarget(itemsControl))
+                    if (SquaredInfinity.Presentation.Behaviors.DragDrop.GetIsDropTarget(itemsControl))
                     {
                         VisualTarget = itemsControl;
                     }

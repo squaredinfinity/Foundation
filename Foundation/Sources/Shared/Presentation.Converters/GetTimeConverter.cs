@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text;
 using System.Windows.Data;
 
-namespace SquaredInfinity.Foundation.Presentation.Converters
+namespace SquaredInfinity.Presentation.Converters
 {
     public enum GetLocalTimeConverterMode
     {

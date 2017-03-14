@@ -5,7 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Extensions
+namespace SquaredInfinity.Extensions
 {
     public static class BitmapExtensions
     {

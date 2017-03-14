@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Graphics.ColorSpaces;
+using SquaredInfinity.Graphics.ColorSpaces;
 
-namespace SquaredInfinity.Foundation.Graphics
+namespace SquaredInfinity.Graphics
 {
     public static class KnownColors
     {

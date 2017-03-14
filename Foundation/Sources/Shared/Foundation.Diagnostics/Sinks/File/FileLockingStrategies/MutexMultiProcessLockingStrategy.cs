@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Sinks.File.FileLockingStrategies
+namespace SquaredInfinity.Diagnostics.Sinks.File.FileLockingStrategies
 {
     class MutexMultiProcessLockingStrategy
     {

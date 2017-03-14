@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Collections
+namespace SquaredInfinity.Collections
 {
     public class ItemAddedEventArgs<TItem> : EventArgs
     {

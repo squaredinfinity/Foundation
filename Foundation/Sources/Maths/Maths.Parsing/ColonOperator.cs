@@ -1,11 +1,11 @@
 ﻿using System;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Maths.Parsing
+namespace SquaredInfinity.Maths.Parsing
 {
     public class ColonOperator
     {

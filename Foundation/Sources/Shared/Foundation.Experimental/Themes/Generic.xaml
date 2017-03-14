@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="http://schemas.squaredinfinity.com/foundation/converters"
-                    xmlns:controls="clr-namespace:SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector"
+                    xmlns:controls="clr-namespace:SquaredInfinity.Presentation.Controls.AdaptiveSelector"
                     xmlns:dataTemplateSelectors="http://schemas.squaredinfinity.com/foundation/datatemplateselectors"
                     xmlns:behaviors="http://schemas.squaredinfinity.com/foundation/behaviors">
 

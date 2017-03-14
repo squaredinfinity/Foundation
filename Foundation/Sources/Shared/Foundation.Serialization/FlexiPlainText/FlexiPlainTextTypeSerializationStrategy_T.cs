@@ -4,7 +4,7 @@
 //using System.Text;
 //using System.Threading.Tasks;
 
-//namespace SquaredInfinity.Foundation.Serialization.FlexiPlainText
+//namespace SquaredInfinity.Serialization.FlexiPlainText
 //{
 //    public class FlexiPlainTextTypeSerializationStrategy<T> : FlexiPlainTextTypeSerializationStrategy<FlexiPlainTextTypeSerializationStrategy<T>, T>
 //    {

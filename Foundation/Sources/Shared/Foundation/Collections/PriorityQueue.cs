@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace SquaredInfinity.Foundation.Collections
+namespace SquaredInfinity.Collections
 {
     public class PriorityQueueItem<TValue>
     {

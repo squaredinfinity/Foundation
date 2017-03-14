@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Filters.PatternEvaluation
+namespace SquaredInfinity.Diagnostics.Filters.PatternEvaluation
 {
     /// <summary>
     /// at the moment the only supported wildcard is * at the end of the pattern

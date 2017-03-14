@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Maths.Statistics;
+﻿using SquaredInfinity.Maths.Statistics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reactive.Linq;
 
-namespace SquaredInfinity.Foundation.Maths.Statistics
+namespace SquaredInfinity.Maths.Statistics
 {
     public class SimpleMovingAverage
     {

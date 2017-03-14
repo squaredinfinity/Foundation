@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Graphics.Drawing;
+﻿using SquaredInfinity.Graphics.Drawing;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using Space2D = SquaredInfinity.Foundation.Maths.Space2D;
+using Space2D = SquaredInfinity.Maths.Space2D;
 
-namespace SquaredInfinity.Foundation.Media.Drawing
+namespace SquaredInfinity.Media.Drawing
 {
     //public unsafe partial class UnsafePixelCanvas : PixelCanvas
     //{

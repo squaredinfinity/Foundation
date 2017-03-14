@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Settings
+namespace SquaredInfinity.Settings
 {
     /// <summary>
     /// Contains values of valid setting scopes.

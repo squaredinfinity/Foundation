@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Win32Api
+namespace SquaredInfinity.Win32Api
 {
     public static partial class shell32
     {

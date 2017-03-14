@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Cache
+namespace SquaredInfinity.Cache
 {
     public interface ICacheItemDetails
     {

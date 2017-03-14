@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Sinks
+namespace SquaredInfinity.Diagnostics.Sinks
 {
     public class DebugTraceSink : Sink, IRawMessageSink
     {

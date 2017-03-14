@@ -8,8 +8,8 @@
     <ProjectGuid>{3A8BF0FD-01DE-414A-8CBA-CA38369D635A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SquaredInfinity.Foundation.Collections</RootNamespace>
-    <AssemblyName>SquaredInfinity2.Foundation.Collections.Core</AssemblyName>
+    <RootNamespace>SquaredInfinity.Collections</RootNamespace>
+    <AssemblyName>SquaredInfinity.Collections.Core</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

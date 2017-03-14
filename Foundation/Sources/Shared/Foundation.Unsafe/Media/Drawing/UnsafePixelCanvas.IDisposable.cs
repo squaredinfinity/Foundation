@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Media.Drawing
+namespace SquaredInfinity.Media.Drawing
 {
     public partial class UnsafePixelCanvas
     {

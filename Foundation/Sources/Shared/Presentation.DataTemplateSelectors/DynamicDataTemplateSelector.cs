@@ -4,7 +4,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors
+namespace SquaredInfinity.Presentation.DataTemplateSelectors
 {
     /// <summary>
     /// 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Data.SqlServer
+namespace SquaredInfinity.Data.SqlServer
 {
     public class SqlConnectionFactory : ConnectionFactory<SqlConnection>
     {

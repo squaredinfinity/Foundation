@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Types.Description
+namespace SquaredInfinity.Types.Description
 {
     public static class TypeDescriptor
     {

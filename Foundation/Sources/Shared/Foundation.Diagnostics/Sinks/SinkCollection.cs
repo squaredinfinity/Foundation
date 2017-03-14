@@ -1,5 +1,5 @@
-﻿using SquaredInfinity.Foundation.Collections;
-using SquaredInfinity.Foundation.Threading;
+﻿using SquaredInfinity.Collections;
+using SquaredInfinity.Threading;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Sinks
+namespace SquaredInfinity.Diagnostics.Sinks
 {
     public class SinkCollection : CollectionEx<ISink>, ISinkCollection
     {

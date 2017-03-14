@@ -1,11 +1,11 @@
-﻿using SquaredInfinity.Foundation.Diagnostics.Sinks;
+﻿using SquaredInfinity.Diagnostics.Sinks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics
+namespace SquaredInfinity.Diagnostics
 {
     public partial class DiagnosticLogger
     {

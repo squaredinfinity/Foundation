@@ -1,17 +1,17 @@
-﻿using SquaredInfinity.Foundation.Types.Mapping;
+﻿using SquaredInfinity.Types.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Collections.Concurrent;
-using SquaredInfinity.Foundation.Types.Description.Reflection;
-using SquaredInfinity.Foundation.Types.Description;
+using SquaredInfinity.Types.Description.Reflection;
+using SquaredInfinity.Types.Description;
 using System.Threading;
 using System.ComponentModel;
 
-namespace SquaredInfinity.Foundation.Serialization
+namespace SquaredInfinity.Serialization
 {
     public abstract partial class FlexiSerializer
     {

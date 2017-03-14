@@ -7,7 +7,7 @@ using System.Windows.Media;
 using System.Windows.Controls;
 using System.Collections;
 
-namespace SquaredInfinity.Foundation.Presentation.DragDrop
+namespace SquaredInfinity.Presentation.DragDrop
 {
   public class DropTargetInsertionAdorner : DropTargetAdorner
   {

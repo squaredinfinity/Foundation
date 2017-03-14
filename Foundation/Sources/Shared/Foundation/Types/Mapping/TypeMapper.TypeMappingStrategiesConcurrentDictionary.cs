@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Types.Mapping
+namespace SquaredInfinity.Types.Mapping
 {
 	public partial class TypeMapper
     {

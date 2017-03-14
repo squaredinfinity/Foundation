@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation
+namespace SquaredInfinity
 {
     public abstract class EnumeratorBase<T> : IEnumerator<T>, IDisposable
     {

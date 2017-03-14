@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
-namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
+namespace SquaredInfinity.Presentation.Controls.AdaptiveSelector
 {
     public class UniformItemsSize
     {

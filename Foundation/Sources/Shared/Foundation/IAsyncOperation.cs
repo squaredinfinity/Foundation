@@ -5,7 +5,7 @@
 //using System.Threading;
 //using System.Threading.Tasks;
 
-//namespace SquaredInfinity.Foundation.Threading
+//namespace SquaredInfinity.Threading
 //{
 //    public interface IAsyncAction : IDisposable
 //    {

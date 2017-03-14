@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
+namespace SquaredInfinity.Presentation.Controls.AdaptiveSelector
 {
     public class SelectionMarker : NotifyPropertyChangedObject
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace SquaredInfinity.Foundation.Extensions
+namespace SquaredInfinity.Extensions
 {
     public static partial class TreeViewItemExtensions
     {

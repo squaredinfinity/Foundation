@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Formatters
+namespace SquaredInfinity.Diagnostics.Formatters
 {
     public class FormatterCollection : Collection<IFormatter>, IFormatterCollection
     {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
-using SquaredInfinity.Foundation.ComponentModel;
+using SquaredInfinity.Extensions;
+using SquaredInfinity.ComponentModel;
 
-namespace SquaredInfinity.Foundation.Collections.Trees
+namespace SquaredInfinity.Collections.Trees
 {
     public abstract class ExpressionTree : NotifyPropertyChangedObject
     {

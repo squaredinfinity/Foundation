@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Serialization.FlexiPlainText
+namespace SquaredInfinity.Serialization.FlexiPlainText
 {
     public interface IFlexiPlainTextSerializationStrategy : ITypeSerializationStrategy
     {

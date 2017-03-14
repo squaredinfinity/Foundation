@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Types.Description.Reflection;
+﻿using SquaredInfinity.Types.Description.Reflection;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,7 +8,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Types.Description.IL
+namespace SquaredInfinity.Types.Description.IL
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
     public partial class ILBasedTypeMemberDescription : ITypeMemberDescription

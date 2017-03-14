@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Text;
 using System.Xml.Linq;
 using System.Security;
 using System.Linq;
 
-namespace SquaredInfinity.Foundation.Settings
+namespace SquaredInfinity.Settings
 {
     public class FileSystemSettingsService : SettingsService
     {

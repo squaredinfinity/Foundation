@@ -1,5 +1,5 @@
-﻿using SquaredInfinity.Foundation.Graphics.ColorSpaces;
-using SquaredInfinity.Foundation.Extensions;
+﻿using SquaredInfinity.Graphics.ColorSpaces;
+using SquaredInfinity.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace SquaredInfinity.Foundation.Presentation.Behaviors
+namespace SquaredInfinity.Presentation.Behaviors
 {
     public static class Highlight
     {

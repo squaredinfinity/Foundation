@@ -1,17 +1,17 @@
-﻿using SquaredInfinity.Foundation.Diagnostics.Sinks;
+﻿using SquaredInfinity.Diagnostics.Sinks;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using SquaredInfinity.Foundation.Diagnostics;
-using SquaredInfinity.Foundation.Diagnostics.Formatters;
+using SquaredInfinity.Diagnostics;
+using SquaredInfinity.Diagnostics.Formatters;
 using System.Net.Mail;
 using System.Linq;
 using System.IO;
 using System.IO.Compression;
-using SquaredInfinity.Foundation.Extensions;
-using SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors;
+using SquaredInfinity.Extensions;
+using SquaredInfinity.Diagnostics.ContextDataCollectors;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Sinks.Email
+namespace SquaredInfinity.Diagnostics.Sinks.Email
 {
     public class EmailSink : Sink
     {

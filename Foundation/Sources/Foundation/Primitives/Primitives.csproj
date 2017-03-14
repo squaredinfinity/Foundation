@@ -8,8 +8,8 @@
     <ProjectGuid>{A994B522-9A93-4145-B0E9-4180C71D4337}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SquaredInfinity.Foundation</RootNamespace>
-    <AssemblyName>SquaredInfinity2.Foundation.Primitives</AssemblyName>
+    <RootNamespace>SquaredInfinity</RootNamespace>
+    <AssemblyName>SquaredInfinity.Primitives</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

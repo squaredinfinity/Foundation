@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SquaredInfinity.Foundation
+namespace SquaredInfinity
 {
     public class SerializedDataInfo
     {

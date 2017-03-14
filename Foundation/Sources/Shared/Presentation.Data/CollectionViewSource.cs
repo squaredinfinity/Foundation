@@ -6,7 +6,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Data;
 
-namespace SquaredInfinity.Foundation.Presentation.Data
+namespace SquaredInfinity.Presentation.Data
 {
     public class CollectionViewSource : System.Windows.Data.CollectionViewSource
     {

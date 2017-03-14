@@ -1,9 +1,9 @@
 ﻿using System;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.IntraMessaging
+namespace SquaredInfinity.IntraMessaging
 {
     public class IntraMessage : IIntraMessage
     {

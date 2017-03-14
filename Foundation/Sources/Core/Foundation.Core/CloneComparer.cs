@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation
+namespace SquaredInfinity
 {
     public class CloneEqualityComparer<T>
         where T : ICloneEquatable<T>

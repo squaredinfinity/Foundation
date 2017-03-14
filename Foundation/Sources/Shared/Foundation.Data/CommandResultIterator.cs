@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Data
+namespace SquaredInfinity.Data
 {
     class CommandResultIterator<TEntity> : IEnumerable<TEntity>
     {

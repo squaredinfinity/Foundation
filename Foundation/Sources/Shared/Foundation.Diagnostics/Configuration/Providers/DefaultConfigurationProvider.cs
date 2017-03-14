@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Reflection;
 using System.IO;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Configuration.Providers
+namespace SquaredInfinity.Diagnostics.Configuration.Providers
 {
     public class DefaultConfigurationProvider : IConfigurationProvider
     {

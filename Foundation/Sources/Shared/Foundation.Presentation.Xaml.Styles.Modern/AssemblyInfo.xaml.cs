@@ -4,4 +4,4 @@ using System.Runtime.InteropServices;
 using System.Windows.Markup;
 
 
-[assembly: XmlnsDefinition(@"http://schemas.squaredinfinity.com/foundation/presentation/styles/modern/windows", "SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.Windows")]
+[assembly: XmlnsDefinition(@"http://schemas.squaredinfinity.com/foundation/presentation/styles/modern/windows", "SquaredInfinity.Presentation.Xaml.Styles.Modern.Windows")]

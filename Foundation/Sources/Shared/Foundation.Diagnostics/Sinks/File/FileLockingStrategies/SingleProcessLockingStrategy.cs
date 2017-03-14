@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Sinks.File.FileLockingStrategies
+namespace SquaredInfinity.Diagnostics.Sinks.File.FileLockingStrategies
 {
     /// <summary>
     /// Access to the file will be guarded within a boundaries of a single process.

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Text
+namespace SquaredInfinity.Text
 {
     public static class UnicodeCharacters
     {

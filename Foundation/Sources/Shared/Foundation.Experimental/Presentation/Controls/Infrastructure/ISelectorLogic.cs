@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Presentation.Controls;
+﻿using SquaredInfinity.Presentation.Controls;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,9 +6,9 @@ using System.Windows;
 using System.Windows.Media;
 using System.Collections;
 using System.Windows.Controls;
-using SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector;
+using SquaredInfinity.Presentation.Controls.AdaptiveSelector;
 
-namespace SquaredInfinity.Foundation.Presentation
+namespace SquaredInfinity.Presentation
 {
     public interface ISelectorLogic : INotifyVersionChangedObject
     {

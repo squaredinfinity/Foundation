@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Presentation.Resources;
+﻿using SquaredInfinity.Presentation.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace SquaredInfinity.Foundation.Presentation.Media
+namespace SquaredInfinity.Presentation.Media
 {
     public static class FontFamilies
     {

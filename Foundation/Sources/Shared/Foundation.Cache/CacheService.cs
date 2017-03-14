@@ -1,11 +1,11 @@
-using SquaredInfinity.Foundation.Threading;
+using SquaredInfinity.Threading;
 using System;
 using System.Collections.Concurrent;
 using System.Runtime.Caching;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Cache
+namespace SquaredInfinity.Cache
 {
     public partial class CacheService : ICacheService
     {
@@ -193,11 +193,11 @@ namespace SquaredInfinity.Foundation.Cache
         }
 
         public CacheService()
-            : this(new MemoryCache("SquaredInfinity.Foundation.CacheService"), isCacheEnabled: true)
+            : this(new MemoryCache("SquaredInfinity.CacheService"), isCacheEnabled: true)
         { }
 
         public CacheService(bool isCacheEnabled)
-            : this(new MemoryCache("SquaredInfinity.Foundation.CacheService"), isCacheEnabled)
+            : this(new MemoryCache("SquaredInfinity.CacheService"), isCacheEnabled)
         { }
 
         public CacheService(MemoryCache cache, bool isCacheEnabled)

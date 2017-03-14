@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation
+namespace SquaredInfinity
 {
     /// <summary>
     /// Provides an implementation of Chain Of Command pattern based on event handlers.

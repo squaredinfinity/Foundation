@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Types.Mapping;
+﻿using SquaredInfinity.Types.Mapping;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Extensions
+namespace SquaredInfinity.Extensions
 {
     public static class ObjectExtensions
     {

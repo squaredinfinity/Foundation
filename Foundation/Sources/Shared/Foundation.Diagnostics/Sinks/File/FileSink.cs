@@ -1,7 +1,7 @@
-using SquaredInfinity.Foundation.Diagnostics.Sinks.File.ArchiveStrategies;
-using SquaredInfinity.Foundation.Diagnostics.Sinks.File.FileLockingStrategies;
-using SquaredInfinity.Foundation.Diagnostics.TextTemplates;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Diagnostics.Sinks.File.ArchiveStrategies;
+using SquaredInfinity.Diagnostics.Sinks.File.FileLockingStrategies;
+using SquaredInfinity.Diagnostics.TextTemplates;
+using SquaredInfinity.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Sinks.File
+namespace SquaredInfinity.Diagnostics.Sinks.File
 {
     public class FileSink : Sink
     {

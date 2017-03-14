@@ -7,9 +7,9 @@ using System.Windows;
 using System.Windows.Input;
 using WPFControls = System.Windows.Controls;
 using System.Windows.Controls;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 
-namespace SquaredInfinity.Foundation.Presentation.Behaviors
+namespace SquaredInfinity.Presentation.Behaviors
 {
     public partial class TreeView
     {

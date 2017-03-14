@@ -1,11 +1,11 @@
-﻿using SquaredInfinity.Foundation.Serialization.FlexiXml;
+﻿using SquaredInfinity.Serialization.FlexiXml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace SquaredInfinity.Foundation.Serialization.FlexiXml
+namespace SquaredInfinity.Serialization.FlexiXml
 {
     public interface IFlexiXmlSerializer : IFlexiSerializer, ISerializer
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Collections.Concurrent
+namespace SquaredInfinity.Collections.Concurrent
 {
     public interface IConcurrentCollectionEx<TItem>
     {

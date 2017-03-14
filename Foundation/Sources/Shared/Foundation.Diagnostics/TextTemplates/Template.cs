@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Diagnostics.TextTemplates.Placeholders;
+﻿using SquaredInfinity.Diagnostics.TextTemplates.Placeholders;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 
-namespace SquaredInfinity.Foundation.Diagnostics.TextTemplates
+namespace SquaredInfinity.Diagnostics.TextTemplates
 {
     public class Template
     {

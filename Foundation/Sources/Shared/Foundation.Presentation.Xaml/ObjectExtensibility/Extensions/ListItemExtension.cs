@@ -1,11 +1,11 @@
-﻿using SquaredInfinity.Foundation.ObjectExtensibility;
+﻿using SquaredInfinity.ObjectExtensibility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Presentation.ObjectExtensibility.Extensions
+namespace SquaredInfinity.Presentation.ObjectExtensibility.Extensions
 {
     public class ListItemExtension : NotifyPropertyChangedObjectExtension<PresentationWrapper>
     {

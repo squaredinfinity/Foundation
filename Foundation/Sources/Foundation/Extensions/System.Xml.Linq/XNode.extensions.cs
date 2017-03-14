@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Linq;
-//using SquaredInfinity.Foundation.Xml.Annotations;
+//using SquaredInfinity.Xml.Annotations;
 
-namespace SquaredInfinity.Foundation.Extensions
+namespace SquaredInfinity.Extensions
 {
     /// <summary>
     /// Extensions for XNode calss

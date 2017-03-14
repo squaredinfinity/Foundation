@@ -5,9 +5,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 
-namespace SquaredInfinity.Foundation.Data
+namespace SquaredInfinity.Data
 {
     public class ConnectionFactory<TConnection>
         where TConnection : DbConnection, new()

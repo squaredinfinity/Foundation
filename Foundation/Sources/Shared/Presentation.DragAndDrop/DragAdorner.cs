@@ -6,7 +6,7 @@ using System.Windows.Documents;
 using System.Windows;
 using System.Windows.Media;
 
-namespace SquaredInfinity.Foundation.Presentation.DragDrop
+namespace SquaredInfinity.Presentation.DragDrop
 {
     class DragAdorner : Adorner
     {

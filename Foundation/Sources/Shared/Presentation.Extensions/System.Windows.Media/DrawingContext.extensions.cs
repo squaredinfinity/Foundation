@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Presentation.Media;
+﻿using SquaredInfinity.Presentation.Media;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
-namespace SquaredInfinity.Foundation.Extensions
+namespace SquaredInfinity.Extensions
 {
     public static class DrawingContextExtensions
     {

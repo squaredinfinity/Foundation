@@ -8,8 +8,8 @@
     <ProjectGuid>{3A943B85-8145-498B-81DA-03B77465956B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SquaredInfinity.Foundation.Maths.RandomNumbers</RootNamespace>
-    <AssemblyName>SquaredInfinity.Foundation.Maths.RandomNumbers</AssemblyName>
+    <RootNamespace>SquaredInfinity.Maths.RandomNumbers</RootNamespace>
+    <AssemblyName>SquaredInfinity.Maths.RandomNumbers</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace SquaredInfinity.Foundation.Extensions
+namespace SquaredInfinity.Extensions
 {
     public static class XmlDocumentExtensions
     {

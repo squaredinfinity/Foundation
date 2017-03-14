@@ -1,11 +1,11 @@
-﻿using SquaredInfinity.Foundation.Collections;
+﻿using SquaredInfinity.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Types.Description
+namespace SquaredInfinity.Types.Description
 {
     public class TypeMemberDescriptionCollection : CollectionEx<ITypeMemberDescription>, ITypeMemberDescriptionCollection
     {

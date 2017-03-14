@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 
-namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
+namespace SquaredInfinity.Presentation.MarkupExtensions
 {
     public partial class CompareMethodBinding : SmartBinding
     {

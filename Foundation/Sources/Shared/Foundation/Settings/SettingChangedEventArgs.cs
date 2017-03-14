@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Settings
+namespace SquaredInfinity.Settings
 {
     public class SettingChangedEventArgs : EventArgs
     {

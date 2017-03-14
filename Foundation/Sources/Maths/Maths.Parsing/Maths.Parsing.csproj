@@ -8,8 +8,8 @@
     <ProjectGuid>{B6AD7DBA-7B76-4FB0-8F91-570FD3A228F8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SquaredInfinity.Foundation.Maths.Parsing</RootNamespace>
-    <AssemblyName>SquaredInfinity.Foundation.Maths.Parsing</AssemblyName>
+    <RootNamespace>SquaredInfinity.Maths.Parsing</RootNamespace>
+    <AssemblyName>SquaredInfinity.Maths.Parsing</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

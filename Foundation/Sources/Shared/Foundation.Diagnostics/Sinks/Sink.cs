@@ -1,13 +1,13 @@
-﻿using SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors;
-using SquaredInfinity.Foundation.Diagnostics.Filters;
-using SquaredInfinity.Foundation.Diagnostics.Formatters;
+﻿using SquaredInfinity.Diagnostics.ContextDataCollectors;
+using SquaredInfinity.Diagnostics.Filters;
+using SquaredInfinity.Diagnostics.Formatters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Sinks
+namespace SquaredInfinity.Diagnostics.Sinks
 {
     public abstract class Sink : ISink
     {

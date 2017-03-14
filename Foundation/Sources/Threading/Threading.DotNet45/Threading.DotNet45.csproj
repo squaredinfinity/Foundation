@@ -7,8 +7,8 @@
     <ProjectGuid>{8F87F080-EF28-4A76-90B2-842C82D04B22}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SquaredInfinity.Foundation.Threading</RootNamespace>
-    <AssemblyName>SquaredInfinity2.Foundation.Threading.DotNet45</AssemblyName>
+    <RootNamespace>SquaredInfinity.Threading</RootNamespace>
+    <AssemblyName>SquaredInfinity.Threading.DotNet45</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

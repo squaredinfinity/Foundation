@@ -4,10 +4,10 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
-using SquaredInfinity.Foundation.Collections;
+using SquaredInfinity.Extensions;
+using SquaredInfinity.Collections;
 using System.ComponentModel;
-using SquaredInfinity.Foundation.Threading;
+using SquaredInfinity.Threading;
 using System.Threading;
 using System.Windows.Threading;
 using System.Windows;
@@ -15,7 +15,7 @@ using System.Windows.Data;
 using System.Collections;
 using System.Runtime.CompilerServices;
 
-namespace SquaredInfinity.Foundation.Presentation.Collections
+namespace SquaredInfinity.Presentation.Collections
 {
     public class XamlVirtualizingCollection<TDataItem> :
            ProviderBasedVirtualizingCollection<TDataItem>,

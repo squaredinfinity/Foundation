@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Data;
 using System.Windows;
 
-namespace SquaredInfinity.Foundation.Presentation.Converters
+namespace SquaredInfinity.Presentation.Converters
 {
     public class NumbersSumConverter : IMultiValueConverter
     {

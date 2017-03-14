@@ -1,12 +1,12 @@
 ﻿using System;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
-namespace SquaredInfinity.Foundation.Maths.Parsing.Terms
+namespace SquaredInfinity.Maths.Parsing.Terms
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
     public class NumberSequenceTerm : Term

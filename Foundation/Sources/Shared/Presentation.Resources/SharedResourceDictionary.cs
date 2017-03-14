@@ -6,12 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Markup;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Xaml;
-using SquaredInfinity.Foundation.Presentation.Resources;
+using SquaredInfinity.Presentation.Resources;
 using System.Diagnostics;
 
-namespace SquaredInfinity.Foundation.Presentation
+namespace SquaredInfinity.Presentation
 {
     public partial class SharedResourceDictionary : ResourceDictionary
     {

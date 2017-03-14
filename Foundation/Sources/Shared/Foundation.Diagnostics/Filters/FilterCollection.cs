@@ -1,11 +1,11 @@
-﻿using SquaredInfinity.Foundation.Collections;
+﻿using SquaredInfinity.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Filters
+namespace SquaredInfinity.Diagnostics.Filters
 {
     public class FilterCollection : CollectionEx<IFilter>, IFilterCollection
     {

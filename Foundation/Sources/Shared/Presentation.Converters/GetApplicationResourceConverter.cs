@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Presentation.Resources;
+﻿using SquaredInfinity.Presentation.Resources;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Data;
 
-namespace SquaredInfinity.Foundation.Presentation.Converters
+namespace SquaredInfinity.Presentation.Converters
 {
     public class GetApplicationResourceConverter : IValueConverter
     {

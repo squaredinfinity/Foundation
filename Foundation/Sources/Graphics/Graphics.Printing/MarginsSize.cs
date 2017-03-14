@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Graphics.Priniting
+namespace SquaredInfinity.Graphics.Priniting
 {
     public class MarginsSize
     {

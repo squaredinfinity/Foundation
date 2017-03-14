@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 
-namespace SquaredInfinity.Foundation.Collections.Trees
+namespace SquaredInfinity.Collections.Trees
 {
     public abstract class PredicateNode : ExpressionTreeNode
     {

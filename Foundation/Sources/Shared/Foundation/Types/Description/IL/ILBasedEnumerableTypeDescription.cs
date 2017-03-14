@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
-using SquaredInfinity.Foundation.Collections.Concurrent;
+using SquaredInfinity.Collections.Concurrent;
 using System.Collections.Concurrent;
-using SquaredInfinity.Foundation.Extensions;
-using SquaredInfinity.Foundation.Types.Description.Reflection;
+using SquaredInfinity.Extensions;
+using SquaredInfinity.Types.Description.Reflection;
 
-namespace SquaredInfinity.Foundation.Types.Description.IL
+namespace SquaredInfinity.Types.Description.IL
 {
     public partial class ILBasedEnumerableTypeDescription : ILBasedTypeDescription
     {

@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.ComponentModel;
+﻿using SquaredInfinity.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Collections
+namespace SquaredInfinity.Collections
 {
     public partial class ObservableCollectionEx<TItem> : CollectionEx<TItem>, IObservableCollectionEx<TItem>
     {

@@ -1,15 +1,15 @@
-﻿using SquaredInfinity.Foundation.ILGeneration;
+﻿using SquaredInfinity.ILGeneration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Text;
 using System.Reflection.Emit;
 using System.Reflection;
-using SquaredInfinity.Foundation.Types.Description.Reflection;
-using SquaredInfinity.Foundation.Types.Description.IL;
+using SquaredInfinity.Types.Description.Reflection;
+using SquaredInfinity.Types.Description.IL;
 
-namespace SquaredInfinity.Foundation.Types.Mapping.ValueResolving
+namespace SquaredInfinity.Types.Mapping.ValueResolving
 {
     public class MatchedMemberValueResolver : IValueResolver
     {

@@ -5,7 +5,7 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Maths.Statistics
+namespace SquaredInfinity.Maths.Statistics
 {
     public static class StdDev
     {

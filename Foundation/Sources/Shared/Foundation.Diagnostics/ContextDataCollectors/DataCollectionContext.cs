@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
+namespace SquaredInfinity.Diagnostics.ContextDataCollectors
 {
     public class DataCollectionContext : IDataCollectionContext
     {

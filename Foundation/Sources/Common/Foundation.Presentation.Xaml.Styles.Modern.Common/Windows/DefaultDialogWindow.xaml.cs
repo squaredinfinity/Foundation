@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.Windows
+namespace SquaredInfinity.Presentation.Xaml.Styles.Modern.Windows
 {
     /// <summary>
     /// Interaction logic for DefaultDialogWindow.xaml

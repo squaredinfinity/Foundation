@@ -4,10 +4,10 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using SquaredInfinity.Foundation.Extensions;
-using SquaredInfinity.Foundation.Presentation.DragDrop.Utilities;
+using SquaredInfinity.Extensions;
+using SquaredInfinity.Presentation.DragDrop.Utilities;
 
-namespace SquaredInfinity.Foundation.Presentation.DragDrop
+namespace SquaredInfinity.Presentation.DragDrop
 {
     public class DragInfo : IDragInfo
     {

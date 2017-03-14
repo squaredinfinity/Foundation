@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Types.Mapping.ValueConverting
+namespace SquaredInfinity.Types.Mapping.ValueConverting
 {
     public class DynamicValueConverter<TFrom, TTo> : ValueConverter<TFrom, TTo>
     {

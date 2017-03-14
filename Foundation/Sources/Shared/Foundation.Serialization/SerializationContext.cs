@@ -1,5 +1,5 @@
-﻿using SquaredInfinity.Foundation.Collections;
-using SquaredInfinity.Foundation.Types.Description;
+﻿using SquaredInfinity.Collections;
+using SquaredInfinity.Types.Description;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Serialization
+namespace SquaredInfinity.Serialization
 {
     /// <summary>
     /// Serialization Context sotres state used by serializer during serialization.

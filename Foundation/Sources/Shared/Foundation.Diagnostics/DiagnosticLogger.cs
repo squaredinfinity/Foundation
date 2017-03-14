@@ -1,11 +1,11 @@
-﻿using SquaredInfinity.Foundation.Diagnostics.Configuration;
-using SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors;
-using SquaredInfinity.Foundation.Diagnostics.Filters;
-using SquaredInfinity.Foundation.Diagnostics.Fluent;
-using SquaredInfinity.Foundation.Diagnostics.Formatters;
-using SquaredInfinity.Foundation.Diagnostics.Sinks;
-using SquaredInfinity.Foundation.Extensions;
-using SquaredInfinity.Foundation.Types.Mapping;
+﻿using SquaredInfinity.Diagnostics.Configuration;
+using SquaredInfinity.Diagnostics.ContextDataCollectors;
+using SquaredInfinity.Diagnostics.Filters;
+using SquaredInfinity.Diagnostics.Fluent;
+using SquaredInfinity.Diagnostics.Formatters;
+using SquaredInfinity.Diagnostics.Sinks;
+using SquaredInfinity.Extensions;
+using SquaredInfinity.Types.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,7 +14,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics
+namespace SquaredInfinity.Diagnostics
 {
     public partial class DiagnosticLogger : ILogger, IHideObjectInheritedMembers
     {

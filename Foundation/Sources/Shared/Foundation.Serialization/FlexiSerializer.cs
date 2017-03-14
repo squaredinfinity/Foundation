@@ -1,14 +1,14 @@
-﻿using SquaredInfinity.Foundation.Types.Description;
+﻿using SquaredInfinity.Types.Description;
 using System;
 using System.Linq.Expressions;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 
-namespace SquaredInfinity.Foundation.Serialization
+namespace SquaredInfinity.Serialization
 {
     public abstract partial class FlexiSerializer
         : IFlexiSerializer
@@ -22,7 +22,7 @@ namespace SquaredInfinity.Foundation.Serialization
             get
             {
                 if (_typeResolver == null)
-                    _typeResolver = SquaredInfinity.Foundation.TypeResolver.Default;
+                    _typeResolver = SquaredInfinity.TypeResolver.Default;
 
                 return _typeResolver;
             }

@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading;
 
-namespace SquaredInfinity.Foundation.Extensions
+namespace SquaredInfinity.Extensions
 {
     public static class ProcessStartInfoExtensions
     {

@@ -73,7 +73,6 @@
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="..\..\Shared\Internal\Internal.projitems" Label="Shared" />
   <Import Project="..\..\Shared\Foundation.Experimental\Experimental.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

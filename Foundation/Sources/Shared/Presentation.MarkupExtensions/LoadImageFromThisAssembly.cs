@@ -1,10 +1,10 @@
-﻿using SquaredInfinity.Foundation.Presentation.Resources;
+﻿using SquaredInfinity.Presentation.Resources;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Markup;
 
-namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
+namespace SquaredInfinity.Presentation.MarkupExtensions
 {
     public class LoadImageFromThisAssembly : MarkupExtension
     {

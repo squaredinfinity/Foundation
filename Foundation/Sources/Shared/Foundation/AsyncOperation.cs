@@ -4,9 +4,9 @@
 //using System.Text;
 //using System.Threading;
 //using System.Threading.Tasks;
-//using SquaredInfinity.Foundation.Extensions;
+//using SquaredInfinity.Extensions;
 
-//namespace SquaredInfinity.Foundation.Threading
+//namespace SquaredInfinity.Threading
 //{
 //    public interface IAsyncOperationRequest
 //    {

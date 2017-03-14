@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Composition
+namespace SquaredInfinity.Composition
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     [MetadataAttribute]

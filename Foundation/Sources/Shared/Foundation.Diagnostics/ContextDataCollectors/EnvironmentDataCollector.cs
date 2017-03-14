@@ -1,18 +1,18 @@
-﻿using SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors;
+﻿using SquaredInfinity.Diagnostics.ContextDataCollectors;
 using System;
 using System.Collections.Generic;
 using System.Deployment.Application;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Reflection;
 using System.Globalization;
 using System.ComponentModel;
 using System.Diagnostics;
-using SquaredInfinity.Foundation.Diagnostics;
+using SquaredInfinity.Diagnostics;
 
-namespace SquaredInfinity.Foundation.ContextDataCollectors
+namespace SquaredInfinity.ContextDataCollectors
 {
     /// <summary>
     /// Collects envoronment data.

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Maths.Parsing.Terms
+namespace SquaredInfinity.Maths.Parsing.Terms
 {
     public class NumberTerm : Term
     {

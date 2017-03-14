@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Fluent
+namespace SquaredInfinity.Diagnostics.Fluent
 {
     public class ApplicationLifecycleEvent
     {

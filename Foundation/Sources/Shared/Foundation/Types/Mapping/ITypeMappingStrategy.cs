@@ -1,12 +1,12 @@
-﻿using SquaredInfinity.Foundation.Types.Mapping.ValueResolving;
-using SquaredInfinity.Foundation.Types.Mapping.MemberMatching;
+﻿using SquaredInfinity.Types.Mapping.ValueResolving;
+using SquaredInfinity.Types.Mapping.MemberMatching;
 using System;
-using SquaredInfinity.Foundation.Types.Description;
+using SquaredInfinity.Types.Description;
 using System.Linq.Expressions;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using SquaredInfinity.Foundation.Collections;
-namespace SquaredInfinity.Foundation.Types.Mapping
+using SquaredInfinity.Collections;
+namespace SquaredInfinity.Types.Mapping
 {
 
     public interface ITypeMappingStrategy

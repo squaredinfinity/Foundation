@@ -1,11 +1,11 @@
-﻿using SquaredInfinity.Foundation.Types.Description;
+﻿using SquaredInfinity.Types.Description;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Serialization
+namespace SquaredInfinity.Serialization
 {
     //public class EnumerableTypeSerializationStrategy<T, I> : EnumerableTypeSerializationStrategy, IEnumerableTypeSerializationStrategy<T, I>
     //       where T : IEnumerable<I>

@@ -1,11 +1,11 @@
-﻿using SquaredInfinity.Foundation.Diagnostics.Filters;
+﻿using SquaredInfinity.Diagnostics.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Configuration
+namespace SquaredInfinity.Diagnostics.Configuration
 {
     public interface IConfigurationRepository
     {

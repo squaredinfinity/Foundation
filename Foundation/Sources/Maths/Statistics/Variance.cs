@@ -7,7 +7,7 @@ using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Maths.Statistics
+namespace SquaredInfinity.Maths.Statistics
 {
     /// <summary>
     /// Contains methods for calculating Variance

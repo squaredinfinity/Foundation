@@ -76,8 +76,8 @@
     <PropertyFilter name="system.diagnostics"       Property="Event.Source" Value="System.Diagnostics"        Mode="Include" />
     <PropertyFilter name="!system.diagnostics"      Property="Event.Source" Value="System.Diagnostics"        Mode="Exclude" />
 
-    <PropertyFilter name="internal"  Property="Event.LoggerName" Value="SquaredInfinity.Foundation.Diagnostics.*"  Mode="Include" />
-    <PropertyFilter name="!internal" Property="Event.LoggerName" Value="SquaredInfinity.Foundation.Diagnostics.*"  Mode="Exclude" />
+    <PropertyFilter name="internal"  Property="Event.LoggerName" Value="SquaredInfinity.Diagnostics.*"  Mode="Include" />
+    <PropertyFilter name="!internal" Property="Event.LoggerName" Value="SquaredInfinity.Diagnostics.*"  Mode="Exclude" />
 
     <!-- 
         Filters based on event category

@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Extensions;
+﻿using SquaredInfinity.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Extensions
+namespace SquaredInfinity.Extensions
 {
     public static class StringExtensions
     {

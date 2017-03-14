@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Serialization.FlexiXml
+namespace SquaredInfinity.Serialization.FlexiXml
 {
     public enum DeserializationOutcome
     {

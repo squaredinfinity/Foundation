@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Data.SqlServer
+namespace SquaredInfinity.Data.SqlServer
 {
     internal class SqlDataRecordEnumerableWrapper : IEnumerable<SqlDataRecord>
     {

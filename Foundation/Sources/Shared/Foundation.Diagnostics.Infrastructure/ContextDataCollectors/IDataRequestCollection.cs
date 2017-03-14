@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
+namespace SquaredInfinity.Diagnostics.ContextDataCollectors
 {
     public interface IDataRequestCollection : 
         ICollection<IDataRequest>,

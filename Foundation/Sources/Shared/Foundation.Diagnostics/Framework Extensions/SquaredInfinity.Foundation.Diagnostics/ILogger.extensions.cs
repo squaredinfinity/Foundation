@@ -1,5 +1,5 @@
-﻿using SquaredInfinity.Foundation.Diagnostics;
-using SquaredInfinity.Foundation.Diagnostics.Fluent;
+﻿using SquaredInfinity.Diagnostics;
+using SquaredInfinity.Diagnostics.Fluent;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Extensions
+namespace SquaredInfinity.Extensions
 {
     public static class ILoggerExtensions
     {

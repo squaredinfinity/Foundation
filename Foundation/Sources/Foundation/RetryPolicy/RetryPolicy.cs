@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading;
 using System.IO;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
-using SquaredInfinity.Foundation.Comparers;
+using SquaredInfinity.Extensions;
+using SquaredInfinity.Comparers;
 
-namespace SquaredInfinity.Foundation
+namespace SquaredInfinity
 {
     // retry transient faults only
     // if non-transient fault occurs, break operation

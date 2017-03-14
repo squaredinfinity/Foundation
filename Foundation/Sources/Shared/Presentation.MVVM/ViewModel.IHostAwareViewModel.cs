@@ -1,5 +1,5 @@
-﻿using SquaredInfinity.Foundation.IntraMessaging;
-using SquaredInfinity.Foundation.Extensions;
+﻿using SquaredInfinity.IntraMessaging;
+using SquaredInfinity.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Markup;
 
-namespace SquaredInfinity.Foundation.Presentation
+namespace SquaredInfinity.Presentation
 {
     public abstract partial class ViewModel : IHostAwareViewModel
     {

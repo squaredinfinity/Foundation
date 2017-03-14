@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Controls;
 using System.Linq;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Windows;
-using SquaredInfinity.Foundation.Presentation;
+using SquaredInfinity.Presentation;
 using System.Windows.Controls.Primitives;
 using System.ComponentModel;
 using System.Windows.Media;
-using SquaredInfinity.Foundation.Collections;
+using SquaredInfinity.Collections;
 using System.Collections;
 using System.Windows.Input;
-using SquaredInfinity.Foundation.Presentation.Controls;
+using SquaredInfinity.Presentation.Controls;
 using System.Threading;
-using SquaredInfinity.Foundation.Maths;
+using SquaredInfinity.Maths;
 
-namespace SquaredInfinity.Foundation.Presentation.Controls.AdaptiveSelector
+namespace SquaredInfinity.Presentation.Controls.AdaptiveSelector
 {
     public class AdaptiveSelector : MultiSelector, INotifyPropertyChanged
     {

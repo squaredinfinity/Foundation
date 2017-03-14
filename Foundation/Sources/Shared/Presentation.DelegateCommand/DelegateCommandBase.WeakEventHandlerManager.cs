@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace SquaredInfinity.Foundation.Presentation.Commands
+namespace SquaredInfinity.Presentation.Commands
 {
     public abstract partial class DelegateCommandBase : ICommand
     {

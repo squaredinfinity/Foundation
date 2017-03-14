@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Presentation.Controls
+namespace SquaredInfinity.Presentation.Controls
 {
     public class UserActionParameters : Dictionary<string, object>, IUserActionParameters
     {

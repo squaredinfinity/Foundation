@@ -7,7 +7,7 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Numerics;
 
-namespace SquaredInfinity.Foundation.Maths.Statistics
+namespace SquaredInfinity.Maths.Statistics
 {
     public static class Total
     {

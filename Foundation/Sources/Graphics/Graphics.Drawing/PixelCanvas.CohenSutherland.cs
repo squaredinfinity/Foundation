@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Maths;
+﻿using SquaredInfinity.Maths;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace SquaredInfinity.Foundation.Graphics.Drawing
+namespace SquaredInfinity.Graphics.Drawing
 {
     public abstract partial class PixelCanvas : IPixelCanvas
     {

@@ -1,11 +1,11 @@
-﻿using SquaredInfinity.Foundation.ComponentModel;
+﻿using SquaredInfinity.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Collections.Trees
+namespace SquaredInfinity.Collections.Trees
 {
     public abstract class ExpressionTreeNode : NotifyPropertyChangedObject, IExpressionTreeNode
     {

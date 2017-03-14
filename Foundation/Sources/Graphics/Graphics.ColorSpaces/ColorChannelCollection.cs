@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Graphics
+namespace SquaredInfinity.Graphics
 {
     public class ColorChannelCollection : ReadOnlyCollection<ColorChannel>
     {

@@ -1,11 +1,11 @@
-﻿using SquaredInfinity.Foundation.Collections;
+﻿using SquaredInfinity.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.ObjectExtensibility
+namespace SquaredInfinity.ObjectExtensibility
 {
     public interface IExtensionCollection<TOwner> :
         ICollection<IExtension<TOwner>>

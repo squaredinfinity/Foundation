@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Serialization
+namespace SquaredInfinity.Serialization
 {
     public interface IEnumerableTypeSerializationStrategy<TEnumerableSerializationStrategy, TSerializationStrategy, T, TItem> 
         : ITypeSerializationStrategy<TSerializationStrategy, T>

@@ -1,6 +1,6 @@
-﻿using SquaredInfinity.Foundation.Collections;
-using SquaredInfinity.Foundation.Types.Description;
-using SquaredInfinity.Foundation.Extensions;
+﻿using SquaredInfinity.Collections;
+using SquaredInfinity.Types.Description;
+using SquaredInfinity.Extensions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace SquaredInfinity.Foundation.Serialization.FlexiXml
+namespace SquaredInfinity.Serialization.FlexiXml
 {
     /// <summary>
     /// Serialization Context sotres state used by serializer during serialization.

@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.Threading;
+﻿using SquaredInfinity.Threading;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,9 +13,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Threading;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 
-namespace SquaredInfinity.Foundation.Collections
+namespace SquaredInfinity.Collections
 {
     public partial class XamlObservableCollectionEx<TItem> : 
         ObservableCollectionEx<TItem>,

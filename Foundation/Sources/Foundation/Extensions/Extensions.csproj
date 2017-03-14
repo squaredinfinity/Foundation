@@ -8,8 +8,8 @@
     <ProjectGuid>{3C546790-47A6-4D56-96A9-4DA42970FE45}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SquaredInfinity.Foundation.Extensions</RootNamespace>
-    <AssemblyName>SquaredInfinity2.Foundation.Extensions</AssemblyName>
+    <RootNamespace>SquaredInfinity.Extensions</RootNamespace>
+    <AssemblyName>SquaredInfinity.Extensions</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

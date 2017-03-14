@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
-namespace SquaredInfinity.Foundation.Presentation.Commands
+namespace SquaredInfinity.Presentation.Commands
 {
     public abstract partial class DelegateCommandBase : ICommand
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Charting.Axis
+namespace SquaredInfinity.Charting.Axis
 {
     public class PrettyTicksProvider
     {

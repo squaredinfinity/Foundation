@@ -1,5 +1,5 @@
-﻿using SquaredInfinity.Foundation.Presentation.Views;
-using SquaredInfinity.Foundation.Presentation.Windows;
+﻿using SquaredInfinity.Presentation.Views;
+using SquaredInfinity.Presentation.Windows;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace SquaredInfinity.Foundation.Presentation
+namespace SquaredInfinity.Presentation
 {
     public abstract class UIService : IUIService
     {

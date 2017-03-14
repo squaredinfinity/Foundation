@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Maths
+namespace SquaredInfinity.Maths
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
     public struct Point3D : IEquatable<Point3D>

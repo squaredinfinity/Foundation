@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 
 #if NET35
 using Microsoft.Windows.Controls;
@@ -11,7 +11,7 @@ using Microsoft.Windows.Controls.Primitives;
 using System.Windows.Controls.Primitives;
 #endif
 
-namespace SquaredInfinity.Foundation.Presentation.DragDrop.Utilities
+namespace SquaredInfinity.Presentation.DragDrop.Utilities
 {
     public static class HitTestUtilities
     {

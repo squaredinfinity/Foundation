@@ -1,10 +1,10 @@
-﻿using SquaredInfinity.Foundation.Maths.Space2D;
+﻿using SquaredInfinity.Maths.Space2D;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 
-namespace SquaredInfinity.Foundation.Extensions
+namespace SquaredInfinity.Extensions
 {
     public static class RectangleExtensions
     {

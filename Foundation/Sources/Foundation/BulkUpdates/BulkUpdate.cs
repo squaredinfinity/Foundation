@@ -1,11 +1,11 @@
-﻿using SquaredInfinity.Foundation.Threading;
+﻿using SquaredInfinity.Threading;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation
+namespace SquaredInfinity
 {
     public class BulkUpdate : IBulkUpdate
     {

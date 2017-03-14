@@ -1,5 +1,5 @@
-﻿using SquaredInfinity.Foundation.Disposables;
-using SquaredInfinity.Foundation.Extensions;
+﻿using SquaredInfinity.Disposables;
+using SquaredInfinity.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Threading
+namespace SquaredInfinity.Threading
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
     public partial class ReaderWriterLockSlimEx : ILock

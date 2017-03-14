@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 
-namespace SquaredInfinity.Foundation.Presentation.Controls
+namespace SquaredInfinity.Presentation.Controls
 {
     public class Canvas : System.Windows.Controls.Canvas
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Diagnostics.TextTemplates
+namespace SquaredInfinity.Diagnostics.TextTemplates
 {
     public class FunctionDefinition
     {

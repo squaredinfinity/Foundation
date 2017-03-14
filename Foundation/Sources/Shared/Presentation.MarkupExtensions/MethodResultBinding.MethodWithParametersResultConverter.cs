@@ -1,5 +1,5 @@
 ﻿using System;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Data;
 
-namespace SquaredInfinity.Foundation.Presentation.MarkupExtensions
+namespace SquaredInfinity.Presentation.MarkupExtensions
 {
     public partial class MethodResultBinding : SmartBinding
     {

@@ -1,17 +1,17 @@
-﻿using SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors;
+﻿using SquaredInfinity.Diagnostics.ContextDataCollectors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
-using SquaredInfinity.Foundation.Diagnostics.TextTemplates;
-using SquaredInfinity.Foundation.Diagnostics.TextTemplates.Substitutions;
-using SquaredInfinity.Foundation.Diagnostics.TextTemplates.Placeholders;
-using SquaredInfinity.Foundation.Serialization.FlexiXml;
+using SquaredInfinity.Extensions;
+using SquaredInfinity.Diagnostics.TextTemplates;
+using SquaredInfinity.Diagnostics.TextTemplates.Substitutions;
+using SquaredInfinity.Diagnostics.TextTemplates.Placeholders;
+using SquaredInfinity.Serialization.FlexiXml;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Formatters
+namespace SquaredInfinity.Diagnostics.Formatters
 {
     public class PatternFormatter : IFormatter
     {

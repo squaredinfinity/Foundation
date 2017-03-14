@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Collections.Concurrent;
-using SquaredInfinity.Foundation.Types.Description.Reflection;
-using SquaredInfinity.Foundation.Types.Description;
+using SquaredInfinity.Types.Description.Reflection;
+using SquaredInfinity.Types.Description;
 using System.Threading;
 using System.ComponentModel;
 using System.Reflection;
-using SquaredInfinity.Foundation.Types.Description.IL;
+using SquaredInfinity.Types.Description.IL;
 using System.Collections;
 using System.Data;
 
-namespace SquaredInfinity.Foundation.Serialization.FlexiXml
+namespace SquaredInfinity.Serialization.FlexiXml
 {
     public partial class FlexiXmlSerializer : FlexiSerializer, IFlexiXmlSerializer
     {

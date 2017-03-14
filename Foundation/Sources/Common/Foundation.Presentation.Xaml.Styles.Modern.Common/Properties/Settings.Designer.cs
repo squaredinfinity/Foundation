@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SquaredInfinity.Foundation.Presentation.Xaml.Styles.Modern.Properties {
+namespace SquaredInfinity.Presentation.Xaml.Styles.Modern.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

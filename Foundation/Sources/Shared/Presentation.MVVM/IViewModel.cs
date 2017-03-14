@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Foundation.IntraMessaging;
+﻿using SquaredInfinity.IntraMessaging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 
-namespace SquaredInfinity.Foundation.Presentation
+namespace SquaredInfinity.Presentation
 {
     public interface IViewModel : IIntraMessageNode, IDisposable
     {

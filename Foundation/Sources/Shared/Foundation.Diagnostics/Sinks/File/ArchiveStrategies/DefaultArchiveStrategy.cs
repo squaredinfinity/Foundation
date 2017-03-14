@@ -4,12 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation;
+using SquaredInfinity;
 using System.Threading;
-using SquaredInfinity.Foundation.Extensions;
-using SquaredInfinity.Foundation.Diagnostics.TextTemplates;
+using SquaredInfinity.Extensions;
+using SquaredInfinity.Diagnostics.TextTemplates;
 
-namespace SquaredInfinity.Foundation.Diagnostics.Sinks.File.ArchiveStrategies
+namespace SquaredInfinity.Diagnostics.Sinks.File.ArchiveStrategies
 {
     public class DefaultArchiveStrategy
     {

@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Threading
+namespace SquaredInfinity.Threading
 {
     public class WeakDelegate<TDelegate>
     //where TDelegate : class

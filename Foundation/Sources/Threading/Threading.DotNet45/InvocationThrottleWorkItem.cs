@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation
+namespace SquaredInfinity
 {
     [DebuggerDisplay("WorkItem {Id}")]
     public class InvocationThrottleWorkItem

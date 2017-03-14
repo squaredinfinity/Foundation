@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace SquaredInfinity.Foundation.Presentation.Controls
+namespace SquaredInfinity.Presentation.Controls
 {
     public class AdornerWithVisual : Adorner
     {

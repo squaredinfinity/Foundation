@@ -4,16 +4,16 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Xml.Linq;
 using System.Data.SqlTypes;
 using System.Data;
 using System.Collections;
 using System.Data.Common;
 using Microsoft.SqlServer.Server;
-using SquaredInfinity.Foundation.Diagnostics;
+using SquaredInfinity.Diagnostics;
 
-namespace SquaredInfinity.Foundation.Data.SqlServer
+namespace SquaredInfinity.Data.SqlServer
 {
     /// <summary>
     /// Provides metods of accessing SQL Databases

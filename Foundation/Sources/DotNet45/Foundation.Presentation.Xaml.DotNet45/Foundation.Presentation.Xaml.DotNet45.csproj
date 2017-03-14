@@ -71,7 +71,6 @@
     <Resource Include="fonts\fontsi.ttf" />
   </ItemGroup>
   <Import Project="..\..\Shared\Fonts\Fonts.projitems" Label="Shared" />
-  <Import Project="..\..\Shared\Internal\Internal.projitems" Label="Shared" />
   <Import Project="..\..\Shared\Foundation.Presentation.Xaml\Foundation.Presentation.Xaml.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

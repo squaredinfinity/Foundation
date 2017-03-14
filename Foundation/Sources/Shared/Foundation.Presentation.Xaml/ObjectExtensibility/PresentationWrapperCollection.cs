@@ -1,12 +1,12 @@
-﻿using SquaredInfinity.Foundation.Collections;
-using SquaredInfinity.Foundation.ObjectExtensibility;
+﻿using SquaredInfinity.Collections;
+using SquaredInfinity.ObjectExtensibility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Presentation.ObjectExtensibility
+namespace SquaredInfinity.Presentation.ObjectExtensibility
 {
     public class PresentationWrapperCollection :
             XamlObservableCollectionEx<PresentationWrapper>,

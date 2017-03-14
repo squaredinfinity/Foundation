@@ -1,10 +1,10 @@
-﻿using SquaredInfinity.Foundation.Graphics.ColorSpaces;
+﻿using SquaredInfinity.Graphics.ColorSpaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SquaredInfinity.Foundation.Graphics
+namespace SquaredInfinity.Graphics
 {
     public interface IColor //NOTE: CORE UNSUPORTED, : ICloneable
     {

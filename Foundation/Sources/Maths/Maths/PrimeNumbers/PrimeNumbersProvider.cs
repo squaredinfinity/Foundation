@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Maths.PrimeNumbers
+namespace SquaredInfinity.Maths.PrimeNumbers
 {
     public abstract class PrimeNumbersProvider : Implementation, IPrimeNumbersProvider
     {

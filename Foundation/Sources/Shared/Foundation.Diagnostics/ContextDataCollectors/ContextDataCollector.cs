@@ -1,14 +1,14 @@
-﻿using SquaredInfinity.Foundation.Diagnostics.Filters;
+﻿using SquaredInfinity.Diagnostics.Filters;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 using System.Collections.Concurrent;
 
-namespace SquaredInfinity.Foundation.Diagnostics.ContextDataCollectors
+namespace SquaredInfinity.Diagnostics.ContextDataCollectors
 {
     public abstract class ContextDataCollector : IContextDataCollector
     {

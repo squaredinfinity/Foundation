@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Foundation.Comparers
+namespace SquaredInfinity.Comparers
 {
     public class ReferenceEqualityComparer : IEqualityComparer<object>
     {

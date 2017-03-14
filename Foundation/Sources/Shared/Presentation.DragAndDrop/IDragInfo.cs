@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 
-namespace SquaredInfinity.Foundation.Presentation.DragDrop
+namespace SquaredInfinity.Presentation.DragDrop
 {
     public interface IDragInfo
     {

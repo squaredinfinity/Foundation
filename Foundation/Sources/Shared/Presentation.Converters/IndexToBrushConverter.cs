@@ -8,7 +8,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows;
 
-namespace SquaredInfinity.Foundation.Presentation.Converters
+namespace SquaredInfinity.Presentation.Converters
 {
     [ContentProperty("Brushes")]
     public class IndexToBrushConverter : MarkupExtension, IValueConverter

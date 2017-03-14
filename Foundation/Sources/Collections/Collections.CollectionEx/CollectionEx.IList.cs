@@ -1,11 +1,11 @@
-﻿using SquaredInfinity.Foundation.Collections;
+﻿using SquaredInfinity.Collections;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
-namespace SquaredInfinity.Foundation.Collections
+namespace SquaredInfinity.Collections
 {
     public partial class CollectionEx<TItem> :
         ICollectionEx<TItem>,

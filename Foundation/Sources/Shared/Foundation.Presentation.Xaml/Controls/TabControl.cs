@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
-namespace SquaredInfinity.Foundation.Presentation.Controls
+namespace SquaredInfinity.Presentation.Controls
 {
     public class TabControl : System.Windows.Controls.TabControl
     {

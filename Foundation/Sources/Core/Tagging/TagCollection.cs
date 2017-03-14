@@ -5,9 +5,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Collections;
-using SquaredInfinity.Foundation.Collections;
+using SquaredInfinity.Collections;
 
-namespace SquaredInfinity.Foundation.Tagging
+namespace SquaredInfinity.Tagging
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
     public class TagCollection : ITagCollection

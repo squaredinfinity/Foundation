@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SquaredInfinity.Foundation;
-using SquaredInfinity.Foundation.Graphics.ColorSpaces;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity;
+using SquaredInfinity.Graphics.ColorSpaces;
+using SquaredInfinity.Extensions;
 
-namespace SquaredInfinity.Foundation.Graphics
+namespace SquaredInfinity.Graphics
 {
     /// <summary>
     /// 

@@ -1,13 +1,13 @@
-﻿using SquaredInfinity.Foundation.Types.Description;
-using SquaredInfinity.Foundation.Types.Description.Reflection;
+﻿using SquaredInfinity.Types.Description;
+using SquaredInfinity.Types.Description.Reflection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Foundation.Extensions;
+using SquaredInfinity.Extensions;
 
-namespace SquaredInfinity.Foundation.Presentation.DataTemplateSelectors.Rules
+namespace SquaredInfinity.Presentation.DataTemplateSelectors.Rules
 {
     public class MemberValueRule : DataTemplateSelectorRule
     {
