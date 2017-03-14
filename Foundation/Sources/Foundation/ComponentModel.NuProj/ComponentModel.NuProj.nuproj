@@ -15,23 +15,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Diagnostics.Core\Diagnostics.Core.csproj" />
+    <ProjectReference Include="..\ComponentModel\ComponentModel.csproj" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>c23861cf-3335-46ee-9484-03c4b89e1616</ProjectGuid>
+    <ProjectGuid>93f4f558-afa9-4bb8-98d5-a4cfa0150d60</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup>
     <NuProjPath Condition=" '$(NuProjPath)' == '' ">$(MSBuildExtensionsPath)\NuProj\</NuProjPath>
   </PropertyGroup>
   <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
   <PropertyGroup Label="Configuration">
-    <Id>SquaredInfinity.Diagnostics.Core</Id>
+    <Id>SquaredInfinity.ComponentModel</Id>
     <Version>1.0.0</Version>
-    <Title>Squared Infinity ▪ Diagnostics ▪ Core</Title>
+    <Title>Squared Infinity ▪ Component Model</Title>
     <Authors>jarek.kardas</Authors>
     <Owners>jarek.kardas</Owners>
-    <Summary>Diagnostics.Core.NuGet</Summary>
-    <Description>Diagnostics.Core.NuGet</Description>
+    <Summary>ComponentModel.NuProj</Summary>
+    <Description>ComponentModel.NuProj</Description>
     <ReleaseNotes>
     </ReleaseNotes>
     <ProjectUrl>
@@ -39,7 +39,7 @@
     <LicenseUrl>
     </LicenseUrl>
     <Copyright>Copyright © jarek.kardas</Copyright>
-    <Tags>Diagnostics.Core.NuGet</Tags>
+    <Tags>ComponentModel.NuProj</Tags>
   </PropertyGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
 </Project>

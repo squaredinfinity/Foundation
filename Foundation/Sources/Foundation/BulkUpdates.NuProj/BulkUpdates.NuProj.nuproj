@@ -15,23 +15,24 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Diagnostics.Core\Diagnostics.Core.csproj" />
+    <ProjectReference Include="..\..\Threading\Threading.Locks.NuProj\Threading.Locks.NuProj.nuproj" />
+    <ProjectReference Include="..\BulkUpdates\BulkUpdates.csproj" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>c23861cf-3335-46ee-9484-03c4b89e1616</ProjectGuid>
+    <ProjectGuid>4d4ab2f6-5e1c-46a6-8bc5-ba3fe8ea8691</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup>
     <NuProjPath Condition=" '$(NuProjPath)' == '' ">$(MSBuildExtensionsPath)\NuProj\</NuProjPath>
   </PropertyGroup>
   <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
   <PropertyGroup Label="Configuration">
-    <Id>SquaredInfinity.Diagnostics.Core</Id>
+    <Id>SquaredInfinity.BulkUpdates</Id>
     <Version>1.0.0</Version>
-    <Title>Squared Infinity ▪ Diagnostics ▪ Core</Title>
+    <Title>Squared Infinity ▪ Bulk Updates</Title>
     <Authors>jarek.kardas</Authors>
     <Owners>jarek.kardas</Owners>
-    <Summary>Diagnostics.Core.NuGet</Summary>
-    <Description>Diagnostics.Core.NuGet</Description>
+    <Summary>BulkUpdates.NuProj</Summary>
+    <Description>BulkUpdates.NuProj</Description>
     <ReleaseNotes>
     </ReleaseNotes>
     <ProjectUrl>
@@ -39,7 +40,7 @@
     <LicenseUrl>
     </LicenseUrl>
     <Copyright>Copyright © jarek.kardas</Copyright>
-    <Tags>Diagnostics.Core.NuGet</Tags>
+    <Tags>BulkUpdates.NuProj</Tags>
   </PropertyGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
 </Project>
