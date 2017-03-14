@@ -2,6 +2,42 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
+#region COLLECTIONS
+
+#if COLLECTIONS_CORE
+
+[assembly: AssemblyVersion("2.0.0.0")]
+[assembly: AssemblyFileVersion("2.0.0.0")]
+[assembly: AssemblyInformationalVersion("2.0.0.0")]
+
+#endif
+
+#if COLLECTIONS_COLLECTIONEX
+
+[assembly: AssemblyVersion("2.0.0.0")]
+[assembly: AssemblyFileVersion("2.0.0.0")]
+[assembly: AssemblyInformationalVersion("2.0.0.0")]
+
+#endif
+
+#if COLLECTIONS_MULTIMAP
+
+[assembly: AssemblyVersion("2.0.0.0")]
+[assembly: AssemblyFileVersion("2.0.0.0")]
+[assembly: AssemblyInformationalVersion("2.0.0.0")]
+
+#endif
+
+#if COLLECTIONS_OBSERVABLECOLLECTIONEX
+
+[assembly: AssemblyVersion("2.0.0.0")]
+[assembly: AssemblyFileVersion("2.0.0.0")]
+[assembly: AssemblyInformationalVersion("2.0.0.0")]
+
+#endif
+
+#endregion
+
 #region DIAGNOSTICS
 
 #if DIAGNOSTICS_CORE

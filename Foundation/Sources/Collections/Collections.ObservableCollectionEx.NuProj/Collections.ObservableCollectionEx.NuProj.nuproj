@@ -1,5 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- 
+    IMPORT NUGET-DEPLOYMENT.TARGETS TO ALLOW NUGET PUSH
+
+    TARGET AND TASKS ASSEMBLIES MY BE LOCATED IN THE SOLUTION (.build/*.*)
+
+    NUGET.EXE MUST BE LOCATED IN THE SOLUTION (.nuget/nuget.exe)
+    SOLUTION PACKAGE REFERENCE TO NuProj MUST BE SET (.nuget/packages.config)
+
+    EACH PROJECT REFERENCED BY NUGETS MUST REFERENCE PACKAGE NuProj.Common
+  -->
+  <PropertyGroup>
+    <AssemblyInfoPath>$(SolutionDir)\Sources\Internal\AssemblyInfo.shared.cs</AssemblyInfoPath>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.build\nuget-default-config.targets" />
+  <Import Project="$(SolutionDir)\.build\nuget-deployment.targets" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|AnyCPU">
       <Configuration>Debug</Configuration>
@@ -13,6 +28,15 @@
       <Configuration>Release</Configuration>
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Foundation\BulkUpdates.NuProj\BulkUpdates.NuProj.nuproj" />
+    <ProjectReference Include="..\..\Foundation\ComponentModel.NuProj\ComponentModel.NuProj.nuproj" />
+    <ProjectReference Include="..\..\Foundation\Extensions.NuProj\Extensions.NuProj.nuproj" />
+    <ProjectReference Include="..\..\Threading\Threading.Locks.NuProj\Threading.Locks.NuProj.nuproj" />
+    <ProjectReference Include="..\Collections.CollectionEx.NuProj\Collections.CollectionEx.NuProj.nuproj" />
+    <ProjectReference Include="..\Collections.Core.NuProj\Collections.Core.NuProj.nuproj" />
+    <ProjectReference Include="..\Collections.ObservableCollectionEx\Collections.ObservableCollectionEx.csproj" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>ad48270f-0ecb-489c-8b56-43647470a46d</ProjectGuid>
@@ -38,8 +62,5 @@
     <Copyright>Copyright © jarek.kardas</Copyright>
     <Tags>Collections.ObservableCollectionEx.NuProj</Tags>
   </PropertyGroup>
-  <ItemGroup>
-    <Content Include="Readme.txt" />
-  </ItemGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
 </Project>

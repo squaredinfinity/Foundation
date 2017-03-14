@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;COLLECTIONS_OBSERVABLECOLLECTIONEX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -29,7 +29,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;COLLECTIONS_OBSERVABLECOLLECTIONEX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -41,8 +41,37 @@
     <Compile Include="ObservableCollectionEx.cs" />
     <Compile Include="ObservableCollectionEx.INotifyCollectionChanged.cs" />
     <Compile Include="ObservableCollectionEx.INotifyPropertyChanged.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Foundation\BulkUpdates\BulkUpdates.csproj">
+      <Project>{74b09048-18ad-4200-bd68-38e9d68ef24f}</Project>
+      <Name>BulkUpdates</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Foundation\ComponentModel\ComponentModel.csproj">
+      <Project>{33e2de1f-6c1e-433b-a67e-3eae47be7109}</Project>
+      <Name>ComponentModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Foundation\Extensions\Extensions.csproj">
+      <Project>{3c546790-47a6-4d56-96a9-4da42970fe45}</Project>
+      <Name>Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Threading\Threading.Locks\Threading.Locks.csproj">
+      <Project>{c46cbfa1-31f2-4aa1-b0e9-c2c200f06439}</Project>
+      <Name>Threading.Locks</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Collections.CollectionEx\Collections.CollectionEx.csproj">
+      <Project>{de493e5d-e887-417d-98af-cdb8df72e4fa}</Project>
+      <Name>Collections.CollectionEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Collections.Core\Collections.Core.csproj">
+      <Project>{3a8bf0fd-01de-414a-8cba-ca38369d635a}</Project>
+      <Name>Collections.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

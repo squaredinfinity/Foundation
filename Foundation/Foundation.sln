@@ -419,9 +419,12 @@ Global
 		Sources\Shared\Presentation.MVVM\Presentation.MVVM.projitems*{deeb2ff3-c8dd-4395-bdd8-f3e88157da9c}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Unsafe\Foundation.Unsafe.projitems*{7bfbff4e-7033-4db9-8ed8-e14cba4f8740}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Diagnostics.Infrastructure\Foundation.Diagnostics.Infrastructure.projitems*{9d01a869-8311-4009-85f3-f0383be62655}*SharedItemsImports = 13
+		Sources\Internal\Internal.projitems*{694c689c-375a-4e4d-bb5e-b08d42efc96a}*SharedItemsImports = 4
+		Sources\Internal\Internal.projitems*{3a8bf0fd-01de-414a-8cba-ca38369d635a}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Unsafe\Foundation.Unsafe.projitems*{d434072a-9ac1-49c0-9ffb-bc602a58cb02}*SharedItemsImports = 4
 		Sources\Shared\Internal\Internal.projitems*{d434072a-9ac1-49c0-9ffb-bc602a58cb02}*SharedItemsImports = 4
 		Sources\Internal\Internal.projitems*{0eaf4df7-1ffa-4565-a019-eb67f73c59d7}*SharedItemsImports = 4
+		Sources\Internal\Internal.projitems*{de493e5d-e887-417d-98af-cdb8df72e4fa}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Serialization\Foundation.Serialization.projitems*{f924eefe-30b9-4d94-b7ef-359c6a406795}*SharedItemsImports = 4
 		Sources\Shared\Internal\Internal.projitems*{f924eefe-30b9-4d94-b7ef-359c6a406795}*SharedItemsImports = 4
 		Sources\Shared\Foundation\Foundation.projitems*{46be36ce-c049-4746-8a80-85a28b96e923}*SharedItemsImports = 13
@@ -437,6 +440,7 @@ Global
 		Sources\Shared\Internal\Internal.projitems*{1a2db9fe-7d95-47f2-8b28-7e9b0a319b14}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Extensions\Foundation.Extensions.projitems*{1a2db9fe-7d95-47f2-8b28-7e9b0a319b14}*SharedItemsImports = 4
 		Sources\Internal\Internal.projitems*{6243bf46-3b7c-4137-ace9-79541a6ad8e9}*SharedItemsImports = 13
+		Sources\Internal\Internal.projitems*{94bd8189-ceff-4d5d-98ea-796e5f655035}*SharedItemsImports = 4
 		Sources\Win32Api\Win32Api.Shared\Win32Api.Shared.projitems*{872c18c7-b7e3-47c8-9ef7-15995c96a4ec}*SharedItemsImports = 13
 		Sources\Shared\Composition\Composition.projitems*{da47486d-25aa-4079-8734-d5780512f9a5}*SharedItemsImports = 13
 		Sources\Internal\Internal.projitems*{5c393d5e-684f-45c7-a954-192f9b946e65}*SharedItemsImports = 4
