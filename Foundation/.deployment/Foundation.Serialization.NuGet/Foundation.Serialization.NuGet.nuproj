@@ -40,8 +40,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sources\DotNet45\Foundation.Serialization.DotNet45\Foundation.Serialization.DotNet45.csproj" />
-    <ProjectReference Include="..\Foundation.Diagnostics.Infrastructure.NuGet\Foundation.Diagnostics.Infrastructure.NuGet.nuproj" />
-    <ProjectReference Include="..\Foundation.NuGet\Foundation.NuGet.nuproj" />
   </ItemGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
 </Project>

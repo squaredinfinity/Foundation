@@ -8,8 +8,8 @@
     <ProjectGuid>{89CB7F3C-A658-4946-9E0A-BDB1127F426E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Collections.Virtualization</RootNamespace>
-    <AssemblyName>Collections.Virtualization</AssemblyName>
+    <RootNamespace>SquaredInfinity.Collections.Virtualization</RootNamespace>
+    <AssemblyName>SquaredInfinity2.Collections.Virtualization</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -33,13 +33,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\..\ComponentModel\ComponentModel.csproj">
-      <Project>{33e2de1f-6c1e-433b-a67e-3eae47be7109}</Project>
-      <Name>ComponentModel</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="IVirtualizedDataItem.cs" />
     <Compile Include="IVirtualizedDataItemsProvider_T.cs" />

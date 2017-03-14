@@ -116,10 +116,6 @@
       <Project>{3d68571e-52ca-481b-b2b6-e22e5c214cb6}</Project>
       <Name>Foundation.Maths.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Core\RetryPolicy\RetryPolicy.csproj">
-      <Project>{54ebae5c-debc-4d55-ad37-cb5995d594f6}</Project>
-      <Name>RetryPolicy</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Sources\DotNet45\Foundation.Diagnostics.DotNet45\Foundation.Diagnostics.DotNet45.csproj">
       <Project>{ab8007f5-ad2a-42b8-9375-98ae0ad89f80}</Project>
       <Name>Foundation.Diagnostics.DotNet45</Name>

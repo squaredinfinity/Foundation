@@ -6,7 +6,6 @@ using System.Data.Common;
 using System.Text;
 using SquaredInfinity.Foundation.Extensions;
 using System.Data;
-using System.Threading;
 
 namespace SquaredInfinity.Foundation.Data
 {
@@ -24,8 +23,6 @@ namespace SquaredInfinity.Foundation.Data
         protected TCommand Command { get; private set; }
         protected TDataReader DataReader { get; private set; }
 
-        readonly ManualResetEventSlim ConnectionReady = new ManualResetEventSlim(false);
-
         public CommandResultEnumerator(
             DataAccessService<TConnection, TCommand, TParameter, TDataReader> dataAccessService,
             ConnectionFactory<TConnection> connectionFactory,
@@ -42,17 +39,11 @@ namespace SquaredInfinity.Foundation.Data
 
                 this.Connection = connectionFactory.GetNewConnection();
 
-                Connection.OpenAsync()
-                    .ContinueWith(x =>
-                    {
-                        this.Command = dataAccessService.PrepareCommand(Connection, CommandType.StoredProcedure, CommandText, parameters);
-                        Command.ExecuteReaderAsync()
-                        .ContinueWith(_p =>
-                        {
-                            this.DataReader = (TDataReader) _p.Result;
-                            ConnectionReady.Set();
-                        });
-                    });
+                Connection.Open();
+
+                this.Command = dataAccessService.PrepareCommand(Connection, CommandType.StoredProcedure, CommandText, parameters);
+
+                this.DataReader = (TDataReader)Command.ExecuteReader();
             }
             catch (Exception ex)
             {
@@ -76,8 +67,6 @@ namespace SquaredInfinity.Foundation.Data
         {
             try
             {
-                ConnectionReady.Wait();
-
                 if (DataReader.Read())
                 {
                     Current = CreateEntity(DataReader);

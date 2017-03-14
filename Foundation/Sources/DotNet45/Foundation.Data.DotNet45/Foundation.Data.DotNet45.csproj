@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SquaredInfinity.Foundation.Data</RootNamespace>
-    <AssemblyName>SquaredInfinity.Foundation.Data.DotNet45</AssemblyName>
+    <AssemblyName>SquaredInfinity2.Foundation.Data.DotNet45</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -28,7 +28,7 @@
     <DefineConstants>TRACE;DATA;SIGN</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\SquaredInfinity.Foundation.Data.DotNet45.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\SquaredInfinity2.Foundation.Data.DotNet45.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -43,10 +43,6 @@
     <ProjectReference Include="..\..\Core\Foundation.Core\Foundation.Core.csproj">
       <Project>{4ed231bf-b533-4842-9b80-b0f30e360ead}</Project>
       <Name>Foundation.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\RetryPolicy\RetryPolicy.csproj">
-      <Project>{54ebae5c-debc-4d55-ad37-cb5995d594f6}</Project>
-      <Name>RetryPolicy</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Diagnostics\Diagnostics.Core\Diagnostics.Core.csproj">
       <Project>{956b1ff9-9545-4a20-aee4-a9d3e0c44932}</Project>

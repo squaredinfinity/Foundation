@@ -39,7 +39,6 @@
     <EmbedSourceFiles>true</EmbedSourceFiles>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Foundation.Diagnostics.Infrastructure.NuGet\Foundation.Diagnostics.Infrastructure.NuGet.nuproj" />
     <ProjectReference Include="..\Foundation.Maths.NuGet\Foundation.Maths.NuGet.nuproj" />
     <ProjectReference Include="..\Foundation.NuGet\Foundation.NuGet.nuproj" />
   </ItemGroup>

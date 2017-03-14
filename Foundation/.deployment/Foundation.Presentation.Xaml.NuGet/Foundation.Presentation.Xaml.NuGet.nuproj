@@ -40,8 +40,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sources\DotNet45\Foundation.Presentation.Xaml.DotNet45\Foundation.Presentation.Xaml.DotNet45.csproj" />
-    <ProjectReference Include="..\Foundation.Graphics.NuGet\Foundation.Graphics.NuGet.nuproj" />
-    <ProjectReference Include="..\Foundation.NuGet\Foundation.NuGet.nuproj" />
   </ItemGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
 </Project>

@@ -38,8 +38,5 @@
     </Tags>
     <EmbedSourceFiles>true</EmbedSourceFiles>
   </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Foundation.Maths.NuGet\Foundation.Maths.NuGet.nuproj" />
-  </ItemGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
 </Project>

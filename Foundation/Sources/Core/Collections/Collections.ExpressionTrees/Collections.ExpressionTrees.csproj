@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SquaredInfinity.Foundation.Collections.Trees</RootNamespace>
-    <AssemblyName>SquaredInfinity.Foundation.Collections.ExpressionTrees</AssemblyName>
+    <AssemblyName>SquaredInfinity2.Foundation.Collections.ExpressionTrees</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,10 +35,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\..\ComponentModel\ComponentModel.csproj">
-      <Project>{33e2de1f-6c1e-433b-a67e-3eae47be7109}</Project>
-      <Name>ComponentModel</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Collections.Virtualization\Collections.Virtualization.csproj">
       <Project>{89cb7f3c-a658-4946-9e0a-bdb1127f426e}</Project>
       <Name>Collections.Virtualization</Name>

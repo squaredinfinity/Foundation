@@ -44,18 +44,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\BulkUpdates\BulkUpdates.csproj">
-      <Project>{74b09048-18ad-4200-bd68-38e9d68ef24f}</Project>
-      <Name>BulkUpdates</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\Collections\Collections.CollectionEx\Collections.CollectionEx.csproj">
-      <Project>{de493e5d-e887-417d-98af-cdb8df72e4fa}</Project>
-      <Name>Collections.CollectionEx</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\Collections\Collections.Common\Collections.Common.csproj">
-      <Project>{3a8bf0fd-01de-414a-8cba-ca38369d635a}</Project>
-      <Name>Collections.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Core\Foundation.Core\Foundation.Core.csproj">
       <Project>{4ed231bf-b533-4842-9b80-b0f30e360ead}</Project>
       <Name>Foundation.Core</Name>

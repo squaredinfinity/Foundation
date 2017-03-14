@@ -7,8 +7,8 @@
     <ProjectGuid>{C0C7F383-E188-4A9A-A57D-B5C60BCED18A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Foundation.Data.SqlServer.DotNet45</RootNamespace>
-    <AssemblyName>Foundation.Data.SqlServer.DotNet45</AssemblyName>
+    <RootNamespace>SquaredInfinity.Foundation.Data.SqlServer.DotNet45</RootNamespace>
+    <AssemblyName>SquaredInfinity2.Foundation.Data.SqlServer.DotNet45</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -43,17 +43,9 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\Comparers\Comparers.csproj">
-      <Project>{517e1ebf-1876-4a93-9d19-00b34f118aa9}</Project>
-      <Name>Comparers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Core\Foundation.Core\Foundation.Core.csproj">
       <Project>{4ed231bf-b533-4842-9b80-b0f30e360ead}</Project>
       <Name>Foundation.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\RetryPolicy\RetryPolicy.csproj">
-      <Project>{54ebae5c-debc-4d55-ad37-cb5995d594f6}</Project>
-      <Name>RetryPolicy</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Diagnostics\Diagnostics.Core\Diagnostics.Core.csproj">
       <Project>{956b1ff9-9545-4a20-aee4-a9d3e0c44932}</Project>
