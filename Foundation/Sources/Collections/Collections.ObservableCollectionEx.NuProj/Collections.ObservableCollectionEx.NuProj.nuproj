@@ -11,7 +11,7 @@
     EACH PROJECT REFERENCED BY NUGETS MUST REFERENCE PACKAGE NuProj.Common
   -->
   <PropertyGroup>
-    <AssemblyInfoPath>$(SolutionDir)\Sources\Internal\AssemblyInfo.shared.cs</AssemblyInfoPath>
+    <AssemblyInfoPath>..\Collections.ObservableCollectionEx\AssemblyInfo.cs</AssemblyInfoPath>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.build\nuget-default-config.targets" />
   <Import Project="$(SolutionDir)\.build\nuget-deployment.targets" />
@@ -24,18 +24,16 @@
       <Configuration>Publish - LOCAL</Configuration>
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Publish - STABLE|AnyCPU">
+      <Configuration>Publish - STABLE</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|AnyCPU">
       <Configuration>Release</Configuration>
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Foundation\BulkUpdates.NuProj\BulkUpdates.NuProj.nuproj" />
-    <ProjectReference Include="..\..\Foundation\ComponentModel.NuProj\ComponentModel.NuProj.nuproj" />
-    <ProjectReference Include="..\..\Foundation\Extensions.NuProj\Extensions.NuProj.nuproj" />
-    <ProjectReference Include="..\..\Threading\Threading.Locks.NuProj\Threading.Locks.NuProj.nuproj" />
-    <ProjectReference Include="..\Collections.CollectionEx.NuProj\Collections.CollectionEx.NuProj.nuproj" />
-    <ProjectReference Include="..\Collections.Core.NuProj\Collections.Core.NuProj.nuproj" />
     <ProjectReference Include="..\Collections.ObservableCollectionEx\Collections.ObservableCollectionEx.csproj" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -49,20 +47,20 @@
     <Id>SquaredInfinity.Collections.ObservableCollectionEx</Id>
     <Version>1.0.0</Version>
     <Title>Squared Infinity ▪ Collections ▪ ObservableCollectionEx</Title>
-    <Authors>jarek.kardas</Authors>
-    <Owners>jarek.kardas</Owners>
-    <Summary>Collections.ObservableCollectionEx.NuProj</Summary>
-    <Description>Collections.ObservableCollectionEx.NuProj</Description>
+    <Authors>Squared Infinity</Authors>
+    <Owners>Squared Infinity</Owners>
+    <Summary>
+    </Summary>
+    <Description>Squared Infinity ▪ Collections ▪ ObservableCollectionEx</Description>
     <ReleaseNotes>
     </ReleaseNotes>
     <ProjectUrl>
     </ProjectUrl>
     <LicenseUrl>
     </LicenseUrl>
-    <Copyright>Copyright © jarek.kardas</Copyright>
-    <Tags>Collections.ObservableCollectionEx.NuProj</Tags>
+    <Copyright>Copyright © Squared Infinity</Copyright>
+    <Tags>
+    </Tags>
   </PropertyGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
 </Project>
-
-c:\!\StartSSL Class 2 - Jaroslaw Kardas.snk

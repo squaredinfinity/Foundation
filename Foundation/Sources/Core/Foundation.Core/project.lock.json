@@ -1,5 +1,4 @@
 {
-  "locked": false,
   "version": 1,
   "targets": {
     ".NETPortable,Version=v4.5,Profile=Profile7": {}
@@ -8,5 +7,8 @@
   "projectFileDependencyGroups": {
     "": [],
     ".NETPortable,Version=v4.5,Profile=Profile7": []
+  },
+  "packageFolders": {
+    "C:\\Users\\jarek.kardas\\.nuget\\packages\\": {}
   }
 }

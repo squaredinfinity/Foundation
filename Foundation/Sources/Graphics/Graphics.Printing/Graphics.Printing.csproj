@@ -38,13 +38,14 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="DocumentSize.cs" />
     <Compile Include="MarginsSize.cs" />
     <Compile Include="PaperSize.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="SquaredInfinity.Graphics.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Graphics.Core.2.0.0-beta\lib\portable-net45+win\SquaredInfinity.Graphics.Core.dll</HintPath>
+    <Reference Include="SquaredInfinity.Graphics.Core, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Graphics.Core.2.1.0\lib\portable-net45+win\SquaredInfinity.Graphics.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

@@ -11,7 +11,7 @@
     EACH PROJECT REFERENCED BY NUGETS MUST REFERENCE PACKAGE NuProj.Common
   -->
   <PropertyGroup>
-    <AssemblyInfoPath>$(SolutionDir)\Sources\Internal\AssemblyInfo.shared.cs</AssemblyInfoPath>
+    <AssemblyInfoPath>..\Collections.CollectionEx\AssemblyInfo.cs</AssemblyInfoPath>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.build\nuget-default-config.targets" />
   <Import Project="$(SolutionDir)\.build\nuget-deployment.targets" />
@@ -28,16 +28,17 @@
       <Configuration>Publish - LOCAL</Configuration>
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Publish - STABLE|AnyCPU">
+      <Configuration>Publish - STABLE</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|AnyCPU">
       <Configuration>Release</Configuration>
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Foundation\Extensions.NuProj\Extensions.NuProj.nuproj" />
-    <ProjectReference Include="..\..\Threading\Threading.Locks.NuProj\Threading.Locks.NuProj.nuproj" />
     <ProjectReference Include="..\Collections.CollectionEx\Collections.CollectionEx.csproj" />
-    <ProjectReference Include="..\Collections.Core.NuProj\Collections.Core.NuProj.nuproj" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>f596c1a4-a76d-4223-8de4-c07edb60e8cc</ProjectGuid>
@@ -50,18 +51,20 @@
     <Id>SquaredInfinity.Collections.CollectionEx</Id>
     <Version>1.0.0</Version>
     <Title>Squared Infinity ▪ Collections ▪ CollectionEx</Title>
-    <Authors>jarek.kardas</Authors>
-    <Owners>jarek.kardas</Owners>
-    <Summary>Collections.CollectionEx.NuProj</Summary>
-    <Description>Collections.CollectionEx.NuProj</Description>
+    <Authors>Squared Infinity</Authors>
+    <Owners>Squared Infinity</Owners>
+    <Summary>
+    </Summary>
+    <Description>Squared Infinity ▪ Collections ▪ CollectionEx</Description>
     <ReleaseNotes>
     </ReleaseNotes>
     <ProjectUrl>
     </ProjectUrl>
     <LicenseUrl>
     </LicenseUrl>
-    <Copyright>Copyright © jarek.kardas</Copyright>
-    <Tags>Collections.CollectionEx.NuProj</Tags>
+    <Copyright>Copyright © Squared Infinity</Copyright>
+    <Tags>
+    </Tags>
   </PropertyGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
 </Project>

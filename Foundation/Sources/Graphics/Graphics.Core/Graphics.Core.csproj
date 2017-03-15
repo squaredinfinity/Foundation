@@ -38,6 +38,7 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="GraphicsUnits.cs" />
     <Compile Include="GraphicsUtility.cs" />
     <Compile Include="Orientation.cs" />

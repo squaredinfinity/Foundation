@@ -28,6 +28,10 @@
       <Configuration>Publish - LOCAL</Configuration>
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Publish - STABLE|AnyCPU">
+      <Configuration>Publish - STABLE</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|AnyCPU">
       <Configuration>Release</Configuration>
       <Platform>AnyCPU</Platform>
@@ -49,8 +53,9 @@
     <Title>Squared Infinity ▪ Maths ▪ Random Numbers</Title>
     <Authors>jarek.kardas</Authors>
     <Owners>jarek.kardas</Owners>
-    <Summary>Maths.RandomNumbers.NuProj</Summary>
-    <Description>Maths.RandomNumbers.NuProj</Description>
+    <Summary>
+    </Summary>
+    <Description>Squared Infinity ▪ Maths ▪ Random Numbers</Description>
     <ReleaseNotes>
     </ReleaseNotes>
     <ProjectUrl>
@@ -58,7 +63,8 @@
     <LicenseUrl>
     </LicenseUrl>
     <Copyright>Copyright © jarek.kardas</Copyright>
-    <Tags>Maths.RandomNumbers.NuProj</Tags>
+    <Tags>
+    </Tags>
   </PropertyGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
 </Project>
