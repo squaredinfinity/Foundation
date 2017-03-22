@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+<!-- 
+		BUILD CONFIGURATIONS
+-->
+
+
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|AnyCPU">
+      <Configuration>Debug</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+
+    <ProjectConfiguration Include="Release|AnyCPU">
+      <Configuration>Release</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+
+    <ProjectConfiguration Include="Publish - LOCAL|AnyCPU">
+      <Configuration>Publish - LOCAL</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+
+    <ProjectConfiguration Include="Publish - BETA|AnyCPU">
+      <Configuration>Publish - BETA</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+
+    <ProjectConfiguration Include="Publish - RC|AnyCPU">
+      <Configuration>Publish - RC</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+
+    <ProjectConfiguration Include="Publish - STABLE|AnyCPU">
+      <Configuration>Publish - STABLE</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+
+  </ItemGroup>
+
+  <!--
+      CONFIGURE NUGET PROPERTIES
+
+      These are the properties used to get version and deployment information for NuGet
+  -->
+
+  <PropertyGroup>
+    <SI_TasksDirPath>$(SolutionDir)\.build</SI_TasksDirPath>
+    <NuGetApiKey>232092ef-0511-4bd5-b472-4b778a7de767</NuGetApiKey>
+    <RemoteRepository>https://www.nuget.org/api/v2/package</RemoteRepository>
+    <LocalRepository>c:\local_nugets</LocalRepository>
+
+    <ConfigurationName_STABLE>Publish - STABLE</ConfigurationName_STABLE>
+    <ConfigurationName_RC>Publish - RC</ConfigurationName_RC>
+    <ConfigurationName_BETA>Publish - BETA</ConfigurationName_BETA>
+    <ConfigurationName_LOCAL>Publish - LOCAL</ConfigurationName_LOCAL>
+
+    <PreRelease_RC>rc</PreRelease_RC>
+    <PreRelease_BETA>beta</PreRelease_BETA>
+    <PreRelease_LOCAL>beta</PreRelease_LOCAL>
+
+    <PackedProjectConfiguration>Release</PackedProjectConfiguration>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == '$(ConfigurationName_STABLE)' ">
+    <Publish>true</Publish>
+    <NuGetRepository>$(RemoteRepository)</NuGetRepository>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == '$(ConfigurationName_RC)' ">
+    <Publish>true</Publish>
+    <NuGetRepository>$(RemoteRepository)</NuGetRepository>
+    <PreReleaseName>$(PreRelease_RC)</PreReleaseName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == '$(ConfigurationName_BETA)' ">
+    <Publish>true</Publish>
+    <NuGetRepository>$(RemoteRepository)</NuGetRepository>
+    <PreReleaseName>$(PreRelease_BETA)</PreReleaseName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == '$(ConfigurationName_LOCAL)' ">
+    <Publish>true</Publish>
+    <NuGetRepository>$(LocalRepository)</NuGetRepository>
+    <PreReleaseName>$(PreRelease_LOCAL)</PreReleaseName>
+    <PackedProjectConfiguration>Debug</PackedProjectConfiguration>
+  </PropertyGroup>
+
+
+  <!-- CUSTOM TASK IMPORTS -->
+
+  <UsingTask AssemblyFile="$(SI_TasksDirPath)/SquaredInfinity.Build.Tasks.14.dll" TaskName="SquaredInfinity.Build.Tasks.AssemblyInfo.GetAssemblyVersion" />
+  <UsingTask AssemblyFile="$(SI_TasksDirPath)/SquaredInfinity.Build.Tasks.14.dll" TaskName="SquaredInfinity.Build.Tasks.AssemblyInfo.ConstructSemanticVersion" />
+  <UsingTask AssemblyFile="$(SI_TasksDirPath)/SquaredInfinity.Build.Tasks.14.dll" TaskName="SquaredInfinity.Build.Tasks.NuGet.NuGetPack" />
+  <UsingTask AssemblyFile="$(SI_TasksDirPath)/SquaredInfinity.Build.Tasks.14.dll" TaskName="SquaredInfinity.Build.Tasks.NuGet.NuGetPush" />
+  <UsingTask AssemblyFile="$(SI_TasksDirPath)/SquaredInfinity.Build.Tasks.14.dll" TaskName="SquaredInfinity.Build.Tasks.NuGet.NuGetRestoreFromSolution" />
+  <UsingTask AssemblyFile="$(SI_TasksDirPath)/SquaredInfinity.Build.Tasks.14.dll" TaskName="SquaredInfinity.Build.Tasks.NuGet.NuSpecUpdateDependenciesFromPackagesConfig" />
+
+  <!--
+      PREPARE FOR BUILD      
+  -->
+
+  <Target Name="Restore Solution Packages" AfterTargets="PrepareForBuild">
+    <NuGetRestoreFromSolution SolutionPath="$(SolutionPath)" />
+  </Target>
+
+  <!--
+      BUILD
+  -->
+
+  <Target Name="Create and Push Package" AfterTargets="Build">
+    <!-- GET ASSEMBLY VERSION -->
+    <GetAssemblyVersion AssemblyInfoPath="$(AssemblyInfoPath)">
+      <Output TaskParameter="AssemblyVersion" PropertyName="AssemblyVersion" />
+    </GetAssemblyVersion>
+
+    <!-- GET SEMANTIC VERSION -->
+    <ConstructSemanticVersion Version="$(AssemblyVersion)" PreReleaseName="$(PreReleaseName)">
+      <Output TaskParameter="SemanticVersion" PropertyName="SemanticVersion" />
+    </ConstructSemanticVersion>
+
+    <!-- PACK -->
+    <NuGetPack  NuSpecPath="$(NuSpecPath)" 
+                Version="$(SemanticVersion)" 
+                OutputDirectory="bin\$(Configuration)"
+                NuSpecProperties="configuration=$(PackedProjectConfiguration)">
+      <Output TaskParameter="PackageFullPath" PropertyName="PackageFullPath" />
+    </NuGetPack>
+
+    <!-- PUSH -->
+    <NuGetPush  PackagePath="$(PackageFullPath)"
+                Source="$(NuGetRepository)"
+                ApiKey="$(NuGetApiKey)" />
+  </Target>
+</Project>

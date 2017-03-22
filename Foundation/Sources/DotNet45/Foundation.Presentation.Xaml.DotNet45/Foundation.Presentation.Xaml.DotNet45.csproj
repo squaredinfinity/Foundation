@@ -61,11 +61,6 @@
       <Name>Foundation.Maths.Core</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Foundation.DotNet45\Foundation.DotNet45.csproj">
-      <Project>{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}</Project>
-      <Name>Foundation.DotNet45</Name>
-      <Private>False</Private>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="fonts\fontsi.ttf" />

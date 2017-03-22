@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>ec3d00ea-42f1-45f2-9bc3-19d571d7229b</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SquaredInfinity.Data</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)CommandResultEnumerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CommandResultIterator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectionFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataAccessService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExecuteOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExecuteReaderOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IDataAccessService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IExecuteOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Data\IDataReader.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Object.extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IDatabaseObjectNameResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IExecuteReaderOptions.cs" />
+  </ItemGroup>
+</Project>

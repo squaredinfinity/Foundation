@@ -74,14 +74,6 @@ using System.Runtime.InteropServices;
 
 #endif
 
-#if FOUNDATION_EXTENSIONS
-
-[assembly: AssemblyVersion("2.0.1.0")]
-[assembly: AssemblyFileVersion("2.0.1.0")]
-[assembly: AssemblyInformationalVersion("2.0.1.0")]
-
-#endif
-
 #if FOUNDATION_PRIMITIVES
 
 [assembly: AssemblyVersion("2.0.1.0")]
@@ -118,13 +110,6 @@ using System.Runtime.InteropServices;
 
 #region THREADING
 
-#if THREADING
-
-[assembly: AssemblyVersion("2.0.1.0")]
-[assembly: AssemblyFileVersion("2.0.1.0")]
-[assembly: AssemblyInformationalVersion("2.0.1.0")]
-
-#endif
 
 #if THREADING_LOCKS
 

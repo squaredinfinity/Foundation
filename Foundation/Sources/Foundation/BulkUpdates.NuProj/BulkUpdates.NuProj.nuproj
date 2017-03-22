@@ -41,7 +41,6 @@
     <ProjectReference Include="..\BulkUpdates\BulkUpdates.csproj" />
     <ProjectReference Include="..\ComponentModel.NuProj\ComponentModel.NuProj.nuproj" />
     <ProjectReference Include="..\Disposables.NuProj\Disposables.NuProj.nuproj" />
-    <ProjectReference Include="..\Extensions.NuProj\Extensions.NuProj.nuproj" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>4d4ab2f6-5e1c-46a6-8bc5-ba3fe8ea8691</ProjectGuid>

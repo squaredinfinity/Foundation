@@ -35,9 +35,11 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Threading.NuGet\version.cs">
+      <Link>Properties\version.cs</Link>
+    </Compile>
     <Compile Include="IAsyncLoop.cs" />
     <Compile Include="IInvocationThrottle.cs" />
   </ItemGroup>

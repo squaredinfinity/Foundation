@@ -64,11 +64,6 @@
       <Name>Foundation.DotNet45</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Foundation.Serialization.DotNet45\Foundation.Serialization.DotNet45.csproj">
-      <Project>{f924eefe-30b9-4d94-b7ef-359c6a406795}</Project>
-      <Name>Foundation.Serialization.DotNet45</Name>
-      <Private>False</Private>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\Shared\Foundation.Diagnostics\Foundation.Diagnostics.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

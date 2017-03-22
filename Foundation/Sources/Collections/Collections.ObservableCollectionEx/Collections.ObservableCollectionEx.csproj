@@ -55,8 +55,8 @@
       <HintPath>..\..\..\packages\SquaredInfinity.Collections.CollectionEx.2.1.0\lib\portable-net45+win\SquaredInfinity.Collections.CollectionEx.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SquaredInfinity.Collections.Core, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Collections.Core.2.1.0\lib\portable-net45+win\SquaredInfinity.Collections.Core.dll</HintPath>
+    <Reference Include="SquaredInfinity.Collections.Core, Version=2.1.1.1, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Collections.Core.2.1.1-beta001\lib\portable-net45+win\SquaredInfinity.Collections.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SquaredInfinity.ComponentModel, Version=2.0.1.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
@@ -67,8 +67,8 @@
       <HintPath>..\..\..\packages\SquaredInfinity.Disposables.2.0.1\lib\portable-net45+win\SquaredInfinity.Disposables.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SquaredInfinity.Extensions, Version=2.0.1.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.1\lib\portable-net45+win\SquaredInfinity.Extensions.dll</HintPath>
+    <Reference Include="SquaredInfinity.Extensions, Version=2.0.2.2, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.2-beta002\lib\portable-net45+win\SquaredInfinity.Extensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SquaredInfinity.Threading.Locks, Version=2.0.1.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">

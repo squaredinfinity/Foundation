@@ -39,11 +39,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChainOfCommand.cs" />
-    <Compile Include="CloneComparer.cs" />
     <Compile Include="CommandHandlerEventArgs.cs" />
     <Compile Include="CommandHandlerEventArgs_T.cs" />
-    <Compile Include="EnumeratorBase.cs" />
-    <Compile Include="ICloneEquatable.cs" />
     <Compile Include="Iterator.cs" />
     <Compile Include="NamedObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

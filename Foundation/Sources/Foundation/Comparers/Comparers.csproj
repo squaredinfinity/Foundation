@@ -47,9 +47,12 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CloneEqualityComparer.cs" />
     <Compile Include="CompositeComparer.cs" />
     <Compile Include="DynamicComparer_T.cs" />
     <Compile Include="ExceptionEqualityComparer.cs" />
+    <Compile Include="ICloneEquatable.cs" />
+    <Compile Include="ICloneEquatable_T.cs" />
     <Compile Include="IndexInAnotherListComparer.cs" />
     <Compile Include="IndexInListComparer.cs" />
     <Compile Include="ReferenceEqualityComparer.cs" />

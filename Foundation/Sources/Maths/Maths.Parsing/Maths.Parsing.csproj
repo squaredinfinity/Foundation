@@ -48,8 +48,8 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="SquaredInfinity.Extensions, Version=2.0.1.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.1\lib\portable-net45+win\SquaredInfinity.Extensions.dll</HintPath>
+    <Reference Include="SquaredInfinity.Extensions, Version=2.0.2.2, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.2-beta002\lib\portable-net45+win\SquaredInfinity.Extensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SquaredInfinity.Maths.Extensions, Version=2.0.1.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">

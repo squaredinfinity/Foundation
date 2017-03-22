@@ -38,11 +38,15 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Extensions.NuGet\Extensions.version.cs">
+      <Link>Extensions.version.cs</Link>
+    </Compile>
     <Compile Include="System.Collections.Concurrent\ConcurrentBag.extensions.cs" />
     <Compile Include="System.Collections\ICollection.Extensions.cs" />
     <Compile Include="System.Collections\IDictionary.extensions.cs" />
     <Compile Include="System.Collections\IEnumerable.Extensions.cs" />
     <Compile Include="System.Collections\IReadOnlyList.extensions.cs" />
+    <Compile Include="System.Diagnostics\Stopwatch.extensions.cs" />
     <Compile Include="System.IO\Stream.extensions.cs" />
     <Compile Include="System.Threading.Tasks\Parallel.extensions.cs" />
     <Compile Include="System.Threading.Tasks\Task.extensions.cs" />

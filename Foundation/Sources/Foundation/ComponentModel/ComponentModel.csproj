@@ -38,7 +38,8 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Freezable.cs" />
+    <Compile Include="FreezableNotifyPropertyChangedObject.cs" />
+    <Compile Include="IConvertibleType.cs" />
     <Compile Include="IFreezable.cs" />
     <Compile Include="INotifyVersionChangedObject.cs" />
     <Compile Include="NotifyPropertyChangedObject.cs" />

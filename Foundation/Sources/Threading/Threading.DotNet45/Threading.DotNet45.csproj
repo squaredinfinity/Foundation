@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Threading.NuGet\version.cs">
+      <Link>Properties\version.cs</Link>
+    </Compile>
     <Compile Include="AsyncLoop.cs" />
     <Compile Include="InvocationThrottle.cs" />
     <Compile Include="InvocationThrottleWorkItem.cs" />
@@ -51,9 +54,7 @@
       <Name>Threading</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

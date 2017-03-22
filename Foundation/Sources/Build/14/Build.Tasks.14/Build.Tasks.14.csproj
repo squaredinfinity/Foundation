@@ -41,6 +41,14 @@
   <ItemGroup>
     <Reference Include="Microsoft.Build.Framework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Build.Utilities.Core, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="SquaredInfinity.Extensions, Version=2.0.2.2, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\SquaredInfinity.Extensions.2.0.2-beta002\lib\net452\SquaredInfinity.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SquaredInfinity.Extensions.DotNet45, Version=2.0.2.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\SquaredInfinity.Extensions.2.0.2-beta002\lib\net452\SquaredInfinity.Extensions.DotNet45.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -54,14 +62,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\Foundation.Core\Foundation.Core.csproj">
-      <Project>{4ed231bf-b533-4842-9b80-b0f30e360ead}</Project>
-      <Name>Foundation.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\DotNet45\Foundation.DotNet45\Foundation.DotNet45.csproj">
-      <Project>{4e62f88d-ab89-4aeb-932d-b8d1ee78f59d}</Project>
-      <Name>Foundation.DotNet45</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="..\..\Shared\Build.Tasks\Build.Tasks.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
