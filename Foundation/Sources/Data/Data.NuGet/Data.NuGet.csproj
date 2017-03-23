@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <!--  IMPORT NUGET.TARGETS AND CONFIGURE -->
   <PropertyGroup>
     <AssemblyInfoPath Condition=" '$(AssemblyInfoPath)' == '' ">version.cs</AssemblyInfoPath>
@@ -11,23 +11,21 @@
   <Import Project="$(SolutionDir)\.build\nuget.targets" />
   <Target Name="Update Dependencies" AfterTargets="PrepareForBuild">
     <!--
-    <NuSpecUpdateDependenciesFromPackagesConfig   NuSpecPath="Extensions.nuspec"
+    <NuSpecUpdateDependenciesFromPackagesConfig   NuSpecPath=".nuspec"
                                                   PackageConfigPaths="..\Extensions\packages.config"
                                                   TargetFramework="portable-net45+win80" />
-    <NuSpecUpdateDependenciesFromPackagesConfig   NuSpecPath="Extensions.nuspec"
-                                                  PackageConfigPaths="..\Extensions\packages.config;..\Extensions.DotNet45\packages.config"
-                                                  TargetFramework="net452" />
     -->
+    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\Data.DotNet45\packages.config;" AttachDebugger="false" TargetFramework="net452" />
   </Target>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9CE57C39-C5AC-4E3C-9F20-87631F8A75F2}</ProjectGuid>
+    <ProjectGuid>{F07741FB-0326-4491-80FF-D263D7536638}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Extensions.NuGet</RootNamespace>
-    <AssemblyName>Extensions.NuGet</AssemblyName>
+    <RootNamespace>Data.NuGet</RootNamespace>
+    <AssemblyName>Data.NuGet</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -52,27 +50,18 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Extensions.DotNet45\Extensions.DotNet45.csproj">
-      <Project>{52f55dc7-e0e3-473f-ac70-358429fdcda0}</Project>
-      <Name>Extensions.DotNet45</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Extensions\Extensions.csproj">
-      <Project>{3c546790-47a6-4d56-96a9-4da42970fe45}</Project>
-      <Name>Extensions</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include=".nuspec" />
+    <None Include=".nuspec">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="version.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Data.DotNet45\Data.DotNet45.csproj">
+      <Project>{f969cb3f-ebc6-4c7d-80f0-2cfff01434b3}</Project>
+      <Name>Data.DotNet45</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

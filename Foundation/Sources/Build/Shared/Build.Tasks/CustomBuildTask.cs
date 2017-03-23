@@ -18,6 +18,8 @@ namespace SquaredInfinity.Build.Tasks
 
         public int TimeOut { get; set; }
 
+        public bool AttachDebugger { get; set; }
+
         public CustomBuildTask()
         {
             TimeOut = (int) TimeSpan.FromSeconds(10).TotalMilliseconds;
@@ -27,6 +29,9 @@ namespace SquaredInfinity.Build.Tasks
         {
             try
             {
+                if (AttachDebugger && !Debugger.IsAttached)
+                    Debugger.Launch();
+
                 TaskLoggingHelper = new TaskLoggingHelper(this);
 
                 return DoExecute();
@@ -65,65 +70,5 @@ namespace SquaredInfinity.Build.Tasks
         }
 
         protected abstract bool DoExecute();
-    }
-}
-
-namespace SquaredInfinity.Extensions
-{
-    public static class ProcessStartInfoExtensions
-    {
-        public static bool StartAndWaitForExit(this ProcessStartInfo psi, TimeSpan timeout, out int exitCode, out string standardOutput, out string standardError)
-        {
-            var output_builder = new StringBuilder();
-            var error_builder = new StringBuilder();
-
-            psi.RedirectStandardError = true;
-            psi.RedirectStandardOutput = true;
-            psi.UseShellExecute = false;
-
-            var process = new Process();
-            process.StartInfo = psi;
-
-            using (var output_are = new AutoResetEvent(false))
-            using (var error_are = new AutoResetEvent(false))
-            {
-                process.OutputDataReceived += (sender, e) =>
-                {
-                    if (e.Data == null)
-                        output_are.Set();
-                    else
-                        output_builder.AppendLine(e.Data);
-                };
-                process.ErrorDataReceived += (sender, e) =>
-                {
-                    if (e.Data == null)
-                        error_are.Set();
-                    else
-                        error_builder.AppendLine(e.Data);
-                };
-
-                process.Start();
-
-                process.BeginOutputReadLine();
-                process.BeginErrorReadLine();
-
-                if (process.WaitForExit((int)timeout.TotalMilliseconds) &&
-                    output_are.WaitOne(timeout) &&
-                    error_are.WaitOne(timeout))
-                {
-                    standardOutput = output_builder.ToString();
-                    standardError = error_builder.ToString();
-                    exitCode = process.ExitCode;
-                    return true;
-                }
-                else
-                {
-                    standardOutput = output_builder.ToString();
-                    standardError = error_builder.ToString();
-                    exitCode = -1;
-                    return false;
-                }
-            }
-        }
     }
 }

@@ -46,23 +46,31 @@ namespace SquaredInfinity.Data
         #endregion
 
 
-        #region Execute Async
+        #region Execute (Proc) Async
 
-        Task Execute(string procName);
-        Task Execute(string procName, IExecuteOptions options);
-        Task Execute(string procName, IReadOnlyList<IDbDataParameter> parameters);
-        Task Execute(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options);
+        Task ExecuteAsync(string procName);
+        Task ExecuteAsync(string procName, IExecuteOptions options);
+        Task ExecuteAsync(string procName, IReadOnlyList<IDbDataParameter> parameters);
+        Task ExecuteAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options);
 
         #endregion
 
         #region Execute Text Async
 
-        Task ExecuteText(string sql);
-        Task ExecuteText(string sql, IExecuteOptions options);
-        Task ExecuteText(string sql, IReadOnlyList<IDbDataParameter> parameters);
-        Task ExecuteText(string sql, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options);
+        Task ExecuteTextAsync(string sql);
+        Task ExecuteTextAsync(string sql, IExecuteOptions options);
+        Task ExecuteTextAsync(string sql, IReadOnlyList<IDbDataParameter> parameters);
+        Task ExecuteTextAsync(string sql, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options);
 
         #endregion
+
+        #region Execute Async
+
+        Task ExecuteAsync(Func<IDbConnection, CancellationToken, Task> doExecute);
+        Task ExecuteAsync(Func<IDbConnection, CancellationToken, Task> doExecute, IExecuteOptions options);
+
+        #endregion
+
 
         #region Execute Scalar Async
 
@@ -72,7 +80,7 @@ namespace SquaredInfinity.Data
         Task<T> ExecuteScalarAsync<T>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options);
 
         #endregion
-
+        
         #region Execute Scalar Text Async
 
         Task<T> ExecuteScalarTextAsync<T>(string sql);
@@ -80,12 +88,6 @@ namespace SquaredInfinity.Data
         Task<T> ExecuteScalarTextAsync<T>(string sql, IReadOnlyList<IDbDataParameter> parameters);
         Task<T> ExecuteScalarTextAsync<T>(string sql, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options);
 
-        #endregion
-
-        #region Execute Async
-
-        Task ExecuteAsync(Func<IDbConnection, Task> doExecute);
-        Task ExecuteAsync(Func<IDbConnection, Task> doExecute, IExecuteOptions options);
         #endregion
     }
 }

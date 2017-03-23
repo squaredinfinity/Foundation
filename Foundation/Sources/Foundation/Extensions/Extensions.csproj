@@ -38,8 +38,8 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Extensions.NuGet\Extensions.version.cs">
-      <Link>Extensions.version.cs</Link>
+    <Compile Include="..\Extensions.NuGet\version.cs">
+      <Link>version.cs</Link>
     </Compile>
     <Compile Include="System.Collections.Concurrent\ConcurrentBag.extensions.cs" />
     <Compile Include="System.Collections\ICollection.Extensions.cs" />

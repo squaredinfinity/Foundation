@@ -4,14 +4,12 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SquaredInfinity.Extensions;
 using System.Xml.Linq;
 using System.Data.SqlTypes;
 using System.Data;
 using System.Collections;
 using System.Data.Common;
 using Microsoft.SqlServer.Server;
-using SquaredInfinity.Diagnostics;
 
 namespace SquaredInfinity.Data.SqlServer
 {
@@ -20,28 +18,112 @@ namespace SquaredInfinity.Data.SqlServer
     /// </summary>
     public class SqlDataAccessService : DataAccessService<SqlConnection, SqlCommand, SqlParameter, SqlDataReader>
     {
+        #region Default Retry Policy
+
+        static IRetryPolicy _defaultRetryPolicy;
+        public static IRetryPolicy DefaultRetryPolicy
+        {
+            get { return _defaultRetryPolicy; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException($"nameof(DefaultRetryPolicy) cannot be null.");
+
+                _defaultRetryPolicy = value;
+            }
+        }
+
+        #endregion
+
+        public static TimeSpan DefaultTimeout { get; set; }
+
+        #region Constructors
+
+        static SqlDataAccessService()
+        {
+            DefaultTimeout = TimeSpan.FromSeconds(30);
+
+            var retry_policy_options = new RetryPolicyOptions();
+            retry_policy_options.TransientFaultFilters.Add(new SqlTransientFaultFilter());
+
+            DefaultRetryPolicy = new RetryPolicy(retry_policy_options);
+        }
+
         public SqlDataAccessService(
             string connectionString)
-            : this(null, new ConnectionFactory<SqlConnection>(connectionString), TimeSpan.FromSeconds(30))
+            : this(new ConnectionFactory<SqlConnection>(connectionString), DefaultTimeout, DefaultRetryPolicy)
         { }
 
         public SqlDataAccessService(
             string connectionString, 
             TimeSpan defaultCommandTimeout)
-            : this(null, new ConnectionFactory<SqlConnection>(connectionString), defaultCommandTimeout)
+            : this(new ConnectionFactory<SqlConnection>(connectionString), defaultCommandTimeout, DefaultRetryPolicy)
         { }
 
         public SqlDataAccessService(
-            ILogger logger,
+            string connectionString,
+            TimeSpan defaultCommandTimeout,
+            IRetryPolicy retryPolicy)
+            : this(new ConnectionFactory<SqlConnection>(connectionString), defaultCommandTimeout, retryPolicy)
+        { }
+
+        public SqlDataAccessService(
             ConnectionFactory<SqlConnection> connectionFactory, 
             TimeSpan defaultCommandTimeout)
-            : base(logger, connectionFactory, defaultCommandTimeout)
-        {
-            var retry_policy_options = new RetryPolicyOptions();
-            retry_policy_options.TransientFaultFilters.Add(new SqlTransientFaultFilter());
+            : this(connectionFactory, defaultCommandTimeout, DefaultRetryPolicy)
+        {}
 
-            RetryPolicy = new RetryPolicy(retry_policy_options);
+        public SqlDataAccessService(
+            ConnectionFactory<SqlConnection> connectionFactory,
+            TimeSpan defaultCommandTimeout,
+            IRetryPolicy retryPolicy)
+            : base(connectionFactory, defaultCommandTimeout)
+        {
+            RetryPolicy = retryPolicy;
         }
+
+        #endregion
+
+        #region Execute Scalar Function Async // TODO: This should go to SQL Server Specific implementation
+
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName)
+        {
+            return
+                await
+                ExecuteScalarFunctionAsync<T>(functionName, EmptyParameters, DefaultExecuteOptions);
+        }
+
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IExecuteOptions options)
+        {
+            return
+                await
+                ExecuteScalarFunctionAsync<T>(functionName, EmptyParameters, options);
+        }
+
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IReadOnlyList<IDbDataParameter> parameters)
+        {
+            return
+                await
+                ExecuteScalarFunctionAsync<T>(functionName, parameters, DefaultExecuteOptions);
+        }
+
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options)
+        {
+            var resultParameter = CreateParameter("", null);
+            resultParameter.Direction = ParameterDirection.ReturnValue;
+
+            await ExecuteScalarInternalAsync(
+                ConnectionFactory,
+                options,
+                CommandType.StoredProcedure,
+                functionName,
+                parameters.Cast<SqlParameter>().Concat(new[] { resultParameter }).ToArray());
+
+            var result = resultParameter.Value;
+            return MapToClrValue<T>(result);
+        }
+
+        #endregion
 
         /// <summary>
         /// Creates a SqlParameter with given name and value.
@@ -125,8 +207,6 @@ namespace SquaredInfinity.Data.SqlServer
             else
                 result.Value = value;
 
-            CommandBehavior
-
            return result;
         }
 
@@ -139,5 +219,45 @@ namespace SquaredInfinity.Data.SqlServer
 
             return result;
         }
+
+        #region Check XXX Exists
+
+        public async Task<bool> CheckStoredProcedureExists(string storedProcedureName)
+        {
+            // "P" means Stored Procedure, see http://msdn.microsoft.com/en-us/library/ms190324.aspx
+            return await CheckDatabaseObjectExistsAsync(storedProcedureName, "P");
+        }
+
+        public async Task<bool> CheckScalarFunctionExists(string functionName)
+        {
+            // "FN" means Scalar Function, see http://msdn.microsoft.com/en-us/library/ms190324.aspx
+            return await CheckDatabaseObjectExistsAsync(functionName, "FN");
+        }
+
+        public Task<bool> CheckViewExistsAsync(string viewName)
+        {
+            // "V" means View, see http://msdn.microsoft.com/en-us/library/ms190324.aspx
+            return CheckDatabaseObjectExistsAsync(viewName, "V");
+        }
+
+        /// <summary>
+        /// see http://msdn.microsoft.com/en-us/library/ms190324.aspx
+        /// </summary>
+        /// <param name="objectName"></param>
+        /// <param name="objectType"></param>
+        /// <returns></returns>
+        public async Task<bool> CheckDatabaseObjectExistsAsync(string objectName, string objectType = null)
+        {
+            if (objectType == null)
+            {
+                return await ExecuteScalarTextAsync<bool>($"select case when OBJECT_ID('{objectName}') IS NULL then 0 else 1 end");
+            }
+            else
+            {
+                return await ExecuteScalarTextAsync<bool>($"select case when OBJECT_ID('{objectName}', '{objectType}') IS NULL then 0 else 1 end");
+            }
+        }
+
+        #endregion
     }
 }

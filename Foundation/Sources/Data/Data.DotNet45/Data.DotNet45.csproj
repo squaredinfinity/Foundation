@@ -49,13 +49,11 @@
       <HintPath>..\..\..\packages\SquaredInfinity.Disposables.2.0.1\lib\portable-net45+win\SquaredInfinity.Disposables.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SquaredInfinity.Extensions, Version=2.0.2.2, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.2-beta002\lib\net452\SquaredInfinity.Extensions.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="SquaredInfinity.Extensions, Version=2.0.2.3, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.2-beta003\lib\net452\SquaredInfinity.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="SquaredInfinity.Extensions.DotNet45, Version=2.0.2.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.2-beta002\lib\net452\SquaredInfinity.Extensions.DotNet45.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="SquaredInfinity.Extensions.DotNet45, Version=2.0.2.3, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.2-beta003\lib\net452\SquaredInfinity.Extensions.DotNet45.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.RetryPolicy, Version=2.0.0.2, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.RetryPolicy.2.0.0\lib\portable-net45+win\SquaredInfinity.RetryPolicy.dll</HintPath>
@@ -77,7 +75,14 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Data.NuGet\version.cs">
+      <Link>version.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
   <Import Project="..\Data.Shared\Data.Shared.projitems" Label="Shared" />

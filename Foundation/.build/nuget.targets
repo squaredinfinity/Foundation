@@ -118,7 +118,7 @@
     </ConstructSemanticVersion>
 
     <!-- PACK -->
-    <NuGetPack  NuSpecPath="$(NuSpecPath)" 
+    <NuGetPack  NuSpecPath="$(NuSpecPath)"
                 Version="$(SemanticVersion)" 
                 OutputDirectory="bin\$(Configuration)"
                 NuSpecProperties="configuration=$(PackedProjectConfiguration)">

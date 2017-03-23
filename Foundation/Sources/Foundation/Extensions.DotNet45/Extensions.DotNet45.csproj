@@ -40,8 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Extensions.NuGet\Extensions.version.cs">
-      <Link>Extensions.version.cs</Link>
+    <Compile Include="..\Extensions.NuGet\version.cs">
+      <Link>version.cs</Link>
     </Compile>
     <Compile Include="System.Diagnostics\ProcessStartInfo.extensions.cs" />
     <Compile Include="System\Type.extensions.cs" />
@@ -49,6 +49,7 @@
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
+  <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

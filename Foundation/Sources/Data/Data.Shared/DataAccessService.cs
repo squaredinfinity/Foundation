@@ -37,7 +37,7 @@ namespace SquaredInfinity.Data
         public TimeSpan DefaultCommandTimeout { get; set; }
 
 
-        public RetryPolicy RetryPolicy { get; set; } = new RetryPolicy();
+        public IRetryPolicy RetryPolicy { get; set; } = new RetryPolicy();
         public IExecuteOptions DefaultExecuteOptions { get; set; } = new ExecuteOptions();
         public IExecuteReaderOptions DefaultExecuteReaderOptions { get; set; } = new ExecuteReaderOptions();
 
@@ -46,9 +46,17 @@ namespace SquaredInfinity.Data
         public DataAccessService(
             ConnectionFactory<TConnection> connectionFactory,
             TimeSpan defaultCommandTimeout)
+            : this(connectionFactory, defaultCommandTimeout, new RetryPolicy())
+        { }
+
+        public DataAccessService(
+            ConnectionFactory<TConnection> connectionFactory,
+            TimeSpan defaultCommandTimeout,
+            IRetryPolicy retryPolicy)
         {
-            this.ConnectionFactory = connectionFactory;
-            this.DefaultCommandTimeout = defaultCommandTimeout;
+            ConnectionFactory = connectionFactory;
+            DefaultCommandTimeout = defaultCommandTimeout;
+            RetryPolicy = retryPolicy;
         }
 
         #endregion
@@ -522,35 +530,35 @@ namespace SquaredInfinity.Data
         }
 
         #endregion
-
+        
 
 
         #region Execute Async
 
-        public async Task Execute(string procName)
+        public async Task ExecuteAsync(string procName)
         {
             await
-                Execute(
+                ExecuteAsync(
                     procName,
                     EmptyParameters,
                     DefaultExecuteOptions)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }
 
-        public async Task Execute(string procName, IExecuteOptions options)
+        public async Task ExecuteAsync(string procName, IExecuteOptions options)
         {
             await
-                Execute(
+                ExecuteAsync(
                     procName,
                     EmptyParameters,
                     options)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }
 
-        public async Task Execute(string procName, IReadOnlyList<IDbDataParameter> parameters)
+        public async Task ExecuteAsync(string procName, IReadOnlyList<IDbDataParameter> parameters)
         {
             await
-                Execute(
+                ExecuteAsync(
                     procName,
                     parameters,
                     DefaultExecuteOptions)
@@ -558,7 +566,7 @@ namespace SquaredInfinity.Data
 
         }
 
-        public async Task Execute(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options)
+        public async Task ExecuteAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options)
         {
             var retryOptions = new RetryPolicyOptions
             {
@@ -580,30 +588,30 @@ namespace SquaredInfinity.Data
 
         #region Execute Text Async
 
-        public async Task ExecuteText(string procName)
+        public async Task ExecuteTextAsync(string procName)
         {
             await
-                ExecuteText(
+                ExecuteTextAsync(
                     procName,
                     EmptyParameters,
                     DefaultExecuteOptions)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }
 
-        public async Task ExecuteText(string procName, IExecuteOptions options)
+        public async Task ExecuteTextAsync(string procName, IExecuteOptions options)
         {
             await
-                ExecuteText(
+                ExecuteTextAsync(
                     procName,
                     EmptyParameters,
                     options)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }
 
-        public async Task ExecuteText(string procName, IReadOnlyList<IDbDataParameter> parameters)
+        public async Task ExecuteTextAsync(string procName, IReadOnlyList<IDbDataParameter> parameters)
         {
             await
-                ExecuteText(
+                ExecuteTextAsync(
                     procName,
                     parameters,
                     DefaultExecuteOptions)
@@ -611,7 +619,7 @@ namespace SquaredInfinity.Data
 
         }
 
-        public async Task ExecuteText(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options)
+        public async Task ExecuteTextAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options)
         {
             var retryOptions = new RetryPolicyOptions
             {
@@ -765,47 +773,6 @@ namespace SquaredInfinity.Data
 
         #endregion
 
-        #region Execute Scalar Function Async // TODO: This should go to SQL Server Specific implementation
-
-        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName)
-        {
-            return
-                await
-                ExecuteScalarFunctionAsync<T>(functionName, EmptyParameters, DefaultExecuteOptions);
-        }
-
-        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IExecuteOptions options)
-        {
-            return
-                await
-                ExecuteScalarFunctionAsync<T>(functionName, EmptyParameters, options);
-        }
-
-        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IReadOnlyList<IDbDataParameter> parameters)
-        {
-            return
-                await
-                ExecuteScalarFunctionAsync<T>(functionName, parameters, DefaultExecuteOptions);
-        }
-
-        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options)
-        {
-            var resultParameter = CreateParameter("", null);
-            resultParameter.Direction = ParameterDirection.ReturnValue;
-
-            await ExecuteScalarInternalAsync(
-                ConnectionFactory,
-                options,
-                CommandType.StoredProcedure,
-                functionName,
-                parameters.Cast<TParameter>().Concat(new[] { resultParameter }).ToArray());
-
-            var result = resultParameter.Value;
-            return MapToClrValue<T>(result);
-        }
-
-        #endregion
-
         #region Execute Scalar Text Async
 
         public async Task<T> ExecuteScalarTextAsync<T>(string sql)
@@ -908,16 +875,18 @@ namespace SquaredInfinity.Data
 
                     using (var cmd = PrepareCommand(connection, commandType, commandText, parameters))
                     {
+                        var result = (object)null;
+
                         if (options.ShouldAsyncExecuteCommand)
                         {
-                            return
+                            result =
                                 await
                                 cmd.ExecuteScalarAsync(options.CancellationToken)
                                 .ConfigureAwait(continueOnCapturedContext: false);
                         }
                         else
                         {
-                            return
+                            result =
                                 cmd.ExecuteScalar();
                         }
 
@@ -925,6 +894,8 @@ namespace SquaredInfinity.Data
                         //          which will prevent command from being disposed properly and parameters from being reused.
                         //          we will now clear command's parameters to prevent this from happening
                         cmd.Parameters.Clear();
+
+                        return result;
                     }
                 }
             }
@@ -945,15 +916,23 @@ namespace SquaredInfinity.Data
 
         #region Execute Async
 
-        public async Task ExecuteAsync(Func<IDbConnection, Task> doExecute)
+        public async Task ExecuteAsync(Func<IDbConnection, CancellationToken, Task> doExecute)
         {
             await
                 ExecuteAsync(doExecute, DefaultExecuteOptions);
         }
 
-        public async Task ExecuteAsync(Func<IDbConnection, Task> doExecute, IExecuteOptions options)
+        public async Task ExecuteAsync(Func<IDbConnection, CancellationToken, Task> doExecute, IExecuteOptions options)
         {
+            var retryOptions = new RetryPolicyOptions { CancellationToken = options.CancellationToken };
 
+            await
+                ExecuteWithRetryInternalAsync(
+                    ConnectionFactory,
+                    options,
+                    retryOptions,
+                    doExecute)
+                    .ConfigureAwait(continueOnCapturedContext: false);
         }
 
         #endregion
@@ -964,7 +943,7 @@ namespace SquaredInfinity.Data
             ConnectionFactory<TConnection> connectionFactory,
             IExecuteOptions options,
             IRetryPolicyOptions retryOptions,
-            Func<IDbConnection, Task> doExecute)
+            Func<IDbConnection, CancellationToken, Task> doExecute)
         {
             await
                 RetryPolicy
@@ -982,7 +961,7 @@ namespace SquaredInfinity.Data
         protected virtual async Task ExecuteInternalAsync(
             ConnectionFactory<TConnection> connectionFactory,
             IExecuteOptions options,
-            Func<IDbConnection, Task> doExecute)
+            Func<IDbConnection, CancellationToken, Task> doExecute)
         {
             options.CancellationToken.ThrowIfCancellationRequested();
 
@@ -1006,12 +985,13 @@ namespace SquaredInfinity.Data
 
                     if (options.ShouldAsyncExecuteCommand)
                     {
-                        await doExecute(connection)
+                        await doExecute(connection, options.CancellationToken)
                             .ConfigureAwait(continueOnCapturedContext: false);
                     }
                     else
                     {
-                        doExecute(connection).Wait(options.CancellationToken);
+                        doExecute(connection, options.CancellationToken)
+                            .Wait(options.CancellationToken);
                     }
                 }
             }
@@ -1140,46 +1120,5 @@ namespace SquaredInfinity.Data
                 // todo: add context data AssemblyQName
             }
         }
-
-
-        #region Check XXX Exists
-
-        public async Task<bool> CheckStoredProcedureExists(string storedProcedureName)
-        {
-            // "P" means Stored Procedure, see http://msdn.microsoft.com/en-us/library/ms190324.aspx
-            return await CheckDatabaseObjectExistsAsync(storedProcedureName, "P");
-        }
-
-        public async Task<bool> CheckScalarFunctionExists(string functionName)
-        {
-            // "FN" means Scalar Function, see http://msdn.microsoft.com/en-us/library/ms190324.aspx
-            return await CheckDatabaseObjectExistsAsync(functionName, "FN");
-        }
-
-        public Task<bool> CheckViewExistsAsync(string viewName)
-        {
-            // "V" means View, see http://msdn.microsoft.com/en-us/library/ms190324.aspx
-            return CheckDatabaseObjectExistsAsync(viewName, "V");
-        }
-
-        /// <summary>
-        /// see http://msdn.microsoft.com/en-us/library/ms190324.aspx
-        /// </summary>
-        /// <param name="objectName"></param>
-        /// <param name="objectType"></param>
-        /// <returns></returns>
-        public async Task<bool> CheckDatabaseObjectExistsAsync(string objectName, string objectType = null)
-        {
-            if (objectType == null)
-            {
-                return await ExecuteScalarTextAsync<bool>($"select case when OBJECT_ID('{objectName}') IS NULL then 0 else 1 end");
-            }
-            else
-            {
-                return await ExecuteScalarTextAsync<bool>($"select case when OBJECT_ID('{objectName}', '{objectType}') IS NULL then 0 else 1 end");
-            }
-        }
-
-        #endregion
     }
 }

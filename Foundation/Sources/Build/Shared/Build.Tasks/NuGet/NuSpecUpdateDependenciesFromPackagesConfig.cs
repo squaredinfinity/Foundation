@@ -135,38 +135,47 @@ namespace SquaredInfinity.Build.Tasks.NuGet
             var nuspec_path = new FileSystemEntryPath(NuSpecPath);
 
             var nuspec_xml = XDocument.Load(nuspec_path.FullPath);
+            var nuspec_namespace = nuspec_xml.Root.GetDefaultNamespace();
 
-            // ensure dependencies element
-            var dependencies_element = nuspec_xml.Root.Element("metadata").Element("dependencies");
+            // ensure metadata and dependencies elements
+            var metadata_element = nuspec_xml.Root.Element(nuspec_namespace.GetName("metadata"));
+
+            if(metadata_element == null)
+            {
+                metadata_element = new XElement(nuspec_namespace.GetName("metadata"));
+                nuspec_xml.Root.Add(metadata_element);
+            }
+
+            var dependencies_element = metadata_element.Element(nuspec_namespace.GetName("dependencies"));
 
             if(dependencies_element == null)
             {
-                dependencies_element = new XElement("dependencies");
-                nuspec_xml.Root.Element("metadata").Add(dependencies_element);
+                dependencies_element = new XElement(nuspec_namespace.GetName("dependencies"));
+                metadata_element.Add(dependencies_element);
             }
 
             // ensure target framework group
             var group_element =
-                (from el in dependencies_element.Elements("group")
+                (from el in dependencies_element.Elements(nuspec_namespace.GetName("group"))
                  where el.Attribute("targetFramework")?.Value == TargetFramework
                  select el)
                 .SingleOrDefault();
 
             if(group_element == null)
             {
-                group_element = new XElement("group");
-                group_element.Add(new XAttribute("targetFramework", TargetFramework));
+                group_element = new XElement(nuspec_namespace.GetName("group"));
+                group_element.SetAttributeValue("targetFramework", TargetFramework);
                 dependencies_element.Add(group_element);
             }
 
             //# add dependencies
 
             // remove all children
-            group_element.RemoveAll();
+            group_element.RemoveNodes();
 
             foreach(var p in by_id)
             {
-                var el = new XElement("dependency");
+                var el = new XElement(nuspec_namespace.GetName("dependency"));
                 el.Add(new XAttribute("id", p.Key));
                 el.Add(new XAttribute("version", p.First().Version));
                 group_element.Add(el);
@@ -174,7 +183,7 @@ namespace SquaredInfinity.Build.Tasks.NuGet
 
             nuspec_xml.Save(nuspec_path.FullPath);
 
-            return false;
+            return true;
         }
     }
 }
