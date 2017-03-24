@@ -50,13 +50,7 @@ using System.Runtime.InteropServices;
 
 #region FOUNDATION
 
-#if FOUNDATION_COMPARERS
 
-[assembly: AssemblyVersion("2.0.1.0")]
-[assembly: AssemblyFileVersion("2.0.1.0")]
-[assembly: AssemblyInformationalVersion("2.0.1.0")]
-
-#endif
 
 #if FOUNDATION_DATETIME
 

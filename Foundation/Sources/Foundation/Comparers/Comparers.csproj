@@ -47,6 +47,9 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Comparers.NuGet\version.cs">
+      <Link>version.cs</Link>
+    </Compile>
     <Compile Include="CloneEqualityComparer.cs" />
     <Compile Include="CompositeComparer.cs" />
     <Compile Include="DynamicComparer_T.cs" />
