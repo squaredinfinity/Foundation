@@ -46,6 +46,11 @@
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Win32Api.NuGet\version.cs">
+      <Link>version.cs</Link>
+    </Compile>
+  </ItemGroup>
   <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
   <Import Project="..\Win32Api.Shared\Win32Api.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

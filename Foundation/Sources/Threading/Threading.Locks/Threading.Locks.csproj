@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\Threading.Locks.NuGet\version.cs">
+      <Link>version.cs</Link>
+    </Compile>
     <Compile Include="DefaultLockFactory.cs" />
     <Compile Include="ILock.cs" />
     <Compile Include="ILockFactory.cs" />

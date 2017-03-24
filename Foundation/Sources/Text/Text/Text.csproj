@@ -37,6 +37,9 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Text.NuGet\version.cs">
+      <Link>version.cs</Link>
+    </Compile>
     <Compile Include="Framework Extensions\System\String.extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnicodeCharacters.cs" />
