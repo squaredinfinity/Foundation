@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\RetryPolicy.NuGet\version.cs">
+      <Link>version.cs</Link>
+    </Compile>
     <Compile Include="DynamicTransientFaultFilter.cs" />
     <Compile Include="IRetryPolicy.cs" />
     <Compile Include="ITransientFaultFilter.cs" />

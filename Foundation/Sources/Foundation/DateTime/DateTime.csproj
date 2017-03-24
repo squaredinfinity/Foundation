@@ -38,6 +38,9 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\DateTime.NuGet\version.cs">
+      <Link>version.cs</Link>
+    </Compile>
     <Compile Include="DateTimeContext.cs" />
     <Compile Include="Framework Extensions\System\DateTime.extensions.cs" />
     <Compile Include="IDateTimeContext.cs" />

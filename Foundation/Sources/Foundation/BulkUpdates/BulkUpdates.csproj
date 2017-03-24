@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\BulkUpdates.NuGet\version.cs">
+      <Link>version.cs</Link>
+    </Compile>
     <Compile Include="BulkUpdate.cs" />
     <Compile Include="IBulkUpdate.cs" />
     <Compile Include="ISupportsBulkUpdate.cs" />
