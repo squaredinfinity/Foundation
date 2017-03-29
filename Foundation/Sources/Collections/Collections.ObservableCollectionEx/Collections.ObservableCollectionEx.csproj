@@ -34,8 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\Collections.ObservableCollectionEx.NuGet\version.cs">
+      <Link>version.cs</Link>
+    </Compile>
     <Compile Include="AfterItemReplacedEventArgs.cs" />
-    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="IObservableCollectionEx.cs" />
     <Compile Include="ItemAddedEventArgs.cs" />
     <Compile Include="ItemRemovedEventArgs.cs" />

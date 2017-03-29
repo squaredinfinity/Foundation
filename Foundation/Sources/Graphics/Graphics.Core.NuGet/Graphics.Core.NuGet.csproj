@@ -61,9 +61,9 @@
     <Compile Include="version.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Foundation\Primitives\Primitives.csproj">
-      <Project>{a994b522-9a93-4145-b0e9-4180c71d4337}</Project>
-      <Name>Primitives</Name>
+    <ProjectReference Include="..\Graphics.Core\Graphics.Core.csproj">
+      <Project>{b67accd0-1990-4ffa-b7f3-093a8438459f}</Project>
+      <Name>Graphics.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

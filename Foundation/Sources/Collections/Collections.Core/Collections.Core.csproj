@@ -34,7 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="..\Collections.Core.NuGet\version.cs">
+      <Link>version.cs</Link>
+    </Compile>
     <Compile Include="EnumeratorBase.cs" />
     <Compile Include="IBulkUpdatesCollection.cs" />
     <Compile Include="INotifyCollectionVersionChanged.cs" />

@@ -38,6 +38,9 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Maths.RandomNumbers.NuGet\version.cs">
+      <Link>version.cs</Link>
+    </Compile>
     <Compile Include="DotNetRandomNumberProvider.cs" />
     <Compile Include="IRandomNumberProvider.cs" />
   </ItemGroup>

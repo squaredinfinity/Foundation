@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
   <metadata>
-    <id>SquaredInfinity.Printing</id>
+    <id>SquaredInfinity.Graphics.Printing</id>
     <version>$version$</version>
-    <title>Squared Infinity ▪ Printing</title>
+    <title>Squared Infinity ▪ Graphics ▪ Printing</title>
     <authors>Squared Infinity</authors>
     <owners>Squared Infinity</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Squared Infinity ▪ Printing</description>
+    <description>Squared Infinity ▪ Graphics ▪ Printing</description>
     <copyright>Copyright © Jarek Kardas</copyright>
   </metadata>
   <files>
@@ -18,7 +18,7 @@
     <file src="..\Extensions\bin\$configuration$\SquaredInfinity.Extensions.pdb" target="lib\net452\SquaredInfinity.Extensions.pdb" exclude="" />-->
 
     <!-- portable-net45+win -->
-    <file src="..\Printing\bin\$configuration$\SquaredInfinity.Printing.dll" target="lib\portable-net45+win\SquaredInfinity.Printing.dll" exclude="" />
-    <file src="..\Printing\bin\$configuration$\SquaredInfinity.Printing.pdb" target="lib\portable-net45+win\SquaredInfinity.Printing.pdb" exclude="" />
+    <file src="..\Graphics.Printing\bin\$configuration$\SquaredInfinity.Graphics.Printing.dll" target="lib\portable-net45+win\SquaredInfinity.Graphics.Printing.dll" exclude="" />
+    <file src="..\Graphics.Printing\bin\$configuration$\SquaredInfinity.Graphics.Printing.pdb" target="lib\portable-net45+win\SquaredInfinity.Graphics.Printing.pdb" exclude="" />
   </files>
 </package>

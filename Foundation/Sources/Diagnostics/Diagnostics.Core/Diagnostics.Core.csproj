@@ -38,6 +38,9 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Diagnostics.Core.NuGet\version.cs">
+      <Link>version.cs</Link>
+    </Compile>
     <Compile Include="ILogger.cs" />
   </ItemGroup>
   <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />

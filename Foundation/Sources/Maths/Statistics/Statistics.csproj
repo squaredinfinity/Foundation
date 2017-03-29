@@ -38,7 +38,9 @@
     <Content Include="!info.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="..\Statistics.NuGet\version.cs">
+      <Link>version.cs</Link>
+    </Compile>
     <Compile Include="Count.cs" />
     <Compile Include="Max.cs" />
     <Compile Include="Mean.cs" />

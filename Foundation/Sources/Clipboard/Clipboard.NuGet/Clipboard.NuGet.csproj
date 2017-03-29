@@ -60,13 +60,17 @@
     <Compile Include="version.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Foundation\DateTime\DateTime.csproj">
-      <Project>{5c393d5e-684f-45c7-a954-192f9b946e65}</Project>
-      <Name>DateTime</Name>
-    </ProjectReference>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <ProjectReference Include="..\Clipboard.DotNet45\Clipboard.DotNet45.csproj">
+      <Project>{cdcfd349-f5be-477c-a05a-7c2da8b7f748}</Project>
+      <Name>Clipboard.DotNet45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Clipboard\Clipboard.csproj">
+      <Project>{d8ba3b5c-14bd-41a1-bb1b-56be640ac312}</Project>
+      <Name>Clipboard</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

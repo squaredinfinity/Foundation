@@ -34,7 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="..\Collections.CollectionEx.NuGet\version.cs">
+      <Link>version.cs</Link>
+    </Compile>
     <Compile Include="CollectionEx.cs" />
     <Compile Include="CollectionEx.IList.cs" />
     <Compile Include="ICollectionEx.cs" />

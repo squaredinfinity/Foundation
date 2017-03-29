@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+  <metadata>
+    <id>SquaredInfinity.Maths.Statistics.Online</id>
+    <version>$version$</version>
+    <title>Squared Infinity ▪ Maths ▪ Statistics ▪ Online</title>
+    <authors>Squared Infinity</authors>
+    <owners>Squared Infinity</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Squared Infinity ▪ Maths ▪ Statistics ▪ Online</description>
+    <copyright>Copyright © Jarek Kardas</copyright>
+  </metadata>
+  <files>
+    <!-- net 452 -->
+    <!--<file src="..\Extensions.DotNet45\bin\$configuration$\SquaredInfinity.Extensions.DotNet45.dll" target="lib\net452\SquaredInfinity.Extensions.DotNet45.dll" exclude="" />
+    <file src="..\Extensions.DotNet45\bin\$configuration$\SquaredInfinity.Extensions.DotNet45.pdb" target="lib\net452\SquaredInfinity.Extensions.DotNet45.pdb" exclude="" />
+    <file src="..\Extensions\bin\$configuration$\SquaredInfinity.Extensions.dll" target="lib\net452\SquaredInfinity.Extensions.dll" exclude="" />
+    <file src="..\Extensions\bin\$configuration$\SquaredInfinity.Extensions.pdb" target="lib\net452\SquaredInfinity.Extensions.pdb" exclude="" />-->
+
+    <!-- portable-net45+win -->
+    <file src="..\Statistics.Online\bin\$configuration$\SquaredInfinity.Maths.Statistics.Online.dll" target="lib\portable-net45+win\SquaredInfinity.Maths.Statistics.Online.dll" exclude="" />
+    <file src="..\Statistics.Online\bin\$configuration$\SquaredInfinity.Maths.Statistics.Online.pdb" target="lib\portable-net45+win\SquaredInfinity.Maths.Statistics.Online.pdb" exclude="" />
+  </files>
+</package>

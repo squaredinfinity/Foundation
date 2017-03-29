@@ -34,8 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\Statistics.Online.NuGet\version.cs">
+      <Link>version.cs</Link>
+    </Compile>
     <Compile Include="AdditionalStatistic.cs" />
-    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="KnownStatistics.cs" />
     <Compile Include="OnlineStatistics.cs" />
     <Compile Include="OnlineStatisticsInfo.cs" />

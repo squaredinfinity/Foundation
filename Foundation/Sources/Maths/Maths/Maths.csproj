@@ -38,6 +38,9 @@
     <Content Include="!Overview.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Maths.NuGet\version.cs">
+      <Link>version.cs</Link>
+    </Compile>
     <Compile Include="IImplementation.cs" />
     <Compile Include="IImplementationCollection.cs" />
     <Compile Include="Implementation.cs" />

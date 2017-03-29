@@ -38,6 +38,9 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Collections.MultiMap.NuGet\version.cs">
+      <Link>version.cs</Link>
+    </Compile>
     <Compile Include="Framework Extensions\System.Collections\IEnumerable.Extensions.cs" />
     <Compile Include="MultiMap.cs" />
   </ItemGroup>

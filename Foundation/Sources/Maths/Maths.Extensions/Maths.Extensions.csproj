@@ -38,6 +38,9 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Maths.Extensions.NuGet\version.cs">
+      <Link>version.cs</Link>
+    </Compile>
     <Compile Include="System\Decimal.extensions.cs" />
     <Compile Include="System\Double.extensions.cs" />
     <Compile Include="System\Int32.extensions.cs" />

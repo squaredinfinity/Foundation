@@ -39,6 +39,9 @@
     <None Include="RYB.pdf" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Graphics.ColorSpaces.NuGet\version.cs">
+      <Link>version.cs</Link>
+    </Compile>
     <Compile Include="ColorBase.cs" />
     <Compile Include="ColorChannel.cs" />
     <Compile Include="ColorChannelCollection.cs" />
