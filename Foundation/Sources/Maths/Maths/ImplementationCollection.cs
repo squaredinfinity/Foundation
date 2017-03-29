@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Maths
 {
+#if DEBUG
 
     public class ImplementationCollection<TImplementation>
         : Collection<TImplementation>,
@@ -30,4 +31,5 @@ namespace SquaredInfinity.Maths
             GetDefault = () => this.FirstOrDefault();
         }
     }
+#endif
 }

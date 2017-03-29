@@ -25,5 +25,15 @@ namespace SquaredInfinity.Maths
 
             return b;
         }
+
+        /// <summary>
+        /// https://en.wikipedia.org/wiki/Nth_root
+        /// Returns nth root of given number
+        /// </summary>
+        /// <returns></returns>
+        public static double nrt(double d, int n)
+        {
+            return Math.Pow(d, 1.0 / n);
+        }
     }
 }

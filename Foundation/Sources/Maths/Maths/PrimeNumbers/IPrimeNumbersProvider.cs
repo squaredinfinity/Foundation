@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Maths.PrimeNumbers
 {
+#if DEBUG
+
     public interface IPrimeNumbersProvider
     {
         IEnumerable<uint> GetPrimeNumbers(uint n);
     }
+
+#endif
 }

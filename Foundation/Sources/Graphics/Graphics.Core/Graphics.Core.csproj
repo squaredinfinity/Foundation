@@ -38,7 +38,9 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="..\Graphics.Core.NuGet\version.cs">
+      <Link>version.cs</Link>
+    </Compile>
     <Compile Include="GraphicsUnits.cs" />
     <Compile Include="GraphicsUtility.cs" />
     <Compile Include="Orientation.cs" />

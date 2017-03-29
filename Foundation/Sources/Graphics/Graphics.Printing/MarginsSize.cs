@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Graphics.Priniting
+namespace SquaredInfinity.Graphics.Printing
 {
     public class MarginsSize
     {
+        private KnownMarginSizes margin;
+
         public static MarginsSize Normal { get; } = new MarginsSize(GraphicsUnits.Centimiters, 2.45, 2.45, 2.54, 2.54);
         public static MarginsSize Narrow { get; } = new MarginsSize(GraphicsUnits.Centimiters, 1.27, 1.27, 1.27, 1.27);
         public static MarginsSize Moderate { get; } = new MarginsSize(GraphicsUnits.Centimiters, 2.54, 2.54, 1.91, 1.91);
@@ -38,8 +40,48 @@ namespace SquaredInfinity.Graphics.Priniting
             }
             else
             {
-                throw new NotSupportedException(nameof(units));
+                throw new NotSupportedException($"{units}");
             }
+        }
+
+        public MarginsSize(KnownMarginSizes margin)
+        {
+            switch (margin)
+            {
+                case KnownMarginSizes.Normal:
+                    CopyFrom(Normal);
+                    break;
+                case KnownMarginSizes.Narrow:
+                    CopyFrom(Narrow);
+                    break;
+                case KnownMarginSizes.Moderate:
+                    CopyFrom(Moderate);
+                    break;
+                case KnownMarginSizes.Wide:
+                    CopyFrom(Wide);
+                    break;
+                default:
+                    throw new NotSupportedException($"{margin}");
+            }
+        }
+
+        public void Flip()
+        {
+            var tmp = BottomMM;
+            BottomMM = TopMM;
+            TopMM = tmp;
+
+            tmp = LeftMM;
+            LeftMM = RightMM;
+            RightMM = tmp;
+        }
+
+        public void CopyFrom(MarginsSize other)
+        {
+            this.BottomMM = other.BottomMM;
+            this.LeftMM = other.LeftMM;
+            this.RightMM = other.RightMM;
+            this.TopMM = other.TopMM;
         }
     }
 }

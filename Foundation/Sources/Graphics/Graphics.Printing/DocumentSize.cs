@@ -4,31 +4,48 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Graphics.Priniting
+namespace SquaredInfinity.Graphics.Printing
 {
     public class DocumentSize
     {
-        public static PaperSize A4_Portrait { get; private set; }
-        public static DocumentSize A4_Portrait_NormalMargin { get; private set; }
-        public static DocumentSize A4_Portrait_NarrowMargin { get; private set; }
-
-        static DocumentSize()
-        {
-            A4_Portrait = new PaperSize(GraphicsUnits.Centimiters, 21.0, 29.7);
-
-            A4_Portrait_NormalMargin = new DocumentSize(A4_Portrait, MarginsSize.Normal);
-            A4_Portrait_NarrowMargin = new DocumentSize(A4_Portrait, MarginsSize.Narrow);
-        }
-
-        public PaperSize Size { get; private set; }
+        public PaperSize PaperSize { get; private set; }
         public MarginsSize Margins { get; private set; }
         public PaperSize AvailableArea { get; private set; }
 
         public DocumentSize(PaperSize paperSize, MarginsSize margins)
         {
             this.Margins = margins;
-            this.Size = paperSize;
-            AvailableArea = new PaperSize(GraphicsUnits.Milimeters, paperSize.WidthMM - (margins.LeftMM + margins.RightMM), paperSize.HeightMM - (margins.TopMM - margins.BottomMM));
+            this.PaperSize = paperSize;
+
+            AvailableArea = 
+                new PaperSize(
+                    GraphicsUnits.Milimeters, 
+                    paperSize.WidthMM - (margins.LeftMM + margins.RightMM), 
+                    paperSize.HeightMM - (margins.TopMM - margins.BottomMM));
+        }
+
+        public DocumentSize(
+            KnownPaperSizes paper, 
+            Orientation orientation, 
+            KnownMarginSizes margin)
+        {
+            var margins = new MarginsSize(margin);
+            var paper_size = new PaperSize(paper);
+
+            if (orientation == Orientation.Horizontal)
+            {
+                paper_size.Flip();
+                margins.Flip();
+            }
+
+            Margins = margins;
+            PaperSize = paper_size;
+
+            AvailableArea =
+                new PaperSize(
+                    GraphicsUnits.Milimeters,
+                    PaperSize.WidthMM - (Margins.LeftMM + Margins.RightMM),
+                    PaperSize.HeightMM - (Margins.TopMM - Margins.BottomMM));
         }
     }
 }

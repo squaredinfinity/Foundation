@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SquaredInfinity
+namespace SquaredInfinity.Clipboard
 {
     /// <summary>
     /// Implementation of CF_HTML Clipboard Format

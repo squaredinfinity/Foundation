@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Maths
 {
+    #if DEBUG
     public abstract class Implementation : IImplementation
     {
         public string Name { get; protected set; }
@@ -15,4 +16,5 @@ namespace SquaredInfinity.Maths
             this.Name = GetType().Name;
         }
     }
+#endif
 }

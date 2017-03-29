@@ -8,26 +8,6 @@ using System.IO;
 
 namespace SquaredInfinity
 {
-    public interface IClipboardService
-    {
-        void Clear();
-
-        IClipboardObject CreateClipboardObject();
-    }
-
-    public interface IClipboardObject
-    {
-        DataObject Data { get; }
-
-        IClipboardObject Add(FrameworkElement fe);
-        IClipboardObject Add(FrameworkElement fe, Size size);
-        IClipboardObject AddAsHtml(FrameworkElement fe);
-        IClipboardObject AddAsHtml(FrameworkElement fe, Size size);
-        IClipboardObject AddAsHtml(FrameworkElement fe, Size imageSize, Size imageElementSize);
-
-        void CopyToClipboard();
-    }
-
     public class ClipboardObject : IClipboardObject
     {
         IClipboardService ClipboardService { get; set; }
@@ -36,25 +16,6 @@ namespace SquaredInfinity
         public ClipboardObject(IClipboardService service)
         {
             this.ClipboardService = service;
-        }
-
-        public IClipboardObject Add(FrameworkElement fe)
-        {
-            return Add(fe, new Size(fe.ActualWidth, fe.ActualHeight));
-        }
-
-        public IClipboardObject Add(FrameworkElement fe, Size size)
-        {
-            if (fe == null)
-                throw new NullReferenceException(nameof(fe));
-
-            var bmp = fe.RenderToBitmap(size);
-
-            var mf = bmp.CreateMetafile();
-
-            Data.SetData(DataFormats.EnhancedMetafile, mf);
-
-            return this;
         }
 
         /// <summary>
@@ -106,6 +67,9 @@ namespace SquaredInfinity
 
             return this;
         }
+
+
+
 
         public void CopyToClipboard()
         {

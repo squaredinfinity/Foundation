@@ -2,14 +2,14 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D3CE87DF-B930-4D87-AA1B-73F14FFA89C3}</ProjectGuid>
+    <ProjectGuid>{D8BA3B5C-14BD-41A1-BB1B-56BE640AC312}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SquaredInfinity.Graphics.Printing</RootNamespace>
-    <AssemblyName>SquaredInfinity.Graphics.Printing</AssemblyName>
+    <RootNamespace>SquaredInfinity.Clipboard</RootNamespace>
+    <AssemblyName>SquaredInfinity.Clipboard</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;GRAPHICS_PRINTING</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;FOUNDATION_DATETIME</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -29,7 +29,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;GRAPHICS_PRINTING</DefineConstants>
+    <DefineConstants>TRACE;FOUNDATION_DATETIME</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -38,23 +38,24 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Graphics.Printing.NuGet\version.cs">
+    <Compile Include="..\Clipboard.NuGet\version.cs">
       <Link>version.cs</Link>
     </Compile>
-    <Compile Include="DocumentSize.cs" />
-    <Compile Include="KnownMarginSizes.cs" />
-    <Compile Include="KnownPaperSizes.cs" />
-    <Compile Include="MarginsSize.cs" />
-    <Compile Include="PaperSize.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="SquaredInfinity.Graphics.Core, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Graphics.Core.2.1.0\lib\portable-net45+win\SquaredInfinity.Graphics.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Compile Include="CF_HTML.cs" />
+    <Compile Include="ClipboardBuilderFluidInterface.cs" />
+    <Compile Include="ClipboardBuilderStep.cs" />
+    <Compile Include="ClipboardService.cs" />
+    <Compile Include="IClipboardBuilder.cs" />
+    <Compile Include="IClipboardBuilderStep.cs" />
+    <Compile Include="IClipboardService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.6.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\System.Threading.Tasks.Dataflow.4.7.0\lib\portable-net45+win8+wpa81\System.Threading.Tasks.Dataflow.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

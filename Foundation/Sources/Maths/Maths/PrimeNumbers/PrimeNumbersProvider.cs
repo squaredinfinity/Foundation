@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Maths.PrimeNumbers
 {
+#if DEBUG
+
     public abstract class PrimeNumbersProvider : Implementation, IPrimeNumbersProvider
     {
         public static ImplementationCollection<IPrimeNumbersProvider> Providers { get; }
@@ -19,4 +21,6 @@ namespace SquaredInfinity.Maths.PrimeNumbers
         /// <returns></returns>
         public abstract IEnumerable<uint> GetPrimeNumbers(uint n);
     }
+
+#endif
 }

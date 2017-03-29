@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Maths
 {
+    #if DEBUG
     public interface IImplementationCollection<TImplementation> : ICollection<TImplementation>
     {
         TImplementation Default { get; }
         void SetDefault(Func<TImplementation> getDefaultImplementation);
     }
+#endif
 }

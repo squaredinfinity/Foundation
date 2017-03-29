@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Maths.PrimeNumbers
 {
+#if DEBUG
+
     /// <summary>
     /// https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
     /// http://primes.utm.edu/glossary/xpage/SieveOfEratosthenes.html
@@ -54,4 +56,6 @@ namespace SquaredInfinity.Maths.PrimeNumbers
             }
         }
     }
+
+#endif
 }

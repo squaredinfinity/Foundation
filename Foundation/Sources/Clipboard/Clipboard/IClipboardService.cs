@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Maths
+namespace SquaredInfinity.Clipboard
 {
-    #if DEBUG
-    public interface IImplementation
+    public interface IClipboardService
     {
-        string Name { get; }
+        IClipboardBuilder GetClipboardBuilder();
     }
-#endif
 }
