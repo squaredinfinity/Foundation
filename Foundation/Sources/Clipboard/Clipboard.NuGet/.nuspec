@@ -12,8 +12,8 @@
     <copyright>Copyright © Squared Infinity</copyright>
   </metadata>
   <files>
-    <file src="..\Clipboard\bin\$configuration$\SquaredInfinity.Clipboard.DotNet45.dll" target="lib\net452\SquaredInfinity.Clipboard.DotNet45.dll" exclude="" />
-    <file src="..\Clipboard\bin\$configuration$\SquaredInfinity.Clipboard.DotNet45.pdb" target="lib\net452\SquaredInfinity.Clipboard.DotNet45.pdb" exclude="" />
+    <file src="..\Clipboard.DotNet45\bin\$configuration$\SquaredInfinity.Clipboard.DotNet45.dll" target="lib\net452\SquaredInfinity.Clipboard.DotNet45.dll" exclude="" />
+    <file src="..\Clipboard.DotNet45\bin\$configuration$\SquaredInfinity.Clipboard.DotNet45.pdb" target="lib\net452\SquaredInfinity.Clipboard.DotNet45.pdb" exclude="" />
     <file src="..\Clipboard\bin\$configuration$\SquaredInfinity.Clipboard.dll" target="lib\net452\SquaredInfinity.Clipboard.dll" exclude="" />
     <file src="..\Clipboard\bin\$configuration$\SquaredInfinity.Clipboard.pdb" target="lib\net452\SquaredInfinity.Clipboard.pdb" exclude="" />
 
