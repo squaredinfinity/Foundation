@@ -7,7 +7,15 @@
     <authors>Squared Infinity</authors>
     <owners>Squared Infinity</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Squared Infinity ▪ Win32Api</description>
+    <description>Squared Infinity ▪ Win32Api
+
+Types:
+SquaredInfinity.Win32Api.credui
+SquaredInfinity.Win32Api.dwmapi
+SquaredInfinity.Win32Api.gdi32
+SquaredInfinity.Win32Api.shell32
+SquaredInfinity.Win32Api.user32
+</description>
     <summary>Squared Infinity ▪ Win32Api</summary>
     <copyright>Copyright © Squared Infinity</copyright>
   </metadata>

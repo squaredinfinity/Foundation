@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SquaredInfinity.Win32Api</RootNamespace>
-    <AssemblyName>SquaredInfinity.Win32Api.DoNet45</AssemblyName>
+    <AssemblyName>SquaredInfinity.Win32Api.DotNet45</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

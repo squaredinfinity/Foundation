@@ -108,5 +108,14 @@ namespace SquaredInfinity.Maths
 
             return true;
         }
+
+        ///// <summary>
+        ///// Returns a sum of all integers between From and To
+        ///// </summary>
+        ///// <returns></returns>
+        //public ulong Sum()
+        //{
+
+        //}
     }
 }

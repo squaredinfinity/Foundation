@@ -6,7 +6,7 @@
     <SharedGUID>ab899ba7-696a-4b69-acc6-81dca643a1e4</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Presentation.Converters</Import_RootNamespace>
+    <Import_RootNamespace>SquaredInfinity.Windows.Data.Converters</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AddNumberConverter.cs" />
