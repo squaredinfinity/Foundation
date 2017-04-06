@@ -8,7 +8,12 @@
     <owners>Squared Infinity</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Squared Infinity ▪ Threading</description>
-    <summary>Squared Infinity ▪ Threading</summary>
+    <summary>Squared Infinity ▪ Threading
+
+Types:
+SquaredInfinity.Threading.AsyncLoop
+SquaredInfinity.Threading.InvocationThrottle
+SquaredInfinity.Threading.WeakDelegate</summary>
     <copyright>Copyright © Squared Infinity</copyright>
   </metadata>
   <files>

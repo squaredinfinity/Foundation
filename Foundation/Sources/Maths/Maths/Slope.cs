@@ -17,6 +17,11 @@ namespace SquaredInfinity.Maths
             this._m = m;
         }
 
+        public Slope(double x1, double y1, double x2, double y2)
+        {
+            _m = (y2 - y1) / (x2 - x1);
+        }
+
         public static bool AreParallel(Slope a, Slope b)
         {
             return a._m.IsCloseTo(b._m);
