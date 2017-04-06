@@ -41,11 +41,12 @@
     <Compile Include="IPixelCanvas.cs" />
     <Compile Include="PixelArrayCanvas.cs" />
     <Compile Include="PixelCanvas.Blit.cs" />
+    <Compile Include="PixelCanvas.SetPixelSafe.cs" />
     <Compile Include="PixelCanvas.Clear.cs" />
     <Compile Include="PixelCanvas.CohenSutherland.cs" />
     <Compile Include="PixelCanvas.cs" />
+    <Compile Include="PixelCanvas.DrawLineDDA.cs" />
     <Compile Include="PixelCanvas.DrawLine.cs" />
-    <Compile Include="PixelCanvas.DrawLineAA.cs" />
     <Compile Include="PixelCanvas.DrawLineWu.cs" />
     <Compile Include="PixelCanvas.DrawRectangle.cs" />
     <Compile Include="PixelCanvas.IDisposable.cs" />

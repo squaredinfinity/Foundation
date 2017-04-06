@@ -10,6 +10,11 @@ namespace SquaredInfinity.Graphics.Drawing
 {
     public abstract partial class PixelCanvas : IPixelCanvas
     {
+#if DEBUG
+        int TRACE__COLOR = GetColor(255, 255, 0, 0);
+        int POINT__COLOR = GetColor(255, 180, 0, 255);
+#endif
+
         protected int _length;
         /// <summary>
         /// Returns total number of pixels in this bitmap
@@ -80,17 +85,6 @@ namespace SquaredInfinity.Graphics.Drawing
         public abstract int this[int x, int y] { get; set; }
 
         public abstract int this[int position] {  get; set; }
-
-        public void SetPixelSafe(int x, int y, int color)
-        {
-            if (x < 0 || x > Width)
-                return;
-
-            if (y < 0 || y > Height)
-                return;
-
-            this[x, y] = color;
-        }
 
         public abstract int[] GetRow(int row);
 
