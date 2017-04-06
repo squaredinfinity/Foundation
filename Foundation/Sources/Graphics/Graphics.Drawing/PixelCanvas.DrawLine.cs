@@ -35,10 +35,10 @@ namespace SquaredInfinity.Graphics.Drawing
             if (!TryCohenSutherlandClip(bounds, ref x1_d, ref y1_d, ref x2_d, ref y2_d))
                 return;
 
-            if(thickness == 1)
+            if (thickness == 1)
                 DrawLineDDA((int)x1_d, (int)y1_d, (int)x2_d, (int)y2_d, color);
             else
-                DrawLineWu((int)x1_d, (int)y1_d, (int)x2_d, (int)y2_d, color, 
+                DrawLineWu((int)x1_d, (int)y1_d, (int)x2_d, (int)y2_d, color, 1, BlendMode.Copy);
         }
     }
 }

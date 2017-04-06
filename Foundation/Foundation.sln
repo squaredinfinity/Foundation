@@ -390,6 +390,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalSignalProcessing", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalSignalProcessing.NuGet", "Sources\Maths\DigitalSignalProcessing.NuGet\DigitalSignalProcessing.NuGet.csproj", "{39680B49-022E-4E9A-A068-F5B23B07F973}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graphics.Drawing.Tests", "Sources\Graphics\Graphics.Drawing.Tests\Graphics.Drawing.Tests.csproj", "{33E1ED5A-59AE-4981-9823-73E09397222E}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Sources\Data\Data.SqlServer.Shared\Data.SqlServer.Shared.projitems*{7993ed3f-7a2a-40b3-8add-82da5252054e}*SharedItemsImports = 13
@@ -1782,6 +1784,18 @@ Global
 		{39680B49-022E-4E9A-A068-F5B23B07F973}.Publish - STABLE|Any CPU.Build.0 = Publish - STABLE|Any CPU
 		{39680B49-022E-4E9A-A068-F5B23B07F973}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39680B49-022E-4E9A-A068-F5B23B07F973}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33E1ED5A-59AE-4981-9823-73E09397222E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33E1ED5A-59AE-4981-9823-73E09397222E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33E1ED5A-59AE-4981-9823-73E09397222E}.Publish - BETA|Any CPU.ActiveCfg = Release|Any CPU
+		{33E1ED5A-59AE-4981-9823-73E09397222E}.Publish - BETA|Any CPU.Build.0 = Release|Any CPU
+		{33E1ED5A-59AE-4981-9823-73E09397222E}.Publish - LOCAL|Any CPU.ActiveCfg = Release|Any CPU
+		{33E1ED5A-59AE-4981-9823-73E09397222E}.Publish - LOCAL|Any CPU.Build.0 = Release|Any CPU
+		{33E1ED5A-59AE-4981-9823-73E09397222E}.Publish - RC|Any CPU.ActiveCfg = Release|Any CPU
+		{33E1ED5A-59AE-4981-9823-73E09397222E}.Publish - RC|Any CPU.Build.0 = Release|Any CPU
+		{33E1ED5A-59AE-4981-9823-73E09397222E}.Publish - STABLE|Any CPU.ActiveCfg = Release|Any CPU
+		{33E1ED5A-59AE-4981-9823-73E09397222E}.Publish - STABLE|Any CPU.Build.0 = Release|Any CPU
+		{33E1ED5A-59AE-4981-9823-73E09397222E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33E1ED5A-59AE-4981-9823-73E09397222E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1961,5 +1975,6 @@ Global
 		{585A71E6-1412-46FE-8CBD-10F09D6B7D61} = {C0B410D0-0050-444A-B98A-98EC780A6B43}
 		{B6015C45-B337-4CC1-8CF4-5DB1DF0049D2} = {F694B09D-1096-4211-822D-469D9C472644}
 		{39680B49-022E-4E9A-A068-F5B23B07F973} = {F694B09D-1096-4211-822D-469D9C472644}
+		{33E1ED5A-59AE-4981-9823-73E09397222E} = {E87C3540-834D-4983-9505-D70634D7EC61}
 	EndGlobalSection
 EndGlobal

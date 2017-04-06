@@ -31,7 +31,7 @@ namespace SquaredInfinity.Graphics.Drawing
             if (!TryCohenSutherlandClip(bounds, ref x1_d, ref y1_d, ref x2_d, ref y2_d))
                 return;
 
-            DrawLineWu(x1, y1, x2, y2, color, 1);
+            DrawLineWu(x1, y1, x2, y2, color, 1, BlendMode.Copy);
         }
 
         public void DrawLineWu(Rectangle bounds, int x1, int y1, int x2, int y2, int color, int thickness)
@@ -44,10 +44,10 @@ namespace SquaredInfinity.Graphics.Drawing
             if (!TryCohenSutherlandClip(bounds, ref x1_d, ref y1_d, ref x2_d, ref y2_d))
                 return;
 
-            DrawLineWu((int)x1_d, (int)y1_d, (int)x2_d, (int)y2_d, color, thickness);
+            DrawLineWu((int)x1_d, (int)y1_d, (int)x2_d, (int)y2_d, color, thickness, BlendMode.Copy);
         }
 
-        public void DrawLineWu3(int x1, int y1, int x2, int y2, int color, int thickness, BlendMode blendMode)
+        public void DrawLineWu(int x1, int y1, int x2, int y2, int color, int thickness, BlendMode blendMode)
         {
             if (thickness <= 0)
                 throw new ArgumentOutOfRangeException(nameof(thickness));
