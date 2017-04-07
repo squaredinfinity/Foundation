@@ -312,6 +312,7 @@ namespace SquaredInfinity.Maths
 
         #region Clone
 
+        // TODO: Is this still needed since Rectangle is now a Struct?
         public Rectangle Clone()
         {
             return new Rectangle(_x, _y, _width, _height);
