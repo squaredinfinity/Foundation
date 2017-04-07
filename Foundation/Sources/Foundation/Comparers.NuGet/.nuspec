@@ -8,7 +8,18 @@
     <owners>Squared Infinity</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Squared Infinity ▪ Comparers</description>
-    <summary>Squared Infinity ▪ Comparers</summary>
+    <summary>Squared Infinity ▪ Comparers
+
+Types:
+SquaredInfinity.Comparers.CloneEqualityComparer
+SquaredInfinity.Comparers.CompositeComparer
+SquaredInfinity.Comparers.DynamicComparer
+SquaredInfinity.Comparers.ExceptionEqualityComparer
+SquaredInfinity.Comparers.ICloneEquatable
+SquaredInfinity.Comparers.IndexInAnotherListComparer
+SquaredInfinity.Comparers.IndexInListComparer
+SquaredInfinity.Comparers.ReferenceEqualityComparer
+    </summary>
     <copyright>Copyright © Squared Infinity</copyright>
   </metadata>
   <files>

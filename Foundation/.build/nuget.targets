@@ -98,15 +98,18 @@
       PREPARE FOR BUILD      
   -->
 
-  <Target Name="Restore Solution Packages" AfterTargets="PrepareForBuild">
+  <!--<Target Name="Restore Solution Packages" AfterTargets="BeforeRebuild">
     <NuGetRestoreFromSolution SolutionPath="$(SolutionPath)" />
-  </Target>
+  </Target>-->
 
   <!--
       BUILD
   -->
 
-  <Target Name="Create and Push Package" AfterTargets="Build">
+  <Target Name="Create and Push Package" AfterTargets="AfterRebuild">
+
+    <Message Text="Using: Configuration: $(Configuration), PreReleaseName: $(PreReleaseName), Repository: $(NuGetRepository)" />
+    
     <!-- GET ASSEMBLY VERSION -->
     <GetAssemblyVersion AssemblyInfoPath="$(AssemblyInfoPath)">
       <Output TaskParameter="AssemblyVersion" PropertyName="AssemblyVersion" />
@@ -124,7 +127,7 @@
                 NuSpecProperties="configuration=$(PackedProjectConfiguration)">
       <Output TaskParameter="PackageFullPath" PropertyName="PackageFullPath" />
     </NuGetPack>
-
+    
     <!-- PUSH -->
     <NuGetPush  PackagePath="$(PackageFullPath)"
                 Source="$(NuGetRepository)"

@@ -149,7 +149,8 @@ namespace SquaredInfinity.Graphics.Drawing
         /// <param name="blendMode"></param>
         public void SetPixelSafe(int x, int y, int alpha, int red, int green, int blue, int isa, BlendMode blendMode)
         {
-            if (x < 0 || y < 0 || x > _width || y > _height)
+            // >= width and height because max is width/high -1  (i.e. indexes start at 0)
+            if (x < 0 || y < 0 || x >= _width || y >= _height)
                 return;
 
             if (blendMode == BlendMode.Copy || alpha == 255)

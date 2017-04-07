@@ -108,7 +108,7 @@
       
   -->
 
-  <Target Name="Restore Solution Packages" AfterTargets="PrepareForBuild">
+  <Target Name="Restore Solution Packages" AfterTargets="BeforeRebuild">
     <NuGetRestoreFromSolution SolutionPath="$(SolutionPath)" />
   </Target>
 

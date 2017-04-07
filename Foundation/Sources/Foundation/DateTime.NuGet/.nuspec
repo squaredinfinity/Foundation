@@ -8,7 +8,14 @@
     <owners>Squared Infinity</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Squared Infinity ▪ DateTime</description>
-    <summary>Squared Infinity ▪ DateTime</summary>
+    <summary>Squared Infinity ▪ DateTime
+    
+Types:
+SquaredInfinity.DateTimeContext
+
+Extension Methods:
+System.DateTime
+</summary>
     <copyright>Copyright © Squared Infinity</copyright>
   </metadata>
   <files>

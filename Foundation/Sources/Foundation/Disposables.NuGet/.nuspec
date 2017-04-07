@@ -8,7 +8,10 @@
     <owners>Squared Infinity</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Squared Infinity ▪ Disposables</description>
-    <summary>Squared Infinity ▪ Disposables</summary>
+    <summary>Squared Infinity ▪ Disposables
+    
+Types:
+SquaredInfinity.CompositeDisposable</summary>
     <copyright>Copyright © Squared Infinity</copyright>
   </metadata>
   <files>
