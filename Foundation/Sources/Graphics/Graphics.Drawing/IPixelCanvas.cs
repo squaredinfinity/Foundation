@@ -44,21 +44,22 @@ namespace SquaredInfinity.Graphics.Drawing
         void DrawRectangle(Rectangle bounds, int x1, int y1, int x2, int y2, int color);
         void DrawRectangle(int x1, int y1, int x2, int y2, int color);
 
+        #region Draw Line
+
         void DrawLine(int x1, int y1, int x2, int y2, int color);
-        void DrawLine(int x1, int y1, int x2, int y2, IPixelCanvas pen, BlendMode blendMode = BlendMode.Copy);
 
         void DrawLineDDA(Rectangle bounds, int x1, int y1, int x2, int y2, int color);
-        void DrawLineDDA(Rectangle bounds, int x1, int y1, int x2, int y2, IPixelCanvas pen, BlendMode blendMode = BlendMode.Copy);
         void DrawLineDDA(int x1, int y1, int x2, int y2, int color);
-        void DrawLineDDA(int x1, int y1, int x2, int y2, IPixelCanvas pen, BlendMode blendMode = BlendMode.Copy);
 
         /// <summary>
         /// Draws smooth line using Wu Algorithm
         /// </summary>
         void DrawLineWu(int x1, int y1, int x2, int y2, int color);
-        void DrawLineWu(int x1, int y1, int x2, int y2, int color, int width);
+        void DrawLineWu(int x1, int y1, int x2, int y2, int color, int thickness);
         void DrawLineWu(Rectangle bounds, int x1, int y1, int x2, int y2, int color);
-        void DrawLineWu(Rectangle bounds, int x1, int y1, int x2, int y2, int color, int width);
+        void DrawLineWu(Rectangle bounds, int x1, int y1, int x2, int y2, int color, int thickness);
+
+        #endregion
 
         void Clear(int color);
         void Clear();

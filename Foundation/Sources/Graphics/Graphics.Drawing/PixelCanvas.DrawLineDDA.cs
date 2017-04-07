@@ -15,6 +15,19 @@ namespace SquaredInfinity.Graphics.Drawing
  PixelCanvas
 #endif
     {
+        public void DrawLineDDA(Rectangle bounds, int x1, int y1, int x2, int y2, int color)
+        {
+            var x1_d = (double)x1;
+            var y1_d = (double)y1;
+            var x2_d = (double)x2;
+            var y2_d = (double)y2;
+
+            if (!TryCohenSutherlandClip(bounds, ref x1_d, ref y1_d, ref x2_d, ref y2_d))
+                return;
+
+            DrawLineDDA(x1, y1, x2, y2, color);
+        }
+
         /// <summary>
         /// Digital Differential Analyzer
         /// http://en.wikipedia.org/wiki/Digital_differential_analyzer_(graphics_algorithm)

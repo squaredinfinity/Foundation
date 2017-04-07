@@ -21,6 +21,11 @@ namespace SquaredInfinity.Graphics.Drawing
         const ushort WEIGHT_COMPLEMENT_MASK = NUM_LEVELS - 1; // 255    
         const ushort INTENSITY_SHIFT = (ushort)(16 - INTENSITY_BITS); // 8
 
+        public void DrawLineWu(int x1, int y1, int x2, int y2, int color)
+        {
+            DrawLineWu(x1, y1, x2, y2, color, 1, BlendMode.Copy);
+        }
+
         public void DrawLineWu(Rectangle bounds, int x1, int y1, int x2, int y2, int color)
         {
             var x1_d = (double)x1;
@@ -32,6 +37,11 @@ namespace SquaredInfinity.Graphics.Drawing
                 return;
 
             DrawLineWu(x1, y1, x2, y2, color, 1, BlendMode.Copy);
+        }
+
+        public void DrawLineWu(int x1, int y1, int x2, int y2, int color, int thickness)
+        {
+            DrawLineWu(x1, y1, x2, y2, color, thickness, BlendMode.Copy);
         }
 
         public void DrawLineWu(Rectangle bounds, int x1, int y1, int x2, int y2, int color, int thickness)
