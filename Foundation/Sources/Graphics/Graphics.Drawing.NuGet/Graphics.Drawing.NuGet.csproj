@@ -61,6 +61,10 @@
     <Compile Include="version.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Graphics.Drawing.DotNet45\Graphics.Drawing.DotNet45.csproj">
+      <Project>{da1ae9bb-ce0b-475d-b28b-1c974bafbab3}</Project>
+      <Name>Graphics.Drawing.DotNet45</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Graphics.Drawing\Graphics.Drawing.csproj">
       <Project>{bd395326-a868-4ede-b352-586b000f3e1a}</Project>
       <Name>Graphics.Drawing</Name>

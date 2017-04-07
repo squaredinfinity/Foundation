@@ -7,7 +7,13 @@
     <authors>Squared Infinity</authors>
     <owners>Squared Infinity</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Squared Infinity ▪ Maths ▪ Statistics ▪ Distributions</description>
+    <description>Squared Infinity ▪ Maths ▪ Statistics ▪ Distributions
+
+Types:
+SquaredInfinity.Maths.Statistics.Distributions.IDistribution
+SquaredInfinity.Maths.Statistics.Distributions.Normal
+SquaredInfinity.Maths.Statistics.Distributions.Triangular
+SquaredInfinity.Maths.Statistics.Distributions.Uniform</description>
     <copyright>Copyright © Jarek Kardas</copyright>
   </metadata>
   <files>

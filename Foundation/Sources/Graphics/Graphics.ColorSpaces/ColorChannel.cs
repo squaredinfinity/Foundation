@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SquaredInfinity.Graphics
+namespace SquaredInfinity.Graphics.ColorSpaces
 {
     public class ColorChannel //NOTE: CORE UNSUPORTED, : ICloneable
     {

@@ -7,7 +7,12 @@
     <authors>Squared Infinity</authors>
     <owners>Squared Infinity</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Squared Infinity ▪ Maths ▪ Extensions</description>
+    <description>Squared Infinity ▪ Maths ▪ Extensions
+    
+Extension Methods:
+System.Decimal
+System.Double
+System.Int32</description>
     <copyright>Copyright © Jarek Kardas</copyright>
   </metadata>
   <files>

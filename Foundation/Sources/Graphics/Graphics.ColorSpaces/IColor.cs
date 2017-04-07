@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SquaredInfinity.Graphics
+namespace SquaredInfinity.Graphics.ColorSpaces
 {
     public interface IColor //NOTE: CORE UNSUPORTED, : ICloneable
     {

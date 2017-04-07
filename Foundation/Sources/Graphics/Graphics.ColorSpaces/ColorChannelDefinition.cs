@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using SquaredInfinity.Graphics.ColorSpaces;
 
-namespace SquaredInfinity.Graphics
+namespace SquaredInfinity.Graphics.ColorSpaces
 {
     public class ColorChannelDefinition
     {

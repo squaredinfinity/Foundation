@@ -6,7 +6,7 @@ using SquaredInfinity;
 using SquaredInfinity.Graphics.ColorSpaces;
 using SquaredInfinity.Extensions;
 
-namespace SquaredInfinity.Graphics
+namespace SquaredInfinity.Graphics.ColorSpaces
 {
     /// <summary>
     /// 

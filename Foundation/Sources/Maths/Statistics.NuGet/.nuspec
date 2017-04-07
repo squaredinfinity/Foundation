@@ -7,7 +7,17 @@
     <authors>Squared Infinity</authors>
     <owners>Squared Infinity</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Squared Infinity ▪ Maths ▪ Statistics</description>
+    <description>Squared Infinity ▪ Maths ▪ Statistics
+    
+Types:
+SquaredInfinity.Maths.Statistics.Count
+SquaredInfinity.Maths.Statistics.Max
+SquaredInfinity.Maths.Statistics.Min
+SquaredInfinity.Maths.Statistics.Range
+SquaredInfinity.Maths.Statistics.SimpleMovingAverage
+SquaredInfinity.Maths.Statistics.StdDev
+SquaredInfinity.Maths.Statistics.Total
+SquaredInfinity.Maths.Statistics.Variance</description>
     <copyright>Copyright © Jarek Kardas</copyright>
   </metadata>
   <files>
