@@ -5,9 +5,9 @@ using System.Text;
 
 namespace SquaredInfinity.Maths
 {
-    public struct Int32Interval
+    public struct IntervalInt32
     {
-        public static readonly Int32Interval Empty;
+        public static readonly IntervalInt32 Empty;
 
         IntervalFlags _flags;
         public IntervalFlags Flags { get { return _flags; } set { _flags = value; } }
@@ -54,12 +54,12 @@ namespace SquaredInfinity.Maths
             }
         }
 
-        static Int32Interval()
+        static IntervalInt32()
         {
-            Empty = new Int32Interval();
+            Empty = new IntervalInt32();
         }
 
-        public Int32Interval(int inclusiveFrom, int inclusiveTo)
+        public IntervalInt32(int inclusiveFrom, int inclusiveTo)
         {
             this._from = inclusiveFrom;            
             this._to = inclusiveTo;
@@ -67,7 +67,7 @@ namespace SquaredInfinity.Maths
             _flags = IntervalFlags.LeftClosed | IntervalFlags.RightClosed;
         }
 
-        public Int32Interval(int from, bool isFromInclusive, int to, bool itToInclusive)
+        public IntervalInt32(int from, bool isFromInclusive, int to, bool itToInclusive)
         {
             this._from = from;
             this._to = to;

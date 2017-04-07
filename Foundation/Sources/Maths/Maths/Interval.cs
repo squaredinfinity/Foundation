@@ -58,6 +58,11 @@ namespace SquaredInfinity.Maths
             }
         }
 
+        /// <summary>
+        /// NaN, Nan
+        /// (from, from)
+        /// [from, from) or (from, from]
+        /// </summary>
         public bool IsEmpty
         {
             get
@@ -70,15 +75,30 @@ namespace SquaredInfinity.Maths
                     (_from == _to && _flags == IntervalFlags.Open)
                     ||
                     // [from, from) or (from, from] - one end exclusive
-                    (_from == _to && (_flags == IntervalFlags.LeftClosed || _flags == IntervalFlags.RightClosed))
-                    ||
-                    // [to, from] or (to, from), where to > from
-                    (_from > _to);
+                    (_from == _to && (_flags == IntervalFlags.LeftClosed || _flags == IntervalFlags.RightClosed));
             }
         }
 
-        // [from, from] - inclusive both ends
+        /// <summary>
+        /// True if [from, to] or (from, to) where 'to' less than 'from'
+        /// e.g,. [10, 0]
+        /// </summary>
+        public bool IsInverted
+        {
+            get
+            {
+                return _from > _to;
+            }
+        }
+
+        /// <summary>
+        /// [from, from] - same value inclusive on both ends
+        /// </summary>
         public bool IsDegenerate => _from == _to && _flags == IntervalFlags.Closed;
+
+        /// <summary>
+        /// NOT Empty and NOT Degenerate
+        /// </summary>
         public bool IsProper => !IsEmpty && !IsDegenerate;
         public bool IsOpen => _flags == IntervalFlags.Open;
         public bool IsClosed => _flags == IntervalFlags.Closed;

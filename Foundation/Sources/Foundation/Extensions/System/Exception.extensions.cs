@@ -43,7 +43,21 @@ namespace SquaredInfinity.Extensions
         /// <param name="ex"></param>
         /// <param name="key"></param>
         /// <param name="getValue"></param>
-        public static bool TryAddContextData<T>(this Exception ex, string key, Func<T> getValue)
+        public static bool TryAddContextData<T>(this Exception ex, string key, Func<T> getData)
+        {
+            try
+            {
+                //ex.AddContextData(key, getValue());
+                return true;
+            }
+            catch (Exception newException)
+            {
+                //ex.AddContextData(string.Format("Unable to add [{0}]", key), newException.ToString());
+                return false;
+            }
+        }
+
+        public static bool TryAddContextData<T>(this Exception ex, string key, T data)
         {
             try
             {
