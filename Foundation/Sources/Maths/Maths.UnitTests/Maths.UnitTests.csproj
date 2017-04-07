@@ -50,7 +50,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="IntervalLinearMapping.MapDistanceFrom.cs" />
     <Compile Include="IntervalLinearMapping.MapFrom.cs" />
+    <Compile Include="IntervalLinearMapping.MapDistanceTo.cs" />
     <Compile Include="IntervalLinearMapping.MapTo.cs" />
     <Compile Include="PrimeNumbers\GetPrimeNumbers.tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -27,11 +27,6 @@ namespace SquaredInfinity.Maths
             NormalizationComponent = Target.Span / Source.Span;
             DenormalizationComponent = Source.Span / Target.Span;
 
-            Verify();
-        }
-
-        void Verify()
-        {
             if (Source.Flags != Target.Flags)
             {
                 var ex = new InvalidOperationException($"Source and Target Intervals must have same edges (e.g. both closed)");
@@ -71,12 +66,18 @@ namespace SquaredInfinity.Maths
 
         public double MapDistanceTo(double sourceDistance)
         {
-            return sourceDistance * NormalizationComponent;
+            if(Target.IsInverted)
+                return sourceDistance * -NormalizationComponent;
+            else
+                return sourceDistance * NormalizationComponent;
         }
 
         public double MapDistanceFrom(double targetDistance)
         {
-            return targetDistance * DenormalizationComponent;
+            if(Target.IsInverted)
+                return targetDistance * -DenormalizationComponent;
+            else
+                return targetDistance * DenormalizationComponent;
         }
     }
 }

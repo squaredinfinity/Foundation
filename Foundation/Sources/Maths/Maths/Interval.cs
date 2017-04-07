@@ -6,6 +6,9 @@ using System.Diagnostics;
 
 namespace SquaredInfinity.Maths
 {
+    // TODO: instance methods should modify instance
+    //          equivalent static methods should return modified copy
+
     /// <summary>
     /// Represents an Interval of doubles
     /// https://en.wikipedia.org/wiki/Interval_(mathematics)
@@ -16,7 +19,7 @@ namespace SquaredInfinity.Maths
         public static readonly Interval Empty;
 
         IntervalFlags _flags;
-        public IntervalFlags Flags {  get { return _flags; } set { _flags = value; } }
+        public IntervalFlags Flags {  get { return _flags; } private set { _flags = value; } }
 
         public double Span
         {
@@ -30,14 +33,14 @@ namespace SquaredInfinity.Maths
         }
 
         double _from;
-        public double From { get { return _from; } set { _from = value; } }
+        public double From { get { return _from; } private set { _from = value; } }
         double _to;
-        public double To { get { return _to; } set { _to = value; } }
+        public double To { get { return _to; } private set { _to = value; } }
 
         public bool IsFromInclusive
         {
             get { return _flags.HasFlag(IntervalFlags.LeftClosed); }
-            set
+            private set
             {
                 if (value == true)
                     _flags.Set(IntervalFlags.LeftClosed);
@@ -49,7 +52,7 @@ namespace SquaredInfinity.Maths
         public bool IsToInclusive
         {
             get { return _flags.HasFlag(IntervalFlags.RightClosed); }
-            set
+            private set
             {
                 if (value == true)
                     _flags.Set(IntervalFlags.RightClosed);
