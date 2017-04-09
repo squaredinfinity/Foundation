@@ -19,6 +19,10 @@ namespace SquaredInfinity.Maths
 
         public double M { get { return _slope.M; } }
 
+        public Line2D(double m)
+            : this(m, 0)
+        { }
+
         public Line2D(double m, double b)
         {
             _b = b;
