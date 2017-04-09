@@ -135,7 +135,7 @@ namespace SquaredInfinity.Maths
 
         public static Interval CreateOpen(double from, double to)
         {
-            return new Interval(from, isFromInclusive: false, to, isToInclusive: false);
+            return new Interval(from, false, to, false);
         }
 
         public static Interval CreateClosed(double from, double to)
