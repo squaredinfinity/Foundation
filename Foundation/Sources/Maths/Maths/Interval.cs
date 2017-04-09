@@ -133,6 +133,16 @@ namespace SquaredInfinity.Maths
                 _flags = _flags.Set(IntervalFlags.RightClosed);
         }
 
+        public static Interval CreateOpen(double from, double to)
+        {
+            return new Interval(from, isFromInclusive: false, to, isToInclusive: false);
+        }
+
+        public static Interval CreateClosed(double from, double to)
+        {
+            return new Interval(from, to);
+        }
+
         #region Contains 
 
         public bool Contains(double value)
