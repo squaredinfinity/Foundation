@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SquaredInfinity.Graphics.Drawing;
+using SquaredInfinity.Maths;
 
 namespace Graphics.Drawing.Tests
 {
@@ -66,6 +67,8 @@ namespace Graphics.Drawing.Tests
         {
             for (var thickness = 1; thickness <= 5; thickness++)
             {
+                // go through slopes 
+                var s = Slope2D.Horisontal;
                 var pc = new PixelArrayCanvas(100, 100);
                 pc.DrawLineWu(10, 0, 90, 99, PixelCanvas.GetColor(255, 255, 0, 0), thickness);
                 pc.Save($@"E:\t\line wu\xmajor_{thickness}.png");

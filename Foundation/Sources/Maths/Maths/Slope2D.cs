@@ -13,7 +13,7 @@ namespace SquaredInfinity.Maths
     /// </summary>
     public struct Slope2D
     {
-        public static readonly Slope2D Horisontal = new Slope2D(0);
+        public static readonly Slope2D Horizontal = new Slope2D(0);
         public static readonly Slope2D Vertical = new Slope2D(double.NaN);
 
         double _m;
@@ -36,9 +36,9 @@ namespace SquaredInfinity.Maths
         }
 
         /// <summary>
-        /// True if straight line with this line is a horisontal line, i.e. m == 0
+        /// True if straight line with this line is a horizontal line, i.e. m == 0
         /// </summary>
-        public bool IsHorisontal
+        public bool IsHorizontal
         {
             get { return _m == 0; }
         }

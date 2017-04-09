@@ -35,8 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SquaredInfinity.Maths, Version=2.0.2.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Maths.2.0.2-beta\lib\portable-net45+win\SquaredInfinity.Maths.dll</HintPath>
+    <Reference Include="SquaredInfinity.Maths, Version=2.0.2.1, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Maths.2.0.2-beta001\lib\portable-net45+win\SquaredInfinity.Maths.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
