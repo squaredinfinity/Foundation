@@ -62,8 +62,7 @@ namespace SquaredInfinity.Graphics.Drawing
             if (thickness <= 0)
                 throw new ArgumentOutOfRangeException(nameof(thickness));
 
-            if (thickness == 1)
-                thickness = 2;
+            thickness++;
 
             // index shift determines where the line should be drawn from based on its thickness (e.g. line with thickness 1 - no shift, thickness 2, -1px shift, thickness 3, -2px shift)        
             var index_shift = ((thickness - 1) / 2) * -1;
@@ -213,17 +212,19 @@ namespace SquaredInfinity.Graphics.Drawing
                         // error accumulator overflowed, move x direction   
                         x1 += x_step;
                     }
-                    else
-                    {
-                        //pc.SetPixelSafe(x1, y1, pc.GetColor(Colors.Yellow));     
-                        // invert intensity ?      
-                    }
 
                     // calculate intensity using accumulated error  
                     var intensity = (ushort)(error_accumulator >> INTENSITY_SHIFT);
 
-                    if (intensity > 1)
-                        SetPixelSafe(x1 + index_shift_terminator, y1, sa, sr, sg, sb, isa, intensity, BlendMode.Alpha);
+                    // pixels with intensity are set on both side of the line
+                    // depending which direction the line goes (NW->SE or NE->SW),
+                    // puting more intense pixels on one or the other side makes a very visible difference
+                    if (x2 <= x1)
+                    {
+                        intensity = (ushort)(intensity ^ WEIGHT_COMPLEMENT_MASK);
+                    }
+                
+                    SetPixelSafe(x1 + index_shift_terminator, y1, sa, sr, sg, sb, isa, intensity, blendMode);
 
                     for (var x_shift = index_shift + 1; x_shift < index_shift_terminator; x_shift++)
                     {
@@ -239,10 +240,7 @@ namespace SquaredInfinity.Graphics.Drawing
 
                     intensity = (ushort)(intensity ^ WEIGHT_COMPLEMENT_MASK);
 
-                    if (intensity > 1)
-                    {
-                        SetPixelSafe(x1 + index_shift, y1, sa, sr, sg, sb, isa, intensity, blendMode);
-                    }
+                    SetPixelSafe(x1 + index_shift, y1, sa, sr, sg, sb, isa, intensity, blendMode);
 
                     // move y direction        
                     y1++;
@@ -276,8 +274,7 @@ namespace SquaredInfinity.Graphics.Drawing
                     // calculate intensity using accumulated error       
                     var intensity = (ushort)(error_accumulator >> INTENSITY_SHIFT);
 
-                    if (intensity > 1)
-                        SetPixelSafe(x1, y1 + index_shift_terminator, sa, sr, sg, sb, isa, intensity, blendMode);
+                    SetPixelSafe(x1, y1 + index_shift_terminator, sa, sr, sg, sb, isa, intensity, blendMode);
 
                     for (var y_shift = index_shift + 1; y_shift < index_shift_terminator; y_shift++)
                     {
@@ -285,13 +282,9 @@ namespace SquaredInfinity.Graphics.Drawing
                     }
 
                     intensity = (ushort)(intensity ^ WEIGHT_COMPLEMENT_MASK);
+                    
+                    SetPixelSafe(x1, y1 + index_shift, sa, sr, sg, sb, isa, intensity, blendMode);
 
-                    //pc.SetPixelSafe(x1, y1 + index_shift, debug_color);
-
-                    if (intensity > 1)
-                    {
-                        SetPixelSafe(x1, y1 + index_shift, sa, sr, sg, sb, isa, intensity, blendMode);
-                    }
                     // move x direction            
                     x1 += x_step;
                 }

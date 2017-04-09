@@ -21,7 +21,7 @@ namespace SquaredInfinity.Graphics.Drawing
 
         public void SetPixelSafe(int x, int y, int color)
         {
-            if (x < 0 || y < 0 || x > _width || y > _height)
+            if (x < 0 || y < 0 || x >= _width || y >= _height)
                 return;
 
             this[x, y] = color;
@@ -29,7 +29,7 @@ namespace SquaredInfinity.Graphics.Drawing
 
         public void SetPixelSafeAlpha(int x, int y, int color)
         {
-            if (x < 0 || y < 0 || x > _width || y > _height)
+            if (x < 0 || y < 0 || x >= _width || y >= _height)
                 return;
 
             // destination pixel
@@ -58,7 +58,7 @@ namespace SquaredInfinity.Graphics.Drawing
 
         public void SetPixelSafe(int x, int y, int color, BlendMode blendMode)
         {
-            if (x < 0 || y < 0 || x > _width || y > _height)
+            if (x < 0 || y < 0 || x >= _width || y >= _height)
                 return;
 
             if (blendMode == BlendMode.Copy)
@@ -99,7 +99,7 @@ namespace SquaredInfinity.Graphics.Drawing
 
         public void SetPixelSafe(int x, int y, int alpha, int red, int green, int blue)
         {
-            if (x < 0 || y < 0 || x > _width || y > _height)
+            if (x < 0 || y < 0 || x >= _width || y >= _height)
                 return;
 
             var dp =
@@ -113,7 +113,7 @@ namespace SquaredInfinity.Graphics.Drawing
 
         public void SetPixelSafeAlpha(int x, int y, int alpha, int red, int green, int blue, int isa)
         {
-            if (x < 0 || y < 0 || x > _width || y > _height)
+            if (x < 0 || y < 0 || x >= _width || y >= _height)
                 return;
 
             if (alpha == 0)
@@ -205,12 +205,16 @@ namespace SquaredInfinity.Graphics.Drawing
         /// <param name="blendMode"></param>
         public void SetPixelSafe(int x, int y, int alpha, int red, int green, int blue, int isa, int intensity, BlendMode blendMode)
         {
-            if (x < 0 || y < 0 || x > _width || y > _height)
+            if (x < 0 || y < 0 || x >= _width || y >= _height)
                 return;
 
             if (blendMode == BlendMode.Copy || alpha == 255)
             {
-                if (intensity != 1)
+                if(intensity == 0)
+                {
+                    alpha = 0;
+                }
+                else if (intensity != 1)
                 {
                     alpha = ((alpha * intensity) >> 8);
                     red = ((red * intensity) >> 8);
@@ -238,7 +242,12 @@ namespace SquaredInfinity.Graphics.Drawing
                 var dg = ((dp >> 8) & 0xff);
                 var db = ((dp) & 0xff);
 
-                if (intensity != 1)
+                if (intensity == 0)
+                {
+                    alpha = 0;
+                    isa = 255;
+                }
+                else if (intensity != 1)
                 {
                     alpha = ((alpha * intensity) >> 8);
                     red = ((red * intensity) >> 8);

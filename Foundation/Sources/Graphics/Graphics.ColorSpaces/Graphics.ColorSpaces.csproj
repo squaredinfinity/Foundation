@@ -66,11 +66,11 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="SquaredInfinity.Maths.Extensions, Version=2.0.2.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Maths.Extensions.2.0.2-beta\lib\portable-net45+win\SquaredInfinity.Maths.Extensions.dll</HintPath>
+    <Reference Include="SquaredInfinity.Maths.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Maths.Extensions.2.0.2-beta007\lib\portable-net45+win\SquaredInfinity.Maths.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="SquaredInfinity.Primitives, Version=2.0.6.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Primitives.2.0.6\lib\portable-net45+win\SquaredInfinity.Primitives.dll</HintPath>
+    <Reference Include="SquaredInfinity.Primitives, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Primitives.2.0.7-beta001\lib\portable-net45+win\SquaredInfinity.Primitives.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
