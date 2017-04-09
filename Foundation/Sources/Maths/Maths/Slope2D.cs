@@ -7,10 +7,50 @@ using SquaredInfinity.Extensions;
 
 namespace SquaredInfinity.Maths
 {
+    /// <summary>
+    /// Represents a slope or gradient of a straight line
+    /// https://en.wikipedia.org/wiki/Slope
+    /// </summary>
     public struct Slope2D
     {
+        public static readonly Slope2D Horisontal = new Slope2D(0);
+        public static readonly Slope2D Vertical = new Slope2D(double.NaN);
+
         double _m;
         public double M { get { return _m; } }
+
+        /// <summary>
+        /// True if the straight line with this slope is increasing, i.e. m > 0
+        /// </summary>
+        public bool IsIncreasing
+        {
+            get { return _m > 0; }
+        }
+
+        /// <summary>
+        /// True if the straight line with this slope is increasing, i.e. 0 > m
+        /// </summary>
+        public bool IsDecreasing
+        {
+            get { return _m < 0; }
+        }
+
+        /// <summary>
+        /// True if straight line with this line is a horisontal line, i.e. m == 0
+        /// </summary>
+        public bool IsHorisontal
+        {
+            get { return _m == 0; }
+        }
+
+        /// <summary>
+        /// True if straight line with this slope is a vertical line, i.e. m is undefined
+        /// </summary>
+        public bool IsVertical
+        {
+            get { return _m == double.NaN; }
+        }
+
 
         public Slope2D(double m)
         {
