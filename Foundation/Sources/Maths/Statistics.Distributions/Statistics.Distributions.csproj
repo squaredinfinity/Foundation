@@ -48,21 +48,19 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="SquaredInfinity.Maths.Extensions, Version=2.0.1.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Maths.Extensions.2.0.1\lib\portable-net45+win\SquaredInfinity.Maths.Extensions.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="SquaredInfinity.Maths.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Maths.Extensions.2.0.2-beta006\lib\portable-net45+win\SquaredInfinity.Maths.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Maths.RandomNumbers, Version=2.0.1.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Maths.RandomNumbers.2.0.1\lib\portable-net45+win\SquaredInfinity.Maths.RandomNumbers.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="SquaredInfinity.Primitives, Version=2.0.1.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Primitives.2.0.1\lib\portable-net45+win\SquaredInfinity.Primitives.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="SquaredInfinity.Primitives, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Primitives.2.0.7-beta001\lib\portable-net45+win\SquaredInfinity.Primitives.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

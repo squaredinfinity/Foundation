@@ -46,19 +46,44 @@ namespace SquaredInfinity.Maths
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        public double Calculate(double x)
+        public double GetY(double x)
         {
             return _slope.M * x + _b;
         }
 
-        public static double Calculate(double m, double b, double x)
+        /// <summary>
+        /// Calculates y for a specified line and x
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static double GetY(double m, double b, double x)
         {
             return m * x + b;
         }
 
+        /// <summary>
+        /// Calculates x given specified y
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public double GetX(double y)
+        {
+            return (y - _b) / _slope.M;
+        }
+
+        /// <summary>
+        /// Calculates y for a specified line and y
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static double GetX(double m, double b, double y)
+        {
+            return (y - b) / m;
+        }
+
         //public Line2D GetPerpendicularLine()
         //{
-            
+
         //}
     }
 }
