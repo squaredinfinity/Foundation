@@ -55,22 +55,22 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="SquaredInfinity.Extensions, Version=2.0.2.3, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.2-beta003\lib\portable-net45+win\SquaredInfinity.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="SquaredInfinity.Maths, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Maths.2.0.2-beta008\lib\portable-net45+win\SquaredInfinity.Maths.dll</HintPath>
-    </Reference>
-    <Reference Include="SquaredInfinity.Maths.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Maths.Extensions.2.0.2-beta007\lib\portable-net45+win\SquaredInfinity.Maths.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="SquaredInfinity.Primitives, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Primitives.2.0.7-beta001\lib\portable-net45+win\SquaredInfinity.Primitives.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="SquaredInfinity.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.2\lib\portable-net45+win\SquaredInfinity.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.Maths, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Maths.2.0.2\lib\portable-net45+win\SquaredInfinity.Maths.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.Maths.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Maths.Extensions.2.0.2\lib\portable-net45+win\SquaredInfinity.Maths.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.Primitives, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Primitives.2.0.7\lib\portable-net45+win\SquaredInfinity.Primitives.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
