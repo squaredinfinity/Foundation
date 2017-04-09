@@ -47,7 +47,7 @@
 
   <PropertyGroup>
     <SI_TasksDirPath>$(SolutionDir)\.build</SI_TasksDirPath>
-    <NuGetApiKey>232092ef-0511-4bd5-b472-4b778a7de767</NuGetApiKey>
+    <NuGetApiKey></NuGetApiKey>
     <RemoteRepository>https://www.nuget.org/api/v2/package</RemoteRepository>
     <LocalRepository>c:\local_nugets</LocalRepository>
 
@@ -87,7 +87,7 @@
 
   <!-- CUSTOM TASK IMPORTS -->
 
-  <UsingTask AssemblyFile="$(SI_TasksDirPath)/SquaredInfinity.Build.Tasks.14.dll" TaskName="SquaredInfinity.Build.Tasks.AssemblyInfo.GetAssemblyVersion" />
+  <UsingTask AssemblyFile="$(SI_TasksDirPath)/SquaredInfinity.Build.Tasks.14.dll" TaskName="SquaredInfinity.Build.Tasks.AssemblyInfo.GetAssemblyFileVersion" />
   <UsingTask AssemblyFile="$(SI_TasksDirPath)/SquaredInfinity.Build.Tasks.14.dll" TaskName="SquaredInfinity.Build.Tasks.AssemblyInfo.ConstructSemanticVersion" />
   <UsingTask AssemblyFile="$(SI_TasksDirPath)/SquaredInfinity.Build.Tasks.14.dll" TaskName="SquaredInfinity.Build.Tasks.NuGet.NuGetPack" />
   <UsingTask AssemblyFile="$(SI_TasksDirPath)/SquaredInfinity.Build.Tasks.14.dll" TaskName="SquaredInfinity.Build.Tasks.NuGet.NuGetPush" />
@@ -111,9 +111,9 @@
     <Message Text="Using: Configuration: $(Configuration), PreReleaseName: $(PreReleaseName), Repository: $(NuGetRepository)" />
     
     <!-- GET ASSEMBLY VERSION -->
-    <GetAssemblyVersion AssemblyInfoPath="$(AssemblyInfoPath)">
-      <Output TaskParameter="AssemblyVersion" PropertyName="AssemblyVersion" />
-    </GetAssemblyVersion>
+    <GetAssemblyFileVersion AssemblyInfoPath="$(AssemblyInfoPath)">
+      <Output TaskParameter="FileVersion" PropertyName="AssemblyVersion" />
+    </GetAssemblyFileVersion>
 
     <!-- GET SEMANTIC VERSION -->
     <ConstructSemanticVersion Version="$(AssemblyVersion)" PreReleaseName="$(PreReleaseName)">
