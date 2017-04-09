@@ -19,6 +19,14 @@ namespace SquaredInfinity.Graphics.Drawing
 
         #region Color
 
+        public void SetPixelSafe(double x, double y, int color)
+        {
+            if (x < 0 || y < 0 || x >= _width || y >= _height)
+                return;
+
+            this[(int)x, (int)y] = color;
+        }
+
         public void SetPixelSafe(int x, int y, int color)
         {
             if (x < 0 || y < 0 || x >= _width || y >= _height)
@@ -208,7 +216,7 @@ namespace SquaredInfinity.Graphics.Drawing
             if (x < 0 || y < 0 || x >= _width || y >= _height)
                 return;
 
-            if (blendMode == BlendMode.Copy || alpha == 255)
+            if (blendMode == BlendMode.Copy)
             {
                 if(intensity == 0)
                 {

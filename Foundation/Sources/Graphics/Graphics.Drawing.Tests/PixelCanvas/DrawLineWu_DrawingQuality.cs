@@ -52,31 +52,76 @@ namespace Graphics.Drawing.Tests
                 foreach(var segment in segments)
                 {
                     var pc = new PixelArrayCanvas(100, 100);
-                    pc.DrawLineWu(segment.x1, segment.y1, segment.x2, segment.y2, PixelCanvas.GetColor(255, 255, 0, 0), thickness);
-                    //pc.SetPixelSafe(segment.x1, segment.y1, POINT_MARKER);
-                    //pc.SetPixelSafe(segment.x2, segment.y2, POINT_MARKER);
+                    pc.DrawLineWu(segment.x1, segment.y1, segment.x2, segment.y2, PixelCanvas.GetColor(255, 255, 0, 0), thickness, BlendMode.Alpha);
+                    pc.SetPixelSafe(segment.x1, segment.y1, POINT_MARKER);
+                    pc.SetPixelSafe(segment.x2, segment.y2, POINT_MARKER);
                     pc.Save($@"E:\t\line wu\{segment.name}_{thickness}.png");
                 }
             }
         }
 
+
+        [TestMethod]
+        public void AlphaBlending()
+        {
+            // set canvas background colour to line colour
+            // all tests should return blank canvas in initial colour
+            // if there are any off-colour pixel then alpha blending didn't work
+
+            // Horizontal v Vertical
+            for (var thickness = 1; thickness <= 5; thickness++)
+            {
+                var pc = new PixelArrayCanvas(100, 100);
+                pc.Clear(PixelCanvas.GetColor(255, 255, 0, 0));
+                pc.DrawLineWu(10, 50, 90, 50, PixelCanvas.GetColor(255, 255, 0, 0), thickness, BlendMode.Alpha);
+                pc.DrawLineWu(50, 10, 50, 90, PixelCanvas.GetColor(255, 255, 0, 0), thickness, BlendMode.Alpha);
+                pc.Save($@"E:\t\line wu\alpha_hvv_{thickness}.png");
+            }
+
+            // Diagonal v Diagonal
+            for (var thickness = 1; thickness <= 5; thickness++)
+            {
+                var pc = new PixelArrayCanvas(100, 100);
+                pc.Clear(PixelCanvas.GetColor(255, 255, 0, 0));
+                pc.DrawLineWu(10, 10, 90, 90, PixelCanvas.GetColor(255, 255, 0, 0), thickness, BlendMode.Alpha);
+                pc.DrawLineWu(10, 90, 90, 10, PixelCanvas.GetColor(255, 255, 0, 0), thickness, BlendMode.Alpha);
+                pc.Save($@"E:\t\line wu\alpha_dvd{thickness}.png");
+            }
+
+            // X Major vs Y Major
+            for (var thickness = 1; thickness <= 5; thickness++)
+            {
+                var pc = new PixelArrayCanvas(100, 100);
+                pc.Clear(PixelCanvas.GetColor(255, 255, 0, 0));
+                pc.DrawLineWu(10, 10, 90, 25, PixelCanvas.GetColor(255, 255, 0, 0), thickness, BlendMode.Alpha);
+                pc.DrawLineWu(25, 10, 50, 90, PixelCanvas.GetColor(255, 255, 0, 0), thickness, BlendMode.Alpha);
+
+                pc.Save($@"E:\t\line wu\alpha_xvy_{thickness}.png");
+            }
+        }
+
         //[TestMethod]
-        //public void lol()
+        //public void random()
         //{
+        //    var r = new Random();
+
         //    for (var thickness = 1; thickness <= 5; thickness++)
         //    {
-        //        foreach (var x in Interval.CreateClosed(0, 100).LinSpace(10))
+        //        var from = new Point2D(r.Next(99), r.Next(99));
+        //        var pc = new PixelArrayCanvas(100, 100);
+
+        //        for (int i = 0; i < 10; i++)
         //        {
+        //            var to = new Point2D(r.Next(99), r.Next(99));
+        //            pc.DrawLineWu(from.X, from.Y, to.X, to.Y, PixelCanvas.GetColor(255, 255, 0, 0), thickness, BlendMode.Alpha);
+
+        //            pc.SetPixelSafe(from.X, from.Y, POINT_MARKER);
+        //            pc.SetPixelSafe(to.X, to.Y, POINT_MARKER);
+
+        //            from = to;
         //        }
 
-        //        foreach (var segment in segments)
-        //        {
-        //            var pc = new PixelArrayCanvas(100, 100);
-        //            pc.DrawLineWu(segment.x1, segment.y1, segment.x2, segment.y2, PixelCanvas.GetColor(255, 255, 0, 0), thickness);
-        //            pc.SetPixelSafe(segment.x1, segment.y1, POINT_MARKER);
-        //            pc.SetPixelSafe(segment.x2, segment.y2, POINT_MARKER);
-        //            pc.Save($@"E:\t\line wu\{segment.name}_{thickness}.png");
-        //        }
+        //        pc.Save($@"E:\t\line wu\random_{thickness}.png");
         //    }
         //}
 

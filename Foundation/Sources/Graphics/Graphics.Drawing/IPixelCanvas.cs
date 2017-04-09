@@ -54,10 +54,11 @@ namespace SquaredInfinity.Graphics.Drawing
         /// <summary>
         /// Draws smooth line using Wu Algorithm
         /// </summary>
-        void DrawLineWu(int x1, int y1, int x2, int y2, int color);
-        void DrawLineWu(int x1, int y1, int x2, int y2, int color, int thickness);
-        void DrawLineWu(Rectangle bounds, int x1, int y1, int x2, int y2, int color);
-        void DrawLineWu(Rectangle bounds, int x1, int y1, int x2, int y2, int color, int thickness);
+        void DrawLineWu(int x1, int y1, int x2, int y2, int color, int thickness, BlendMode blendMode);
+        void DrawLineWu(Rectangle bounds, int x1, int y1, int x2, int y2, int color, int thickness, BlendMode blendMode);
+
+        void DrawLineWu(double x1, double y1, double x2, double y2, int color, int thickness, BlendMode blendMode);
+        void DrawLineWu(Rectangle bounds, double x1, double y1, double x2, double y2, int color, int thickness, BlendMode blendMode);
 
         #endregion
 
