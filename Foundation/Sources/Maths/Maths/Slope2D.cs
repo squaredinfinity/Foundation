@@ -14,6 +14,8 @@ namespace SquaredInfinity.Maths
     public struct Slope2D
     {
         public static readonly Slope2D Horizontal = new Slope2D(0);
+        public static readonly Slope2D Increasing = new Slope2D(1);
+        public static readonly Slope2D Decreasing = new Slope2D(-1);
         public static readonly Slope2D Vertical = new Slope2D(double.NaN);
 
         double _m;
