@@ -47,6 +47,8 @@
     <Compile Include="..\Maths.NuGet\version.cs">
       <Link>version.cs</Link>
     </Compile>
+    <Compile Include="Framework Extensions\SquaredInfinity.Maths\Point2D.extensions.cs" />
+    <Compile Include="Framework Extensions\SquaredInfinity.Maths\Rectangle.extensions.cs" />
     <Compile Include="Framework Extensions\System.Windows\Point.extensions.cs" />
     <Compile Include="Framework Extensions\System.Windows\Rect.extensions.cs" />
   </ItemGroup>
