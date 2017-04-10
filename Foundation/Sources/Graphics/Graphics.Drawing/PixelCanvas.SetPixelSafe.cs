@@ -222,7 +222,7 @@ namespace SquaredInfinity.Graphics.Drawing
                 {
                     alpha = 0;
                 }
-                else if (intensity != 1)
+                else
                 {
                     alpha = ((alpha * intensity) >> 8);
                     red = ((red * intensity) >> 8);
@@ -255,7 +255,7 @@ namespace SquaredInfinity.Graphics.Drawing
                     alpha = 0;
                     isa = 255;
                 }
-                else if (intensity != 1)
+                else
                 {
                     alpha = ((alpha * intensity) >> 8);
                     red = ((red * intensity) >> 8);
