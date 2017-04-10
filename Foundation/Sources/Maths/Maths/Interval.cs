@@ -181,21 +181,33 @@ namespace SquaredInfinity.Maths
         #region Expand
 
         /// <summary>
-        /// Creates new Interval by expanding this interval exactly to fit provided interval.
+        /// Expands this interval to fit specified value.
+        /// </summary>
+        /// <param name="d"></param>
+        public void Expand(double d)
+        {
+            if (double.IsNaN(d))
+                return;
+
+            if (d < _from)
+                _from = d;
+
+            if (d > _to)
+                _to = d;
+        }
+
+        /// <summary>
+        /// Expands this interval to fit another interval.
+        /// This interval won't shrink if other interval is smaller.
         /// </summary>
         /// <param name="other"></param>
-        public Interval Expand(Interval other)
+        public void Expand(Interval other)
         {
-            var new_from = _from;
-            var new_to = _to;
-
             if (other._from < _from || double.IsNaN(_from))
-                new_from = other._from;
+                _from = other._from;
 
             if (other._to > _to || double.IsNaN(_to))
-                new_to = other._to;
-
-            return new Interval(new_from, IsFromInclusive, new_to, IsToInclusive);
+                _to = other._to;
         }
 
         #endregion

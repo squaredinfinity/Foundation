@@ -33,10 +33,10 @@ SquaredInfintiy.Maths.Slope2D</description>
   </metadata>
   <files>
     <!-- net 452 -->
-    <!--<file src="..\Extensions.DotNet45\bin\$configuration$\SquaredInfinity.Extensions.DotNet45.dll" target="lib\net452\SquaredInfinity.Extensions.DotNet45.dll" exclude="" />
-    <file src="..\Extensions.DotNet45\bin\$configuration$\SquaredInfinity.Extensions.DotNet45.pdb" target="lib\net452\SquaredInfinity.Extensions.DotNet45.pdb" exclude="" />
-    <file src="..\Extensions\bin\$configuration$\SquaredInfinity.Extensions.dll" target="lib\net452\SquaredInfinity.Extensions.dll" exclude="" />
-    <file src="..\Extensions\bin\$configuration$\SquaredInfinity.Extensions.pdb" target="lib\net452\SquaredInfinity.Extensions.pdb" exclude="" />-->
+    <file src="..\Maths.DotNet45\bin\$configuration$\SquaredInfinity.Maths.DotNet45.dll" target="lib\net452\SquaredInfinity.Maths.DotNet45.dll" exclude="" />
+    <file src="..\Maths.DotNet45\bin\$configuration$\SquaredInfinity.Maths.DotNet45.pdb" target="lib\net452\SquaredInfinity.Maths.DotNet45.pdb" exclude="" />
+    <file src="..\Maths\bin\$configuration$\SquaredInfinity.Maths.dll" target="lib\net452\SquaredInfinity.Maths.dll" exclude="" />
+    <file src="..\Maths\bin\$configuration$\SquaredInfinity.Maths.pdb" target="lib\net452\SquaredInfinity.Maths.pdb" exclude="" />
     <!-- portable-net45+win -->
     <file src="..\Maths\bin\$configuration$\SquaredInfinity.Maths.dll" target="lib\portable-net45+win\SquaredInfinity.Maths.dll" exclude="" />
     <file src="..\Maths\bin\$configuration$\SquaredInfinity.Maths.pdb" target="lib\portable-net45+win\SquaredInfinity.Maths.pdb" exclude="" />

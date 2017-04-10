@@ -63,11 +63,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalSignalProcessing", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalSignalProcessing.NuGet", "Sources\Maths\DigitalSignalProcessing.NuGet\DigitalSignalProcessing.NuGet.csproj", "{39680B49-022E-4E9A-A068-F5B23B07F973}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maths.DotNet45", "Sources\Maths\Maths.DotNet45\Maths.DotNet45.csproj", "{52F55DC7-E0E3-473F-AC70-358429FDCDA0}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Sources\Internal\Internal.projitems*{2e471431-5262-463a-8259-6d5314493f36}*SharedItemsImports = 4
 		Sources\Internal\Internal.projitems*{3a943b85-8145-498b-81da-03b77465956b}*SharedItemsImports = 4
 		Sources\Internal\Internal.projitems*{4d63f0b2-4b7b-4e9e-911d-5c6e0de9b3af}*SharedItemsImports = 4
+		Sources\Internal\Internal.projitems*{52f55dc7-e0e3-473f-ac70-358429fdcda0}*SharedItemsImports = 4
 		Sources\Internal\Internal.projitems*{53ef3610-187e-4cb5-881d-f437038e44b0}*SharedItemsImports = 4
 		Sources\Internal\Internal.projitems*{6243bf46-3b7c-4137-ace9-79541a6ad8e9}*SharedItemsImports = 13
 		Sources\Internal\Internal.projitems*{9a84412f-32ac-47be-810e-166594f5d4ab}*SharedItemsImports = 4
@@ -288,6 +291,18 @@ Global
 		{39680B49-022E-4E9A-A068-F5B23B07F973}.Publish - STABLE|Any CPU.Build.0 = Publish - STABLE|Any CPU
 		{39680B49-022E-4E9A-A068-F5B23B07F973}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39680B49-022E-4E9A-A068-F5B23B07F973}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52F55DC7-E0E3-473F-AC70-358429FDCDA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52F55DC7-E0E3-473F-AC70-358429FDCDA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52F55DC7-E0E3-473F-AC70-358429FDCDA0}.Publish - BETA|Any CPU.ActiveCfg = Release|Any CPU
+		{52F55DC7-E0E3-473F-AC70-358429FDCDA0}.Publish - BETA|Any CPU.Build.0 = Release|Any CPU
+		{52F55DC7-E0E3-473F-AC70-358429FDCDA0}.Publish - LOCAL|Any CPU.ActiveCfg = Debug|Any CPU
+		{52F55DC7-E0E3-473F-AC70-358429FDCDA0}.Publish - LOCAL|Any CPU.Build.0 = Debug|Any CPU
+		{52F55DC7-E0E3-473F-AC70-358429FDCDA0}.Publish - RC|Any CPU.ActiveCfg = Release|Any CPU
+		{52F55DC7-E0E3-473F-AC70-358429FDCDA0}.Publish - RC|Any CPU.Build.0 = Release|Any CPU
+		{52F55DC7-E0E3-473F-AC70-358429FDCDA0}.Publish - STABLE|Any CPU.ActiveCfg = Release|Any CPU
+		{52F55DC7-E0E3-473F-AC70-358429FDCDA0}.Publish - STABLE|Any CPU.Build.0 = Release|Any CPU
+		{52F55DC7-E0E3-473F-AC70-358429FDCDA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52F55DC7-E0E3-473F-AC70-358429FDCDA0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -312,5 +327,6 @@ Global
 		{52C0A3F3-0547-4E96-8D86-74D20D5A3DFB} = {F694B09D-1096-4211-822D-469D9C472644}
 		{B6015C45-B337-4CC1-8CF4-5DB1DF0049D2} = {F694B09D-1096-4211-822D-469D9C472644}
 		{39680B49-022E-4E9A-A068-F5B23B07F973} = {F694B09D-1096-4211-822D-469D9C472644}
+		{52F55DC7-E0E3-473F-AC70-358429FDCDA0} = {F694B09D-1096-4211-822D-469D9C472644}
 	EndGlobalSection
 EndGlobal

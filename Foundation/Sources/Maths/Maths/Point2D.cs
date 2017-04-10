@@ -51,6 +51,8 @@ namespace SquaredInfinity.Maths
 
         #endregion
 
+        #region Offset
+
         public void Offset(double dx, double dy)
         {
             _x += dx;
@@ -62,6 +64,8 @@ namespace SquaredInfinity.Maths
             _x += point._x;
             _y += point._y;
         }
+
+        #endregion
 
         public double Distance(Point2D other)
         {

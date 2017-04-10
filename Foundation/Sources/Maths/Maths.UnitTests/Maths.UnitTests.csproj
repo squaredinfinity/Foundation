@@ -56,6 +56,7 @@
     <Compile Include="IntervalLinearMapping.MapTo.cs" />
     <Compile Include="PrimeNumbers\GetPrimeNumbers.tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rectangle.Contains.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Maths\Maths.csproj">
