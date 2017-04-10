@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
   <metadata>
     <id>SquaredInfinity.Graphics.Drawing</id>
@@ -13,6 +13,20 @@ Types:
 SquaredInfinity.Graphics.Drawing.IPixelCanvas
 SquaredInfinity.Graphics.Drawing.PixelArrayCanvas</description>
     <copyright>Copyright © Jarek Kardas</copyright>
+    <dependencies>
+      <group targetFramework="portable-net45+win80">
+        <dependency id="SquaredInfinity.Extensions" version="2.0.2" />
+        <dependency id="SquaredInfinity.Maths" version="2.0.2" />
+        <dependency id="SquaredInfinity.Maths.Extensions" version="2.0.2" />
+        <dependency id="SquaredInfinity.Primitives" version="2.0.7" />
+      </group>
+      <group targetFramework="net452">
+        <dependency id="SquaredInfinity.Extensions" version="2.0.2" />
+        <dependency id="SquaredInfinity.Maths" version="2.0.2" />
+        <dependency id="SquaredInfinity.Maths.Extensions" version="2.0.2" />
+        <dependency id="SquaredInfinity.Primitives" version="2.0.7" />
+      </group>
+    </dependencies>
   </metadata>
   <files>
     <!-- net 452 -->
@@ -20,7 +34,6 @@ SquaredInfinity.Graphics.Drawing.PixelArrayCanvas</description>
     <file src="..\Graphics.Drawing.DotNet45\bin\$configuration$\SquaredInfinity.Graphics.Drawing.DotNet45.pdb" target="lib\net452\SquaredInfinity.Graphics.Drawing.DotNet45.pdb" exclude="" />
     <file src="..\Graphics.Drawing\bin\$configuration$\SquaredInfinity.Graphics.Drawing.dll" target="lib\net452\SquaredInfinity.Graphics.Drawing.dll" exclude="" />
     <file src="..\Graphics.Drawing\bin\$configuration$\SquaredInfinity.Graphics.Drawing.pdb" target="lib\net452\SquaredInfinity.Graphics.Drawing.pdb" exclude="" />
-
     <!-- portable-net45+win -->
     <file src="..\Graphics.Drawing\bin\$configuration$\SquaredInfinity.Graphics.Drawing.dll" target="lib\portable-net45+win\SquaredInfinity.Graphics.Drawing.dll" exclude="" />
     <file src="..\Graphics.Drawing\bin\$configuration$\SquaredInfinity.Graphics.Drawing.pdb" target="lib\portable-net45+win\SquaredInfinity.Graphics.Drawing.pdb" exclude="" />

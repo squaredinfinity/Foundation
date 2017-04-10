@@ -90,8 +90,8 @@ namespace SquaredInfinity.Build.Tasks.NuGet
 
                 if(!File.Exists(p.FullPath))
                 {
-                    LogError($"Specified package file does not exist. {p.FullPath}");
-                    return false;
+                    LogWaring($"Specified package file does not exist. {p.FullPath}");
+                    continue;
                 }
                 
                 var xml = XDocument.Load(p.FullPath);

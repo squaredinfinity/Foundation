@@ -59,7 +59,7 @@
       <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.2\lib\portable-net45+win\SquaredInfinity.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Maths.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Maths.Extensions.2.0.2\lib\portable-net45+win\SquaredInfinity.Maths.Extensions.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Maths.Extensions.2.0.3\lib\portable-net45+win\SquaredInfinity.Maths.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Primitives, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Primitives.2.0.7\lib\portable-net45+win\SquaredInfinity.Primitives.dll</HintPath>

@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
   <metadata>
     <id>SquaredInfinity.Maths</id>
@@ -18,6 +18,18 @@ SquaredInfintiy.Maths.Point3D
 SquaredInfintiy.Maths.Rectangle
 SquaredInfintiy.Maths.Slope2D</description>
     <copyright>Copyright © Jarek Kardas</copyright>
+    <dependencies>
+      <group targetFramework="portable-net45+win80">
+        <dependency id="SquaredInfinity.Extensions" version="2.0.2" />
+        <dependency id="SquaredInfinity.Maths.Extensions" version="2.0.3" />
+        <dependency id="SquaredInfinity.Primitives" version="2.0.7" />
+      </group>
+      <group targetFramework="net452">
+        <dependency id="SquaredInfinity.Extensions" version="2.0.2" />
+        <dependency id="SquaredInfinity.Maths.Extensions" version="2.0.3" />
+        <dependency id="SquaredInfinity.Primitives" version="2.0.7" />
+      </group>
+    </dependencies>
   </metadata>
   <files>
     <!-- net 452 -->
@@ -25,7 +37,6 @@ SquaredInfintiy.Maths.Slope2D</description>
     <file src="..\Extensions.DotNet45\bin\$configuration$\SquaredInfinity.Extensions.DotNet45.pdb" target="lib\net452\SquaredInfinity.Extensions.DotNet45.pdb" exclude="" />
     <file src="..\Extensions\bin\$configuration$\SquaredInfinity.Extensions.dll" target="lib\net452\SquaredInfinity.Extensions.dll" exclude="" />
     <file src="..\Extensions\bin\$configuration$\SquaredInfinity.Extensions.pdb" target="lib\net452\SquaredInfinity.Extensions.pdb" exclude="" />-->
-
     <!-- portable-net45+win -->
     <file src="..\Maths\bin\$configuration$\SquaredInfinity.Maths.dll" target="lib\portable-net45+win\SquaredInfinity.Maths.dll" exclude="" />
     <file src="..\Maths\bin\$configuration$\SquaredInfinity.Maths.pdb" target="lib\portable-net45+win\SquaredInfinity.Maths.pdb" exclude="" />
