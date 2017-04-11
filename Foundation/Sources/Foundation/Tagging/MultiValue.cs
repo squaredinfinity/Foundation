@@ -26,5 +26,10 @@ namespace SquaredInfinity.Tagging
         {
             return Storage.ToArray();
         }
+
+        public void Clear()
+        {
+            Storage.Clear();
+        }
     }
 }

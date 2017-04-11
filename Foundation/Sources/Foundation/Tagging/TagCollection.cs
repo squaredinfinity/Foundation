@@ -23,6 +23,8 @@ namespace SquaredInfinity.Tagging
 
         #endregion
 
+        #region Add
+
         public void Add(string tag)
         {
             Add(new Tag(tag));
@@ -36,18 +38,23 @@ namespace SquaredInfinity.Tagging
             Storage.Add(tag, new MarkerValue());
         }
 
-        public void Add(string tag, object value)
+        public void Add(string tag, object value, TagType tagType = TagType.SingleValue)
         {
-            Add(new Tag(tag), value);
+            Add(new Tag(tag), value, tagType);
         }
 
-        public void Add(Tag tag, object value)
+        public void Add(Tag tag, object value, TagType tagType = TagType.SingleValue)
         {
             if (Storage.ContainsKey(tag))
                 throw new ArgumentException($"Specified tag already exists: {tag.Key}");
 
-            Storage.Add(tag, value);
+            if (tagType == TagType.SingleValue)
+                Storage.Add(tag, value);
+            else
+                Storage.Add(tag, new MultiValue(value));
         }
+
+        #endregion
 
         public void AddOrAppend(string tag, object value)
         {
@@ -91,7 +98,22 @@ namespace SquaredInfinity.Tagging
             // add or override values
             foreach (var twv in other.GetAllRawValues())
             {
-                Storage[twv.Key] = twv.Value;
+                if(Storage.TryGetValue(twv.Key, out var v))
+                {
+                    var mv = v as MultiValue;
+
+                    if (mv != null)
+                    {
+                        mv.Clear();
+                        mv.Add(twv.Value);
+                    }
+                    else
+                        Storage[twv.Key] = twv.Value;
+                }
+                else
+                {
+                    Storage[twv.Key] = twv.Value;
+                }
             }
         }
 

@@ -28,7 +28,7 @@ namespace SquaredInfinity.Tagging
         /// </summary>
         /// <param name="tag"></param>
         /// <param name="value"></param>
-        void Add(string tag, object value);
+        void Add(string tag, object value, TagType tagType = TagType.SingleValue);
 
         /// <summary>
         /// Adds specified tag and value.
@@ -36,7 +36,7 @@ namespace SquaredInfinity.Tagging
         /// </summary>
         /// <param name="tag"></param>
         /// <param name="value"></param>
-        void Add(Tag tag, object value);
+        void Add(Tag tag, object value, TagType tagType = TagType.SingleValue);
 
         /// <summary>
         /// Adds specified tag if doesn't already exists,

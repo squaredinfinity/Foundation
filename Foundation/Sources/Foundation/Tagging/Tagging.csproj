@@ -43,6 +43,7 @@
     <Compile Include="Tag.cs" />
     <Compile Include="ITagCollection.cs" />
     <Compile Include="TagCollection.cs" />
+    <Compile Include="TagType.cs" />
     <Compile Include="TagWithValue.cs" />
     <Compile Include="MultiValue.cs" />
   </ItemGroup>
