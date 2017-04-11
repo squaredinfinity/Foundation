@@ -16,24 +16,18 @@
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.build\nuget.targets" />
   <Target Name="Update Dependencies" AfterTargets="PrepareForBuild">
-    
-    <NuSpecUpdateDependenciesFromPackagesConfig   NuSpecPath=".nuspec"
-                                                  PackageConfigPaths="..\Tagging\packages.config"
-                                                  TargetFramework="portable-net45+win80" />
-    <NuSpecUpdateDependenciesFromPackagesConfig   NuSpecPath=".nuspec"
-                                                  PackageConfigPaths="..\Tagging\packages.config;..\Tagging.DotNet45\packages.config"
-                                                  TargetFramework="net452" />
-    
+    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\Presentation.Logic.UserActions\packages.config" TargetFramework="portable-net45+win80" />
+    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\Presentation.Logic.UserActions\packages.config;..\Presentation.Logic.UserActions.DotNet45\packages.config" TargetFramework="net452" />
   </Target>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EB86EECD-C0CA-4DC9-85AF-596D3C314F25}</ProjectGuid>
+    <ProjectGuid>{84EAADD4-1C2A-4A06-8DAF-1A82B9211444}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RetryPolicy.NuGet</RootNamespace>
-    <AssemblyName>RetryPolicy.NuGet</AssemblyName>
+    <RootNamespace>Primitives.NuGet</RootNamespace>
+    <AssemblyName>Primitives.NuGet</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -66,9 +60,9 @@
     <Compile Include="version.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tagging\Tagging.csproj">
-      <Project>{d39286bd-c5c7-4d05-9975-f45124b124d2}</Project>
-      <Name>Tagging</Name>
+    <ProjectReference Include="..\Presentation.Logic.UserActions\Presentation.Logic.UserActions.csproj">
+      <Project>{2acb45a6-b034-46db-99bf-42465c83078b}</Project>
+      <Name>Presentation.Logic.UserActions</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

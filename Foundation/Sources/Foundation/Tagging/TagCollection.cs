@@ -15,6 +15,14 @@ namespace SquaredInfinity.Tagging
         public TagCollection()
         { }
 
+        public TagCollection(IDictionary<string, object> tags)
+        {
+            foreach (var kvp in tags)
+            {
+                Add(kvp.Key, kvp.Value);
+            }
+        }
+
         #region Indexer
 
         public object this[string tag] => GetAllValues(tag).FirstOrDefault();
@@ -217,6 +225,19 @@ namespace SquaredInfinity.Tagging
         }
 
         #endregion
+
+        public T GetValue<T>(string tag, Func<T> defaultValue)
+        {
+
+            if (Storage.TryGetValue(tag, out var o))
+            {
+                return (T)o;
+            }
+            else
+            {
+                return defaultValue();
+            }
+        }
 
         public IReadOnlyList<TagWithValue> GetAllRawValues()
         {

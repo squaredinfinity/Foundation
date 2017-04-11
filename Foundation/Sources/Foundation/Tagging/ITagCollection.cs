@@ -8,6 +8,8 @@ namespace SquaredInfinity.Tagging
 {
     public interface ITagCollection : IEnumerable<TagWithValue>
     {
+        #region Add
+
         /// <summary>
         /// Adds specified a specified tag.
         /// key-only tags can be used as markers (i.e. IsVisible tag)
@@ -37,6 +39,8 @@ namespace SquaredInfinity.Tagging
         /// <param name="tag"></param>
         /// <param name="value"></param>
         void Add(Tag tag, object value, TagType tagType = TagType.SingleValue);
+
+        #endregion
 
         /// <summary>
         /// Adds specified tag if doesn't already exists,
@@ -116,5 +120,8 @@ namespace SquaredInfinity.Tagging
         object this[Tag tag] { get; }
 
         #endregion
+
+
+        T GetValue<T>(string tag, Func<T> defaultValue);
     }
 }

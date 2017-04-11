@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D39286BD-C5C7-4D05-9975-F45124B124D2}</ProjectGuid>
+    <ProjectGuid>{2ACB45A6-B034-46DB-99BF-42465C83078B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SquaredInfinity.Tagging</RootNamespace>
-    <AssemblyName>SquaredInfinity.Tagging</AssemblyName>
+    <RootNamespace>SquaredInfinity.Presentation.Logic</RootNamespace>
+    <AssemblyName>SquaredInfinity.Presentation.Logic.UserActions</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -38,21 +38,19 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Tagging.NuGet\version.cs">
+    <Compile Include="..\Presentation.Logic.UserActions.NuGet\version.cs">
       <Link>version.cs</Link>
     </Compile>
-    <Compile Include="MarkerValue.cs" />
-    <Compile Include="MissingTagBehavior.cs" />
-    <Compile Include="Tag.cs" />
-    <Compile Include="ITagCollection.cs" />
-    <Compile Include="TagCollection.cs" />
-    <Compile Include="TagType.cs" />
-    <Compile Include="TagWithValue.cs" />
-    <Compile Include="MultiValue.cs" />
+    <Compile Include="IUserAction.cs" />
+    <Compile Include="UserActionParameters.cs" />
+    <Compile Include="UserAction.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="SquaredInfinity.Collections.MultiMap, Version=2.0.0.2, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Collections.MultiMap.2.0.0\lib\portable-net45+win\SquaredInfinity.Collections.MultiMap.dll</HintPath>
+    <Reference Include="SquaredInfinity.Primitives, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Primitives.2.0.7\lib\portable-net45+win\SquaredInfinity.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.Tagging, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Tagging.2.0.0-beta004\lib\portable-net45+win\SquaredInfinity.Tagging.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
