@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SquaredInfinity.Graphics.Drawing;
 using SquaredInfinity.Maths;
 using SquaredInfinity.Extensions;
+using System.Collections.Generic;
 
 namespace Graphics.Drawing.Tests
 {
@@ -15,6 +16,40 @@ namespace Graphics.Drawing.Tests
     public class PixelCanvas_DrawLineWu__DrawingQuality
     {
         int POINT_MARKER = PixelCanvas.GetColor(255, 255, 0, 220);
+
+        [TestMethod]
+        public void BUG_001__ArtifactsShowing()
+        {
+            var points = new List<Point2D>();
+
+            //foreach (var line in File.ReadAllLines(@"c:\temp\1\data2.txt"))
+            //{
+            //    var ix = line.IndexOf(',');
+
+            //    var p = new Point2D(double.Parse(line.Substring(0, ix)), double.Parse(line.Substring(ix + 1)));
+            //    points.Add(p);
+            //}
+
+
+            for (var thickness = 1; thickness <= 5; thickness++)
+            {
+                var pc = new PixelArrayCanvas(500, 500);
+
+                var last_point = points[0];
+
+                foreach (var point in points.Skip(1))
+                {
+                    pc.DrawLineWu(last_point.X, last_point.Y, point.X, point.Y, PixelCanvas.GetColor(255, 255, 0, 0), thickness, BlendMode.Alpha);
+
+                    pc.SetPixelSafe(last_point.X, last_point.Y, POINT_MARKER);
+                    pc.SetPixelSafe(point.X, point.Y, POINT_MARKER);
+
+                    last_point = point;
+                }
+
+                pc.Save($@"E:\t\line wu\linesegments_{thickness}.png");
+            }
+        }
 
         [TestMethod]
         public void Diagonal_Horizontal_NearDiagnoal()

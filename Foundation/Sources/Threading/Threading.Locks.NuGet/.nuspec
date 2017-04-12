@@ -8,7 +8,11 @@
     <owners>Squared Infinity</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Squared Infinity ▪ Threading ▪ Locks</description>
-    <summary>Squared Infinity ▪ Threading ▪ Locks</summary>
+    <summary>Squared Infinity ▪ Threading ▪ Locks
+
+Types:
+SquaredInfinity.Threading.ILock
+SquaredInfinity.Threading.ReaderWriterLockSlimEx</summary>
     <copyright>Copyright © Squared Infinity</copyright>
   </metadata>
   <files>
