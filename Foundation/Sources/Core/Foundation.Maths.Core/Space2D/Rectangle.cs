@@ -75,10 +75,10 @@ namespace SquaredInfinity.Foundation.Maths.Space2D
                 _y >= point.Y
                 &&
                 // Right, access fields directly for performance
-                _x + _width <= point.X
+                _x + _width >= point.X
                 &&
                 // Bottom, access fields directly for performance
-                _y + _height <= point.Y;
+                _y + _height >= point.Y;
         }
 
         public bool Contains(Rectangle other)
