@@ -46,11 +46,14 @@
     <Compile Include="UserAction.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="SquaredInfinity.Collections.MultiMap, Version=2.0.0.2, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Collections.MultiMap.2.0.0\lib\portable-net45+win\SquaredInfinity.Collections.MultiMap.dll</HintPath>
+    </Reference>
     <Reference Include="SquaredInfinity.Primitives, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Primitives.2.0.7\lib\portable-net45+win\SquaredInfinity.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Tagging, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Tagging.2.0.0-beta004\lib\portable-net45+win\SquaredInfinity.Tagging.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Tagging.2.0.1\lib\portable-net45+win\SquaredInfinity.Tagging.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

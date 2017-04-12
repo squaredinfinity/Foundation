@@ -15,12 +15,14 @@ SquaredInfinity.Presentation.Logic.UserAction
     <copyright>Copyright © Jarek Kardas</copyright>
     <dependencies>
       <group targetFramework="portable-net45+win80">
+        <dependency id="SquaredInfinity.Collections.MultiMap" version="2.0.0" />
         <dependency id="SquaredInfinity.Primitives" version="2.0.7" />
-        <dependency id="SquaredInfinity.Tagging" version="2.0.0-beta004" />
+        <dependency id="SquaredInfinity.Tagging" version="2.0.1" />
       </group>
       <group targetFramework="net452">
+        <dependency id="SquaredInfinity.Collections.MultiMap" version="2.0.0" />
         <dependency id="SquaredInfinity.Primitives" version="2.0.7" />
-        <dependency id="SquaredInfinity.Tagging" version="2.0.0-beta004" />
+        <dependency id="SquaredInfinity.Tagging" version="2.0.1" />
       </group>
     </dependencies>
   </metadata>
