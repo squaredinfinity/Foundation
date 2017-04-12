@@ -32,6 +32,28 @@ namespace SquaredInfinity.Maths
         public double Top { get { return _y; } set { _y = value; } }
         public double Bottom {  get { return _y + _height; } }
 
+        /// <summary>
+        /// True if rectangle has left-top corner coordinates of (0,0)
+        /// </summary>
+        public bool IsAtOrigin
+        {
+            get
+            {
+                return _x == 0 && _y == 0;
+            }
+        }
+
+        /// <summary>
+        /// Sets the left-top corner to coordinates of (0,0)
+        /// </summary>
+        public void TranslateToOrigin()
+        {
+            _width -= _x;
+            _height -= _y;
+            _x = 0;
+            _y = 0;
+        }
+
         public Point2D TopLeft
         {
             get { return new Point2D(_x, _y); }
@@ -75,10 +97,10 @@ namespace SquaredInfinity.Maths
                 _y <= point.Y
                 &&
                 // Right, access fields directly for performance
-                _x + _width <= point.X
+                _x + _width >= point.X
                 &&
                 // Bottom, access fields directly for performance
-                _y + _height <= point.Y;
+                _y + _height >= point.Y;
         }
 
         public bool Contains(Rectangle other)

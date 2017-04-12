@@ -22,7 +22,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)System.Windows.Threading\Dispatcher.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)System.Windows\DependencyObject.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)System.Windows\FrameworkElement.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)System.Windows\Point.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)System.Windows\Rect.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)System.Windows\Size.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)System.Windows\Vector.extensions.cs" />

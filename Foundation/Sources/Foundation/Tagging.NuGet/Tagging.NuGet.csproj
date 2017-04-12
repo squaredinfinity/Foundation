@@ -16,18 +16,24 @@
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.build\nuget.targets" />
   <Target Name="Update Dependencies" AfterTargets="PrepareForBuild">
-    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\Maths\packages.config" TargetFramework="portable-net45+win80" />
-    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\Maths\packages.config;..\Maths.DotNet45\packages.config" TargetFramework="net452" />
+    <!--
+    <NuSpecUpdateDependenciesFromPackagesConfig   NuSpecPath=".nuspec"
+                                                  PackageConfigPaths="..\Extensions\packages.config"
+                                                  TargetFramework="portable-net45+win80" />
+    <NuSpecUpdateDependenciesFromPackagesConfig   NuSpecPath=".nuspec"
+                                                  PackageConfigPaths="..\Extensions\packages.config;..\Extensions.DotNet45\packages.config"
+                                                  TargetFramework="net452" />
+    -->
   </Target>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{878C0695-D5BB-4F64-892F-8D1E4F251DA1}</ProjectGuid>
+    <ProjectGuid>{EB86EECD-C0CA-4DC9-85AF-596D3C314F25}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Primitives.NuGet</RootNamespace>
-    <AssemblyName>Primitives.NuGet</AssemblyName>
+    <RootNamespace>RetryPolicy.NuGet</RootNamespace>
+    <AssemblyName>RetryPolicy.NuGet</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -52,21 +58,12 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include=".nuspec" />
-    <None Include="app.config" />
+    <None Include=".nuspec">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="version.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Maths.DotNet45\Maths.DotNet45.csproj">
-      <Project>{52f55dc7-e0e3-473f-ac70-358429fdcda0}</Project>
-      <Name>Maths.DotNet45</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Maths\Maths.csproj">
-      <Project>{53ef3610-187e-4cb5-881d-f437038e44b0}</Project>
-      <Name>Maths</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
