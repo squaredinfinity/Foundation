@@ -42,6 +42,7 @@
       <Link>version.cs</Link>
     </Compile>
     <Compile Include="CompositeDisposable.cs" />
+    <Compile Include="ReferenceDisposable.cs" />
   </ItemGroup>
   <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
