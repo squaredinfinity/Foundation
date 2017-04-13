@@ -36,29 +36,32 @@
     <Reference Include="SquaredInfinity.Collections.Core, Version=2.1.1.1, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Collections.Core.2.1.1-beta001\lib\portable-net45+win\SquaredInfinity.Collections.Core.dll</HintPath>
     </Reference>
-    <Reference Include="SquaredInfinity.Comparers, Version=2.0.1.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Comparers.2.0.1\lib\portable-net45+win\SquaredInfinity.Comparers.dll</HintPath>
+    <Reference Include="SquaredInfinity.Comparers, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Comparers.2.0.4\lib\portable-net45+win\SquaredInfinity.Comparers.dll</HintPath>
     </Reference>
-    <Reference Include="SquaredInfinity.ComponentModel, Version=2.0.1.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.ComponentModel.2.0.1\lib\portable-net45+win\SquaredInfinity.ComponentModel.dll</HintPath>
+    <Reference Include="SquaredInfinity.ComponentModel, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.ComponentModel.2.0.3\lib\net452\SquaredInfinity.ComponentModel.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.ComponentModel.DotNet45, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.ComponentModel.2.0.3\lib\net452\SquaredInfinity.ComponentModel.DotNet45.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Data.DotNet45, Version=2.0.0.4, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Data.2.0.0-beta004\lib\net452\SquaredInfinity.Data.DotNet45.dll</HintPath>
     </Reference>
-    <Reference Include="SquaredInfinity.Disposables, Version=2.0.1.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Disposables.2.0.1\lib\portable-net45+win\SquaredInfinity.Disposables.dll</HintPath>
+    <Reference Include="SquaredInfinity.Disposables, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Disposables.2.0.3\lib\portable-net45+win\SquaredInfinity.Disposables.dll</HintPath>
     </Reference>
-    <Reference Include="SquaredInfinity.Extensions, Version=2.0.2.3, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.2-beta003\lib\net452\SquaredInfinity.Extensions.dll</HintPath>
+    <Reference Include="SquaredInfinity.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.2\lib\net452\SquaredInfinity.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="SquaredInfinity.Extensions.DotNet45, Version=2.0.2.3, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.2-beta003\lib\net452\SquaredInfinity.Extensions.DotNet45.dll</HintPath>
+    <Reference Include="SquaredInfinity.Extensions.DotNet45, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.2\lib\net452\SquaredInfinity.Extensions.DotNet45.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.RetryPolicy, Version=2.0.0.2, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.RetryPolicy.2.0.0\lib\portable-net45+win\SquaredInfinity.RetryPolicy.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Threading.Locks, Version=2.0.1.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Threading.Locks.2.0.1\lib\portable-net45+win\SquaredInfinity.Threading.Locks.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Threading.Locks.2.0.3\lib\portable-net45+win\SquaredInfinity.Threading.Locks.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

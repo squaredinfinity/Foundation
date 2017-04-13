@@ -11,6 +11,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish - BETA|AnyCPU'">
     <OutputPath>bin\Publish - BETA\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish - STABLE|AnyCPU'">
+    <OutputPath>bin\Publish - STABLE\</OutputPath>
+  </PropertyGroup>
   <Import Project="$(SolutionDir)\.build\nuget.targets" />
   <Target Name="Update Dependencies" AfterTargets="PrepareForBuild">
     <!--
@@ -30,7 +33,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DateTime.NuGet</RootNamespace>
-    <AssemblyName>DateTime.NuGet</AssemblyName>
+    <AssemblyName>SquaredInfinity.DateTime.NuGet</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

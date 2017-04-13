@@ -65,5 +65,11 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Threading.Locks\Threading.Locks.csproj">
+      <Project>{c46cbfa1-31f2-4aa1-b0e9-c2c200f06439}</Project>
+      <Name>Threading.Locks</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

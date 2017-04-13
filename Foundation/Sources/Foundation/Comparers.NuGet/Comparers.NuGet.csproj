@@ -11,6 +11,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish - BETA|AnyCPU'">
     <OutputPath>bin\Publish - BETA\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish - STABLE|AnyCPU'">
+    <OutputPath>bin\Publish - STABLE\</OutputPath>
+  </PropertyGroup>
   <Import Project="$(SolutionDir)\.build\nuget.targets" />
   <Target Name="Update Dependencies" AfterTargets="PrepareForBuild">
     <!--
@@ -57,6 +60,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="version.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Comparers\Comparers.csproj">
+      <Project>{517e1ebf-1876-4a93-9d19-00b34f118aa9}</Project>
+      <Name>Comparers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
