@@ -30,9 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SquaredInfinity.BulkUpdates, Version=2.0.0.2, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.BulkUpdates.2.0.0\lib\portable-net45+win\SquaredInfinity.BulkUpdates.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="SquaredInfinity.BulkUpdates, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.BulkUpdates.2.0.3\lib\portable-net45+win\SquaredInfinity.BulkUpdates.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Collections.Core, Version=2.1.1.1, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Collections.Core.2.1.1-beta001\lib\portable-net45+win\SquaredInfinity.Collections.Core.dll</HintPath>

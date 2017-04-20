@@ -16,14 +16,8 @@
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.build\nuget.targets" />
   <Target Name="Update Dependencies" AfterTargets="PrepareForBuild">
-    <!--
-    <NuSpecUpdateDependenciesFromPackagesConfig   NuSpecPath=".nuspec"
-                                                  PackageConfigPaths="..\Extensions\packages.config"
-                                                  TargetFramework="portable-net45+win80" />
-    <NuSpecUpdateDependenciesFromPackagesConfig   NuSpecPath=".nuspec"
-                                                  PackageConfigPaths="..\Extensions\packages.config;..\Extensions.DotNet45\packages.config"
-                                                  TargetFramework="net452" />
-    -->
+    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\Collections.Core\packages.config" TargetFramework="portable-net45+win80" />
+    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\Collections.Core\packages.config;..\Collections.Core.DotNet45\packages.config" TargetFramework="net452" />
   </Target>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -58,7 +52,9 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include=".nuspec" />
+    <None Include=".nuspec">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="version.cs" />

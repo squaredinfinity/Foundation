@@ -14,9 +14,9 @@
       <group targetFramework="net452">
         <dependency id="SquaredInfinity.BulkUpdates" version="2.0.0" />
         <dependency id="SquaredInfinity.Collections.Core" version="2.1.1-beta001" />
-        <dependency id="SquaredInfinity.Comparers" version="2.0.1" />
-        <dependency id="SquaredInfinity.ComponentModel" version="2.0.1" />
-        <dependency id="SquaredInfinity.Disposables" version="2.0.1" />
+        <dependency id="SquaredInfinity.Comparers" version="2.0.4" />
+        <dependency id="SquaredInfinity.ComponentModel" version="2.0.3" />
+        <dependency id="SquaredInfinity.Disposables" version="2.0.3" />
         <dependency id="SquaredInfinity.Extensions" version="2.0.2" />
         <dependency id="SquaredInfinity.RetryPolicy" version="2.0.0" />
         <dependency id="SquaredInfinity.Threading.Locks" version="2.0.3" />
