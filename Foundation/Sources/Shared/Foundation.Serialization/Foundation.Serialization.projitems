@@ -9,17 +9,12 @@
     <Import_RootNamespace>SquaredInfinity.Foundation.Serialization</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)CreateInstanceContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)EnumerableTypeSerializationStrategy.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)EnumerableTypeSerializationStrategy_T.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FlexiPlainText\FlexiPlainTextSerializationContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FlexiPlainText\FlexiPlainTextSerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FlexiPlainText\FlexiPlainTextTypeSerializationStrategy_T.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FlexiPlainText\IFlexiPlainTextSerializationContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FlexiPlainText\IFlexiPlainTextSerializationStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FlexiPlainText\IFlexiPlainTextSerializer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FlexiSerializer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FlexiSerializer.TypeSerializationStrategiesConcurrentDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\DeserializationOutcome.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\FlexiXmlDictionaryTypeSerializationStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\FlexiXmlEnumerableTypeSerializationStrategy.cs" />
@@ -33,21 +28,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\IFlexiXmlSerializationContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\IFlexiXmlSerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\IFlexiXmlTypeSerializationStrategy.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IEnumerableTypeSerializationStrategy_T.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IFlexiSerializer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IMemberSerializationStrategy.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)InstanceId.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)InstanceIdRef.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ISerializationContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ISerializer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ITypeSerializationStrategy.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ITypeSerializationStrategy_T.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MemberSerializationStrategy.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ReferenceResolutionContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SerializationContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SerializedDataInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TypeSerializationStrategy.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TypeSerializationStrategy_T.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)FlexiPlainText\!notes.txt" />

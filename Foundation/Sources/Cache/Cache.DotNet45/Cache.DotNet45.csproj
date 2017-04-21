@@ -57,6 +57,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Cache.NuGet\version.cs">
+      <Link>version.cs</Link>
+    </Compile>
     <Compile Include="Framework Extensions\SquaredInfinity.Cache\CacheItemPolicy.extensions.cs" />
     <Compile Include="MemoryCacheService.cs" />
   </ItemGroup>

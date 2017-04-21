@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+  <metadata>
+    <id>SquaredInfinity.Serialization</id>
+    <version>$version$</version>
+    <title>Squared Infinity ▪ Serialization</title>
+    <authors>Squared Infinity</authors>
+    <owners>Squared Infinity</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Squared Infinity ▪ Serialization</description>
+    <summary>Squared Infinity ▪ Serialization
+
+Types:
+SquaredInfinity.Serialization.
+    </summary>
+    <copyright>Copyright © Squared Infinity</copyright>
+  </metadata>
+  <files>
+    <file src="..\Serialization\bin\$configuration$\SquaredInfinity.Serialization.dll" target="lib\portable-net45+win\SquaredInfinity.Serialization.dll" exclude="" />
+    <file src="..\Serialization\bin\$configuration$\SquaredInfinity.Serialization.pdb" target="lib\portable-net45+win\SquaredInfinity.Serialization.pdb" exclude="" />
+  </files>
+</package>

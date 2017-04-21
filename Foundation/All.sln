@@ -402,6 +402,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cache.NuGet", "Sources\Cach
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Serialization", "Serialization", "{76EE3F56-09F6-468A-9E7B-DA88AE5F5ED5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serialization", "Sources\Serialization\Serialization\Serialization.csproj", "{D2052746-54D2-4A10-90FC-85D6A54F71CF}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Sources\Tests\Shared\Foundation.Unsafe.UnitTests\Foundation.Unsafe.UnitTests.projitems*{0baa98f5-c1fe-4a36-b8ad-58fa11e32eeb}*SharedItemsImports = 13
@@ -473,6 +475,7 @@ Global
 		Sources\Internal\Internal.projitems*{c46cbfa1-31f2-4aa1-b0e9-c2c200f06439}*SharedItemsImports = 4
 		Sources\Internal\Internal.projitems*{ca428d66-b0db-401a-a643-3bb33ab8e426}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Diagnostics\Foundation.Diagnostics.projitems*{ce6b616f-505c-4034-b7e3-9818bf5c57c0}*SharedItemsImports = 13
+		Sources\Internal\Internal.projitems*{d2052746-54d2-4a10-90fc-85d6a54f71cf}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Diagnostics.UnitTests\Foundation.Diagnostics.UnitTests.projitems*{d22b6885-d523-4288-afcf-316047346a63}*SharedItemsImports = 4
 		Sources\Windows\Windows.Markup.MarkupExtensions\Windows.Markup.MarkupExtensions.projitems*{d376ce87-2548-4378-84f9-81205f73747d}*SharedItemsImports = 13
 		Sources\Internal\Internal.projitems*{d3ce87df-b930-4d87-aa1b-73f14ffa89c3}*SharedItemsImports = 4
@@ -1855,6 +1858,18 @@ Global
 		{D324C5F6-523B-4E9F-B66F-B7BD217734EA}.Publish - STABLE|Any CPU.Build.0 = Publish - STABLE|Any CPU
 		{D324C5F6-523B-4E9F-B66F-B7BD217734EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D324C5F6-523B-4E9F-B66F-B7BD217734EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2052746-54D2-4A10-90FC-85D6A54F71CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2052746-54D2-4A10-90FC-85D6A54F71CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2052746-54D2-4A10-90FC-85D6A54F71CF}.Publish - BETA|Any CPU.ActiveCfg = Publish - LOCAL|Any CPU
+		{D2052746-54D2-4A10-90FC-85D6A54F71CF}.Publish - BETA|Any CPU.Build.0 = Publish - LOCAL|Any CPU
+		{D2052746-54D2-4A10-90FC-85D6A54F71CF}.Publish - LOCAL|Any CPU.ActiveCfg = Publish - LOCAL|Any CPU
+		{D2052746-54D2-4A10-90FC-85D6A54F71CF}.Publish - LOCAL|Any CPU.Build.0 = Publish - LOCAL|Any CPU
+		{D2052746-54D2-4A10-90FC-85D6A54F71CF}.Publish - RC|Any CPU.ActiveCfg = Publish - LOCAL|Any CPU
+		{D2052746-54D2-4A10-90FC-85D6A54F71CF}.Publish - RC|Any CPU.Build.0 = Publish - LOCAL|Any CPU
+		{D2052746-54D2-4A10-90FC-85D6A54F71CF}.Publish - STABLE|Any CPU.ActiveCfg = Publish - LOCAL|Any CPU
+		{D2052746-54D2-4A10-90FC-85D6A54F71CF}.Publish - STABLE|Any CPU.Build.0 = Publish - LOCAL|Any CPU
+		{D2052746-54D2-4A10-90FC-85D6A54F71CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2052746-54D2-4A10-90FC-85D6A54F71CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2040,5 +2055,6 @@ Global
 		{7A86FE54-1BC6-434E-ACA0-A64C2AC01C54} = {79C5EE30-9C16-4474-BA6D-C73EE6399B62}
 		{D324C5F6-523B-4E9F-B66F-B7BD217734EA} = {79C5EE30-9C16-4474-BA6D-C73EE6399B62}
 		{76EE3F56-09F6-468A-9E7B-DA88AE5F5ED5} = {7077A8A4-338F-4AE7-891D-BA9E9BFDA587}
+		{D2052746-54D2-4A10-90FC-85D6A54F71CF} = {76EE3F56-09F6-468A-9E7B-DA88AE5F5ED5}
 	EndGlobalSection
 EndGlobal

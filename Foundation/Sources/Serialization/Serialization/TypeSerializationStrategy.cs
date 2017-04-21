@@ -23,7 +23,7 @@ namespace SquaredInfinity.Serialization
         protected class MembersSerializationStrategies : Dictionary<string, MemberSerializationStrategyInfo>
         { 
             public MembersSerializationStrategies()
-                : base(StringComparer.InvariantCultureIgnoreCase)
+                : base(StringComparer.OrdinalIgnoreCase)
             { }
         }
 
