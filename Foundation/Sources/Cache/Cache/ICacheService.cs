@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Runtime.Caching;
+
 namespace SquaredInfinity.Cache
 {
     public interface ICacheService

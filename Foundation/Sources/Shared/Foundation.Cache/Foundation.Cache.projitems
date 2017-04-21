@@ -8,12 +8,4 @@
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>Foundation.Cache</Import_RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)AsyncCacheItemDetails.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CacheGroup.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CacheService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ICacheItemDetails.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ICacheService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ISupportsCaching.cs" />
-  </ItemGroup>
 </Project>

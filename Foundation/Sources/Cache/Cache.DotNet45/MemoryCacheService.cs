@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Cache
 {
-    public partial class CacheService : ICacheService
+    public partial class MemoryCacheService : ICacheService
     {
         readonly MemoryCache Cache;
 
@@ -155,7 +155,7 @@ namespace SquaredInfinity.Cache
 
                 using (var writeLock = readLock.UpgradeToWriteLock())
                 {
-                    Cache.Set(key, cacheItem, cacheItemPolicy);
+                    Cache.Set(key, cacheItem, cacheItemPolicy.ToSystemRuntimeCachingCacheItemPolicy());
                 }
 
                 readLock.Dispose();
@@ -192,15 +192,15 @@ namespace SquaredInfinity.Cache
             return new CacheGroup(this, groupName);
         }
 
-        public CacheService()
+        public MemoryCacheService()
             : this(new MemoryCache("SquaredInfinity.CacheService"), isCacheEnabled: true)
         { }
 
-        public CacheService(bool isCacheEnabled)
+        public MemoryCacheService(bool isCacheEnabled)
             : this(new MemoryCache("SquaredInfinity.CacheService"), isCacheEnabled)
         { }
 
-        public CacheService(MemoryCache cache, bool isCacheEnabled)
+        public MemoryCacheService(MemoryCache cache, bool isCacheEnabled)
         {
             IsCacheEnabled = isCacheEnabled;
             Cache = cache;
