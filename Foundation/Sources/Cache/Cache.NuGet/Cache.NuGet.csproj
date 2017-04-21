@@ -52,18 +52,22 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Foundation\BulkUpdates\BulkUpdates.csproj">
-      <Project>{74b09048-18ad-4200-bd68-38e9d68ef24f}</Project>
-      <Name>BulkUpdates</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include=".nuspec">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="version.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cache.DotNet45\Cache.DotNet45.csproj">
+      <Project>{7a86fe54-1bc6-434e-aca0-a64c2ac01c54}</Project>
+      <Name>Cache.DotNet45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cache\Cache.csproj">
+      <Project>{ca428d66-b0db-401a-a643-3bb33ab8e426}</Project>
+      <Name>Cache</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
