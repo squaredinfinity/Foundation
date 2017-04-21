@@ -400,6 +400,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cache.DotNet45", "Sources\C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cache.NuGet", "Sources\Cache\Cache.NuGet\Cache.NuGet.csproj", "{D324C5F6-523B-4E9F-B66F-B7BD217734EA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Serialization", "Serialization", "{76EE3F56-09F6-468A-9E7B-DA88AE5F5ED5}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Sources\Tests\Shared\Foundation.Unsafe.UnitTests\Foundation.Unsafe.UnitTests.projitems*{0baa98f5-c1fe-4a36-b8ad-58fa11e32eeb}*SharedItemsImports = 13
@@ -2037,5 +2039,6 @@ Global
 		{CA428D66-B0DB-401A-A643-3BB33AB8E426} = {79C5EE30-9C16-4474-BA6D-C73EE6399B62}
 		{7A86FE54-1BC6-434E-ACA0-A64C2AC01C54} = {79C5EE30-9C16-4474-BA6D-C73EE6399B62}
 		{D324C5F6-523B-4E9F-B66F-B7BD217734EA} = {79C5EE30-9C16-4474-BA6D-C73EE6399B62}
+		{76EE3F56-09F6-468A-9E7B-DA88AE5F5ED5} = {7077A8A4-338F-4AE7-891D-BA9E9BFDA587}
 	EndGlobalSection
 EndGlobal

@@ -1048,6 +1048,15 @@ namespace SquaredInfinity.Data
             return clrTarget;
         }
 
+        public void MapToClrValue<TTarget>(object dbValue, TTarget target, Action<TTarget> setValue, TTarget defaultValue = default(TTarget))
+        {
+            TTarget clrTarget = default(TTarget);
+
+            this.MapToClrValue<TTarget>(dbValue, ref clrTarget, defaultValue);
+
+            setValue(clrTarget);
+        }
+
         /// <summary>
         /// Provides a logic for mapping DB values to Clr values.
         /// For example, mapping of DBNull to null.

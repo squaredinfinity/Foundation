@@ -31,7 +31,7 @@ SquaredInfinity.Data.SqlTransientFaultFilter</summary>
     </dependencies>
   </metadata>
   <files>
-    <file src="..\Data.SqlServer.DotNet45\bin\$configuration$\SquaredInfinity.Data.SqlServer.DotNet45.dll" target="lib\net452\SquaredInfinity.SqlServer.Data.DotNet45.dll" exclude="" />
-    <file src="..\Data.SqlServer.DotNet45\bin\$configuration$\SquaredInfinity.Data.SqlServer.DotNet45.pdb" target="lib\net452\SquaredInfinity.SqlServer.Data.DotNet45.pdb" exclude="" />
+    <file src="..\Data.SqlServer.DotNet45\bin\$configuration$\SquaredInfinity.Data.SqlServer.DotNet45.dll" target="lib\net452\SquaredInfinity.Data.SqlServer.DotNet45.dll" exclude="" />
+    <file src="..\Data.SqlServer.DotNet45\bin\$configuration$\SquaredInfinity.Data.SqlServer.DotNet45.pdb" target="lib\net452\SquaredInfinity.Data.SqlServer.DotNet45.pdb" exclude="" />
   </files>
 </package>
