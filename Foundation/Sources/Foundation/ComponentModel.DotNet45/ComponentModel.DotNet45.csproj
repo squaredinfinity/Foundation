@@ -54,5 +54,6 @@
       <Name>ComponentModel</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

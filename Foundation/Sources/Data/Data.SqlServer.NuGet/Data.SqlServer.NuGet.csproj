@@ -1,12 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-   <!--  IMPORT NUGET.TARGETS AND CONFIGURE -->
+  <!--  IMPORT NUGET.TARGETS AND CONFIGURE -->
   <PropertyGroup>
     <AssemblyInfoPath Condition=" '$(AssemblyInfoPath)' == '' ">version.cs</AssemblyInfoPath>
     <NuSpecPath Condition=" '$(NuSpecPath)' == '' ">.nuspec</NuSpecPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish - LOCAL|AnyCPU'">
     <OutputPath>bin\Publish - LOCAL\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish - STABLE|AnyCPU'">
+    <OutputPath>bin\Publish - STABLE\</OutputPath>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.build\nuget.targets" />
   <Target Name="Update Dependencies" AfterTargets="PrepareForBuild">

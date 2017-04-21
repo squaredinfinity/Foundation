@@ -65,5 +65,11 @@
   <ItemGroup>
     <Compile Include="version.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RetryPolicy\RetryPolicy.csproj">
+      <Project>{54ebae5c-debc-4d55-ad37-cb5995d594f6}</Project>
+      <Name>RetryPolicy</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

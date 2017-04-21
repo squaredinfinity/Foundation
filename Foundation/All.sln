@@ -434,6 +434,7 @@ Global
 		Sources\Internal\Internal.projitems*{585a71e6-1412-46fe-8cbd-10f09d6b7d61}*SharedItemsImports = 4
 		Sources\Win32Api\Win32Api.Shared\Win32Api.Shared.projitems*{585a71e6-1412-46fe-8cbd-10f09d6b7d61}*SharedItemsImports = 4
 		Sources\Internal\Internal.projitems*{5c393d5e-684f-45c7-a954-192f9b946e65}*SharedItemsImports = 4
+		Sources\Internal\Internal.projitems*{5ec68951-2739-4582-a84d-e8b49ffd55f8}*SharedItemsImports = 4
 		Sources\Windows\Windows.Markup.MarkupExtensions\Windows.Markup.MarkupExtensions.projitems*{5fb08d72-c0a4-4843-88e3-9dbe839d6c6f}*SharedItemsImports = 4
 		Sources\Internal\Internal.projitems*{6243bf46-3b7c-4137-ace9-79541a6ad8e9}*SharedItemsImports = 13
 		Sources\Tests\Shared\Foundation.Presentation.Xaml.UITests\Foundation.Presentation.Xaml.UITests.projitems*{6315ae26-783d-46f9-a2ff-accb15d5f2f0}*SharedItemsImports = 4
@@ -1368,8 +1369,8 @@ Global
 		{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3}.Publish - LOCAL|Any CPU.Build.0 = Publish - LOCAL|Any CPU
 		{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3}.Publish - RC|Any CPU.ActiveCfg = Release|Any CPU
 		{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3}.Publish - RC|Any CPU.Build.0 = Release|Any CPU
-		{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3}.Publish - STABLE|Any CPU.ActiveCfg = Release|Any CPU
-		{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3}.Publish - STABLE|Any CPU.Build.0 = Release|Any CPU
+		{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3}.Publish - STABLE|Any CPU.ActiveCfg = Publish - STABLE|Any CPU
+		{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3}.Publish - STABLE|Any CPU.Build.0 = Publish - STABLE|Any CPU
 		{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{691A9BC1-579C-41E0-8053-346A56B26269}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
