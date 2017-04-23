@@ -43,7 +43,10 @@
     <Compile Include="..\Extensions.NuGet\version.cs">
       <Link>version.cs</Link>
     </Compile>
+    <Compile Include="System.Collections\IList.extensions.cs" />
     <Compile Include="System.Diagnostics\ProcessStartInfo.extensions.cs" />
+    <Compile Include="System.Linq.Expressions\Expression.extensions.cs" />
+    <Compile Include="System.Reflection\MemberInfo.extensions.cs" />
     <Compile Include="System\Type.extensions.cs" />
   </ItemGroup>
   <ItemGroup>
