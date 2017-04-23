@@ -9,8 +9,6 @@
     <Import_RootNamespace>SquaredInfinity.Foundation</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.TypeForwarding.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)AsyncOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Concurrent\ConcurrentHashSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Concurrent\IConcurrentCollectionEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\OrderedDictionary.cs" />
@@ -18,10 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\ExceptionContextData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\Microsoft.Win32\RegistryKey.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Collections\IEnumerable.Extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Collections\IList.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Collections\IReadOnlyList.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Linq.Expressions\Expression.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Reflection\MemberInfo.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Threading\Dispatcher.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml.Linq\XDocument.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml\XmlDocument.extensions.cs" />
@@ -29,85 +24,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\String.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Type.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GCMemoryUsagePressure.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IAsyncOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NotifyPropertyChangedObjectWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\FileSystemSettingsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\ISettingsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingChangedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingsService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TypeResolver.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\IEnumerableTypeDescription.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\IL\ILBasedEnumerableTypeDescription.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\IL\ILBasedEnumerableTypeDescription.IEnumerableTypeDescription.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\IL\ILBasedTypeDescription.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\IL\ILBasedTypeDescription.ITypeDescription.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\IL\ILBasedTypeDescriptor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\IL\ILBasedTypeMemberDescription.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\IL\ILBasedTypeMemberDescription.ITypeMemberDescription.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\ITypeDescription.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\ITypeDescriptor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\ITypeMemberDescription.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\ITypeMemberDescriptionCollection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\MemberVisibility.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\Reflection\ReflectionBasedEnumerableTypeDescription.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\Reflection\ReflectionBasedTypeDescription.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\Reflection\ReflectionBasedTypeDescriptor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\Reflection\ReflectionBasedTypeMemberDescription.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\TypeDescriptor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Description\TypeMemberDescriptionCollection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\CreateInstanceContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\ITypeMapper.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\ITypeMappingStrategy.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\MappingContext.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\MappingOptions.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\MemberMatching\ExactNameMatchMemberMatchingRule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\MemberMatching\IMemberMatch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\MemberMatching\IMemberMatchingRule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\MemberMatching\MemberMatch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\MemberMatching\MemberMatchCollection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\MemberMatching\MemberMatchingRuleCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\MemberMatching\PrefixedNameMatchMemberMatchingRule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\TypeMapper.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\TypeMapper.TypeMappingStrategiesConcurrentDictionary.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\TypeMapper.TypeMappingStrategyKey.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\TypeMappingStrategy.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\TypeMappingStrategy.static.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\ValueConverting\DynamicValueConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\ValueConverting\IValueConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\ValueConverting\PreserveOriginalValueConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\ValueConverting\ValueConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\ValueResolving\DynamicValueResolver.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\ValueResolving\IValueResolver.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\ValueResolving\MatchedMemberValueResolver.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\ValueResolving\ValueResolver.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Types\Mapping\ValueResolving\ValueResolverCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)WeakEvent.cs" />
   </ItemGroup>
 </Project>
