@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--  IMPORT NUGET.TARGETS AND CONFIGURE -->
+  <PropertyGroup>
+    <AssemblyInfoPath Condition=" '$(AssemblyInfoPath)' == '' ">version.cs</AssemblyInfoPath>
+    <NuSpecPath Condition=" '$(NuSpecPath)' == '' ">.nuspec</NuSpecPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish - LOCAL|AnyCPU'">
+    <OutputPath>bin\Publish - LOCAL\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish - BETA|AnyCPU'">
+    <OutputPath>bin\Publish - BETA\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish - STABLE|AnyCPU'">
+    <OutputPath>bin\Publish - STABLE\</OutputPath>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.build\nuget.targets" />
+  <Target Name="Update Dependencies" AfterTargets="PrepareForBuild">
+    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\Description.Reflection\packages.config" TargetFramework="portable-net45+win80" />
+    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\Description.Reflection\packages.config;..\Description.Reflection.DotNet45\packages.config" TargetFramework="net452" />
+  </Target>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E2EF06CD-2B6B-48ED-A7E1-96B753E7C023}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BulkUpdates.NuGet</RootNamespace>
+    <AssemblyName>BulkUpdates.NuGet</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".nuspec">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="version.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Description.Reflection.DotNet45\Description.Reflection.DotNet45.csproj">
+      <Project>{d905ecd9-8e6f-4ad6-a205-ab8d55e39958}</Project>
+      <Name>Description.Reflection.DotNet45</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
