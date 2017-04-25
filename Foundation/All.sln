@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.0
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution items", ".solution items", "{0DA3DCAD-BED8-4032-A426-C0703DC653CF}"
 	ProjectSection(SolutionItems) = preProject
@@ -450,7 +450,6 @@ Global
 		Sources\Internal\Internal.projitems*{4d63f0b2-4b7b-4e9e-911d-5c6e0de9b3af}*SharedItemsImports = 4
 		Sources\Internal\Internal.projitems*{517e1ebf-1876-4a93-9d19-00b34f118aa9}*SharedItemsImports = 4
 		Sources\Internal\Internal.projitems*{52f55dc7-e0e3-473f-ac70-358429fdcda0}*SharedItemsImports = 4
-		Sources\Internal\Internal.projitems*{533326bc-1177-42d2-af6a-ae6a0a1cfea0}*SharedItemsImports = 4
 		Sources\Internal\Internal.projitems*{53ef3610-187e-4cb5-881d-f437038e44b0}*SharedItemsImports = 4
 		Sources\Internal\Internal.projitems*{54ebae5c-debc-4d55-ad37-cb5995d594f6}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Diagnostics.UnitTests\Foundation.Diagnostics.UnitTests.projitems*{559a2c15-2fb8-4ac2-b9dd-43d032ddda73}*SharedItemsImports = 13
@@ -1358,8 +1357,8 @@ Global
 		{9CE57C39-C5AC-4E3C-9F20-87631F8A75F2}.Publish - LOCAL|Any CPU.Build.0 = Publish - LOCAL|Any CPU
 		{9CE57C39-C5AC-4E3C-9F20-87631F8A75F2}.Publish - RC|Any CPU.ActiveCfg = Release|Any CPU
 		{9CE57C39-C5AC-4E3C-9F20-87631F8A75F2}.Publish - RC|Any CPU.Build.0 = Release|Any CPU
-		{9CE57C39-C5AC-4E3C-9F20-87631F8A75F2}.Publish - STABLE|Any CPU.ActiveCfg = Release|Any CPU
-		{9CE57C39-C5AC-4E3C-9F20-87631F8A75F2}.Publish - STABLE|Any CPU.Build.0 = Release|Any CPU
+		{9CE57C39-C5AC-4E3C-9F20-87631F8A75F2}.Publish - STABLE|Any CPU.ActiveCfg = Publish - STABLE|Any CPU
+		{9CE57C39-C5AC-4E3C-9F20-87631F8A75F2}.Publish - STABLE|Any CPU.Build.0 = Publish - STABLE|Any CPU
 		{9CE57C39-C5AC-4E3C-9F20-87631F8A75F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CE57C39-C5AC-4E3C-9F20-87631F8A75F2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FF0C8717-88A2-408C-AA54-BB8AE68067F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
