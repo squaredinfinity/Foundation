@@ -89,5 +89,9 @@ namespace SquaredInfinity.Data
         Task<T> ExecuteScalarTextAsync<T>(string sql, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options);
 
         #endregion
+
+        IDbDataParameter CreateParameter(string parameterName, object clrValue);
+
+        IDbDataParameter CreateOutParameter(string parameterName, DbType type);
     }
 }

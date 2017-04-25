@@ -16,7 +16,7 @@ namespace SquaredInfinity.Data.SqlServer
     /// <summary>
     /// Provides metods of accessing SQL Databases
     /// </summary>
-    public class SqlDataAccessService : DataAccessService<SqlConnection, SqlCommand, SqlParameter, SqlDataReader>
+    public class SqlDataAccessService : DataAccessService<SqlConnection, SqlCommand, SqlParameter, SqlDataReader>, ISqlDataAccessService
     {
         #region Default Retry Policy
 
@@ -117,7 +117,7 @@ namespace SquaredInfinity.Data.SqlServer
                 options,
                 CommandType.StoredProcedure,
                 functionName,
-                parameters.Cast<SqlParameter>().Concat(new[] { resultParameter }).ToArray());
+                parameters.Cast<SqlParameter>().Concat(new[] { (SqlParameter) resultParameter }).ToArray());
 
             var result = resultParameter.Value;
             return MapToClrValue<T>(result);
@@ -132,7 +132,7 @@ namespace SquaredInfinity.Data.SqlServer
         /// <param name="parameterName">name of SQL Parameter</param>
         /// <param name="clrValue">value of Sql Parameter</param>
         /// <returns></returns>
-        public override SqlParameter CreateParameter(string parameterName, object clrValue)
+        public override IDbDataParameter CreateParameter(string parameterName, object clrValue)
         {
             var result = new SqlParameter();
 
@@ -176,7 +176,7 @@ namespace SquaredInfinity.Data.SqlServer
             return result;
         }
 
-        public SqlParameter CreateOutParameter(string parameterName, SqlDbType  type)
+        public IDbDataParameter CreateOutParameter(string parameterName, SqlDbType  type)
         {
             var result = new SqlParameter();
             result.ParameterName = parameterName;
@@ -186,7 +186,7 @@ namespace SquaredInfinity.Data.SqlServer
             return result;
         }
 
-        public SqlParameter CreateTableParameter(string parameterName, IEnumerable source, string columnName, SqlDbType columnType)
+        public IDbDataParameter CreateTableParameter(string parameterName, IEnumerable source, string columnName, SqlDbType columnType)
         {
             var result = new SqlParameter();
             result.ParameterName = parameterName;
@@ -210,7 +210,7 @@ namespace SquaredInfinity.Data.SqlServer
            return result;
         }
 
-        public override SqlParameter CreateOutParameter(string parameterName, DbType type)
+        public override IDbDataParameter CreateOutParameter(string parameterName, DbType type)
         {
             var result = new SqlParameter();
             result.ParameterName = parameterName;

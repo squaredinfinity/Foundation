@@ -46,7 +46,7 @@
       <HintPath>..\..\..\packages\SquaredInfinity.ComponentModel.2.0.5\lib\net452\SquaredInfinity.ComponentModel.DotNet45.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Data.DotNet45, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Data.2.0.6\lib\net452\SquaredInfinity.Data.DotNet45.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Data.2.0.7\lib\net452\SquaredInfinity.Data.DotNet45.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Disposables, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Disposables.2.0.5\lib\portable-net45+win\SquaredInfinity.Disposables.dll</HintPath>

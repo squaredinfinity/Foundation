@@ -1060,9 +1060,9 @@ namespace SquaredInfinity.Data
         }
 
 
-        public abstract TParameter CreateParameter(string parameterName, object clrValue);
+        public abstract IDbDataParameter CreateParameter(string parameterName, object clrValue);
 
-        public abstract TParameter CreateOutParameter(string parameterName, DbType type);
+        public abstract IDbDataParameter CreateOutParameter(string parameterName, DbType type);
 
         public TTarget MapToClrValue<TTarget>(object dbValue, TTarget defaultValue = default(TTarget))
         {
