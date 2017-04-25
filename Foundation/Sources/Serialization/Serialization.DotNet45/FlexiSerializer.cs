@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using SquaredInfinity.Types.Description.IL;
 
 namespace SquaredInfinity.Serialization
 {
@@ -34,7 +35,7 @@ namespace SquaredInfinity.Serialization
             get
             {
                 if (_typeDescriptor == null)
-                    _typeDescriptor = Types.Description.TypeDescriptor.Default;
+                    _typeDescriptor = new ILBasedTypeDescriptor();
 
                 return _typeDescriptor;
             }

@@ -1,22 +1,53 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
   <metadata>
-    <id>SquaredInfinity.Serialization</id>
+    <id>SquaredInfinity.Serialization.FlexiXml</id>
     <version>$version$</version>
-    <title>Squared Infinity ▪ Serialization</title>
+    <title>Squared Infinity ▪ Serialization ▪ FlexiXml</title>
     <authors>Squared Infinity</authors>
     <owners>Squared Infinity</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Squared Infinity ▪ Serialization</description>
-    <summary>Squared Infinity ▪ Serialization
-
-Types:
-SquaredInfinity.Serialization.
+    <description>Squared Infinity ▪ Serialization ▪ FlexiXml</description>
+    <summary>Squared Infinity ▪ Serialization ▪ FlexiXml
     </summary>
     <copyright>Copyright © Squared Infinity</copyright>
+    <dependencies>
+      <group targetFramework="portable-net45+win80">
+        <dependency id="SquaredInfinity.BulkUpdates" version="2.0.3" />
+        <dependency id="SquaredInfinity.Collections.CollectionEx" version="2.1.4" />
+        <dependency id="SquaredInfinity.Collections.Core" version="2.1.3" />
+        <dependency id="SquaredInfinity.Collections.MultiMap" version="2.0.3" />
+        <dependency id="SquaredInfinity.Comparers" version="2.0.5" />
+        <dependency id="SquaredInfinity.ComponentModel" version="2.0.5" />
+        <dependency id="SquaredInfinity.Disposables" version="2.0.5" />
+        <dependency id="SquaredInfinity.Extensions" version="2.0.5" />
+        <dependency id="SquaredInfinity.Serialization" version="2.0.3" />
+        <dependency id="SquaredInfinity.Threading.Locks" version="2.0.5" />
+        <dependency id="SquaredInfinity.Types.Description" version="2.0.1" />
+        <dependency id="SquaredInfinity.Types.Description.IL" version="2.0.3" />
+        <dependency id="SquaredInfinity.Types.Description.Reflection" version="2.0.2" />
+        <dependency id="SquaredInfinity.Types.Mapping" version="2.0.3" />
+      </group>
+      <group targetFramework="net452">
+        <dependency id="SquaredInfinity.BulkUpdates" version="2.0.3" />
+        <dependency id="SquaredInfinity.Collections.CollectionEx" version="2.1.4" />
+        <dependency id="SquaredInfinity.Collections.Core" version="2.1.3" />
+        <dependency id="SquaredInfinity.Collections.MultiMap" version="2.0.3" />
+        <dependency id="SquaredInfinity.Comparers" version="2.0.5" />
+        <dependency id="SquaredInfinity.ComponentModel" version="2.0.5" />
+        <dependency id="SquaredInfinity.Disposables" version="2.0.5" />
+        <dependency id="SquaredInfinity.Extensions" version="2.0.5" />
+        <dependency id="SquaredInfinity.Serialization" version="2.0.3" />
+        <dependency id="SquaredInfinity.Threading.Locks" version="2.0.5" />
+        <dependency id="SquaredInfinity.Types.Description" version="2.0.1" />
+        <dependency id="SquaredInfinity.Types.Description.IL" version="2.0.3" />
+        <dependency id="SquaredInfinity.Types.Description.Reflection" version="2.0.2" />
+        <dependency id="SquaredInfinity.Types.Mapping" version="2.0.3" />
+      </group>
+    </dependencies>
   </metadata>
   <files>
-    <file src="..\Serialization\bin\$configuration$\SquaredInfinity.Serialization.dll" target="lib\portable-net45+win\SquaredInfinity.Serialization.dll" exclude="" />
-    <file src="..\Serialization\bin\$configuration$\SquaredInfinity.Serialization.pdb" target="lib\portable-net45+win\SquaredInfinity.Serialization.pdb" exclude="" />
+    <file src="..\Serialization.FlexiXml.DotNet45\bin\$configuration$\SquaredInfinity.Serialization.FlexiXml.DotNet45.dll" target="lib\net452\SquaredInfinity.Serialization.FlexiXml.DotNet45.dll" exclude="" />
+    <file src="..\Serialization.FlexiXml.DotNet45\bin\$configuration$\SquaredInfinity.Serialization.FlexiXml.DotNet45.pdb" target="lib\net452\SquaredInfinity.Serialization.FlexiXml.DotNet45.pdb" exclude="" />
   </files>
 </package>

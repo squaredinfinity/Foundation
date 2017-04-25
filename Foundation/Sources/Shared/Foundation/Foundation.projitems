@@ -16,7 +16,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\ExceptionContextData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\Microsoft.Win32\RegistryKey.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Collections\IEnumerable.Extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Collections\IReadOnlyList.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Threading\Dispatcher.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml.Linq\XDocument.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml\XmlDocument.extensions.cs" />
