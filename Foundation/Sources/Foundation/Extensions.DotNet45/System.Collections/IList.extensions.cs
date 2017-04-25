@@ -10,6 +10,21 @@ namespace SquaredInfinity.Extensions
     public static class IListExtensions
     {
         /// <summary>
+        /// Returns minimum base types of items accepted by the list.
+        /// Note tha IList class may actually implement several generic IList interfaces and accept several different item types
+        /// (e.g. by doing conversions internally)
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="listItemCandidate"></param>
+        /// <returns></returns>
+        public static IReadOnlyList<Type> GetCompatibleItemsTypes(this IList list)
+        {
+            var listItemTypes = list.GetType().GetCompatibleItemTypes();
+
+            return listItemTypes;
+        }
+
+        /// <summary>
         /// Checks if specified item candidate is compatible with this list.
         /// </summary>
         /// <param name="list"></param>
