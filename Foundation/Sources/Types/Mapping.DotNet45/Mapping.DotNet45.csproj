@@ -49,10 +49,10 @@
       <HintPath>..\..\..\packages\SquaredInfinity.Disposables.2.0.5\lib\portable-net45+win\SquaredInfinity.Disposables.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.3\lib\net452\SquaredInfinity.Extensions.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.5\lib\net452\SquaredInfinity.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Extensions.DotNet45, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.3\lib\net452\SquaredInfinity.Extensions.DotNet45.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.5\lib\net452\SquaredInfinity.Extensions.DotNet45.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Threading.Locks, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Threading.Locks.2.0.5\lib\portable-net45+win\SquaredInfinity.Threading.Locks.dll</HintPath>
@@ -60,11 +60,11 @@
     <Reference Include="SquaredInfinity.Types.Description, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Types.Description.2.0.1\lib\portable-net45+win\SquaredInfinity.Types.Description.dll</HintPath>
     </Reference>
-    <Reference Include="SquaredInfinity.Types.Description.IL.DotNet45, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Types.Description.IL.2.0.1\lib\net452\SquaredInfinity.Types.Description.IL.DotNet45.dll</HintPath>
+    <Reference Include="SquaredInfinity.Types.Description.IL.DotNet45, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Types.Description.IL.2.0.3\lib\net452\SquaredInfinity.Types.Description.IL.DotNet45.dll</HintPath>
     </Reference>
-    <Reference Include="SquaredInfinity.Types.Description.Reflection.DotNet45, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Types.Description.Reflection.2.0.1\lib\net452\SquaredInfinity.Types.Description.Reflection.DotNet45.dll</HintPath>
+    <Reference Include="SquaredInfinity.Types.Description.Reflection.DotNet45, Version=0.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Types.Description.Reflection.2.0.2\lib\net452\SquaredInfinity.Types.Description.Reflection.DotNet45.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

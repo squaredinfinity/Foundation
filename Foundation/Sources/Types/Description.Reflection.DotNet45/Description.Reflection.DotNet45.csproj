@@ -49,10 +49,10 @@
       <HintPath>..\..\..\packages\SquaredInfinity.Disposables.2.0.5\lib\portable-net45+win\SquaredInfinity.Disposables.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.3\lib\net452\SquaredInfinity.Extensions.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.5\lib\net452\SquaredInfinity.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Extensions.DotNet45, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.3\lib\net452\SquaredInfinity.Extensions.DotNet45.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.5\lib\net452\SquaredInfinity.Extensions.DotNet45.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Threading.Locks, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Threading.Locks.2.0.5\lib\portable-net45+win\SquaredInfinity.Threading.Locks.dll</HintPath>
@@ -82,5 +82,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
