@@ -149,7 +149,7 @@ namespace SquaredInfinity.Data
         {
             return
                await
-               ExecuteAllReaderAsync(procName, new IDbDataParameter[0], DefaultExecuteReaderOptions, createEntity)
+               ExecuteAllReaderAsync(procName, parameters, DefaultExecuteReaderOptions, createEntity)
                .ConfigureAwait(continueOnCapturedContext: false);
         }
 
@@ -290,7 +290,7 @@ namespace SquaredInfinity.Data
             Action<IDataReader, CancellationToken> processRow)
         {
             await
-                ExecuteReaderAsync(procName, new IDbDataParameter[0], DefaultExecuteReaderOptions, processRow)
+                ExecuteReaderAsync(procName, EmptyParameters, DefaultExecuteReaderOptions, processRow)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }
         public async Task ExecuteReaderAsync(
@@ -299,7 +299,7 @@ namespace SquaredInfinity.Data
             Action<IDataReader, CancellationToken> processRow)
         {
             await
-                ExecuteReaderAsync(procName, new IDbDataParameter[0], options, processRow)
+                ExecuteReaderAsync(procName, EmptyParameters, options, processRow)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }
         public async Task ExecuteReaderAsync(
@@ -437,7 +437,7 @@ namespace SquaredInfinity.Data
         public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, Func<IDataReader, TEntity> createEntity)
         {
             return
-                ExecuteReader<TEntity>(procName, new IDbDataParameter[0], DefaultExecuteReaderOptions, createEntity);
+                ExecuteReader<TEntity>(procName, EmptyParameters, DefaultExecuteReaderOptions, createEntity);
         }
 
         public IEnumerable<TEntity> ExecuteReader<TEntity>(
@@ -446,7 +446,7 @@ namespace SquaredInfinity.Data
             Func<IDataReader, TEntity> createEntity)
         {
             return
-                ExecuteReader<TEntity>(procName, new IDbDataParameter[0], options, createEntity);
+                ExecuteReader<TEntity>(procName, EmptyParameters, options, createEntity);
         }
 
         public IEnumerable<TEntity> ExecuteReader<TEntity>(
@@ -505,7 +505,7 @@ namespace SquaredInfinity.Data
                         ConnectionFactory,
                         options,
                         procName,
-                        new TParameter[0],
+                        parameters,
                         createEntity);
                 });
         }
