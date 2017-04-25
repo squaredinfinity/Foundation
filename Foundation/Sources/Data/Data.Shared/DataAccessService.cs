@@ -68,7 +68,10 @@ namespace SquaredInfinity.Data
         {
             return
                 await
-                ExecuteAllReaderAsync(procName, EmptyParameters, DefaultExecuteReaderOptions)
+                ExecuteAllReaderAsync(
+                    procName, 
+                    EmptyParameters, 
+                    DefaultExecuteReaderOptions)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }
 
@@ -78,7 +81,10 @@ namespace SquaredInfinity.Data
         {
             return
                 await
-                ExecuteAllReaderAsync(procName, EmptyParameters, options)
+                ExecuteAllReaderAsync(
+                    procName, 
+                    EmptyParameters, 
+                    options)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }
 
@@ -88,7 +94,10 @@ namespace SquaredInfinity.Data
         {
             return
                 await
-                ExecuteAllReaderAsync(procName, parameters, DefaultExecuteReaderOptions)
+                ExecuteAllReaderAsync(
+                    procName, 
+                    parameters, 
+                    DefaultExecuteReaderOptions)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }
 
@@ -127,7 +136,11 @@ namespace SquaredInfinity.Data
         {
             return
                 await
-                ExecuteAllReaderAsync(procName, DefaultExecuteReaderOptions, createEntity)
+                ExecuteAllReaderAsync(
+                    procName, 
+                    EmptyParameters,
+                    DefaultExecuteReaderOptions, 
+                    createEntity)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }
 
@@ -138,7 +151,11 @@ namespace SquaredInfinity.Data
         {
             return
                 await
-                ExecuteAllReaderAsync(procName, DefaultExecuteReaderOptions, createEntity)
+                ExecuteAllReaderAsync(
+                    procName, 
+                    EmptyParameters,
+                    DefaultExecuteReaderOptions, 
+                    createEntity)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }
 
@@ -149,11 +166,19 @@ namespace SquaredInfinity.Data
         {
             return
                await
-               ExecuteAllReaderAsync(procName, parameters, DefaultExecuteReaderOptions, createEntity)
+               ExecuteAllReaderAsync(
+                   procName,
+                   parameters, 
+                   DefaultExecuteReaderOptions, 
+                   createEntity)
                .ConfigureAwait(continueOnCapturedContext: false);
         }
 
-        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, Func<IDataReader, TEntity> createEntity)
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(
+            string procName, 
+            IReadOnlyList<IDbDataParameter> parameters, 
+            IExecuteReaderOptions options, 
+            Func<IDataReader, TEntity> createEntity)
         {
             return
                await
