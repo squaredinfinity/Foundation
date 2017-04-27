@@ -23,8 +23,8 @@ SquaredInfinity.Data.IDataObjectNameResolver
         <dependency id="SquaredInfinity.Comparers" version="2.0.5" />
         <dependency id="SquaredInfinity.ComponentModel" version="2.0.5" />
         <dependency id="SquaredInfinity.Disposables" version="2.0.5" />
-        <dependency id="SquaredInfinity.Extensions" version="2.0.2" />
-        <dependency id="SquaredInfinity.RetryPolicy" version="2.0.6" />
+        <dependency id="SquaredInfinity.Extensions" version="2.0.5" />
+        <dependency id="SquaredInfinity.RetryPolicy" version="2.0.7" />
         <dependency id="SquaredInfinity.Threading.Locks" version="2.0.5" />
       </group>
     </dependencies>
