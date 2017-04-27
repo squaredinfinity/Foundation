@@ -276,7 +276,7 @@ namespace SquaredInfinity.Data
                             cmd.ExecuteReaderAsync(options.CancellationToken)
                             .ConfigureAwait(continueOnCapturedContext: false);
 
-                        while (await reader.NextResultAsync(options.CancellationToken).ConfigureAwait(continueOnCapturedContext: false))
+                        while (await reader.ReadAsync(options.CancellationToken).ConfigureAwait(continueOnCapturedContext: false))
                         {
                             options.CancellationToken.ThrowIfCancellationRequested();
 
@@ -289,7 +289,7 @@ namespace SquaredInfinity.Data
                     {
                         var reader = (TDataReader)cmd.ExecuteReader();
 
-                        while (reader.NextResult())
+                        while (reader.Read())
                         {
                             options.CancellationToken.ThrowIfCancellationRequested();
 
@@ -432,7 +432,7 @@ namespace SquaredInfinity.Data
                             cmd.ExecuteReaderAsync(options.CancellationToken)
                             .ConfigureAwait(continueOnCapturedContext: false);
 
-                        while (await reader.NextResultAsync(options.CancellationToken).ConfigureAwait(continueOnCapturedContext: false))
+                        while (await reader.ReadAsync(options.CancellationToken).ConfigureAwait(continueOnCapturedContext: false))
                         {
                             options.CancellationToken.ThrowIfCancellationRequested();
 
@@ -443,7 +443,7 @@ namespace SquaredInfinity.Data
                     {
                         var reader = (TDataReader)cmd.ExecuteReader();
 
-                        while (reader.NextResult())
+                        while (reader.Read())
                         {
                             options.CancellationToken.ThrowIfCancellationRequested();
 
