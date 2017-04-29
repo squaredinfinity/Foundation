@@ -16,18 +16,18 @@
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.build\nuget.targets" />
   <Target Name="Update Dependencies" AfterTargets="PrepareForBuild">
-    <!--
+    
     <NuSpecUpdateDependenciesFromPackagesConfig   NuSpecPath=".nuspec"
-                                                  PackageConfigPaths="..\Extensions\packages.config" 
+                                                  PackageConfigPaths="..\Serialization.FlexiXml.DotNet45\packages.config" 
                                                   TargetFramework="portable-net45+win80" />
-    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\Comparers\packages.config;" AttachDebugger="false" TargetFramework="net452" />
-    -->
+    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\Serialization.FlexiXml.DotNet45\packages.config;" AttachDebugger="false" TargetFramework="net452" />
+    
   </Target>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{691A9BC1-579C-41E0-8053-346A56B26269}</ProjectGuid>
+    <ProjectGuid>{79C5430B-0AC8-4FB8-B6BC-0322D0F08C27}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Comparers.NuGet</RootNamespace>
@@ -62,9 +62,9 @@
     <Compile Include="version.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Comparers\Comparers.csproj">
-      <Project>{517e1ebf-1876-4a93-9d19-00b34f118aa9}</Project>
-      <Name>Comparers</Name>
+    <ProjectReference Include="..\Serialization.FlexiXml.DotNet45\Serialization.FlexiXml.DotNet45.csproj">
+      <Project>{cf4be3e8-81e9-4f96-8264-7abf8f41b71a}</Project>
+      <Name>Serialization.FlexiXml.DotNet45</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

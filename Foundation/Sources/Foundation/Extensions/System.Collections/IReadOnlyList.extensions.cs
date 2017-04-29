@@ -9,6 +9,14 @@ namespace SquaredInfinity.Extensions
 {
     public static class IReadOnlyListExtensions
     {
+        public static IReadOnlyList<T> EmptyIfNull<T>(this IReadOnlyList<T> items)
+        {
+            if (items == null)
+                return new T[0];
+
+            return items;
+        }
+
         public static IList EmptyIfNull(this IList list)
         {
             if (list == null)

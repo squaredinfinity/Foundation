@@ -8,7 +8,7 @@ namespace SquaredInfinity.Cache
 {
     public class CacheItemPolicy
     {
-        public DateTimeOffset AbsoluteExpiration { get; set; }
-        public TimeSpan SlidingExpiration { get; set; }
+        public DateTimeOffset AbsoluteExpiration { get; set; } = DateTimeOffset.MaxValue;
+        public TimeSpan SlidingExpiration { get; set; } = TimeSpan.Zero;
     }
 }

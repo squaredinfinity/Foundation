@@ -1,4 +1,5 @@
 ﻿using SquaredInfinity.Collections;
+using SquaredInfinity.Comparers;
 using SquaredInfinity.Types.Description;
 using System;
 using System.Collections.Concurrent;

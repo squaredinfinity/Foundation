@@ -68,7 +68,10 @@ namespace SquaredInfinity.Data
         {
             return
                 await
-                ExecuteAllReaderAsync(procName, EmptyParameters, DefaultExecuteReaderOptions)
+                ExecuteAllReaderAsync(
+                    procName, 
+                    EmptyParameters, 
+                    DefaultExecuteReaderOptions)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }
 
@@ -78,7 +81,10 @@ namespace SquaredInfinity.Data
         {
             return
                 await
-                ExecuteAllReaderAsync(procName, EmptyParameters, options)
+                ExecuteAllReaderAsync(
+                    procName, 
+                    EmptyParameters, 
+                    options)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }
 
@@ -88,7 +94,10 @@ namespace SquaredInfinity.Data
         {
             return
                 await
-                ExecuteAllReaderAsync(procName, parameters, DefaultExecuteReaderOptions)
+                ExecuteAllReaderAsync(
+                    procName, 
+                    parameters, 
+                    DefaultExecuteReaderOptions)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }
 
@@ -127,7 +136,11 @@ namespace SquaredInfinity.Data
         {
             return
                 await
-                ExecuteAllReaderAsync(procName, DefaultExecuteReaderOptions, createEntity)
+                ExecuteAllReaderAsync(
+                    procName, 
+                    EmptyParameters,
+                    DefaultExecuteReaderOptions, 
+                    createEntity)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }
 
@@ -138,7 +151,11 @@ namespace SquaredInfinity.Data
         {
             return
                 await
-                ExecuteAllReaderAsync(procName, DefaultExecuteReaderOptions, createEntity)
+                ExecuteAllReaderAsync(
+                    procName, 
+                    EmptyParameters,
+                    DefaultExecuteReaderOptions, 
+                    createEntity)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }
 
@@ -149,11 +166,19 @@ namespace SquaredInfinity.Data
         {
             return
                await
-               ExecuteAllReaderAsync(procName, new IDbDataParameter[0], DefaultExecuteReaderOptions, createEntity)
+               ExecuteAllReaderAsync(
+                   procName,
+                   parameters, 
+                   DefaultExecuteReaderOptions, 
+                   createEntity)
                .ConfigureAwait(continueOnCapturedContext: false);
         }
 
-        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, Func<IDataReader, TEntity> createEntity)
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(
+            string procName, 
+            IReadOnlyList<IDbDataParameter> parameters, 
+            IExecuteReaderOptions options, 
+            Func<IDataReader, TEntity> createEntity)
         {
             return
                await
@@ -251,7 +276,7 @@ namespace SquaredInfinity.Data
                             cmd.ExecuteReaderAsync(options.CancellationToken)
                             .ConfigureAwait(continueOnCapturedContext: false);
 
-                        while (await reader.NextResultAsync(options.CancellationToken).ConfigureAwait(continueOnCapturedContext: false))
+                        while (await reader.ReadAsync(options.CancellationToken).ConfigureAwait(continueOnCapturedContext: false))
                         {
                             options.CancellationToken.ThrowIfCancellationRequested();
 
@@ -264,7 +289,7 @@ namespace SquaredInfinity.Data
                     {
                         var reader = (TDataReader)cmd.ExecuteReader();
 
-                        while (reader.NextResult())
+                        while (reader.Read())
                         {
                             options.CancellationToken.ThrowIfCancellationRequested();
 
@@ -290,7 +315,7 @@ namespace SquaredInfinity.Data
             Action<IDataReader, CancellationToken> processRow)
         {
             await
-                ExecuteReaderAsync(procName, new IDbDataParameter[0], DefaultExecuteReaderOptions, processRow)
+                ExecuteReaderAsync(procName, EmptyParameters, DefaultExecuteReaderOptions, processRow)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }
         public async Task ExecuteReaderAsync(
@@ -299,7 +324,7 @@ namespace SquaredInfinity.Data
             Action<IDataReader, CancellationToken> processRow)
         {
             await
-                ExecuteReaderAsync(procName, new IDbDataParameter[0], options, processRow)
+                ExecuteReaderAsync(procName, EmptyParameters, options, processRow)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }
         public async Task ExecuteReaderAsync(
@@ -407,7 +432,7 @@ namespace SquaredInfinity.Data
                             cmd.ExecuteReaderAsync(options.CancellationToken)
                             .ConfigureAwait(continueOnCapturedContext: false);
 
-                        while (await reader.NextResultAsync(options.CancellationToken).ConfigureAwait(continueOnCapturedContext: false))
+                        while (await reader.ReadAsync(options.CancellationToken).ConfigureAwait(continueOnCapturedContext: false))
                         {
                             options.CancellationToken.ThrowIfCancellationRequested();
 
@@ -418,7 +443,7 @@ namespace SquaredInfinity.Data
                     {
                         var reader = (TDataReader)cmd.ExecuteReader();
 
-                        while (reader.NextResult())
+                        while (reader.Read())
                         {
                             options.CancellationToken.ThrowIfCancellationRequested();
 
@@ -437,7 +462,7 @@ namespace SquaredInfinity.Data
         public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, Func<IDataReader, TEntity> createEntity)
         {
             return
-                ExecuteReader<TEntity>(procName, new IDbDataParameter[0], DefaultExecuteReaderOptions, createEntity);
+                ExecuteReader<TEntity>(procName, EmptyParameters, DefaultExecuteReaderOptions, createEntity);
         }
 
         public IEnumerable<TEntity> ExecuteReader<TEntity>(
@@ -446,7 +471,7 @@ namespace SquaredInfinity.Data
             Func<IDataReader, TEntity> createEntity)
         {
             return
-                ExecuteReader<TEntity>(procName, new IDbDataParameter[0], options, createEntity);
+                ExecuteReader<TEntity>(procName, EmptyParameters, options, createEntity);
         }
 
         public IEnumerable<TEntity> ExecuteReader<TEntity>(
@@ -505,7 +530,7 @@ namespace SquaredInfinity.Data
                         ConnectionFactory,
                         options,
                         procName,
-                        new TParameter[0],
+                        parameters,
                         createEntity);
                 });
         }
@@ -1035,9 +1060,9 @@ namespace SquaredInfinity.Data
         }
 
 
-        public abstract TParameter CreateParameter(string parameterName, object clrValue);
+        public abstract IDbDataParameter CreateParameter(string parameterName, object clrValue);
 
-        public abstract TParameter CreateOutParameter(string parameterName, DbType type);
+        public abstract IDbDataParameter CreateOutParameter(string parameterName, DbType type);
 
         public TTarget MapToClrValue<TTarget>(object dbValue, TTarget defaultValue = default(TTarget))
         {

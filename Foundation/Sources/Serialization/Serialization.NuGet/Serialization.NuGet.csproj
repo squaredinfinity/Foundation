@@ -16,18 +16,14 @@
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.build\nuget.targets" />
   <Target Name="Update Dependencies" AfterTargets="PrepareForBuild">
-    <!--
-    <NuSpecUpdateDependenciesFromPackagesConfig   NuSpecPath=".nuspec"
-                                                  PackageConfigPaths="..\Extensions\packages.config" 
-                                                  TargetFramework="portable-net45+win80" />
-    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\Comparers\packages.config;" AttachDebugger="false" TargetFramework="net452" />
-    -->
+    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\Serialization\packages.config" TargetFramework="portable-net45+win80" />
+    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\Serialization.DotNet45\packages.config;" AttachDebugger="false" TargetFramework="net452" />
   </Target>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{691A9BC1-579C-41E0-8053-346A56B26269}</ProjectGuid>
+    <ProjectGuid>{51BA976A-6B69-41EF-99D7-B75419532559}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Comparers.NuGet</RootNamespace>
@@ -56,15 +52,17 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include=".nuspec" />
+    <None Include=".nuspec">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="version.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Comparers\Comparers.csproj">
-      <Project>{517e1ebf-1876-4a93-9d19-00b34f118aa9}</Project>
-      <Name>Comparers</Name>
+    <ProjectReference Include="..\Serialization.DotNet45\Serialization.DotNet45.csproj">
+      <Project>{4efa5bb1-08b0-4d39-878d-32ec9aa990a8}</Project>
+      <Name>Serialization.DotNet45</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

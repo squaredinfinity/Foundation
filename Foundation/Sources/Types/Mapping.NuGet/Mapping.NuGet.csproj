@@ -60,9 +60,9 @@
     <Compile Include="version.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Description.Reflection.DotNet45\Description.Reflection.DotNet45.csproj">
-      <Project>{d905ecd9-8e6f-4ad6-a205-ab8d55e39958}</Project>
-      <Name>Description.Reflection.DotNet45</Name>
+    <ProjectReference Include="..\Mapping.DotNet45\Mapping.DotNet45.csproj">
+      <Project>{533326bc-1177-42d2-af6a-ae6a0a1cfea0}</Project>
+      <Name>Mapping.DotNet45</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -76,7 +76,7 @@ namespace SquaredInfinity.Extensions
         /// </summary>
         /// <param name="byteArray"></param>
         /// <returns></returns>
-        public static IEnumerable<T> ToNullIfEmpty<T>(this IEnumerable<T> list)
+        public static IEnumerable<T> NullIfEmpty<T>(this IEnumerable<T> list)
         {
             if (list == null)
                 return null;
@@ -102,7 +102,6 @@ namespace SquaredInfinity.Extensions
 
             return items;
         }
-
 
         // todo: move to array extensions
         public static T[] EmptyIfNull<T>(this T[] list)

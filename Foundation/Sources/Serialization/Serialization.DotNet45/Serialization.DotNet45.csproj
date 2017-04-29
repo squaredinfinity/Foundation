@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E5811977-A6AF-4045-B2D6-B468AB5097CF}</ProjectGuid>
+    <ProjectGuid>{4EFA5BB1-08B0-4D39-878D-32EC9AA990A8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SquaredInfinity.Types.Description.IL</RootNamespace>
-    <AssemblyName>SquaredInfinity.Types.Description.IL.DotNet45</AssemblyName>
+    <RootNamespace>SquaredInfinity.Serialization</RootNamespace>
+    <AssemblyName>SquaredInfinity.Serialization.DotNet45</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,6 +39,9 @@
     <Reference Include="SquaredInfinity.Collections.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Collections.Core.2.1.3\lib\portable-net45+win\SquaredInfinity.Collections.Core.dll</HintPath>
     </Reference>
+    <Reference Include="SquaredInfinity.Comparers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Comparers.2.0.5\lib\portable-net45+win\SquaredInfinity.Comparers.dll</HintPath>
+    </Reference>
     <Reference Include="SquaredInfinity.ComponentModel, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.ComponentModel.2.0.5\lib\net452\SquaredInfinity.ComponentModel.dll</HintPath>
     </Reference>
@@ -60,8 +63,14 @@
     <Reference Include="SquaredInfinity.Types.Description, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Types.Description.2.0.1\lib\portable-net45+win\SquaredInfinity.Types.Description.dll</HintPath>
     </Reference>
+    <Reference Include="SquaredInfinity.Types.Description.IL.DotNet45, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Types.Description.IL.2.0.3\lib\net452\SquaredInfinity.Types.Description.IL.DotNet45.dll</HintPath>
+    </Reference>
     <Reference Include="SquaredInfinity.Types.Description.Reflection.DotNet45, Version=0.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Types.Description.Reflection.2.0.2\lib\net452\SquaredInfinity.Types.Description.Reflection.DotNet45.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.Types.Mapping.DotNet45, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Types.Mapping.2.0.3\lib\net452\SquaredInfinity.Types.Mapping.DotNet45.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -77,19 +86,29 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Description.IL.NuGet\version.cs">
+    <Compile Include="..\Serialization.NuGet\version.cs">
       <Link>version.cs</Link>
     </Compile>
-    <Compile Include="Framework Extensions\System.Reflection.Emit\ReflectionEmitExtensions.cs" />
-    <Compile Include="IILGenerator.cs" />
-    <Compile Include="IL.cs" />
-    <Compile Include="ILBasedEnumerableTypeDescription.cs" />
-    <Compile Include="ILBasedEnumerableTypeDescription.IEnumerableTypeDescription.cs" />
-    <Compile Include="ILBasedTypeDescription.cs" />
-    <Compile Include="ILBasedTypeDescription.ITypeDescription.cs" />
-    <Compile Include="ILBasedTypeDescriptor.cs" />
-    <Compile Include="ILBasedTypeMemberDescription.cs" />
-    <Compile Include="ILBasedTypeMemberDescription.ITypeMemberDescription.cs" />
+    <Compile Include="CreateInstanceContext.cs" />
+    <Compile Include="EnumerableTypeSerializationStrategy.cs" />
+    <Compile Include="EnumerableTypeSerializationStrategy_T.cs" />
+    <Compile Include="FlexiSerializer.cs" />
+    <Compile Include="FlexiSerializer.TypeSerializationStrategiesConcurrentDictionary.cs" />
+    <Compile Include="IEnumerableTypeSerializationStrategy_T.cs" />
+    <Compile Include="IFlexiSerializer.cs" />
+    <Compile Include="IMemberSerializationStrategy.cs" />
+    <Compile Include="InstanceId.cs" />
+    <Compile Include="InstanceIdRef.cs" />
+    <Compile Include="ISerializationContext.cs" />
+    <Compile Include="ISerializer.cs" />
+    <Compile Include="ITypeSerializationStrategy.cs" />
+    <Compile Include="ITypeSerializationStrategy_T.cs" />
+    <Compile Include="MemberSerializationStrategy.cs" />
+    <Compile Include="ReferenceResolutionContext.cs" />
+    <Compile Include="SerializationContext.cs" />
+    <Compile Include="SerializedDataInfo.cs" />
+    <Compile Include="TypeSerializationStrategy.cs" />
+    <Compile Include="TypeSerializationStrategy_T.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

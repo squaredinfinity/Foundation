@@ -15,21 +15,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)FlexiPlainText\IFlexiPlainTextSerializationContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FlexiPlainText\IFlexiPlainTextSerializationStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FlexiPlainText\IFlexiPlainTextSerializer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\DeserializationOutcome.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\FlexiXmlDictionaryTypeSerializationStrategy.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\FlexiXmlEnumerableTypeSerializationStrategy.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\FlexiXmlReferenceResolutionContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\FlexiXmlSerializationContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\FlexiXmlSerializationOptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\FlexiXmlSerializer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\FlexiXmlSerializer.Deserialization.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\FlexiXmlSerializer.Serialization.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\FlexiXmlTypeSerializationStrategy.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\IFlexiXmlSerializationContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\IFlexiXmlSerializer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FlexiXml\IFlexiXmlTypeSerializationStrategy.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)FlexiPlainText\!notes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)FlexiXml\" />
   </ItemGroup>
 </Project>

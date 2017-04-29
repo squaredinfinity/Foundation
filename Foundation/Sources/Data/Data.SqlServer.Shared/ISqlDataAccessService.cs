@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Data;
 using System.Text;
+using System.Collections;
 
 namespace SquaredInfinity.Data.SqlServer
 {
@@ -24,5 +25,9 @@ namespace SquaredInfinity.Data.SqlServer
         Task<bool> CheckViewExistsAsync(string viewName);
 
         #endregion
+
+        IDbDataParameter CreateOutParameter(string parameterName, SqlDbType type);
+
+        IDbDataParameter CreateTableParameter(string parameterName, IEnumerable source, string columnName, SqlDbType columnType);
     }
 }
