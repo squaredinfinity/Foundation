@@ -31,6 +31,8 @@ namespace SquaredInfinity.Disposables
                 return;
 
             action(Reference);
+
+            Reference = default(TRef);
         }
 
         public static IDisposable Create<T>(T obj, Action<T> dispose)
