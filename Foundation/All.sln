@@ -430,6 +430,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serialization.FlexiXml.NuGe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Disposables.UnitTests", "Sources\Foundation\Disposables.UnitTests\Disposables.UnitTests.csproj", "{B4E23789-2C41-4ACD-8C09-04CBB6AD49CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maths.Extensions.DotNet45", "Sources\Maths\Maths.Extensions.DotNet45\Maths.Extensions.DotNet45.csproj", "{648EBC68-127B-494F-A0AA-397185D0C25E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maths.DotNet45", "Sources\Maths\Maths.DotNet45\Maths.DotNet45.csproj", "{985ECC7E-A603-4351-87E7-AC38DE1FD1FE}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Sources\Tests\Shared\Foundation.Unsafe.UnitTests\Foundation.Unsafe.UnitTests.projitems*{0baa98f5-c1fe-4a36-b8ad-58fa11e32eeb}*SharedItemsImports = 13
@@ -471,6 +475,7 @@ Global
 		Sources\Internal\Internal.projitems*{6243bf46-3b7c-4137-ace9-79541a6ad8e9}*SharedItemsImports = 13
 		Sources\Tests\Shared\Foundation.Presentation.Xaml.UITests\Foundation.Presentation.Xaml.UITests.projitems*{6315ae26-783d-46f9-a2ff-accb15d5f2f0}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Serialization\Foundation.Serialization.projitems*{6392a547-9bf9-4882-9ade-417b4aa747f2}*SharedItemsImports = 13
+		Sources\Internal\Internal.projitems*{648ebc68-127b-494f-a0aa-397185d0c25e}*SharedItemsImports = 4
 		Sources\Tests\Shared\Foundation.Presentation.Xaml.UITests\Foundation.Presentation.Xaml.UITests.projitems*{6605fdb2-0502-4ac4-8cf0-fa6b70e31359}*SharedItemsImports = 13
 		Sources\Internal\Internal.projitems*{694c689c-375a-4e4d-bb5e-b08d42efc96a}*SharedItemsImports = 4
 		Sources\Internal\Internal.projitems*{74b09048-18ad-4200-bd68-38e9d68ef24f}*SharedItemsImports = 4
@@ -483,6 +488,7 @@ Global
 		Sources\Internal\Internal.projitems*{8f87f080-ef28-4a76-90b2-842c82d04b22}*SharedItemsImports = 4
 		Sources\Internal\Internal.projitems*{94bd8189-ceff-4d5d-98ea-796e5f655035}*SharedItemsImports = 4
 		Sources\Internal\Internal.projitems*{956b1ff9-9545-4a20-aee4-a9d3e0c44932}*SharedItemsImports = 4
+		Sources\Internal\Internal.projitems*{985ecc7e-a603-4351-87e7-ac38de1fd1fe}*SharedItemsImports = 4
 		Sources\Internal\Internal.projitems*{9a84412f-32ac-47be-810e-166594f5d4ab}*SharedItemsImports = 4
 		Sources\Shared\Foundation.Diagnostics.Infrastructure\Foundation.Diagnostics.Infrastructure.projitems*{9d01a869-8311-4009-85f3-f0383be62655}*SharedItemsImports = 13
 		Sources\Shared\Foundation.Presentation.Xaml\Foundation.Presentation.Xaml.projitems*{9e46be90-83d2-44f7-b334-2694be8e8dc3}*SharedItemsImports = 13
@@ -2045,6 +2051,30 @@ Global
 		{B4E23789-2C41-4ACD-8C09-04CBB6AD49CA}.Publish - STABLE|Any CPU.Build.0 = Release|Any CPU
 		{B4E23789-2C41-4ACD-8C09-04CBB6AD49CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4E23789-2C41-4ACD-8C09-04CBB6AD49CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{648EBC68-127B-494F-A0AA-397185D0C25E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{648EBC68-127B-494F-A0AA-397185D0C25E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{648EBC68-127B-494F-A0AA-397185D0C25E}.Publish - BETA|Any CPU.ActiveCfg = Release|Any CPU
+		{648EBC68-127B-494F-A0AA-397185D0C25E}.Publish - BETA|Any CPU.Build.0 = Release|Any CPU
+		{648EBC68-127B-494F-A0AA-397185D0C25E}.Publish - LOCAL|Any CPU.ActiveCfg = Release|Any CPU
+		{648EBC68-127B-494F-A0AA-397185D0C25E}.Publish - LOCAL|Any CPU.Build.0 = Release|Any CPU
+		{648EBC68-127B-494F-A0AA-397185D0C25E}.Publish - RC|Any CPU.ActiveCfg = Release|Any CPU
+		{648EBC68-127B-494F-A0AA-397185D0C25E}.Publish - RC|Any CPU.Build.0 = Release|Any CPU
+		{648EBC68-127B-494F-A0AA-397185D0C25E}.Publish - STABLE|Any CPU.ActiveCfg = Release|Any CPU
+		{648EBC68-127B-494F-A0AA-397185D0C25E}.Publish - STABLE|Any CPU.Build.0 = Release|Any CPU
+		{648EBC68-127B-494F-A0AA-397185D0C25E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{648EBC68-127B-494F-A0AA-397185D0C25E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{985ECC7E-A603-4351-87E7-AC38DE1FD1FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{985ECC7E-A603-4351-87E7-AC38DE1FD1FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{985ECC7E-A603-4351-87E7-AC38DE1FD1FE}.Publish - BETA|Any CPU.ActiveCfg = Release|Any CPU
+		{985ECC7E-A603-4351-87E7-AC38DE1FD1FE}.Publish - BETA|Any CPU.Build.0 = Release|Any CPU
+		{985ECC7E-A603-4351-87E7-AC38DE1FD1FE}.Publish - LOCAL|Any CPU.ActiveCfg = Release|Any CPU
+		{985ECC7E-A603-4351-87E7-AC38DE1FD1FE}.Publish - LOCAL|Any CPU.Build.0 = Release|Any CPU
+		{985ECC7E-A603-4351-87E7-AC38DE1FD1FE}.Publish - RC|Any CPU.ActiveCfg = Release|Any CPU
+		{985ECC7E-A603-4351-87E7-AC38DE1FD1FE}.Publish - RC|Any CPU.Build.0 = Release|Any CPU
+		{985ECC7E-A603-4351-87E7-AC38DE1FD1FE}.Publish - STABLE|Any CPU.ActiveCfg = Release|Any CPU
+		{985ECC7E-A603-4351-87E7-AC38DE1FD1FE}.Publish - STABLE|Any CPU.Build.0 = Release|Any CPU
+		{985ECC7E-A603-4351-87E7-AC38DE1FD1FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{985ECC7E-A603-4351-87E7-AC38DE1FD1FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2244,5 +2274,7 @@ Global
 		{CF4BE3E8-81E9-4F96-8264-7ABF8F41B71A} = {76EE3F56-09F6-468A-9E7B-DA88AE5F5ED5}
 		{79C5430B-0AC8-4FB8-B6BC-0322D0F08C27} = {76EE3F56-09F6-468A-9E7B-DA88AE5F5ED5}
 		{B4E23789-2C41-4ACD-8C09-04CBB6AD49CA} = {9DB490A5-6BBD-432E-96A8-A9EEE36F592C}
+		{648EBC68-127B-494F-A0AA-397185D0C25E} = {F694B09D-1096-4211-822D-469D9C472644}
+		{985ECC7E-A603-4351-87E7-AC38DE1FD1FE} = {F694B09D-1096-4211-822D-469D9C472644}
 	EndGlobalSection
 EndGlobal

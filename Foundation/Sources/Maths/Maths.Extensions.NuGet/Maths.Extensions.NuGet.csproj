@@ -16,14 +16,8 @@
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.build\nuget.targets" />
   <Target Name="Update Dependencies" AfterTargets="PrepareForBuild">
-    
-    <NuSpecUpdateDependenciesFromPackagesConfig   NuSpecPath=".nuspec"
-                                                  PackageConfigPaths="..\Maths.Extensions\packages.config"
-                                                  TargetFramework="portable-net45+win80" />
-    <NuSpecUpdateDependenciesFromPackagesConfig   NuSpecPath=".nuspec"
-                                                  PackageConfigPaths="..\Maths.Extensions\packages.config;..\Maths.Extensions.DotNet45\packages.config"
-                                                  TargetFramework="net452" />
-    
+    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\Maths.Extensions\packages.config" TargetFramework="portable-net45+win80" />
+    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\Maths.Extensions\packages.config;..\Maths.Extensions.DotNet45\packages.config" TargetFramework="net452" />
   </Target>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -64,6 +58,10 @@
     <Compile Include="version.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Maths.Extensions.DotNet45\Maths.Extensions.DotNet45.csproj">
+      <Project>{648ebc68-127b-494f-a0aa-397185d0c25e}</Project>
+      <Name>Maths.Extensions.DotNet45</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Maths.Extensions\Maths.Extensions.csproj">
       <Project>{2e471431-5262-463a-8259-6d5314493f36}</Project>
       <Name>Maths.Extensions</Name>
