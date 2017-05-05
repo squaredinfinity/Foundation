@@ -237,8 +237,6 @@ namespace SquaredInfinity.Foundation.Media.Drawing
             var pen = new Pen(Brushes.DeepPink, 2);
             pen.Freeze();
 
-            Trace.WriteLine("after freeze: " + sw.GetElapsedAndRestart().TotalMilliseconds);
-
             var d = new DrawingGroup();
             using (var cx = d.Open())
             {

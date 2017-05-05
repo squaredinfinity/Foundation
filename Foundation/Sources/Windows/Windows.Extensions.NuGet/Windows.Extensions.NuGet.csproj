@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--  IMPORT NUGET.TARGETS AND CONFIGURE -->
+  <PropertyGroup>
+    <AssemblyInfoPath Condition=" '$(AssemblyInfoPath)' == '' ">version.cs</AssemblyInfoPath>
+    <NuSpecPath Condition=" '$(NuSpecPath)' == '' ">.nuspec</NuSpecPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish - LOCAL|AnyCPU'">
+    <OutputPath>bin\Publish - LOCAL\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish - BETA|AnyCPU'">
+    <OutputPath>bin\Publish - BETA\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish - STABLE|AnyCPU'">
+    <OutputPath>bin\Publish - STABLE\</OutputPath>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.build\nuget.targets" />
+  <Target Name="Update Dependencies" AfterTargets="PrepareForBuild">
+    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\Windows.Extensions\packages.config" TargetFramework="portable-net45+win80" />
+    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\Windows.Extensions\packages.config;..\Windows.Extensions.DotNet45\packages.config" TargetFramework="net452" />
+  </Target>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{404A5382-52A1-4D6C-8B1F-4F98D875A8D7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Extensions.NuGet</RootNamespace>
+    <AssemblyName>Extensions.NuGet</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="version.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Windows.Extensions.DotNet45\Windows.Extensions.DotNet45.csproj">
+      <Project>{4a8d21f3-e9b8-4619-a05c-7e066cc03b2b}</Project>
+      <Name>Windows.Extensions.DotNet45</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

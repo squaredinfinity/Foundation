@@ -1,8 +1,7 @@
-﻿using SquaredInfinity.Presentation.Media;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Text;
+using SquaredInfinity.Extensions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;

@@ -8,23 +8,4 @@
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>Presentation.Extensions</Import_RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)System.Drawing\Bitmap.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)System.Windows.Controls\ItemsControl.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)System.Windows.Controls\TreeViewItem.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)System.Windows.Media.Imaging\BitmapSource.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)System.Windows.Media\Color.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)System.Windows.Media\DrawingContext.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)System.Windows.Media\DrawingRenderInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)System.Windows.Media\Geometry.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)System.Windows.Media\ImageSource.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)System.Windows.Media\Visual.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)System.Windows.Threading\Dispatcher.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)System.Windows\DependencyObject.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)System.Windows\FrameworkElement.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)System.Windows\Rect.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)System.Windows\Size.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)System.Windows\Vector.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)System.Windows\Window.extensions.cs" />
-  </ItemGroup>
 </Project>

@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DA1AE9BB-CE0B-475D-B28B-1C974BAFBAB3}</ProjectGuid>
+    <ProjectGuid>{4A8D21F3-E9B8-4619-A05C-7E066CC03B2B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SquaredInfinity.Graphics.Drawing</RootNamespace>
-    <AssemblyName>SquaredInfinity.Graphics.Drawing.DotNet45</AssemblyName>
+    <RootNamespace>SquaredInfinity.Windows.Extensions</RootNamespace>
+    <AssemblyName>SquaredInfinity.Windows.Extensions.DotNet45</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,17 +31,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="SquaredInfinity.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.6\lib\net452\SquaredInfinity.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Extensions.DotNet45, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.6\lib\net452\SquaredInfinity.Extensions.DotNet45.dll</HintPath>
-    </Reference>
-    <Reference Include="SquaredInfinity.Maths, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Maths.2.0.7\lib\net452\SquaredInfinity.Maths.dll</HintPath>
-    </Reference>
-    <Reference Include="SquaredInfinity.Maths.DotNet45, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Maths.2.0.7\lib\net452\SquaredInfinity.Maths.DotNet45.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Maths.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Maths.Extensions.2.0.3\lib\portable-net45+win\SquaredInfinity.Maths.Extensions.dll</HintPath>
@@ -49,11 +44,9 @@
     <Reference Include="SquaredInfinity.Primitives, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Primitives.2.0.7\lib\portable-net45+win\SquaredInfinity.Primitives.dll</HintPath>
     </Reference>
-    <Reference Include="SquaredInfinity.Windows.Extensions.DotNet45, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Windows.Extensions.2.0.1\lib\net452\SquaredInfinity.Windows.Extensions.DotNet45.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -63,29 +56,28 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Graphics.Drawing.NuGet\version.cs">
+    <Compile Include="..\Windows.Extensions.NuGet\version.cs">
       <Link>version.cs</Link>
     </Compile>
-    <Compile Include="Commands\PixelCanvasCommandsEngine.cs" />
-    <Compile Include="Commands\WpfDrawingContextDrawCommand.cs" />
-    <Compile Include="Framework Extensions\SquaredInfinity.Graphics.Drawing\IPixelCanvas.DrawVisual.cs" />
-    <Compile Include="Framework Extensions\SquaredInfinity.Graphics.Drawing\IPixelCanvas.DrawGeometry.cs" />
-    <Compile Include="Framework Extensions\SquaredInfinity.Graphics.Drawing\IPixelCanvas.ToWirteableBitmap.cs" />
-    <Compile Include="Framework Extensions\SquaredInfinity.Graphics.Drawing\IPixelCanvas.Save.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Graphics.Drawing\Graphics.Drawing.csproj">
-      <Project>{bd395326-a868-4ede-b352-586b000f3e1a}</Project>
-      <Name>Graphics.Drawing</Name>
-    </ProjectReference>
+    <Compile Include="System.Windows.Media\DrawingContext.extensions.cs" />
+    <Compile Include="System.Windows.Media\DrawingRenderInfo.cs" />
+    <Compile Include="System.Windows.Media\Geometry.extensions.cs" />
+    <Compile Include="System.Windows.Media\ImageSource.extensions.cs" />
+    <Compile Include="System.Windows.Media\Visual.extensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

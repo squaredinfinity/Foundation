@@ -17,137 +17,13 @@ using System.Threading;
 
 namespace SquaredInfinity.Extensions
 {
-    public class CanvasCommand
-    { }
+    
 
-    public class RawDrawCommand : CanvasCommand
-    {
-        Action<IPixelCanvas, CancellationToken> DrawAction;
-
-        public RawDrawCommand(Action<IPixelCanvas, CancellationToken> drawAction)
-        {
-            this.DrawAction = drawAction;
-        }
-
-        public void Draw(IPixelCanvas pc, CancellationToken ct)
-        {
-            DrawAction(pc, ct);
-        }
-    }
-
-    public class WpfDrawingContextDrawCommand : CanvasCommand
-    {
-        internal Task<DrawingRenderInfo> Processing;
-
-        Action<IPixelCanvas, DrawingContext, CancellationToken> DrawAction;
-
-        public WpfDrawingContextDrawCommand(Action<IPixelCanvas, DrawingContext, CancellationToken> drawAction)
-        {
-            this.DrawAction = drawAction;
-            return;
-
-            Processing = Task.Run(() =>
-            {
-                var sw = Stopwatch.StartNew();
-
-                var dv = new DrawingVisual();
-                using (var cx = dv.RenderOpen())
-                {
-                    Draw(null, cx, CancellationToken.None);
-                }
-
-                var dr = dv.Drawing;
-                dr.Freeze();
-
-                var di = new DrawingRenderInfo();
-
-                di.Drawing = dr;
-
-                sw.Stop();
-                Debug.WriteLine("drawing single " + sw.Elapsed.TotalMilliseconds);
-
-                return di;
-            });
-        }
-
-        public void Draw(IPixelCanvas pc, DrawingContext cx, CancellationToken ct)
-        {
-            DrawAction(pc, cx, ct);
-        }
-    }
+    
 
     public static class PixelCanvasExtensions
     { 
-        public static void Execute(this IPixelCanvas pc, IReadOnlyList<CanvasCommand> commands, CancellationToken ct)
-        {
-            Execute(pc, () => new DrawingVisual(), commands, ct);
-        }
 
-        public static void Execute(
-            this IPixelCanvas pc,
-            Func<DrawingVisual> createDrawingVisual,
-            IReadOnlyList<CanvasCommand> commands, 
-            CancellationToken ct)
-        {
-            var wpf_drawing_visual = (DrawingVisual)null;
-            var wpf_drawing_context = (DrawingContext)null;
-
-            var blend_mode = BlendMode.Copy;
-
-            for (int i = 0; i < commands.Count; i++)
-            {
-                if (ct.IsCancellationRequested)
-                    return;
-
-                var cmd = commands[i];
-
-                var wpf_command = cmd as WpfDrawingContextDrawCommand;
-                var raw_command = cmd as RawDrawCommand;
-
-                if (wpf_command == null) // flush previous drawings
-                {
-                    if (wpf_drawing_context != null)
-                    {
-                        wpf_drawing_context.Close();
-                        if (!wpf_drawing_visual.ContentBounds.IsEmpty)
-                        {
-                            pc.DrawVisual((int)wpf_drawing_visual.ContentBounds.Left, (int)wpf_drawing_visual.ContentBounds.Top, wpf_drawing_visual, blend_mode);
-                            blend_mode = BlendMode.Alpha; // further blends must be alpha
-                        }
-
-                        wpf_drawing_context = null;
-                        wpf_drawing_visual = null;
-                    }
-                }
-
-                if (raw_command != null)
-                {
-                    raw_command.Draw(pc, ct);
-                    blend_mode = BlendMode.Alpha; // further blends must be alpha
-                }
-
-                if(wpf_command != null)
-                {
-                    if(wpf_drawing_context == null)
-                    {
-                        wpf_drawing_visual = createDrawingVisual();
-                        wpf_drawing_context = wpf_drawing_visual.RenderOpen();
-                    }
-
-                    wpf_command.Draw(pc, wpf_drawing_context, ct);
-                }
-            }
-
-            if (wpf_drawing_context != null)
-            {
-                if (ct.IsCancellationRequested)
-                    return;
-
-                ((IDisposable)wpf_drawing_context).Dispose();
-                if(!wpf_drawing_visual.ContentBounds.IsEmpty)
-                    pc.DrawVisual((int)wpf_drawing_visual.ContentBounds.Left, (int)wpf_drawing_visual.ContentBounds.Top, wpf_drawing_visual, blend_mode);
-            }
-        }
 
         //[Conditional("DEBUG")]
         //public static void Execute2(this IPixelCanvas pc, IReadOnlyList<CanvasCommand> commands)
@@ -273,61 +149,6 @@ namespace SquaredInfinity.Extensions
             pc2.ReplaceFromPixels(pixels, pc.Width, pc.Height);
 
             pc.Blit(pc2, BlendMode.Alpha);
-        }
-
-        public static void DrawGeometry(
-            this IPixelCanvas pc,
-            int x,
-            int y,
-            Geometry geometry,
-            Brush fillBrush,
-            Pen pen)
-        {
-            pc.DrawGeometry(x, y, geometry, fillBrush, pen, BlendMode.Alpha);
-        }
-
-        public static void DrawGeometry(
-            this IPixelCanvas pc,
-            int x,
-            int y,
-            Geometry geometry, 
-            Brush fillBrush, 
-            Pen pen,
-            BlendMode blendMode)
-        {
-            var size = geometry.GetRenderBounds(pen).Size;
-            var width = (int)size.Width;
-            var height = (int)size.Height;
-            
-            var bmp = 
-                geometry.RenderToBitmap(
-                    size,
-                    new Point(),
-                    size,
-                    fillBrush, 
-                    pen, 
-                    PixelFormats.Pbgra32);
-
-            int[] pixels;
-
-            if (blendMode == BlendMode.Copy && width == pc.Width && height == pc.Height)
-            {
-                pixels = pc.GetPixels();
-                bmp.CopyPixels(pixels, pc.Stride, 0);
-            }
-            else
-            {
-                var pc2 = new PixelArrayCanvas(width, height);
-                pixels = pc2.GetPixels();
-
-                bmp.CopyPixels(pixels, pc2.Stride, 0);
-
-                pc.Blit(
-                    new Rectangle(x, y, width, height),
-                    pc2,
-                    new Rectangle(0, 0, width, height),
-                    255, 255, 255, 255, blendMode);
-            }
         }
 
         public static void DrawDrawings(
@@ -475,45 +296,6 @@ namespace SquaredInfinity.Extensions
         }
 
 
-        public static void DrawVisual(this IPixelCanvas pc, int x, int y, ContainerVisual visual, BlendMode blendMode)
-        {
-            if (visual.ContentBounds.IsEmpty)
-                return;
-
-            var width = (int)visual.ContentBounds.Width;
-            var height = (int)visual.ContentBounds.Height;
-
-            var bmp = visual.RenderToBitmap(visual.ContentBounds.Size, new Point(0, 0));
-            
-            if (blendMode == BlendMode.Copy && width == pc.Width && height == pc.Height)
-            {
-                var pac = pc as PixelArrayCanvas;
-                if(pac == null)
-                {
-                    throw new NotSupportedException("BlendMode.Copy is only supported with PixelArrayCanvas");
-                }
-
-                bmp.CopyPixels(pac.Pixels, pc.Stride, 0);
-            }
-            else
-            {
-                var sw = Stopwatch.StartNew();
-
-                var pc2 = new PixelArrayCanvas(width, height);
-
-                bmp.CopyPixels(pc2.Pixels, pc2.Stride, 0);
-
-                Debug.WriteLine("Copy Pixels " + sw.GetElapsedAndRestart().TotalMilliseconds);
-
-                pc.Blit(
-                    new Rectangle(x, y, width, height),
-                    pc2,
-                    new Rectangle(0, 0, width, height),
-                    255, 255, 255, 255, blendMode);
-
-                Debug.WriteLine("Blit " + sw.GetElapsedAndRestart().TotalMilliseconds);
-            }
-        }
 
 #if DEBUG
 

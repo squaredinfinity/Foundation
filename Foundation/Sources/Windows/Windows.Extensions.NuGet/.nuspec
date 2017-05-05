@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+  <metadata>
+    <id>SquaredInfinity.Windows.Extensions</id>
+    <version>$version$</version>
+    <title>Squared Infinity ▪ Windows ▪ Extensions</title>
+    <authors>Squared Infinity</authors>
+    <owners>Squared Infinity</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Squared Infinity ▪ Windows ▪ Extensions</description>
+    <copyright>Copyright © Jarek Kardas</copyright>
+    <dependencies>
+      <group targetFramework="portable-net45+win80" />
+      <group targetFramework="net452">
+        <dependency id="SquaredInfinity.Extensions" version="2.0.6" />
+        <dependency id="SquaredInfinity.Maths.Extensions" version="2.0.3" />
+        <dependency id="SquaredInfinity.Primitives" version="2.0.7" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <!-- net 452 -->
+    <file src="..\Windows.Extensions.DotNet45\bin\$configuration$\SquaredInfinity.Windows.Extensions.DotNet45.dll" target="lib\net452\SquaredInfinity.Windows.Extensions.DotNet45.dll" exclude="" />
+    <file src="..\Windows.Extensions.DotNet45\bin\$configuration$\SquaredInfinity.Windows.Extensions.DotNet45.pdb" target="lib\net452\SquaredInfinity.Windows.Extensions.DotNet45.pdb" exclude="" />
+    <!--<file src="..\Windows.Extensions\bin\$configuration$\SquaredInfinity.Windows.Extensions.dll" target="lib\net452\SquaredInfinity.Windows.Extensions.dll" exclude="" />
+    <file src="..\Windows.Extensions\bin\$configuration$\SquaredInfinity.Windows.Extensions.pdb" target="lib\net452\SquaredInfinity.Windows.Extensions.pdb" exclude="" />-->
+    <!-- portable-net45+win -->
+    <!--<file src="..\Extensions\bin\$configuration$\SquaredInfinity.Extensions.dll" target="lib\portable-net45+win\SquaredInfinity.Extensions.dll" exclude="" />
+    <file src="..\Extensions\bin\$configuration$\SquaredInfinity.Extensions.pdb" target="lib\portable-net45+win\SquaredInfinity.Extensions.pdb" exclude="" />-->
+  </files>
+</package>
