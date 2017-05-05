@@ -11,16 +11,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish - BETA|AnyCPU'">
     <OutputPath>bin\Publish - BETA\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish - STABLE|AnyCPU'">
+    <OutputPath>bin\Publish - STABLE\</OutputPath>
+  </PropertyGroup>
   <Import Project="$(SolutionDir)\.build\nuget.targets" />
   <Target Name="Update Dependencies" AfterTargets="PrepareForBuild">
-    <!--
-    <NuSpecUpdateDependenciesFromPackagesConfig   NuSpecPath=".nuspec"
-                                                  PackageConfigPaths="..\Extensions\packages.config"
-                                                  TargetFramework="portable-net45+win80" />
-    <NuSpecUpdateDependenciesFromPackagesConfig   NuSpecPath=".nuspec"
-                                                  PackageConfigPaths="..\Extensions\packages.config;..\Extensions.DotNet45\packages.config"
-                                                  TargetFramework="net452" />
-    -->
+    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\Graphics.ColorSpaces\packages.config" TargetFramework="portable-net45+win80" />
+    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\Graphics.ColorSpaces\packages.config;..\Graphics.ColorSpaces.DotNet45\packages.config" TargetFramework="net452" />
   </Target>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -62,6 +59,10 @@
     <Compile Include="version.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Graphics.ColorSpaces.DotNet45\Graphics.ColorSpaces.DotNet45.csproj">
+      <Project>{3e3796cd-3ce4-41be-bced-da7fd6cb6343}</Project>
+      <Name>Graphics.ColorSpaces.DotNet45</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Graphics.ColorSpaces\Graphics.ColorSpaces.csproj">
       <Project>{334f5c71-5f55-47df-9cb2-6423e1dae649}</Project>
       <Name>Graphics.ColorSpaces</Name>
