@@ -66,7 +66,6 @@
     <Compile Include="System.Windows.Controls\ItemsControl.extensions.cs" />
     <Compile Include="System.Windows.Controls\TreeViewItem.extensions.cs" />
     <Compile Include="System.Windows.Media.Imaging\BitmapSource.extensions.cs" />
-    <Compile Include="System.Windows.Media\Color.extensions.cs" />
     <Compile Include="System.Windows.Media\DrawingContext.extensions.cs" />
     <Compile Include="System.Windows.Media\DrawingRenderInfo.cs" />
     <Compile Include="System.Windows.Media\Geometry.extensions.cs" />
