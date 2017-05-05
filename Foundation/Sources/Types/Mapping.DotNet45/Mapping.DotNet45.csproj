@@ -84,6 +84,7 @@
       <Link>version.cs</Link>
     </Compile>
     <Compile Include="CreateInstanceContext.cs" />
+    <Compile Include="Framework Extensions\System\Object.extensions.cs" />
     <Compile Include="ITypeMapper.cs" />
     <Compile Include="ITypeMappingStrategy.cs" />
     <Compile Include="MappingContext.cs" />

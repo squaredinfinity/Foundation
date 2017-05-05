@@ -19,7 +19,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Windows.Threading\Dispatcher.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml.Linq\XDocument.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System.Xml\XmlDocument.extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Object.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\String.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkExtensions\System\Type.extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GCMemoryUsagePressure.cs" />
