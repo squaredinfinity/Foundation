@@ -12,8 +12,8 @@
   </metadata>
   <files>
     <!-- net 452 -->
-    <file src="..\Windows.Data.Converters.DotNet45\bin\$configuration$\SquaredInfinity.Extensions.DotNet45.dll" target="lib\net452\SquaredInfinity.Windows.Data.Converters.DotNet45.dll" exclude="" />
-    <file src="..\Windows.Data.Converters.DotNet45\bin\$configuration$\SquaredInfinity.Extensions.DotNet45.pdb" target="lib\net452\SquaredInfinity.Windows.Data.Converters.DotNet45.pdb" exclude="" />
+    <file src="..\Windows.Data.Converters.DotNet45\bin\$configuration$\SquaredInfinity.Windows.Data.Converters.DotNet45.dll" target="lib\net452\SquaredInfinity.Windows.Data.Converters.DotNet45.dll" exclude="" />
+    <file src="..\Windows.Data.Converters.DotNet45\bin\$configuration$\SquaredInfinity.Windows.Data.Converters.DotNet45.pdb" target="lib\net452\SquaredInfinity.Windows.Data.Converters.DotNet45.pdb" exclude="" />
     <!--
     <file src="..\Extensions\bin\$configuration$\SquaredInfinity.Extensions.dll" target="lib\net452\SquaredInfinity.Extensions.dll" exclude="" />
     <file src="..\Extensions\bin\$configuration$\SquaredInfinity.Extensions.pdb" target="lib\net452\SquaredInfinity.Extensions.pdb" exclude="" />-->
