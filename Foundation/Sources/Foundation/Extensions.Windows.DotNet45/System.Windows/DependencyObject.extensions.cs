@@ -11,6 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Interop;
 using System.Diagnostics;
 using System.Windows.Media.Media3D;
+using SquaredInfinity.DataStructures.Algorithms.Trees;
 
 namespace SquaredInfinity.Extensions
 {
@@ -34,13 +35,12 @@ namespace SquaredInfinity.Extensions
 
         public static IEnumerable<DependencyObject> VisualTreeTraversal(
             this DependencyObject me,
-            bool includeChildItemsControls = true, 
-            TreeTraversalMode traversalMode = TreeTraversalMode.BreadthFirst)
+            bool includeChildItemsControls = true)
         {
             if (includeChildItemsControls)
-                return me.TreeTraversal(traversalMode, GetChildrenFuncIncludeChildItemsControls).Skip(1);
+                return new BreadthFirstTreeTraversal<DependencyObject>(GetChildrenFuncIncludeChildItemsControls).Traverse(me).Skip(1);
             else
-                return me.TreeTraversal(traversalMode, GetChildrenFuncExcludeChildItemsControls).Skip(1);
+                return new BreadthFirstTreeTraversal<DependencyObject>(GetChildrenFuncExcludeChildItemsControls).Traverse(me).Skip(1);
         }
 
         static IEnumerable<DependencyObject> GetChildrenFuncIncludeChildItemsControls(DependencyObject parent)
