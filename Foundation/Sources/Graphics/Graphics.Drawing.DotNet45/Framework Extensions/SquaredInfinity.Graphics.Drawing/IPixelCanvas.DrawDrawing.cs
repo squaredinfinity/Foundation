@@ -6,8 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
+using SquaredInfinity.Graphics.Drawing;
 
-namespace SquaredInfinity.Graphics.Drawing
+namespace SquaredInfinity.Extensions
 {
     public static partial class IPixelCanvasExtensions
     {

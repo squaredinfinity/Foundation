@@ -3,8 +3,9 @@ using SquaredInfinity.Extensions;
 using System.Windows;
 using System.Windows.Media;
 using System;
+using SquaredInfinity.Graphics.Drawing;
 
-namespace SquaredInfinity.Graphics.Drawing
+namespace SquaredInfinity.Extensions
 {
     public static partial class IPixelCanvasExtensions
     {

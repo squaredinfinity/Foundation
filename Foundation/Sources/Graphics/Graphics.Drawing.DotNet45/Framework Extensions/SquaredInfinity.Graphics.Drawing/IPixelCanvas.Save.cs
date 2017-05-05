@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SquaredInfinity.Graphics.Drawing;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
-namespace SquaredInfinity.Graphics.Drawing
+namespace SquaredInfinity.Extensions
 {
     public static partial class IPixelCanvasExtensions
     {
