@@ -1,4 +1,5 @@
 ﻿using SquaredInfinity.Graphics.ColorSpaces;
+using SquaredInfinity.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

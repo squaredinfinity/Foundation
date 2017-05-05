@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using SquaredInfinity.Extensions;
 using System.Text;
 using System.Windows;
 using System.Windows.Data;
-using SquaredInfinity.Foundation;
 
 namespace SquaredInfinity.Presentation.Converters
 {

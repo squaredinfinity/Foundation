@@ -32,7 +32,7 @@ namespace SquaredInfinity.Presentation.Converters
 
             if (!image.IsFrozen)
             {
-                image.AddMemoryPressure();
+//                image.AddMemoryPressure();
                 image.Freeze();
             }
 

@@ -30,20 +30,56 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="SquaredInfinity.DataStructures.Algorithms.Trees, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.DataStructures.Algorithms.Trees.2.0.2\lib\net452\SquaredInfinity.DataStructures.Algorithms.Trees.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.6\lib\net452\SquaredInfinity.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.Extensions.DotNet45, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.6\lib\net452\SquaredInfinity.Extensions.DotNet45.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.Graphics.ColorSpaces, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Graphics.ColorSpaces.2.0.3\lib\net452\SquaredInfinity.Graphics.ColorSpaces.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.Graphics.ColorSpaces.DotNet45, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Graphics.ColorSpaces.2.0.3\lib\net452\SquaredInfinity.Graphics.ColorSpaces.DotNet45.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.Maths.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Maths.Extensions.2.0.3\lib\portable-net45+win\SquaredInfinity.Maths.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.Primitives, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Primitives.2.0.7\lib\portable-net45+win\SquaredInfinity.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.Windows.Extensions.DotNet45, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Windows.Extensions.2.0.3\lib\net452\SquaredInfinity.Windows.Extensions.DotNet45.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.Windows.Resources.DotNet45, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Windows.Resources.2.0.4\lib\net452\SquaredInfinity.Windows.Resources.DotNet45.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Windows.Data.Converters.NuGet\version.cs">
       <Link>version.cs</Link>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
   <Import Project="..\Windows.Data.Converters\Windows.Data.Converters.projitems" Label="Shared" />

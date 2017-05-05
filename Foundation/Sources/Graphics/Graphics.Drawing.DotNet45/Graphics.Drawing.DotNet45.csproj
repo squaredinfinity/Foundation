@@ -68,8 +68,10 @@
     </Compile>
     <Compile Include="Commands\PixelCanvasCommandsEngine.cs" />
     <Compile Include="Commands\WpfDrawingContextDrawCommand.cs" />
+    <Compile Include="Framework Extensions\SquaredInfinity.Graphics.Drawing\IPixelCanvas.DrawDrawing.cs" />
     <Compile Include="Framework Extensions\SquaredInfinity.Graphics.Drawing\IPixelCanvas.DrawVisual.cs" />
     <Compile Include="Framework Extensions\SquaredInfinity.Graphics.Drawing\IPixelCanvas.DrawGeometry.cs" />
+    <Compile Include="Framework Extensions\SquaredInfinity.Graphics.Drawing\IPixelCanvas.GetColor.cs" />
     <Compile Include="Framework Extensions\SquaredInfinity.Graphics.Drawing\IPixelCanvas.ToWirteableBitmap.cs" />
     <Compile Include="Framework Extensions\SquaredInfinity.Graphics.Drawing\IPixelCanvas.Save.cs" />
   </ItemGroup>

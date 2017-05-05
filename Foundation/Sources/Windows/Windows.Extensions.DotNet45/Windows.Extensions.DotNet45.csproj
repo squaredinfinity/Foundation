@@ -32,6 +32,9 @@
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="SquaredInfinity.DataStructures.Algorithms.Trees, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.DataStructures.Algorithms.Trees.2.0.2\lib\net452\SquaredInfinity.DataStructures.Algorithms.Trees.dll</HintPath>
+    </Reference>
     <Reference Include="SquaredInfinity.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.6\lib\net452\SquaredInfinity.Extensions.dll</HintPath>
     </Reference>
@@ -59,11 +62,23 @@
     <Compile Include="..\Windows.Extensions.NuGet\version.cs">
       <Link>version.cs</Link>
     </Compile>
+    <Compile Include="System.Drawing\Bitmap.extensions.cs" />
+    <Compile Include="System.Windows.Controls\ItemsControl.extensions.cs" />
+    <Compile Include="System.Windows.Controls\TreeViewItem.extensions.cs" />
+    <Compile Include="System.Windows.Media.Imaging\BitmapSource.extensions.cs" />
+    <Compile Include="System.Windows.Media\Color.extensions.cs" />
     <Compile Include="System.Windows.Media\DrawingContext.extensions.cs" />
     <Compile Include="System.Windows.Media\DrawingRenderInfo.cs" />
     <Compile Include="System.Windows.Media\Geometry.extensions.cs" />
     <Compile Include="System.Windows.Media\ImageSource.extensions.cs" />
     <Compile Include="System.Windows.Media\Visual.extensions.cs" />
+    <Compile Include="System.Windows.Threading\Dispatcher.extensions.cs" />
+    <Compile Include="System.Windows\DependencyObject.extensions.cs" />
+    <Compile Include="System.Windows\FrameworkElement.extensions.cs" />
+    <Compile Include="System.Windows\Rect.extensions.cs" />
+    <Compile Include="System.Windows\Size.extensions.cs" />
+    <Compile Include="System.Windows\Vector.extensions.cs" />
+    <Compile Include="System.Windows\Window.extensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
