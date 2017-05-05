@@ -41,6 +41,7 @@
     <Compile Include="..\Maths.NuGet\version.cs">
       <Link>version.cs</Link>
     </Compile>
+    <Compile Include="ArithmeticSequence.cs" />
     <Compile Include="IImplementation.cs" />
     <Compile Include="IImplementationCollection.cs" />
     <Compile Include="Implementation.cs" />
