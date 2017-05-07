@@ -8,13 +8,13 @@ namespace SquaredInfinity.Maths
 {
     public struct ArithmeticSequence
     {
-        int _first;
-        public int First => _first;
+        double _first;
+        public double First => _first;
 
-        int _delta;
-        public int Delta => _delta;
+        double _delta;
+        public double Delta => _delta;
 
-        public ArithmeticSequence(int first, int delta)
+        public ArithmeticSequence(double first, double delta)
         {
             _first = first;
             _delta = delta;
@@ -25,10 +25,17 @@ namespace SquaredInfinity.Maths
         /// </summary>
         /// <param name="n"></param>
         /// <returns></returns>
-        public long Sum(int n) => (long)((n / 2.0) * (_first * 2.0 + (n - 1) * _delta));
+        public double Sum(int n) => ((n / 2.0) * (_first * 2.0 + (n - 1) * _delta));
 
-        public long Sum(int i, int n) => (long)((n / 2.0) * (At(i) * 2.0 + (n - 1) * _delta));
 
-        public int At(int n) => (int)(_first + (n - 1) * _delta);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="i">1-based index of a start element of the sequence</param>
+        /// <param name="n">number of elements to sum</param>
+        /// <returns></returns>
+        public double Sum(int i, int n) => ((n / 2.0) * (At(i) * 2.0 + (n - 1) * _delta));
+
+        public double At(int n) => (_first + (n - 1) * _delta);
     }
 }
