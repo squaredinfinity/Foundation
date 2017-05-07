@@ -8,19 +8,19 @@ namespace SquaredInfinity.Clipboard
     /// Implementation of CF_HTML Clipboard Format
     /// https://msdn.microsoft.com/en-us/library/aa767917(v=vs.85).aspx
     /// </summary>
-    public static class CF_HTML
+    public class CF_HTML
     {
-        public static string PrepareHtmlFragment(string html)
+        public string PrepareHtmlFragment(string html)
         {
             return PrepareHtmlFragment(html, title: null, sourceUrl: null);
         }
 
-        public static string PrepareHtmlFragment(string html, string title)
+        public string PrepareHtmlFragment(string html, string title)
         {
             return PrepareHtmlFragment(html, title, sourceUrl: null);
         }
 
-        public static string PrepareHtmlFragment(string html, string title, string sourceUrl)
+        public virtual string PrepareHtmlFragment(string html, string title, string sourceUrl)
         {
             //  NOTE: CF_HTML specifies that everything should use UTF-8
 

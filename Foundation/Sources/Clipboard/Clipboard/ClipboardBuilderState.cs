@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Clipboard
 {
-    public interface IWindowsClipboardBuilder : IClipboardBuilder
+    public class ClipboardBuilderState
     {
-        IClipboardBuilderStep SetData(string dataFormat, object data);
+        public Dictionary<string, object> Properties { get; private set; } = new Dictionary<string, object>();
     }
 }

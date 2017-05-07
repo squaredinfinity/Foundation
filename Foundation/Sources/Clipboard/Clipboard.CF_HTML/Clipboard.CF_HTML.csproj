@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D8BA3B5C-14BD-41A1-BB1B-56BE640AC312}</ProjectGuid>
+    <ProjectGuid>{318A8653-941B-46E1-9B20-CF2EA4C0895A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SquaredInfinity.Clipboard</RootNamespace>
-    <AssemblyName>SquaredInfinity.Clipboard</AssemblyName>
+    <AssemblyName>SquaredInfinity.Clipboard.CF_HTML</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -38,15 +38,10 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Clipboard.NuGet\version.cs">
+    <Compile Include="..\Clipboard.CF_HTML.NuGet\version.cs">
       <Link>version.cs</Link>
     </Compile>
-    <Compile Include="ClipboardBuilderState.cs" />
-    <Compile Include="ClipboardBuilderStep.cs" />
-    <Compile Include="ClipboardService.cs" />
-    <Compile Include="IClipboardBuilder.cs" />
-    <Compile Include="IClipboardBuilderStep.cs" />
-    <Compile Include="IClipboardService.cs" />
+    <Compile Include="CF_HTML.cs" />
   </ItemGroup>
   <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

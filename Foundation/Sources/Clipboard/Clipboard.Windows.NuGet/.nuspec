@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+  <metadata>
+    <id>SquaredInfinity.Clipboard.Windows</id>
+    <version>$version$</version>
+    <title>Squared Infinity ▪ Clipboard ▪ Windows</title>
+    <authors>Squared Infinity</authors>
+    <owners>Squared Infinity</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Squared Infinity ▪ Clipboard ▪ Windows</description>
+    <summary>Squared Infinity ▪ Clipboard ▪ Windows</summary>
+    <copyright>Copyright © Squared Infinity</copyright>
+    <dependencies>
+      <group targetFramework="portable-net45+win80" />
+      <group targetFramework="net452">
+        <dependency id="SquaredInfinity.Clipboard" version="2.0.3" />
+        <dependency id="SquaredInfinity.Clipboard.CF_HTML" version="2.0.0" />
+        <dependency id="SquaredInfinity.DataStructures.Algorithms.Trees" version="2.0.2" />
+        <dependency id="SquaredInfinity.Extensions" version="2.0.6" />
+        <dependency id="SquaredInfinity.Maths.Extensions" version="2.0.3" />
+        <dependency id="SquaredInfinity.Primitives" version="2.0.7" />
+        <dependency id="SquaredInfinity.Windows.Extensions" version="2.0.4" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\Clipboard.Windows\bin\$configuration$\SquaredInfinity.Clipboard.Windows.dll" target="lib\net452\SquaredInfinity.Clipboard.Windows.dll" exclude="" />
+    <file src="..\Clipboard.Windows\bin\$configuration$\SquaredInfinity.Clipboard.Windows.pdb" target="lib\net452\SquaredInfinity.Clipboard.Windows.pdb" exclude="" />
+    <!--<file src="..\Clipboard\bin\$configuration$\SquaredInfinity.Clipboard.dll" target="lib\net452\SquaredInfinity.Clipboard.dll" exclude="" />
+    <file src="..\Clipboard\bin\$configuration$\SquaredInfinity.Clipboard.pdb" target="lib\net452\SquaredInfinity.Clipboard.pdb" exclude="" />
+    <file src="..\Clipboard\bin\$configuration$\SquaredInfinity.Clipboard.dll" target="lib\portable-net45+win\SquaredInfinity.Clipboard.dll" exclude="" />
+    <file src="..\Clipboard\bin\$configuration$\SquaredInfinity.Clipboard.pdb" target="lib\portable-net45+win\SquaredInfinity.Clipboard.pdb" exclude="" />-->
+  </files>
+</package>

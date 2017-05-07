@@ -8,8 +8,11 @@ namespace SquaredInfinity.Clipboard
 {
     public abstract class ClipboardService : IClipboardService
     {
-        public IClipboardBuilder GetClipboardBuilder() => DoGetClipboardBuilder();
+        public void Execute(IClipboardBuilder builder) => DoExecute(builder);
+        protected abstract void DoExecute(IClipboardBuilder builder);
 
-        protected abstract IClipboardBuilder DoGetClipboardBuilder();
+
+        public IClipboardBuilder CreateClipboardBuilder() => DoCreateClipboardBuilder();
+        protected abstract IClipboardBuilder DoCreateClipboardBuilder();
     }
 }
