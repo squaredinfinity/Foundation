@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Threading
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
-    public class InvocationThrottle : IInvocationThrottle
+    public class InvocationThrottle : IInvocationThrottle, IDisposable
     {
         readonly object Sync = new object();
 
@@ -382,6 +382,16 @@ namespace SquaredInfinity.Threading
                 LastMinTimerResetUTC = DateTime.UtcNow;
             }
         }
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            MinTimer?.Dispose();
+            Scheduler = null;
+        }
+
+        #endregion
 
         public string DebuggerDisplay
         {
