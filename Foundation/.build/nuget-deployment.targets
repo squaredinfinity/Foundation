@@ -81,14 +81,14 @@
       Constructs semantic version for nuget package give Assembly Version from AssemblyInfo.cs and Pre-Release Name
   -->
   
-  <Target Name="GetBuildVersion">
+  <!--<Target Name="GetBuildVersion">
     <GetAssemblyVersion AssemblyInfoPath="$(AssemblyInfoPath)">
       <Output TaskParameter="AssemblyVersion" PropertyName="AssemblyVersion" />
     </GetAssemblyVersion>
     <ConstructSemanticVersion Version="$(AssemblyVersion)" PreReleaseName="$(PreReleaseName)">
       <Output TaskParameter="SemanticVersion" PropertyName="NugetPackageVersion" />
     </ConstructSemanticVersion>
-  </Target>
+  </Target>-->
   
 <!--
       OVERRIDE GET NUPKG VERSION STEP
@@ -96,9 +96,9 @@
       
   -->
 
-  <Target Name="GetNuPkgVersion" DependsOnTargets="GetBuildVersion">
+  <Target Name="GetNuPkgVersion">
     <PropertyGroup>
-      <Version>$(NugetPackageVersion)</Version>
+      <Version>1.5.4</Version>
     </PropertyGroup>
   </Target>
 

@@ -37,6 +37,7 @@
     <Tags>
     </Tags>
     <EmbedSourceFiles>true</EmbedSourceFiles>
+    <Version>1.5.2</Version>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sources\Core\Foundation.Maths.Core\Foundation.Maths.Core.csproj" />

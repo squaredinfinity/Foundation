@@ -70,9 +70,9 @@ namespace SquaredInfinity.Foundation.Maths.Space2D
                 return false;
             
             return
-                _x >= point.X
+                _x <= point.X
                 &&
-                _y >= point.Y
+                _y <= point.Y
                 &&
                 // Right, access fields directly for performance
                 _x + _width >= point.X
