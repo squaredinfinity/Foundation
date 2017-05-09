@@ -1,4 +1,5 @@
-﻿using SquaredInfinity.Graphics.ColorSpaces;
+﻿using SquaredInfinity.ComponentModel;
+using SquaredInfinity.Graphics.ColorSpaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,19 +8,46 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Presentation.Logic
 {
-    public class UserAction : IUserAction
+    public class UserAction : NotifyPropertyChangedObject, IUserAction
     {
-        public string IconGlyphFontFamily { get; set; }
+        string _iconGlyphFontFamily;
+        public string IconGlyphFontFamily
+        {
+            get { return _iconGlyphFontFamily; }
+            set { TrySetThisPropertyValue(ref _iconGlyphFontFamily, value); }
+        }
 
-        public string IconGlyph { get; set; }
+        string _iconGlyph;
+        public string IconGlyph
+        {
+            get { return _iconGlyph; }
+            set { TrySetThisPropertyValue(ref _iconGlyph, value); }
+        }
 
-        public string DisplayName { get; set; }
+        string _displayName;
+        public string DisplayName
+        {
+            get { return _displayName; }
+            set { TrySetThisPropertyValue(ref _displayName, value); }
+        }
 
-        public IColor IconGlyphColor { get; set; }
 
-        public LogicalOrder Order { get; set; }
+        IColor _iconGlyphColor;
+        public IColor IconGlyphColor
+        {
+            get { return _iconGlyphColor; }
+            set { TrySetThisPropertyValue(ref _iconGlyphColor, value); }
+        }
 
-        Action<UserActionParameters> ExecuteAction { get; set; }
+
+        LogicalOrder _order;
+        public LogicalOrder Order
+        {
+            get { return _order; }
+            set { TrySetThisPropertyValue(ref _order, value); }
+        }
+
+        public Action<UserActionParameters> ExecuteAction { get; set; }
 
         readonly List<IUserAction> _children = new List<IUserAction>();
         public List<IUserAction> Children {  get { return _children; } }
@@ -27,8 +55,10 @@ namespace SquaredInfinity.Presentation.Logic
 
         #region Constructors
 
-        public UserAction()
-        { }
+        public UserAction(string displayName)
+        {
+            this.DisplayName = displayName;
+        }
 
         public UserAction(
             string displayName, 

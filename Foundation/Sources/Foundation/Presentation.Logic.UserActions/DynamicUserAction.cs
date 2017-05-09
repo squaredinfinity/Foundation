@@ -1,4 +1,5 @@
-﻿using SquaredInfinity.Graphics.ColorSpaces;
+﻿using SquaredInfinity.ComponentModel;
+using SquaredInfinity.Graphics.ColorSpaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Presentation.Logic
 {
-    public class DynamicUserAction : IUserAction, IDynamicUserAction
+    public class DynamicUserAction : NotifyPropertyChangedObject, IUserAction, IDynamicUserAction
     {
         IUserAction _action;
         public IUserAction Action
@@ -15,14 +16,18 @@ namespace SquaredInfinity.Presentation.Logic
             get { return _action; }
             set
             {
-                if (_action == null)
+                if (value == null)
                     throw new ArgumentNullException(nameof(Action));
 
                 _action = value;
+                base.RaiseAllPropertiesChanged();
             }
         }
 
         #region Constructors
+
+        public DynamicUserAction()
+        { }
 
         public DynamicUserAction(IUserAction action)
         {

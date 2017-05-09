@@ -52,6 +52,9 @@
     <Reference Include="SquaredInfinity.Collections.MultiMap, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Collections.MultiMap.2.0.3\lib\portable-net45+win\SquaredInfinity.Collections.MultiMap.dll</HintPath>
     </Reference>
+    <Reference Include="SquaredInfinity.ComponentModel, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.ComponentModel.2.0.5\lib\portable-net45+win\SquaredInfinity.ComponentModel.dll</HintPath>
+    </Reference>
     <Reference Include="SquaredInfinity.Graphics.ColorSpaces, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Graphics.ColorSpaces.2.0.3\lib\portable-net45+win\SquaredInfinity.Graphics.ColorSpaces.dll</HintPath>
     </Reference>

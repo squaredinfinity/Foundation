@@ -16,6 +16,7 @@ SquaredInfinity.Presentation.Logic.UserAction
     <dependencies>
       <group targetFramework="portable-net45+win80">
         <dependency id="SquaredInfinity.Collections.MultiMap" version="2.0.3" />
+        <dependency id="SquaredInfinity.ComponentModel" version="2.0.5" />
         <dependency id="SquaredInfinity.Graphics.ColorSpaces" version="2.0.3" />
         <dependency id="SquaredInfinity.Maths.Extensions" version="2.0.3" />
         <dependency id="SquaredInfinity.Primitives" version="2.0.7" />
@@ -23,6 +24,7 @@ SquaredInfinity.Presentation.Logic.UserAction
       </group>
       <group targetFramework="net452">
         <dependency id="SquaredInfinity.Collections.MultiMap" version="2.0.3" />
+        <dependency id="SquaredInfinity.ComponentModel" version="2.0.5" />
         <dependency id="SquaredInfinity.Graphics.ColorSpaces" version="2.0.3" />
         <dependency id="SquaredInfinity.Maths.Extensions" version="2.0.3" />
         <dependency id="SquaredInfinity.Primitives" version="2.0.7" />
