@@ -59,16 +59,19 @@ namespace SquaredInfinity.Threading
             Min = min;
             Max = max;
 
-            MinTimer = new Timer(OnTimer, (object)null, Timeout.Infinite, Timeout.Infinite);
+            MinTimer = new Timer(OnTimer, this, Timeout.Infinite, Timeout.Infinite);
         }
 
-        private void OnTimer(object state)
+        // Static to avoid instance references when passed as Timer callback
+        static void OnTimer(object state)
         {
-            lock (Sync)
+            var it = (InvocationThrottle)state;
+
+            lock (it.Sync)
             {
                 var signal_time = DateTime.Now.ToUniversalTime();
 
-                if (LastMinTimerResetUTC >= signal_time)
+                if (it.LastMinTimerResetUTC >= signal_time)
                 {
                     Debug.WriteLine($"Timer Elapsed, but got canceled before it could stop this event from occuring");
                     // Timer Elapsed, but got canceled before it could stop this event from occuring;
@@ -76,7 +79,7 @@ namespace SquaredInfinity.Threading
                 }
 
                 Debug.WriteLine($"Timer Elapsed, calling OnNext()");
-                OnNext();
+                it.OnNext();
             }
         }
 
