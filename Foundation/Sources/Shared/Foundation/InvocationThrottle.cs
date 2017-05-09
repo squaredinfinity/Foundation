@@ -62,6 +62,10 @@ namespace SquaredInfinity.Foundation
             MinTimer = new Timer(OnTimer, this, Timeout.Infinite, Timeout.Infinite);
         }
 
+        /// <summary>
+        /// Static to avoid strong reference to InvocationThrottle being held by timer
+        /// </summary>
+        /// <param name="state"></param>
         static void OnTimer(object state)
         {
             var it = (InvocationThrottle)state;
