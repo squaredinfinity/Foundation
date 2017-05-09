@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SquaredInfinity.Graphics.ColorSpaces
 {
-    public class ColorChannel //NOTE: CORE UNSUPORTED, : ICloneable
+    public class ColorChannel
     {
         double value;
         public double Value
@@ -33,11 +33,6 @@ namespace SquaredInfinity.Graphics.ColorSpaces
         {
             this.channelDefinition = channelDefinition;
             this.value = value;
-        }
-
-        public object Clone()
-        {
-            return this.MemberwiseClone();
         }
 
         public static implicit operator double(ColorChannel colorChannel)
