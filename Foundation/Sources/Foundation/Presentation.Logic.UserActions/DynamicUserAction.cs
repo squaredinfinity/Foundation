@@ -44,14 +44,14 @@ namespace SquaredInfinity.Presentation.Logic
 
         #region IUserAction
 
-        void IUserAction.Execute(UserActionParameters parameters) => Action.Execute(parameters);
-        void IUserAction.Execute(IDictionary<string, object> parameters) => Action.Execute(parameters);
+        public void Execute(UserActionParameters parameters) => Action.Execute(parameters);
+        public void Execute(IDictionary<string, object> parameters) => Action.Execute(parameters);
 
-        LogicalOrder IUserAction.Order => Action.Order;
-        string IUserAction.DisplayName => Action.DisplayName;
-        string IUserAction.IconGlyph => Action.IconGlyph;
-        IColor IUserAction.IconGlyphColor => Action.IconGlyphColor;
-        string IUserAction.IconGlyphFontFamily => Action.IconGlyphFontFamily;
+        public LogicalOrder Order => Action.Order;
+        public string DisplayName => Action.DisplayName;
+        public string IconGlyph => Action.IconGlyph;
+        public IColor IconGlyphColor => Action.IconGlyphColor;
+        public string IconGlyphFontFamily => Action.IconGlyphFontFamily;
 
         #endregion
     }
