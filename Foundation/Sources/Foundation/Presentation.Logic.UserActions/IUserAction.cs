@@ -26,6 +26,7 @@ namespace SquaredInfinity.Presentation.Logic
         /// </summary>
         /// <returns></returns>
         string DisplayName { get; }
+        string Description { get; }
 
         LogicalOrder Order { get; }
 

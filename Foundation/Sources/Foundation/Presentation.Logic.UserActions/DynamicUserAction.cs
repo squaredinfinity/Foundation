@@ -49,6 +49,7 @@ namespace SquaredInfinity.Presentation.Logic
 
         public LogicalOrder Order => Action.Order;
         public string DisplayName => Action.DisplayName;
+        public string Description => Action.Description;
         public string IconGlyph => Action.IconGlyph;
         public IColor IconGlyphColor => Action.IconGlyphColor;
         public string IconGlyphFontFamily => Action.IconGlyphFontFamily;

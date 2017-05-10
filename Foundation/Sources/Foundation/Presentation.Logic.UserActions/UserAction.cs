@@ -31,6 +31,13 @@ namespace SquaredInfinity.Presentation.Logic
             set { TrySetThisPropertyValue(ref _displayName, value); }
         }
 
+        string _description;
+        public string Description
+        {
+            get { return _description; }
+            set { TrySetThisPropertyValue(ref _description, value); }
+        }
+
 
         IColor _iconGlyphColor;
         public IColor IconGlyphColor

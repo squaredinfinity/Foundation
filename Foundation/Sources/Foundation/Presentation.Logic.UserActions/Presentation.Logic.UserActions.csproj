@@ -41,10 +41,13 @@
     <Compile Include="..\Presentation.Logic.UserActions.NuGet\version.cs">
       <Link>version.cs</Link>
     </Compile>
+    <Compile Include="UserActionState.cs" />
     <Compile Include="DynamicUserAction.cs" />
     <Compile Include="ICompositeUserAction.cs" />
     <Compile Include="IDynamicUserAction.cs" />
+    <Compile Include="IStateMachineUserAction.cs" />
     <Compile Include="IUserAction.cs" />
+    <Compile Include="StateMachineUserAction.cs" />
     <Compile Include="UserActionParameters.cs" />
     <Compile Include="UserAction.cs" />
   </ItemGroup>
