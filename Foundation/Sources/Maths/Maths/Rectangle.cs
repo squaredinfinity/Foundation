@@ -14,7 +14,7 @@ namespace SquaredInfinity.Maths
         //! NOTE:   Instance methods change this instance
         //          Static methods create a new instance
 
-        public static readonly Rectangle Empty = new Rectangle();
+        public static readonly Rectangle Empty = new Rectangle(double.NaN, double.NaN, double.NaN, double.NaN);
 
         double _x;
         public double X {  get { return _x; } set { _x = value; } }
@@ -74,7 +74,9 @@ namespace SquaredInfinity.Maths
             get { return new Point2D(_x + _width, _y + _height); }
         }
 
-        public bool IsEmpty { get { return _width <= 0 || _height <= 0; } }
+        public bool IsEmpty => _width <= 0 || _height <= 0 || double.IsNaN(_width) || double.IsNaN(_height);
+
+        #region Constructors
 
         public Rectangle(double x, double y, double width, double height)
         {
@@ -83,6 +85,17 @@ namespace SquaredInfinity.Maths
             this._width = width;
             this._height = height;
         }
+
+        public Rectangle(Rectangle other)
+        {
+            this._x = other._x;
+            this._y = other._y;
+            this._width = other._width;
+            this._height = other._height;
+        }
+
+        #endregion
+
 
         #region Contains
 
@@ -202,6 +215,16 @@ namespace SquaredInfinity.Maths
                 y,
                 Math.Max(r1._x + r1._width, r1._x + r2._width) - x,
                 Math.Max(r1._y + r1._height, r2._y + r2._height) - y);
+        }
+
+        public static Rectangle Union(params Rectangle[] rectangles)
+        {
+            var r = Rectangle.Empty;
+
+            for (int i = 0; i < rectangles.Length; i++)
+                r.Union(rectangles[i]);
+
+            return r;
         }
 
         #endregion
