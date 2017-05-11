@@ -1,5 +1,6 @@
 ﻿using SquaredInfinity.ComponentModel;
 using SquaredInfinity.Graphics.ColorSpaces;
+using SquaredInfinity.Tagging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,9 @@ namespace SquaredInfinity.Presentation.Logic
         }
 
         #endregion 
+
+        readonly TagCollection _properties = new TagCollection();
+        public TagCollection Properties => _properties;
 
         readonly Dictionary<string, UserActionState> States = new Dictionary<string, UserActionState>();
 

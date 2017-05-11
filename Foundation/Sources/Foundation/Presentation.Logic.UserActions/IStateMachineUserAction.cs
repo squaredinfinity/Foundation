@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SquaredInfinity.Tagging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace SquaredInfinity.Presentation.Logic
 {
     public interface IStateMachineUserAction : IUserAction
     {
+        TagCollection Properties { get; }
+
         void AddState(string stateName, IUserAction action);
         void AddState(UserActionState state);
         void SetState(string stateName);
