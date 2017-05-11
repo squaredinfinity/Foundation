@@ -22,8 +22,7 @@ namespace SquaredInfinity.Threading
 
             public void Dispose()
             {
-                if (Owner.InternalLock.IsWriteLockHeld)
-                    Owner.InternalLock.ExitWriteLock();
+                Owner.InternalLock.ExitWriteLock();
 
                 Disposable?.Dispose();
             }

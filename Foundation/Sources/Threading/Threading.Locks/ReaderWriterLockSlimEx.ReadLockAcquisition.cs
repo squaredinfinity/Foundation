@@ -70,10 +70,9 @@ namespace SquaredInfinity.Threading
 
             public void Dispose()
             {
-                if (Owner.InternalLock.IsReadLockHeld)
-                    Owner.InternalLock.ExitReadLock();
+                Owner.InternalLock.ExitReadLock();
 
-                 Disposable?.Dispose();
+                Disposable?.Dispose();
             }
         }
     }
