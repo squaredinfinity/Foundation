@@ -8,29 +8,52 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Foundation.Maths.Space2D
 {
+
     [DebuggerDisplay("{DebuggerDisplay}")]
     public struct Rectangle : IEquatable<Rectangle>
     {
         //! NOTE:   Instance methods change this instance
         //          Static methods create a new instance
 
-        public static readonly Rectangle Empty = new Rectangle();
+        public static readonly Rectangle Empty = new Rectangle(double.NaN, double.NaN, double.NaN, double.NaN);
 
         double _x;
-        public double X {  get { return _x; } set { _x = value; } }
+        public double X { get { return _x; } set { _x = value; } }
         double _y;
-        public double Y {  get { return _y; } set { _y = value; } }
+        public double Y { get { return _y; } set { _y = value; } }
 
         double _width;
-        public double Width {  get { return _width; } set { _width = value; } }
+        public double Width { get { return _width; } set { _width = value; } }
         double _height;
-        public double Height {  get { return _height; } set { _height = value; } }
+        public double Height { get { return _height; } set { _height = value; } }
 
 
         public double Left { get { return _x; } }
-        public double Right {  get { return _x + _width; } }
+        public double Right { get { return _x + _width; } }
         public double Top { get { return _y; } set { _y = value; } }
-        public double Bottom {  get { return _y + _height; } }
+        public double Bottom { get { return _y + _height; } }
+
+        /// <summary>
+        /// True if rectangle has left-top corner coordinates of (0,0)
+        /// </summary>
+        public bool IsAtOrigin
+        {
+            get
+            {
+                return _x == 0 && _y == 0;
+            }
+        }
+
+        /// <summary>
+        /// Sets the left-top corner to coordinates of (0,0)
+        /// </summary>
+        public void TranslateToOrigin()
+        {
+            _width -= _x;
+            _height -= _y;
+            _x = 0;
+            _y = 0;
+        }
 
         public Point2D TopLeft
         {
@@ -52,7 +75,9 @@ namespace SquaredInfinity.Foundation.Maths.Space2D
             get { return new Point2D(_x + _width, _y + _height); }
         }
 
-        public bool IsEmpty { get { return _width <= 0 || _height <= 0; } }
+        public bool IsEmpty => _width <= 0 || _height <= 0 || double.IsNaN(_width) || double.IsNaN(_height);
+
+        #region Constructors
 
         public Rectangle(double x, double y, double width, double height)
         {
@@ -62,13 +87,24 @@ namespace SquaredInfinity.Foundation.Maths.Space2D
             this._height = height;
         }
 
+        public Rectangle(Rectangle other)
+        {
+            this._x = other._x;
+            this._y = other._y;
+            this._width = other._width;
+            this._height = other._height;
+        }
+
+        #endregion
+
+
         #region Contains
 
         public bool Contains(Point2D point)
         {
             if (IsEmpty)
                 return false;
-            
+
             return
                 _x <= point.X
                 &&
@@ -124,7 +160,7 @@ namespace SquaredInfinity.Foundation.Maths.Space2D
         public void Intersect(Rectangle other)
         {
             var x = Intersect(this, other);
-            
+
             this._x = x._x;
             this._y = x._y;
             this._width = x._width;
@@ -180,6 +216,16 @@ namespace SquaredInfinity.Foundation.Maths.Space2D
                 y,
                 Math.Max(r1._x + r1._width, r1._x + r2._width) - x,
                 Math.Max(r1._y + r1._height, r2._y + r2._height) - y);
+        }
+
+        public static Rectangle Union(params Rectangle[] rectangles)
+        {
+            var r = Rectangle.Empty;
+
+            for (int i = 0; i < rectangles.Length; i++)
+                r.Union(rectangles[i]);
+
+            return r;
         }
 
         #endregion
@@ -312,6 +358,7 @@ namespace SquaredInfinity.Foundation.Maths.Space2D
 
         #region Clone
 
+        // TODO: Is this still needed since Rectangle is now a Struct?
         public Rectangle Clone()
         {
             return new Rectangle(_x, _y, _width, _height);
@@ -324,4 +371,5 @@ namespace SquaredInfinity.Foundation.Maths.Space2D
             get { return $"({X},{Y}), w:{Width}, h:{Height}"; }
         }
     }
+
 }
