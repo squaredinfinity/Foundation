@@ -1,6 +1,7 @@
 ﻿using SquaredInfinity.Collections;
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace SquaredInfinity.Tagging
 {
     public class TagCollection : ITagCollection
     {
-        readonly Dictionary<Tag, object> Storage = new Dictionary<Tag, object>();
+        readonly ConcurrentDictionary<Tag, object> Storage = new ConcurrentDictionary<Tag, object>();
 
         public TagCollection()
         { }
@@ -43,7 +44,7 @@ namespace SquaredInfinity.Tagging
             if (Storage.ContainsKey(tag))
                 throw new ArgumentException($"Specified tag already exists: {tag.Key}");
 
-            Storage.Add(tag, new MarkerValue());
+            Storage.TryAdd(tag, new MarkerValue());
         }
 
         public void Add(string tag, object value, TagType tagType = TagType.SingleValue)
@@ -57,9 +58,19 @@ namespace SquaredInfinity.Tagging
                 throw new ArgumentException($"Specified tag already exists: {tag.Key}");
 
             if (tagType == TagType.SingleValue)
-                Storage.Add(tag, value);
+            {
+                if (!Storage.TryAdd(tag, value))
+                {
+                    throw new InvalidOperationException("key already exists.");
+                }
+            }
             else
-                Storage.Add(tag, new MultiValue(value));
+            {
+                if (!Storage.TryAdd(tag, new MultiValue(value)))
+                {
+                    throw new InvalidOperationException("key already exists.");
+                }
+            }
         }
 
         #endregion
@@ -68,19 +79,28 @@ namespace SquaredInfinity.Tagging
         {
             if (!Storage.TryGetValue(tag, out var v))
             {
-                Storage.Add(tag, new MultiValue(value));
-            }
-            else
-            {
-                var mv = v as MultiValue;
-
-                if(mv == null)
+                // value does not exist, try add
+                if (Storage.TryAdd(tag, new MultiValue(value)))
                 {
-                    throw new InvalidOperationException($"Tag does not support appending. {tag}");
+                    // added, can quit now
+                    return;
                 }
-
-                mv.Add(value);
+                else
+                {
+                    // must have been added already,
+                    // ignore and continue as usual
+                }
             }
+
+
+            var mv = v as MultiValue;
+
+            if (mv == null)
+            {
+                throw new InvalidOperationException($"Tag does not support appending. {tag}");
+            }
+
+            mv.Add(value);
         }
 
         public void AddOrUpdate(string tag, object value)
@@ -99,7 +119,7 @@ namespace SquaredInfinity.Tagging
                 if (!other.Contains(twv.Key))
                 {
                     if (twv.Value is MarkerValue || missingTagUpdateBehavior == MissingTagBehavior.Remove)
-                        Storage.Remove(twv.Key);
+                        Storage.TryRemove(twv.Key, out _);
                 }
             }
 
@@ -136,7 +156,7 @@ namespace SquaredInfinity.Tagging
                 if (!other.Contains(twv.Key))
                 {
                     if (twv.Value is MarkerValue || missingTagUpdateBehavior == MissingTagBehavior.Remove)
-                        Storage.Remove(twv.Key);
+                        Storage.TryRemove(twv.Key, out _);
                 }
             }
 
@@ -226,9 +246,9 @@ namespace SquaredInfinity.Tagging
 
         #endregion
 
+        [Obsolete("Use .Get() instead.")]
         public T GetValue<T>(string tag, Func<T> defaultValue)
         {
-
             if (Storage.TryGetValue(tag, out var o))
             {
                 return (T)o;
@@ -237,6 +257,23 @@ namespace SquaredInfinity.Tagging
             {
                 return defaultValue();
             }
+        }
+
+        public T Get<T>(string tag, Func<T> defaultValue)
+        {
+            if (Storage.TryGetValue(tag, out var o))
+            {
+                return (T)o;
+            }
+            else
+            {
+                return defaultValue();
+            }
+        }
+
+        public T GetOrAdd<T>(string tag, Func<T> valueFactory)
+        {
+            return (T)Storage.GetOrAdd(new Tag(tag), (key) => valueFactory());
         }
 
         public IReadOnlyList<TagWithValue> GetAllRawValues()
@@ -251,12 +288,12 @@ namespace SquaredInfinity.Tagging
 
         public void Remove(string tag)
         {
-            Storage.Remove(tag);
+            Storage.TryRemove(tag, out _);
         }
 
         public void Remove(Tag tag)
         {
-            Storage.Remove(tag);
+            Storage.TryRemove(tag, out _);
         }
 
         #endregion

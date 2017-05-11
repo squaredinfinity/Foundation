@@ -122,6 +122,10 @@ namespace SquaredInfinity.Tagging
         #endregion
 
 
+        [Obsolete("Use .Get() instead.")]
         T GetValue<T>(string tag, Func<T> defaultValue);
+
+        T Get<T>(string tag, Func<T> defaultValue);
+        T GetOrAdd<T>(string tag, Func<T> valueFactory);
     }
 }
