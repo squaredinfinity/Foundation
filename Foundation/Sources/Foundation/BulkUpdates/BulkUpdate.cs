@@ -25,10 +25,10 @@ namespace SquaredInfinity
                 return;
 
             HasFinished = true;
+
             Owner.EndBulkUpdate(this);
 
-            if (LockAcquisition != null)
-                LockAcquisition.Dispose();
+            LockAcquisition?.Dispose();
         }
     }
 }

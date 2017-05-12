@@ -11,9 +11,22 @@ namespace SquaredInfinity
 {
     public class SupportsBulkUpdate : NotifyPropertyChangedObject, ISupportsBulkUpdate
     {
-        public ILock Lock { get; protected set; } = LockFactory.Current.CreateLock();
+        public ILock Lock { get; protected set; }
 
         int BulkUpdateCount = 0;
+
+        public SupportsBulkUpdate()
+            : this(LockFactory.Current.CreateLock())
+        { }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="updateLock">Lock to be acquired when update is in progress. When specified, only one bulk update at the time can happen. NULL if no lock to acquire, this allows muliple concurrent bulk updates (but risks them overriding each other)</param>
+        public SupportsBulkUpdate(ILock updateLock)
+        {
+            Lock = updateLock;
+        }
 
         public bool IsBulkUpdateInProgress()
         {
@@ -24,7 +37,7 @@ namespace SquaredInfinity
         {
             OnBeforeBeginBulkUpdate();
 
-            var write_lock = Lock.AcquireWriteLockIfNotHeld();
+            var write_lock = Lock?.AcquireWriteLockIfNotHeld();
 
             Interlocked.Increment(ref BulkUpdateCount);
 
