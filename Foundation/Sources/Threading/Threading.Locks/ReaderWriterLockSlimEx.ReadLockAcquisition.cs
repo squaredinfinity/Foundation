@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SquaredInfinity.Disposables;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,15 +10,14 @@ namespace SquaredInfinity.Threading
 {
     public partial class ReaderWriterLockSlimEx
     {        
-        class ReadLockAcquisition : IReadLockAcquisition
+        class ReadLockAcquisition : DisposableObject, IReadLockAcquisition
         {
             ReaderWriterLockSlimEx Owner;
-            IDisposable Disposable;
 
             public ReadLockAcquisition(ReaderWriterLockSlimEx owner, IDisposable disposeWhenDone)
             {
                 this.Owner = owner;
-                this.Disposable = disposeWhenDone;
+                Disposables.Add(disposeWhenDone);
             }
 
             public IWriteLockAcquisition AcquireWriteLock()
@@ -68,11 +68,11 @@ namespace SquaredInfinity.Threading
                 return false;
             }
 
-            public void Dispose()
+            protected override void DisposeManagedResources()
             {
-                Owner.InternalLock.ExitReadLock();
+                base.DisposeManagedResources();
 
-                Disposable?.Dispose();
+                Owner.InternalLock.ExitReadLock();
             }
         }
     }

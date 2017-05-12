@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SquaredInfinity.Disposables;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,15 +10,18 @@ namespace SquaredInfinity.Threading
 {
     public partial class ReaderWriterLockSlimEx
     {
-        class UpgradeableReadLockAcquisition : IUpgradeableReadLockAcquisition
+        class UpgradeableReadLockAcquisition : DisposableObject, IUpgradeableReadLockAcquisition
         {
             ReaderWriterLockSlimEx Owner;
-            IDisposable Disposable;
+
+            bool IsUpdgradedToWrite = false;
+
+            
 
             public UpgradeableReadLockAcquisition(ReaderWriterLockSlimEx owner, IDisposable disposeWhenDone)
             {
                 this.Owner = owner;
-                this.Disposable = disposeWhenDone;
+                Disposables.Add(disposeWhenDone);
             }
 
             public IReadLockAcquisition DowngradeToReadLock()
@@ -59,6 +63,9 @@ namespace SquaredInfinity.Threading
             {
                 // lock parent first
                 Owner.InternalLock.EnterWriteLock();
+
+                IsUpdgradedToWrite = true;
+                
                 // then its children
                 var disposables = Owner.LockChildren(LockModes.Write);
 
@@ -70,12 +77,19 @@ namespace SquaredInfinity.Threading
                 throw new NotImplementedException();
             }
 
-
-            public void Dispose()
+            protected override void DisposeManagedResources()
             {
-                Owner.InternalLock.ExitUpgradeableReadLock();
-
-                Disposable?.Dispose();
+                base.DisposeManagedResources();
+            
+                if (IsUpdgradedToWrite)
+                {
+                    if(Owner.InternalLock.IsUpgradeableReadLockHeld)
+                        Owner.InternalLock.ExitUpgradeableReadLock();
+                }
+                else
+                {
+                    Owner.InternalLock.ExitUpgradeableReadLock();
+                }
             }
         }
     }
