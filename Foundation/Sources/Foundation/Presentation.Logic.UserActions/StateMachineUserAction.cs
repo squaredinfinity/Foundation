@@ -76,11 +76,11 @@ namespace SquaredInfinity.Presentation.Logic
         public void Execute(IDictionary<string, object> parameters) => Action.Execute(parameters);
 
         public LogicalOrder Order => Action.Order;
-        public string DisplayName => CurrentState.DisplayName ?? Action.DisplayName;
-        public string Description => CurrentState.Description ?? Action.Description;
-        public string IconGlyph => CurrentState.IconGlyph ?? Action.IconGlyph;
-        public IColor IconGlyphColor => CurrentState.IconGlyphColor ?? Action.IconGlyphColor;
-        public string IconGlyphFontFamily => CurrentState.IconGlyphFontFamily ?? Action.IconGlyphFontFamily;
+        public string DisplayName => Action.DisplayName;
+        public string Description => Action.Description;
+        public string IconGlyph => Action.IconGlyph;
+        public IColor IconGlyphColor => Action.IconGlyphColor;
+        public string IconGlyphFontFamily => Action.IconGlyphFontFamily;
 
         #endregion
     }
