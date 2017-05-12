@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,8 +28,8 @@ namespace Windows.Behaviors.Examples.DotNet
         {
             DataContext = this;
 
-            ExecuteClick = new cmd(() => MessageBox.Show("Click"));
-            ExecuteDoubleClick = new cmd(() => MessageBox.Show("Double Click"));
+            ExecuteClick = new cmd(() => MessageBox.Show($"Click on thread {Thread.CurrentThread.ManagedThreadId}"));
+            ExecuteDoubleClick = new cmd(() => MessageBox.Show($"Double Click on thread {Thread.CurrentThread.ManagedThreadId}"));
 
             InitializeComponent();
         }

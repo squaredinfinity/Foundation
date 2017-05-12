@@ -17,22 +17,33 @@ namespace SquaredInfinity.Windows.Behaviors
     {
         #region Invocation Throttle
 
-        static void SetInvocationThrottle(UIElement element, InvocationThrottle value)
+        public static void SetInvocationThrottle(UIElement element, InvocationThrottle value)
         {
             element.SetValue(InvocationThrottleProperty, value);
         }
 
-        static InvocationThrottle GetInvocationThrottle(UIElement element)
+        public static InvocationThrottle GetInvocationThrottle(UIElement element)
         {
             return (InvocationThrottle)element.GetValue(InvocationThrottleProperty);
         }
 
-        static readonly DependencyProperty InvocationThrottleProperty =
+        public static readonly DependencyProperty InvocationThrottleProperty =
             DependencyProperty.RegisterAttached(
             "InvocationThrottle",
             typeof(InvocationThrottle),
             typeof(SingleOrDoubleClick),
-            new PropertyMetadata(new InvocationThrottle(250, 500)));
+            new PropertyMetadata(GetDefaultInvocationThrottle()));
+
+        static InvocationThrottle GetDefaultInvocationThrottle()
+        {
+            var it = 
+                new InvocationThrottle(
+                    TaskScheduler.FromCurrentSynchronizationContext(),
+                    TimeSpan.FromMilliseconds(250),
+                    TimeSpan.FromMilliseconds(500));
+
+            return it;
+        }
 
         #endregion
 
