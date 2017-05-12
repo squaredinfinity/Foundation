@@ -8,6 +8,10 @@ namespace SquaredInfinity.Tagging
 {
     public interface ITagCollection : IEnumerable<TagWithValue>
     {
+        // NOTE:
+        // Careful when using generics, especially for methods manipulating existing values
+        // For example AddOrUpdate should not use generics because old value may not be of same type as updated value
+
         #region Add
 
         /// <summary>
@@ -48,8 +52,10 @@ namespace SquaredInfinity.Tagging
         /// </summary>
         /// <param name="tag"></param>
         /// <param name="value"></param>
-        /// <param name="overrideOldValues"></param>
-        void AddOrUpdate(string tag, object value);
+        T AddOrUpdate<T>(string tag, T value);
+
+        object AddOrUpdate(string tag, Func<Tag, object> addValueFactory, Func<Tag, object, object> updateValueFactory);
+        T AddOrUpdate<T>(string tag, Func<Tag, T> addValueFactory, Func<Tag, T, T> updateValueFactory);
 
         /// <summary>
         /// Adds specified tag if doesn't already exist,
@@ -94,6 +100,9 @@ namespace SquaredInfinity.Tagging
         /// <param name="tag"></param>
         void Remove(Tag tag);
 
+        bool TryRemove<T>(string tag, out T value);
+        bool TryRemove<T>(Tag tag, out T value);
+
         #endregion
 
         #region Contains
@@ -126,6 +135,7 @@ namespace SquaredInfinity.Tagging
         T GetValue<T>(string tag, Func<T> defaultValue);
 
         T Get<T>(string tag, Func<T> defaultValue);
-        T GetOrAdd<T>(string tag, Func<T> valueFactory);
+        T Get<T>(Tag tag, Func<T> defaultValue);
+        T GetOrAdd<T>(Tag tag, Func<T> valueFactory);
     }
 }

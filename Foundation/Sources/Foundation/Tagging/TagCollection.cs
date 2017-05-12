@@ -103,9 +103,21 @@ namespace SquaredInfinity.Tagging
             mv.Add(value);
         }
 
-        public void AddOrUpdate(string tag, object value)
+        public T AddOrUpdate<T>(string tag, T value)
         {
             Storage[tag] = new MultiValue(value);
+
+            return value;
+        }
+
+        public object AddOrUpdate(string tag, Func<Tag, object> addValueFactory, Func<Tag, object, object> updateValueFactory)
+        {
+            return Storage.AddOrUpdate(tag, addValueFactory, updateValueFactory);
+        }
+
+        public T AddOrUpdate<T>(string tag, Func<Tag, T> addValueFactory, Func<Tag, T, T> updateValueFactory)
+        {
+            return (T) Storage.AddOrUpdate(tag, (_key) => addValueFactory(_key), (_key, _old) => updateValueFactory(_key, (T)_old));
         }
 
         public void AddOrUpdateFrom(ITagCollection other, MissingTagBehavior missingTagUpdateBehavior = MissingTagBehavior.Keep)
@@ -271,9 +283,26 @@ namespace SquaredInfinity.Tagging
             }
         }
 
+        public T Get<T>(Tag tag, Func<T> defaultValue)
+        {
+            if (Storage.TryGetValue(tag, out var o))
+            {
+                return (T)o;
+            }
+            else
+            {
+                return defaultValue();
+            }
+        }
+
         public T GetOrAdd<T>(string tag, Func<T> valueFactory)
         {
-            return (T)Storage.GetOrAdd(new Tag(tag), (key) => valueFactory());
+            return (T)Storage.GetOrAdd(tag, (key) => valueFactory());
+        }
+
+        public T GetOrAdd<T>(Tag tag, Func<T> valueFactory)
+        {
+            return (T)Storage.GetOrAdd(tag, (key) => valueFactory());
         }
 
         public IReadOnlyList<TagWithValue> GetAllRawValues()
@@ -294,6 +323,38 @@ namespace SquaredInfinity.Tagging
         public void Remove(Tag tag)
         {
             Storage.TryRemove(tag, out _);
+        }
+
+        public bool TryRemove<T>(string tag, out T value)
+        {
+            var _ = (object)null;
+
+            if(!Storage.TryRemove(tag, out _))
+            {
+                value = default(T);
+                return false;
+            }
+            else
+            {
+                value = (T)_;
+                return true;
+            }
+        }
+
+        public bool TryRemove<T>(Tag tag, out T value)
+        {
+            var _ = (object)null;
+
+            if (!Storage.TryRemove(tag, out _))
+            {
+                value = default(T);
+                return false;
+            }
+            else
+            {
+                value = (T)_;
+                return true;
+            }
         }
 
         #endregion
