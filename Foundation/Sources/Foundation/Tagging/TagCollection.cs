@@ -234,6 +234,35 @@ namespace SquaredInfinity.Tagging
 
         #region Get All Values
 
+        public bool TryGetAllValues(string tag, out IReadOnlyList<object> values)
+        {
+            return TryGetAllValues(new Tag(tag), out values);
+        }
+        public bool TryGetAllValues(Tag tag, out IReadOnlyList<object> values)
+        {
+            if (!Storage.TryGetValue(tag, out var v))
+            {
+                values = null;
+                return false;
+            }
+
+            if (v is MarkerValue)
+            {
+                values = new object[] { true };
+                return true;
+            }
+
+            var mv = v as MultiValue;
+            if (mv != null)
+            {
+                values = mv.GetAll();
+                return true;
+            }
+
+            values = new object[] { v };
+            return true;
+        }
+
         public IReadOnlyList<object> GetAllValues(string tag)
         {
             return GetAllValues(new Tag(tag));
@@ -273,16 +302,7 @@ namespace SquaredInfinity.Tagging
 
         public bool TryGet<T>(string tag, out T value)
         {
-            if(Storage.TryGetValue(tag, out var o))
-            {
-                value = (T)o;
-                return true;
-            }
-            else
-            {
-                value = default(T);
-                return false;
-            }
+            return TryGet<T>(new Tag(tag), out value);
         }
 
         public bool TryGet<T>(Tag tag, out T value)
@@ -302,14 +322,7 @@ namespace SquaredInfinity.Tagging
 
         public T Get<T>(string tag, Func<T> defaultValue)
         {
-            if (Storage.TryGetValue(tag, out var o))
-            {
-                return (T)o;
-            }
-            else
-            {
-                return defaultValue();
-            }
+            return Get<T>(new Tag(tag), defaultValue);
         }
 
         public T Get<T>(Tag tag, Func<T> defaultValue)
@@ -356,18 +369,7 @@ namespace SquaredInfinity.Tagging
 
         public bool TryRemove<T>(string tag, out T value)
         {
-            var _ = (object)null;
-
-            if(!Storage.TryRemove(tag, out _))
-            {
-                value = default(T);
-                return false;
-            }
-            else
-            {
-                value = (T)_;
-                return true;
-            }
+            return TryRemove<T>(new Tag(tag), out value);
         }
 
         public bool TryRemove<T>(Tag tag, out T value)
