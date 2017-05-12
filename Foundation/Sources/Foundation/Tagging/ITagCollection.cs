@@ -134,6 +134,8 @@ namespace SquaredInfinity.Tagging
         [Obsolete("Use .Get() instead.")]
         T GetValue<T>(string tag, Func<T> defaultValue);
 
+        bool TryGet<T>(string tag, out T value);
+        bool TryGet<T>(Tag tag, out T value);
         T Get<T>(string tag, Func<T> defaultValue);
         T Get<T>(Tag tag, Func<T> defaultValue);
         T GetOrAdd<T>(Tag tag, Func<T> valueFactory);

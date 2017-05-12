@@ -271,6 +271,35 @@ namespace SquaredInfinity.Tagging
             }
         }
 
+        public bool TryGet<T>(string tag, out T value)
+        {
+            if(Storage.TryGetValue(tag, out var o))
+            {
+                value = (T)o;
+                return true;
+            }
+            else
+            {
+                value = default(T);
+                return false;
+            }
+        }
+
+        public bool TryGet<T>(Tag tag, out T value)
+        {
+            if (Storage.TryGetValue(tag, out var o))
+            {
+                value = (T)o;
+                return true;
+            }
+            else
+            {
+                value = default(T);
+                return false;
+            }
+        }
+
+
         public T Get<T>(string tag, Func<T> defaultValue)
         {
             if (Storage.TryGetValue(tag, out var o))
