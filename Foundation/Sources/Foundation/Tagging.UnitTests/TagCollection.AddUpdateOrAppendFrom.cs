@@ -29,7 +29,7 @@ namespace Tagging.UnitTests
             var tc2 = new TagCollection();
             tc2.Add("a", 3, TagType.SingleValue);
             tc2.AddOrUpdateFrom(tc1);
-            var vals = tc2.GetAllValues("a");
+            var vals = tc2.GetAll("a");
             Assert.AreEqual(2, vals.Count);
             Assert.IsTrue(vals.Contains(1));
             Assert.IsTrue(vals.Contains(2));

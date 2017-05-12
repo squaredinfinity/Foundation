@@ -116,11 +116,11 @@ namespace SquaredInfinity.Tagging
 
         #region Get All Values
 
-        bool TryGetAllValues(string tag, out IReadOnlyList<object> values);
-        bool TryGetAllValues(Tag tag, out IReadOnlyList<object> values);
+        bool TryGetAll(string tag, out IReadOnlyList<object> values);
+        bool TryGetAll(Tag tag, out IReadOnlyList<object> values);
 
-        IReadOnlyList<object> GetAllValues(string tag);
-        IReadOnlyList<object> GetAllValues(Tag tag);
+        IReadOnlyList<object> GetAll(string tag);
+        IReadOnlyList<object> GetAll(Tag tag);
 
         #endregion
 

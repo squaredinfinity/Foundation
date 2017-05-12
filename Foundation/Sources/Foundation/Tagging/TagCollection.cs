@@ -26,9 +26,9 @@ namespace SquaredInfinity.Tagging
 
         #region Indexer
 
-        public object this[string tag] => GetAllValues(tag).FirstOrDefault();
+        public object this[string tag] => GetAll(tag).FirstOrDefault();
 
-        public object this[Tag tag] => GetAllValues(tag).FirstOrDefault();
+        public object this[Tag tag] => GetAll(tag).FirstOrDefault();
 
         #endregion
 
@@ -234,11 +234,11 @@ namespace SquaredInfinity.Tagging
 
         #region Get All Values
 
-        public bool TryGetAllValues(string tag, out IReadOnlyList<object> values)
+        public bool TryGetAll(string tag, out IReadOnlyList<object> values)
         {
-            return TryGetAllValues(new Tag(tag), out values);
+            return TryGetAll(new Tag(tag), out values);
         }
-        public bool TryGetAllValues(Tag tag, out IReadOnlyList<object> values)
+        public bool TryGetAll(Tag tag, out IReadOnlyList<object> values)
         {
             if (!Storage.TryGetValue(tag, out var v))
             {
@@ -263,12 +263,12 @@ namespace SquaredInfinity.Tagging
             return true;
         }
 
-        public IReadOnlyList<object> GetAllValues(string tag)
+        public IReadOnlyList<object> GetAll(string tag)
         {
-            return GetAllValues(new Tag(tag));
+            return GetAll(new Tag(tag));
         }
 
-        public IReadOnlyList<object> GetAllValues(Tag tag)
+        public IReadOnlyList<object> GetAll(Tag tag)
         {
             if (!Storage.TryGetValue(tag, out var v))
                 return new object[0];

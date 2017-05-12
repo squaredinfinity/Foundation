@@ -34,7 +34,7 @@ namespace Tagging.UnitTests
             Assert.IsTrue(tc.GetAllRawValues()[0].Value is MultiValue);
 
             tc.AddOrAppend(new Tag("a"), 3);
-            var vals = tc.GetAllValues("a");
+            var vals = tc.GetAll("a");
             Assert.AreEqual(3, vals.Count);
             Assert.IsTrue(vals.Contains(1));
             Assert.IsTrue(vals.Contains(2));
