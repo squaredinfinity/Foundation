@@ -42,6 +42,8 @@
       <Link>version.cs</Link>
     </Compile>
     <Compile Include="CompositeDisposable.cs" />
+    <Compile Include="DisposableObjectWithFinalizer.cs" />
+    <Compile Include="DisposableObject.cs" />
     <Compile Include="ReferenceDisposable.cs" />
   </ItemGroup>
   <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
