@@ -21,8 +21,8 @@ namespace SquaredInfinity.Presentation.Logic
 
         #endregion 
 
-        readonly TagCollection _properties = new TagCollection();
-        public TagCollection Properties => _properties;
+        readonly TagCollection _tags = new TagCollection();
+        public ITagCollection Tags => _tags;
 
         readonly Dictionary<string, UserActionState> States = new Dictionary<string, UserActionState>();
 

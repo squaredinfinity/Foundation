@@ -1,5 +1,6 @@
 ﻿using SquaredInfinity.ComponentModel;
 using SquaredInfinity.Graphics.ColorSpaces;
+using SquaredInfinity.Tagging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +54,10 @@ namespace SquaredInfinity.Presentation.Logic
             get { return _order; }
             set { TrySetThisPropertyValue(ref _order, value); }
         }
+
+        readonly TagCollection _tags = new TagCollection();
+        public ITagCollection Tags => _tags;
+
 
         public Action<UserActionParameters> ExecuteAction { get; set; }
 

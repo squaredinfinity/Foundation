@@ -1,5 +1,6 @@
 ﻿using SquaredInfinity.ComponentModel;
 using SquaredInfinity.Graphics.ColorSpaces;
+using SquaredInfinity.Tagging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,10 @@ namespace SquaredInfinity.Presentation.Logic
                 base.RaiseAllPropertiesChanged();
             }
         }
+
+        readonly TagCollection _tags = new TagCollection();
+        public ITagCollection Tags => _tags;
+
 
         #region Constructors
 
