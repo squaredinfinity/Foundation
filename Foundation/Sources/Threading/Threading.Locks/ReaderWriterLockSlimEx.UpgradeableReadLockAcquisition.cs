@@ -14,9 +14,7 @@ namespace SquaredInfinity.Threading
         {
             ReaderWriterLockSlimEx Owner;
 
-            bool IsUpdgradedToWrite = false;
-
-            
+            bool IsUpdgradedToWrite = false;            
 
             public UpgradeableReadLockAcquisition(ReaderWriterLockSlimEx owner, IDisposable disposeWhenDone)
             {

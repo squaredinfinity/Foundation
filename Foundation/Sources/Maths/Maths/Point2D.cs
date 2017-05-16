@@ -78,7 +78,7 @@ namespace SquaredInfinity.Maths
             return d;
         }
 
-        public double Distance(double x1, double y1, double x2, double y2)
+        public static double Distance(double x1, double y1, double x2, double y2)
         {
             // d = |x - y| = Sqrt(Sum((xi - yi)^2))
 

@@ -37,6 +37,7 @@
     <Compile Include="..\Threading.Locks.NuGet\version.cs">
       <Link>version.cs</Link>
     </Compile>
+    <Compile Include="CompositeLock.cs" />
     <Compile Include="DefaultLockFactory.cs" />
     <Compile Include="ILock.cs" />
     <Compile Include="ILockFactory.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="ReaderWriterLockSlimEx.ReadLockAcquisition.cs" />
     <Compile Include="ReaderWriterLockSlimEx.UpgradeableReadLockAcquisition.cs" />
     <Compile Include="ReaderWriterLockSlimEx.WriteLockAcquisition.cs" />
+    <Compile Include="SemaphoreSlimEx.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

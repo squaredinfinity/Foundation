@@ -73,13 +73,18 @@ namespace SquaredInfinity.Threading
             {
                 foreach (var child in ChildLocks)
                 {
+                    if (lockType == LockModes.Read && !(child is IReadLock))
+                        lockType = LockModes.Write;
+                    if (lockType == LockModes.UpgradeableRead && !(child is IUpgradeableReadLock))
+                        lockType = LockModes.Write;
+
                     if (lockType == LockModes.Read)
                     {
-                        result.AddIfNotNull(child.AcquireReadLockIfNotHeld());
+                        result.AddIfNotNull((child as IReadLock).AcquireReadLockIfNotHeld());
                     }
                     else if (lockType == LockModes.UpgradeableRead)
                     {
-                        result.AddIfNotNull(child.AcquireUpgradeableReadLock());
+                        result.AddIfNotNull((child as IUpgradeableReadLock).AcquireUpgradeableReadLock());
                     }
                     else if (lockType == LockModes.Write)
                     {
@@ -108,10 +113,17 @@ namespace SquaredInfinity.Threading
                 if (!all_good)
                     break;
 
+                var actual_lock_type = lockType;
+
+                if (lockType == LockModes.Read && !(child is IReadLock))
+                    lockType = LockModes.Write;
+                if (lockType == LockModes.UpgradeableRead && !(child is IUpgradeableReadLock))
+                    lockType = LockModes.Write;
+
                 if (lockType == LockModes.Read)
                 {
                     var acqusition = (IReadLockAcquisition)null;
-                    if (child.TryAcquireReadLock(timeout, out acqusition))
+                    if ((child as IReadLock).TryAcquireReadLock(timeout, out acqusition))
                     {
                         all_child_disposables.AddIfNotNull(acqusition);
                     }
@@ -123,7 +135,7 @@ namespace SquaredInfinity.Threading
                 else if (lockType == LockModes.UpgradeableRead)
                 {
                     var acqusition = (IUpgradeableReadLockAcquisition)null;
-                    if (child.TryAcquireUpgradeableReadLock(timeout, out acqusition))
+                    if ((child as IUpgradeableReadLock).TryAcquireUpgradeableReadLock(timeout, out acqusition))
                     {
                         all_child_disposables.AddIfNotNull(acqusition);
                     }
