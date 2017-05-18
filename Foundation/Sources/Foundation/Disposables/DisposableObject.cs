@@ -16,6 +16,7 @@ namespace SquaredInfinity.Disposables
     {
         protected CompositeDisposable Disposables { get; } = new CompositeDisposable();
 
+        // NOTE: this does not need to be volatile because Interlocked.CompareExchange is used when accessed.
         int IsDisposed = 0;
 
         public void Dispose()
@@ -48,5 +49,31 @@ namespace SquaredInfinity.Disposables
         //  NOTE: 
         //  Finalizer not to be added to this type
         //~DisposableObject() { }
+
+
+
+        /// <summary>
+        /// Creates a disposable object which invokes specified action when disposed.
+        /// The action is guaranteed to run no more than once.
+        /// Disposable object will hold a strong reference to the action.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static IDisposable Create(Action action)
+        {
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
+
+            return new _ActionDisposable(action);
+        }
+
+        /// <summary>
+        /// Creates a new disposable object which doesn't do anything when disposed.
+        /// </summary>
+        /// <returns></returns>
+        public static IDisposable Create()
+        {
+            return new _DoNothingDisposable();
+        }
     }
 }

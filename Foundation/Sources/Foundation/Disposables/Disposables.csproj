@@ -45,6 +45,8 @@
     <Compile Include="DisposableObjectWithFinalizer.cs" />
     <Compile Include="DisposableObject.cs" />
     <Compile Include="ReferenceDisposable.cs" />
+    <Compile Include="_ActionDisposable.cs" />
+    <Compile Include="_DoNothingDisposable.cs" />
   </ItemGroup>
   <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
