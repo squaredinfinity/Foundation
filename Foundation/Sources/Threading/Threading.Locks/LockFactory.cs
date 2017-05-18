@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Threading
+namespace SquaredInfinity.Threading.Locks
 {
     public static class LockFactory
     {

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Threading
+namespace SquaredInfinity.Threading.Locks
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
     public partial class ReaderWriterLockSlimEx : ILock
@@ -65,7 +65,7 @@ namespace SquaredInfinity.Threading
         }
 
 
-        protected virtual IDisposable LockChildren(LockModes lockType)
+        protected virtual IDisposable LockChildren(LockType lockType)
         {
             var result = new CompositeDisposable();
 
@@ -73,20 +73,20 @@ namespace SquaredInfinity.Threading
             {
                 foreach (var child in ChildLocks)
                 {
-                    if (lockType == LockModes.Read && !(child is IReadLock))
-                        lockType = LockModes.Write;
-                    if (lockType == LockModes.UpgradeableRead && !(child is IUpgradeableReadLock))
-                        lockType = LockModes.Write;
+                    if (lockType == LockType.Read && !(child is IReadLock))
+                        lockType = LockType.Write;
+                    if (lockType == LockType.UpgradeableRead && !(child is IUpgradeableReadLock))
+                        lockType = LockType.Write;
 
-                    if (lockType == LockModes.Read)
+                    if (lockType == LockType.Read)
                     {
                         result.AddIfNotNull((child as IReadLock).AcquireReadLockIfNotHeld());
                     }
-                    else if (lockType == LockModes.UpgradeableRead)
+                    else if (lockType == LockType.UpgradeableRead)
                     {
                         result.AddIfNotNull((child as IUpgradeableReadLock).AcquireUpgradeableReadLock());
                     }
-                    else if (lockType == LockModes.Write)
+                    else if (lockType == LockType.Write)
                     {
                         result.AddIfNotNull(child.AcquireWriteLockIfNotHeld());
                     }
@@ -101,7 +101,7 @@ namespace SquaredInfinity.Threading
         }
 
 
-        public virtual bool TryLockChildren(LockModes lockType, TimeSpan timeout, out IDisposable childDisposables)
+        public virtual bool TryLockChildren(LockType lockType, TimeSpan timeout, out IDisposable childDisposables)
         {
             var all_child_disposables = new CompositeDisposable();
             childDisposables = all_child_disposables;
@@ -115,12 +115,12 @@ namespace SquaredInfinity.Threading
 
                 var actual_lock_type = lockType;
 
-                if (lockType == LockModes.Read && !(child is IReadLock))
-                    lockType = LockModes.Write;
-                if (lockType == LockModes.UpgradeableRead && !(child is IUpgradeableReadLock))
-                    lockType = LockModes.Write;
+                if (lockType == LockType.Read && !(child is IReadLock))
+                    lockType = LockType.Write;
+                if (lockType == LockType.UpgradeableRead && !(child is IUpgradeableReadLock))
+                    lockType = LockType.Write;
 
-                if (lockType == LockModes.Read)
+                if (lockType == LockType.Read)
                 {
                     var acqusition = (IReadLockAcquisition)null;
                     if ((child as IReadLock).TryAcquireReadLock(timeout, out acqusition))
@@ -132,7 +132,7 @@ namespace SquaredInfinity.Threading
                         all_good = false;
                     }
                 }
-                else if (lockType == LockModes.UpgradeableRead)
+                else if (lockType == LockType.UpgradeableRead)
                 {
                     var acqusition = (IUpgradeableReadLockAcquisition)null;
                     if ((child as IUpgradeableReadLock).TryAcquireUpgradeableReadLock(timeout, out acqusition))
@@ -144,7 +144,7 @@ namespace SquaredInfinity.Threading
                         all_good = false;
                     }
                 }
-                else if (lockType == LockModes.Write)
+                else if (lockType == LockType.Write)
                 {
                     var acqusition = (IWriteLockAcquisition)null;
                     if (child.TryAcquireWriteLock(timeout, out acqusition))
@@ -183,7 +183,7 @@ namespace SquaredInfinity.Threading
             // lock parent first
             InternalLock.EnterReadLock();
             // then its children
-            var disposables = LockChildren(LockModes.Read);
+            var disposables = LockChildren(LockType.Read);
 
             return new ReadLockAcquisition(owner: this, disposeWhenDone: disposables);
         }
@@ -198,7 +198,7 @@ namespace SquaredInfinity.Threading
             // lock parent first
             InternalLock.EnterReadLock();
             // then its children
-            var disposables = LockChildren(LockModes.Read);
+            var disposables = LockChildren(LockType.Read);
 
             return new ReadLockAcquisition(owner: this, disposeWhenDone: disposables);
         }
@@ -213,7 +213,7 @@ namespace SquaredInfinity.Threading
             }
 
             var disposables = (IDisposable)null;
-            var ok = TryLockChildren(LockModes.Read, timeout, out disposables);
+            var ok = TryLockChildren(LockType.Read, timeout, out disposables);
 
             if (ok)
             {
@@ -221,7 +221,7 @@ namespace SquaredInfinity.Threading
 
                 if (ok)
                 {
-                    readLockAcquisition = new ReadLockAcquisition(owner: this, disposeWhenDone: LockChildren(LockModes.Read));
+                    readLockAcquisition = new ReadLockAcquisition(owner: this, disposeWhenDone: LockChildren(LockType.Read));
                     return true;
                 }
                 else
@@ -239,7 +239,7 @@ namespace SquaredInfinity.Threading
             // lock parent first
             InternalLock.EnterUpgradeableReadLock();
             // then its children
-            var disposables = LockChildren(LockModes.UpgradeableRead);
+            var disposables = LockChildren(LockType.UpgradeableRead);
 
             return new UpgradeableReadLockAcquisition(owner: this, disposeWhenDone: disposables);
         }
@@ -262,7 +262,7 @@ namespace SquaredInfinity.Threading
 
             IDisposable disposables = (IDisposable)null;
 
-            var ok = TryLockChildren(LockModes.UpgradeableRead, timeout, out disposables);
+            var ok = TryLockChildren(LockType.UpgradeableRead, timeout, out disposables);
 
             if (ok)
             {
@@ -288,7 +288,7 @@ namespace SquaredInfinity.Threading
             // lock parent first
             InternalLock.EnterWriteLock();
             // then its children
-            var disposables = LockChildren(LockModes.Write);
+            var disposables = LockChildren(LockType.Write);
 
             return new WriteLockAcquisition(owner: this, disposeWhenDone: disposables);
         }
@@ -301,7 +301,7 @@ namespace SquaredInfinity.Threading
             // lock parent first
             InternalLock.EnterWriteLock();
             // then its children
-            var disposables = LockChildren(LockModes.Write);
+            var disposables = LockChildren(LockType.Write);
 
             return new WriteLockAcquisition(owner: this, disposeWhenDone: disposables);
         }
@@ -324,7 +324,7 @@ namespace SquaredInfinity.Threading
 
             var disposables = (IDisposable)null;
 
-            var ok = TryLockChildren(LockModes.Write, timeout, out disposables);
+            var ok = TryLockChildren(LockType.Write, timeout, out disposables);
 
             if (ok)
             {

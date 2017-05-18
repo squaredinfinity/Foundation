@@ -5,32 +5,33 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using SquaredInfinity.Extensions;
 
 namespace SquaredInfinity.Threading.Locks
 {
-    public partial class ReaderWriterLockSlimEx
+    public partial class AsyncLock
     {
-        class WriteLockAcquisition : DisposableObject, IWriteLockAcquisition
+        class _WriteLockAcquisition : DisposableObject, IWriteLockAcquisition
         {
-            ReaderWriterLockSlimEx Owner;
+            AsyncLock Owner;
 
             public bool IsLockHeld { get; private set; }
 
-            public WriteLockAcquisition(ReaderWriterLockSlimEx owner, IDisposable disposeWhenDone)
+            public _WriteLockAcquisition(AsyncLock owner, IDisposable disposeWhenDone)
             {
+                IsLockHeld = true;
+
                 this.Owner = owner;
 
-                Disposables.Add(disposeWhenDone);
-
-                IsLockHeld = true;
+                Disposables.AddIfNotNull(disposeWhenDone);
             }
 
             protected override void DisposeManagedResources()
             {
                 base.DisposeManagedResources();
 
-                Owner.InternalLock.ExitWriteLock();
-
+                Owner.InternalWriteLock.Release();
+                
                 IsLockHeld = false;
             }
         }

@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Threading.Locks
 {
-    public interface IWriteLockAcquisition : ILockAcquisition
+    class _FailedLockAcquisition : ILockAcquisition
     {
+        public bool IsLockHeld => false;
+
+        public void Dispose() { }
     }
 }

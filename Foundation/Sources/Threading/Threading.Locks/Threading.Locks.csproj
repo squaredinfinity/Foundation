@@ -37,27 +37,35 @@
     <Compile Include="..\Threading.Locks.NuGet\version.cs">
       <Link>version.cs</Link>
     </Compile>
-    <Compile Include="CompositeLock.cs" />
+    <Compile Include="_CompositeLock.cs" />
+    <Compile Include="_CompositeLockAcqusition.cs" />
     <Compile Include="DefaultLockFactory.cs" />
+    <Compile Include="_FailedLockAcquisition.cs" />
+    <Compile Include="IAsyncLock.cs" />
+    <Compile Include="ICompositeAsyncLock.cs" />
     <Compile Include="ILock.cs" />
+    <Compile Include="ILockAcquisition.cs" />
     <Compile Include="ILockFactory.cs" />
     <Compile Include="IReadLockAcquisition.cs" />
     <Compile Include="IUpgradeableReadLockAcquisition.cs" />
     <Compile Include="IWriteLockAcquisition.cs" />
     <Compile Include="LockFactory.cs" />
+    <Compile Include="_LockIdProvider.cs" />
     <Compile Include="LockModes.cs" />
     <Compile Include="ReaderWriterLockSlimEx.cs" />
     <Compile Include="ReaderWriterLockSlimEx.ReadLockAcquisition.cs" />
     <Compile Include="ReaderWriterLockSlimEx.UpgradeableReadLockAcquisition.cs" />
     <Compile Include="ReaderWriterLockSlimEx.WriteLockAcquisition.cs" />
-    <Compile Include="SemaphoreSlimEx.cs" />
+    <Compile Include="AsyncLock._WriteLockAcquisition.cs" />
+    <Compile Include="AsyncLock.cs" />
+    <Compile Include="_CompositeAsyncLock.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SquaredInfinity.Disposables, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Disposables.2.0.8\lib\portable-net45+win\SquaredInfinity.Disposables.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Disposables.2.0.9\lib\portable-net45+win\SquaredInfinity.Disposables.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.6\lib\portable-net45+win\SquaredInfinity.Extensions.dll</HintPath>

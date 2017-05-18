@@ -5,8 +5,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Threading
+namespace SquaredInfinity.Threading.Locks
 {
+    public interface IUpgradeableReaderWriterLock
+        : ILock, IReadLock, IUpgradeableReadLock, ICompositeLock
+    { }   
+
+
     public interface ILock
     {
         bool IsWriteLockHeld { get; }
@@ -14,16 +19,6 @@ namespace SquaredInfinity.Threading
         IWriteLockAcquisition AcquireWriteLock();
         IWriteLockAcquisition AcquireWriteLockIfNotHeld();
         bool TryAcquireWriteLock(TimeSpan timeout, out IWriteLockAcquisition writeLockAcquisition);
-    }
-
-    public interface IAsyncLock
-    {
-        Task<IWriteLockAcquisition> AcqureWriteLockAsync();
-        Task<IWriteLockAcquisition> AcqureWriteLockAsync(CancellationToken ct);
-        Task<IWriteLockAcquisition> AcqureWriteLockAsync(int millisecondsTimeout);
-        Task<IWriteLockAcquisition> AcqureWriteLockAsync(int millisecondsTimeout, CancellationToken ct);
-        Task<IWriteLockAcquisition> AcqureWriteLockAsync(TimeSpan timeout);
-        Task<IWriteLockAcquisition> AcqureWriteLockAsync(TimeSpan timeout, CancellationToken ct);
     }
 
     public interface IReadLock : ILock

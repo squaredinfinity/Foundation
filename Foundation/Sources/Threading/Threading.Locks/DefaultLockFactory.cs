@@ -5,18 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Threading
+namespace SquaredInfinity.Threading.Locks
 {
     public class DefaultLockFactory : ILockFactory
-    {        
-        public ILock CreateLock()
-        {
-            return CreateLock("");
-        }
+    {
+        public IAsyncLock CreateAsyncLock() => CreateAsyncLock("");
 
-        public ILock CreateLock(string name)
-        {
-            return new ReaderWriterLockSlimEx(name);
-        }
+        public IAsyncLock CreateAsyncLock(string name) => new AsyncLock(name);
+
+        public ILock CreateLock() => CreateLock("");
+
+        public ILock CreateLock(string name) => new ReaderWriterLockSlimEx(name);
     }
 }

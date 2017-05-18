@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Threading.Locks
 {
-    public interface IWriteLockAcquisition : ILockAcquisition
+    public interface ICompositeAsyncLock
     {
+        void AddChild(IAsyncLock childLock);
+        void RemoveChild(IAsyncLock childLock);
     }
 }

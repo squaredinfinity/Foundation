@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Threading
 {
-    public enum LockModes
+    public enum LockType
     {
         Read,
         Write,

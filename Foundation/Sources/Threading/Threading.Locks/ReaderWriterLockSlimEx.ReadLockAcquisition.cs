@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SquaredInfinity.Threading
+namespace SquaredInfinity.Threading.Locks
 {
     public partial class ReaderWriterLockSlimEx
     {        
@@ -25,7 +25,7 @@ namespace SquaredInfinity.Threading
                 // lock parent first
                 Owner.InternalLock.EnterWriteLock();
                 // then its children
-                var disposables = Owner.LockChildren(LockModes.Write);
+                var disposables = Owner.LockChildren(LockType.Write);
 
                 return new WriteLockAcquisition(Owner, disposables);
             }
@@ -47,7 +47,7 @@ namespace SquaredInfinity.Threading
                 }
 
                 var disposables = (IDisposable)null;
-                var ok = Owner.TryLockChildren(LockModes.Write, timeout, out disposables);
+                var ok = Owner.TryLockChildren(LockType.Write, timeout, out disposables);
 
                 if (ok)
                 {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Threading.Locks
 {
-    public abstract class CompositeLock : ICompositeLock
+    class _CompositeLock : ICompositeLock
     {
         #region Child Locks
 
@@ -35,7 +35,7 @@ namespace SquaredInfinity.Threading.Locks
 
         #region (un)lock children
 
-        protected virtual IDisposable LockChildren(LockModes lockType)
+        protected virtual IDisposable LockChildren(LockType lockType)
         {
             var result = new CompositeDisposable();
 
@@ -43,20 +43,20 @@ namespace SquaredInfinity.Threading.Locks
             {
                 foreach (var child in ChildLocks)
                 {
-                    if (lockType == LockModes.Read && !(child is IReadLock))
-                        lockType = LockModes.Write;
-                    if (lockType == LockModes.UpgradeableRead && !(child is IUpgradeableReadLock))
-                        lockType = LockModes.Write;
+                    if (lockType == LockType.Read && !(child is IReadLock))
+                        lockType = LockType.Write;
+                    if (lockType == LockType.UpgradeableRead && !(child is IUpgradeableReadLock))
+                        lockType = LockType.Write;
 
-                    if (lockType == LockModes.Read)
+                    if (lockType == LockType.Read)
                     {
                         result.AddIfNotNull((child as IReadLock).AcquireReadLockIfNotHeld());
                     }
-                    else if (lockType == LockModes.UpgradeableRead)
+                    else if (lockType == LockType.UpgradeableRead)
                     {
                         result.AddIfNotNull((child as IUpgradeableReadLock).AcquireUpgradeableReadLock());
                     }
-                    else if (lockType == LockModes.Write)
+                    else if (lockType == LockType.Write)
                     {
                         result.AddIfNotNull(child.AcquireWriteLockIfNotHeld());
                     }
@@ -71,7 +71,7 @@ namespace SquaredInfinity.Threading.Locks
         }
 
 
-        public virtual bool TryLockChildren(LockModes lockType, TimeSpan timeout, out IDisposable childDisposables)
+        public virtual bool TryLockChildren(LockType lockType, TimeSpan timeout, out IDisposable childDisposables)
         {
             var all_child_disposables = new CompositeDisposable();
             childDisposables = all_child_disposables;
@@ -85,12 +85,12 @@ namespace SquaredInfinity.Threading.Locks
 
                 var actual_lock_type = lockType;
 
-                if (lockType == LockModes.Read && !(child is IReadLock))
-                    lockType = LockModes.Write;
-                if (lockType == LockModes.UpgradeableRead && !(child is IUpgradeableReadLock))
-                    lockType = LockModes.Write;
+                if (lockType == LockType.Read && !(child is IReadLock))
+                    lockType = LockType.Write;
+                if (lockType == LockType.UpgradeableRead && !(child is IUpgradeableReadLock))
+                    lockType = LockType.Write;
 
-                if (lockType == LockModes.Read)
+                if (lockType == LockType.Read)
                 {
                     var acqusition = (IReadLockAcquisition)null;
                     if ((child as IReadLock).TryAcquireReadLock(timeout, out acqusition))
@@ -102,7 +102,7 @@ namespace SquaredInfinity.Threading.Locks
                         all_good = false;
                     }
                 }
-                else if (lockType == LockModes.UpgradeableRead)
+                else if (lockType == LockType.UpgradeableRead)
                 {
                     var acqusition = (IUpgradeableReadLockAcquisition)null;
                     if ((child as IUpgradeableReadLock).TryAcquireUpgradeableReadLock(timeout, out acqusition))
@@ -114,7 +114,7 @@ namespace SquaredInfinity.Threading.Locks
                         all_good = false;
                     }
                 }
-                else if (lockType == LockModes.Write)
+                else if (lockType == LockType.Write)
                 {
                     var acqusition = (IWriteLockAcquisition)null;
                     if (child.TryAcquireWriteLock(timeout, out acqusition))
