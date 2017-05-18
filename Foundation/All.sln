@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution items", ".solution items", "{0DA3DCAD-BED8-4032-A426-C0703DC653CF}"
 	ProjectSection(SolutionItems) = preProject
@@ -479,6 +479,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Threading.Locks.UnitTests", "Sources\Threading\Threading.Locks.UnitTests\Threading.Locks.UnitTests.csproj", "{B00F0681-42FB-45BD-ABDD-4CA550819991}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cache.UnitTests", "Sources\Cache\Cache.UnitTests\Cache.UnitTests.csproj", "{6B27C307-3F9A-4A36-AD15-5D0DB0ED0214}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkUpdates.UnitTests", "Sources\Foundation\BulkUpdates.UnitTests\BulkUpdates.UnitTests.csproj", "{EDBD1E03-E019-4414-A8C4-347B044BF802}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -2398,6 +2400,18 @@ Global
 		{6B27C307-3F9A-4A36-AD15-5D0DB0ED0214}.Publish - STABLE|Any CPU.Build.0 = Release|Any CPU
 		{6B27C307-3F9A-4A36-AD15-5D0DB0ED0214}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B27C307-3F9A-4A36-AD15-5D0DB0ED0214}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDBD1E03-E019-4414-A8C4-347B044BF802}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDBD1E03-E019-4414-A8C4-347B044BF802}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDBD1E03-E019-4414-A8C4-347B044BF802}.Publish - BETA|Any CPU.ActiveCfg = Release|Any CPU
+		{EDBD1E03-E019-4414-A8C4-347B044BF802}.Publish - BETA|Any CPU.Build.0 = Release|Any CPU
+		{EDBD1E03-E019-4414-A8C4-347B044BF802}.Publish - LOCAL|Any CPU.ActiveCfg = Release|Any CPU
+		{EDBD1E03-E019-4414-A8C4-347B044BF802}.Publish - LOCAL|Any CPU.Build.0 = Release|Any CPU
+		{EDBD1E03-E019-4414-A8C4-347B044BF802}.Publish - RC|Any CPU.ActiveCfg = Release|Any CPU
+		{EDBD1E03-E019-4414-A8C4-347B044BF802}.Publish - RC|Any CPU.Build.0 = Release|Any CPU
+		{EDBD1E03-E019-4414-A8C4-347B044BF802}.Publish - STABLE|Any CPU.ActiveCfg = Release|Any CPU
+		{EDBD1E03-E019-4414-A8C4-347B044BF802}.Publish - STABLE|Any CPU.Build.0 = Release|Any CPU
+		{EDBD1E03-E019-4414-A8C4-347B044BF802}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDBD1E03-E019-4414-A8C4-347B044BF802}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2622,5 +2636,6 @@ Global
 		{A6C0A293-9294-4679-8A95-2F9E192CB637} = {D7332E99-5E1D-46F4-BC9A-53FFEBAA5F95}
 		{B00F0681-42FB-45BD-ABDD-4CA550819991} = {AF6C89C4-6D3A-44AA-B7A7-D71A84028BDC}
 		{6B27C307-3F9A-4A36-AD15-5D0DB0ED0214} = {79C5EE30-9C16-4474-BA6D-C73EE6399B62}
+		{EDBD1E03-E019-4414-A8C4-347B044BF802} = {D7332E99-5E1D-46F4-BC9A-53FFEBAA5F95}
 	EndGlobalSection
 EndGlobal

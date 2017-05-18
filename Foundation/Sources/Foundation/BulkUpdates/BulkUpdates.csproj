@@ -37,9 +37,12 @@
     <Compile Include="..\BulkUpdates.NuGet\version.cs">
       <Link>version.cs</Link>
     </Compile>
-    <Compile Include="BulkUpdate.cs" />
+    <Compile Include="_BulkUpdate.cs" />
+    <Compile Include="_FailedBulkUpdate.cs" />
     <Compile Include="IBulkUpdate.cs" />
+    <Compile Include="ISupportsAsyncBulkUpdate.cs" />
     <Compile Include="ISupportsBulkUpdate.cs" />
+    <Compile Include="SupportsAsyncBulkUpdate.cs" />
     <Compile Include="SupportsBulkUpdate.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -50,13 +53,13 @@
       <HintPath>..\..\..\packages\SquaredInfinity.ComponentModel.2.0.5\lib\portable-net45+win\SquaredInfinity.ComponentModel.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Disposables, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Disposables.2.0.5\lib\portable-net45+win\SquaredInfinity.Disposables.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Disposables.2.0.9\lib\portable-net45+win\SquaredInfinity.Disposables.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.6\lib\portable-net45+win\SquaredInfinity.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Threading.Locks, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Threading.Locks.2.0.6\lib\portable-net45+win\SquaredInfinity.Threading.Locks.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Threading.Locks.2.1.0-beta004\lib\portable-net45+win\SquaredInfinity.Threading.Locks.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

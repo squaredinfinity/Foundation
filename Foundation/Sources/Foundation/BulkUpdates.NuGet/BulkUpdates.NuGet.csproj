@@ -16,14 +16,8 @@
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.build\nuget.targets" />
   <Target Name="Update Dependencies" AfterTargets="PrepareForBuild">
-    
-    <NuSpecUpdateDependenciesFromPackagesConfig   NuSpecPath=".nuspec"
-                                                  PackageConfigPaths="..\BulkUpdates\packages.config"
-                                                  TargetFramework="portable-net45+win80" />
-    <NuSpecUpdateDependenciesFromPackagesConfig   NuSpecPath=".nuspec"
-                                                  PackageConfigPaths="..\BulkUpdates\packages.config;..\BulkUpdates.DotNet45\packages.config"
-                                                  TargetFramework="net452" />
-    
+    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\BulkUpdates\packages.config" TargetFramework="portable-net45+win80" />
+    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\BulkUpdates\packages.config;..\BulkUpdates.DotNet45\packages.config" TargetFramework="net452" />
   </Target>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>

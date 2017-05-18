@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity
 {
-    public interface ISupportsBulkUpdate
+    class _FailedBulkUpdate : IBulkUpdate
     {
-        IBulkUpdate BeginBulkUpdate();
+        public bool HasStarted => false;
 
-        bool IsBulkUpdateInProgress();
+        public void Dispose() { }
     }
 }
