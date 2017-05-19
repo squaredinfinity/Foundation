@@ -40,6 +40,7 @@
     <Compile Include="_CompositeLock.cs" />
     <Compile Include="_CompositeLockAcqusition.cs" />
     <Compile Include="DefaultLockFactory.cs" />
+    <Compile Include="_DummyLockAcquisition.cs" />
     <Compile Include="_FailedLockAcquisition.cs" />
     <Compile Include="IAsyncLock.cs" />
     <Compile Include="ICompositeAsyncLock.cs" />

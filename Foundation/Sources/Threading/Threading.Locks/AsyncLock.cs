@@ -12,29 +12,23 @@ namespace SquaredInfinity.Threading.Locks
     public partial class AsyncLock : IAsyncLock, ICompositeAsyncLock
     {
         readonly _CompositeAsyncLock CompositeLock;
-
         readonly internal SemaphoreSlim InternalWriteLock = new SemaphoreSlim(1, 1);
+        readonly bool SupportsReentrancy = false;
 
         public long LockId { get; } = _LockIdProvider.GetNextId();
         public string Name { get; private set; }
 
+
+        volatile int _ownerThreadId;
+        public int OwnerThreadId => _ownerThreadId;
+
         #region Constructors
 
-        public AsyncLock()
-            : this(name: "", supportsComposition: true)
-        { }
-
-        public AsyncLock(string name)
-            : this(name, supportsComposition: true)
-        { }
-
-        public AsyncLock(bool supportsComposition)
-            : this("", supportsComposition)
-        { }
-
-        public AsyncLock(string name, bool supportsComposition)
+        public AsyncLock(string name = "", bool supportsReentrancy = false, bool supportsComposition = true)
         {
             Name = name;
+
+            SupportsReentrancy = supportsReentrancy;
 
             if (supportsComposition)
                 CompositeLock = new _CompositeAsyncLock();
@@ -92,6 +86,16 @@ namespace SquaredInfinity.Threading.Locks
 
         public async Task<ILockAcquisition> AcqureWriteLockAsync(int millisecondsTimeout, CancellationToken ct, bool continueOnCapturedContext = false)
         {
+            if (SupportsReentrancy)
+            {
+                if (_ownerThreadId == System.Environment.CurrentManagedThreadId)
+                {
+                    // lock support re-entrancy and is already owned by this thread
+                    // just return
+                    return new _DummyLockAcquisition();
+                }
+            }
+
             var dispose_when_done = (IDisposable)null;
 
             // lock parent first
@@ -104,6 +108,8 @@ namespace SquaredInfinity.Threading.Locks
             if (!ok)
                 return new _FailedLockAcquisition();
 
+            _ownerThreadId = System.Environment.CurrentManagedThreadId;
+            
             try
             {
                 // then its children
