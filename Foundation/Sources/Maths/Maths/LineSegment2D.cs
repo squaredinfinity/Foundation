@@ -36,6 +36,9 @@ namespace SquaredInfinity.Maths
         {
             _slope = new Slope2D(a.X, a.Y, b.X, b.Y);
 
+            _a = a;
+            _b = b;
+
             _length = a.Distance(b);
         }
 
@@ -61,7 +64,7 @@ namespace SquaredInfinity.Maths
             // h = 2 * (A/b)
 
             var h =
-                (A.X - p.X) * (B.Y - A.Y) - (A.X - B.X) * (p.Y - A.Y) // numerator can be negative, we'll abs the result later
+                ((A.X - p.X) * (B.Y - A.Y) - (A.X - B.X) * (p.Y - A.Y)) // numerator can be negative, we'll abs the result later
                 /
                 _length; // length is alway positive
 
