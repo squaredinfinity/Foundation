@@ -51,6 +51,7 @@
     <Compile Include="IntervalEdge.cs" />
     <Compile Include="IntervalFlags.cs" />
     <Compile Include="Line2D.cs" />
+    <Compile Include="LineSegment2D.cs" />
     <Compile Include="MathEx.cs" />
     <Compile Include="IntervalLinearMapping.cs" />
     <Compile Include="Point2D.cs" />
