@@ -11,16 +11,20 @@ namespace SquaredInfinity.Maths
     public struct Point2D : IEquatable<Point2D>
     {
         double _x;
-        public double X { get { return _x; } set { _x = value; } }
+        public double X => _x;
 
         double _y;
-        public double Y { get { return _y; } set { _y = value; } }
+        public double Y => _y;
+
+        #region Constructors
 
         public Point2D(double x, double y)
         {
             this._x = x;
             this._y = y;
         }
+
+        #endregion
 
         #region Equality + Hash Code
 
@@ -67,6 +71,13 @@ namespace SquaredInfinity.Maths
 
         #endregion
 
+        #region Distance
+
+        /// <summary>
+        /// Calculates distance between two points.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public double Distance(Point2D other)
         {
             // d = |x - y| = Sqrt(Sum((xi - yi)^2))
@@ -78,6 +89,14 @@ namespace SquaredInfinity.Maths
             return d;
         }
 
+        /// <summary>
+        /// Calculates distance between two points.
+        /// </summary>
+        /// <param name="x1"></param>
+        /// <param name="y1"></param>
+        /// <param name="x2"></param>
+        /// <param name="y2"></param>
+        /// <returns></returns>
         public static double Distance(double x1, double y1, double x2, double y2)
         {
             // d = |x - y| = Sqrt(Sum((xi - yi)^2))
@@ -88,6 +107,8 @@ namespace SquaredInfinity.Maths
 
             return d;
         }
+
+        #endregion
 
         public string DebuggerDisplay
         {
