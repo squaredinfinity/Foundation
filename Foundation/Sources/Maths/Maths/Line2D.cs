@@ -12,12 +12,14 @@ namespace SquaredInfinity.Maths
     public struct Line2D
     {
         double _b;
-        public double B { get { return _b; } }
+        public double B => _b;
 
         Slope2D _slope;
-        Slope2D Slope { get { return _slope; } }
+        Slope2D Slope => _slope;
 
-        public double M { get { return _slope.M; } }
+        public double M => _slope.M;
+
+        #region Constructors
 
         public Line2D(double m)
             : this(m, 0)
@@ -40,6 +42,14 @@ namespace SquaredInfinity.Maths
             _slope = new Slope2D(x1, y1, x2, y2);
             _b = y1 - _slope.M * x1;
         }
+
+        public Line2D(Point2D a, Point2D b)
+        {
+            _slope = new Slope2D(a.X, a.Y, b.X, b.Y);
+            _b = a.Y - _slope.M * a.X;
+        }
+
+        #endregion
 
         /// <summary>
         /// Calculates y given specified x
