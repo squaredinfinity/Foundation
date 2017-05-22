@@ -44,6 +44,7 @@
     <Compile Include="AsyncOptions.cs" />
     <Compile Include="IAsyncLoop.cs" />
     <Compile Include="IInvocationThrottle.cs" />
+    <Compile Include="TimeoutExpiry.cs" />
   </ItemGroup>
   <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

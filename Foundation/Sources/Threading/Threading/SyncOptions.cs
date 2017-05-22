@@ -9,10 +9,22 @@ namespace SquaredInfinity.Threading
 {
     public class SyncOptions
     {
-        public static readonly SyncOptions Default = new SyncOptions();
+        static SyncOptions _default;
+        public static SyncOptions Default => _default;
 
-        public int MillisecondsTimeout { get; private set; }
-        public TimeSpan Timeout => TimeSpan.FromMilliseconds(MillisecondsTimeout);
+        public static void SetDefault(SyncOptions options)
+        {
+            _default = options;
+        }
+
+        static SyncOptions()
+        {
+            SetDefault(new SyncOptions(System.Threading.Timeout.Infinite, CancellationToken.None));
+        }
+
+        TimeoutExpiry _timeout;
+        public int MillisecondsTimeout => _timeout.MillisecondsLeft;
+
         public CancellationToken CancellationToken { get; private set; }
 
         public SyncOptions()
@@ -32,7 +44,7 @@ namespace SquaredInfinity.Threading
 
         public SyncOptions(int millisecondsTimeout, CancellationToken ct)
         {
-            MillisecondsTimeout = millisecondsTimeout;
+            _timeout = new TimeoutExpiry(millisecondsTimeout);
             CancellationToken = ct;
         }
     }

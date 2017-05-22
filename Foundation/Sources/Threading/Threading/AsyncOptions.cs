@@ -9,11 +9,25 @@ namespace SquaredInfinity.Threading
 {
     public class AsyncOptions
     {
-        public static readonly AsyncOptions Default = new AsyncOptions();
-        public static readonly AsyncOptions OnCapturedContext = new AsyncOptions(continueOnCapturedContext: true);
+        static AsyncOptions _default;
+        public static AsyncOptions Default => _default;
+        static AsyncOptions _onCapturedContext;
+        public static AsyncOptions OnCapturedContext => _onCapturedContext;
 
-        public int MillisecondsTimeout { get; private set; }
-        public TimeSpan Timeout => TimeSpan.FromMilliseconds(MillisecondsTimeout);
+        public static void SetDefault(AsyncOptions options)
+        {
+            _default = options;
+            _onCapturedContext =  new AsyncOptions(_default.MillisecondsTimeout, _default.CancellationToken, continueOnCapturedContext: true);
+        }
+
+        static AsyncOptions()
+        {
+            SetDefault(new AsyncOptions(System.Threading.Timeout.Infinite, CancellationToken.None, continueOnCapturedContext: false));
+        }
+
+        readonly TimeoutExpiry _timeout;
+        public int MillisecondsTimeout => _timeout.MillisecondsLeft;
+        
         public CancellationToken CancellationToken { get; private set; }
         public bool ContinueOnCapturedContext { get; }
 
@@ -37,7 +51,7 @@ namespace SquaredInfinity.Threading
 
         public AsyncOptions(int millisecondsTimeout, CancellationToken ct, bool continueOnCapturedContext = false)
         {
-            MillisecondsTimeout = millisecondsTimeout;
+            _timeout = new TimeoutExpiry(millisecondsTimeout);
             CancellationToken = ct;
             ContinueOnCapturedContext = continueOnCapturedContext;
         }
