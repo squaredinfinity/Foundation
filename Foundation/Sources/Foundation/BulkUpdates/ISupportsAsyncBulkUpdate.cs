@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SquaredInfinity.Threading;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,12 +10,12 @@ namespace SquaredInfinity
 {
     public interface ISupportsAsyncBulkUpdate
     {
-        Task<IBulkUpdate> BeginBulkUpdateAsync(bool continueOnCapturedContext = false);
-        Task<IBulkUpdate> BeginBulkUpdateAsync(CancellationToken ct, bool continueOnCapturedContext = false);
-        Task<IBulkUpdate> BeginBulkUpdateAsync(int millisecondsTimeout, bool continueOnCapturedContext = false);
-        Task<IBulkUpdate> BeginBulkUpdateAsync(int millisecondsTimeout, CancellationToken ct, bool continueOnCapturedContext = false);
-        Task<IBulkUpdate> BeginBulkUpdateAsync(TimeSpan timeout, bool continueOnCapturedContext = false);
-        Task<IBulkUpdate> BeginBulkUpdateAsync(TimeSpan timeout, CancellationToken ct, bool continueOnCapturedContext = false);
+        IBulkUpdate BeginBulkUpdate();
+        IBulkUpdate BeginBulkUpdate(SyncOptions options);
+
+
+        Task<IBulkUpdate> BeginBulkUpdateAsync();
+        Task<IBulkUpdate> BeginBulkUpdateAsync(AsyncOptions options);
 
         bool IsBulkUpdateInProgress();
     }

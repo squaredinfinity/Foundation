@@ -7,14 +7,7 @@ using System.Threading;
 
 namespace SquaredInfinity.Collections
 {
-    public partial class CollectionEx<TItem> :
-        ICollectionEx<TItem>,
-        IBulkUpdatesCollection<TItem>,
-        INotifyCollectionVersionChanged,
-        IList<TItem>,
-        IList,
-        ICollection<TItem>,
-        ICollection
+    public partial class CollectionEx<TItem>
     {
         List<TItem> _items;
 
@@ -57,13 +50,19 @@ namespace SquaredInfinity.Collections
         /// <param name="index">The zero-based index of the element to get or set.</param><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index"/> is less than zero.-or-<paramref name="index"/> is equal to or greater than <see cref="P:System.Collections.ObjectModel.Collection`1.Count"/>. </exception>
         public TItem this[int index]
         {
-            get { return _items[index]; }
+            get
+            {
+                using (Lock.AcquireReadLock())
+                {
+                    return _items[index];
+                }
+            }
             set
             {
                 if (((IList<TItem>)_items).IsReadOnly)
                     throw new NotSupportedException();
 
-                using (Lock.AcquireWriteLockIfNotHeld())
+                using (Lock.AcquireWriteLock())
                 {
                     if (index < 0 || index >= _items.Count)
                         throw new ArgumentOutOfRangeException();
@@ -105,11 +104,17 @@ namespace SquaredInfinity.Collections
         {
             get
             {
-                return (object)_items[index];
+                using (Lock.AcquireReadLock())
+                {
+                    return (object)_items[index];
+                }
             }
             set
             {
-                this[index] = (TItem)value;
+                using (Lock.AcquireWriteLock())
+                {
+                    this[index] = (TItem)value;
+                }
             }
         }
 
@@ -135,7 +140,7 @@ namespace SquaredInfinity.Collections
         /// <param name="item">The object to be added to the end of the <see cref="T:System.Collections.ObjectModel.Collection`1"/>. The value can be null for reference types.</param>
         public void Add(TItem item)
         {
-            using (Lock.AcquireWriteLockIfNotHeld())
+            using (Lock.AcquireWriteLock())
             {
                 var index = _items.Count;
 
@@ -148,7 +153,7 @@ namespace SquaredInfinity.Collections
         /// </summary>
         public void Clear()
         {
-            using (Lock.AcquireWriteLockIfNotHeld())
+            using (Lock.AcquireWriteLock())
             {
                 var oldItems = new TItem[Count];
                 CopyTo(oldItems, 0);
@@ -179,28 +184,34 @@ namespace SquaredInfinity.Collections
         /// <param name="item">The object to locate in the <see cref="T:System.Collections.ObjectModel.Collection`1"/>. The value can be null for reference types.</param>
         public bool Contains(TItem item)
         {
-            return _items.Contains(item);
+            using (Lock.AcquireReadLock())
+            {
+                return _items.Contains(item);
+            }
         }
 
         public bool Contains(TItem item, IEqualityComparer<TItem> equalityComparer)
         {
-            if ((object)item == null)
+            using (Lock.AcquireReadLock())
             {
-                for (int index = 0; index < _items.Count; index++)
+                if ((object)item == null)
                 {
-                    if ((object)this._items[index] == null)
-                        return true;
+                    for (int index = 0; index < _items.Count; index++)
+                    {
+                        if ((object)this._items[index] == null)
+                            return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
-            else
-            {
-                for (int index = 0; index < _items.Count; index++)
+                else
                 {
-                    if (equalityComparer.Equals(this._items[index], item))
-                        return true;
+                    for (int index = 0; index < _items.Count; index++)
+                    {
+                        if (equalityComparer.Equals(this._items[index], item))
+                            return true;
+                    }
+                    return false;
                 }
-                return false;
             }
         }
 
@@ -211,11 +222,14 @@ namespace SquaredInfinity.Collections
 
         public bool ContainsAll(IReadOnlyList<TItem> items, IEqualityComparer<TItem> equalityComparer)
         {
-            foreach (var item in items)
+            using (Lock.AcquireReadLock())
             {
-                if (!Contains(item, equalityComparer))
+                foreach (var item in items)
                 {
-                    return false;
+                    if (!Contains(item, equalityComparer))
+                    {
+                        return false;
+                    }
                 }
             }
 
@@ -229,10 +243,13 @@ namespace SquaredInfinity.Collections
 
         public bool ContainsAny(IReadOnlyList<TItem> items, IEqualityComparer<TItem> equalityComparer)
         {
-            foreach (var item in items)
+            using (Lock.AcquireReadLock())
             {
-                if (Contains(item, equalityComparer))
-                    return true;
+                foreach (var item in items)
+                {
+                    if (Contains(item, equalityComparer))
+                        return true;
+                }
             }
 
             return false;
@@ -265,7 +282,10 @@ namespace SquaredInfinity.Collections
         /// <param name="item">The object to locate in the <see cref="T:System.Collections.Generic.List`1"/>. The value can be null for reference types.</param>
         public int IndexOf(TItem item)
         {
-            return _items.IndexOf(item);
+            using (Lock.AcquireReadLock())
+            {
+                return _items.IndexOf(item);
+            }
         }
 
         /// <summary>
@@ -274,7 +294,7 @@ namespace SquaredInfinity.Collections
         /// <param name="index">The zero-based index at which <paramref name="item"/> should be inserted.</param><param name="item">The object to insert. The value can be null for reference types.</param><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index"/> is less than zero.-or-<paramref name="index"/> is greater than <see cref="P:System.Collections.ObjectModel.Collection`1.Count"/>.</exception>
         public void Insert(int index, TItem item)
         {
-            using (Lock.AcquireWriteLockIfNotHeld())
+            using (Lock.AcquireWriteLock())
             {
                 if (index < 0 || index > _items.Count)
                     throw new ArgumentOutOfRangeException();
@@ -299,7 +319,7 @@ namespace SquaredInfinity.Collections
         /// <param name="item">The object to remove from the <see cref="T:System.Collections.ObjectModel.Collection`1"/>. The value can be null for reference types.</param>
         public bool Remove(TItem item)
         {
-            using (var readLock = Lock.AcquireWriteLockIfNotHeld())
+            using (var readLock = Lock.AcquireWriteLock())
             {
                 int index = _items.IndexOf(item);
 
@@ -325,7 +345,7 @@ namespace SquaredInfinity.Collections
         /// <param name="index">The zero-based index of the element to remove.</param><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index"/> is less than zero.-or-<paramref name="index"/> is equal to or greater than <see cref="P:System.Collections.ObjectModel.Collection`1.Count"/>.</exception>
         public void RemoveAt(int index)
         {
-            using (var readLock = Lock.AcquireWriteLockIfNotHeld())
+            using (var readLock = Lock.AcquireWriteLock())
             {
                 var item = _items[index];
 
@@ -402,34 +422,37 @@ namespace SquaredInfinity.Collections
 
             TItem[] array1 = array as TItem[];
 
-            if (array1 != null)
+            using (Lock.AcquireReadLock())
             {
-                _items.CopyTo(array1, index);
-            }
-            else
-            {
-                Type elementType = array.GetType().GetElementType();
-
-                Type c = typeof(TItem);
-
-                // TODO: Not Supported In Core at the moment
-                //if (!elementType.IsAssignableFrom(c) && !c.IsAssignableFrom(elementType))
-                //    throw new ArgumentException("invalid array type");
-
-                object[] objArray = array as object[];
-                if (objArray == null)
-                    throw new ArgumentException("invalid array type");
-
-                int count = _items.Count;
-
-                try
+                if (array1 != null)
                 {
-                    for (int index1 = 0; index1 < count; ++index1)
-                        objArray[index++] = (object)_items[index1];
+                    _items.CopyTo(array1, index);
                 }
-                catch (ArrayTypeMismatchException ex)
+                else
                 {
-                    throw new ArgumentException("invalid array type", ex);
+                    Type elementType = array.GetType().GetElementType();
+
+                    Type c = typeof(TItem);
+
+                    // TODO: Not Supported In Core at the moment
+                    //if (!elementType.IsAssignableFrom(c) && !c.IsAssignableFrom(elementType))
+                    //    throw new ArgumentException("invalid array type");
+
+                    object[] objArray = array as object[];
+                    if (objArray == null)
+                        throw new ArgumentException("invalid array type");
+
+                    int count = _items.Count;
+
+                    try
+                    {
+                        for (int index1 = 0; index1 < count; ++index1)
+                            objArray[index++] = (object)_items[index1];
+                    }
+                    catch (ArrayTypeMismatchException ex)
+                    {
+                        throw new ArgumentException("invalid array type", ex);
+                    }
                 }
             }
         }

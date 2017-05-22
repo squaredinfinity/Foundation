@@ -6,29 +6,46 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using SquaredInfinity.Extensions;
+using System.Diagnostics;
 
 namespace SquaredInfinity.Threading.Locks
 {
+    /// <summary>
+    /// Asynchronous mutex.
+    /// Supports one single writer thread.
+    /// Exposes reader lock API, but only only ONE reader OR writer is allowed at a time.
+    /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public partial class AsyncLock : IAsyncLock, ICompositeAsyncLock
     {
         readonly _CompositeAsyncLock CompositeLock;
+
         readonly internal SemaphoreSlim InternalWriteLock = new SemaphoreSlim(1, 1);
-        readonly bool SupportsReentrancy = false;
+
+        readonly LockRecursionPolicy _recursionPolicy = LockRecursionPolicy.NoRecursion;
+        public LockRecursionPolicy RecursionPolicy => _recursionPolicy;
 
         public long LockId { get; } = _LockIdProvider.GetNextId();
         public string Name { get; private set; }
 
 
-        volatile int _ownerThreadId;
-        public int OwnerThreadId => _ownerThreadId;
+        volatile int _writeOwnerThreadId;
+        public int WriteOwnerThreadId => _writeOwnerThreadId;
+        public bool IsWriteLockHeld => System.Environment.CurrentManagedThreadId == _writeOwnerThreadId;
+        // TODO: Read Lock implementation
+        public bool IsReadLockHeld => IsWriteLockHeld;
+        public IReadOnlyList<int> ReadOwnerThreadIds => new[] { WriteOwnerThreadId };
 
         #region Constructors
 
-        public AsyncLock(string name = "", bool supportsReentrancy = false, bool supportsComposition = true)
+        public AsyncLock(
+            string name = "",
+            LockRecursionPolicy recursionPolicy = LockRecursionPolicy.NoRecursion,
+            bool supportsComposition = true)
         {
             Name = name;
 
-            SupportsReentrancy = supportsReentrancy;
+            _recursionPolicy = recursionPolicy;
 
             if (supportsComposition)
                 CompositeLock = new _CompositeAsyncLock();
@@ -37,110 +54,7 @@ namespace SquaredInfinity.Threading.Locks
         }
 
         #endregion
-
-        #region Acquire Write Lock Async (overloads)
-
-        public async Task<ILockAcquisition> AcqureWriteLockAsync(bool continueOnCapturedContext = false)
-        {
-            return
-                await
-                AcqureWriteLockAsync(Timeout.Infinite, CancellationToken.None, continueOnCapturedContext)
-                .ConfigureAwait(continueOnCapturedContext);
-        }
-
-        public async Task<ILockAcquisition> AcqureWriteLockAsync(CancellationToken ct, bool continueOnCapturedContext = false)
-        {
-            return
-                await
-                AcqureWriteLockAsync(Timeout.Infinite, ct, continueOnCapturedContext)
-                .ConfigureAwait(continueOnCapturedContext);
-        }
-
-        public async Task<ILockAcquisition> AcqureWriteLockAsync(int millisecondsTimeout, bool continueOnCapturedContext = false)
-        {
-            return
-                await
-                AcqureWriteLockAsync(millisecondsTimeout, CancellationToken.None, continueOnCapturedContext)
-                .ConfigureAwait(continueOnCapturedContext);
-        }
-
-        public async Task<ILockAcquisition> AcqureWriteLockAsync(TimeSpan timeout, bool continueOnCapturedContext = false)
-        {
-            return
-                await
-                AcqureWriteLockAsync((int)timeout.TotalMilliseconds, CancellationToken.None, continueOnCapturedContext)
-                .ConfigureAwait(continueOnCapturedContext);
-        }
-
-        public async Task<ILockAcquisition> AcqureWriteLockAsync(TimeSpan timeout, CancellationToken ct, bool continueOnCapturedContext = false)
-        {
-            return
-                await
-                AcqureWriteLockAsync((int)timeout.TotalMilliseconds, ct, continueOnCapturedContext)
-                .ConfigureAwait(continueOnCapturedContext);
-        }
-
-        #endregion
-
-        #region Acquire Write Lock Async
-
-        public async Task<ILockAcquisition> AcqureWriteLockAsync(int millisecondsTimeout, CancellationToken ct, bool continueOnCapturedContext = false)
-        {
-            if (SupportsReentrancy)
-            {
-                if (_ownerThreadId == System.Environment.CurrentManagedThreadId)
-                {
-                    // lock support re-entrancy and is already owned by this thread
-                    // just return
-                    return new _DummyLockAcquisition();
-                }
-            }
-
-            var dispose_when_done = (IDisposable)null;
-
-            // lock parent first
-            var ok =
-                await
-                InternalWriteLock
-                .WaitAsync(millisecondsTimeout, ct)
-                .ConfigureAwait(continueOnCapturedContext);
-
-            if (!ok)
-                return new _FailedLockAcquisition();
-
-            _ownerThreadId = System.Environment.CurrentManagedThreadId;
-            
-            try
-            {
-                // then its children
-                if (CompositeLock != null)
-                {
-                    var children_acquisition =
-                        await
-                        CompositeLock.LockChildrenAsync(LockType.Write, millisecondsTimeout, ct, continueOnCapturedContext);
-
-                    if (!children_acquisition.IsLockHeld)
-                    {
-                        // couldn't acquire children, release parent lock
-                        InternalWriteLock.Release();
-                    }
-                }
-            }
-            catch
-            {
-                // some error occured, release parent lock
-                InternalWriteLock.Release();
-
-                throw;
-            }
-
-            return
-                new _WriteLockAcquisition(owner: this, disposeWhenDone: dispose_when_done);
-
-        }
-
-        #endregion
-
+        
         #region ICompositeAsyncLock
 
         public void AddChild(IAsyncLock childLock)
@@ -161,5 +75,47 @@ namespace SquaredInfinity.Threading.Locks
         }
 
         #endregion
+
+        public static async Task<ILockAcquisition> AcquireWriteLockAsync(params IAsyncLock[] locks)
+        {
+            var ao = AsyncOptions.Default;
+
+            return await AcquireWriteLockAsync(ao, locks);
+        }
+
+        public static async Task<ILockAcquisition> AcquireWriteLockAsync(AsyncOptions options, params IAsyncLock[] locks)
+        {
+            if (locks == null || locks.Length == 0)
+                return _FailedLockAcquisition.Instance;
+
+            var all_acquisitions =
+                await 
+                Task.WhenAll<ILockAcquisition>(locks.Select(x => x.AcquireWriteLockAsync(options)))
+                .ConfigureAwait(options.ContinueOnCapturedContext);
+
+            return new _CompositeLockAcqusition(all_acquisitions);
+        }
+
+        public static async Task<ILockAcquisition> AcquireReadLockAsync(params IAsyncLock[] locks)
+        {
+            var ao = AsyncOptions.Default;
+
+            return await AcquireReadLockAsync(ao, locks);
+        }
+
+        public static async Task<ILockAcquisition> AcquireReadLockAsync(AsyncOptions options, params IAsyncLock[] locks)
+        {
+            if (locks == null || locks.Length == 0)
+                return _FailedLockAcquisition.Instance;
+
+            var all_acquisitions =
+                await
+                Task.WhenAll<ILockAcquisition>(locks.Select(x => x.AcquireReadLockAsync(options)))
+                .ConfigureAwait(options.ContinueOnCapturedContext);
+
+            return new _CompositeLockAcqusition(all_acquisitions);
+        }
+
+        public string DebuggerDisplay => $"AsyncLock {LockId}, name: {Name.ToStringWithNullOrEmpty()}, owner: {WriteOwnerThreadId}";
     }
 }

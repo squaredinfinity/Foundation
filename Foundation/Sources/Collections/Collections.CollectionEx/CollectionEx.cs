@@ -1,4 +1,5 @@
 ﻿using SquaredInfinity.Threading;
+using SquaredInfinity.Threading.Locks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,7 +15,8 @@ namespace SquaredInfinity.Collections
     /// Thread-Safe collection with support for atomic reads/writes and additional operations such as GetSnapshot(), Bulk Updates (Reset, Add/Remove Range) and Versioning
     /// </summary>
     /// <typeparam name="TItem"></typeparam>
-    public partial class CollectionEx<TItem> : 
+    public partial class CollectionEx<TItem> :
+        SupportsAsyncBulkUpdate,
         ICollectionEx<TItem>,
         IBulkUpdatesCollection<TItem>, 
         INotifyCollectionVersionChanged,
@@ -23,46 +25,31 @@ namespace SquaredInfinity.Collections
         ICollection<TItem>,
         ICollection
     {
-        /// <summary>
-        /// Lock providing atomic access fo elements in collection
-        /// </summary>
-        public ILock Lock { get; protected set; }
-        
+        #region Constructor (overloads)
+
         public CollectionEx()
-        {
-               _items = new List<TItem>();
-            Lock = LockFactory.Current.CreateLock();
-        }
+            : this(LockFactory.Current.CreateAsyncLock(), new List<TItem>())
+        { }
 
         public CollectionEx(IEnumerable<TItem> items)
-        {
-            _items = new List<TItem>(items);
-            Lock = LockFactory.Current.CreateLock();
-        }
+            : this(LockFactory.Current.CreateAsyncLock(), new List<TItem>(items))
+        { }
 
         public CollectionEx(List<TItem> items)
+            : this(LockFactory.Current.CreateAsyncLock(), items)
+        { }
+
+        #endregion
+
+        #region Constructor
+
+        public CollectionEx(IAsyncLock collectionLock, List<TItem> items)
+            : base(collectionLock)
         {
             _items = items;
-            Lock = LockFactory.Current.CreateLock();
         }
 
-        public CollectionEx(LockRecursionPolicy recursionPolicy)
-        {
-            _items = new List<TItem>();
-            Lock = new ReaderWriterLockSlimEx(recursionPolicy);
-        }
-
-        public CollectionEx(LockRecursionPolicy recursionPolicy, IEnumerable<TItem> items)
-        {
-            _items = new List<TItem>(items);
-            Lock = new ReaderWriterLockSlimEx(recursionPolicy);
-        }
-
-        public CollectionEx(LockRecursionPolicy recursionPolicy, List<TItem> items)
-        {
-            _items = items;
-            Lock = new ReaderWriterLockSlimEx(recursionPolicy);
-        }
+        #endregion
 
         int IReadOnlyCollection<TItem>.Count
         {
@@ -83,7 +70,7 @@ namespace SquaredInfinity.Collections
             if (oldIndex == newIndex)
                 return;
 
-            using (Lock.AcquireWriteLockIfNotHeld())
+            using (Lock.AcquireWriteLock())
             {
                 TItem item = this[oldIndex];
 
@@ -156,7 +143,7 @@ namespace SquaredInfinity.Collections
 
         public virtual void Replace(TItem oldItem, TItem newItem)
         {
-            using (Lock.AcquireWriteLockIfNotHeld())
+            using (Lock.AcquireWriteLock())
             {
                 var index = IndexOf(oldItem);
 
@@ -179,7 +166,7 @@ namespace SquaredInfinity.Collections
 
         protected virtual void Replace(int index, TItem newItem)
         {
-            using (Lock.AcquireWriteLockIfNotHeld())
+            using (Lock.AcquireWriteLock())
             {
                 if (index < 0)
                     throw new IndexOutOfRangeException("specified item does not exist in the collection.");
@@ -282,60 +269,13 @@ namespace SquaredInfinity.Collections
 
         #endregion
 
-        public bool IsBulkUpdateInProgress()
+        #region GetSnapshot
+
+        public IReadOnlyList<TItem> GetSnapshot() => GetSnapshot(SyncOptions.Default);
+
+        public IReadOnlyList<TItem> GetSnapshot(SyncOptions options)
         {
-            return State == STATE__BULKUPDATE;
-        }
-
-        protected virtual void IncrementVersion()
-        {
-            if (State == STATE__BULKUPDATE)
-                return;
-
-            var newVersion = Interlocked.Increment(ref _version);
-
-            OnVersionChanged(newVersion);
-        }
-
-        void OnVersionChanged(long newVersion) 
-        {
-            if (!Lock.IsReadLockHeld && !Lock.IsUpgradeableReadLockHeld && !Lock.IsWriteLockHeld)
-            {
-                using (Lock.AcquireReadLock())
-                {
-                    if (VersionChanged != null)
-                        VersionChanged(this, new VersionChangedEventArgs(newVersion));
-
-                    OnAfterVersionChanged(newVersion);
-                }
-            }
-            else
-            {
-                if (VersionChanged != null)
-                    VersionChanged(this, new VersionChangedEventArgs(newVersion));
-
-                OnAfterVersionChanged(newVersion);
-            }
-        }
-
-        /// <summary>
-        /// Called after version of this collection has changed
-        /// </summary>
-        /// <param name="newVersion"></param>
-        protected virtual void OnAfterVersionChanged(long newVersion) { }
-
-        public event EventHandler<VersionChangedEventArgs> VersionChanged;
-
-        long _version;
-        public long Version
-        {
-            get { return _version; }
-        }
-
-
-        public IReadOnlyList<TItem> GetSnapshot()
-        {
-            using(Lock.AcquireReadLockIfNotHeld())
+            using (Lock.AcquireReadLock(options))
             {
                 var snapshot = this.ToArray();
 
@@ -343,51 +283,26 @@ namespace SquaredInfinity.Collections
             }
         }
 
-        protected const int STATE__NORMAL = 0;
-        protected const int STATE__BULKUPDATE = 1;
-
-        protected int State = STATE__NORMAL;
-
-        public IBulkUpdate BeginBulkUpdate()
+        public async Task<IReadOnlyList<TItem>> GetSnapshotAsync()
         {
-            var write_lock = Lock.AcquireWriteLockIfNotHeld();
+            var ao = AsyncOptions.Default;
 
-            // write lock != null => somebody else is doing update
-            // make sure that we are in normal state, otherwsie there's a bug somewhere
-            if(write_lock != null && Interlocked.CompareExchange(ref State, STATE__BULKUPDATE, STATE__NORMAL) != STATE__NORMAL)
-            {
-                throw new Exception("Bulk Update Operation has already started");
-            }
+            return
+                await
+                GetSnapshotAsync(ao)
+                .ConfigureAwait(ao.ContinueOnCapturedContext);
+        }
 
-            if (write_lock == null)
+        public async Task<IReadOnlyList<TItem>> GetSnapshotAsync(AsyncOptions options)
+        {
+            using (await Lock.AcquireReadLockAsync(options).ConfigureAwait(options.ContinueOnCapturedContext))
             {
-                // bulk update already in progress
-                return null;
-            }
-            else
-            {
-                // start new bulk update
-                return new BulkUpdate(this, write_lock);
+                var snapshot = this.ToArray();
+
+                return snapshot;
             }
         }
 
-        public void EndBulkUpdate(IBulkUpdate bulkUpdate)
-        {
-            if (Interlocked.CompareExchange(ref State, STATE__NORMAL, STATE__BULKUPDATE) != STATE__BULKUPDATE)
-            {
-                throw new Exception("Bulk Update Operation has already ended");
-            }
-
-            IncrementVersion();
-
-            bulkUpdate.Dispose();
-
-            OnAfterBulkUpdate();
-        }
-
-        protected virtual void OnAfterBulkUpdate()
-        {
-
-        }
+        #endregion
     }
 }

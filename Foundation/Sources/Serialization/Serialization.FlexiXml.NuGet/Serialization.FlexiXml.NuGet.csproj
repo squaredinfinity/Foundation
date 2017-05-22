@@ -16,12 +16,8 @@
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.build\nuget.targets" />
   <Target Name="Update Dependencies" AfterTargets="PrepareForBuild">
-    
-    <NuSpecUpdateDependenciesFromPackagesConfig   NuSpecPath=".nuspec"
-                                                  PackageConfigPaths="..\Serialization.FlexiXml.DotNet45\packages.config" 
-                                                  TargetFramework="portable-net45+win80" />
+    <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\Serialization.FlexiXml.DotNet45\packages.config" TargetFramework="portable-net45+win80" />
     <NuSpecUpdateDependenciesFromPackagesConfig NuSpecPath=".nuspec" PackageConfigPaths="..\Serialization.FlexiXml.DotNet45\packages.config;" AttachDebugger="false" TargetFramework="net452" />
-    
   </Target>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -57,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".nuspec" />
+    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="version.cs" />

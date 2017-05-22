@@ -9,13 +9,13 @@ using System.Threading;
 
 namespace SquaredInfinity.Collections
 {
-    public partial class ObservableCollectionEx<TItem> :  INotifyCollectionChanged
+    public partial class ObservableCollectionEx<TItem>
     {
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object newItem, object oldItem, int index)
         {
-            if (State == STATE__BULKUPDATE)
+            if (IsBulkUpdateInProgress())
                 return;
 
             if (action.IsIn(NotifyCollectionChangedAction.Move, NotifyCollectionChangedAction.Replace))
@@ -33,7 +33,7 @@ namespace SquaredInfinity.Collections
 
         protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object item, int index)
         {
-            if (State == STATE__BULKUPDATE)
+            if (IsBulkUpdateInProgress())
                 return;
 
             if (action.IsIn(NotifyCollectionChangedAction.Move, NotifyCollectionChangedAction.Replace))
@@ -51,7 +51,7 @@ namespace SquaredInfinity.Collections
 
         protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object item, int index, int oldIndex)
         {
-            if (State == STATE__BULKUPDATE)
+            if (IsBulkUpdateInProgress())
                 return;
 
             if (action.IsIn(NotifyCollectionChangedAction.Move, NotifyCollectionChangedAction.Replace))
@@ -69,7 +69,7 @@ namespace SquaredInfinity.Collections
 
         protected void RaiseCollectionReset()
         {
-            if (State == STATE__BULKUPDATE)
+            if (IsBulkUpdateInProgress())
                 return;
             
             TryRaiseCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));

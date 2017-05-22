@@ -8,8 +8,8 @@ namespace SquaredInfinity.ComponentModel
 {
     public interface INotifyVersionChangedObject
     {
-        event EventHandler VersionChanged;
+        event EventHandler<VersionChangedEventArgs> VersionChanged;
 
-        int Version { get; }
+        long Version { get; }
     }
 }

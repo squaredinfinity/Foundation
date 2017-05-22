@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Threading.Locks
 {
-    public interface IReadLockAcquisition : IDisposable
-    {
-        IWriteLockAcquisition AcquireWriteLock();
-        bool TryAcquireWriteLock(TimeSpan timeout, out IWriteLockAcquisition writeLockAcquisition);
-    }
+    public interface IReadLockAcquisition : ILockAcquisition
+    { }
 }

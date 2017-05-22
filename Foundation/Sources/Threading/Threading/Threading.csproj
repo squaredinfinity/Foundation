@@ -40,6 +40,8 @@
     <Compile Include="..\Threading.NuGet\version.cs">
       <Link>Properties\version.cs</Link>
     </Compile>
+    <Compile Include="SyncOptions.cs" />
+    <Compile Include="AsyncOptions.cs" />
     <Compile Include="IAsyncLoop.cs" />
     <Compile Include="IInvocationThrottle.cs" />
   </ItemGroup>

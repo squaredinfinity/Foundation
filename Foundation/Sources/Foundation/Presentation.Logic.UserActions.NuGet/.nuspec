@@ -20,7 +20,7 @@ SquaredInfinity.Presentation.Logic.UserAction
         <dependency id="SquaredInfinity.Graphics.ColorSpaces" version="2.0.3" />
         <dependency id="SquaredInfinity.Maths.Extensions" version="2.0.3" />
         <dependency id="SquaredInfinity.Primitives" version="2.0.7" />
-        <dependency id="SquaredInfinity.Tagging" version="2.0.1" />
+        <dependency id="SquaredInfinity.Tagging" version="2.0.9" />
       </group>
       <group targetFramework="net452">
         <dependency id="SquaredInfinity.Collections.MultiMap" version="2.0.3" />
@@ -28,7 +28,7 @@ SquaredInfinity.Presentation.Logic.UserAction
         <dependency id="SquaredInfinity.Graphics.ColorSpaces" version="2.0.3" />
         <dependency id="SquaredInfinity.Maths.Extensions" version="2.0.3" />
         <dependency id="SquaredInfinity.Primitives" version="2.0.7" />
-        <dependency id="SquaredInfinity.Tagging" version="2.0.1" />
+        <dependency id="SquaredInfinity.Tagging" version="2.0.9" />
       </group>
     </dependencies>
   </metadata>

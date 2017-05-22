@@ -18,10 +18,12 @@ SquaredInfinity.Threading.ReaderWriterLockSlimEx</summary>
       <group targetFramework="portable-net45+win80">
         <dependency id="SquaredInfinity.Disposables" version="2.0.9" />
         <dependency id="SquaredInfinity.Extensions" version="2.0.6" />
+        <dependency id="SquaredInfinity.Threading" version="2.0.5-beta003" />
       </group>
       <group targetFramework="net452">
         <dependency id="SquaredInfinity.Disposables" version="2.0.9" />
         <dependency id="SquaredInfinity.Extensions" version="2.0.6" />
+        <dependency id="SquaredInfinity.Threading" version="2.0.5-beta003" />
       </group>
     </dependencies>
   </metadata>

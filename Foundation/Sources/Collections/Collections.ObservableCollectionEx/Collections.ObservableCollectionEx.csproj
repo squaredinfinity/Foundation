@@ -43,32 +43,34 @@
     <Compile Include="ItemRemovedEventArgs.cs" />
     <Compile Include="ObservableCollectionEx.cs" />
     <Compile Include="ObservableCollectionEx.INotifyCollectionChanged.cs" />
-    <Compile Include="ObservableCollectionEx.INotifyPropertyChanged.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="SquaredInfinity.BulkUpdates, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.BulkUpdates.2.0.3\lib\portable-net45+win\SquaredInfinity.BulkUpdates.dll</HintPath>
+    <Reference Include="SquaredInfinity.BulkUpdates, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.BulkUpdates.2.1.0-beta006\lib\portable-net45+win\SquaredInfinity.BulkUpdates.dll</HintPath>
     </Reference>
-    <Reference Include="SquaredInfinity.Collections.CollectionEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Collections.CollectionEx.2.1.4\lib\portable-net45+win\SquaredInfinity.Collections.CollectionEx.dll</HintPath>
+    <Reference Include="SquaredInfinity.Collections.CollectionEx, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Collections.CollectionEx.2.1.5-beta005\lib\portable-net45+win\SquaredInfinity.Collections.CollectionEx.dll</HintPath>
     </Reference>
-    <Reference Include="SquaredInfinity.Collections.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Collections.Core.2.1.3\lib\portable-net45+win\SquaredInfinity.Collections.Core.dll</HintPath>
+    <Reference Include="SquaredInfinity.Collections.Core, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Collections.Core.2.1.4-beta009\lib\portable-net45+win\SquaredInfinity.Collections.Core.dll</HintPath>
     </Reference>
-    <Reference Include="SquaredInfinity.ComponentModel, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.ComponentModel.2.0.4\lib\portable-net45+win\SquaredInfinity.ComponentModel.dll</HintPath>
+    <Reference Include="SquaredInfinity.ComponentModel, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.ComponentModel.2.1.0-beta001\lib\portable-net45+win\SquaredInfinity.ComponentModel.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Disposables, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Disposables.2.0.5\lib\portable-net45+win\SquaredInfinity.Disposables.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Disposables.2.0.9\lib\portable-net45+win\SquaredInfinity.Disposables.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.2\lib\portable-net45+win\SquaredInfinity.Extensions.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.6\lib\portable-net45+win\SquaredInfinity.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="SquaredInfinity.Threading.Locks, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Threading.Locks.2.0.5\lib\portable-net45+win\SquaredInfinity.Threading.Locks.dll</HintPath>
+    <Reference Include="SquaredInfinity.Threading, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Threading.2.0.5-beta003\lib\portable-net45+win\SquaredInfinity.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.Threading.Locks, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Threading.Locks.2.1.2-beta002\lib\portable-net45+win\SquaredInfinity.Threading.Locks.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

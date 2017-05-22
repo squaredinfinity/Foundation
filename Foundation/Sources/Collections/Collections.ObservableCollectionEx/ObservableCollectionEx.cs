@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Collections
 {
-    public partial class ObservableCollectionEx<TItem> : CollectionEx<TItem>, IObservableCollectionEx<TItem>
+    public partial class ObservableCollectionEx<TItem> : CollectionEx<TItem>, IObservableCollectionEx<TItem>, INotifyCollectionChanged
     {
         int InitialHashCode;
         
@@ -269,11 +269,9 @@ namespace SquaredInfinity.Collections
 
         #endregion
 
-        
-
-        protected override void OnAfterBulkUpdate()
+        protected override void OnEndBulkUpdate()
         {
-            base.OnAfterBulkUpdate();
+            base.OnEndBulkUpdate();
 
             OnAfterCollectionReset();
         }
@@ -287,9 +285,9 @@ namespace SquaredInfinity.Collections
             RaiseCollectionReset();
         }
         
-        protected override void OnAfterVersionChanged(long newVersion)
+        protected override void OnVersionChanged(long newVersion)
         {
-            base.OnAfterVersionChanged(newVersion);
+            base.OnVersionChanged(newVersion);
 
             RaisePropertyChanged(nameof(Version));
         }

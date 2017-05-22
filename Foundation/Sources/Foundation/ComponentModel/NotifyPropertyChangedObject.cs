@@ -20,7 +20,7 @@ namespace SquaredInfinity.ComponentModel
         /// </summary> 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public event EventHandler VersionChanged;
+        public event EventHandler<VersionChangedEventArgs> VersionChanged;
 
         /// <summary>
         /// Increments version and raises Version Changed event.
@@ -29,19 +29,18 @@ namespace SquaredInfinity.ComponentModel
         { 
             var newVersion = Interlocked.Increment(ref _version);
 
-            OnVersionChanged();
+            OnVersionChanged(newVersion);
         }
         
-        protected void OnVersionChanged()
+        protected virtual void OnVersionChanged(long newVersion)
         {
-            if (VersionChanged != null)
-                VersionChanged(this, EventArgs.Empty);
+            VersionChanged?.Invoke(this, new VersionChangedEventArgs(newVersion));
 
-            RaisePropertyChanged("Version");
+            RaisePropertyChanged(nameof(Version));
         }
 
-        int _version;
-        public int Version
+        long _version;
+        public long Version
         {
             get { return _version; }
         }
@@ -122,7 +121,7 @@ namespace SquaredInfinity.ComponentModel
             return true;
         }
 
-        bool _isFrozen = false;
+        volatile bool _isFrozen = false;
         bool IFreezable.IsFrozen
         {
             get { return _isFrozen; }
@@ -136,7 +135,8 @@ namespace SquaredInfinity.ComponentModel
         
         void IFreezable.Freeze()
         {
-            IsFrozen = true;
+            _isFrozen = true;
+            RaisePropertyChanged(nameof(IsFrozen));
         }
     }
 }

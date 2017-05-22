@@ -8,6 +8,8 @@ namespace SquaredInfinity.Threading.Locks
 {
     class _FailedLockAcquisition : ILockAcquisition
     {
+        public static ILockAcquisition Instance = new _FailedLockAcquisition();
+
         public bool IsLockHeld => false;
 
         public void Dispose() { }

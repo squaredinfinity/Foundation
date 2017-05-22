@@ -9,7 +9,7 @@ namespace BulkUpdates.UnitTests
     public class AsyncBulkUpdates
     {
         [TestMethod]
-        public async Task consecutive_call_to_begin_update_does_not_start_bulk_update()
+        public async Task consecutive_calls_to_begin_update_are_blocking()
         {
             var x = new SupportsAsyncBulkUpdate();
 

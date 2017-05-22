@@ -30,7 +30,7 @@ namespace SquaredInfinity.Threading.Locks
             {
                 base.DisposeManagedResources();
 
-                Owner._ownerThreadId = -1;
+                Owner._writeOwnerThreadId = -1;
                 Owner.InternalWriteLock.Release();
                 
                 IsLockHeld = false;

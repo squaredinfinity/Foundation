@@ -115,8 +115,8 @@ namespace SquaredInfinity.Disposables
                 }
                 else
                 { 
-                    IsDisposed = true;
                     Clear();
+                    IsDisposed = true;
                 }
             }
             finally
@@ -128,8 +128,6 @@ namespace SquaredInfinity.Disposables
 
         public void Clear()
         {
-            var disposables = (IDisposable[])null;
-
             bool lock_taken = false;
 
             try
@@ -142,21 +140,18 @@ namespace SquaredInfinity.Disposables
                 }
                 else
                 {
-                    Clear();
+                    for (int i = 0; i < Store.Count; i++)
+                    {
+                        Store[i].Dispose();
+                    }
+
+                    Store.Clear();
                 }
             }
             finally
             {
                 if (lock_taken)
                     Monitor.Exit(Sync);
-            }
-
-            if (disposables == null)
-                return;
-
-            for (int i = 0; i < disposables.Length; i++)
-            {
-                disposables[i].Dispose();
             }
         }
 
