@@ -13,7 +13,6 @@ namespace Disposables.UnitTests
         public void disposes_contents()
         {
             var cd = new CompositeDisposable();
-
             var cd2 = new CompositeDisposable();
 
             cd.Add(cd2);
@@ -22,6 +21,18 @@ namespace Disposables.UnitTests
 
             Assert.IsTrue(cd.IsDisposed);
             Assert.IsTrue(cd2.IsDisposed);
+        }
+
+        [TestMethod]
+        public void it_is_safle_to_dispose_twice()
+        {
+            var cd = new CompositeDisposable();
+            var cd2 = new CompositeDisposable();
+
+            cd.Add(cd2);
+
+            cd.Dispose();
+            cd.Dispose(); // no exception thrown here
         }
     }
 }
