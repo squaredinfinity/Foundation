@@ -109,25 +109,22 @@ namespace SquaredInfinity.Threading.Locks
 
         #region Lock Children
 
-        public bool TryLockChildren(
+        public ILockAcquisition LockChildren(
             LockType lockType,
-            SyncOptions options,
-            out ILockAcquisition lockAcquisition)
+            SyncOptions options)
         {
             var all_lock_tasks = new List<Task<ILockAcquisition>>();
 
             if (ChildLocks.Count == 0)
             {
-                lockAcquisition = new _CompositeLockAcqusition();
-                return true;
+                return new _CompositeLockAcqusition();
             }
 
             using (var _lock = ChildrenLock.AcquireWriteLock(options))
             {
                 if (!_lock.IsLockHeld)
                 {
-                    lockAcquisition = new _FailedLockAcquisition();
-                    return false;
+                    return new _FailedLockAcquisition();
                 }
 
                 var all_child_acquisitions = new List<ILockAcquisition>(capacity: ChildLocks.Count);
@@ -173,17 +170,14 @@ namespace SquaredInfinity.Threading.Locks
 
                 if (all_locks_acquisition.IsLockHeld)
                 {
-                    lockAcquisition = all_locks_acquisition;
-                    return true;
+                    return all_locks_acquisition;
                 }
                 else
                 {
                     // free any already held child locks
                     all_locks_acquisition.Dispose();
 
-                    lockAcquisition = new _FailedLockAcquisition();
-
-                    return false;
+                    return new _FailedLockAcquisition();
                 }
             }
         }

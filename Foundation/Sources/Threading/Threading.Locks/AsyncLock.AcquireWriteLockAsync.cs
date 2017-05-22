@@ -49,7 +49,7 @@ namespace SquaredInfinity.Threading.Locks
             var ok =
                 await
                 InternalWriteLock
-                .WaitAsync(options.Timeout, options.CancellationToken)
+                .WaitAsync(options.MillisecondsTimeout, options.CancellationToken)
                 .ConfigureAwait(options.ContinueOnCapturedContext);
 
             if (!ok)

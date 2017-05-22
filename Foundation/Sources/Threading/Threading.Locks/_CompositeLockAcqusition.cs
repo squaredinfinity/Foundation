@@ -10,24 +10,24 @@ namespace SquaredInfinity.Threading.Locks
 {
     class _CompositeLockAcqusition : DisposableObject, ILockAcquisition
     {
+        volatile bool _isLockHeld = true;
         public bool IsLockHeld
         {
             get
             {
-                // assume all ok
-                var all_ok = true;
+                if (!_isLockHeld)
+                    return false;
 
-                // prove any isn't ok
+                // if any lock is not held, return false
+                // if all locks are held, return true
+                
                 foreach (var l in Disposables.OfType<ILockAcquisition>())
                 {
                     if (!l.IsLockHeld)
-                    {
-                        all_ok = false;
-                        break;
-                    }
+                        return false;
                 }
 
-                return all_ok;
+                return true;
             }
         }
 
@@ -47,6 +47,8 @@ namespace SquaredInfinity.Threading.Locks
         protected override void DisposeManagedResources()
         {
             base.DisposeManagedResources();
+
+            _isLockHeld = false;
         }
     }
 }

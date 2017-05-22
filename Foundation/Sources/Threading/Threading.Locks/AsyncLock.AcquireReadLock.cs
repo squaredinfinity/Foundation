@@ -51,9 +51,7 @@ namespace SquaredInfinity.Threading.Locks
                 // then its children
                 if (CompositeLock != null)
                 {
-                    var children_acquisition = (ILockAcquisition)null;
-
-                    CompositeLock.TryLockChildren(LockType.Read, options, out children_acquisition);
+                    var children_acquisition = CompositeLock.LockChildren(LockType.Read, options);
 
                     if (!children_acquisition.IsLockHeld)
                     {

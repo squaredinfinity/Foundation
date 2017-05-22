@@ -54,6 +54,12 @@ namespace SquaredInfinity.Threading.Locks
         }
 
         #endregion
+
+        void ReleaseLock()
+        {
+            _writeOwnerThreadId = -1;
+            InternalWriteLock.Release();
+        }
         
         #region ICompositeAsyncLock
 
@@ -112,6 +118,24 @@ namespace SquaredInfinity.Threading.Locks
                 await
                 Task.WhenAll<ILockAcquisition>(locks.Select(x => x.AcquireReadLockAsync(options)))
                 .ConfigureAwait(options.ContinueOnCapturedContext);
+
+            return new _CompositeLockAcqusition(all_acquisitions);
+        }
+
+
+        public static ILockAcquisition AcquireReadLock(params ILock[] locks)
+        {
+            var so = SyncOptions.Default;
+
+            return AcquireReadLock(so, locks);
+        }
+
+        public static ILockAcquisition AcquireReadLock(SyncOptions options, params ILock[] locks)
+        {
+            if (locks == null || locks.Length == 0)
+                return _FailedLockAcquisition.Instance;
+
+            var all_acquisitions = locks.Select(x => x.AcquireReadLock(options));
 
             return new _CompositeLockAcqusition(all_acquisitions);
         }
