@@ -30,9 +30,7 @@ namespace SquaredInfinity.Threading.Locks
             {
                 base.DisposeManagedResources();
 
-
-                // TODO
-
+                Owner.ReleaseWriteLock();
 
                 IsLockHeld = false;
             }

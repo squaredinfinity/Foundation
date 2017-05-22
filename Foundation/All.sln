@@ -484,11 +484,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkUpdates.UnitTests", "So
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collections.ObservableCollectionEx.UniTests", "Sources\Collections\Collections.ObservableCollectionEx.UniTests\Collections.ObservableCollectionEx.UniTests.csproj", "{DA9E7326-8610-4CB7-A7EF-C84CCE0A4143}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".docs", ".docs", "{4B5F339C-3599-4112-AABF-6D68D27C540A}"
-	ProjectSection(SolutionItems) = preProject
-		docs\threading.locks.md = docs\threading.locks.md
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Sources\Tests\Shared\Foundation.Unsafe.UnitTests\Foundation.Unsafe.UnitTests.projitems*{0baa98f5-c1fe-4a36-b8ad-58fa11e32eeb}*SharedItemsImports = 13

@@ -16,7 +16,7 @@ namespace SquaredInfinity.Threading.Locks
 
             return 
                 await 
-                AcquireWriteLockAsync(ao)
+                AcquireReadLockAsync(ao)
                 .ConfigureAwait(ao.ContinueOnCapturedContext);
         }
 
@@ -42,17 +42,19 @@ namespace SquaredInfinity.Threading.Locks
                 if (!l.IsLockHeld)
                     return _FailedLockAcquisition.Instance;
 
-                _readOwnerThreadIds.Add(System.Environment.CurrentManagedThreadId);
+                var ownerThreadId = System.Environment.CurrentManagedThreadId;
+
+                _readOwnerThreadIds.Add(ownerThreadId);
 
                 // we are not in write lock and there is no pending writer
                 // just acquire another read lock
-                if (_currentState >= STATE_NOLOCK && _waitingWriter == null)
+                if (_currentState >= STATE_NOLOCK && _waitingWriters.Count == 0)
                 {
                     if (CompositeLock == null)
                     {
                         // no children to lock, we can just grant reader-lock and return
                         _currentState++;
-                        return new _ReadLockAcquisition(this, null);
+                        return new _ReadLockAcquisition(this, ownerThreadId, null);
                     }
                     else
                     {
@@ -77,7 +79,7 @@ namespace SquaredInfinity.Threading.Locks
                             }
 
                             return
-                                new _ReadLockAcquisition(owner: this, disposeWhenDone: children_acquisition);
+                                new _ReadLockAcquisition(owner: this, ownerThreadId: ownerThreadId, disposeWhenDone: children_acquisition);
                         }
                         catch
                         {
@@ -93,7 +95,7 @@ namespace SquaredInfinity.Threading.Locks
                     // add this reader to waiting readers list
 
                     var x = new TaskCompletionSource<ILockAcquisition>();
-                    _waitingReaders.Add(x);
+                    _waitingReaders.Add(new _Waiter(x, options.MillisecondsTimeout, options.CancellationToken));
 
                     return await x.Task;
                 }

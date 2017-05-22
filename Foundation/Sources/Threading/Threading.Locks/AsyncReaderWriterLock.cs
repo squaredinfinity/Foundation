@@ -23,12 +23,26 @@ namespace SquaredInfinity.Threading.Locks
         public long LockId { get; } = _LockIdProvider.GetNextId();
         public string Name { get; private set; }
 
-        public bool IsWriteLockHeld => System.Environment.CurrentManagedThreadId == _writeOwnerThreadId;
+        public bool IsWriteLockHeld => Environment.CurrentManagedThreadId == _writeOwnerThreadId;
 
-        public bool IsReadLockHeld => throw new NotImplementedException();
+        public bool IsReadLockHeld => _currentState > 0;
 
-        readonly HashSet<TaskCompletionSource<ILockAcquisition>> _waitingReaders = new HashSet<TaskCompletionSource<ILockAcquisition>>();
-        volatile TaskCompletionSource<ILockAcquisition> _waitingWriter;
+        readonly HashSet<_Waiter> _waitingReaders = new HashSet<_Waiter>();
+        readonly Queue<_Waiter> _waitingWriters = new Queue<_Waiter>();
+
+        class _Waiter
+        {
+            public readonly TaskCompletionSource<ILockAcquisition> TaskCompletionSource;
+            public readonly TimeoutExpiry Timeout;
+            public readonly CancellationToken CancellationToken;
+
+            public _Waiter(TaskCompletionSource<ILockAcquisition> taskCompletionSource, int millisecondsTimeout, CancellationToken ct)
+            {
+                TaskCompletionSource = taskCompletionSource;
+                Timeout = new TimeoutExpiry(millisecondsTimeout);
+                CancellationToken = ct;
+            }
+        }
 
         readonly IAsyncLock InternalLock;
 
@@ -39,6 +53,8 @@ namespace SquaredInfinity.Threading.Locks
 
         const int STATE_NOLOCK = 0;
         const int STATE_WRITELOCK = -1;
+
+        const int NO_THREAD = -1;
 
         public AsyncReaderWriterLock(
             string name = "",
@@ -56,6 +72,74 @@ namespace SquaredInfinity.Threading.Locks
             // there's no need for internal lock to support recursion (implementation of this type will avoid this need)
             // there's no need for internal lock to support composition (no child locks will be added)
             InternalLock = new AsyncLock(recursionPolicy: LockRecursionPolicy.NoRecursion, supportsComposition: false);
+        }
+
+        void ReleaseReadLock(int ownerThreadId)
+        {
+            using (var a = InternalLock.AcquireWriteLock())
+            {
+                _readOwnerThreadIds.Remove(ownerThreadId);
+
+                _currentState--;
+
+                if (_currentState == STATE_NOLOCK)
+                {
+                    // there are no more read locks
+
+                    if (_waitingWriters.Count == 0)
+                    {
+                        // there are no waiting writers
+                        // nothing to do here
+                        return;
+                    }
+                    else
+                    {
+                        // there are waiting writers
+                        // grant lock to next in queue
+
+                        _currentState = STATE_WRITELOCK;
+                        bool ok = false;
+
+                        while (_waitingWriters.Count > 0)
+                        {
+                            var next_writer_waiter = _waitingWriters.Dequeue();
+
+                            if (next_writer_waiter.CancellationToken.IsCancellationRequested)
+                                continue;
+
+                            if (next_writer_waiter.Timeout.HasTimedOut)
+                                continue;
+
+                            var write_lock = AcquireWriteLock(new SyncOptions(next_writer_waiter.Timeout.MillisecondsLeft, next_writer_waiter.CancellationToken));
+
+                            // thaw waiting task
+                            if(next_writer_waiter.TaskCompletionSource.TrySetResult(write_lock))
+                            {
+                                ok = true;
+                                break;
+                            }
+                            else
+                            {
+                                write_lock.Dispose();
+                            }
+                        }
+
+                        // no more waiting writers
+                        // set lock state to no lock
+
+                        if (!ok)
+                            _currentState = STATE_NOLOCK;
+                    }
+                }
+            }
+        }
+
+        void ReleaseWriteLock()
+        {
+            using (InternalLock.AcquireWriteLock())
+            {
+                _writeOwnerThreadId = NO_THREAD;
+            }
         }
     }
 }

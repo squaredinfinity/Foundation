@@ -27,9 +27,13 @@ All locks provide means of getting a disposable **lock acquisition**. The lock w
 
 All locks expose both **Read** and **Write** modes on an api consumer level, but internal implementation may vary depending on the lock.
 
-All locks provide both synchronous and asynchronous means of acquireing the locks.
+All locks provide both synchronous and asynchronous means of acquireing the locks. Wait for both sync and async lock can be given a timeout and a cancellation token.
 
-Asynchronous locks do not take thread time when waiting for lock acquisition. This may improve general performance of your application by limiting the number of idle threads.
+Asynchronous locks do not use CPU time when waiting for lock acquisition. This may improve general performance of your application by limiting the number of idle threads and spin waits.
+
+Available locks are:
+- **AsyncLock** - asynchronous mutex which allows a single concurrent read or a single write.
+- **AsyncReaderWriterLock** - asynchronous reader/writer lock which allows multiple concurrent reads or a single write.
 
 ### Recursion
 Recursive (reentrant) locks allow same thread to acquire same lock multiple times.
@@ -82,113 +86,15 @@ In that locking one node will succeed only when all child locks have also been a
 
 If AsyncLock fails to acquire lock on any of its children, whole lock acquisition will fail and any locks acquired in the process will be released.
 
-## AsyncLock
-AsyncLock provides exclusive access to critical secion of code. Only one thread can acquire AsyncLock at a time:
-
-    readonly IAsyncLock Lock = new AsyncLock();
+### await
+.xxxAsync() methods can be used together with await keyword
     
-    public async Task Example()
-    {
-        // acquire lock asynchronously
-        using(await Lock.AcquireWriteLockAsync())
-        {
-            //  no other thread will have concurrent access to this critical section
-
-            // it is safe to use async code inside critical section
-            await Task.Delay(500);
-
-            // but be carefult, you may now be on a different thread than thread which acquired the lock in a first place.
-        }
-    }
-
-### Non Recursive AsyncLock
-Default behavior AsyncLock is to be non recursive, this means that following code will cause **LockRecursionException** to be thrown on attempt to acquire alread held lock:
-
-    readonly IAsyncLock Lock = new AsyncLock();
+    var _lock = new AsyncLock();
     
-    public async Task Example()
+    using(await _lock.AcquireWriteLockAsync())
     {
-        // acquire lock asynchronously
-        using(await Lock.AcquireWriteLockAsync())
-        {
-            // this will throw LockRecursionException
-            using(await Lock.AcquireWriteLockAsync())
-            {
-                // ..
-            }
-        }
+        // ...
     }
 
-It is easy to avoid writing code as above, but quite often second attemt to acquire a lock will be hidden somewhere in code tree:
+Note that usual async/await concepts apply here and *.AcquireWriteLockAsync()* is **NOT** guaranteed to finish on a separate thread. For example, it will run synchronously if no lock is currently held and no wait is needed.
 
-    readonly IAsyncLock Lock = new AsyncLock();
-    
-    public async Task Example()
-    {
-        // acquire lock asynchronously
-        using(await Lock.AcquireWriteLockAsync())
-        {
-            DoStomething();
-        }
-    }
-
-    public void DoSomething()
-    {
-        using(Lock.AcquireWriteLock())
-        {
-            // ..
-        }
-    }
-
-One way to avoid such scenarios is to have an internal, non-blocking version of methods:
-
-    readonly IAsyncLock Lock = new AsyncLock();
-    
-    public async Task Example()
-    {
-        // acquire lock asynchronously
-        using(await Lock.AcquireWriteLockAsync())
-        {
-            DoStomething_NOLOCK();
-        }
-    }
-
-    public void DoSomething()
-    {
-        using(Lock.AcquireWriteLock())
-        {
-            DoSomething_NOLOCK();
-        }
-    }
-
-    // this non-blocking version of .DoSomething() will only ever be called internally
-    void DoSomething_NOLOCK()
-    {
-        // ..
-    }
-
-Another options is to allow lock recursion:
-
-    readonly IAsyncLock Lock = new AsyncLock(recursionPolicy: LockRecursionPolicy.SupportsRecursion);
-    
-    public async Task Example()
-    {
-        // acquire lock asynchronously
-        using(await Lock.AcquireWriteLockAsync())
-        {
-            // it is now safe to call DoSomething() and try to re-acquire same block
-            DoStomething();
-        }
-    }
-
-    public void DoSomething()
-    {
-        using(Lock.AcquireWriteLock())
-        {
-            // ..
-        }
-    }
-
-### Read Locks
-AsyncLock exposes IReadLock interface to allow read locks to be acquired.
-This interface is for convinience only and allow AsyncLock to be used in scenarios where read/write lock would be used instead. Internally AsyncLock allows only singe read or single write happening at a same time. There is no priority given to either reads or writes.
