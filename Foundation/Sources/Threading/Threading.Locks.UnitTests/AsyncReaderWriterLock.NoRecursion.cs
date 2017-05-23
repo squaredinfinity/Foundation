@@ -240,5 +240,32 @@ namespace Threading.Locks.UnitTests
                 Assert.Fail("Not all Waiters were allowed in");
 
         }
+
+        [TestMethod]
+        public void waiting_reader_thread_owns_lock_when_gets_it()
+        {
+            // when waiting reader is finally given a lock
+            // correct thread should be reported as read_owner
+
+            // TODO: implement this test
+            Assert.Fail("NOT IMPLEMENTED");
+
+            var l = new AsyncReaderWriterLock(recursionPolicy: LockRecursionPolicy.NoRecursion);
+
+            var a = l.AcquireWriteLock();
+
+            Task.Factory.StartNew(() =>
+            {
+                using (l.AcquireReadLock())
+                {
+                    Assert.IsTrue(l.IsReadLockHeld);
+                    Assert.IsTrue(l.ReadOwnerThreadIds.Contains(Environment.CurrentManagedThreadId));
+                }
+            });
+
+            Thread.Sleep(25);
+
+            a.Dispose();
+        }
     }
 }
