@@ -160,7 +160,8 @@ namespace Threading.Locks.UnitTests
 
 
         [TestMethod]
-        public async Task writer_held__same_thread_can_get_reader()
+        [ExpectedException(typeof(LockRecursionException))]
+        public async Task writer_held__same_thread_can_not_get_reader()
         {
             var l = new AsyncReaderWriterLock(recursionPolicy: LockRecursionPolicy.NoRecursion);
 
@@ -168,10 +169,7 @@ namespace Threading.Locks.UnitTests
             {
                 Assert.IsTrue(a1.IsLockHeld);
 
-                using (var a2 = l.AcquireReadLock())
-                {
-                    Assert.IsTrue(a2.IsLockHeld);
-                }
+                l.AcquireReadLock();
             }
         }
 
@@ -203,6 +201,44 @@ namespace Threading.Locks.UnitTests
 
                 Assert.IsFalse(r.IsLockHeld);
             }
+        }
+
+        [TestMethod]
+        public void writer_finishes_all_waiting_readers_get_locks()
+        {
+            var l = new AsyncReaderWriterLock(recursionPolicy: LockRecursionPolicy.NoRecursion);
+
+            var a = l.AcquireWriteLock();
+
+            var cd = new CountdownEvent(2);
+
+            Task.Factory.StartNew(() =>
+            {
+                using (l.AcquireReadLock())
+                {
+                    cd.Signal();
+                }
+            });
+
+            Task.Factory.StartNew(() =>
+            {
+                using (l.AcquireReadLock())
+                {
+                    cd.Signal();
+                }
+            });
+
+            if (cd.Wait(25))
+                Assert.Fail("Waiters were allowed in");
+
+            a.Dispose();
+
+            if (!cd.Wait(25))
+                Assert.Fail("Waiters were not allowed in");
+
+            if(cd.CurrentCount != 0)
+                Assert.Fail("Not all Waiters were allowed in");
+
         }
     }
 }

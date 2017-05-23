@@ -9,72 +9,47 @@ using SquaredInfinity.Extensions;
 
 namespace SquaredInfinity.Threading.Locks
 {
-    public partial class AsyncLock : IAsyncLock, ICompositeAsyncLock
-    {        
-        #region Acquire Read Lock
+    public partial class AsyncLock
+    {
+        public ILockAcquisition AcquireReadLock() 
+            => AcquireReadLock(SyncOptions.Default);
+        public ILockAcquisition AcquireReadLock(SyncOptions options) 
+            => AcquireLock(LockType.Read, options);
 
-        public ILockAcquisition AcquireReadLock() => AcquireReadLock(SyncOptions.Default);
+        public async Task<ILockAcquisition> AcquireReadLockAsync() 
+            => await AcquireReadLockAsync(AsyncOptions.Default).ConfigureAwait(AsyncOptions.Default.ContinueOnCapturedContext);
+        public async Task<ILockAcquisition> AcquireReadLockAsync(AsyncOptions options) 
+            => await AcquireLockAsync(LockType.Read, options);
 
-        public ILockAcquisition AcquireReadLock(SyncOptions options)
+        #region Acquire Read Lock (Static)
+
+        public static async Task<ILockAcquisition> AcquireReadLockAsync(params IAsyncLock[] locks)
+            => await AcquireReadLockAsync(AsyncOptions.Default, locks);
+
+        public static async Task<ILockAcquisition> AcquireReadLockAsync(AsyncOptions options, params IAsyncLock[] locks)
         {
-            if (RecursionPolicy == LockRecursionPolicy.SupportsRecursion)
-            {
-                if (_writeOwnerThreadId == System.Environment.CurrentManagedThreadId)
-                {
-                    // lock support re-entrancy and is already owned by this thread
-                    // just return
-                    return new _DummyLockAcquisition();
-                }
-                else
-                {
-                    // nothing to do here
-                    // just continue with normal execution flow
-                }
-            }
+            if (locks == null || locks.Length == 0)
+                return _FailedLockAcquisition.Instance;
 
-            // lock parent first
-            var ok =
-                InternalWriteLock
-                .Wait(options.MillisecondsTimeout, options.CancellationToken);
+            var all_acquisitions =
+                await
+                Task.WhenAll<ILockAcquisition>(locks.Select(x => x.AcquireReadLockAsync(options)))
+                .ConfigureAwait(options.ContinueOnCapturedContext);
 
-            if (!ok)
-            {
-                return new _FailedLockAcquisition();
-            }
+            return new _CompositeLockAcqusition(all_acquisitions);
+        }
 
-            var dispose_when_done = new CompositeDisposable();
+        public static ILockAcquisition AcquireReadLock(params ILock[] locks)
+            => AcquireReadLock(SyncOptions.Default, locks);
 
-            _writeOwnerThreadId = System.Environment.CurrentManagedThreadId;
+        public static ILockAcquisition AcquireReadLock(SyncOptions options, params ILock[] locks)
+        {
+            if (locks == null || locks.Length == 0)
+                return _FailedLockAcquisition.Instance;
 
-            try
-            {
-                // then its children
-                if (CompositeLock != null)
-                {
-                    var children_acquisition = CompositeLock.LockChildren(LockType.Read, options);
+            var all_acquisitions = locks.Select(x => x.AcquireReadLock(options));
 
-                    if (!children_acquisition.IsLockHeld)
-                    {
-                        children_acquisition.Dispose();
-
-                        // couldn't acquire children, release parent lock
-                        InternalWriteLock.Release();
-
-                        return new _FailedLockAcquisition();
-                    }
-
-                    dispose_when_done.Add(children_acquisition);
-                }
-            }
-            catch
-            {
-                // some error occured, release parent lock
-                InternalWriteLock.Release();
-
-                throw;
-            }
-
-            return new _WriteLockAcquisition(owner: this, disposeWhenDone: dispose_when_done);
+            return new _CompositeLockAcqusition(all_acquisitions);
         }
 
         #endregion

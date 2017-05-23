@@ -15,11 +15,8 @@ namespace SquaredInfinity.Threading.Locks
 
         public async Task<ILockAcquisition> AcquireReadLockAsync(AsyncOptions options)
         {
-            if (options.MillisecondsTimeout == 0)
+            if (!l.IsLockHeld)
                 return _FailedLockAcquisition.Instance;
-
-            if (IsLockAcquisitionRecursive())
-                return new _DummyLockAcquisition();
 
             using (var l = await InternalLock.AcquireWriteLockAsync(options).ConfigureAwait(options.ContinueOnCapturedContext))
             {
@@ -32,8 +29,8 @@ namespace SquaredInfinity.Threading.Locks
                 // just acquire another read lock
                 if (_currentState >= STATE_NOLOCK && _waitingWriters.Count == 0)
                 {
-					_readOwnerThreadIds.Add(ownerThreadId);
 
+_readOwnerThreadIds.Add(ownerThreadId);
                     if (CompositeLock == null)
                     {
                         // no children to lock, we can just grant reader-lock and return

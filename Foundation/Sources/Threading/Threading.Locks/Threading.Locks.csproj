@@ -37,10 +37,9 @@
     <Compile Include="..\Threading.Locks.NuGet\version.cs">
       <Link>version.cs</Link>
     </Compile>
+    <Compile Include="AsyncLock.AcquireLock.cs" />
     <Compile Include="AsyncLock.AcquireReadLock.cs" />
     <Compile Include="AsyncLock.AcquireWriteLock.cs" />
-    <Compile Include="AsyncLock.AcquireReadLockAsync.cs" />
-    <Compile Include="AsyncLock.AcquireWriteLockAsync.cs" />
     <Compile Include="AsyncReaderWriterLock.AcquireReadLock.cs" />
     <Compile Include="AsyncReaderWriterLock.AcquireReadLockAsync.cs" />
     <Compile Include="AsyncReaderWriterLock._WriteLockAcquisition.cs" />

@@ -10,28 +10,15 @@ namespace SquaredInfinity.Threading.Locks
     public partial class AsyncReaderWriterLock
     {
         public ILockAcquisition AcquireWriteLock()
-        {
-            var so = SyncOptions.Default;
-            return AcquireWriteLock(so);
-        }
+            => AcquireWriteLock(SyncOptions.Default);
 
         public ILockAcquisition AcquireWriteLock(SyncOptions options)
         {
-            if (RecursionPolicy == LockRecursionPolicy.SupportsRecursion)
-            {
-                if (ReadOwnerThreadIds.Contains(Environment.CurrentManagedThreadId))
-                {
-                    // lock support re-entrancy and is already owned by this thread
-                    // just return
-                    return new _DummyLockAcquisition();
-                }
-            }
-            else if (ReadOwnerThreadIds.Contains(Environment.CurrentManagedThreadId))
-            {
-                // cannot acquire non-recursive lock from thread which already owns it.
-                throw new LockRecursionException();
-            }
+            if (options.MillisecondsTimeout == 0)
+                return _FailedLockAcquisition.Instance;
 
+            if (IsLockAcquisitionRecursive())
+                return new _DummyLockAcquisition();
 
             using (var l = InternalLock.AcquireWriteLock(options))
             {
@@ -91,7 +78,7 @@ namespace SquaredInfinity.Threading.Locks
                     // add this writer to waiting writers list
 
                     var x = new TaskCompletionSource<ILockAcquisition>();
-                    _waitingReaders.Add(new _Waiter(x, options.MillisecondsTimeout, options.CancellationToken));
+                    _waitingWriters.Enqueue(new _Waiter(x, options.MillisecondsTimeout, options.CancellationToken));
 
                     // unlock this instance
                     l.Dispose();

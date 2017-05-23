@@ -32,7 +32,7 @@ namespace Threading.Locks.UnitTests
             {
                 Assert.IsTrue(l.IsLockHeld);
 
-                var l2 = await al.AcquireWriteLockAsync(new AsyncOptions(25));
+                var l2 = Task.Factory.StartNew(() => al.AcquireWriteLockAsync(new AsyncOptions(25)).Result).Result;
 
                 Assert.IsFalse(l2.IsLockHeld);
             }

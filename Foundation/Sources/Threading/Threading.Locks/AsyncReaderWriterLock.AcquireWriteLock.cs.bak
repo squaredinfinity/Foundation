@@ -1,5 +1,4 @@
-﻿using SquaredInfinity.Disposables;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,35 +9,33 @@ namespace SquaredInfinity.Threading.Locks
 {
     public partial class AsyncReaderWriterLock
     {
-        public async Task<ILockAcquisition> AcquireReadLockAsync()
-            => await  AcquireReadLockAsync(AsyncOptions.Default).ConfigureAwait(AsyncOptions.Default.ContinueOnCapturedContext);
+        public ILockAcquisition AcquireWriteLock()
+            => AcquireWriteLock(SyncOptions.Default);
 
-        public async Task<ILockAcquisition> AcquireReadLockAsync(AsyncOptions options)
+        public ILockAcquisition AcquireWriteLock(SyncOptions options)
         {
-            if (options.MillisecondsTimeout == 0)
-                return _FailedLockAcquisition.Instance;
-
             if (IsLockAcquisitionRecursive())
                 return new _DummyLockAcquisition();
 
-            using (var l = await InternalLock.AcquireWriteLockAsync(options).ConfigureAwait(options.ContinueOnCapturedContext))
+            using (var l = InternalLock.AcquireWriteLock(options))
             {
                 if (!l.IsLockHeld)
                     return _FailedLockAcquisition.Instance;
 
                 var ownerThreadId = Environment.CurrentManagedThreadId;
 
-                // we are not in write lock and there is no pending writer
-                // just acquire another read lock
-                if (_currentState >= STATE_NOLOCK && _waitingWriters.Count == 0)
+                if (_currentState == STATE_NOLOCK && _waitingWriters.Count == 0)
                 {
-					_readOwnerThreadIds.Add(ownerThreadId);
+                    _writeOwnerThreadId = ownerThreadId;
+
+                    // we are not in write or read lock and there is no waiting writer
+                    // just acquire another read lock
 
                     if (CompositeLock == null)
                     {
-                        // no children to lock, we can just grant reader-lock and return
-                        _currentState++;
-                        return new _ReadLockAcquisition(this, ownerThreadId, null);
+                        // no children to lock, we can just grant writer-lock and return
+                        _currentState = STATE_WRITELOCK;
+                        return new _WriteLockAcquisition(this, null);
                     }
                     else
                     {
@@ -48,11 +45,9 @@ namespace SquaredInfinity.Threading.Locks
                         try
                         {
                             // try to lock children
-                            var children_acquisition = 
-                                await 
+                            var children_acquisition =
                                 CompositeLock
-                                .LockChildrenAsync(LockType.Read, options)
-                                .ConfigureAwait(options.ContinueOnCapturedContext);
+                                .LockChildren(LockType.Write, options);
 
                             if (!children_acquisition.IsLockHeld)
                             {
@@ -62,26 +57,34 @@ namespace SquaredInfinity.Threading.Locks
                                 return new _FailedLockAcquisition();
                             }
 
+                            _currentState = STATE_WRITELOCK;
                             return
-                                new _ReadLockAcquisition(owner: this, ownerThreadId: ownerThreadId, disposeWhenDone: children_acquisition);
+                                new _WriteLockAcquisition(owner: this, disposeWhenDone: children_acquisition);
                         }
                         catch
                         {
-                            _readOwnerThreadIds.Remove(Environment.CurrentManagedThreadId);
+                            _writeOwnerThreadId = NO_THREAD;
                             throw;
                         }
                     }
                 }
                 else
                 {
-                    // we are in write mode
+                    // we are in read mode
                     // or there is a pending writer waiting
-                    // add this reader to waiting readers list
+                    // add this writer to waiting writers list
 
                     var x = new TaskCompletionSource<ILockAcquisition>();
                     _waitingReaders.Add(new _Waiter(x, options.MillisecondsTimeout, options.CancellationToken));
 
-                    return await x.Task;
+                    // unlock this instance
+                    l.Dispose();
+
+                    // block this thread until task completes
+                    if (x.Task.Wait(options.MillisecondsTimeout, options.CancellationToken))
+                        return x.Task.Result;
+                    else
+                        return _FailedLockAcquisition.Instance;
                 }
             }
         }

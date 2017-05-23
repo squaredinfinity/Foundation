@@ -74,71 +74,126 @@ namespace SquaredInfinity.Threading.Locks
             InternalLock = new AsyncLock(recursionPolicy: LockRecursionPolicy.NoRecursion, supportsComposition: false);
         }
 
+        /// <summary>
+        /// True if lock acquisition is recursive, false otherwise
+        /// </summary>
+        /// <returns></returns>
+        bool IsLockAcquisitionRecursive()
+        {
+            if (RecursionPolicy == LockRecursionPolicy.SupportsRecursion)
+            {
+                if (_writeOwnerThreadId == System.Environment.CurrentManagedThreadId)
+                {
+                    // lock support re-entrancy and is already owned by this thread
+                    // just return
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else if (System.Environment.CurrentManagedThreadId == WriteOwnerThreadId)
+            {
+                // cannot acquire non-recursive lock from thread which already owns it.
+                throw new LockRecursionException();
+            }
+
+            return false;
+        }
+
         void ReleaseReadLock(int ownerThreadId)
         {
-            using (var a = InternalLock.AcquireWriteLock())
+            using (var l = InternalLock.AcquireWriteLock())
             {
                 _readOwnerThreadIds.Remove(ownerThreadId);
-
                 _currentState--;
 
-                if (_currentState == STATE_NOLOCK)
-                {
-                    // there are no more read locks
-
-                    if (_waitingWriters.Count == 0)
-                    {
-                        // there are no waiting writers
-                        // nothing to do here
-                        return;
-                    }
-                    else
-                    {
-                        // there are waiting writers
-                        // grant lock to next in queue
-
-                        _currentState = STATE_WRITELOCK;
-                        bool ok = false;
-
-                        while (_waitingWriters.Count > 0)
-                        {
-                            var next_writer_waiter = _waitingWriters.Dequeue();
-
-                            if (next_writer_waiter.CancellationToken.IsCancellationRequested)
-                                continue;
-
-                            if (next_writer_waiter.Timeout.HasTimedOut)
-                                continue;
-
-                            var write_lock = AcquireWriteLock(new SyncOptions(next_writer_waiter.Timeout.MillisecondsLeft, next_writer_waiter.CancellationToken));
-
-                            // thaw waiting task
-                            if(next_writer_waiter.TaskCompletionSource.TrySetResult(write_lock))
-                            {
-                                ok = true;
-                                break;
-                            }
-                            else
-                            {
-                                write_lock.Dispose();
-                            }
-                        }
-
-                        // no more waiting writers
-                        // set lock state to no lock
-
-                        if (!ok)
-                            _currentState = STATE_NOLOCK;
-                    }
-                }
+                AfterLockReleased(l);
             }
         }
 
         void ReleaseWriteLock()
         {
-            using (InternalLock.AcquireWriteLock())
+            using (var l = InternalLock.AcquireWriteLock())
             {
                 _writeOwnerThreadId = NO_THREAD;
+                _currentState = STATE_NOLOCK;
+
+                AfterLockReleased(l);
+            }
+        }
+
+        void AfterLockReleased(ILockAcquisition internalLockAcquisition)
+        {
+            if (_currentState == STATE_NOLOCK)
+            {
+                // there are no more read locks
+
+                if (_waitingWriters.Count == 0)
+                {
+                    // there are no waiting writers
+                    // check if there are waiting readers
+                    
+                    if(_waitingReaders.Count == 0)
+                    {
+                        // nothing to do, return
+                        return;
+                    }
+                    else
+                    {
+                        // let the readers in
+                        foreach(var r in _waitingReaders)
+                        {
+                            if (r.CancellationToken.IsCancellationRequested)
+                                continue;
+
+                            if (r.Timeout.HasTimedOut)
+                                continue;
+
+                            // TODO: this will report owner as current thread, not the thread that actually requested the lock :(
+                            var rl = AcquireReadLock_NOLOCK(internalLockAcquisition, new SyncOptions(r.Timeout.MillisecondsLeft, r.CancellationToken));
+                            
+                            // thaw waiting task
+                            if (r.TaskCompletionSource.TrySetResult(rl))
+                            {
+                                // all went ok :)
+                            }
+                            else
+                            {
+                                rl.Dispose();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // there are waiting writers
+                    // grant lock to next in queue
+                    
+                    while (_waitingWriters.Count > 0)
+                    {
+                        var next_writer_waiter = _waitingWriters.Dequeue();
+
+                        if (next_writer_waiter.CancellationToken.IsCancellationRequested)
+                            continue;
+
+                        if (next_writer_waiter.Timeout.HasTimedOut)
+                            continue;
+
+                        var write_lock = AcquireWriteLock(new SyncOptions(next_writer_waiter.Timeout.MillisecondsLeft, next_writer_waiter.CancellationToken));
+
+                        // thaw waiting task
+                        if (next_writer_waiter.TaskCompletionSource.TrySetResult(write_lock))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            write_lock.Dispose();
+                        }
+                    }
+                }
             }
         }
     }

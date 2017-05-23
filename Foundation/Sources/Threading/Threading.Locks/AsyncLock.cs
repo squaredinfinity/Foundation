@@ -32,7 +32,6 @@ namespace SquaredInfinity.Threading.Locks
         volatile int _writeOwnerThreadId;
         public int WriteOwnerThreadId => _writeOwnerThreadId;
         public bool IsWriteLockHeld => System.Environment.CurrentManagedThreadId == _writeOwnerThreadId;
-        // TODO: Read Lock implementation
         public bool IsReadLockHeld => IsWriteLockHeld;
         public IReadOnlyList<int> ReadOwnerThreadIds => new[] { WriteOwnerThreadId };
 
@@ -82,62 +81,32 @@ namespace SquaredInfinity.Threading.Locks
 
         #endregion
 
-        public static async Task<ILockAcquisition> AcquireWriteLockAsync(params IAsyncLock[] locks)
+        /// <summary>
+        /// True if lock acquisition is recursive, false otherwise
+        /// </summary>
+        /// <returns></returns>
+        bool IsLockAcquisitionRecursive()
         {
-            var ao = AsyncOptions.Default;
+            if (RecursionPolicy == LockRecursionPolicy.SupportsRecursion)
+            {
+                if (_writeOwnerThreadId == System.Environment.CurrentManagedThreadId)
+                {
+                    // lock support re-entrancy and is already owned by this thread
+                    // just return
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else if (System.Environment.CurrentManagedThreadId == WriteOwnerThreadId)
+            {
+                // cannot acquire non-recursive lock from thread which already owns it.
+                throw new LockRecursionException();
+            }
 
-            return await AcquireWriteLockAsync(ao, locks);
-        }
-
-        public static async Task<ILockAcquisition> AcquireWriteLockAsync(AsyncOptions options, params IAsyncLock[] locks)
-        {
-            if (locks == null || locks.Length == 0)
-                return _FailedLockAcquisition.Instance;
-
-            var all_acquisitions =
-                await 
-                Task.WhenAll<ILockAcquisition>(locks.Select(x => x.AcquireWriteLockAsync(options)))
-                .ConfigureAwait(options.ContinueOnCapturedContext);
-
-            return new _CompositeLockAcqusition(all_acquisitions);
-        }
-
-        public static async Task<ILockAcquisition> AcquireReadLockAsync(params IAsyncLock[] locks)
-        {
-            var ao = AsyncOptions.Default;
-
-            return await AcquireReadLockAsync(ao, locks);
-        }
-
-        public static async Task<ILockAcquisition> AcquireReadLockAsync(AsyncOptions options, params IAsyncLock[] locks)
-        {
-            if (locks == null || locks.Length == 0)
-                return _FailedLockAcquisition.Instance;
-
-            var all_acquisitions =
-                await
-                Task.WhenAll<ILockAcquisition>(locks.Select(x => x.AcquireReadLockAsync(options)))
-                .ConfigureAwait(options.ContinueOnCapturedContext);
-
-            return new _CompositeLockAcqusition(all_acquisitions);
-        }
-
-
-        public static ILockAcquisition AcquireReadLock(params ILock[] locks)
-        {
-            var so = SyncOptions.Default;
-
-            return AcquireReadLock(so, locks);
-        }
-
-        public static ILockAcquisition AcquireReadLock(SyncOptions options, params ILock[] locks)
-        {
-            if (locks == null || locks.Length == 0)
-                return _FailedLockAcquisition.Instance;
-
-            var all_acquisitions = locks.Select(x => x.AcquireReadLock(options));
-
-            return new _CompositeLockAcqusition(all_acquisitions);
+            return false;
         }
 
         public string DebuggerDisplay => $"AsyncLock {LockId}, name: {Name.ToStringWithNullOrEmpty()}, owner: {WriteOwnerThreadId}";

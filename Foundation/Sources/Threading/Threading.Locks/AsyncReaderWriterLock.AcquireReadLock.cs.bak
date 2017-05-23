@@ -1,5 +1,4 @@
-﻿using SquaredInfinity.Disposables;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,29 +9,27 @@ namespace SquaredInfinity.Threading.Locks
 {
     public partial class AsyncReaderWriterLock
     {
-        public async Task<ILockAcquisition> AcquireReadLockAsync()
-            => await  AcquireReadLockAsync(AsyncOptions.Default).ConfigureAwait(AsyncOptions.Default.ContinueOnCapturedContext);
+        public ILockAcquisition AcquireReadLock()
+            => AcquireReadLock(SyncOptions.Default);
 
-        public async Task<ILockAcquisition> AcquireReadLockAsync(AsyncOptions options)
+        public ILockAcquisition AcquireReadLock(SyncOptions options)
         {
-            if (options.MillisecondsTimeout == 0)
-                return _FailedLockAcquisition.Instance;
-
             if (IsLockAcquisitionRecursive())
                 return new _DummyLockAcquisition();
 
-            using (var l = await InternalLock.AcquireWriteLockAsync(options).ConfigureAwait(options.ContinueOnCapturedContext))
+            using (var l = InternalLock.AcquireWriteLock(options))
             {
                 if (!l.IsLockHeld)
                     return _FailedLockAcquisition.Instance;
 
                 var ownerThreadId = Environment.CurrentManagedThreadId;
 
-                // we are not in write lock and there is no pending writer
-                // just acquire another read lock
-                if (_currentState >= STATE_NOLOCK && _waitingWriters.Count == 0)
+                if (_currentState == STATE_NOLOCK && _waitingWriters.Count == 0)
                 {
-					_readOwnerThreadIds.Add(ownerThreadId);
+                    _readOwnerThreadIds.Add(ownerThreadId);
+
+                    // we are not in write or read lock and there is no waiting writer
+                    // just acquire another read lock
 
                     if (CompositeLock == null)
                     {
@@ -48,11 +45,9 @@ namespace SquaredInfinity.Threading.Locks
                         try
                         {
                             // try to lock children
-                            var children_acquisition = 
-                                await 
+                            var children_acquisition =
                                 CompositeLock
-                                .LockChildrenAsync(LockType.Read, options)
-                                .ConfigureAwait(options.ContinueOnCapturedContext);
+                                .LockChildren(LockType.Read, options);
 
                             if (!children_acquisition.IsLockHeld)
                             {
@@ -81,7 +76,12 @@ namespace SquaredInfinity.Threading.Locks
                     var x = new TaskCompletionSource<ILockAcquisition>();
                     _waitingReaders.Add(new _Waiter(x, options.MillisecondsTimeout, options.CancellationToken));
 
-                    return await x.Task;
+					// unlock this instance
+                    l.Dispose();
+                    if (x.Task.Wait(options.MillisecondsTimeout, options.CancellationToken))
+                        return x.Task.Result;
+                    else
+                        return _FailedLockAcquisition.Instance;
                 }
             }
         }
