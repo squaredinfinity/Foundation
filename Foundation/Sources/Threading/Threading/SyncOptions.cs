@@ -28,19 +28,19 @@ namespace SquaredInfinity.Threading
         public CancellationToken CancellationToken { get; private set; }
 
         public SyncOptions()
-            : this(System.Threading.Timeout.Infinite, CancellationToken.None) { }
+            : this(Default.MillisecondsTimeout, Default.CancellationToken) { }
 
         public SyncOptions(CancellationToken ct)
-            : this(System.Threading.Timeout.Infinite, ct) { }
+            : this(Default.MillisecondsTimeout, ct) { }
 
         public SyncOptions(TimeSpan timeout)
-            : this((int)timeout.TotalMilliseconds, CancellationToken.None) { }
+            : this((int)timeout.TotalMilliseconds, Default.CancellationToken) { }
 
         public SyncOptions(TimeSpan timeout, CancellationToken ct)
             : this((int)timeout.TotalMilliseconds, ct) { }
 
         public SyncOptions(int millisecondsTmeout)
-            : this(millisecondsTmeout, CancellationToken.None) { }
+            : this(millisecondsTmeout, Default.CancellationToken) { }
 
         public SyncOptions(int millisecondsTimeout, CancellationToken ct)
         {

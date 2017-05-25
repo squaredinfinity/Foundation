@@ -32,24 +32,39 @@ namespace SquaredInfinity.Threading
         public bool ContinueOnCapturedContext { get; }
 
         public AsyncOptions()
-            : this(System.Threading.Timeout.Infinite, CancellationToken.None, false) { }
+            : this(Default.MillisecondsTimeout, Default.CancellationToken, Default.ContinueOnCapturedContext) { }
 
-        public AsyncOptions(bool continueOnCapturedContext = false)
-            : this(System.Threading.Timeout.Infinite, CancellationToken.None, continueOnCapturedContext) { }
+        public AsyncOptions(bool continueOnCapturedContext)
+            : this(Default.MillisecondsTimeout, Default.CancellationToken, continueOnCapturedContext) { }
 
-        public AsyncOptions(CancellationToken ct, bool continueOnCapturedContext = false)
-            : this(System.Threading.Timeout.Infinite, ct, continueOnCapturedContext) { }
+        public AsyncOptions(CancellationToken ct)
+            : this(Default.MillisecondsTimeout, ct, Default.ContinueOnCapturedContext) { }
 
-        public AsyncOptions(TimeSpan timeout, bool continueOnCapturedContext = false)
-            : this((int)timeout.TotalMilliseconds, CancellationToken.None, continueOnCapturedContext) { }
+        public AsyncOptions(CancellationToken ct, bool continueOnCapturedContext)
+            : this(Default.MillisecondsTimeout, ct, continueOnCapturedContext) { }
 
-        public AsyncOptions(TimeSpan timeout, CancellationToken ct, bool continueOnCapturedContext = false)
+        public AsyncOptions(TimeSpan timeout)
+            : this((int)timeout.TotalMilliseconds, Default.CancellationToken, Default.ContinueOnCapturedContext) { }
+
+        public AsyncOptions(TimeSpan timeout, bool continueOnCapturedContext)
+            : this((int)timeout.TotalMilliseconds, Default.CancellationToken, continueOnCapturedContext) { }
+
+        public AsyncOptions(TimeSpan timeout, CancellationToken ct)
+            : this((int)timeout.TotalMilliseconds, ct, Default.ContinueOnCapturedContext) { }
+
+        public AsyncOptions(TimeSpan timeout, CancellationToken ct, bool continueOnCapturedContext)
             : this((int)timeout.TotalMilliseconds, ct, continueOnCapturedContext) { }
 
-        public AsyncOptions(int millisecondsTmeout, bool continueOnCapturedContext = false)
+        public AsyncOptions(int millisecondsTmeout)
+            : this(millisecondsTmeout, Default.CancellationToken, Default.ContinueOnCapturedContext) { }
+
+        public AsyncOptions(int millisecondsTmeout, bool continueOnCapturedContext)
             : this(millisecondsTmeout, CancellationToken.None, continueOnCapturedContext) { }
 
-        public AsyncOptions(int millisecondsTimeout, CancellationToken ct, bool continueOnCapturedContext = false)
+        public AsyncOptions(int millisecondsTmeout, CancellationToken ct)
+            : this(millisecondsTmeout, ct, Default.ContinueOnCapturedContext) { }
+
+        public AsyncOptions(int millisecondsTimeout, CancellationToken ct, bool continueOnCapturedContext)
         {
             _timeout = new TimeoutExpiry(millisecondsTimeout);
             CancellationToken = ct;
