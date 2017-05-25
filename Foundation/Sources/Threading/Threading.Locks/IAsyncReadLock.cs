@@ -14,6 +14,11 @@ namespace SquaredInfinity.Threading.Locks
         /// </summary>
         /// <returns></returns>
         Task<ILockAcquisition> AcquireReadLockAsync();
+        Task<ILockAcquisition> AcquireReadLockAsync(CancellationToken ct);
+        Task<ILockAcquisition> AcquireReadLockAsync(TimeSpan timeout);
+        Task<ILockAcquisition> AcquireReadLockAsync(TimeSpan timeout, CancellationToken ct);
+        Task<ILockAcquisition> AcquireReadLockAsync(int millisecondsTimeout);
+        Task<ILockAcquisition> AcquireReadLockAsync(int millisecondsTimeout, CancellationToken ct);
         Task<ILockAcquisition> AcquireReadLockAsync(AsyncOptions options);
     }
 }

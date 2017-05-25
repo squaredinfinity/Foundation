@@ -12,13 +12,11 @@ namespace SquaredInfinity.Threading.Locks
     public partial class AsyncLock
     {
         /// <summary>
-        /// A common pattern of acquiring both Read and Write locks.
-        /// Async Lock does not recognise differences between Write and Read locks, but its children may support both locks differently.
+        /// A common patter of acquiringboth Read and Write async locks. 
         /// </summary>
-        /// <param name="lockType"></param>
         /// <param name="options"></param>
         /// <returns></returns>
-        ILockAcquisition AcquireLock(LockType lockType, SyncOptions options)
+        async Task<ILockAcquisition> AcquireLockAsync(LockType lockType, AsyncOptions options)
         {
             if (options.MillisecondsTimeout == 0)
                 return _FailedLockAcquisition.Instance;
@@ -28,24 +26,28 @@ namespace SquaredInfinity.Threading.Locks
 
             // lock parent first
             var ok =
+                await
                 InternalWriteLock
-                .Wait(options.MillisecondsTimeout, options.CancellationToken);
+                .WaitAsync(options.MillisecondsTimeout, options.CancellationToken)
+                .ConfigureAwait(options.ContinueOnCapturedContext);
 
             if (!ok)
-            {
                 return new _FailedLockAcquisition();
-            }
 
             _writeOwnerThreadId = System.Environment.CurrentManagedThreadId;
 
             var dispose_when_done = new CompositeDisposable();
+
 
             try
             {
                 // then its children
                 if (CompositeLock != null)
                 {
-                    var children_acquisition = CompositeLock.LockChildren(lockType, options);
+                    var children_acquisition =
+                        await
+                        CompositeLock.LockChildrenAsync(lockType, options)
+                        .ConfigureAwait(options.ContinueOnCapturedContext);
 
                     if (!children_acquisition.IsLockHeld)
                     {

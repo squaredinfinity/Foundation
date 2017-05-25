@@ -10,13 +10,30 @@ namespace SquaredInfinity.Threading.Locks
 {
     public partial class AsyncReaderWriterLock
     {
+        #region Acquire Read Lock (overloads)
+
         public async Task<ILockAcquisition> AcquireReadLockAsync()
-            => await  AcquireReadLockAsync(AsyncOptions.Default).ConfigureAwait(AsyncOptions.Default.ContinueOnCapturedContext);
+            => await  AcquireReadLockAsync(AsyncOptions.Default);
+        public async Task<ILockAcquisition> AcquireReadLockAsync(CancellationToken ct)
+            => await AcquireReadLockAsync(new AsyncOptions(ct));
+        public async Task<ILockAcquisition> AcquireReadLockAsync(int millisecondsTimeout)
+            => await AcquireReadLockAsync(new AsyncOptions(millisecondsTimeout));
+        public async Task<ILockAcquisition> AcquireReadLockAsync(int millisecondsTimeout, CancellationToken ct)
+            => await AcquireReadLockAsync(new AsyncOptions(millisecondsTimeout, ct));
+        public async Task<ILockAcquisition> AcquireReadLockAsync(TimeSpan timeout)
+            => await AcquireReadLockAsync(new AsyncOptions(timeout));
+        public async Task<ILockAcquisition> AcquireReadLockAsync(TimeSpan timeout, CancellationToken ct)
+            => await AcquireReadLockAsync(new AsyncOptions(timeout, ct));
+
+        #endregion
 
         public async Task<ILockAcquisition> AcquireReadLockAsync(AsyncOptions options)
         {
-            if (!l.IsLockHeld)
+            if (options.MillisecondsTimeout == 0)
                 return _FailedLockAcquisition.Instance;
+
+            if (IsLockAcquisitionRecursive())
+                return new _DummyLockAcquisition();
 
             using (var l = await InternalLock.AcquireWriteLockAsync(options).ConfigureAwait(options.ContinueOnCapturedContext))
             {
@@ -29,11 +46,10 @@ namespace SquaredInfinity.Threading.Locks
                 // just acquire another read lock
                 if (_currentState >= STATE_NOLOCK && _waitingWriters.Count == 0)
                 {
-
-_readOwnerThreadIds.Add(ownerThreadId);
                     if (CompositeLock == null)
                     {
                         // no children to lock, we can just grant reader-lock and return
+                        _readOwnerThreadIds.Add(ownerThreadId);
                         _currentState++;
                         return new _ReadLockAcquisition(this, ownerThreadId, null);
                     }
@@ -54,17 +70,17 @@ _readOwnerThreadIds.Add(ownerThreadId);
                             if (!children_acquisition.IsLockHeld)
                             {
                                 // couldn't acquire children, return failure
-
                                 children_acquisition.Dispose();
                                 return new _FailedLockAcquisition();
                             }
 
+                            _readOwnerThreadIds.Add(ownerThreadId);
+                            _currentState++;
                             return
                                 new _ReadLockAcquisition(owner: this, ownerThreadId: ownerThreadId, disposeWhenDone: children_acquisition);
                         }
                         catch
                         {
-                            _readOwnerThreadIds.Remove(Environment.CurrentManagedThreadId);
                             throw;
                         }
                     }
@@ -75,10 +91,17 @@ _readOwnerThreadIds.Add(ownerThreadId);
                     // or there is a pending writer waiting
                     // add this reader to waiting readers list
 
-                    var x = new TaskCompletionSource<ILockAcquisition>();
-                    _waitingReaders.Add(new _Waiter(x, options.MillisecondsTimeout, options.CancellationToken));
+                    var completion_source = new TaskCompletionSource<ILockAcquisition>();
+                    _waitingReaders.Enqueue(
+                        new _Waiter(
+                            completion_source, 
+                            Environment.CurrentManagedThreadId,
+                            options.MillisecondsTimeout, 
+                            options.CancellationToken));
 
-                    return await x.Task;
+                    l.Dispose();
+
+                    return await completion_source.Task;
                 }
             }
         }

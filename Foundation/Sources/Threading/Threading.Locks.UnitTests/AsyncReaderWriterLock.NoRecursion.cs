@@ -11,138 +11,7 @@ namespace Threading.Locks.UnitTests
 	[TestClass]
     public class AsyncReaderWriterLock__NoRecursion
     {
-        [TestMethod]
-        public async Task can_acquire_read_lock_async()
-        {
-            var l1 = new AsyncReaderWriterLock(recursionPolicy: LockRecursionPolicy.NoRecursion);
-            var l2 = new AsyncReaderWriterLock(recursionPolicy: LockRecursionPolicy.NoRecursion);
-            var l3 = new AsyncReaderWriterLock(recursionPolicy: LockRecursionPolicy.NoRecursion);
-            var l4 = new AsyncReaderWriterLock(recursionPolicy: LockRecursionPolicy.NoRecursion);
-
-            var all_acquisitions = await AsyncLock.AcquireReadLockAsync(l1, l2, l3, l4);
-
-
-            Assert.IsTrue(all_acquisitions.IsLockHeld);
-
-            Assert.AreEqual(-1, l1.WriteOwnerThreadId);
-            Assert.AreEqual(-1, l2.WriteOwnerThreadId);
-            Assert.AreEqual(-1, l3.WriteOwnerThreadId);
-            Assert.AreEqual(-1, l4.WriteOwnerThreadId);
-
-            Assert.IsTrue(l1.ReadOwnerThreadIds.Contains(System.Environment.CurrentManagedThreadId));
-            Assert.IsTrue(l2.ReadOwnerThreadIds.Contains(System.Environment.CurrentManagedThreadId));
-            Assert.IsTrue(l3.ReadOwnerThreadIds.Contains(System.Environment.CurrentManagedThreadId));
-            Assert.IsTrue(l4.ReadOwnerThreadIds.Contains(System.Environment.CurrentManagedThreadId));
-
-            all_acquisitions.Dispose();
-
-            Assert.IsFalse(all_acquisitions.IsLockHeld);
-
-            Assert.AreEqual(-1, l1.WriteOwnerThreadId);
-            Assert.AreEqual(-1, l2.WriteOwnerThreadId);
-            Assert.AreEqual(-1, l3.WriteOwnerThreadId);
-            Assert.AreEqual(-1, l4.WriteOwnerThreadId);
-
-            Assert.AreEqual(0, l1.ReadOwnerThreadIds.Count);
-            Assert.AreEqual(0, l2.ReadOwnerThreadIds.Count);
-            Assert.AreEqual(0, l3.ReadOwnerThreadIds.Count);
-            Assert.AreEqual(0, l4.ReadOwnerThreadIds.Count);
-        }
-
-        [TestMethod]
-        public void can_acquire_read_lock()
-        {
-            var l1 = new AsyncReaderWriterLock(recursionPolicy: LockRecursionPolicy.NoRecursion);
-            var l2 = new AsyncReaderWriterLock(recursionPolicy: LockRecursionPolicy.NoRecursion);
-            var l3 = new AsyncReaderWriterLock(recursionPolicy: LockRecursionPolicy.NoRecursion);
-            var l4 = new AsyncReaderWriterLock(recursionPolicy: LockRecursionPolicy.NoRecursion);
-
-            var all_acquisitions = AsyncLock.AcquireReadLock(l1, l2, l3, l4);
-
-
-            Assert.IsTrue(all_acquisitions.IsLockHeld);
-
-            Assert.AreEqual(-1, l1.WriteOwnerThreadId);
-            Assert.AreEqual(-1, l2.WriteOwnerThreadId);
-            Assert.AreEqual(-1, l3.WriteOwnerThreadId);
-            Assert.AreEqual(-1, l4.WriteOwnerThreadId);
-
-            Assert.IsTrue(l1.ReadOwnerThreadIds.Contains(System.Environment.CurrentManagedThreadId));
-            Assert.IsTrue(l2.ReadOwnerThreadIds.Contains(System.Environment.CurrentManagedThreadId));
-            Assert.IsTrue(l3.ReadOwnerThreadIds.Contains(System.Environment.CurrentManagedThreadId));
-            Assert.IsTrue(l4.ReadOwnerThreadIds.Contains(System.Environment.CurrentManagedThreadId));
-
-            all_acquisitions.Dispose();
-
-            Assert.IsFalse(all_acquisitions.IsLockHeld);
-
-            Assert.AreEqual(-1, l1.WriteOwnerThreadId);
-            Assert.AreEqual(-1, l2.WriteOwnerThreadId);
-            Assert.AreEqual(-1, l3.WriteOwnerThreadId);
-            Assert.AreEqual(-1, l4.WriteOwnerThreadId);
-
-            Assert.AreEqual(0, l1.ReadOwnerThreadIds.Count);
-            Assert.AreEqual(0, l2.ReadOwnerThreadIds.Count);
-            Assert.AreEqual(0, l3.ReadOwnerThreadIds.Count);
-            Assert.AreEqual(0, l4.ReadOwnerThreadIds.Count);
-        }
-
-        [TestMethod]
-        public void can_acquire_write_lock()
-        {
-            var l1 = new AsyncReaderWriterLock(recursionPolicy: LockRecursionPolicy.NoRecursion);
-
-            var a = l1.AcquireWriteLock();
-
-            Assert.IsTrue(a.IsLockHeld);
-
-            Assert.AreEqual(Environment.CurrentManagedThreadId, l1.WriteOwnerThreadId);
-
-            Assert.AreEqual(0, l1.ReadOwnerThreadIds.Count);
-
-            a.Dispose();
-
-            Assert.IsFalse(a.IsLockHeld);
-
-            Assert.AreEqual(-1, l1.WriteOwnerThreadId);
-
-            Assert.AreEqual(0, l1.ReadOwnerThreadIds.Count);
-        }
-
-        [TestMethod]
-        public async Task can_acquire_write_lock_async()
-        {
-            var l1 = new AsyncReaderWriterLock(recursionPolicy: LockRecursionPolicy.NoRecursion);
-
-            var a = await l1.AcquireWriteLockAsync();
-
-            Assert.IsTrue(a.IsLockHeld);
-
-            Assert.AreEqual(Environment.CurrentManagedThreadId, l1.WriteOwnerThreadId);
-
-            Assert.AreEqual(0, l1.ReadOwnerThreadIds.Count);
-
-            a.Dispose();
-
-            Assert.IsFalse(a.IsLockHeld);
-
-            Assert.AreEqual(-1, l1.WriteOwnerThreadId);
-
-            Assert.AreEqual(0, l1.ReadOwnerThreadIds.Count);
-        }
-
-        [TestMethod]
-        public void lock_acquisition_on_caller_thread()
-        {
-            var l1 = new AsyncReaderWriterLock(recursionPolicy: LockRecursionPolicy.NoRecursion);
-
-            var a = l1.AcquireReadLock();
-
-            Assert.IsTrue(a.IsLockHeld);
-
-            Assert.IsTrue(l1.ReadOwnerThreadIds.Contains(System.Environment.CurrentManagedThreadId));
-        }
-
+        
         [TestMethod]
         public async Task no_lock_held_async_lock_acquisition_on_caller_thread()
         {
@@ -242,30 +111,120 @@ namespace Threading.Locks.UnitTests
         }
 
         [TestMethod]
-        public void waiting_reader_thread_owns_lock_when_gets_it()
+        void writer_owns_lock__reader_or_writer_waits__reader_or_writer_gets_lock()
+        {
+            // Writer owns a lock
+            // there is a waiting reader or writer
+            // once Writer releases the lock, waiting reader or writer gets it
+
+            foreach (var lock_type in new[] { LockType.Read, LockType.Write })
+            {
+                var l = new AsyncReaderWriterLock(recursionPolicy: LockRecursionPolicy.NoRecursion);
+
+                var aw = l.AcquireWriteLock();
+
+                var task =
+                Task.Factory.StartNew(() =>
+                {
+                    if (lock_type == LockType.Read)
+                    {
+                        using (var ar = l.AcquireReadLock())
+                        {
+                            Assert.IsTrue(ar.IsLockHeld);
+                            Assert.IsTrue(l.IsReadLockHeld);
+                            Assert.IsTrue(l.ReadOwnerThreadIds.Contains(Environment.CurrentManagedThreadId));
+                            Assert.AreEqual(ReaderWriterLockState.Read, l.State);
+
+                            Assert.IsFalse(l.IsWriteLockHeld);
+                            Assert.AreEqual(-1, l.WriteOwnerThreadId);
+                        }
+                    }
+                    else
+                    if(lock_type == LockType.Write)
+                    {
+                        using (var ar = l.AcquireWriteLock())
+                        {
+                            Assert.IsTrue(ar.IsLockHeld);
+                            Assert.IsTrue(l.IsWriteLockHeld);
+                            Assert.IsTrue(l.WriteOwnerThreadId == Environment.CurrentManagedThreadId);
+                            Assert.AreEqual(ReaderWriterLockState.Write, l.State);
+
+                            Assert.IsFalse(l.IsReadLockHeld);
+                            Assert.AreEqual(0, l.ReadOwnerThreadIds.Count);
+                        }
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
+                });
+
+                // wait so that read lock can have time to be queued
+                Thread.Sleep(25);
+
+                // release write lock so read lock can be acquired
+                aw.Dispose();
+
+                task.Wait();
+            }
+        }
+
+        [TestMethod]
+        public void writer_owns_lock__async_reader_or_writer_waits__reader_or_writer_gets_lock()
         {
             // when waiting reader is finally given a lock
             // correct thread should be reported as read_owner
 
-            // TODO: implement this test
-            Assert.Fail("NOT IMPLEMENTED");
-
-            var l = new AsyncReaderWriterLock(recursionPolicy: LockRecursionPolicy.NoRecursion);
-
-            var a = l.AcquireWriteLock();
-
-            Task.Factory.StartNew(() =>
+            foreach (var lock_type in new[] { LockType.Read, LockType.Write })
             {
-                using (l.AcquireReadLock())
+                var l = new AsyncReaderWriterLock(recursionPolicy: LockRecursionPolicy.NoRecursion);
+
+                var aw = l.AcquireWriteLock();
+
+                var task =
+                Task.Factory.StartNew(async () =>
                 {
-                    Assert.IsTrue(l.IsReadLockHeld);
-                    Assert.IsTrue(l.ReadOwnerThreadIds.Contains(Environment.CurrentManagedThreadId));
-                }
-            });
+                    if (lock_type == LockType.Read)
+                    {
+                        using (var ar = await l.AcquireReadLockAsync())
+                        {
+                            Assert.IsTrue(ar.IsLockHeld);
+                            Assert.IsTrue(l.IsReadLockHeld);
+                            Assert.IsTrue(l.ReadOwnerThreadIds.Contains(Environment.CurrentManagedThreadId));
+                            Assert.AreEqual(ReaderWriterLockState.Read, l.State);
 
-            Thread.Sleep(25);
+                            Assert.IsFalse(l.IsWriteLockHeld);
+                            Assert.AreEqual(-1, l.WriteOwnerThreadId);
+                        }
+                    }
+                    else
+                    if (lock_type == LockType.Write)
+                    {
+                        using (var ar = await l.AcquireWriteLockAsync())
+                        {
+                            Assert.IsTrue(ar.IsLockHeld);
+                            Assert.IsTrue(l.IsWriteLockHeld);
+                            Assert.IsTrue(l.WriteOwnerThreadId == Environment.CurrentManagedThreadId);
+                            Assert.AreEqual(ReaderWriterLockState.Write, l.State);
 
-            a.Dispose();
+                            Assert.IsFalse(l.IsReadLockHeld);
+                            Assert.AreEqual(0, l.ReadOwnerThreadIds.Count);
+                        }
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
+                });
+
+                // wait so that read lock can have time to be queued
+                Thread.Sleep(25);
+
+                // release write lock so read lock can be acquired
+                aw.Dispose();
+
+                task.Wait();
+            }
         }
     }
 }

@@ -14,6 +14,11 @@ namespace SquaredInfinity.Threading.Locks
         IReadOnlyList<int> ReadOwnerThreadIds { get; }
 
         ILockAcquisition AcquireReadLock();
+        ILockAcquisition AcquireReadLock(CancellationToken ct);
+        ILockAcquisition AcquireReadLock(TimeSpan timeout);
+        ILockAcquisition AcquireReadLock(TimeSpan timeout, CancellationToken ct);
+        ILockAcquisition AcquireReadLock(int millisecondsTimeout);
+        ILockAcquisition AcquireReadLock(int millisecondsTimeout, CancellationToken ct);
         ILockAcquisition AcquireReadLock(SyncOptions options);
     }
 }

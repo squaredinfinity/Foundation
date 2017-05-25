@@ -13,6 +13,11 @@ namespace SquaredInfinity.Threading.Locks
         bool IsWriteLockHeld { get; }
 
         ILockAcquisition AcquireWriteLock();
+        ILockAcquisition AcquireWriteLock(CancellationToken ct);
+        ILockAcquisition AcquireWriteLock(TimeSpan timeout);
+        ILockAcquisition AcquireWriteLock(TimeSpan timeout, CancellationToken ct);
+        ILockAcquisition AcquireWriteLock(int millisecondsTimeout);
+        ILockAcquisition AcquireWriteLock(int millisecondsTimeout, CancellationToken ct);
         ILockAcquisition AcquireWriteLock(SyncOptions options);
     }
 }

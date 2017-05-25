@@ -54,10 +54,10 @@
       <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.6\lib\net452\SquaredInfinity.Extensions.DotNet45.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Threading, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Threading.2.0.9\lib\net452\SquaredInfinity.Threading.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Threading.2.0.10\lib\net452\SquaredInfinity.Threading.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Threading.DotNet45, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Threading.2.0.9\lib\net452\SquaredInfinity.Threading.DotNet45.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Threading.2.0.10\lib\net452\SquaredInfinity.Threading.DotNet45.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -68,6 +68,7 @@
     <Compile Include="AsyncLock.Constructor.cs" />
     <Compile Include="AsyncLock.Recursion.cs" />
     <Compile Include="AsyncLock.NoRecursion.cs" />
+    <Compile Include="AsyncReaderWriterLock.General.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -9,11 +9,28 @@ namespace SquaredInfinity.Threading.Locks
 {
     public partial class AsyncReaderWriterLock
     {
+        #region Acquire Write Lock (overloads)
+
         public ILockAcquisition AcquireWriteLock()
             => AcquireWriteLock(SyncOptions.Default);
+        public ILockAcquisition AcquireWriteLock(CancellationToken ct)
+            => AcquireWriteLock(new SyncOptions(ct));
+        public ILockAcquisition AcquireWriteLock(int millisecondsTimeout)
+            => AcquireWriteLock(new SyncOptions(millisecondsTimeout));
+        public ILockAcquisition AcquireWriteLock(int millisecondsTimeout, CancellationToken ct)
+            => AcquireWriteLock(new SyncOptions(millisecondsTimeout, ct));
+        public ILockAcquisition AcquireWriteLock(TimeSpan timeout)
+            => AcquireWriteLock(new SyncOptions(timeout));
+        public ILockAcquisition AcquireWriteLock(TimeSpan timeout, CancellationToken ct)
+            => AcquireReadLock(new SyncOptions(timeout, ct));
+
+        #endregion 
 
         public ILockAcquisition AcquireWriteLock(SyncOptions options)
         {
+            if (options.MillisecondsTimeout == 0)
+                return _FailedLockAcquisition.Instance;
+
             if (IsLockAcquisitionRecursive())
                 return new _DummyLockAcquisition();
 
@@ -22,70 +39,86 @@ namespace SquaredInfinity.Threading.Locks
                 if (!l.IsLockHeld)
                     return _FailedLockAcquisition.Instance;
 
-                var ownerThreadId = Environment.CurrentManagedThreadId;
+                return AcquireWriteLock_NOLOCK(l, Environment.CurrentManagedThreadId, options);
+            }
+        }
 
-                if (_currentState == STATE_NOLOCK && _waitingWriters.Count == 0)
+        ILockAcquisition AcquireWriteLock_NOLOCK(ILockAcquisition internalLockAcquisition, int ownerThreadId, SyncOptions options)
+        {
+            if (options.MillisecondsTimeout == 0)
+                return _FailedLockAcquisition.Instance;
+
+            if (IsLockAcquisitionRecursive())
+                return new _DummyLockAcquisition();
+
+			// to acquire write lock
+			// no other lock must be held
+			// and there must not be any waiting writers
+            if (_currentState == STATE_NOLOCK && _waitingWriters.Count == 0)
+            {
+                // we are not in write or read lock and there is no waiting writer
+                // just acquire another read lock
+
+                if (CompositeLock == null)
                 {
+                    // no children to lock, we can just grant writer-lock and return
                     _writeOwnerThreadId = ownerThreadId;
-
-                    // we are not in write or read lock and there is no waiting writer
-                    // just acquire another read lock
-
-                    if (CompositeLock == null)
-                    {
-                        // no children to lock, we can just grant writer-lock and return
-                        _currentState = STATE_WRITELOCK;
-                        return new _WriteLockAcquisition(this, null);
-                    }
-                    else
-                    {
-                        // there might be children
-                        // try locking them now
-
-                        try
-                        {
-                            // try to lock children
-                            var children_acquisition =
-                                CompositeLock
-                                .LockChildren(LockType.Write, options);
-
-                            if (!children_acquisition.IsLockHeld)
-                            {
-                                // couldn't acquire children, return failure
-
-                                children_acquisition.Dispose();
-                                return new _FailedLockAcquisition();
-                            }
-
-                            _currentState = STATE_WRITELOCK;
-                            return
-                                new _WriteLockAcquisition(owner: this, disposeWhenDone: children_acquisition);
-                        }
-                        catch
-                        {
-                            _writeOwnerThreadId = NO_THREAD;
-                            throw;
-                        }
-                    }
+                    _currentState = STATE_WRITELOCK;
+                    return new _WriteLockAcquisition(this, null);
                 }
                 else
                 {
-                    // we are in read mode
-                    // or there is a pending writer waiting
-                    // add this writer to waiting writers list
+                    // there might be children
+                    // try locking them now
 
-                    var x = new TaskCompletionSource<ILockAcquisition>();
-                    _waitingReaders.Add(new _Waiter(x, options.MillisecondsTimeout, options.CancellationToken));
+                    try
+                    {
+                        // try to lock children
+                        var children_acquisition =
+                            CompositeLock
+                            .LockChildren(LockType.Write, options);
 
-                    // unlock this instance
-                    l.Dispose();
+                        if (!children_acquisition.IsLockHeld)
+                        {
+                            // couldn't acquire children, return failure
 
-                    // block this thread until task completes
-                    if (x.Task.Wait(options.MillisecondsTimeout, options.CancellationToken))
-                        return x.Task.Result;
-                    else
-                        return _FailedLockAcquisition.Instance;
+                            children_acquisition.Dispose();
+                            return new _FailedLockAcquisition();
+                        }
+
+                        _writeOwnerThreadId = ownerThreadId;
+                        _currentState = STATE_WRITELOCK;
+                        return
+                            new _WriteLockAcquisition(owner: this, disposeWhenDone: children_acquisition);
+                    }
+                    catch
+                    {
+                        throw;
+                    }
                 }
+            }
+            else
+            {
+                // we are in read mode
+                // or there is a pending writer waiting
+                // add this writer to waiting writers list
+
+                var completion_source = new TaskCompletionSource<ILockAcquisition>();
+                _waitingWriters.Enqueue(
+                    new _Waiter(
+                        completion_source,
+                        Environment.CurrentManagedThreadId,
+                        options.MillisecondsTimeout,
+                        options.CancellationToken));
+
+                // unlock this instance
+                internalLockAcquisition.Dispose();
+
+                // block this thread until task completes
+                if (completion_source.Task.Wait(options.MillisecondsTimeout, options.CancellationToken))
+                    return completion_source.Task.Result;
+                else
+                    return _FailedLockAcquisition.Instance;
             }
         }
     }

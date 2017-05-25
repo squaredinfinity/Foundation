@@ -9,87 +9,42 @@ namespace SquaredInfinity.Threading.Locks
 {
     public partial class AsyncReaderWriterLock
     {
+        #region Acquire Write Lock (overloads)
+
         public ILockAcquisition AcquireWriteLock()
             => AcquireWriteLock(SyncOptions.Default);
+        public ILockAcquisition AcquireWriteLock(CancellationToken ct)
+            => AcquireWriteLock(new SyncOptions(ct));
+        public ILockAcquisition AcquireWriteLock(int millisecondsTimeout)
+            => AcquireWriteLock(new SyncOptions(millisecondsTimeout));
+        public ILockAcquisition AcquireWriteLock(int millisecondsTimeout, CancellationToken ct)
+            => AcquireWriteLock(new SyncOptions(millisecondsTimeout, ct));
+        public ILockAcquisition AcquireWriteLock(TimeSpan timeout)
+            => AcquireWriteLock(new SyncOptions(timeout));
+        public ILockAcquisition AcquireWriteLock(TimeSpan timeout, CancellationToken ct)
+            => AcquireReadLock(new SyncOptions(timeout, ct));
 
-        public ILockAcquisition AcquireWriteLock(SyncOptions options)
-        {
-            if (options.MillisecondsTimeout == 0)
-                return _FailedLockAcquisition.Instance;
+        public ILockAcquisition AcquireWriteLock(SyncOptions options) => AcquireLock(LockType.Write, options);
 
-            if (IsLockAcquisitionRecursive())
-                return new _DummyLockAcquisition();
+        #endregion
 
-            using (var l = InternalLock.AcquireWriteLock(options))
-            {
-                if (!l.IsLockHeld)
-                    return _FailedLockAcquisition.Instance;
+        #region Acquire Write Lock Asnyc (overloads)
 
-                var ownerThreadId = Environment.CurrentManagedThreadId;
+        public async Task<ILockAcquisition> AcquireWriteLockAsync()
+            => await AcquireWriteLockAsync(AsyncOptions.Default);
+        public async Task<ILockAcquisition> AcquireWriteLockAsync(CancellationToken ct)
+            => await AcquireWriteLockAsync(new AsyncOptions(ct));
+        public async Task<ILockAcquisition> AcquireWriteLockAsync(int millisecondsTimeout)
+            => await AcquireWriteLockAsync(new AsyncOptions(millisecondsTimeout));
+        public async Task<ILockAcquisition> AcquireWriteLockAsync(int millisecondsTimeout, CancellationToken ct)
+            => await AcquireWriteLockAsync(new AsyncOptions(millisecondsTimeout, ct));
+        public async Task<ILockAcquisition> AcquireWriteLockAsync(TimeSpan timeout)
+            => await AcquireWriteLockAsync(new AsyncOptions(timeout));
+        public async Task<ILockAcquisition> AcquireWriteLockAsync(TimeSpan timeout, CancellationToken ct)
+            => await AcquireWriteLockAsync(new AsyncOptions(timeout, ct));
 
-                if (_currentState == STATE_NOLOCK && _waitingWriters.Count == 0)
-                {
-                    _writeOwnerThreadId = ownerThreadId;
+        public async Task<ILockAcquisition> AcquireWriteLockAsync(AsyncOptions options) => await AcquireLockAsync(LockType.Write, options);
 
-                    // we are not in write or read lock and there is no waiting writer
-                    // just acquire another read lock
-
-                    if (CompositeLock == null)
-                    {
-                        // no children to lock, we can just grant writer-lock and return
-                        _currentState = STATE_WRITELOCK;
-                        return new _WriteLockAcquisition(this, null);
-                    }
-                    else
-                    {
-                        // there might be children
-                        // try locking them now
-
-                        try
-                        {
-                            // try to lock children
-                            var children_acquisition =
-                                CompositeLock
-                                .LockChildren(LockType.Write, options);
-
-                            if (!children_acquisition.IsLockHeld)
-                            {
-                                // couldn't acquire children, return failure
-
-                                children_acquisition.Dispose();
-                                return new _FailedLockAcquisition();
-                            }
-
-                            _currentState = STATE_WRITELOCK;
-                            return
-                                new _WriteLockAcquisition(owner: this, disposeWhenDone: children_acquisition);
-                        }
-                        catch
-                        {
-                            _writeOwnerThreadId = NO_THREAD;
-                            throw;
-                        }
-                    }
-                }
-                else
-                {
-                    // we are in read mode
-                    // or there is a pending writer waiting
-                    // add this writer to waiting writers list
-
-                    var x = new TaskCompletionSource<ILockAcquisition>();
-                    _waitingWriters.Enqueue(new _Waiter(x, options.MillisecondsTimeout, options.CancellationToken));
-
-                    // unlock this instance
-                    l.Dispose();
-
-                    // block this thread until task completes
-                    if (x.Task.Wait(options.MillisecondsTimeout, options.CancellationToken))
-                        return x.Task.Result;
-                    else
-                        return _FailedLockAcquisition.Instance;
-                }
-            }
-        }
+        #endregion
     }
 }

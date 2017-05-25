@@ -23,28 +23,33 @@ namespace SquaredInfinity.Threading.Locks
         public long LockId { get; } = _LockIdProvider.GetNextId();
         public string Name { get; private set; }
 
+        /// <summary>
+        /// True if current thread hold write lock
+        /// </summary>
         public bool IsWriteLockHeld => Environment.CurrentManagedThreadId == _writeOwnerThreadId;
 
-        public bool IsReadLockHeld => _currentState > 0;
+        /// <summary>
+        /// True if current thread hold read lock
+        /// </summary>
+        public bool IsReadLockHeld => _readOwnerThreadIds.Contains(Environment.CurrentManagedThreadId);
 
-        readonly HashSet<_Waiter> _waitingReaders = new HashSet<_Waiter>();
+        readonly Queue<_Waiter> _waitingReaders = new Queue<_Waiter>();
         readonly Queue<_Waiter> _waitingWriters = new Queue<_Waiter>();
 
-        class _Waiter
-        {
-            public readonly TaskCompletionSource<ILockAcquisition> TaskCompletionSource;
-            public readonly TimeoutExpiry Timeout;
-            public readonly CancellationToken CancellationToken;
+        readonly IAsyncLock InternalLock;
 
-            public _Waiter(TaskCompletionSource<ILockAcquisition> taskCompletionSource, int millisecondsTimeout, CancellationToken ct)
+        public ReaderWriterLockState State
+        {
+            get
             {
-                TaskCompletionSource = taskCompletionSource;
-                Timeout = new TimeoutExpiry(millisecondsTimeout);
-                CancellationToken = ct;
+                if (_currentState == STATE_NOLOCK)
+                    return ReaderWriterLockState.NoLock;
+                else if (_currentState == STATE_WRITELOCK)
+                    return ReaderWriterLockState.Write;
+                else
+                    return ReaderWriterLockState.Read;
             }
         }
-
-        readonly IAsyncLock InternalLock;
 
         // -1 : Write Lock
         // 0  : No Lock
@@ -55,6 +60,14 @@ namespace SquaredInfinity.Threading.Locks
         const int STATE_WRITELOCK = -1;
 
         const int NO_THREAD = -1;
+
+        public AsyncReaderWriterLock(LockRecursionPolicy recursionPolicy)
+            : this("", recursionPolicy, supportsComposition: true)
+        { }
+
+        public AsyncReaderWriterLock(LockRecursionPolicy recursionPolicy, bool supportsComposition)
+            : this("", recursionPolicy, supportsComposition)
+        { }
 
         public AsyncReaderWriterLock(
             string name = "",
@@ -143,8 +156,10 @@ namespace SquaredInfinity.Threading.Locks
                     else
                     {
                         // let the readers in
-                        foreach(var r in _waitingReaders)
+                        while(_waitingReaders.Count > 0)
                         {
+                            var r = _waitingReaders.Dequeue();
+                            
                             if (r.CancellationToken.IsCancellationRequested)
                                 continue;
 
@@ -152,7 +167,12 @@ namespace SquaredInfinity.Threading.Locks
                                 continue;
 
                             // TODO: this will report owner as current thread, not the thread that actually requested the lock :(
-                            var rl = AcquireReadLock_NOLOCK(internalLockAcquisition, new SyncOptions(r.Timeout.MillisecondsLeft, r.CancellationToken));
+                            var rl = 
+                                AcquireLock_NOLOCK(
+                                    LockType.Read,
+                                    internalLockAcquisition, 
+                                    r.OwnerThreadId,
+                                    new SyncOptions(r.Timeout.MillisecondsLeft, r.CancellationToken));
                             
                             // thaw waiting task
                             if (r.TaskCompletionSource.TrySetResult(rl))
@@ -173,24 +193,31 @@ namespace SquaredInfinity.Threading.Locks
                     
                     while (_waitingWriters.Count > 0)
                     {
-                        var next_writer_waiter = _waitingWriters.Dequeue();
+                        var r = _waitingWriters.Dequeue();
 
-                        if (next_writer_waiter.CancellationToken.IsCancellationRequested)
+                        if (r.CancellationToken.IsCancellationRequested)
                             continue;
 
-                        if (next_writer_waiter.Timeout.HasTimedOut)
+                        if (r.Timeout.HasTimedOut)
                             continue;
 
-                        var write_lock = AcquireWriteLock(new SyncOptions(next_writer_waiter.Timeout.MillisecondsLeft, next_writer_waiter.CancellationToken));
+                        var wl = 
+                            AcquireLock_NOLOCK(
+                                LockType.Write,
+                                internalLockAcquisition,
+                                r.OwnerThreadId,
+                                new SyncOptions(
+                                    r.Timeout.MillisecondsLeft, 
+                                    r.CancellationToken));
 
                         // thaw waiting task
-                        if (next_writer_waiter.TaskCompletionSource.TrySetResult(write_lock))
+                        if (r.TaskCompletionSource.TrySetResult(wl))
                         {
                             break;
                         }
                         else
                         {
-                            write_lock.Dispose();
+                            wl.Dispose();
                         }
                     }
                 }

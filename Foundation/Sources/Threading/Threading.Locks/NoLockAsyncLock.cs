@@ -25,44 +25,39 @@ namespace SquaredInfinity.Threading.Locks
         public int WriteOwnerThreadId => -1;
         public IReadOnlyList<int> ReadOwnerThreadIds => new[] { -1 };
 
-        public ILockAcquisition AcquireReadLock()
-        {
-            return new _DummyLockAcquisition();
-        }
+        public ILockAcquisition AcquireReadLock() => new _DummyLockAcquisition();
+        public ILockAcquisition AcquireReadLock(CancellationToken ct) => new _DummyLockAcquisition();
+        public ILockAcquisition AcquireReadLock(int millisecondsTimeout) => new _DummyLockAcquisition();
+        public ILockAcquisition AcquireReadLock(int millisecondsTimeout, CancellationToken ct) => new _DummyLockAcquisition();
+        public ILockAcquisition AcquireReadLock(TimeSpan timeout) => new _DummyLockAcquisition();
+        public ILockAcquisition AcquireReadLock(TimeSpan timeout, CancellationToken ct) => new _DummyLockAcquisition();
+        public ILockAcquisition AcquireReadLock(SyncOptions options) => new _DummyLockAcquisition();
 
-        public ILockAcquisition AcquireReadLock(SyncOptions options)
-        {
-            return new _DummyLockAcquisition();
-        }
 
-        public async Task<ILockAcquisition> AcquireReadLockAsync()
-        {
-            return await Task.FromResult(new _DummyLockAcquisition());
-        }
+        public ILockAcquisition AcquireWriteLock() => new _DummyLockAcquisition();
+        public ILockAcquisition AcquireWriteLock(CancellationToken ct) => new _DummyLockAcquisition();
+        public ILockAcquisition AcquireWriteLock(int millisecondsTimeout) => new _DummyLockAcquisition();
+        public ILockAcquisition AcquireWriteLock(int millisecondsTimeout, CancellationToken ct) => new _DummyLockAcquisition();
+        public ILockAcquisition AcquireWriteLock(TimeSpan timeout) => new _DummyLockAcquisition();
+        public ILockAcquisition AcquireWriteLock(TimeSpan timeout, CancellationToken ct) => new _DummyLockAcquisition();
+        public ILockAcquisition AcquireWriteLock(SyncOptions options) => new _DummyLockAcquisition();
 
-        public async Task<ILockAcquisition> AcquireReadLockAsync(AsyncOptions options)
-        {
-            return await Task.FromResult(new _DummyLockAcquisition()).ConfigureAwait(options.ContinueOnCapturedContext);
-        }
 
-        public ILockAcquisition AcquireWriteLock()
-        {
-            return new _DummyLockAcquisition();
-        }
+        public async Task<ILockAcquisition> AcquireReadLockAsync() => await Task.FromResult(new _DummyLockAcquisition());
+        public async Task<ILockAcquisition> AcquireReadLockAsync(CancellationToken ct) => await Task.FromResult(new _DummyLockAcquisition());
+        public async Task<ILockAcquisition> AcquireReadLockAsync(int millisecondsTimeout) => await Task.FromResult(new _DummyLockAcquisition());
+        public async Task<ILockAcquisition> AcquireReadLockAsync(int millisecondsTimeout, CancellationToken ct) => await Task.FromResult(new _DummyLockAcquisition());
+        public async Task<ILockAcquisition> AcquireReadLockAsync(TimeSpan timeout) => await Task.FromResult(new _DummyLockAcquisition());
+        public async Task<ILockAcquisition> AcquireReadLockAsync(TimeSpan timeout, CancellationToken ct) => await Task.FromResult(new _DummyLockAcquisition());
+        public async Task<ILockAcquisition> AcquireReadLockAsync(AsyncOptions options) => await Task.FromResult(new _DummyLockAcquisition());
 
-        public ILockAcquisition AcquireWriteLock(SyncOptions options)
-        {
-            return new _DummyLockAcquisition();
-        }
 
-        public async Task<ILockAcquisition> AcquireWriteLockAsync()
-        {
-            return await Task.FromResult(new _DummyLockAcquisition());
-        }
-
-        public async Task<ILockAcquisition> AcquireWriteLockAsync(AsyncOptions options)
-        {
-            return await Task.FromResult(new _DummyLockAcquisition()).ConfigureAwait(options.ContinueOnCapturedContext);
-        }
+        public async Task<ILockAcquisition> AcquireWriteLockAsync() => await Task.FromResult(new _DummyLockAcquisition());
+        public async Task<ILockAcquisition> AcquireWriteLockAsync(CancellationToken ct) => await Task.FromResult(new _DummyLockAcquisition());
+        public async Task<ILockAcquisition> AcquireWriteLockAsync(int millisecondsTimeout) => await Task.FromResult(new _DummyLockAcquisition());
+        public async Task<ILockAcquisition> AcquireWriteLockAsync(int millisecondsTimeout, CancellationToken ct) => await Task.FromResult(new _DummyLockAcquisition());
+        public async Task<ILockAcquisition> AcquireWriteLockAsync(TimeSpan timeout) => await Task.FromResult(new _DummyLockAcquisition());
+        public async Task<ILockAcquisition> AcquireWriteLockAsync(TimeSpan timeout, CancellationToken ct) => await Task.FromResult(new _DummyLockAcquisition());
+        public async Task<ILockAcquisition> AcquireWriteLockAsync(AsyncOptions options) => await Task.FromResult(new _DummyLockAcquisition());
     }
 }
