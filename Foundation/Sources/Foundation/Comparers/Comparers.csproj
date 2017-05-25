@@ -51,14 +51,19 @@
       <Link>version.cs</Link>
     </Compile>
     <Compile Include="CloneEqualityComparer.cs" />
+    <Compile Include="ComparerEx.cs" />
+    <Compile Include="ComparisonType.cs" />
     <Compile Include="CompositeComparer.cs" />
     <Compile Include="DynamicComparer_T.cs" />
     <Compile Include="ExceptionEqualityComparer.cs" />
     <Compile Include="ICloneEquatable.cs" />
     <Compile Include="ICloneEquatable_T.cs" />
+    <Compile Include="IComparerEx.cs" />
+    <Compile Include="IComparerEx_T.cs" />
     <Compile Include="IndexInAnotherListComparer.cs" />
     <Compile Include="IndexInListComparer.cs" />
     <Compile Include="ReferenceEqualityComparer.cs" />
+    <Compile Include="_Comparer.cs" />
   </ItemGroup>
   <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
