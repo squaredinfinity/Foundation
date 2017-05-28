@@ -16,6 +16,11 @@ namespace SquaredInfinity
         #region BeginBulkUpdate
 
         public IBulkUpdate BeginBulkUpdate() => BeginBulkUpdate(SyncOptions.Default);
+        public IBulkUpdate BeginBulkUpdate(CancellationToken ct) => BeginBulkUpdate(new SyncOptions(ct));
+        public IBulkUpdate BeginBulkUpdate(TimeSpan timeout) => BeginBulkUpdate(new SyncOptions(timeout));
+        public IBulkUpdate BeginBulkUpdate(TimeSpan timeout, CancellationToken ct) => BeginBulkUpdate(new SyncOptions(timeout, ct));
+        public IBulkUpdate BeginBulkUpdate(int millisecondsTimeout) => BeginBulkUpdate(new SyncOptions(millisecondsTimeout));
+        public IBulkUpdate BeginBulkUpdate(int millisecondsTimeout, CancellationToken ct) => BeginBulkUpdate(new SyncOptions(millisecondsTimeout, ct));
 
         public IBulkUpdate BeginBulkUpdate(SyncOptions options)
         {

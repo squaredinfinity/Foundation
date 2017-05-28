@@ -14,16 +14,13 @@ namespace SquaredInfinity
     public partial class SupportsAsyncBulkUpdate
     {
         #region BeginBulkUpdateAsync
-        
-        public async Task<IBulkUpdate> BeginBulkUpdateAsync()
-        {
-            var ao = AsyncOptions.Default;
 
-            return
-                await
-                BeginBulkUpdateAsync(ao)
-                .ConfigureAwait(ao.ContinueOnCapturedContext);
-        }
+        public async Task<IBulkUpdate> BeginBulkUpdateAsync() => await BeginBulkUpdateAsync(AsyncOptions.Default);
+        public async Task<IBulkUpdate> BeginBulkUpdateAsync(CancellationToken ct) => await BeginBulkUpdateAsync(new AsyncOptions(ct));
+        public async Task<IBulkUpdate> BeginBulkUpdateAsync(TimeSpan timeout) => await BeginBulkUpdateAsync(new AsyncOptions(timeout));
+        public async Task<IBulkUpdate> BeginBulkUpdateAsync(TimeSpan timeout, CancellationToken ct) => await BeginBulkUpdateAsync(new AsyncOptions(timeout, ct));
+        public async Task<IBulkUpdate> BeginBulkUpdateAsync(int millisecondsTimeout) => await BeginBulkUpdateAsync(new AsyncOptions(millisecondsTimeout));
+        public async Task<IBulkUpdate> BeginBulkUpdateAsync(int millisecondsTimeout, CancellationToken ct) => await BeginBulkUpdateAsync(new AsyncOptions(millisecondsTimeout, ct));
 
         public async Task<IBulkUpdate> BeginBulkUpdateAsync(AsyncOptions options)
         {

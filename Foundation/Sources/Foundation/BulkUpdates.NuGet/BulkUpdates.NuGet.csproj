@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".nuspec" />
+    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="version.cs" />
