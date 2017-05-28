@@ -84,8 +84,8 @@
     <Reference Include="SquaredInfinity.Disposables, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Disposables.2.0.10\lib\portable-net45+win\SquaredInfinity.Disposables.dll</HintPath>
     </Reference>
-    <Reference Include="SquaredInfinity.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.6\lib\portable-net45+win\SquaredInfinity.Extensions.dll</HintPath>
+    <Reference Include="SquaredInfinity.Extensions, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.1.0\lib\portable-net45+win\SquaredInfinity.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Threading, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Threading.2.0.10\lib\portable-net45+win\SquaredInfinity.Threading.dll</HintPath>

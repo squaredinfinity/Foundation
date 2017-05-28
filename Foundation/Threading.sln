@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26403.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution items", ".solution items", "{0DA3DCAD-BED8-4032-A426-C0703DC653CF}"
 	ProjectSection(SolutionItems) = preProject
@@ -25,11 +25,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Threading.Locks.NuGet", "Sources\Threading\Threading.Locks.NuGet\Threading.Locks.NuGet.csproj", "{1989B5FA-E105-4AE5-AD0F-B241CF4A17CA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Threading.Locks.UnitTests", "Sources\Threading\Threading.Locks.UnitTests\Threading.Locks.UnitTests.csproj", "{B00F0681-42FB-45BD-ABDD-4CA550819991}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".docs", ".docs", "{4B5F339C-3599-4112-AABF-6D68D27C540A}"
-	ProjectSection(SolutionItems) = preProject
-		docs\threading.locks.md = docs\threading.locks.md
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

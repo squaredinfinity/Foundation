@@ -1,4 +1,5 @@
 ﻿using SquaredInfinity.Comparers;
+using SquaredInfinity.Extensions;
 using SquaredInfinity.Disposables;
 using System;
 using System.Collections.Generic;
@@ -145,6 +146,7 @@ namespace SquaredInfinity.Threading.Locks
                 else
                 {
                     var completion_source = new TaskCompletionSource<ILockAcquisition>();
+                    completion_source.TimeoutAfter(options.MillisecondsTimeout, _ => _.SetResult(_FailedLockAcquisition.Instance));
 
                     var waiter_queue = (Queue<_Waiter>)null;
 
@@ -168,6 +170,8 @@ namespace SquaredInfinity.Threading.Locks
                     {
                         throw new NotSupportedException($"specified lock type is not supported, {lockType}");
                     }
+
+                    
 
                     waiter_queue.Enqueue(
                         new _Waiter(
