@@ -9,220 +9,213 @@ namespace SquaredInfinity.Extensions
 {
     public static class TaskExtensions
     {
-        //
-        // Summary:
-        //     Waits for the System.Threading.Tasks.Task to complete execution.
-        //
-        // Exceptions:
-        //   System.ObjectDisposedException:
-        //     The System.Threading.Tasks.Task has been disposed.
-        //
-        //   System.AggregateException:
-        //     The System.Threading.Tasks.Task was canceled -or- an exception was thrown
-        //     during the execution of the System.Threading.Tasks.Task. If the task was
-        //     canceled, the System.AggregateException contains an System.OperationCanceledException
-        //     in its System.AggregateException.InnerExceptions collection.
-        public static bool Wait(this Task task, bool ignoreCanceledExceptions)
+        #region Try Wait
+
+        /// <summary>
+        /// Waits for the System.Threading.Tasks.Task to complete execution.
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns>true if task run to completion, false if task was cancelled or timedout</returns>
+        public static bool TryWait(this Task task)
         {
-            if (ignoreCanceledExceptions)
-            {
-                try
-                {
-                    task.Wait();
-                }
-                catch (TaskCanceledException)
-                { return false; }
-                catch (OperationCanceledException)
-                { return false; }
-            }
-            else
+            try
             {
                 task.Wait();
             }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerException is TaskCanceledException)
+                    return false;
+                if (ex.InnerException is OperationCanceledException)
+                    return false;
+                if (ex.InnerException is TimeoutException)
+                    return false;
+
+                throw;
+            }
+            catch (TaskCanceledException)
+            { return false; }
+            catch (OperationCanceledException)
+            { return false; }
+            catch (TimeoutException)
+            { return false; }
 
             return true;
         }
 
-        //
-        // Summary:
-        //     Waits for the System.Threading.Tasks.Task to complete execution.
-        //
-        // Parameters:
-        //   cancellationToken:
-        //     A System.Threading.Tasks.TaskFactory.CancellationToken to observe while waiting
-        //     for the task to complete.
-        //
-        // Exceptions:
-        //   System.OperationCanceledException:
-        //     The cancellationToken was canceled.
-        //
-        //   System.ObjectDisposedException:
-        //     The System.Threading.Tasks.Task has been disposed.
-        //
-        //   System.AggregateException:
-        //     The System.Threading.Tasks.Task was canceled -or- an exception was thrown
-        //     during the execution of the System.Threading.Tasks.Task. If the task was
-        //     canceled, the System.AggregateException contains an System.OperationCanceledException
-        //     in its System.AggregateException.InnerExceptions collection.
-        public static bool Wait(this Task task, CancellationToken cancellationToken, bool ignoreCanceledExceptions)
+        /// <summary>
+        /// Waits for the System.Threading.Tasks.Task to complete execution.
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns>true if task run to completion, false if task was cancelled or timedout</returns>
+        public static bool TryWait(this Task task, CancellationToken cancellationToken)
         {
-            if (ignoreCanceledExceptions)
-            {
-                try
-                {
-                    task.Wait(cancellationToken);
-                }
-                catch (TaskCanceledException)
-                { return false; }
-                catch (OperationCanceledException)
-                { return false; }
-            }
-            else
+            try
             {
                 task.Wait(cancellationToken);
             }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerException is TaskCanceledException)
+                    return false;
+                if (ex.InnerException is OperationCanceledException)
+                    return false;
+                if (ex.InnerException is TimeoutException)
+                    return false;
+
+                throw;
+            }
+            catch (TaskCanceledException)
+            { return false; }
+            catch (OperationCanceledException)
+            { return false; }
+            catch (TimeoutException)
+            { return false; }
 
             return true;
         }
 
-        //
-        // Summary:
-        //     Waits for the System.Threading.Tasks.Task to complete execution.
-        //
-        // Parameters:
-        //   millisecondsTimeout:
-        //     The number of milliseconds to wait, or System.Threading.Timeout.Infinite
-        //     (-1) to wait indefinitely.
-        //
-        // Returns:
-        //     true if the System.Threading.Tasks.Task completed execution within the allotted
-        //     time; otherwise, false.
-        //
-        // Exceptions:
-        //   System.ObjectDisposedException:
-        //     The System.Threading.Tasks.Task has been disposed.
-        //
-        //   System.ArgumentOutOfRangeException:
-        //     millisecondsTimeout is a negative number other than -1, which represents
-        //     an infinite time-out.
-        //
-        //   System.AggregateException:
-        //     The System.Threading.Tasks.Task was canceled -or- an exception was thrown
-        //     during the execution of the System.Threading.Tasks.Task. If the task was
-        //     canceled, the System.AggregateException contains an System.OperationCanceledException
-        //     in its System.AggregateException.InnerExceptions collection.
-        public static bool Wait(this Task task, int millisecondsTimeout, bool ignoreCanceledExceptions)
+        /// <summary>
+        /// Waits for the System.Threading.Tasks.Task to complete execution.
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns>true if task run to completion, false if task was cancelled or timed out</returns>
+        public static bool TryWait(this Task task, int millisecondsTimeout)
         {
-            if (ignoreCanceledExceptions)
-            {
-                try
-                {
-                    return task.Wait(millisecondsTimeout);
-                }
-                catch (TaskCanceledException)
-                { return false; }
-                catch (OperationCanceledException)
-                { return false; }
-            }
-            else
+            try
             {
                 return task.Wait(millisecondsTimeout);
             }
+            catch(AggregateException ex)
+            {
+                if (ex.InnerException is TaskCanceledException)
+                    return false;
+                if (ex.InnerException is OperationCanceledException)
+                    return false;
+                if (ex.InnerException is TimeoutException)
+                    return false;
+
+                throw;
+            }
+            catch (TaskCanceledException)
+            { return false; }
+            catch (OperationCanceledException)
+            { return false; }
+            catch (TimeoutException)
+            { return false; }
         }
 
-        //
-        // Summary:
-        //     Waits for the System.Threading.Tasks.Task to complete execution.
-        //
-        // Parameters:
-        //   timeout:
-        //     A System.TimeSpan that represents the number of milliseconds to wait, or
-        //     a System.TimeSpan that represents -1 milliseconds to wait indefinitely.
-        //
-        // Returns:
-        //     true if the System.Threading.Tasks.Task completed execution within the allotted
-        //     time; otherwise, false.
-        //
-        // Exceptions:
-        //   System.ObjectDisposedException:
-        //     The System.Threading.Tasks.Task has been disposed.
-        //
-        //   System.ArgumentOutOfRangeException:
-        //     timeout is a negative number other than -1 milliseconds, which represents
-        //     an infinite time-out -or- timeout is greater than System.Int32.MaxValue.
-        //
-        //   System.AggregateException:
-        //     The System.Threading.Tasks.Task was canceled -or- an exception was thrown
-        //     during the execution of the System.Threading.Tasks.Task.
-        public static bool Wait(this Task task, TimeSpan timeout, bool ignoreCanceledExceptions)
+        /// <summary>
+        /// Waits for the System.Threading.Tasks.Task to complete execution.
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns>true if task run to completion, false if task was cancelled or timedout</returns>
+        public static bool TryWait(this Task task, TimeSpan timeout)
         {
-            if (ignoreCanceledExceptions)
-            {
-                try
-                {
-                    return task.Wait(timeout);
-                }
-                catch (TaskCanceledException)
-                { return false; }
-                catch (OperationCanceledException)
-                { return false; }
-            }
-            else
+
+            try
             {
                 return task.Wait(timeout);
             }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerException is TaskCanceledException)
+                    return false;
+                if (ex.InnerException is OperationCanceledException)
+                    return false;
+                if (ex.InnerException is TimeoutException)
+                    return false;
+
+                throw;
+            }
+            catch (TaskCanceledException)
+            { return false; }
+            catch (OperationCanceledException)
+            { return false; }
+            catch (TimeoutException)
+            { return false; }
         }
 
-        //
-        // Summary:
-        //     Waits for the System.Threading.Tasks.Task to complete execution.
-        //
-        // Parameters:
-        //   millisecondsTimeout:
-        //     The number of milliseconds to wait, or System.Threading.Timeout.Infinite
-        //     (-1) to wait indefinitely.
-        //
-        //   cancellationToken:
-        //     A System.Threading.Tasks.TaskFactory.CancellationToken to observe while waiting
-        //     for the task to complete.
-        //
-        // Returns:
-        //     true if the System.Threading.Tasks.Task completed execution within the allotted
-        //     time; otherwise, false.
-        //
-        // Exceptions:
-        //   System.OperationCanceledException:
-        //     The cancellationToken was canceled.
-        //
-        //   System.ObjectDisposedException:
-        //     The System.Threading.Tasks.Task has been disposed.
-        //
-        //   System.ArgumentOutOfRangeException:
-        //     millisecondsTimeout is a negative number other than -1, which represents
-        //     an infinite time-out.
-        //
-        //   System.AggregateException:
-        //     The System.Threading.Tasks.Task was canceled -or- an exception was thrown
-        //     during the execution of the System.Threading.Tasks.Task. If the task was
-        //     canceled, the System.AggregateException contains an System.OperationCanceledException
-        //     in its System.AggregateException.InnerExceptions collection.
-        public static bool Wait(this Task task, int millisecondsTimeout, CancellationToken cancellationToken, bool ignoreCanceledExceptions)
+        /// <summary>
+        /// Waits for the System.Threading.Tasks.Task to complete execution.
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns>true if task run to completion, false if task was cancelled or timedout</returns>
+        public static bool TryWait(this Task task, int millisecondsTimeout, CancellationToken cancellationToken)
         {
-            if (ignoreCanceledExceptions)
-            {
-                try
-                {
-                    return task.Wait(millisecondsTimeout, cancellationToken);
-                }
-                catch (TaskCanceledException)
-                { return false; }
-                catch (OperationCanceledException)
-                { return false; }
-            }
-            else
+            try
             {
                 return task.Wait(millisecondsTimeout, cancellationToken);
             }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerException is TaskCanceledException)
+                    return false;
+                if (ex.InnerException is OperationCanceledException)
+                    return false;
+                if (ex.InnerException is TimeoutException)
+                    return false;
+
+                throw;
+            }
+            catch (TaskCanceledException)
+            { return false; }
+            catch (OperationCanceledException)
+            { return false; }
+            catch (TimeoutException)
+            { return false; }
         }
+
+        #endregion
+
+        #region Timeout After
+
+        
+        // this is not yet ready for prime time
+        static Task TimeoutAfter(this Task task, int millisecondsTimeout)
+        {
+            if (task.IsCompleted || (millisecondsTimeout == Timeout.Infinite))
+                return task;
+
+            // int becasue there's no non-generic TaskCompletionSource so have to use something
+            var tcs = new TaskCompletionSource<int>();
+
+            // timed out alread
+            if (millisecondsTimeout == 0)
+            {
+                tcs.SetException(new TimeoutException());
+                return tcs.Task;
+            }
+
+            var delay_cts = new CancellationTokenSource();
+
+            Task.Delay(millisecondsTimeout, delay_cts.Token)
+                .ContinueWith((_previous_task, _state) =>
+                {
+                    if (_previous_task.Status == TaskStatus.RanToCompletion)
+                    {
+                        // timeout occured
+                        var _tcs = _state as TaskCompletionSource<int>;
+                        _tcs.TrySetException(new TimeoutException());
+                    }
+                }, tcs, delay_cts.Token, TaskContinuationOptions.OnlyOnRanToCompletion, TaskScheduler.Default);
+
+            task.ContinueWith((_previous_task, _state) =>
+            {
+                var t = (Tuple<CancellationTokenSource, TaskCompletionSource<int>>)_state;
+                // cancel delay task
+                t.Item1.Cancel();
+                // update TaskCompletionSource state from the task
+                t.Item2.TrySetResult<int>(_previous_task);
+            },
+            Tuple.Create(delay_cts, tcs),
+            CancellationToken.None,
+            TaskContinuationOptions.ExecuteSynchronously,
+            TaskScheduler.Default);
+
+            return tcs.Task;
+        }
+
+        #endregion
     }
 }

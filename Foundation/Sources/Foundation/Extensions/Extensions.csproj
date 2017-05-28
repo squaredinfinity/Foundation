@@ -36,6 +36,7 @@
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
     <Folder Include="Properties\" />
+    <Folder Include="System.Threading\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Extensions.NuGet\version.cs">
@@ -50,6 +51,7 @@
     <Compile Include="System.IO\Stream.extensions.cs" />
     <Compile Include="System.Threading.Tasks\Parallel.extensions.cs" />
     <Compile Include="System.Threading.Tasks\Task.extensions.cs" />
+    <Compile Include="System.Threading.Tasks\TaskCompletionSource.extensions.cs" />
     <Compile Include="System.Xml.Linq\XAttribute.extensions.cs" />
     <Compile Include="System.Xml.Linq\XContainer.extensions.cs" />
     <Compile Include="System.Xml.Linq\XElement.extensions.cs" />
