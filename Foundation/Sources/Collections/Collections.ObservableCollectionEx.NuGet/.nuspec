@@ -15,24 +15,26 @@ SquaredInfinity.Collections.ObservableCollectionEx</description>
     <copyright>Copyright © Jarek Kardas</copyright>
     <dependencies>
       <group targetFramework="portable-net45+win80">
-        <dependency id="SquaredInfinity.BulkUpdates" version="2.1.0-beta006" />
-        <dependency id="SquaredInfinity.Collections.CollectionEx" version="2.1.5-beta005" />
-        <dependency id="SquaredInfinity.Collections.Core" version="2.1.4-beta009" />
-        <dependency id="SquaredInfinity.ComponentModel" version="2.1.0-beta001" />
-        <dependency id="SquaredInfinity.Disposables" version="2.0.9" />
-        <dependency id="SquaredInfinity.Extensions" version="2.0.6" />
-        <dependency id="SquaredInfinity.Threading" version="2.0.5-beta003" />
-        <dependency id="SquaredInfinity.Threading.Locks" version="2.1.2-beta002" />
+        <dependency id="SquaredInfinity.BulkUpdates" version="2.1.2" />
+        <dependency id="SquaredInfinity.Collections.CollectionEx" version="2.1.6" />
+        <dependency id="SquaredInfinity.Collections.Core" version="2.1.5" />
+        <dependency id="SquaredInfinity.Comparers" version="2.0.6" />
+        <dependency id="SquaredInfinity.ComponentModel" version="2.1.0" />
+        <dependency id="SquaredInfinity.Disposables" version="2.0.10" />
+        <dependency id="SquaredInfinity.Extensions" version="2.1.0" />
+        <dependency id="SquaredInfinity.Threading" version="2.0.10" />
+        <dependency id="SquaredInfinity.Threading.Locks" version="2.1.3" />
       </group>
       <group targetFramework="net452">
-        <dependency id="SquaredInfinity.BulkUpdates" version="2.1.0-beta006" />
-        <dependency id="SquaredInfinity.Collections.CollectionEx" version="2.1.5-beta005" />
-        <dependency id="SquaredInfinity.Collections.Core" version="2.1.4-beta009" />
-        <dependency id="SquaredInfinity.ComponentModel" version="2.1.0-beta001" />
-        <dependency id="SquaredInfinity.Disposables" version="2.0.9" />
-        <dependency id="SquaredInfinity.Extensions" version="2.0.6" />
-        <dependency id="SquaredInfinity.Threading" version="2.0.5-beta003" />
-        <dependency id="SquaredInfinity.Threading.Locks" version="2.1.2-beta002" />
+        <dependency id="SquaredInfinity.BulkUpdates" version="2.1.2" />
+        <dependency id="SquaredInfinity.Collections.CollectionEx" version="2.1.6" />
+        <dependency id="SquaredInfinity.Collections.Core" version="2.1.5" />
+        <dependency id="SquaredInfinity.Comparers" version="2.0.6" />
+        <dependency id="SquaredInfinity.ComponentModel" version="2.1.0" />
+        <dependency id="SquaredInfinity.Disposables" version="2.0.10" />
+        <dependency id="SquaredInfinity.Extensions" version="2.1.0" />
+        <dependency id="SquaredInfinity.Threading" version="2.0.10" />
+        <dependency id="SquaredInfinity.Threading.Locks" version="2.1.3" />
       </group>
     </dependencies>
   </metadata>
