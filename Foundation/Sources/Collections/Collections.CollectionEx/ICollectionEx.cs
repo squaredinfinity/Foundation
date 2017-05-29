@@ -28,9 +28,20 @@ namespace SquaredInfinity.Collections
         #region GetSnapshot
 
         IReadOnlyList<TItem> GetSnapshot();
+
+        IReadOnlyList<TItem> GetSnapshot(CancellationToken ct);
+        IReadOnlyList<TItem> GetSnapshot(TimeSpan timeout);
+        IReadOnlyList<TItem> GetSnapshot(TimeSpan timeout, CancellationToken ct);
+        IReadOnlyList<TItem> GetSnapshot(int millisecondsTimeout);
+        IReadOnlyList<TItem> GetSnapshot(int millisecondsTimeout, CancellationToken ct);
         IReadOnlyList<TItem> GetSnapshot(SyncOptions options);
 
         Task<IReadOnlyList<TItem>> GetSnapshotAsync();
+        Task<IReadOnlyList<TItem>> GetSnapshotAsync(CancellationToken ct);
+        Task<IReadOnlyList<TItem>> GetSnapshotAsync(TimeSpan timeout);
+        Task<IReadOnlyList<TItem>> GetSnapshotAsync(TimeSpan timeout, CancellationToken ct);
+        Task<IReadOnlyList<TItem>> GetSnapshotAsync(int millisecondsTimeout);
+        Task<IReadOnlyList<TItem>> GetSnapshotAsync(int millisecondsTimeout, CancellationToken ct);
         Task<IReadOnlyList<TItem>> GetSnapshotAsync(AsyncOptions options);       
 
         #endregion

@@ -272,6 +272,11 @@ namespace SquaredInfinity.Collections
         #region GetSnapshot
 
         public IReadOnlyList<TItem> GetSnapshot() => GetSnapshot(SyncOptions.Default);
+        public IReadOnlyList<TItem> GetSnapshot(CancellationToken ct) => GetSnapshot(new SyncOptions(ct));
+        public IReadOnlyList<TItem> GetSnapshot(TimeSpan timeout) => GetSnapshot(new SyncOptions(timeout));
+        public IReadOnlyList<TItem> GetSnapshot(TimeSpan timeout, CancellationToken ct) => GetSnapshot(new SyncOptions(timeout, ct));
+        public IReadOnlyList<TItem> GetSnapshot(int millisecondsTimeout) => GetSnapshot(new SyncOptions(millisecondsTimeout));
+        public IReadOnlyList<TItem> GetSnapshot(int millisecondsTimeout, CancellationToken ct) => GetSnapshot(new SyncOptions(millisecondsTimeout, ct));
 
         public IReadOnlyList<TItem> GetSnapshot(SyncOptions options)
         {
@@ -284,14 +289,18 @@ namespace SquaredInfinity.Collections
         }
 
         public async Task<IReadOnlyList<TItem>> GetSnapshotAsync()
-        {
-            var ao = AsyncOptions.Default;
+            => await GetSnapshotAsync(AsyncOptions.Default);
+        public async Task<IReadOnlyList<TItem>> GetSnapshotAsync(CancellationToken ct) 
+            => await GetSnapshotAsync(new AsyncOptions(ct));
+        public async Task<IReadOnlyList<TItem>> GetSnapshotAsync(TimeSpan timeout)
+            => await GetSnapshotAsync(new AsyncOptions(timeout));
+        public async Task<IReadOnlyList<TItem>> GetSnapshotAsync(TimeSpan timeout, CancellationToken ct)
+            => await GetSnapshotAsync(new AsyncOptions(timeout, ct));
+        public async Task<IReadOnlyList<TItem>> GetSnapshotAsync(int millisecondsTimeout)
+            => await GetSnapshotAsync(new AsyncOptions(millisecondsTimeout));
+        public async Task<IReadOnlyList<TItem>> GetSnapshotAsync(int millisecondsTimeout, CancellationToken ct)
+            => await GetSnapshotAsync(new AsyncOptions(millisecondsTimeout, ct));
 
-            return
-                await
-                GetSnapshotAsync(ao)
-                .ConfigureAwait(ao.ContinueOnCapturedContext);
-        }
 
         public async Task<IReadOnlyList<TItem>> GetSnapshotAsync(AsyncOptions options)
         {
