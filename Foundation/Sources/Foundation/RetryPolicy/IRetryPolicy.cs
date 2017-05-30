@@ -46,7 +46,7 @@ namespace SquaredInfinity
         TResult Execute<TResult>(CancellationToken ct, Func<TResult> func);
         TResult Execute<TResult>(TimeSpan timeout, Func<TResult> func);
         TResult Execute<TResult>(TimeSpan timeout, CancellationToken ct, Func<TResult> func);
-        TResult Execute<TResult>(int millisecondsTimeout, Func<TRes ult> func);
+        TResult Execute<TResult>(int millisecondsTimeout, Func<TResult> func);
         TResult Execute<TResult>(int millisecondsTimeout, CancellationToken ct, Func<TResult> func);
         TResult Execute<TResult>(SyncOptions syncOptions, Func<TResult> func);
         TResult Execute<TResult>(IRetryPolicyOptions options, Func<TResult> func);
@@ -57,20 +57,19 @@ namespace SquaredInfinity
         TResult Execute<TResult>(IRetryPolicyOptions options, int millisecondsTimeout, CancellationToken ct, Func<TResult> func);
         TResult Execute<TResult>(IRetryPolicyOptions options, SyncOptions syncOptions, Func<TResult> func);
                     
-        Task<TResult> ExecuteAsync<TResult>(Func<Task<TResult>> func);
-                    
-        Task<TResult> ExecuteAsync<TResult>(CancellationToken ct, Func<TResult> func);
-        Task<TResult> ExecuteAsync<TResult>(TimeSpan timeout, Func<TResult> func);
-        Task<TResult> ExecuteAsync<TResult>(TimeSpan timeout, CancellationToken ct, Func<TResult> func);
-        Task<TResult> ExecuteAsync<TResult>(int millisecondsTimeout, Func<TResult> func);
-        Task<TResult> ExecuteAsync<TResult>(int millisecondsTimeout, CancellationToken ct, Func<TResult> func);
-        Task<TResult> ExecuteAsync<TResult>(AsyncOptions asyncOptions, Func<TResult> func);
-        Task<TResult> ExecuteAsync<TResult>(IRetryPolicyOptions options, Func<TResult> func);
-        Task<TResult> ExecuteAsync<TResult>(IRetryPolicyOptions options, CancellationToken ct, Func<TResult> func);
-        Task<TResult> ExecuteAsync<TResult>(IRetryPolicyOptions options, TimeSpan timeout, Func<TResult> func);
-        Task<TResult> ExecuteAsync<TResult>(IRetryPolicyOptions options, TimeSpan timeout, CancellationToken ct, Func<TResult> func);
-        Task<TResult> ExecuteAsync<TResult>(IRetryPolicyOptions options, int millisecondsTimeout, Func<TResult> func);
-        Task<TResult> ExecuteAsync<TResult>(IRetryPolicyOptions options, int millisecondsTimeout, CancellationToken ct, Func<TResult> func);
-        Task<TResult> ExecuteAsync<TResult>(IRetryPolicyOptions options, AsyncOptions asyncOptions, Func<TResult> func);
+        Task<TResult> ExecuteAsync<TResult>(Func<Task<TResult>> func);                    
+        Task<TResult> ExecuteAsync<TResult>(CancellationToken ct, Func<Task<TResult>> func);
+        Task<TResult> ExecuteAsync<TResult>(TimeSpan timeout, Func<Task<TResult>> func);
+        Task<TResult> ExecuteAsync<TResult>(TimeSpan timeout, CancellationToken ct, Func<Task<TResult>> func);
+        Task<TResult> ExecuteAsync<TResult>(int millisecondsTimeout, Func<Task<TResult>> func);
+        Task<TResult> ExecuteAsync<TResult>(int millisecondsTimeout, CancellationToken ct, Func<Task<TResult>> func);
+        Task<TResult> ExecuteAsync<TResult>(AsyncOptions asyncOptions, Func<Task<TResult>> func);
+        Task<TResult> ExecuteAsync<TResult>(IRetryPolicyOptions options, Func<Task<TResult>> func);
+        Task<TResult> ExecuteAsync<TResult>(IRetryPolicyOptions options, CancellationToken ct, Func<Task<TResult>> func);
+        Task<TResult> ExecuteAsync<TResult>(IRetryPolicyOptions options, TimeSpan timeout, Func<Task<TResult>> func);
+        Task<TResult> ExecuteAsync<TResult>(IRetryPolicyOptions options, TimeSpan timeout, CancellationToken ct, Func<Task<TResult>> func);
+        Task<TResult> ExecuteAsync<TResult>(IRetryPolicyOptions options, int millisecondsTimeout, Func<Task<TResult>> func);
+        Task<TResult> ExecuteAsync<TResult>(IRetryPolicyOptions options, int millisecondsTimeout, CancellationToken ct, Func<Task<TResult>> func);
+        Task<TResult> ExecuteAsync<TResult>(IRetryPolicyOptions options, AsyncOptions asyncOptions, Func<Task<TResult>> func);
     }
 }

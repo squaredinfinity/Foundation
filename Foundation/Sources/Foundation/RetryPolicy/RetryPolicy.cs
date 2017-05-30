@@ -7,6 +7,7 @@ using System.IO;
 using System.Threading.Tasks;
 using SquaredInfinity.Extensions;
 using SquaredInfinity.Comparers;
+using SquaredInfinity.Threading;
 
 namespace SquaredInfinity
 {
@@ -79,88 +80,199 @@ namespace SquaredInfinity
 
         #endregion
 
-        #region Execute Action
+        #region Execute Action (overloads)
 
         public void Execute(Action action)
-        {
-            Execute(DefaultOptions, action);
-        }
+            => Execute(DefaultOptions, SyncOptions.Default, action);
+        public void Execute(CancellationToken ct, Action action)
+            => Execute(DefaultOptions, new SyncOptions(ct), action);
+        public void Execute(TimeSpan timeout, Action action)
+            => Execute(DefaultOptions, new SyncOptions(timeout), action);
+        public void Execute(TimeSpan timeout, CancellationToken ct, Action action)
+            => Execute(DefaultOptions, new SyncOptions(timeout, ct), action);
+        public void Execute(int millisecondsTimeout, Action action)
+            => Execute(DefaultOptions, new SyncOptions(millisecondsTimeout), action);
+        public void Execute(int millisecondsTimeout, CancellationToken ct, Action action)
+            => Execute(DefaultOptions, new SyncOptions(millisecondsTimeout, ct), action);
+        public void Execute(SyncOptions syncOptions, Action action)
+            => Execute(DefaultOptions, syncOptions, action);
+
+        public void Execute(IRetryPolicyOptions options, Action action) => Execute(options, SyncOptions.Default, action);
+        public void Execute(IRetryPolicyOptions options, CancellationToken ct, Action action)
+             => Execute(options, new SyncOptions(ct), action);
+        public void Execute(IRetryPolicyOptions options, TimeSpan timeout, Action action)
+            => Execute(options, new SyncOptions(timeout), action);
+        public void Execute(IRetryPolicyOptions options, TimeSpan timeout, CancellationToken ct, Action action)
+            => Execute(options, new SyncOptions(timeout, ct), action);
+        public void Execute(IRetryPolicyOptions options, int millisecondsTimeout, Action action)
+            => Execute(options, new SyncOptions(millisecondsTimeout), action);
+        public void Execute(IRetryPolicyOptions options, int millisecondsTimeout, CancellationToken ct, Action action)
+            => Execute(options, new SyncOptions(millisecondsTimeout, ct), action);
+
+        #endregion
+
+        #region Execute Action Async (overloads)
+
+        public async Task ExecuteAsync(Action action)
+            => await ExecuteAsync(DefaultOptions, AsyncOptions.Default, action);
+        public async Task ExecuteAsync(CancellationToken ct, Action action)
+            => await ExecuteAsync(DefaultOptions, new AsyncOptions(ct), action);
+        public async Task ExecuteAsync(TimeSpan timeout, Action action)
+            => await ExecuteAsync(DefaultOptions, new AsyncOptions(timeout), action);
+        public async Task ExecuteAsync(TimeSpan timeout, CancellationToken ct, Action action)
+            => await ExecuteAsync(DefaultOptions, new AsyncOptions(timeout, ct), action);
+        public async Task ExecuteAsync(int millisecondsTimeout, Action action)
+            => await ExecuteAsync(DefaultOptions, new AsyncOptions(millisecondsTimeout), action);
+        public async Task ExecuteAsync(int millisecondsTimeout, CancellationToken ct, Action action)
+            => await ExecuteAsync(DefaultOptions, new AsyncOptions(millisecondsTimeout, ct), action);
+        public async Task ExecuteAsync(AsyncOptions asyncOptions, Action action)
+            => await ExecuteAsync(DefaultOptions, asyncOptions, action);
+
+        public async Task ExecuteAsync(IRetryPolicyOptions options, Action action)
+            => await ExecuteAsync(options, AsyncOptions.Default, action);
+        public async Task ExecuteAsync(IRetryPolicyOptions options, CancellationToken ct, Action action)
+            => await ExecuteAsync(options, new AsyncOptions(ct), action);
+        public async Task ExecuteAsync(IRetryPolicyOptions options, TimeSpan timeout, Action action)
+            => await ExecuteAsync(options, new AsyncOptions(timeout), action);
+        public async Task ExecuteAsync(IRetryPolicyOptions options, TimeSpan timeout, CancellationToken ct, Action action)
+            => await ExecuteAsync(options, new AsyncOptions(timeout, ct), action);
+        public async Task ExecuteAsync(IRetryPolicyOptions options, int millisecondsTimeout, Action action)
+            => await ExecuteAsync(options, new AsyncOptions(millisecondsTimeout), action);
+        public async Task ExecuteAsync(IRetryPolicyOptions options, int millisecondsTimeout, CancellationToken ct, Action action)
+            => await ExecuteAsync(options, new AsyncOptions(millisecondsTimeout, ct), action);
+
+        #endregion
+
+        #region Execute Func (overloads)
+
+        public TResult Execute<TResult>(Func<TResult> func)
+            => Execute(DefaultOptions, SyncOptions.Default, func);
+        public TResult Execute<TResult>(CancellationToken ct, Func<TResult> func)
+            => Execute(DefaultOptions, new SyncOptions(ct), func);
+        public TResult Execute<TResult>(TimeSpan timeout, Func<TResult> func)
+            => Execute(DefaultOptions, new SyncOptions(timeout), func);
+        public TResult Execute<TResult>(TimeSpan timeout, CancellationToken ct, Func<TResult> func)
+            => Execute(DefaultOptions, new SyncOptions(timeout, ct), func);
+        public TResult Execute<TResult>(int millisecondsTimeout, Func<TResult> func)
+            => Execute(DefaultOptions, new SyncOptions(millisecondsTimeout), func);
+        public TResult Execute<TResult>(int millisecondsTimeout, CancellationToken ct, Func<TResult> func)
+            => Execute(DefaultOptions, new SyncOptions(millisecondsTimeout, ct), func);
+        public TResult Execute<TResult>(SyncOptions syncOptions, Func<TResult> func)
+            => Execute(DefaultOptions, syncOptions, func);
+
+        public TResult Execute<TResult>(IRetryPolicyOptions options, Func<TResult> func)
+            => Execute(options, SyncOptions.Default, func);
+        public TResult Execute<TResult>(IRetryPolicyOptions options, CancellationToken ct, Func<TResult> func)
+            => Execute(options, new SyncOptions(ct), func);
+        public TResult Execute<TResult>(IRetryPolicyOptions options, TimeSpan timeout, Func<TResult> func)
+            => Execute(options, new SyncOptions(timeout), func);
+        public TResult Execute<TResult>(IRetryPolicyOptions options, TimeSpan timeout, CancellationToken ct, Func<TResult> func)
+            => Execute(options, new SyncOptions(timeout, ct), func);
+        public TResult Execute<TResult>(IRetryPolicyOptions options, int millisecondsTimeout, Func<TResult> func)
+            => Execute(options, new SyncOptions(millisecondsTimeout), func);
+        public TResult Execute<TResult>(IRetryPolicyOptions options, int millisecondsTimeout, CancellationToken ct, Func<TResult> func)
+            => Execute(options, new SyncOptions(millisecondsTimeout, ct), func);
+
+        #endregion
+
+        #region Execute Func Async (overloads)
+
+        public async Task<TResult> ExecuteAsync<TResult>(Func<Task<TResult>> func)
+            => await ExecuteAsync<TResult>(DefaultOptions, AsyncOptions.Default, func);
+        public async Task<TResult> ExecuteAsync<TResult>(CancellationToken ct, Func<Task<TResult>> func)
+            => await ExecuteAsync<TResult>(DefaultOptions, new AsyncOptions(ct), func);
+        public async Task<TResult> ExecuteAsync<TResult>(TimeSpan timeout, Func<Task<TResult>> func)
+            => await ExecuteAsync<TResult>(DefaultOptions, new AsyncOptions(timeout), func);
+        public async Task<TResult> ExecuteAsync<TResult>(TimeSpan timeout, CancellationToken ct, Func<Task<TResult>> func)
+            => await ExecuteAsync<TResult>(DefaultOptions, new AsyncOptions(timeout, ct), func);
+        public async Task<TResult> ExecuteAsync<TResult>(int millisecondsTimeout, Func<Task<TResult>> func)
+            => await ExecuteAsync<TResult>(DefaultOptions, new AsyncOptions(millisecondsTimeout), func);
+        public async Task<TResult> ExecuteAsync<TResult>(int millisecondsTimeout, CancellationToken ct, Func<Task<TResult>> func)
+            => await ExecuteAsync<TResult>(DefaultOptions, new AsyncOptions(millisecondsTimeout, ct), func);
+        public async Task<TResult> ExecuteAsync<TResult>(AsyncOptions asyncOptions, Func<Task<TResult>> func)
+            => await ExecuteAsync<TResult>(DefaultOptions, asyncOptions, func);
+        public async Task<TResult> ExecuteAsync<TResult>(IRetryPolicyOptions options, Func<Task<TResult>> func)
+            => await ExecuteAsync<TResult>(options, AsyncOptions.Default, func);
+        public async Task<TResult> ExecuteAsync<TResult>(IRetryPolicyOptions options, CancellationToken ct, Func<Task<TResult>> func)
+            => await ExecuteAsync<TResult>(options, new AsyncOptions(ct), func);
+        public async Task<TResult> ExecuteAsync<TResult>(IRetryPolicyOptions options, TimeSpan timeout, Func<Task<TResult>> func)
+            => await ExecuteAsync<TResult>(options, new AsyncOptions(timeout), func);
+        public async Task<TResult> ExecuteAsync<TResult>(IRetryPolicyOptions options, TimeSpan timeout, CancellationToken ct, Func<Task<TResult>> func)
+            => await ExecuteAsync<TResult>(options, new AsyncOptions(timeout, ct), func);
+        public async Task<TResult> ExecuteAsync<TResult>(IRetryPolicyOptions options, int millisecondsTimeout, Func<Task<TResult>> func)
+            => await ExecuteAsync<TResult>(options, new AsyncOptions(millisecondsTimeout), func);
+        public async Task<TResult> ExecuteAsync<TResult>(IRetryPolicyOptions options, int millisecondsTimeout, CancellationToken ct, Func<Task<TResult>> func)
+            => await ExecuteAsync<TResult>(options, new AsyncOptions(millisecondsTimeout, ct), func);
+
+        #endregion
+
+        #region Execute Action
 
         public void Execute(
             IRetryPolicyOptions options,
+            SyncOptions syncOptions,
             Action action)
         {
+            var ok =
             ExecuteAsyncInternal(
                 () =>
                 {
                     action();
                     return Task.FromResult(true);
-                }, options)
-                .Wait(options.CancellationToken);
+                }, 
+                options,
+                new AsyncOptions(syncOptions.MillisecondsTimeout, syncOptions.CancellationToken))
+                .Wait(syncOptions.MillisecondsTimeout, syncOptions.CancellationToken);
+
+            if (!ok)
+                throw new TimeoutException();
         }
 
-        public async Task ExecuteAsync(Action action)
-        {
-            await 
-                ExecuteAsync(DefaultOptions, action)
-                .ConfigureAwait(continueOnCapturedContext: false);
-        }
-
-        public async Task ExecuteAsync(IRetryPolicyOptions options, Action action)
+        public async Task ExecuteAsync(IRetryPolicyOptions options, AsyncOptions asyncOptions, Action action)
         {
             await
-                ExecuteAsync(
-                    options,
+                ExecuteAsyncInternal(
                     () =>
                     {
                         action();
                         return Task.FromResult(true);
 
-                    })
-                    .ConfigureAwait(continueOnCapturedContext: false);
+                    },
+                    options,
+                    asyncOptions)
+                    .ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
         }
 
         #endregion
 
         #region Execute Func
 
-        public TResult Execute<TResult>(Func<TResult> func)
-        {
-            return Execute(DefaultOptions, func);
-        }
-
         public TResult Execute<TResult>(
             IRetryPolicyOptions options,
+            SyncOptions syncOptions,
             Func<TResult> func)
         {
-            return 
-                ExecuteAsyncInternal(
-                    () => Task.FromResult(func()), options)
-                    .Result;
-        }
-
-        public async Task<TResult> ExecuteAsync<TResult>(Func<Task<TResult>> func)
-        {
             return
-                await
-                ExecuteAsync<TResult>(DefaultOptions, func)
-                .ConfigureAwait(continueOnCapturedContext: false);
+                ExecuteAsyncInternal(
+                    () => Task.FromResult(func()), options, new AsyncOptions(syncOptions.MillisecondsTimeout, syncOptions.CancellationToken))
+                    .Result;
         }
 
         public async Task<TResult> ExecuteAsync<TResult>(
             IRetryPolicyOptions options,
+            AsyncOptions asyncoptions,
             Func<Task<TResult>> func)
         {
-
             return
                 await
-                ExecuteAsyncInternal<TResult>(func, options)
-                .ConfigureAwait(continueOnCapturedContext: false);
+                ExecuteAsyncInternal<TResult>(func, options, asyncoptions)
+                .ConfigureAwait(asyncoptions.ContinueOnCapturedContext);
         }
 
         async Task<TResult> ExecuteAsyncInternal<TResult>(
             Func<Task<TResult>> func,
-            IRetryPolicyOptions options)
+            IRetryPolicyOptions options,
+            AsyncOptions asyncOptions)
         { 
             var result = default(TResult);
 
@@ -171,14 +283,14 @@ namespace SquaredInfinity
 
             while (!success && max_retry_attempts-- >= 0)
             {
-                options.CancellationToken.ThrowIfCancellationRequested();
+                asyncOptions.CancellationToken.ThrowIfCancellationRequested();
 
                 try
                 {
                     result =
                         await 
                         func()
-                        .ConfigureAwait(continueOnCapturedContext: false); ;
+                        .ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
 
                     success = true;
                 }
@@ -191,6 +303,8 @@ namespace SquaredInfinity
 
                     for (int i = 0; i < transient_fault_filters.Count; i++)
                     {
+                        asyncOptions.CancellationToken.ThrowIfCancellationRequested();
+
                         var filter = transient_fault_filters[i];
 
                         if (!filter.IsTransientFault(ex))
@@ -201,8 +315,8 @@ namespace SquaredInfinity
                         var retryDelay = Rand.Next(options.MinRetryDelayInMiliseconds, options.MaxRetryDelayInMiliseconds);
 
                         await 
-                            Task.Delay(retryDelay, options.CancellationToken)
-                            .ConfigureAwait(continueOnCapturedContext: false);
+                            Task.Delay(retryDelay, asyncOptions.CancellationToken)
+                            .ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
                     }
                 }
             }
