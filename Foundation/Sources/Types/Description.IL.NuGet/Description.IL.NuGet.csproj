@@ -55,6 +55,7 @@
     <None Include=".nuspec">
       <SubType>Designer</SubType>
     </None>
+    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="version.cs" />

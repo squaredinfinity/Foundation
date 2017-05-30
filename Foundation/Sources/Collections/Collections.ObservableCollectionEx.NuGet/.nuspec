@@ -16,7 +16,7 @@ SquaredInfinity.Collections.ObservableCollectionEx</description>
     <dependencies>
       <group targetFramework="portable-net45+win80">
         <dependency id="SquaredInfinity.BulkUpdates" version="2.1.2" />
-        <dependency id="SquaredInfinity.Collections.CollectionEx" version="2.1.6" />
+        <dependency id="SquaredInfinity.Collections.CollectionEx" version="2.1.7" />
         <dependency id="SquaredInfinity.Collections.Core" version="2.1.5" />
         <dependency id="SquaredInfinity.Comparers" version="2.0.6" />
         <dependency id="SquaredInfinity.ComponentModel" version="2.1.0" />
@@ -27,7 +27,7 @@ SquaredInfinity.Collections.ObservableCollectionEx</description>
       </group>
       <group targetFramework="net452">
         <dependency id="SquaredInfinity.BulkUpdates" version="2.1.2" />
-        <dependency id="SquaredInfinity.Collections.CollectionEx" version="2.1.6" />
+        <dependency id="SquaredInfinity.Collections.CollectionEx" version="2.1.7" />
         <dependency id="SquaredInfinity.Collections.Core" version="2.1.5" />
         <dependency id="SquaredInfinity.Comparers" version="2.0.6" />
         <dependency id="SquaredInfinity.ComponentModel" version="2.1.0" />

@@ -252,7 +252,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collections.MultiMap", "Sou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collections.ObservableCollectionEx", "Sources\Collections\Collections.ObservableCollectionEx\Collections.ObservableCollectionEx.csproj", "{94BD8189-CEFF-4D5D-98EA-796E5F655035}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Graphics", "Graphics", "{E87C3540-834D-4983-9505-D70634D7EC61}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Grahpics", "Grahpics", "{E87C3540-834D-4983-9505-D70634D7EC61}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graphics.Core", "Sources\Graphics\Graphics.Core\Graphics.Core.csproj", "{B67ACCD0-1990-4FFA-B7F3-093A8438459F}"
 EndProject

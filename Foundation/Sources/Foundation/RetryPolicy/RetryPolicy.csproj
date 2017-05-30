@@ -39,6 +39,7 @@
     </Compile>
     <Compile Include="DynamicTransientFaultFilter.cs" />
     <Compile Include="IRetryPolicy.cs" />
+    <Compile Include="IRetryPolicyOptions.cs" />
     <Compile Include="ITransientFaultFilter.cs" />
     <Compile Include="RetryPolicy.cs" />
     <Compile Include="RetryPolicyOptions.cs" />
@@ -49,10 +50,13 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SquaredInfinity.Comparers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Comparers.2.0.5\lib\portable-net45+win\SquaredInfinity.Comparers.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Comparers.2.0.6\lib\portable-net45+win\SquaredInfinity.Comparers.dll</HintPath>
     </Reference>
-    <Reference Include="SquaredInfinity.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.2\lib\portable-net45+win\SquaredInfinity.Extensions.dll</HintPath>
+    <Reference Include="SquaredInfinity.Extensions, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.1.0\lib\portable-net45+win\SquaredInfinity.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.Threading, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Threading.2.0.10\lib\portable-net45+win\SquaredInfinity.Threading.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

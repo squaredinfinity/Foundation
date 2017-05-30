@@ -31,17 +31,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
-    <Reference Include="SquaredInfinity.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.6\lib\net452\SquaredInfinity.Extensions.dll</HintPath>
+    <Reference Include="SquaredInfinity.DataStructures.Algorithms.Trees, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.DataStructures.Algorithms.Trees.2.0.2\lib\net452\SquaredInfinity.DataStructures.Algorithms.Trees.dll</HintPath>
     </Reference>
-    <Reference Include="SquaredInfinity.Extensions.DotNet45, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.0.6\lib\net452\SquaredInfinity.Extensions.DotNet45.dll</HintPath>
+    <Reference Include="SquaredInfinity.Extensions, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.1.0\lib\net452\SquaredInfinity.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.Extensions.DotNet45, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.1.0\lib\net452\SquaredInfinity.Extensions.DotNet45.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Maths, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Maths.2.0.7\lib\net452\SquaredInfinity.Maths.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Maths.2.0.11\lib\net452\SquaredInfinity.Maths.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Maths.DotNet45, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Maths.2.0.7\lib\net452\SquaredInfinity.Maths.DotNet45.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Maths.2.0.11\lib\net452\SquaredInfinity.Maths.DotNet45.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Maths.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Maths.Extensions.2.0.3\lib\portable-net45+win\SquaredInfinity.Maths.Extensions.dll</HintPath>
@@ -50,7 +53,7 @@
       <HintPath>..\..\..\packages\SquaredInfinity.Primitives.2.0.7\lib\portable-net45+win\SquaredInfinity.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Windows.Extensions.DotNet45, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Windows.Extensions.2.0.1\lib\net452\SquaredInfinity.Windows.Extensions.DotNet45.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Windows.Extensions.2.0.4\lib\net452\SquaredInfinity.Windows.Extensions.DotNet45.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

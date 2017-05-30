@@ -56,6 +56,7 @@
     <None Include=".nuspec">
       <SubType>Designer</SubType>
     </None>
+    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data.SqlServer.DotNet45\Data.SqlServer.DotNet45.csproj">

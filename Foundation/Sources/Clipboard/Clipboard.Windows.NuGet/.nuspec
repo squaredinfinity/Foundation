@@ -16,7 +16,7 @@
         <dependency id="SquaredInfinity.Clipboard" version="2.0.3" />
         <dependency id="SquaredInfinity.Clipboard.CF_HTML" version="2.0.0" />
         <dependency id="SquaredInfinity.DataStructures.Algorithms.Trees" version="2.0.2" />
-        <dependency id="SquaredInfinity.Extensions" version="2.0.6" />
+        <dependency id="SquaredInfinity.Extensions" version="2.1.0" />
         <dependency id="SquaredInfinity.Maths.Extensions" version="2.0.3" />
         <dependency id="SquaredInfinity.Primitives" version="2.0.7" />
         <dependency id="SquaredInfinity.Windows.Extensions" version="2.0.4" />

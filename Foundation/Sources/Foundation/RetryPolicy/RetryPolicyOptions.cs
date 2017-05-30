@@ -9,7 +9,6 @@ namespace SquaredInfinity
 {
     public class RetryPolicyOptions : IRetryPolicyOptions
     {
-        public CancellationToken CancellationToken { get; set; } = CancellationToken.None;
         public int MaxRetryAttempts { get; set; } = 10;
         public int MinRetryDelayInMiliseconds { get; set; } = 50;
         public int MaxRetryDelayInMiliseconds { get; set; } = 100;
@@ -19,14 +18,5 @@ namespace SquaredInfinity
         {
             get { return TransientFaultFilters; }
         }
-    }
-
-    public interface IRetryPolicyOptions
-    {
-        CancellationToken CancellationToken { get; }
-        int MaxRetryAttempts { get; }
-        int MinRetryDelayInMiliseconds { get; }
-        int MaxRetryDelayInMiliseconds { get; }
-        IReadOnlyList<ITransientFaultFilter> TransientFaultFilters { get; }
     }
 }
