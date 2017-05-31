@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Collections
 {
-    public interface IBulkUpdatesCollection : ISupportsAsyncBulkUpdate
+    public interface IBulkUpdatesCollection : ISupportsBulkUpdate
     {
         void AddRange(IEnumerable items);
 

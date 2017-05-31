@@ -16,7 +16,7 @@ namespace SquaredInfinity.Collections
     /// </summary>
     /// <typeparam name="TItem"></typeparam>
     public partial class CollectionEx<TItem> :
-        SupportsAsyncBulkUpdate,
+        SupportsBulkUpdate,
         ICollectionEx<TItem>,
         IBulkUpdatesCollection<TItem>, 
         INotifyCollectionVersionChanged,

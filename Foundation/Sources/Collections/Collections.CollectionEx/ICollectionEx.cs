@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace SquaredInfinity.Collections
 {
     public interface ICollectionEx<TItem> : 
-        ISupportsAsyncBulkUpdate,
+        ISupportsBulkUpdate,
         ICollection<TItem>,
         ICollectionEx,
         IReadOnlyList<TItem>
