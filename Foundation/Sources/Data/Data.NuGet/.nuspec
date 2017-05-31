@@ -18,8 +18,8 @@ SquaredInfinity.Data.IDataObjectNameResolver
     <copyright>Copyright © Squared Infinity</copyright>
     <dependencies>
       <group targetFramework="net452">
-        <dependency id="SquaredInfinity.BulkUpdates" version="2.1.2" />
-        <dependency id="SquaredInfinity.Collections.Core" version="2.1.5" />
+        <dependency id="SquaredInfinity.BulkUpdates" version="2.1.4" />
+        <dependency id="SquaredInfinity.Collections.Core" version="2.1.7" />
         <dependency id="SquaredInfinity.Comparers" version="2.0.6" />
         <dependency id="SquaredInfinity.ComponentModel" version="2.1.0" />
         <dependency id="SquaredInfinity.Disposables" version="2.0.10" />
