@@ -7,6 +7,7 @@ using System.Text;
 using SquaredInfinity.Extensions;
 using System.Collections;
 using SquaredInfinity.Threading;
+using SquaredInfinity.Threading.Locks;
 
 namespace SquaredInfinity.Types.Description.Reflection
 {
@@ -29,7 +30,7 @@ namespace SquaredInfinity.Types.Description.Reflection
 
         readonly Dictionary<string, ITypeDescription> TypeDescriptionCache = new Dictionary<string, ITypeDescription>();
 
-        readonly ILock TypeDescriptionCacheLock = new ReaderWriterLockSlimEx(System.Threading.LockRecursionPolicy.SupportsRecursion);
+        readonly ILock TypeDescriptionCacheLock  = LockFactory.Current.CreateAsyncLock("Reflection Based Type Descriptor", System.Threading.LockRecursionPolicy.SupportsRecursion);
 
         public ITypeDescription DescribeType(Type type)
         {
