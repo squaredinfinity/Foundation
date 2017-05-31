@@ -26,6 +26,7 @@ namespace SquaredInfinity.Data
         public CommandResultEnumerator(
             DataAccessService<TConnection, TCommand, TParameter, TDataReader> dataAccessService,
             ConnectionFactory<TConnection> connectionFactory,
+            int millisecondsCommandTimeout,
             string commandText,
             IEnumerable<TParameter> parameters,
             Func<TDataReader, TEntity> createEntity)
@@ -41,7 +42,7 @@ namespace SquaredInfinity.Data
 
                 Connection.Open();
 
-                this.Command = dataAccessService.PrepareCommand(Connection, CommandType.StoredProcedure, CommandText, parameters);
+                this.Command = dataAccessService.PrepareCommand(Connection, millisecondsCommandTimeout, CommandType.StoredProcedure, CommandText, parameters);
 
                 this.DataReader = (TDataReader)Command.ExecuteReader();
             }

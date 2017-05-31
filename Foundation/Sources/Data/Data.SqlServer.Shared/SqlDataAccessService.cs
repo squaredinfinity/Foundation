@@ -10,6 +10,8 @@ using System.Data;
 using System.Collections;
 using System.Data.Common;
 using Microsoft.SqlServer.Server;
+using SquaredInfinity.Threading;
+using System.Threading;
 
 namespace SquaredInfinity.Data.SqlServer
 {
@@ -87,27 +89,64 @@ namespace SquaredInfinity.Data.SqlServer
         #region Execute Scalar Function Async // TODO: This should go to SQL Server Specific implementation
 
         public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName)
-        {
-            return
-                await
-                ExecuteScalarFunctionAsync<T>(functionName, EmptyParameters, DefaultExecuteOptions);
-        }
+            => await ExecuteScalarFunctionAsync<T>(functionName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(DefaultCommandTimeout));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, CancellationToken ct)
+            => await ExecuteScalarFunctionAsync<T>(functionName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, TimeSpan timeout)
+            => await ExecuteScalarFunctionAsync<T>(functionName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(timeout));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteScalarFunctionAsync<T>(functionName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(timeout, ct));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, int millisecondsTimeout)
+            => await ExecuteScalarFunctionAsync<T>(functionName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(millisecondsTimeout));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteScalarFunctionAsync<T>(functionName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(millisecondsTimeout, ct));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, AsyncOptions asyncOptions)
+            => await ExecuteScalarFunctionAsync<T>(functionName, EmptyParameters, DefaultExecuteOptions, asyncOptions);
+
 
         public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IExecuteOptions options)
-        {
-            return
-                await
-                ExecuteScalarFunctionAsync<T>(functionName, EmptyParameters, options);
-        }
+            => await ExecuteScalarFunctionAsync<T>(functionName, EmptyParameters, options, new AsyncOptions(DefaultCommandTimeout));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IExecuteOptions options, CancellationToken ct)
+            => await ExecuteScalarFunctionAsync<T>(functionName, EmptyParameters, options, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IExecuteOptions options, TimeSpan timeout)
+            => await ExecuteScalarFunctionAsync<T>(functionName, EmptyParameters, options, new AsyncOptions(timeout));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IExecuteOptions options, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteScalarFunctionAsync<T>(functionName, EmptyParameters, options, new AsyncOptions(timeout, ct));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IExecuteOptions options, int millisecondsTimeout)
+            => await ExecuteScalarFunctionAsync<T>(functionName, EmptyParameters, options, new AsyncOptions(millisecondsTimeout));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IExecuteOptions options, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteScalarFunctionAsync<T>(functionName, EmptyParameters, options, new AsyncOptions(millisecondsTimeout, ct));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IExecuteOptions options, AsyncOptions asyncOptions)
+            => await ExecuteScalarFunctionAsync<T>(functionName, EmptyParameters, options, asyncOptions);
 
         public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IReadOnlyList<IDbDataParameter> parameters)
-        {
-            return
-                await
-                ExecuteScalarFunctionAsync<T>(functionName, parameters, DefaultExecuteOptions);
-        }
+            => await ExecuteScalarFunctionAsync<T>(functionName, parameters, DefaultExecuteOptions, new AsyncOptions(DefaultCommandTimeout));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IReadOnlyList<IDbDataParameter> parameters, CancellationToken ct)
+            => await ExecuteScalarFunctionAsync<T>(functionName, parameters, DefaultExecuteOptions, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IReadOnlyList<IDbDataParameter> parameters, TimeSpan timeout)
+            => await ExecuteScalarFunctionAsync<T>(functionName, parameters, DefaultExecuteOptions, new AsyncOptions(timeout));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IReadOnlyList<IDbDataParameter> parameters, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteScalarFunctionAsync<T>(functionName, parameters, DefaultExecuteOptions, new AsyncOptions(timeout, ct));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IReadOnlyList<IDbDataParameter> parameters, int millisecondsTimeout)
+            => await ExecuteScalarFunctionAsync<T>(functionName, parameters, DefaultExecuteOptions, new AsyncOptions(millisecondsTimeout));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IReadOnlyList<IDbDataParameter> parameters, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteScalarFunctionAsync<T>(functionName, parameters, DefaultExecuteOptions, new AsyncOptions(millisecondsTimeout, ct));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IReadOnlyList<IDbDataParameter> parameters, AsyncOptions asyncOptions)
+            => await ExecuteScalarFunctionAsync<T>(functionName, parameters, DefaultExecuteOptions, asyncOptions);
 
         public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options)
+            => await ExecuteScalarFunctionAsync<T>(functionName, parameters, options, new AsyncOptions(DefaultCommandTimeout));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, CancellationToken ct)
+            => await ExecuteScalarFunctionAsync<T>(functionName, parameters, options, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, TimeSpan timeout)
+            => await ExecuteScalarFunctionAsync<T>(functionName, parameters, options, new AsyncOptions(timeout));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteScalarFunctionAsync<T>(functionName, parameters, options, new AsyncOptions(timeout, ct));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, int millisecondsTimeout)
+            => await ExecuteScalarFunctionAsync<T>(functionName, parameters, options, new AsyncOptions(millisecondsTimeout));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteScalarFunctionAsync<T>(functionName, parameters, options, new AsyncOptions(millisecondsTimeout, ct));
+        public async Task<T> ExecuteScalarFunctionAsync<T>(string functionName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, AsyncOptions asyncOptions)
         {
             var resultParameter = CreateParameter("", null);
             resultParameter.Direction = ParameterDirection.ReturnValue;
@@ -115,6 +154,7 @@ namespace SquaredInfinity.Data.SqlServer
             await ExecuteScalarInternalAsync(
                 ConnectionFactory,
                 options,
+                asyncOptions,
                 CommandType.StoredProcedure,
                 functionName,
                 parameters.Cast<SqlParameter>().Concat(new[] { (SqlParameter) resultParameter }).ToArray());

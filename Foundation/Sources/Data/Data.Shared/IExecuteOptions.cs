@@ -7,9 +7,6 @@ namespace SquaredInfinity.Data
 {
     public interface IExecuteOptions
     {
-        CancellationToken CancellationToken { get; }
-        TimeSpan Timeout { get; }
-
         bool ShouldAsyncOpenConnection { get; }
         bool ShouldAsyncExecuteCommand { get; }
     }

@@ -13,6 +13,7 @@ using System.Threading;
 using System.Dynamic;
 using System.Collections.ObjectModel;
 using SquaredInfinity.Collections;
+using SquaredInfinity.Threading;
 
 namespace SquaredInfinity.Data
 {
@@ -22,6 +23,7 @@ namespace SquaredInfinity.Data
         where TParameter : DbParameter
         where TDataReader : DbDataReader
     {
+
         protected readonly IReadOnlyList<IDbDataParameter> EmptyParameters = new IDbDataParameter[0];
         protected readonly IReadOnlyList<TParameter> EmptyTParameters = new TParameter[0];
 
@@ -35,7 +37,6 @@ namespace SquaredInfinity.Data
         }
 
         public TimeSpan DefaultCommandTimeout { get; set; }
-
 
         public IRetryPolicy RetryPolicy { get; set; } = new RetryPolicy();
         public IExecuteOptions DefaultExecuteOptions { get; set; } = new ExecuteOptions();
@@ -63,53 +64,72 @@ namespace SquaredInfinity.Data
 
         #region Execute All Reader Async (To Dictionary)
 
-        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(
-            string procName)
-        {
-            return
-                await
-                ExecuteAllReaderAsync(
-                    procName, 
-                    EmptyParameters, 
-                    DefaultExecuteReaderOptions)
-                .ConfigureAwait(continueOnCapturedContext: false);
-        }
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName)
+            => await ExecuteAllReaderAsync(procName, EmptyParameters, DefaultExecuteReaderOptions, new AsyncOptions(DefaultCommandTimeout));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, CancellationToken ct)
+            => await ExecuteAllReaderAsync(procName, EmptyParameters, DefaultExecuteReaderOptions, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, TimeSpan timeout)
+            => await ExecuteAllReaderAsync(procName, EmptyParameters, DefaultExecuteReaderOptions, new AsyncOptions(timeout));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteAllReaderAsync(procName, EmptyParameters, DefaultExecuteReaderOptions, new AsyncOptions(timeout, ct));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, int millisecondsTimeout)
+            => await ExecuteAllReaderAsync(procName, EmptyParameters, DefaultExecuteReaderOptions, new AsyncOptions(millisecondsTimeout));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteAllReaderAsync(procName, EmptyParameters, DefaultExecuteReaderOptions, new AsyncOptions(millisecondsTimeout, ct));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, AsyncOptions asyncOptions)
+            => await ExecuteAllReaderAsync(procName, EmptyParameters, DefaultExecuteReaderOptions, asyncOptions);
 
-        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(
-            string procName,
-            IExecuteReaderOptions options)
-        {
-            return
-                await
-                ExecuteAllReaderAsync(
-                    procName, 
-                    EmptyParameters, 
-                    options)
-                .ConfigureAwait(continueOnCapturedContext: false);
-        }
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, IExecuteReaderOptions options)
+            => await ExecuteAllReaderAsync(procName, EmptyParameters, options, new AsyncOptions(DefaultCommandTimeout));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, IExecuteReaderOptions options, CancellationToken ct)
+            => await ExecuteAllReaderAsync(procName, EmptyParameters, options, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, IExecuteReaderOptions options, TimeSpan timeout)
+            => await ExecuteAllReaderAsync(procName, EmptyParameters, options, new AsyncOptions(timeout));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, IExecuteReaderOptions options, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteAllReaderAsync(procName, EmptyParameters, options, new AsyncOptions(timeout, ct));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, IExecuteReaderOptions options, int millisecondsTimeout)
+            => await ExecuteAllReaderAsync(procName, EmptyParameters, options, new AsyncOptions(millisecondsTimeout));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, IExecuteReaderOptions options, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteAllReaderAsync(procName, EmptyParameters, options, new AsyncOptions(millisecondsTimeout, ct));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, IExecuteReaderOptions options, AsyncOptions asyncOptions)
+            => await ExecuteAllReaderAsync(procName, EmptyParameters, options, asyncOptions);
 
-        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(
-            string procName,
-            IReadOnlyList<IDbDataParameter> parameters)
-        {
-            return
-                await
-                ExecuteAllReaderAsync(
-                    procName, 
-                    parameters, 
-                    DefaultExecuteReaderOptions)
-                .ConfigureAwait(continueOnCapturedContext: false);
-        }
 
-        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(
-            string procName,
-            IReadOnlyList<IDbDataParameter> parameters,
-            IExecuteReaderOptions options)
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters)
+            => await ExecuteAllReaderAsync(procName, parameters, DefaultExecuteReaderOptions, new AsyncOptions(DefaultCommandTimeout));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, CancellationToken ct)
+            => await ExecuteAllReaderAsync(procName, parameters, DefaultExecuteReaderOptions, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, TimeSpan timeout)
+            => await ExecuteAllReaderAsync(procName, parameters, DefaultExecuteReaderOptions, new AsyncOptions(timeout));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteAllReaderAsync(procName, parameters, DefaultExecuteReaderOptions, new AsyncOptions(timeout, ct));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, int millisecondsTimeout)
+            => await ExecuteAllReaderAsync(procName, parameters, DefaultExecuteReaderOptions, new AsyncOptions(millisecondsTimeout));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteAllReaderAsync(procName, parameters, DefaultExecuteReaderOptions, new AsyncOptions(millisecondsTimeout, ct));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, AsyncOptions asyncOptions)
+            => await ExecuteAllReaderAsync(procName, parameters, DefaultExecuteReaderOptions, asyncOptions);
+
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options)
+            => await ExecuteAllReaderAsync(procName, parameters, options, new AsyncOptions(DefaultCommandTimeout));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, CancellationToken ct)
+            => await ExecuteAllReaderAsync(procName, parameters, options, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, TimeSpan timeout)
+            => await ExecuteAllReaderAsync(procName, parameters, options, new AsyncOptions(timeout));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteAllReaderAsync(procName, parameters, options, new AsyncOptions(timeout, ct));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, int millisecondsTimeout)
+            => await ExecuteAllReaderAsync(procName, parameters, options, new AsyncOptions(millisecondsTimeout));
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteAllReaderAsync(procName, parameters, options, new AsyncOptions(millisecondsTimeout, ct));
+
+        public async Task<IReadOnlyList<IReadOnlyDictionary<string, object>>> ExecuteAllReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, AsyncOptions asyncOptions)
         {
             return
                 await ExecuteAllReaderWithRetryInternalAsync(
                     ConnectionFactory,
                     options,
+                    asyncOptions,
                     procName,
                     parameters.Cast<TParameter>().ToArray(),
                     (r) =>
@@ -123,73 +143,75 @@ namespace SquaredInfinity.Data
 
                         return new ReadOnlyDictionary<string, object>(result);
                     })
-                .ConfigureAwait(continueOnCapturedContext: false);
+                .ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
         }
 
         #endregion
 
         #region Execute All Reader Async (To Entity)
 
-        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(
-            string procName,
-            Func<IDataReader, TEntity> createEntity)
-        {
-            return
-                await
-                ExecuteAllReaderAsync(
-                    procName, 
-                    EmptyParameters,
-                    DefaultExecuteReaderOptions, 
-                    createEntity)
-                .ConfigureAwait(continueOnCapturedContext: false);
-        }
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, EmptyTParameters, DefaultExecuteReaderOptions, new AsyncOptions(DefaultCommandTimeout), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, EmptyTParameters, DefaultExecuteReaderOptions, new AsyncOptions(DefaultCommandTimeout, ct), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, TimeSpan timeout, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, EmptyTParameters, DefaultExecuteReaderOptions, new AsyncOptions(timeout), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, TimeSpan timeout, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, EmptyTParameters, DefaultExecuteReaderOptions, new AsyncOptions(timeout, ct), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, int millisecondsTimeout, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, EmptyTParameters, DefaultExecuteReaderOptions, new AsyncOptions(millisecondsTimeout), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, int millisecondsTimeout, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, EmptyTParameters, DefaultExecuteReaderOptions, new AsyncOptions(millisecondsTimeout, ct), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, AsyncOptions asyncOptions, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, EmptyTParameters, DefaultExecuteReaderOptions, asyncOptions, createEntity);
 
-        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(
-            string procName,
-            IExecuteReaderOptions options,
-            Func<IDataReader, TEntity> createEntity)
-        {
-            return
-                await
-                ExecuteAllReaderAsync(
-                    procName, 
-                    EmptyParameters,
-                    DefaultExecuteReaderOptions, 
-                    createEntity)
-                .ConfigureAwait(continueOnCapturedContext: false);
-        }
 
-        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(
-            string procName,
-            IReadOnlyList<IDbDataParameter> parameters,
-            Func<IDataReader, TEntity> createEntity)
-        {
-            return
-               await
-               ExecuteAllReaderAsync(
-                   procName,
-                   parameters, 
-                   DefaultExecuteReaderOptions, 
-                   createEntity)
-               .ConfigureAwait(continueOnCapturedContext: false);
-        }
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IExecuteReaderOptions options, Func<IDataReader, TEntity> createEntity) 
+            => await ExecuteAllReaderAsync(procName, EmptyTParameters, DefaultExecuteReaderOptions, new AsyncOptions(DefaultCommandTimeout), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IExecuteReaderOptions options, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, EmptyTParameters, DefaultExecuteReaderOptions, new AsyncOptions(DefaultCommandTimeout, ct), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IExecuteReaderOptions options, TimeSpan timeout, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, EmptyTParameters, DefaultExecuteReaderOptions, new AsyncOptions(timeout), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IExecuteReaderOptions options, TimeSpan timeout, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, EmptyTParameters, DefaultExecuteReaderOptions, new AsyncOptions(timeout, ct), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IExecuteReaderOptions options, int millisecondsTimeout, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, EmptyTParameters, DefaultExecuteReaderOptions, new AsyncOptions(millisecondsTimeout), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IExecuteReaderOptions options, int millisecondsTimeout, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, EmptyTParameters, DefaultExecuteReaderOptions, new AsyncOptions(millisecondsTimeout, ct), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IExecuteReaderOptions options, AsyncOptions asyncOptions, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, EmptyTParameters, DefaultExecuteReaderOptions, asyncOptions, createEntity);
 
-        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(
-            string procName, 
-            IReadOnlyList<IDbDataParameter> parameters, 
-            IExecuteReaderOptions options, 
-            Func<IDataReader, TEntity> createEntity)
-        {
-            return
-               await
-               ExecuteAllReaderWithRetryInternalAsync(
-                   ConnectionFactory,
-                   options,
-                   procName,
-                   parameters.Cast<TParameter>().ToArray(),
-                   createEntity)
-               .ConfigureAwait(continueOnCapturedContext: false);
-        }
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, Func<IDataReader, TEntity> createEntity) 
+            => await ExecuteAllReaderAsync(procName, parameters.Cast<TParameter>().ToArray(), DefaultExecuteReaderOptions, new AsyncOptions(DefaultCommandTimeout), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, parameters.Cast<TParameter>().ToArray(), DefaultExecuteReaderOptions, new AsyncOptions(DefaultCommandTimeout, ct), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, TimeSpan timeout, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, parameters.Cast<TParameter>().ToArray(), DefaultExecuteReaderOptions, new AsyncOptions(timeout), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, TimeSpan timeout, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, parameters.Cast<TParameter>().ToArray(), DefaultExecuteReaderOptions, new AsyncOptions(timeout, ct), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, int millisecondsTimeout, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, parameters.Cast<TParameter>().ToArray(), DefaultExecuteReaderOptions, new AsyncOptions(millisecondsTimeout), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, int millisecondsTimeout, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, parameters.Cast<TParameter>().ToArray(), DefaultExecuteReaderOptions, new AsyncOptions(millisecondsTimeout, ct), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, AsyncOptions asyncOptions, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, parameters.Cast<TParameter>().ToArray(), DefaultExecuteReaderOptions, asyncOptions, createEntity);
+
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, parameters.Cast<TParameter>().ToArray(), options, new AsyncOptions(DefaultCommandTimeout), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, parameters.Cast<TParameter>().ToArray(), options, new AsyncOptions(DefaultCommandTimeout, ct), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, TimeSpan timeout, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, parameters.Cast<TParameter>().ToArray(), options, new AsyncOptions(timeout), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, TimeSpan timeout, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, parameters.Cast<TParameter>().ToArray(), options, new AsyncOptions(timeout, ct), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, int millisecondsTimeout, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, parameters.Cast<TParameter>().ToArray(), options, new AsyncOptions(millisecondsTimeout), createEntity);
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, int millisecondsTimeout, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderAsync(procName, parameters.Cast<TParameter>().ToArray(), options, new AsyncOptions(millisecondsTimeout, ct), createEntity);
+
+        public async Task<IReadOnlyList<TEntity>> ExecuteAllReaderAsync<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, AsyncOptions asyncOptions, Func<IDataReader, TEntity> createEntity)
+            => await ExecuteAllReaderWithRetryInternalAsync(ConnectionFactory, options, asyncOptions, procName, parameters.Cast<TParameter>().ToArray(), createEntity);
+
 
         #endregion
 
@@ -198,18 +220,16 @@ namespace SquaredInfinity.Data
         protected async Task<IReadOnlyList<TEntity>> ExecuteAllReaderWithRetryInternalAsync<TEntity>(
             ConnectionFactory<TConnection> connectionFactory,
             IExecuteReaderOptions options,
+            AsyncOptions asyncOptions,
             string procName,
             IReadOnlyList<TParameter> parameters,
             Func<TDataReader, TEntity> createEntity)
         {
-            var retryOptions = new RetryPolicyOptions
-            {
-                CancellationToken = options.CancellationToken
-            };
+            var retryOptions = RetryPolicyOptions.Default;
 
             return
                 await
-                ExecuteAllReaderWithRetryInternalAsync(connectionFactory, options, retryOptions, procName, parameters, createEntity)
+                ExecuteAllReaderWithRetryInternalAsync(connectionFactory, options, retryOptions, asyncOptions, procName, parameters, createEntity)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }
 
@@ -217,6 +237,7 @@ namespace SquaredInfinity.Data
             ConnectionFactory<TConnection> connectionFactory,
             IExecuteReaderOptions options,
             IRetryPolicyOptions retryOptions,
+            AsyncOptions asyncOptions,
             string procName,
             IReadOnlyList<TParameter> parameters,
             Func<TDataReader, TEntity> createEntity)
@@ -224,29 +245,31 @@ namespace SquaredInfinity.Data
             return
                 await
                 RetryPolicy
-                .ExecuteAsync(retryOptions, async () =>
+                .ExecuteAsync(retryOptions, asyncOptions.CancellationToken, async () =>
                 {
                     return
                     await
                     ExecuteAllReaderInternalAsync(
                         ConnectionFactory,
                         options,
+                        asyncOptions,
                         procName,
                         parameters,
                         createEntity)
-                        .ConfigureAwait(continueOnCapturedContext: false);
+                        .ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
 
-                }).ConfigureAwait(continueOnCapturedContext: false);
+                }).ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
         }
 
         protected virtual async Task<IReadOnlyList<TEntity>> ExecuteAllReaderInternalAsync<TEntity>(
             ConnectionFactory<TConnection> connectionFactory,
             IExecuteReaderOptions options,
+            AsyncOptions asyncOptions,
             string procName,
             IReadOnlyList<TParameter> parameters,
             Func<TDataReader, TEntity> createEntity)
         {
-            options.CancellationToken.ThrowIfCancellationRequested();
+            asyncOptions.CancellationToken.ThrowIfCancellationRequested();
 
             var all_results = new List<TEntity>(capacity: options.ExpectedResultCount);
 
@@ -256,29 +279,29 @@ namespace SquaredInfinity.Data
                 {
                     await
                         connection
-                        .OpenAsync(options.CancellationToken)
-                        .ConfigureAwait(continueOnCapturedContext: false);
+                        .OpenAsync(asyncOptions.CancellationToken)
+                        .ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
                 }
                 else
                 {
                     connection.Open();
                 }
 
-                options.CancellationToken.ThrowIfCancellationRequested();
+                asyncOptions.CancellationToken.ThrowIfCancellationRequested();
 
-                using (var cmd = PrepareCommand(connection, CommandType.StoredProcedure, procName, parameters))
+                using (var cmd = PrepareCommand(connection, asyncOptions.MillisecondsTimeout, CommandType.StoredProcedure, procName, parameters))
                 {
                     if (options.ShouldAsyncExecuteCommand)
                     {
                         var reader =
                             (TDataReader)
                             await
-                            cmd.ExecuteReaderAsync(options.CancellationToken)
-                            .ConfigureAwait(continueOnCapturedContext: false);
+                            cmd.ExecuteReaderAsync(asyncOptions.CancellationToken)
+                            .ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
 
-                        while (await reader.ReadAsync(options.CancellationToken).ConfigureAwait(continueOnCapturedContext: false))
+                        while (await reader.ReadAsync(asyncOptions.CancellationToken).ConfigureAwait(asyncOptions.ContinueOnCapturedContext))
                         {
-                            options.CancellationToken.ThrowIfCancellationRequested();
+                            asyncOptions.CancellationToken.ThrowIfCancellationRequested();
 
                             var result = createEntity(reader);
 
@@ -291,7 +314,7 @@ namespace SquaredInfinity.Data
 
                         while (reader.Read())
                         {
-                            options.CancellationToken.ThrowIfCancellationRequested();
+                            asyncOptions.CancellationToken.ThrowIfCancellationRequested();
 
                             var result = createEntity(reader);
 
@@ -310,47 +333,68 @@ namespace SquaredInfinity.Data
 
         #region Execute Reader Async (Process Each Row)
 
-        public async Task ExecuteReaderAsync(
-            string procName,
-            Action<IDataReader, CancellationToken> processRow)
-        {
-            await
-                ExecuteReaderAsync(procName, EmptyParameters, DefaultExecuteReaderOptions, processRow)
-                .ConfigureAwait(continueOnCapturedContext: false);
-        }
-        public async Task ExecuteReaderAsync(
-            string procName,
-            IExecuteReaderOptions options,
-            Action<IDataReader, CancellationToken> processRow)
-        {
-            await
-                ExecuteReaderAsync(procName, EmptyParameters, options, processRow)
-                .ConfigureAwait(continueOnCapturedContext: false);
-        }
-        public async Task ExecuteReaderAsync(
-            string procName,
-            IReadOnlyList<IDbDataParameter> parameters,
-            Action<IDataReader, CancellationToken> processRow)
-        {
-            await
-                ExecuteReaderAsync(procName, parameters, DefaultExecuteReaderOptions, processRow)
-                .ConfigureAwait(continueOnCapturedContext: false);
-        }
-        public async Task ExecuteReaderAsync(
-            string procName,
-            IReadOnlyList<IDbDataParameter> parameters,
-            IExecuteReaderOptions options,
-            Action<IDataReader, CancellationToken> processRow)
-        {
-            await
-            ExecuteReaderWithRetryInternalAsync(
-                ConnectionFactory,
-                options,
-                procName,
-                parameters.Cast<TParameter>().ToArray(),
-                processRow)
-            .ConfigureAwait(continueOnCapturedContext: false);
-        }
+        public async Task ExecuteReaderAsync(string procName, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, EmptyParameters, DefaultExecuteReaderOptions, new AsyncOptions(DefaultCommandTimeout), processRow);
+        public async Task ExecuteReaderAsync(string procName, CancellationToken ct, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, EmptyParameters, DefaultExecuteReaderOptions, new AsyncOptions(DefaultCommandTimeout, ct), processRow);
+        public async Task ExecuteReaderAsync(string procName, TimeSpan timeout, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, EmptyParameters, DefaultExecuteReaderOptions, new AsyncOptions(timeout), processRow);
+        public async Task ExecuteReaderAsync(string procName, TimeSpan timeout, CancellationToken ct, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, EmptyParameters, DefaultExecuteReaderOptions, new AsyncOptions(timeout, ct), processRow);
+        public async Task ExecuteReaderAsync(string procName, int millisecondsTimeout, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, EmptyParameters, DefaultExecuteReaderOptions, new AsyncOptions(millisecondsTimeout), processRow);
+        public async Task ExecuteReaderAsync(string procName, int millisecondsTimeout, CancellationToken ct, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, EmptyParameters, DefaultExecuteReaderOptions, new AsyncOptions(millisecondsTimeout, ct), processRow);
+        public async Task ExecuteReaderAsync(string procName, AsyncOptions asyncOptions, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, EmptyParameters, DefaultExecuteReaderOptions, asyncOptions, processRow);
+
+
+        public async Task ExecuteReaderAsync(string procName, IExecuteReaderOptions options, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, EmptyParameters, options, new AsyncOptions(DefaultCommandTimeout), processRow);
+        public async Task ExecuteReaderAsync(string procName, IExecuteReaderOptions options, CancellationToken ct, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, EmptyParameters, options, new AsyncOptions(DefaultCommandTimeout, ct), processRow);
+        public async Task ExecuteReaderAsync(string procName, IExecuteReaderOptions options, TimeSpan timeout, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, EmptyParameters, options, new AsyncOptions(timeout), processRow);
+        public async Task ExecuteReaderAsync(string procName, IExecuteReaderOptions options, TimeSpan timeout, CancellationToken ct, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, EmptyParameters, options, new AsyncOptions(timeout, ct), processRow);
+        public async Task ExecuteReaderAsync(string procName, IExecuteReaderOptions options, int millisecondsTimeout, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, EmptyParameters, options, new AsyncOptions(millisecondsTimeout), processRow);
+        public async Task ExecuteReaderAsync(string procName, IExecuteReaderOptions options, int millisecondsTimeout, CancellationToken ct, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, EmptyParameters, options, new AsyncOptions(millisecondsTimeout, ct), processRow);
+        public async Task ExecuteReaderAsync(string procName, IExecuteReaderOptions options, AsyncOptions asyncOptions, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, EmptyParameters, options, asyncOptions, processRow);
+
+        public async Task ExecuteReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, parameters, DefaultExecuteReaderOptions, new AsyncOptions(DefaultCommandTimeout), processRow);
+        public async Task ExecuteReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, CancellationToken ct, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, parameters, DefaultExecuteReaderOptions, new AsyncOptions(DefaultCommandTimeout, ct), processRow);
+        public async Task ExecuteReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, TimeSpan timeout, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, parameters, DefaultExecuteReaderOptions, new AsyncOptions(timeout), processRow);
+        public async Task ExecuteReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, TimeSpan timeout, CancellationToken ct, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, parameters, DefaultExecuteReaderOptions, new AsyncOptions(timeout, ct), processRow);
+        public async Task ExecuteReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, int millisecondsTimeout, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, parameters, DefaultExecuteReaderOptions, new AsyncOptions(millisecondsTimeout), processRow);
+        public async Task ExecuteReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, int millisecondsTimeout, CancellationToken ct, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, parameters, DefaultExecuteReaderOptions, new AsyncOptions(millisecondsTimeout, ct), processRow);
+        public async Task ExecuteReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, AsyncOptions asyncOptions, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, parameters, DefaultExecuteReaderOptions, asyncOptions, processRow);
+
+
+        public async Task ExecuteReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, parameters, options, new AsyncOptions(DefaultCommandTimeout), processRow);
+        public async Task ExecuteReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, CancellationToken ct, Action<IDataReader, CancellationToken> processRow)
+                    => await ExecuteReaderAsync(procName, parameters, options, new AsyncOptions(DefaultCommandTimeout, ct), processRow);
+        public async Task ExecuteReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, TimeSpan timeout, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, parameters, options, new AsyncOptions(timeout), processRow);
+        public async Task ExecuteReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, TimeSpan timeout, CancellationToken ct, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, parameters, options, new AsyncOptions(timeout, ct), processRow);
+        public async Task ExecuteReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, int millisecondsTimeout, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, parameters, options, new AsyncOptions(millisecondsTimeout), processRow);
+        public async Task ExecuteReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, int millisecondsTimeout, CancellationToken ct, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderAsync(procName, parameters, options, new AsyncOptions(millisecondsTimeout, ct), processRow);
+
+        public async Task ExecuteReaderAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, AsyncOptions asyncOptions, Action<IDataReader, CancellationToken> processRow)
+            => await ExecuteReaderWithRetryInternalAsync(ConnectionFactory, options, asyncOptions, procName, parameters.Cast<TParameter>().ToArray(), processRow);
 
         #endregion
 
@@ -359,17 +403,15 @@ namespace SquaredInfinity.Data
         protected async Task ExecuteReaderWithRetryInternalAsync(
             ConnectionFactory<TConnection> connectionFactory,
             IExecuteReaderOptions options,
+            AsyncOptions asyncOptions,
             string procName,
             IReadOnlyList<TParameter> parameters,
             Action<IDataReader, CancellationToken> processRow)
         {
-            var retryOptions = new RetryPolicyOptions
-            {
-                CancellationToken = options.CancellationToken
-            };
+            var retryOptions = RetryPolicyOptions.Default;
 
             await
-                ExecuteReaderWithRetryInternalAsync(connectionFactory, options, retryOptions, procName, parameters, processRow)
+                ExecuteReaderWithRetryInternalAsync(connectionFactory, options, retryOptions, asyncOptions, procName, parameters, processRow)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }
 
@@ -377,34 +419,37 @@ namespace SquaredInfinity.Data
             ConnectionFactory<TConnection> connectionFactory,
             IExecuteReaderOptions options,
             IRetryPolicyOptions retryOptions,
+            AsyncOptions asyncOptions,
             string procName,
             IReadOnlyList<TParameter> parameters,
             Action<IDataReader, CancellationToken> processRow)
         {
             await
             RetryPolicy
-            .ExecuteAsync(retryOptions, async () =>
+            .ExecuteAsync(retryOptions, asyncOptions.CancellationToken, async () =>
             {
                 await
                 ExecuteReaderInternalAsync(
                     ConnectionFactory,
                     options,
+                    asyncOptions,
                     procName,
                     parameters,
                     processRow)
-                    .ConfigureAwait(continueOnCapturedContext: false);
+                    .ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
 
-            }).ConfigureAwait(continueOnCapturedContext: false);
+            }).ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
         }
 
         protected virtual async Task ExecuteReaderInternalAsync(
             ConnectionFactory<TConnection> connectionFactory,
             IExecuteReaderOptions options,
+            AsyncOptions asyncOptions,
             string procName,
             IReadOnlyList<TParameter> parameters,
             Action<IDataReader, CancellationToken> processRow)
         {
-            options.CancellationToken.ThrowIfCancellationRequested();
+            asyncOptions.CancellationToken.ThrowIfCancellationRequested();
 
             using (var connection = connectionFactory.GetNewConnection())
             {
@@ -412,31 +457,31 @@ namespace SquaredInfinity.Data
                 {
                     await
                         connection
-                        .OpenAsync(options.CancellationToken)
-                        .ConfigureAwait(continueOnCapturedContext: false);
+                        .OpenAsync(asyncOptions.CancellationToken)
+                        .ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
                 }
                 else
                 {
                     connection.Open();
                 }
 
-                options.CancellationToken.ThrowIfCancellationRequested();
+                asyncOptions.CancellationToken.ThrowIfCancellationRequested();
 
-                using (var cmd = PrepareCommand(connection, CommandType.StoredProcedure, procName, parameters))
+                using (var cmd = PrepareCommand(connection, asyncOptions.MillisecondsTimeout, CommandType.StoredProcedure, procName, parameters))
                 {
                     if (options.ShouldAsyncExecuteCommand)
                     {
                         var reader =
                             (TDataReader)
                             await
-                            cmd.ExecuteReaderAsync(options.CancellationToken)
+                            cmd.ExecuteReaderAsync(asyncOptions.CancellationToken)
                             .ConfigureAwait(continueOnCapturedContext: false);
 
-                        while (await reader.ReadAsync(options.CancellationToken).ConfigureAwait(continueOnCapturedContext: false))
+                        while (await reader.ReadAsync(asyncOptions.CancellationToken).ConfigureAwait(asyncOptions.ContinueOnCapturedContext))
                         {
-                            options.CancellationToken.ThrowIfCancellationRequested();
+                            asyncOptions.CancellationToken.ThrowIfCancellationRequested();
 
-                            processRow(reader, options.CancellationToken);
+                            processRow(reader, asyncOptions.CancellationToken);
                         }
                     }
                     else
@@ -445,9 +490,9 @@ namespace SquaredInfinity.Data
 
                         while (reader.Read())
                         {
-                            options.CancellationToken.ThrowIfCancellationRequested();
+                            asyncOptions.CancellationToken.ThrowIfCancellationRequested();
 
-                            processRow(reader, options.CancellationToken);
+                            processRow(reader, asyncOptions.CancellationToken);
                         }
                     }
                 }
@@ -460,38 +505,65 @@ namespace SquaredInfinity.Data
         #region Execute Reader (To Entity)
 
         public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, Func<IDataReader, TEntity> createEntity)
-        {
-            return
-                ExecuteReader<TEntity>(procName, EmptyParameters, DefaultExecuteReaderOptions, createEntity);
-        }
+            => ExecuteReader<TEntity>(procName, EmptyParameters, DefaultExecuteReaderOptions, new SyncOptions(DefaultCommandTimeout), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader<TEntity>(procName, EmptyParameters, DefaultExecuteReaderOptions, new SyncOptions(DefaultCommandTimeout, ct), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, TimeSpan timeout, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader<TEntity>(procName, EmptyParameters, DefaultExecuteReaderOptions, new SyncOptions(timeout), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, TimeSpan timeout, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader<TEntity>(procName, EmptyParameters, DefaultExecuteReaderOptions, new SyncOptions(timeout, ct), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, int millisecondsTimeout, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader<TEntity>(procName, EmptyParameters, DefaultExecuteReaderOptions, new SyncOptions(millisecondsTimeout), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, int millisecondsTimeout, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader<TEntity>(procName, EmptyParameters, DefaultExecuteReaderOptions, new SyncOptions(millisecondsTimeout, ct), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, SyncOptions syncOptions, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader<TEntity>(procName, EmptyParameters, DefaultExecuteReaderOptions, syncOptions, createEntity);
 
-        public IEnumerable<TEntity> ExecuteReader<TEntity>(
-            string procName,
-            IExecuteReaderOptions options,
-            Func<IDataReader, TEntity> createEntity)
-        {
-            return
-                ExecuteReader<TEntity>(procName, EmptyParameters, options, createEntity);
-        }
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, IExecuteReaderOptions options, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader<TEntity>(procName, EmptyParameters, options, new SyncOptions(DefaultCommandTimeout), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, IExecuteReaderOptions options, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader<TEntity>(procName, EmptyParameters, options, new SyncOptions(DefaultCommandTimeout, ct), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, IExecuteReaderOptions options, TimeSpan timeout, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader<TEntity>(procName, EmptyParameters, options, new SyncOptions(timeout), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, IExecuteReaderOptions options, TimeSpan timeout, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader<TEntity>(procName, EmptyParameters, options, new SyncOptions(timeout, ct), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, IExecuteReaderOptions options, int millisecondsTimeout, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader<TEntity>(procName, EmptyParameters, options, new SyncOptions(millisecondsTimeout), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, IExecuteReaderOptions options, int millisecondsTimeout, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader<TEntity>(procName, EmptyParameters, options, new SyncOptions(millisecondsTimeout, ct), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, IExecuteReaderOptions options, SyncOptions syncOptions, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader<TEntity>(procName, EmptyParameters, options, syncOptions, createEntity);
 
-        public IEnumerable<TEntity> ExecuteReader<TEntity>(
-            string procName,
-            IReadOnlyList<IDbDataParameter> parameters,
-            Func<IDataReader, TEntity> createEntity)
-        {
-            return
-                ExecuteReader<TEntity>(procName, parameters, DefaultExecuteReaderOptions, createEntity);
-        }
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader<TEntity>(procName, parameters, DefaultExecuteReaderOptions, new SyncOptions(DefaultCommandTimeout), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader<TEntity>(procName, parameters, DefaultExecuteReaderOptions, new SyncOptions(DefaultCommandTimeout, ct), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, TimeSpan timeout, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader<TEntity>(procName, parameters, DefaultExecuteReaderOptions, new SyncOptions(timeout), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, TimeSpan timeout, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader<TEntity>(procName, parameters, DefaultExecuteReaderOptions, new SyncOptions(timeout, ct), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, int millisecondsTimeout, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader<TEntity>(procName, parameters, DefaultExecuteReaderOptions, new SyncOptions(millisecondsTimeout), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, int millisecondsTimeout, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader<TEntity>(procName, parameters, DefaultExecuteReaderOptions, new SyncOptions(millisecondsTimeout, ct), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, SyncOptions syncOptions, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader<TEntity>(procName, parameters, DefaultExecuteReaderOptions, syncOptions, createEntity);
 
-        public IEnumerable<TEntity> ExecuteReader<TEntity>(
-            string procName,
-            IReadOnlyList<IDbDataParameter> parameters,
-            IExecuteReaderOptions options,
-            Func<IDataReader, TEntity> createEntity)
-        {
-            return
-                ExecuteReaderWithRetryInternal(ConnectionFactory, options, procName, parameters.Cast<TParameter>().ToArray(), createEntity);
-        }
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader(procName, parameters, options, new SyncOptions(DefaultCommandTimeout), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader(procName, parameters, options, new SyncOptions(DefaultCommandTimeout, ct), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, TimeSpan timeout, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader(procName, parameters, options, new SyncOptions(timeout), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, TimeSpan timeout, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader(procName, parameters, options, new SyncOptions(timeout, ct), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, int millisecondsTimeout, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader(procName, parameters, options, new SyncOptions(millisecondsTimeout), createEntity);
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, int millisecondsTimeout, CancellationToken ct, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReader(procName, parameters, options, new SyncOptions(millisecondsTimeout, ct), createEntity);
+
+        public IEnumerable<TEntity> ExecuteReader<TEntity>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteReaderOptions options, SyncOptions syncOptions, Func<IDataReader, TEntity> createEntity)
+            => ExecuteReaderWithRetryInternal(ConnectionFactory, options, syncOptions, procName, parameters.Cast<TParameter>().ToArray(), createEntity);
 
         #endregion
 
@@ -500,35 +572,34 @@ namespace SquaredInfinity.Data
         protected IEnumerable<TEntity> ExecuteReaderWithRetryInternal<TEntity>(
           ConnectionFactory<TConnection> connectionFactory,
           IExecuteReaderOptions options,
+          SyncOptions syncOptions,
           string procName,
           IReadOnlyList<TParameter> parameters,
           Func<TDataReader, TEntity> createEntity)
         {
-            var retryOptions = new RetryPolicyOptions
-            {
-                CancellationToken = options.CancellationToken
-            };
+            var retryOptions = RetryPolicyOptions.Default;
 
-            return
-                ExecuteReaderWithRetryInternal(connectionFactory, options, retryOptions, procName, parameters, createEntity);
+            return ExecuteReaderWithRetryInternal(connectionFactory, options, retryOptions, syncOptions, procName, parameters, createEntity);
         }
 
         protected IEnumerable<TEntity> ExecuteReaderWithRetryInternal<TEntity>(
             ConnectionFactory<TConnection> connectionFactory,
             IExecuteReaderOptions options,
             IRetryPolicyOptions retryOptions,
+            SyncOptions syncOptions,
             string procName,
             IReadOnlyList<TParameter> parameters,
             Func<TDataReader, TEntity> createEntity)
         {
             return
                 RetryPolicy
-                .Execute<IEnumerable<TEntity>>(retryOptions, () =>
+                .Execute<IEnumerable<TEntity>>(retryOptions, syncOptions.CancellationToken, () =>
                 {
                     return
                     ExecuteReaderInternal(
                         ConnectionFactory,
                         options,
+                        syncOptions,
                         procName,
                         parameters,
                         createEntity);
@@ -539,6 +610,7 @@ namespace SquaredInfinity.Data
         protected virtual IEnumerable<TEntity> ExecuteReaderInternal<TEntity>(
         ConnectionFactory<TConnection> connectionFactory,
         IExecuteReaderOptions options,
+        SyncOptions syncOptions,
         string procName,
         IReadOnlyList<TParameter> parameters,
         Func<TDataReader, TEntity> createEntity)
@@ -549,6 +621,7 @@ namespace SquaredInfinity.Data
                     new CommandResultEnumerator<TConnection, TCommand, TDataReader, TParameter, TEntity>(
                         this,
                         connectionFactory,
+                        syncOptions.MillisecondsTimeout,
                         procName,
                         parameters,
                         createEntity));
@@ -556,111 +629,133 @@ namespace SquaredInfinity.Data
 
         #endregion
         
-
-
         #region Execute Async
 
         public async Task ExecuteAsync(string procName)
-        {
-            await
-                ExecuteAsync(
-                    procName,
-                    EmptyParameters,
-                    DefaultExecuteOptions)
-                .ConfigureAwait(continueOnCapturedContext: false);
-        }
+            => await ExecuteAsync(procName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(DefaultCommandTimeout));
+        public async Task ExecuteAsync(string procName, CancellationToken ct)
+            => await ExecuteAsync(procName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task ExecuteAsync(string procName, TimeSpan timeout)
+            => await ExecuteAsync(procName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(timeout));
+        public async Task ExecuteAsync(string procName, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteAsync(procName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(timeout, ct));
+        public async Task ExecuteAsync(string procName, int millisecondsTimeout)
+            => await ExecuteAsync(procName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(millisecondsTimeout));
+        public async Task ExecuteAsync(string procName, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteAsync(procName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(millisecondsTimeout, ct));
+        public async Task ExecuteAsync(string procName, AsyncOptions asyncOptions)
+            => await ExecuteAsync(procName, EmptyParameters, DefaultExecuteOptions, asyncOptions);
 
         public async Task ExecuteAsync(string procName, IExecuteOptions options)
-        {
-            await
-                ExecuteAsync(
-                    procName,
-                    EmptyParameters,
-                    options)
-                .ConfigureAwait(continueOnCapturedContext: false);
-        }
+            => await ExecuteAsync(procName, EmptyParameters, options, new AsyncOptions(DefaultCommandTimeout));
+        public async Task ExecuteAsync(string procName, IExecuteOptions options, CancellationToken ct)
+            => await ExecuteAsync(procName, EmptyParameters, options, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task ExecuteAsync(string procName, IExecuteOptions options, TimeSpan timeout)
+            => await ExecuteAsync(procName, EmptyParameters, options, new AsyncOptions(timeout));
+        public async Task ExecuteAsync(string procName, IExecuteOptions options, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteAsync(procName, EmptyParameters, options, new AsyncOptions(timeout, ct));
+        public async Task ExecuteAsync(string procName, IExecuteOptions options, int millisecondsTimeout)
+            => await ExecuteAsync(procName, EmptyParameters, options, new AsyncOptions(millisecondsTimeout));
+        public async Task ExecuteAsync(string procName, IExecuteOptions options, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteAsync(procName, EmptyParameters, options, new AsyncOptions(millisecondsTimeout, ct));
+        public async Task ExecuteAsync(string procName, IExecuteOptions options, AsyncOptions asyncOptions)
+            => await ExecuteAsync(procName, EmptyParameters, options, asyncOptions);
 
         public async Task ExecuteAsync(string procName, IReadOnlyList<IDbDataParameter> parameters)
-        {
-            await
-                ExecuteAsync(
-                    procName,
-                    parameters,
-                    DefaultExecuteOptions)
-                .ConfigureAwait(continueOnCapturedContext: false);
-
-        }
+            => await ExecuteAsync(procName, parameters, DefaultExecuteOptions, new AsyncOptions(DefaultCommandTimeout));
+        public async Task ExecuteAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, CancellationToken ct)
+            => await ExecuteAsync(procName, parameters, DefaultExecuteOptions, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task ExecuteAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, TimeSpan timeout)
+            => await ExecuteAsync(procName, parameters, DefaultExecuteOptions, new AsyncOptions(timeout));
+        public async Task ExecuteAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteAsync(procName, parameters, DefaultExecuteOptions, new AsyncOptions(timeout, ct));
+        public async Task ExecuteAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, int millisecondsTimeout)
+            => await ExecuteAsync(procName, parameters, DefaultExecuteOptions, new AsyncOptions(millisecondsTimeout));
+        public async Task ExecuteAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteAsync(procName, parameters, DefaultExecuteOptions, new AsyncOptions(millisecondsTimeout, ct));
+        public async Task ExecuteAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, AsyncOptions asyncOptions)
+            => await ExecuteAsync(procName, parameters, DefaultExecuteOptions, asyncOptions);
 
         public async Task ExecuteAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options)
-        {
-            var retryOptions = new RetryPolicyOptions
-            {
-                CancellationToken = options.CancellationToken
-            };
-
-            await
-                ExecuteInternalWithRetryAsync(
-                    ConnectionFactory,
-                    options,
-                    retryOptions,
-                    CommandType.StoredProcedure,
-                    procName,
-                    parameters.Cast<TParameter>().ToArray())
-                .ConfigureAwait(continueOnCapturedContext: false);
-        }
+            => await ExecuteAsync(procName, parameters, options, new AsyncOptions(DefaultCommandTimeout));
+        public async Task ExecuteAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, CancellationToken ct)
+            => await ExecuteAsync(procName, parameters, options, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task ExecuteAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, TimeSpan timeout)
+            => await ExecuteAsync(procName, parameters, options, new AsyncOptions(timeout));
+        public async Task ExecuteAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteAsync(procName, parameters, options, new AsyncOptions(timeout, ct));
+        public async Task ExecuteAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, int millisecondsTimeout)
+            => await ExecuteAsync(procName, parameters, options, new AsyncOptions(millisecondsTimeout));
+        public async Task ExecuteAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteAsync(procName, parameters, options, new AsyncOptions(millisecondsTimeout, ct));
+        public async Task ExecuteAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, AsyncOptions asyncOptions)
+            => await ExecuteInternalWithRetryAsync(ConnectionFactory, options, RetryPolicyOptions.Default, asyncOptions, CommandType.StoredProcedure, procName, parameters.Cast<TParameter>().ToArray());
 
         #endregion
 
         #region Execute Text Async
 
         public async Task ExecuteTextAsync(string procName)
-        {
-            await
-                ExecuteTextAsync(
-                    procName,
-                    EmptyParameters,
-                    DefaultExecuteOptions)
-                .ConfigureAwait(continueOnCapturedContext: false);
-        }
+            => await ExecuteTextAsync(procName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(DefaultCommandTimeout));
+        public async Task ExecuteTextAsync(string procName, CancellationToken ct)
+            => await ExecuteTextAsync(procName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task ExecuteTextAsync(string procName, TimeSpan timeout)
+            => await ExecuteTextAsync(procName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(timeout));
+        public async Task ExecuteTextAsync(string procName, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteTextAsync(procName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(timeout, ct));
+        public async Task ExecuteTextAsync(string procName, int millisecondsTimeout)
+            => await ExecuteTextAsync(procName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(millisecondsTimeout));
+        public async Task ExecuteTextAsync(string procName, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteTextAsync(procName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(millisecondsTimeout, ct));
+        public async Task ExecuteTextAsync(string procName, AsyncOptions asyncOptions)
+            => await ExecuteTextAsync(procName, EmptyParameters, DefaultExecuteOptions, asyncOptions);
 
         public async Task ExecuteTextAsync(string procName, IExecuteOptions options)
-        {
-            await
-                ExecuteTextAsync(
-                    procName,
-                    EmptyParameters,
-                    options)
-                .ConfigureAwait(continueOnCapturedContext: false);
-        }
+            => await ExecuteTextAsync(procName, EmptyParameters, options, new AsyncOptions(DefaultCommandTimeout));
+        public async Task ExecuteTextAsync(string procName, IExecuteOptions options, CancellationToken ct)
+            => await ExecuteTextAsync(procName, EmptyParameters, options, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task ExecuteTextAsync(string procName, IExecuteOptions options, TimeSpan timeout)
+            => await ExecuteTextAsync(procName, EmptyParameters, options, new AsyncOptions(timeout));
+        public async Task ExecuteTextAsync(string procName, IExecuteOptions options, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteTextAsync(procName, EmptyParameters, options, new AsyncOptions(timeout, ct));
+        public async Task ExecuteTextAsync(string procName, IExecuteOptions options, int millisecondsTimeout)
+            => await ExecuteTextAsync(procName, EmptyParameters, options, new AsyncOptions(millisecondsTimeout));
+        public async Task ExecuteTextAsync(string procName, IExecuteOptions options, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteTextAsync(procName, EmptyParameters, options, new AsyncOptions(millisecondsTimeout, ct));
+        public async Task ExecuteTextAsync(string procName, IExecuteOptions options, AsyncOptions asyncOptions)
+            => await ExecuteTextAsync(procName, EmptyParameters, options, asyncOptions);
 
         public async Task ExecuteTextAsync(string procName, IReadOnlyList<IDbDataParameter> parameters)
-        {
-            await
-                ExecuteTextAsync(
-                    procName,
-                    parameters,
-                    DefaultExecuteOptions)
-                .ConfigureAwait(continueOnCapturedContext: false);
-
-        }
+            => await ExecuteTextAsync(procName, parameters, DefaultExecuteOptions, new AsyncOptions(DefaultCommandTimeout));
+        public async Task ExecuteTextAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, CancellationToken ct)
+            => await ExecuteTextAsync(procName, parameters, DefaultExecuteOptions, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task ExecuteTextAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, TimeSpan timeout)
+            => await ExecuteTextAsync(procName, parameters, DefaultExecuteOptions, new AsyncOptions(timeout));
+        public async Task ExecuteTextAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteTextAsync(procName, parameters, DefaultExecuteOptions, new AsyncOptions(timeout, ct));
+        public async Task ExecuteTextAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, int millisecondsTimeout)
+            => await ExecuteTextAsync(procName, parameters, DefaultExecuteOptions, new AsyncOptions(millisecondsTimeout));
+        public async Task ExecuteTextAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteTextAsync(procName, parameters, DefaultExecuteOptions, new AsyncOptions(millisecondsTimeout, ct));
+        public async Task ExecuteTextAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, AsyncOptions asyncOptions)
+            => await ExecuteTextAsync(procName, parameters, DefaultExecuteOptions, asyncOptions);
 
         public async Task ExecuteTextAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options)
-        {
-            var retryOptions = new RetryPolicyOptions
-            {
-                CancellationToken = options.CancellationToken
-            };
+            => await ExecuteTextAsync(procName, parameters, options, new AsyncOptions(DefaultCommandTimeout));
+        public async Task ExecuteTextAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, CancellationToken ct)
+            => await ExecuteTextAsync(procName, parameters, options, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task ExecuteTextAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, TimeSpan timeout)
+            => await ExecuteTextAsync(procName, parameters, options, new AsyncOptions(timeout));
+        public async Task ExecuteTextAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteTextAsync(procName, parameters, options, new AsyncOptions(timeout, ct));
+        public async Task ExecuteTextAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, int millisecondsTimeout)
+            => await ExecuteTextAsync(procName, parameters, options, new AsyncOptions(millisecondsTimeout));
+        public async Task ExecuteTextAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteTextAsync(procName, parameters, options, new AsyncOptions(millisecondsTimeout, ct));
 
-            await
-                ExecuteInternalWithRetryAsync(
-                    ConnectionFactory,
-                    options,
-                    retryOptions,
-                    CommandType.Text,
-                    procName,
-                    parameters.Cast<TParameter>().ToArray())
-                .ConfigureAwait(continueOnCapturedContext: false);
-        }
+
+        public async Task ExecuteTextAsync(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, AsyncOptions asyncOptions)
+            => await ExecuteInternalWithRetryAsync(ConnectionFactory, options, RetryPolicyOptions.Default, asyncOptions, CommandType.Text, procName, parameters.Cast<TParameter>().ToArray());
 
         #endregion
 
@@ -670,34 +765,37 @@ namespace SquaredInfinity.Data
             ConnectionFactory<TConnection> connectionFactory,
             IExecuteOptions options,
             IRetryPolicyOptions retryOptions,
+            AsyncOptions asyncOptions,
             CommandType commandType,
             string commandText,
             IReadOnlyList<TParameter> parameters)
         {
             await
             RetryPolicy
-            .ExecuteAsync(retryOptions, async () =>
+            .ExecuteAsync(retryOptions, asyncOptions.CancellationToken, async () =>
             {
                 await
                 ExecuteInternalAsync(
                     ConnectionFactory,
                     options,
+                    asyncOptions,
                     commandType,
                     commandText,
                     parameters)
-                    .ConfigureAwait(continueOnCapturedContext: false);
+                    .ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
 
-            }).ConfigureAwait(continueOnCapturedContext: false);
+            }).ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
         }
 
         protected virtual async Task ExecuteInternalAsync(
             ConnectionFactory<TConnection> connectionFactory,
             IExecuteOptions options,
+            AsyncOptions asyncOptions,
             CommandType commandType,
             string commandText,
             IReadOnlyList<TParameter> parameters)
         {
-            options.CancellationToken.ThrowIfCancellationRequested();
+            asyncOptions.CancellationToken.ThrowIfCancellationRequested();
 
             try
             {
@@ -707,23 +805,23 @@ namespace SquaredInfinity.Data
                     {
                         await
                             connection
-                            .OpenAsync(options.CancellationToken)
-                            .ConfigureAwait(continueOnCapturedContext: false);
+                            .OpenAsync(asyncOptions.CancellationToken)
+                            .ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
                     }
                     else
                     {
                         connection.Open();
                     }
 
-                    options.CancellationToken.ThrowIfCancellationRequested();
+                    asyncOptions.CancellationToken.ThrowIfCancellationRequested();
 
-                    using (var cmd = PrepareCommand(connection, commandType, commandText, parameters))
+                    using (var cmd = PrepareCommand(connection, asyncOptions.MillisecondsTimeout, commandType, commandText, parameters))
                     {
                         if (options.ShouldAsyncExecuteCommand)
                         {
                             await
-                                cmd.ExecuteNonQueryAsync(options.CancellationToken)
-                                .ConfigureAwait(continueOnCapturedContext: false);
+                                cmd.ExecuteNonQueryAsync(asyncOptions.CancellationToken)
+                                .ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
                         }
                         else
                         {
@@ -750,40 +848,76 @@ namespace SquaredInfinity.Data
         }
 
         #endregion
-
-
+        
         #region Execute Scalar Async
 
         public async Task<T> ExecuteScalarAsync<T>(string procName)
-        {
-            return
-                await
-                ExecuteScalarAsync<T>(procName, EmptyParameters, DefaultExecuteOptions);
-        }
+            => await ExecuteScalarAsync<T>(procName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(DefaultCommandTimeout));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, CancellationToken ct)
+            => await ExecuteScalarAsync<T>(procName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, TimeSpan timeout)
+            => await ExecuteScalarAsync<T>(procName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(timeout));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteScalarAsync<T>(procName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(timeout, ct));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, int millisecondsTimeout)
+            => await ExecuteScalarAsync<T>(procName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(millisecondsTimeout));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteScalarAsync<T>(procName, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(millisecondsTimeout, ct));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, AsyncOptions asyncOptions)
+            => await ExecuteScalarAsync<T>(procName, EmptyParameters, DefaultExecuteOptions, asyncOptions);
 
         public async Task<T> ExecuteScalarAsync<T>(string procName, IExecuteOptions options)
-        {
-            return
-                await
-                ExecuteScalarAsync<T>(procName, EmptyParameters, options);
-        }
+            => await ExecuteScalarAsync<T>(procName, EmptyParameters, options, new AsyncOptions(DefaultCommandTimeout));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, IExecuteOptions options, CancellationToken ct)
+            => await ExecuteScalarAsync<T>(procName, EmptyParameters, options, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, IExecuteOptions options, TimeSpan timeout)
+            => await ExecuteScalarAsync<T>(procName, EmptyParameters, options, new AsyncOptions(timeout));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, IExecuteOptions options, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteScalarAsync<T>(procName, EmptyParameters, options, new AsyncOptions(timeout, ct));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, IExecuteOptions options, int millisecondsTimeout)
+            => await ExecuteScalarAsync<T>(procName, EmptyParameters, options, new AsyncOptions(millisecondsTimeout));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, IExecuteOptions options, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteScalarAsync<T>(procName, EmptyParameters, options, new AsyncOptions(millisecondsTimeout, ct));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, IExecuteOptions options, AsyncOptions asyncOptions)
+            => await ExecuteScalarAsync<T>(procName, EmptyParameters, options, asyncOptions);
 
         public async Task<T> ExecuteScalarAsync<T>(string procName, IReadOnlyList<IDbDataParameter> parameters)
-        {
-            return
-                await
-                ExecuteScalarAsync<T>(procName, parameters, DefaultExecuteOptions);
-        }
+            => await ExecuteScalarAsync<T>(procName, parameters, DefaultExecuteOptions, new AsyncOptions(DefaultCommandTimeout));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, IReadOnlyList<IDbDataParameter> parameters, CancellationToken ct)
+            => await ExecuteScalarAsync<T>(procName, parameters, DefaultExecuteOptions, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, IReadOnlyList<IDbDataParameter> parameters, TimeSpan timeout)
+            => await ExecuteScalarAsync<T>(procName, parameters, DefaultExecuteOptions, new AsyncOptions(timeout));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, IReadOnlyList<IDbDataParameter> parameters, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteScalarAsync<T>(procName, parameters, DefaultExecuteOptions, new AsyncOptions(timeout, ct));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, IReadOnlyList<IDbDataParameter> parameters, int millisecondsTimeout)
+            => await ExecuteScalarAsync<T>(procName, parameters, DefaultExecuteOptions, new AsyncOptions(millisecondsTimeout));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, IReadOnlyList<IDbDataParameter> parameters, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteScalarAsync<T>(procName, parameters, DefaultExecuteOptions, new AsyncOptions(millisecondsTimeout, ct));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, IReadOnlyList<IDbDataParameter> parameters, AsyncOptions asyncOptions)
+            => await ExecuteScalarAsync<T>(procName, parameters, DefaultExecuteOptions, asyncOptions);
 
         public async Task<T> ExecuteScalarAsync<T>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options)
+            => await ExecuteScalarAsync<T>(procName, parameters, options, new AsyncOptions(DefaultCommandTimeout));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, CancellationToken ct)
+            => await ExecuteScalarAsync<T>(procName, parameters, options, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, TimeSpan timeout)
+            => await ExecuteScalarAsync<T>(procName, parameters, options, new AsyncOptions(timeout));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteScalarAsync<T>(procName, parameters, options, new AsyncOptions(timeout, ct));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, int millisecondsTimeout)
+            => await ExecuteScalarAsync<T>(procName, parameters, options, new AsyncOptions(millisecondsTimeout));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteScalarAsync<T>(procName, parameters, options, new AsyncOptions(millisecondsTimeout, ct));
+        public async Task<T> ExecuteScalarAsync<T>(string procName, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, AsyncOptions asyncOptions)
         {
-            var retryOptions = new RetryPolicyOptions { CancellationToken = options.CancellationToken };
+            var retryOptions = RetryPolicyOptions.Default;
 
             var result =
                   await ExecuteScalarWithRetryInternalAsync(
                       ConnectionFactory,
                       options,
                       retryOptions,
+                      asyncOptions,
                       CommandType.StoredProcedure,
                       procName,
                       parameters.Cast<TParameter>().ToArray());
@@ -801,36 +935,71 @@ namespace SquaredInfinity.Data
         #region Execute Scalar Text Async
 
         public async Task<T> ExecuteScalarTextAsync<T>(string sql)
-        {
-            return
-                await
-                ExecuteScalarTextAsync<T>(sql, EmptyParameters, DefaultExecuteOptions);
-        }
+            => await ExecuteScalarTextAsync<T>(sql, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(DefaultCommandTimeout));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, CancellationToken ct)
+            => await ExecuteScalarTextAsync<T>(sql, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, TimeSpan timeout)
+            => await ExecuteScalarTextAsync<T>(sql, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(timeout));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteScalarTextAsync<T>(sql, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(timeout, ct));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, int millisecondsTimeout)
+            => await ExecuteScalarTextAsync<T>(sql, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(millisecondsTimeout));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteScalarTextAsync<T>(sql, EmptyParameters, DefaultExecuteOptions, new AsyncOptions(millisecondsTimeout, ct));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, AsyncOptions asyncOptions)
+            => await ExecuteScalarTextAsync<T>(sql, EmptyParameters, DefaultExecuteOptions, asyncOptions);
 
         public async Task<T> ExecuteScalarTextAsync<T>(string sql, IExecuteOptions options)
-        {
-            return
-                await
-                ExecuteScalarTextAsync<T>(sql, EmptyParameters, options);
-        }
+            => await ExecuteScalarTextAsync<T>(sql, EmptyParameters, options, new AsyncOptions(DefaultCommandTimeout));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, IExecuteOptions options, CancellationToken ct)
+            => await ExecuteScalarTextAsync<T>(sql, EmptyParameters, options, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, IExecuteOptions options, TimeSpan timeout)
+            => await ExecuteScalarTextAsync<T>(sql, EmptyParameters, options, new AsyncOptions(timeout));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, IExecuteOptions options, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteScalarTextAsync<T>(sql, EmptyParameters, options, new AsyncOptions(timeout, ct));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, IExecuteOptions options, int millisecondsTimeout)
+            => await ExecuteScalarTextAsync<T>(sql, EmptyParameters, options, new AsyncOptions(millisecondsTimeout));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, IExecuteOptions options, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteScalarTextAsync<T>(sql, EmptyParameters, options, new AsyncOptions(millisecondsTimeout, ct));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, IExecuteOptions options, AsyncOptions asyncOptions)
+            => await ExecuteScalarTextAsync<T>(sql, EmptyParameters, options, asyncOptions);
 
         public async Task<T> ExecuteScalarTextAsync<T>(string sql, IReadOnlyList<IDbDataParameter> parameters)
-        {
-            return
-                await
-                ExecuteScalarTextAsync<T>(sql, parameters, DefaultExecuteOptions);
-        }
+            => await ExecuteScalarTextAsync<T>(sql, parameters, DefaultExecuteOptions, new AsyncOptions(DefaultCommandTimeout));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, IReadOnlyList<IDbDataParameter> parameters, CancellationToken ct)
+            => await ExecuteScalarTextAsync<T>(sql, parameters, DefaultExecuteOptions, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, IReadOnlyList<IDbDataParameter> parameters, TimeSpan timeout)
+            => await ExecuteScalarTextAsync<T>(sql, parameters, DefaultExecuteOptions, new AsyncOptions(timeout));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, IReadOnlyList<IDbDataParameter> parameters, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteScalarTextAsync<T>(sql, parameters, DefaultExecuteOptions, new AsyncOptions(timeout, ct));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, IReadOnlyList<IDbDataParameter> parameters, int millisecondsTimeout)
+            => await ExecuteScalarTextAsync<T>(sql, parameters, DefaultExecuteOptions, new AsyncOptions(millisecondsTimeout));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, IReadOnlyList<IDbDataParameter> parameters, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteScalarTextAsync<T>(sql, parameters, DefaultExecuteOptions, new AsyncOptions(millisecondsTimeout, ct));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, IReadOnlyList<IDbDataParameter> parameters, AsyncOptions asyncOptions)
+            => await ExecuteScalarTextAsync<T>(sql, parameters, DefaultExecuteOptions, asyncOptions);
 
         public async Task<T> ExecuteScalarTextAsync<T>(string sql, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options)
+            => await ExecuteScalarTextAsync<T>(sql, parameters, options, new AsyncOptions(DefaultCommandTimeout));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, CancellationToken ct)
+            => await ExecuteScalarTextAsync<T>(sql, parameters, options, new AsyncOptions(DefaultCommandTimeout, ct));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, TimeSpan timeout)
+            => await ExecuteScalarTextAsync<T>(sql, parameters, options, new AsyncOptions(timeout));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, TimeSpan timeout, CancellationToken ct)
+            => await ExecuteScalarTextAsync<T>(sql, parameters, options, new AsyncOptions(timeout, ct));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, int millisecondsTimeout)
+            => await ExecuteScalarTextAsync<T>(sql, parameters, options, new AsyncOptions(millisecondsTimeout));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, int millisecondsTimeout, CancellationToken ct)
+            => await ExecuteScalarTextAsync<T>(sql, parameters, options, new AsyncOptions(millisecondsTimeout, ct));
+        public async Task<T> ExecuteScalarTextAsync<T>(string sql, IReadOnlyList<IDbDataParameter> parameters, IExecuteOptions options, AsyncOptions asyncOptions)
         {
-            var retryOptions = new RetryPolicyOptions { CancellationToken = options.CancellationToken };
-
             var result = 
                 await
                 ExecuteScalarWithRetryInternalAsync(
                     ConnectionFactory, 
                     options,
-                    retryOptions,
+                    RetryPolicyOptions.Default,
+                    asyncOptions,
                     CommandType.Text, 
                     sql, 
                     parameters.Cast<TParameter>().ToArray());
@@ -850,6 +1019,7 @@ namespace SquaredInfinity.Data
             ConnectionFactory<TConnection> connectionFactory,
             IExecuteOptions options,
             IRetryPolicyOptions retryOptions,
+            AsyncOptions asyncOptions,
             CommandType commandType,
             string commandText,
             IReadOnlyList<TParameter> parameters)
@@ -857,28 +1027,30 @@ namespace SquaredInfinity.Data
             return
                 await
                 RetryPolicy
-                .ExecuteAsync(retryOptions, async () =>
+                .ExecuteAsync(retryOptions, asyncOptions.CancellationToken, async () =>
                 {
                     return
                     await
                     ExecuteScalarInternalAsync(
                         ConnectionFactory,
                         options,
+                        asyncOptions,
                         commandType,
                         commandText,
                         parameters)
-                        .ConfigureAwait(continueOnCapturedContext: false);
-                }).ConfigureAwait(continueOnCapturedContext: false);
+                        .ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
+                }).ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
         }
 
         protected virtual async Task<object> ExecuteScalarInternalAsync(
             ConnectionFactory<TConnection> connectionFactory,
             IExecuteOptions options,
+            AsyncOptions asyncOptions,
             CommandType commandType,
             string commandText,
             IReadOnlyList<TParameter> parameters)
         {
-            options.CancellationToken.ThrowIfCancellationRequested();
+            asyncOptions.CancellationToken.ThrowIfCancellationRequested();
 
             try
             {
@@ -888,17 +1060,17 @@ namespace SquaredInfinity.Data
                     {
                         await
                             connection
-                            .OpenAsync(options.CancellationToken)
-                            .ConfigureAwait(continueOnCapturedContext: false);
+                            .OpenAsync(asyncOptions.CancellationToken)
+                            .ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
                     }
                     else
                     {
                         connection.Open();
                     }
 
-                    options.CancellationToken.ThrowIfCancellationRequested();
+                    asyncOptions.CancellationToken.ThrowIfCancellationRequested();
 
-                    using (var cmd = PrepareCommand(connection, commandType, commandText, parameters))
+                    using (var cmd = PrepareCommand(connection, asyncOptions.MillisecondsTimeout, commandType, commandText, parameters))
                     {
                         var result = (object)null;
 
@@ -906,8 +1078,8 @@ namespace SquaredInfinity.Data
                         {
                             result =
                                 await
-                                cmd.ExecuteScalarAsync(options.CancellationToken)
-                                .ConfigureAwait(continueOnCapturedContext: false);
+                                cmd.ExecuteScalarAsync(asyncOptions.CancellationToken)
+                                .ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
                         }
                         else
                         {
@@ -938,27 +1110,37 @@ namespace SquaredInfinity.Data
 
         #endregion
 
-
         #region Execute Async
 
         public async Task ExecuteAsync(Func<IDbConnection, CancellationToken, Task> doExecute)
-        {
-            await
-                ExecuteAsync(doExecute, DefaultExecuteOptions);
-        }
+            => await ExecuteAsync(DefaultExecuteOptions, new AsyncOptions(DefaultCommandTimeout), doExecute);
+        public async Task ExecuteAsync(CancellationToken ct, Func<IDbConnection, CancellationToken, Task> doExecute)
+            => await ExecuteAsync(DefaultExecuteOptions, new AsyncOptions(DefaultCommandTimeout, ct), doExecute);
+        public async Task ExecuteAsync(TimeSpan timeout, Func<IDbConnection, CancellationToken, Task> doExecute)
+            => await ExecuteAsync(DefaultExecuteOptions, new AsyncOptions(timeout), doExecute);
+        public async Task ExecuteAsync(TimeSpan timeout, CancellationToken ct, Func<IDbConnection, CancellationToken, Task> doExecute)
+            => await ExecuteAsync(DefaultExecuteOptions, new AsyncOptions(timeout, ct), doExecute);
+        public async Task ExecuteAsync(int millisecondsTimeout, Func<IDbConnection, CancellationToken, Task> doExecute)
+            => await ExecuteAsync(DefaultExecuteOptions, new AsyncOptions(millisecondsTimeout), doExecute);
+        public async Task ExecuteAsync(int millisecondsTimeout, CancellationToken ct, Func<IDbConnection, CancellationToken, Task> doExecute)
+            => await ExecuteAsync(DefaultExecuteOptions, new AsyncOptions(millisecondsTimeout, ct), doExecute);
+        public async Task ExecuteAsync(AsyncOptions asyncOptions, Func<IDbConnection, CancellationToken, Task> doExecute)
+            => await ExecuteAsync(DefaultExecuteOptions, asyncOptions, doExecute);
 
-        public async Task ExecuteAsync(Func<IDbConnection, CancellationToken, Task> doExecute, IExecuteOptions options)
-        {
-            var retryOptions = new RetryPolicyOptions { CancellationToken = options.CancellationToken };
-
-            await
-                ExecuteWithRetryInternalAsync(
-                    ConnectionFactory,
-                    options,
-                    retryOptions,
-                    doExecute)
-                    .ConfigureAwait(continueOnCapturedContext: false);
-        }
+        public async Task ExecuteAsync(IExecuteOptions options, Func<IDbConnection, CancellationToken, Task> doExecute)
+            => await ExecuteAsync(options, new AsyncOptions(DefaultCommandTimeout), doExecute);
+        public async Task ExecuteAsync(IExecuteOptions options, CancellationToken ct, Func<IDbConnection, CancellationToken, Task> doExecute)
+            => await ExecuteAsync(options, new AsyncOptions(DefaultCommandTimeout, ct), doExecute);
+        public async Task ExecuteAsync(IExecuteOptions options, TimeSpan timeout, Func<IDbConnection, CancellationToken, Task> doExecute)
+            => await ExecuteAsync(options, new AsyncOptions(timeout), doExecute);
+        public async Task ExecuteAsync(IExecuteOptions options, TimeSpan timeout, CancellationToken ct, Func<IDbConnection, CancellationToken, Task> doExecute)
+            => await ExecuteAsync(options, new AsyncOptions(timeout, ct), doExecute);
+        public async Task ExecuteAsync(IExecuteOptions options, int millisecondsTimeout, Func<IDbConnection, CancellationToken, Task> doExecute)
+            => await ExecuteAsync(options, new AsyncOptions(millisecondsTimeout), doExecute);
+        public async Task ExecuteAsync(IExecuteOptions options, int millisecondsTimeout, CancellationToken ct, Func<IDbConnection, CancellationToken, Task> doExecute)
+            => await ExecuteAsync(options, new AsyncOptions(millisecondsTimeout, ct), doExecute);
+        public async Task ExecuteAsync(IExecuteOptions options, AsyncOptions asyncOptions, Func<IDbConnection, CancellationToken, Task> doExecute)
+            => await ExecuteWithRetryInternalAsync(ConnectionFactory, options, RetryPolicyOptions.Default, asyncOptions, doExecute);
 
         #endregion
 
@@ -968,27 +1150,30 @@ namespace SquaredInfinity.Data
             ConnectionFactory<TConnection> connectionFactory,
             IExecuteOptions options,
             IRetryPolicyOptions retryOptions,
+            AsyncOptions asyncOptions,
             Func<IDbConnection, CancellationToken, Task> doExecute)
         {
             await
                 RetryPolicy
-                .ExecuteAsync(retryOptions, async () =>
+                .ExecuteAsync(retryOptions, asyncOptions.CancellationToken, async () =>
                 {
                     await
                     ExecuteInternalAsync(
                         ConnectionFactory,
                         options,
+                        asyncOptions,
                         doExecute)
-                        .ConfigureAwait(continueOnCapturedContext: false);
-                }).ConfigureAwait(continueOnCapturedContext: false);
+                        .ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
+                }).ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
         }
 
         protected virtual async Task ExecuteInternalAsync(
             ConnectionFactory<TConnection> connectionFactory,
             IExecuteOptions options,
+            AsyncOptions asyncOptions,
             Func<IDbConnection, CancellationToken, Task> doExecute)
         {
-            options.CancellationToken.ThrowIfCancellationRequested();
+            asyncOptions.CancellationToken.ThrowIfCancellationRequested();
 
             try
             {
@@ -998,25 +1183,25 @@ namespace SquaredInfinity.Data
                     {
                         await
                             connection
-                            .OpenAsync(options.CancellationToken)
-                            .ConfigureAwait(continueOnCapturedContext: false);
+                            .OpenAsync(asyncOptions.CancellationToken)
+                            .ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
                     }
                     else
                     {
                         connection.Open();
                     }
 
-                    options.CancellationToken.ThrowIfCancellationRequested();
+                    asyncOptions.CancellationToken.ThrowIfCancellationRequested();
 
                     if (options.ShouldAsyncExecuteCommand)
                     {
-                        await doExecute(connection, options.CancellationToken)
-                            .ConfigureAwait(continueOnCapturedContext: false);
+                        await doExecute(connection, asyncOptions.CancellationToken)
+                            .ConfigureAwait(asyncOptions.ContinueOnCapturedContext);
                     }
                     else
                     {
-                        doExecute(connection, options.CancellationToken)
-                            .Wait(options.CancellationToken);
+                        doExecute(connection, asyncOptions.CancellationToken)
+                            .Wait(asyncOptions.MillisecondsTimeout, asyncOptions.CancellationToken);
                     }
                 }
             }
@@ -1033,7 +1218,12 @@ namespace SquaredInfinity.Data
         #endregion
 
 
-        protected internal virtual TCommand PrepareCommand(TConnection connection, CommandType commandType, string commandText, IEnumerable<TParameter> parameters)
+        protected internal virtual TCommand PrepareCommand(
+            TConnection connection,
+            int millisecondsCommandTimeout,
+            CommandType commandType, 
+            string commandText, 
+            IEnumerable<TParameter> parameters)
         {
             var nameResolver = DatabaseObjectNameResolver;
 
@@ -1049,7 +1239,7 @@ namespace SquaredInfinity.Data
 
             command.CommandType = commandType;
             command.CommandText = commandText;
-            command.CommandTimeout = (int)DefaultCommandTimeout.TotalMilliseconds;
+            command.CommandTimeout = millisecondsCommandTimeout;
 
             foreach (var parameter in parameters)
             {

@@ -45,8 +45,8 @@
     <Reference Include="SquaredInfinity.ComponentModel.DotNet45, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.ComponentModel.2.1.0\lib\net452\SquaredInfinity.ComponentModel.DotNet45.dll</HintPath>
     </Reference>
-    <Reference Include="SquaredInfinity.Data.DotNet45, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Data.2.0.9\lib\net452\SquaredInfinity.Data.DotNet45.dll</HintPath>
+    <Reference Include="SquaredInfinity.Data.DotNet45, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Data.2.1.0\lib\net452\SquaredInfinity.Data.DotNet45.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Disposables, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Disposables.2.0.10\lib\portable-net45+win\SquaredInfinity.Disposables.dll</HintPath>
@@ -58,7 +58,7 @@
       <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.1.0\lib\net452\SquaredInfinity.Extensions.DotNet45.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.RetryPolicy, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.RetryPolicy.2.1.0\lib\portable-net45+win\SquaredInfinity.RetryPolicy.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.RetryPolicy.2.1.2\lib\portable-net45+win\SquaredInfinity.RetryPolicy.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Threading, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Threading.2.0.10\lib\net452\SquaredInfinity.Threading.dll</HintPath>
