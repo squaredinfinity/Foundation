@@ -11,16 +11,22 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity
 {
-    public partial class SupportsAsyncBulkUpdate
+    public partial class SupportsBulkUpdate
     {
         #region BeginBulkUpdateAsync
 
-        public async Task<IBulkUpdate> BeginBulkUpdateAsync() => await BeginBulkUpdateAsync(AsyncOptions.Default);
-        public async Task<IBulkUpdate> BeginBulkUpdateAsync(CancellationToken ct) => await BeginBulkUpdateAsync(new AsyncOptions(ct));
-        public async Task<IBulkUpdate> BeginBulkUpdateAsync(TimeSpan timeout) => await BeginBulkUpdateAsync(new AsyncOptions(timeout));
-        public async Task<IBulkUpdate> BeginBulkUpdateAsync(TimeSpan timeout, CancellationToken ct) => await BeginBulkUpdateAsync(new AsyncOptions(timeout, ct));
-        public async Task<IBulkUpdate> BeginBulkUpdateAsync(int millisecondsTimeout) => await BeginBulkUpdateAsync(new AsyncOptions(millisecondsTimeout));
-        public async Task<IBulkUpdate> BeginBulkUpdateAsync(int millisecondsTimeout, CancellationToken ct) => await BeginBulkUpdateAsync(new AsyncOptions(millisecondsTimeout, ct));
+        public async Task<IBulkUpdate> BeginBulkUpdateAsync() 
+            => await BeginBulkUpdateAsync(AsyncOptions.Default);
+        public async Task<IBulkUpdate> BeginBulkUpdateAsync(CancellationToken ct) 
+            => await BeginBulkUpdateAsync(new AsyncOptions(ct));
+        public async Task<IBulkUpdate> BeginBulkUpdateAsync(TimeSpan timeout) 
+            => await BeginBulkUpdateAsync(new AsyncOptions(timeout));
+        public async Task<IBulkUpdate> BeginBulkUpdateAsync(TimeSpan timeout, CancellationToken ct)
+            => await BeginBulkUpdateAsync(new AsyncOptions(timeout, ct));
+        public async Task<IBulkUpdate> BeginBulkUpdateAsync(int millisecondsTimeout) 
+            => await BeginBulkUpdateAsync(new AsyncOptions(millisecondsTimeout));
+        public async Task<IBulkUpdate> BeginBulkUpdateAsync(int millisecondsTimeout, CancellationToken ct) 
+            => await BeginBulkUpdateAsync(new AsyncOptions(millisecondsTimeout, ct));
 
         public async Task<IBulkUpdate> BeginBulkUpdateAsync(AsyncOptions options)
         {

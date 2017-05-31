@@ -37,13 +37,13 @@
     <Compile Include="..\BulkUpdates.NuGet\version.cs">
       <Link>version.cs</Link>
     </Compile>
-    <Compile Include="SupportsAsyncBulkUpdate.BeginBulkUpdate.cs" />
-    <Compile Include="SupportsAsyncBulkUpdate.BeginBulkUpdateAync.cs" />
+    <Compile Include="SupportsBulkUpdate.BeginBulkUpdate.cs" />
+    <Compile Include="SupportsBulkUpdate.BeginBulkUpdateAync.cs" />
     <Compile Include="_BulkUpdate.cs" />
     <Compile Include="_FailedBulkUpdate.cs" />
     <Compile Include="IBulkUpdate.cs" />
-    <Compile Include="ISupportsAsyncBulkUpdate.cs" />
-    <Compile Include="SupportsAsyncBulkUpdate.cs" />
+    <Compile Include="ISupportsBulkUpdate.cs" />
+    <Compile Include="SupportsBulkUpdate.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
