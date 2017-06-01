@@ -12,7 +12,9 @@ namespace SquaredInfinity.Threading.Locks
     {
         public IAsyncLock CreateAsyncLock() => CreateAsyncLock("");
 
-        public IAsyncLock CreateAsyncLock(string name, LockRecursionPolicy recursionPolicy = LockRecursionPolicy.SupportsRecursion) 
+        public IAsyncLock CreateAsyncLock(string name) => CreateAsyncLock(name, LockRecursionPolicy.SupportsRecursion);
+
+        public IAsyncLock CreateAsyncLock(string name, LockRecursionPolicy recursionPolicy) 
             => new AsyncLock(name, recursionPolicy);
     }
 }

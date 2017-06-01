@@ -59,5 +59,10 @@ namespace SquaredInfinity.Threading.Locks
         public async Task<ILockAcquisition> AcquireWriteLockAsync(TimeSpan timeout) => await Task.FromResult(new _DummyLockAcquisition());
         public async Task<ILockAcquisition> AcquireWriteLockAsync(TimeSpan timeout, CancellationToken ct) => await Task.FromResult(new _DummyLockAcquisition());
         public async Task<ILockAcquisition> AcquireWriteLockAsync(AsyncOptions options) => await Task.FromResult(new _DummyLockAcquisition());
+
+        public void AddChild(IAsyncLock childLock) { }
+        public void RemoveChild(IAsyncLock childLock) { }
+        public void AddChild(ILock childLock) { }
+        public void RemoveChild(ILock childLock) { }
     }
 }

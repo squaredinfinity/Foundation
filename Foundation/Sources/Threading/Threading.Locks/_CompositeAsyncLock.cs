@@ -17,18 +17,46 @@ namespace SquaredInfinity.Threading.Locks
         // there's no need for internal lock to support composition (no child locks will be added)
         readonly IAsyncLock ChildrenLock = new AsyncLock(recursionPolicy: LockRecursionPolicy.NoRecursion, supportsComposition: false);
 
-        readonly HashSet<IAsyncLock> ChildLocks = new HashSet<IAsyncLock>();
+        readonly HashSet<ILock> ChildLocks = new HashSet<ILock>();
 
         public void AddChild(IAsyncLock childLock)
         {
+            if (childLock == null)
+                throw new ArgumentNullException(nameof(childLock));
+
             using(ChildrenLock.AcquireWriteLock())
             {
-                ChildLocks.AddIfNotNull(childLock);
+                ChildLocks.Add(childLock);
+            }
+        }
+
+        public void AddChild(ILock childLock)
+        {
+            if (childLock == null)
+                throw new ArgumentNullException(nameof(childLock));
+
+            using (ChildrenLock.AcquireWriteLock())
+            {
+                ChildLocks.Add(childLock);
             }
         }
 
         public void RemoveChild(IAsyncLock childLock)
         {
+            if (childLock == null)
+                throw new ArgumentNullException(nameof(childLock));
+
+            using (ChildrenLock.AcquireWriteLock())
+            {
+                ChildLocks.Remove(childLock);
+            }
+        }
+
+        public void RemoveChild(ILock childLock)
+        {
+            if (childLock == null)
+                throw new ArgumentNullException(nameof(childLock));
+
             using (ChildrenLock.AcquireWriteLock())
             {
                 ChildLocks.Remove(childLock);
@@ -60,23 +88,40 @@ namespace SquaredInfinity.Threading.Locks
 
                 foreach (var child in ChildLocks)
                 {
-                    if (lockType == LockType.Read && !(child is IReadLock))
-                        lockType = LockType.Write;
-                    //if (lockType == LockType.UpgradeableRead && !(child is IUpgradeableReadLock))
-                    //    lockType = LockType.Write;
-
-                    //if (lockType == LockType.Read)
-                    //{
-                    //    result.AddIfNotNull((child as IReadLock).AcquireReadLockIfNotHeld());
-                    //}
-                    //else if (lockType == LockType.UpgradeableRead)
-                    //{
-                    //    result.AddIfNotNull((child as IUpgradeableReadLock).AcquireUpgradeableReadLock());
-                    //}
-                    //else
-                    if (lockType == LockType.Write)
+                    if (lockType == LockType.Read)
                     {
-                        var l = child.AcquireWriteLockAsync(options);
+                        var l = (Task<ILockAcquisition>)null;
+
+                        switch (child)
+                        {
+                            case IAsyncLock async_child:
+                                l = async_child.AcquireReadLockAsync(options);
+                                break;
+                            case ILock sync_child:
+                                l = new Task<ILockAcquisition>(() => sync_child.AcquireReadLock(new SyncOptions(options)));
+                                break;
+                            default:
+                                throw new NotSupportedException($"specified lock type is not supported: {child.GetType().FullName}");
+                        }
+
+                        all_lock_tasks.Add(l);
+                    }
+                    else if (lockType == LockType.Write)
+                    {
+                        var l = (Task<ILockAcquisition>)null;
+
+                        switch(child)
+                        {
+                            case IAsyncLock async_child:
+                                l = async_child.AcquireWriteLockAsync(options);
+                                break;
+                            case ILock sync_child:
+                                l = new Task<ILockAcquisition>(() => sync_child.AcquireWriteLock(new SyncOptions(options)));
+                                break;
+                            default:
+                                throw new NotSupportedException($"specified lock type is not supported: {child.GetType().FullName}");
+                        }
+
                         all_lock_tasks.Add(l);
                     }
                     else
@@ -113,8 +158,6 @@ namespace SquaredInfinity.Threading.Locks
             LockType lockType,
             SyncOptions options)
         {
-            var all_lock_tasks = new List<Task<ILockAcquisition>>();
-
             if (ChildLocks.Count == 0)
             {
                 return new _CompositeLockAcqusition();
@@ -131,21 +174,18 @@ namespace SquaredInfinity.Threading.Locks
 
                 foreach (var child in ChildLocks)
                 {
-                    if (lockType == LockType.Read && !(child is IReadLock))
-                        lockType = LockType.Write;
-                    //if (lockType == LockType.UpgradeableRead && !(child is IUpgradeableReadLock))
-                    //    lockType = LockType.Write;
+                    if (lockType == LockType.Read)
+                    {
+                        var l = child.AcquireReadLock(options);
 
-                    //if (lockType == LockType.Read)
-                    //{
-                    //    result.AddIfNotNull((child as IReadLock).AcquireReadLockIfNotHeld());
-                    //}
-                    //else if (lockType == LockType.UpgradeableRead)
-                    //{
-                    //    result.AddIfNotNull((child as IUpgradeableReadLock).AcquireUpgradeableReadLock());
-                    //}
-                    //else
-                    if (lockType == LockType.Write)
+                        // do not attempt to acquire other locks if this lock failed
+
+                        if (l.IsLockHeld == false)
+                            break;
+
+                        all_child_acquisitions.Add(l);
+                    }
+                    else if (lockType == LockType.Write)
                     {
                         var l = child.AcquireWriteLock(options);
 
@@ -166,7 +206,7 @@ namespace SquaredInfinity.Threading.Locks
                 // if any failed, it was either cancelled or timed out
                 // if that's the case then release all successful locks and return failure
 
-                var all_locks_acquisition = new _CompositeLockAcqusition(all_lock_tasks.Select(x => x.Result));
+                var all_locks_acquisition = new _CompositeLockAcqusition(all_child_acquisitions);
 
                 if (all_locks_acquisition.IsLockHeld)
                 {

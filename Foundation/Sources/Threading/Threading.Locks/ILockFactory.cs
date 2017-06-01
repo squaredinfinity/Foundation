@@ -10,6 +10,7 @@ namespace SquaredInfinity.Threading.Locks
     public interface ILockFactory
     {
         IAsyncLock CreateAsyncLock();
+        IAsyncLock CreateAsyncLock(string name);
         IAsyncLock CreateAsyncLock(string name, LockRecursionPolicy recursionPolicy);
     }
 }

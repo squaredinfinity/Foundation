@@ -28,16 +28,16 @@ namespace SquaredInfinity.Collections
         #region Constructor (overloads)
 
         public CollectionEx()
-            : this(LockFactory.Current.CreateAsyncLock(), new List<TItem>())
-        { }
+            : this(LockFactory.Current.CreateAsyncLock(), new List<TItem>()) { }
 
         public CollectionEx(IEnumerable<TItem> items)
-            : this(LockFactory.Current.CreateAsyncLock(), new List<TItem>(items))
-        { }
+            : this(LockFactory.Current.CreateAsyncLock(), new List<TItem>(items)) { }
 
         public CollectionEx(List<TItem> items)
-            : this(LockFactory.Current.CreateAsyncLock(), items)
-        { }
+            : this(LockFactory.Current.CreateAsyncLock(), items) { }
+
+        public CollectionEx(IAsyncLock collectionLock)
+            : this(collectionLock, new List<TItem>()) { }
 
         #endregion
 

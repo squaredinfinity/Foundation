@@ -67,11 +67,26 @@ namespace SquaredInfinity.Threading.Locks
             if (CompositeLock == null)
                 throw new NotSupportedException("This lock does not support .AddChild()");
 
+            CompositeLock.AddChild(childLock);
+        }
+
+        public void AddChild(ILock childLock)
+        {
+            if (CompositeLock == null)
+                throw new NotSupportedException("This lock does not support .AddChild()");
 
             CompositeLock.AddChild(childLock);
         }
 
         public void RemoveChild(IAsyncLock childLock)
+        {
+            if (CompositeLock == null)
+                throw new NotSupportedException("This lock does not support .RemoveChild()");
+
+            CompositeLock.RemoveChild(childLock);
+        }
+
+        public void RemoveChild(ILock childLock)
         {
             if (CompositeLock == null)
                 throw new NotSupportedException("This lock does not support .RemoveChild()");

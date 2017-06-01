@@ -9,5 +9,9 @@ namespace SquaredInfinity.Threading.Locks
     public static class LockFactory
     {
         public static ILockFactory Current { get; set; } = new _DefaultLockFactory();
+        public static void SetCurrent(ILockFactory newLockFactory)
+        {
+            Current = newLockFactory;
+        }
     }
 }

@@ -87,6 +87,42 @@ namespace SquaredInfinity.Threading.Locks
             InternalLock = new AsyncLock(recursionPolicy: LockRecursionPolicy.NoRecursion, supportsComposition: false);
         }
 
+        #region ICompositeAsyncLock
+
+        public void AddChild(IAsyncLock childLock)
+        {
+            if (CompositeLock == null)
+                throw new NotSupportedException("This lock does not support .AddChild()");
+
+            CompositeLock.AddChild(childLock);
+        }
+
+        public void AddChild(ILock childLock)
+        {
+            if (CompositeLock == null)
+                throw new NotSupportedException("This lock does not support .AddChild()");
+
+            CompositeLock.AddChild(childLock);
+        }
+
+        public void RemoveChild(IAsyncLock childLock)
+        {
+            if (CompositeLock == null)
+                throw new NotSupportedException("This lock does not support .RemoveChild()");
+
+            CompositeLock.RemoveChild(childLock);
+        }
+
+        public void RemoveChild(ILock childLock)
+        {
+            if (CompositeLock == null)
+                throw new NotSupportedException("This lock does not support .RemoveChild()");
+
+            CompositeLock.RemoveChild(childLock);
+        }
+
+        #endregion
+
         /// <summary>
         /// True if lock acquisition is recursive, false otherwise
         /// </summary>
@@ -170,14 +206,13 @@ namespace SquaredInfinity.Threading.Locks
                             var rl = 
                                 AcquireLock_NOLOCK(
                                     LockType.Read,
-                                    internalLockAcquisition, 
                                     r.OwnerThreadId,
                                     new SyncOptions(r.Timeout.MillisecondsLeft, r.CancellationToken));
                             
                             // thaw waiting task
                             if (r.TaskCompletionSource.TrySetResult(rl))
                             {
-                                // all went ok :)
+                                // all went ok, try to acquire next read lock
                             }
                             else
                             {
@@ -204,11 +239,14 @@ namespace SquaredInfinity.Threading.Locks
                         var wl = 
                             AcquireLock_NOLOCK(
                                 LockType.Write,
-                                internalLockAcquisition,
                                 r.OwnerThreadId,
                                 new SyncOptions(
                                     r.Timeout.MillisecondsLeft, 
                                     r.CancellationToken));
+
+                        // dispose internal lock if a new lock has been granted
+                        if(wl.IsLockHeld)
+                            internalLockAcquisition.Dispose();
 
                         // thaw waiting task
                         if (r.TaskCompletionSource.TrySetResult(wl))

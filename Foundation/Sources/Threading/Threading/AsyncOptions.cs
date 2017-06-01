@@ -34,6 +34,9 @@ namespace SquaredInfinity.Threading
         public AsyncOptions()
             : this(Default.MillisecondsTimeout, Default.CancellationToken, Default.ContinueOnCapturedContext) { }
 
+        public AsyncOptions(SyncOptions options)
+            : this(options.MillisecondsTimeout, options.CancellationToken, Default.ContinueOnCapturedContext) { }
+
         public AsyncOptions(bool continueOnCapturedContext)
             : this(Default.MillisecondsTimeout, Default.CancellationToken, continueOnCapturedContext) { }
 

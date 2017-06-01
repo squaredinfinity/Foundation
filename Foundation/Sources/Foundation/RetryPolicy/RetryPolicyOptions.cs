@@ -1,4 +1,5 @@
 ﻿using System;
+using SquaredInfinity.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,14 +10,39 @@ namespace SquaredInfinity
 {
     public class RetryPolicyOptions : IRetryPolicyOptions
     {
-        public int MaxRetryAttempts { get; set; } = 10;
-        public int MinRetryDelayInMiliseconds { get; set; } = 50;
-        public int MaxRetryDelayInMiliseconds { get; set; } = 100;
+        public static IRetryPolicyOptions Default { get; private set; }
+        public static void SetDefault(IRetryPolicyOptions newDefault)
+        {
+            Default = newDefault;
+        }
+        static RetryPolicyOptions()
+        {
+            Default = new RetryPolicyOptions
+            {
+                MaxRetryAttempts = 10,
+                MinRetryDelayInMiliseconds = 50,
+                MaxRetryDelayInMiliseconds = 100
+            };
+        }
+
+
+        public int MaxRetryAttempts { get; set; }
+        public int MinRetryDelayInMiliseconds { get; set; }
+        public int MaxRetryDelayInMiliseconds { get; set; }
         public List<ITransientFaultFilter> TransientFaultFilters { get; set; } = new List<ITransientFaultFilter>();
 
         IReadOnlyList<ITransientFaultFilter> IRetryPolicyOptions.TransientFaultFilters
         {
             get { return TransientFaultFilters; }
+        }
+
+        public RetryPolicyOptions()
+        {
+            MaxRetryAttempts = Default.MaxRetryAttempts;
+            MinRetryDelayInMiliseconds = Default.MinRetryDelayInMiliseconds;
+            MaxRetryDelayInMiliseconds = Default.MaxRetryDelayInMiliseconds;
+
+            TransientFaultFilters.AddRange(Default.TransientFaultFilters.EmptyIfNull());
         }
     }
 }

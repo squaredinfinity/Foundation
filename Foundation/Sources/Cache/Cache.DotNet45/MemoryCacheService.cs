@@ -1,4 +1,5 @@
 using SquaredInfinity.Threading;
+using SquaredInfinity.Threading.Locks;
 using System;
 using System.Collections.Concurrent;
 using System.Runtime.Caching;
@@ -11,7 +12,7 @@ namespace SquaredInfinity.Cache
     {
         readonly MemoryCache Cache;
 
-        ConcurrentDictionary<string, ILock> KeyLocks = new ConcurrentDictionary<string, ILock>(concurrencyLevel: 64, capacity: 2048);
+        ConcurrentDictionary<string, IAsyncLock> KeyLocks = new ConcurrentDictionary<string, IAsyncLock>(concurrencyLevel: 8, capacity: 2048);
 
         public bool IsCacheEnabled { get; set; }
 
@@ -129,10 +130,30 @@ namespace SquaredInfinity.Cache
                 shouldForceCacheExpiration = (x) => false;
             }
 
-            var keyLock = KeyLocks.GetOrAdd(key, (k) => new ReaderWriterLockSlimEx(LockRecursionPolicy.SupportsRecursion));
+            var keyLock = KeyLocks.GetOrAdd(key, (k) => LockFactory.Current.CreateAsyncLock("Cache Service", LockRecursionPolicy.SupportsRecursion));
 
             // if we must check for forced expiration or item is not in cache we need lock
-            using (var readLock = keyLock.AcquireUpgradeableReadLock())
+            using (var readLock = keyLock.AcquireReadLock())
+            {
+                ICacheItemDetails<T> cacheItem = (ICacheItemDetails<T>)null;
+                if (TryGetCacheItem__NOLOCK<T>(key, out cacheItem))
+                {
+                    // cache item is in cache, check if it should expire
+                    var shouldExpire = shouldForceCacheExpiration(cacheItem);
+
+                    if (!shouldExpire)
+                    {
+                        // exit lock and return item
+                        readLock.Dispose();
+
+                        return cacheItem.Value;
+                    }
+                }
+            }
+
+            // couldn't get item with read lock, maybe it expired or not exist, acquire write lock and try again
+            // NOTE: this should be refactored with upgradeable lock support
+            using (var readLock = keyLock.AcquireWriteLock())
             {
                 ICacheItemDetails<T> cacheItem = (ICacheItemDetails<T>)null;
                 if (TryGetCacheItem__NOLOCK<T>(key, out cacheItem))
@@ -153,7 +174,7 @@ namespace SquaredInfinity.Cache
                 cacheItem = new AsyncCacheItemDetails<T>(valueFactory);
                 cacheItem.TimeAddedToCacheUtc = DateTime.UtcNow;
 
-                using (var writeLock = readLock.UpgradeToWriteLock())
+                //using (var writeLock = readLock.UpgradeToWriteLock())
                 {
                     Cache.Set(key, cacheItem, cacheItemPolicy.ToSystemRuntimeCachingCacheItemPolicy());
                 }

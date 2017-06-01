@@ -65,10 +65,6 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Foundation\ComponentModel\ComponentModel.csproj">
-      <Project>{33e2de1f-6c1e-433b-a67e-3eae47be7109}</Project>
-      <Name>ComponentModel</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Cache\Cache.csproj">
       <Project>{ca428d66-b0db-401a-a643-3bb33ab8e426}</Project>
       <Name>Cache</Name>

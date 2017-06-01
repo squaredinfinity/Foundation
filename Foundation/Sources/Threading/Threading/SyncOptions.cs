@@ -11,7 +11,6 @@ namespace SquaredInfinity.Threading
     {
         static SyncOptions _default;
         public static SyncOptions Default => _default;
-
         public static void SetDefault(SyncOptions options)
         {
             _default = options;
@@ -29,6 +28,9 @@ namespace SquaredInfinity.Threading
 
         public SyncOptions()
             : this(Default.MillisecondsTimeout, Default.CancellationToken) { }
+
+        public SyncOptions(AsyncOptions options)
+            : this(options.MillisecondsTimeout, options.CancellationToken) { }
 
         public SyncOptions(CancellationToken ct)
             : this(Default.MillisecondsTimeout, ct) { }

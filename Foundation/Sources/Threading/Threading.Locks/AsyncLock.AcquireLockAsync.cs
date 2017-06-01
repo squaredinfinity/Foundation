@@ -35,7 +35,6 @@ namespace SquaredInfinity.Threading.Locks
                 return new _FailedLockAcquisition();
 
             _writeOwnerThreadId = System.Environment.CurrentManagedThreadId;
-
             var dispose_when_done = new CompositeDisposable();
 
 

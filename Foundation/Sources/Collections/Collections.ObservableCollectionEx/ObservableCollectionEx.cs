@@ -1,4 +1,5 @@
 ﻿using SquaredInfinity.ComponentModel;
+using SquaredInfinity.Threading.Locks;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -12,10 +13,18 @@ namespace SquaredInfinity.Collections
     public partial class ObservableCollectionEx<TItem> : CollectionEx<TItem>, IObservableCollectionEx<TItem>, INotifyCollectionChanged
     {
         int InitialHashCode;
-        
+
+        #region Constructors
+
         public ObservableCollectionEx()
             : this(monitorElementsForChanges: false)
         { }
+
+        public ObservableCollectionEx(IAsyncLock collectionLock)
+            : base(collectionLock)
+        {
+
+        }
 
         public ObservableCollectionEx(bool monitorElementsForChanges)
         {
@@ -33,6 +42,8 @@ namespace SquaredInfinity.Collections
         {
             Initialize(monitorElementsForChanges);
         }
+
+        #endregion
 
         void Initialize(bool monitorElementsForChanges)
         {

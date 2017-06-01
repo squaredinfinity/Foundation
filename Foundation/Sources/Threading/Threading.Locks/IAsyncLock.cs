@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Threading.Locks
 {
-    public interface IAsyncLock : ILock, IAsyncWriteLock, IAsyncReadLock
+    public interface IAsyncLock : ILock, IAsyncWriteLock, IAsyncReadLock, ICompositeAsyncLock
     { }
 }

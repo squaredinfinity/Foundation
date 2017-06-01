@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Threading.Locks
 {  
-    public interface ILock : IWriteLock, IReadLock
+    public interface ILock : IWriteLock, IReadLock, ICompositeLock
     {
         long LockId { get; }
         string Name { get; }

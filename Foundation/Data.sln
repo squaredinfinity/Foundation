@@ -1,0 +1,110 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution items", ".solution items", "{0DA3DCAD-BED8-4032-A426-C0703DC653CF}"
+	ProjectSection(SolutionItems) = preProject
+		default.runsettings = default.runsettings
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".sources", ".sources", "{7077A8A4-338F-4AE7-891D-BA9E9BFDA587}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Internal", "Sources\Internal\Internal.shproj", "{6243BF46-3B7C-4137-ACE9-79541A6AD8E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{7985A6B5-71BE-4F45-AC53-ABA4DD27A5F9}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Data.Shared", "Sources\Data\Data.Shared\Data.Shared.shproj", "{EC3D00EA-42F1-45F2-9BC3-19D571D7229B}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Data.SqlServer.Shared", "Sources\Data\Data.SqlServer.Shared\Data.SqlServer.Shared.shproj", "{7993ED3F-7A2A-40B3-8ADD-82DA5252054E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data.DotNet45", "Sources\Data\Data.DotNet45\Data.DotNet45.csproj", "{F969CB3F-EBC6-4C7D-80F0-2CFFF01434B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data.SqlServer.DotNet45", "Sources\Data\Data.SqlServer.DotNet45\Data.SqlServer.DotNet45.csproj", "{230061AD-DA5F-4715-992B-E00052C31A8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data.NuGet", "Sources\Data\Data.NuGet\Data.NuGet.csproj", "{F07741FB-0326-4491-80FF-D263D7536638}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data.SqlServer.NuGet", "Sources\Data\Data.SqlServer.NuGet\Data.SqlServer.NuGet.csproj", "{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Sources\Data\Data.SqlServer.Shared\Data.SqlServer.Shared.projitems*{230061ad-da5f-4715-992b-e00052c31a8c}*SharedItemsImports = 4
+		Sources\Internal\Internal.projitems*{230061ad-da5f-4715-992b-e00052c31a8c}*SharedItemsImports = 4
+		Sources\Internal\Internal.projitems*{6243bf46-3b7c-4137-ace9-79541a6ad8e9}*SharedItemsImports = 13
+		Sources\Data\Data.SqlServer.Shared\Data.SqlServer.Shared.projitems*{7993ed3f-7a2a-40b3-8add-82da5252054e}*SharedItemsImports = 13
+		Sources\Data\Data.Shared\Data.Shared.projitems*{ec3d00ea-42f1-45f2-9bc3-19d571d7229b}*SharedItemsImports = 13
+		Sources\Data\Data.Shared\Data.Shared.projitems*{f969cb3f-ebc6-4c7d-80f0-2cfff01434b3}*SharedItemsImports = 4
+		Sources\Internal\Internal.projitems*{f969cb3f-ebc6-4c7d-80f0-2cfff01434b3}*SharedItemsImports = 4
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Publish - BETA|Any CPU = Publish - BETA|Any CPU
+		Publish - LOCAL|Any CPU = Publish - LOCAL|Any CPU
+		Publish - RC|Any CPU = Publish - RC|Any CPU
+		Publish - STABLE|Any CPU = Publish - STABLE|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F969CB3F-EBC6-4C7D-80F0-2CFFF01434B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F969CB3F-EBC6-4C7D-80F0-2CFFF01434B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F969CB3F-EBC6-4C7D-80F0-2CFFF01434B3}.Publish - BETA|Any CPU.ActiveCfg = Release|Any CPU
+		{F969CB3F-EBC6-4C7D-80F0-2CFFF01434B3}.Publish - BETA|Any CPU.Build.0 = Release|Any CPU
+		{F969CB3F-EBC6-4C7D-80F0-2CFFF01434B3}.Publish - LOCAL|Any CPU.ActiveCfg = Debug|Any CPU
+		{F969CB3F-EBC6-4C7D-80F0-2CFFF01434B3}.Publish - LOCAL|Any CPU.Build.0 = Debug|Any CPU
+		{F969CB3F-EBC6-4C7D-80F0-2CFFF01434B3}.Publish - RC|Any CPU.ActiveCfg = Release|Any CPU
+		{F969CB3F-EBC6-4C7D-80F0-2CFFF01434B3}.Publish - RC|Any CPU.Build.0 = Release|Any CPU
+		{F969CB3F-EBC6-4C7D-80F0-2CFFF01434B3}.Publish - STABLE|Any CPU.ActiveCfg = Release|Any CPU
+		{F969CB3F-EBC6-4C7D-80F0-2CFFF01434B3}.Publish - STABLE|Any CPU.Build.0 = Release|Any CPU
+		{F969CB3F-EBC6-4C7D-80F0-2CFFF01434B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F969CB3F-EBC6-4C7D-80F0-2CFFF01434B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{230061AD-DA5F-4715-992B-E00052C31A8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{230061AD-DA5F-4715-992B-E00052C31A8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{230061AD-DA5F-4715-992B-E00052C31A8C}.Publish - BETA|Any CPU.ActiveCfg = Release|Any CPU
+		{230061AD-DA5F-4715-992B-E00052C31A8C}.Publish - BETA|Any CPU.Build.0 = Release|Any CPU
+		{230061AD-DA5F-4715-992B-E00052C31A8C}.Publish - LOCAL|Any CPU.ActiveCfg = Debug|Any CPU
+		{230061AD-DA5F-4715-992B-E00052C31A8C}.Publish - LOCAL|Any CPU.Build.0 = Debug|Any CPU
+		{230061AD-DA5F-4715-992B-E00052C31A8C}.Publish - RC|Any CPU.ActiveCfg = Release|Any CPU
+		{230061AD-DA5F-4715-992B-E00052C31A8C}.Publish - RC|Any CPU.Build.0 = Release|Any CPU
+		{230061AD-DA5F-4715-992B-E00052C31A8C}.Publish - STABLE|Any CPU.ActiveCfg = Release|Any CPU
+		{230061AD-DA5F-4715-992B-E00052C31A8C}.Publish - STABLE|Any CPU.Build.0 = Release|Any CPU
+		{230061AD-DA5F-4715-992B-E00052C31A8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{230061AD-DA5F-4715-992B-E00052C31A8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F07741FB-0326-4491-80FF-D263D7536638}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F07741FB-0326-4491-80FF-D263D7536638}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F07741FB-0326-4491-80FF-D263D7536638}.Publish - BETA|Any CPU.ActiveCfg = Release|Any CPU
+		{F07741FB-0326-4491-80FF-D263D7536638}.Publish - BETA|Any CPU.Build.0 = Release|Any CPU
+		{F07741FB-0326-4491-80FF-D263D7536638}.Publish - LOCAL|Any CPU.ActiveCfg = Publish - LOCAL|Any CPU
+		{F07741FB-0326-4491-80FF-D263D7536638}.Publish - LOCAL|Any CPU.Build.0 = Publish - LOCAL|Any CPU
+		{F07741FB-0326-4491-80FF-D263D7536638}.Publish - RC|Any CPU.ActiveCfg = Release|Any CPU
+		{F07741FB-0326-4491-80FF-D263D7536638}.Publish - RC|Any CPU.Build.0 = Release|Any CPU
+		{F07741FB-0326-4491-80FF-D263D7536638}.Publish - STABLE|Any CPU.ActiveCfg = Publish - STABLE|Any CPU
+		{F07741FB-0326-4491-80FF-D263D7536638}.Publish - STABLE|Any CPU.Build.0 = Publish - STABLE|Any CPU
+		{F07741FB-0326-4491-80FF-D263D7536638}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F07741FB-0326-4491-80FF-D263D7536638}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3}.Publish - BETA|Any CPU.ActiveCfg = Release|Any CPU
+		{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3}.Publish - BETA|Any CPU.Build.0 = Release|Any CPU
+		{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3}.Publish - LOCAL|Any CPU.ActiveCfg = Publish - LOCAL|Any CPU
+		{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3}.Publish - LOCAL|Any CPU.Build.0 = Publish - LOCAL|Any CPU
+		{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3}.Publish - RC|Any CPU.ActiveCfg = Release|Any CPU
+		{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3}.Publish - RC|Any CPU.Build.0 = Release|Any CPU
+		{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3}.Publish - STABLE|Any CPU.ActiveCfg = Publish - STABLE|Any CPU
+		{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3}.Publish - STABLE|Any CPU.Build.0 = Publish - STABLE|Any CPU
+		{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6243BF46-3B7C-4137-ACE9-79541A6AD8E9} = {7077A8A4-338F-4AE7-891D-BA9E9BFDA587}
+		{7985A6B5-71BE-4F45-AC53-ABA4DD27A5F9} = {7077A8A4-338F-4AE7-891D-BA9E9BFDA587}
+		{EC3D00EA-42F1-45F2-9BC3-19D571D7229B} = {7985A6B5-71BE-4F45-AC53-ABA4DD27A5F9}
+		{7993ED3F-7A2A-40B3-8ADD-82DA5252054E} = {7985A6B5-71BE-4F45-AC53-ABA4DD27A5F9}
+		{F969CB3F-EBC6-4C7D-80F0-2CFFF01434B3} = {7985A6B5-71BE-4F45-AC53-ABA4DD27A5F9}
+		{230061AD-DA5F-4715-992B-E00052C31A8C} = {7985A6B5-71BE-4F45-AC53-ABA4DD27A5F9}
+		{F07741FB-0326-4491-80FF-D263D7536638} = {7985A6B5-71BE-4F45-AC53-ABA4DD27A5F9}
+		{1E169DDD-47F2-4B75-AB95-415B3BB1CAF3} = {7985A6B5-71BE-4F45-AC53-ABA4DD27A5F9}
+	EndGlobalSection
+EndGlobal

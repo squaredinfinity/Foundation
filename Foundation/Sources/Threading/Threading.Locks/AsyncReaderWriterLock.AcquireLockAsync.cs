@@ -21,22 +21,7 @@ namespace SquaredInfinity.Threading.Locks
             if (IsLockAcquisitionRecursive())
                 return new _DummyLockAcquisition();
 
-            var internal_lock_awaitable = (Task<ILockAcquisition>) null;
-
-            if(lockType == LockType.Read)
-            {
-                internal_lock_awaitable = InternalLock.AcquireReadLockAsync(options);
-            }
-            else if(lockType == LockType.Write)
-            {
-                internal_lock_awaitable = InternalLock.AcquireWriteLockAsync(options);
-            }
-            else
-            {
-                throw new NotSupportedException($"specified lock type is not supported, {lockType}");
-            }
-
-            using (var l = await internal_lock_awaitable.ConfigureAwait(options.ContinueOnCapturedContext))
+            using (var l = await InternalLock.AcquireWriteLockAsync(options).ConfigureAwait(options.ContinueOnCapturedContext))
             {
                 if (!l.IsLockHeld)
                     return _FailedLockAcquisition.Instance;
@@ -169,9 +154,7 @@ namespace SquaredInfinity.Threading.Locks
                     else
                     {
                         throw new NotSupportedException($"specified lock type is not supported, {lockType}");
-                    }
-
-                    
+                    }                    
 
                     waiter_queue.Enqueue(
                         new _Waiter(
@@ -182,7 +165,20 @@ namespace SquaredInfinity.Threading.Locks
 
                     l.Dispose();
 
-                    return await completion_source.Task;
+                    return await completion_source
+                        .Task
+                        .ContinueWith<ILockAcquisition>(_ =>
+                        {
+                            if (_.Status == TaskStatus.RanToCompletion)
+                            {
+                                this._writeOwnerThreadId = Environment.CurrentManagedThreadId;
+                                return _.Result;
+                            }
+                            else
+                            {
+                                return _.Result;
+                            }
+                        }, TaskContinuationOptions.ExecuteSynchronously);
                 }
             }
         }

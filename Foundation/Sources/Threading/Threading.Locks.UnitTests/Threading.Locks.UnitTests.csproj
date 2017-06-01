@@ -64,6 +64,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsyncLock.Composite.cs" />
+    <Compile Include="AsyncReaderWriterLock.Bugs.cs" />
+    <Compile Include="ICompositeLock.LockChildren.cs" />
     <Compile Include="AsyncLock.General.cs" />
     <Compile Include="AsyncLock.Constructor.cs" />
     <Compile Include="AsyncLock.Recursion.cs" />

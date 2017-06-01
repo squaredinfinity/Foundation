@@ -38,6 +38,8 @@ namespace SquaredInfinity
 
                 if (!la.IsLockHeld)
                 {
+                    la.Dispose();
+
                     // failed to acquire lock
                     return new _FailedBulkUpdate();
                 }
