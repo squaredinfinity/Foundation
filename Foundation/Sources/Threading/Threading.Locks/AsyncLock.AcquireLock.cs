@@ -21,7 +21,7 @@ namespace SquaredInfinity.Threading.Locks
         /// <param name="lockType"></param>
         /// <param name="options"></param>
         /// <returns></returns>
-        ILockAcquisition AcquireLock(LockType lockType, SyncOptions options)
+        public ILockAcquisition AcquireLock(LockType lockType, SyncOptions options)
         {
             if (options.MillisecondsTimeout == 0)
                 return _FailedLockAcquisition.Instance;

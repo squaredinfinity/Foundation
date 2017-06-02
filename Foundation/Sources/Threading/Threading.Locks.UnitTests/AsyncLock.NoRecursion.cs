@@ -41,28 +41,5 @@ namespace Threading.Locks.UnitTests
             }
         }
 
-        [TestMethod]
-        public async Task can_not_be_acquired_again_from_different_thread()
-        {
-            //  No Recursion
-            //  Trying to acquire already-held lock on different thread will not work
-            //  This isn't a true recursion scenario, just a confirmation of expected behavior
-
-            var al = new AsyncLock(recursionPolicy: LockRecursionPolicy.NoRecursion);
-
-            using (var l = al.AcquireWriteLock())
-            {
-                Assert.IsTrue(l.IsLockHeld);
-                Assert.AreEqual(System.Environment.CurrentManagedThreadId, al.WriteOwnerThreadId);
-
-                var l2 = Task.Run(() =>
-                {
-                    // this should fail to acquire lock
-                    return al.AcquireWriteLock(new SyncOptions(25));
-                }).Result;
-
-                Assert.IsFalse(l2.IsLockHeld);
-            }
-        }
     }
 }

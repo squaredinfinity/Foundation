@@ -233,6 +233,63 @@ namespace Threading.Locks.UnitTests
             }
         }
 
+        [TestMethod]
+        public async Task acquisition_of_taken_write_lock()
+        {
+            foreach (var s in _lock_test_setup.AllTestSetups)
+            {
+                if (s.RecursionPolicy == LockRecursionPolicy.SupportsRecursion)
+                {
+                    if (s.IsAsync)
+                    {
+                        // ignored, async recursive throw
+                    }
+                    else
+                    {
+                        var al = new AsyncLock(s.RecursionPolicy);
+                        using (al.AcquireLock(s.LockType))
+                        {
+                            Assert.AreEqual(LockState.Write, al.State);
+
+                            var l2 = Task.Run(() => al.AcquireLock(s.LockType, new SyncOptions(50))).Result;
+
+                            Assert.IsFalse(l2.IsLockHeld, s.ToString());
+                            Assert.AreEqual(LockState.Write, al.State, s.ToString());
+                        }
+                    }
+                }
+                else
+                {
+                    if (s.IsAsync)
+                    {
+                        var al = new AsyncLock(s.RecursionPolicy);
+                        using (await al.AcquireLockAsync(s.LockType))
+                        {
+                            Assert.AreEqual(LockState.Write, al.State);
+
+                            var l2 = await Task.Run(async () => await al.AcquireLockAsync(s.LockType, new AsyncOptions(50)));
+
+                            Assert.IsFalse(l2.IsLockHeld, s.ToString());
+                            Assert.AreEqual(LockState.Write, al.State, s.ToString());
+                        }
+                    }
+                    else
+                    {
+                        var al = new AsyncLock(s.RecursionPolicy);
+                        using (al.AcquireLock(s.LockType))
+                        {
+                            Assert.AreEqual(LockState.Write, al.State);
+
+                            var l2 = Task.Run(() => al.AcquireLock(s.LockType, new SyncOptions(50))).Result;
+
+                            Assert.IsFalse(l2.IsLockHeld, s.ToString());
+                            Assert.AreEqual(LockState.Write, al.State, s.ToString());
+                        }
+                    }
+                }
+            }
+        }
+
         //[TestMethod]
         //public async Task acquire_multiple_locks_asynchronously()
         //{
