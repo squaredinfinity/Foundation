@@ -126,8 +126,8 @@ namespace Threading.Locks.UnitTests
 
                 a.Dispose();
 
-                if (!cd.Wait(25))
-                    Assert.Fail("Waiters were not allowed in");
+                if (!cd.Wait(250))
+                    Assert.Fail($"Waiters were not allowed in. Remaining waiters: {cd.CurrentCount}");
 
                 if (cd.CurrentCount != 0)
                     Assert.Fail("Not all Waiters were allowed in");

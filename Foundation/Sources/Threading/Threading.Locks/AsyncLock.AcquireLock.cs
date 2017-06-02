@@ -11,6 +11,9 @@ namespace SquaredInfinity.Threading.Locks
 {
     public partial class AsyncLock
     {
+        public ILockAcquisition AcquireLock(LockType lockType)
+            => AcquireLock(lockType, SyncOptions.Default);
+
         /// <summary>
         /// A common pattern of acquiring both Read and Write locks.
         /// Async Lock does not recognise differences between Write and Read locks, but its children may support both locks differently.

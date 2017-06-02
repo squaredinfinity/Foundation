@@ -15,6 +15,6 @@ namespace SquaredInfinity.Threading.Locks
         public IAsyncLock CreateAsyncLock(string name) => CreateAsyncLock(name, LockRecursionPolicy.SupportsRecursion);
 
         public IAsyncLock CreateAsyncLock(string name, LockRecursionPolicy recursionPolicy) 
-            => new AsyncLock(name, recursionPolicy);
+            => new AsyncLock(name, recursionPolicy, true);
     }
 }

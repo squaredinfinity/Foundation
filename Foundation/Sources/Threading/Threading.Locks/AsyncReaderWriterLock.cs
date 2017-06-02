@@ -56,7 +56,7 @@ namespace SquaredInfinity.Threading.Locks
         {
             get
             {
-                lock (StateLock)
+                using (InternalLock.AcquireWriteLock())
                 {
                     return _readOwnerThreadIds.ToArray();
                 }
@@ -202,8 +202,9 @@ namespace SquaredInfinity.Threading.Locks
 
         void ReleaseReadLock(int ownerThreadId)
         {
-            lock(StateLock)
+            using (InternalLock.AcquireWriteLock())
             {
+                // change state as soon as possible
                 _readOwnerThreadIds.Remove(ownerThreadId);
                 _currentState--;
 
@@ -213,17 +214,15 @@ namespace SquaredInfinity.Threading.Locks
 
         void ReleaseWriteLock()
         {
-            lock (StateLock)
+            using (var l = InternalLock.AcquireWriteLock())
             {
                 _writeOwnerThreadId = NO_THREAD;
                 _currentState = STATE_NOLOCK;
 
-                ScheduleQueueProcessing();
+                //ScheduleQueueProcessing();
+                AfterLockReleased_NOLOCK(l);
             }
         }
-
-        readonly object StateLock = new object();
-
 
         void ScheduleQueueProcessing()
         {
@@ -235,7 +234,7 @@ namespace SquaredInfinity.Threading.Locks
         void ProcessQueuedLocks()
         {
             //using (var l = await InternalLock.AcquireWriteLockAsync())
-            using(var l = InternalLock.AcquireWriteLock())
+            using (var l = InternalLock.AcquireWriteLock())
             {
                 AfterLockReleased_NOLOCK(l);
             }
@@ -243,96 +242,127 @@ namespace SquaredInfinity.Threading.Locks
 
         void AfterLockReleased_NOLOCK(ILockAcquisition lockAcquisition)
         {
-            if (_currentState == STATE_NOLOCK)
+            if (_currentState != STATE_NOLOCK)
             {
-                // there are no more read locks
+                // a lock is still in place (e.g. another reader)
+                // nothing to do here
+                return;
+            }
 
-                if (_waitingWriters.Count == 0)
+            if (_waitingWriters.Count > 0)
+            {
+                // there are waiting writers
+                // grant lock to next in queue
+                while (_waitingWriters.Count > 0)
                 {
-                    // there are no waiting writers
-                    // check if there are waiting readers
+                    var r = _waitingWriters.Dequeue();
+
+                    if (r.CancellationToken.IsCancellationRequested)
+                        continue;
+
+                    if (r.Timeout.HasTimedOut)
+                        continue;
                     
-                    if(_waitingReaders.Count == 0)
+                    // acquire lock on different thread
+                    Task.Run(async () =>
                     {
-                        // nothing to do, return
-                        return;
-                    }
-                    else
-                    {
-                        // let the readers in
-                        while(_waitingReaders.Count > 0)
+                        var lock_acquisition = (ILockAcquisition)null;
+
+                        try
                         {
-                            var r = _waitingReaders.Dequeue();
-                            
-                            if (r.CancellationToken.IsCancellationRequested)
-                                continue;
-
-                            if (r.Timeout.HasTimedOut)
-                                continue;
-
-                            var rl =
-                                AcquireLock_NOLOCK(
-                                    LockType.Read,
-                                    r.OwnerThreadId ?? Environment.CurrentManagedThreadId,
-                                    new SyncOptions(r.Timeout.MillisecondsLeft, r.CancellationToken));
-
-                            lockAcquisition.Dispose();
-
-                            ScheduleQueueProcessing();
-
-                            // Task Completion Source might have timed out, so check the result
-                            if (r.TaskCompletionSource.TrySetResult(rl))
+                            if (r.OwnerThreadId != NO_THREAD)
                             {
-                                // all went ok, try to acquire next read lock
+                                lock_acquisition =
+                                AcquireLock_NOLOCK(LockType.Write, r.OwnerThreadId, new SyncOptions(r.Timeout.MillisecondsLeft, r.CancellationToken));
                             }
                             else
                             {
-                                rl.Dispose();
+                                lock_acquisition =
+                                await AcquireLockAsync__NOLOCK(LockType.Write, new AsyncOptions(r.Timeout.MillisecondsLeft, r.CancellationToken), lockAcquisition);
                             }
 
-                            return;
+                            // Task Completion Source might have timed out, so check the result
+                            if (r.TaskCompletionSource.TrySetResult(lock_acquisition))
+                            {
+                                // all ok
+                            }
+                            else
+                            {
+                                lock_acquisition.Dispose();
+                                ProcessQueuedLocks();
+                            }
                         }
-                    }
+                        catch(Exception ex)
+                        {
+                            r.TaskCompletionSource.TrySetException(ex);
+                            lock_acquisition?.Dispose();
+                            ProcessQueuedLocks();
+                        }
+                    });
+
+                    // do not process queue any further
+                    break;
+                }
+            }
+            else
+            {
+                // there are no waiting writers
+                // check if there are waiting readers
+
+                if (_waitingReaders.Count == 0)
+                {
+                    // nothing to do, return
+                    return;
                 }
                 else
                 {
-                    // there are waiting writers
-                    // grant lock to next in queue
-                    while (_waitingWriters.Count > 0)
+                    // let the readers in
+                    while (_waitingReaders.Count > 0)
                     {
-                        var r = _waitingWriters.Dequeue();
+                        var r = _waitingReaders.Dequeue();
 
                         if (r.CancellationToken.IsCancellationRequested)
                             continue;
 
                         if (r.Timeout.HasTimedOut)
                             continue;
-
-                        var are = new AutoResetEvent(false);
-
-                        var wl =
-                       AcquireLock_NOLOCK(
-                           LockType.Write,
-                           r.OwnerThreadId ?? Environment.CurrentManagedThreadId,
-                           new SyncOptions(
-                               r.Timeout.MillisecondsLeft,
-                               r.CancellationToken));
-
-                        lockAcquisition.Dispose();
-
-                        ScheduleQueueProcessing();
-
-                        // Task Completion Source might have timed out, so check the result
-                        if (r.TaskCompletionSource.TrySetResult(wl))
+                        
+                        Task.Run(async () =>
                         {
-                            // all ok
-                        }
-                        else
-                        {
-                            wl.Dispose();
-                        }
+                            var lock_acquisition = (ILockAcquisition)null;
 
-                        return;
+                            try
+                            {
+                                if (r.OwnerThreadId != NO_THREAD)
+                                {
+                                    lock_acquisition =
+                                    AcquireLock_NOLOCK(LockType.Read, r.OwnerThreadId, new SyncOptions(r.Timeout.MillisecondsLeft, r.CancellationToken));
+                                }
+                                else
+                                {
+                                    lock_acquisition = 
+                                    await 
+                                    AcquireLockAsync__NOLOCK(LockType.Read, new AsyncOptions(r.Timeout.MillisecondsLeft, r.CancellationToken), lockAcquisition);
+                                }
+
+                                // Task Completion Source might have timed out, so check the result
+                                if (r.TaskCompletionSource.TrySetResult(lock_acquisition))
+                                {
+                                    // all went ok, try to acquire next read lock
+                                }
+                                else
+                                {
+                                    lock_acquisition.Dispose();
+                                    ProcessQueuedLocks();
+                                }
+                            }
+                            catch(Exception ex)
+                            {
+                                r.TaskCompletionSource.TrySetException(ex);
+                                lock_acquisition?.Dispose();
+                                ProcessQueuedLocks();
+                            }
+                        });
                     }
                 }
             }

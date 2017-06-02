@@ -11,18 +11,21 @@ namespace SquaredInfinity.Threading.Locks
 {
     public partial class AsyncLock
     {
+        public async Task<ILockAcquisition> AcquireLockAsync(LockType lockType)
+            => await AcquireLockAsync(lockType, AsyncOptions.Default);
+
         /// <summary>
         /// A common patter of acquiringboth Read and Write async locks. 
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        async Task<ILockAcquisition> AcquireLockAsync(LockType lockType, AsyncOptions options)
+        public async Task<ILockAcquisition> AcquireLockAsync(LockType lockType, AsyncOptions options)
         {
             if (options.MillisecondsTimeout == 0)
                 return _FailedLockAcquisition.Instance;
 
-            if (IsLockAcquisitionRecursive())
-                return new _DummyLockAcquisition();
+            if(RecursionPolicy == LockRecursionPolicy.SupportsRecursion)
+                throw new NotSupportedException("Async acquisitions are not supported by recursive locks");
 
             // lock parent first
             var ok =
@@ -36,7 +39,6 @@ namespace SquaredInfinity.Threading.Locks
 
             _writeOwnerThreadId = System.Environment.CurrentManagedThreadId;
             var dispose_when_done = new CompositeDisposable();
-
 
             try
             {

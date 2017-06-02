@@ -18,7 +18,7 @@ namespace SquaredInfinity.Threading.Locks
 
             public bool IsLockHeld { get; private set; }
 
-            public _ReadLockAcquisition(AsyncReaderWriterLock owner, int ownerThreadId, IDisposable disposeWhenDone)
+            public _ReadLockAcquisition(AsyncReaderWriterLock owner, int ownerThreadId, IDisposable disposeWhenDone = null)
             {
                 IsLockHeld = true;
 

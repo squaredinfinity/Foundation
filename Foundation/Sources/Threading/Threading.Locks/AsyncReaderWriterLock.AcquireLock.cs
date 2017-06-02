@@ -1,4 +1,4 @@
-﻿using SquaredInfinity.Comparers;
+﻿    using SquaredInfinity.Comparers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,6 +15,8 @@ namespace SquaredInfinity.Threading.Locks
 
         ILockAcquisition AcquireLock(LockType lockType, SyncOptions options)
         {
+            options.CancellationToken.ThrowIfCancellationRequested();
+
             if (lockType != LockType.Read && lockType != LockType.Write)
                 throw new NotSupportedException($"specified lock type is not supported, {lockType}");
 

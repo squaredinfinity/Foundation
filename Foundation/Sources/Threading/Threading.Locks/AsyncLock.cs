@@ -10,6 +10,13 @@ using System.Diagnostics;
 
 namespace SquaredInfinity.Threading.Locks
 {
+    public enum LockState
+    {
+        Read,
+        Write,
+        NoLock
+    }
+
     /// <summary>
     /// Asynchronous mutex.
     /// Supports one single writer thread.
@@ -25,9 +32,19 @@ namespace SquaredInfinity.Threading.Locks
         readonly LockRecursionPolicy _recursionPolicy = LockRecursionPolicy.NoRecursion;
         public LockRecursionPolicy RecursionPolicy => _recursionPolicy;
 
+        public LockState State
+        {
+            get
+            {
+                if (InternalWriteLock.CurrentCount == 0)
+                    return LockState.Write;
+                else
+                    return LockState.NoLock;
+            }
+        }
+
         public long LockId { get; } = _LockIdProvider.GetNextId();
         public string Name { get; private set; }
-
 
         volatile int _writeOwnerThreadId;
         public int WriteOwnerThreadId => _writeOwnerThreadId;
@@ -35,12 +52,28 @@ namespace SquaredInfinity.Threading.Locks
         public bool IsReadLockHeld => IsWriteLockHeld;
         public IReadOnlyList<int> ReadOwnerThreadIds => new[] { WriteOwnerThreadId };
 
+        static readonly string Default__Name = "";
+        static readonly LockRecursionPolicy Default__RecursionPolicy = LockRecursionPolicy.NoRecursion;
+        static readonly bool Default__SupportsComposition = true;
+
         #region Constructors
 
+        public AsyncLock()
+            : this(Default__Name, Default__RecursionPolicy, Default__SupportsComposition) { }
+
+        public AsyncLock(string name)
+            : this(name, Default__RecursionPolicy, Default__SupportsComposition) { }
+
+        public AsyncLock(LockRecursionPolicy recursionPolicy)
+            : this(Default__Name, recursionPolicy, Default__SupportsComposition) { }
+
+        public AsyncLock(bool supportsComposition)
+            : this(Default__Name, Default__RecursionPolicy, supportsComposition) { }
+
         public AsyncLock(
-            string name = "",
-            LockRecursionPolicy recursionPolicy = LockRecursionPolicy.NoRecursion,
-            bool supportsComposition = true)
+            string name,
+            LockRecursionPolicy recursionPolicy,
+            bool supportsComposition)
         {
             Name = name;
 

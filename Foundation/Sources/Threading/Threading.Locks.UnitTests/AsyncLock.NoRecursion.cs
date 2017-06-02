@@ -24,12 +24,12 @@ namespace Threading.Locks.UnitTests
                 Assert.AreEqual(System.Environment.CurrentManagedThreadId, al.WriteOwnerThreadId);
 
                 var ok = false;
-                try
-                {
-                    var l2 = al.AcquireWriteLock();
-                }
-                catch(LockRecursionException) { ok = true; }
-                Assert.IsTrue(ok, "Exception has not been thrown");
+                //try
+                //{
+                //    var l2 = al.AcquireWriteLock();
+                //}
+                //catch(LockRecursionException) { ok = true; }
+                //Assert.IsTrue(ok, "Exception has not been thrown");
 
                 ok = false;
                 try

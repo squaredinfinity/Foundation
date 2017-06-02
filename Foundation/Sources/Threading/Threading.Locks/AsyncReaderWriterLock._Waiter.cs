@@ -14,11 +14,11 @@ namespace SquaredInfinity.Threading.Locks
             public readonly TaskCompletionSource<ILockAcquisition> TaskCompletionSource;
             public readonly TimeoutExpiry Timeout;
             public readonly CancellationToken CancellationToken;
-            public readonly int? OwnerThreadId;
+            public readonly int OwnerThreadId;
 
             public _Waiter(
                 TaskCompletionSource<ILockAcquisition> taskCompletionSource, 
-                int? ownerThreadId,
+                int ownerThreadId,
                 int millisecondsTimeout, 
                 CancellationToken ct)
             {

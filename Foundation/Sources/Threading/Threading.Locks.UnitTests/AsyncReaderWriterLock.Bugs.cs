@@ -58,7 +58,7 @@ namespace Threading.Locks.UnitTests
         [TestMethod]
         public void BUG002__queued_async_locks_acquired_on_wrong_thread()
         {
-            foreach (var lt in new[] { LockType.Read , LockType.Write })
+            foreach (var lt in new[] { LockType.Read })// , LockType.Write })
             {
                 foreach (var rp in new[] { LockRecursionPolicy.NoRecursion , LockRecursionPolicy.SupportsRecursion })
                 {
@@ -125,6 +125,41 @@ namespace Threading.Locks.UnitTests
                     Assert.IsTrue(all_acquired_on_correct_thread);
                 }
             }
+        }
+
+        [TestMethod]
+        public async Task MyTestMethod()
+        {
+            var l = new AsyncReaderWriterLock();
+            var l2 = new AsyncReaderWriterLock();
+            l.AddChild(l2);
+
+            for(int i = 0; i < 100; i++)
+            {
+                Task.Run(async () =>
+                {
+                    using (await l.AcquireWriteLockAsync())
+                    {
+                        if(Environment.CurrentManagedThreadId != l.WriteOwnerThreadId)
+                        {
+
+                        }
+                    }
+                });
+
+                Task.Run(async () =>
+                {
+                    using (var x = await l2.AcquireWriteLockAsync())
+                    {
+                        if(Environment.CurrentManagedThreadId != l2.WriteOwnerThreadId)
+                        {
+
+                        }
+                    }
+                });
+            }
+
+            Thread.Sleep(5000);
         }
     }
 }
