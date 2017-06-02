@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace SquaredInfinity.Threading.Locks
 {
@@ -21,12 +22,15 @@ namespace SquaredInfinity.Threading.Locks
             if (IsLockAcquisitionRecursive())
                 return new _DummyLockAcquisition();
 
-            using (var l = await InternalLock.AcquireWriteLockAsync(options).ConfigureAwait(options.ContinueOnCapturedContext))
+            var sw = Stopwatch.StartNew();
+
+            //using (var l = await InternalLock.AcquireWriteLockAsync(options).ConfigureAwait(options.ContinueOnCapturedContext))
+            using(var l = InternalLock.AcquireWriteLock())
             {
+                Debug.WriteLine("Internal Lock " + sw.ElapsedMilliseconds);
+
                 if (!l.IsLockHeld)
                     return _FailedLockAcquisition.Instance;
-
-                var ownerThreadId = Environment.CurrentManagedThreadId;
 
                 var state_comparison_type = ComparisonType.Equal;
 
@@ -50,19 +54,19 @@ namespace SquaredInfinity.Threading.Locks
                     // we are not in write or read lock and there is no waiting writer
                     // just acquire another read lock
 
-                    if (CompositeLock == null)
+                    if (CompositeLock == null || CompositeLock.ChildrenCount == 0)
                     {
                         if (lockType == LockType.Read)
                         {
                             // no children to lock, we can just grant reader-lock and return
-                            _readOwnerThreadIds.Add(ownerThreadId);
+                            _readOwnerThreadIds.Add(Environment.CurrentManagedThreadId);
                             _currentState++;
-                            return new _ReadLockAcquisition(this, ownerThreadId, null);
+                            return new _ReadLockAcquisition(this, Environment.CurrentManagedThreadId, null);
                         }
                         else if(lockType == LockType.Write)
                         {
                             // no children to lock, we can just grant writer-lock and return
-                            _writeOwnerThreadId = ownerThreadId;
+                            _writeOwnerThreadId = Environment.CurrentManagedThreadId;
                             _currentState = STATE_WRITELOCK;
                             return new _WriteLockAcquisition(this, null);
                         }
@@ -75,7 +79,7 @@ namespace SquaredInfinity.Threading.Locks
                     {
                         // there might be children
                         // try locking them now
-
+                        
                         try
                         {
                             // try to lock children
@@ -94,13 +98,13 @@ namespace SquaredInfinity.Threading.Locks
 
                             if (lockType == LockType.Read)
                             {
-                                _readOwnerThreadIds.Add(ownerThreadId);
+                                _readOwnerThreadIds.Add(Environment.CurrentManagedThreadId);
                                 _currentState++;
-                                return new _ReadLockAcquisition(owner: this, ownerThreadId: ownerThreadId, disposeWhenDone: children_acquisition);
+                                return new _ReadLockAcquisition(owner: this, ownerThreadId: Environment.CurrentManagedThreadId, disposeWhenDone: children_acquisition);
                             }
                             else if(lockType == LockType.Write)
                             {
-                                _writeOwnerThreadId = ownerThreadId;
+                                _writeOwnerThreadId = Environment.CurrentManagedThreadId;
                                 _currentState = STATE_WRITELOCK;
                                 return new _WriteLockAcquisition(owner: this, disposeWhenDone: children_acquisition);
                             }
@@ -159,26 +163,13 @@ namespace SquaredInfinity.Threading.Locks
                     waiter_queue.Enqueue(
                         new _Waiter(
                             completion_source, 
-                            Environment.CurrentManagedThreadId,
+                            null, // set owner thread id to null. for async waits it will be assigned when async wait completes
                             options.MillisecondsTimeout, 
                             options.CancellationToken));
 
                     l.Dispose();
 
-                    return await completion_source
-                        .Task
-                        .ContinueWith<ILockAcquisition>(_ =>
-                        {
-                            if (_.Status == TaskStatus.RanToCompletion)
-                            {
-                                this._writeOwnerThreadId = Environment.CurrentManagedThreadId;
-                                return _.Result;
-                            }
-                            else
-                            {
-                                return _.Result;
-                            }
-                        }, TaskContinuationOptions.ExecuteSynchronously);
+                    return await completion_source.Task;
                 }
             }
         }

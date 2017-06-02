@@ -8,6 +8,7 @@ namespace SquaredInfinity.Threading.Locks
 {
     public interface ICompositeLock
     {
+        int ChildrenCount { get; }
         void AddChild(ILock childLock);
         void RemoveChild(ILock childLock);
     }

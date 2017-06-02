@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SquaredInfinity.Disposables;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +8,42 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Threading.Locks
 {
+    class SyncLock
+    {
+        readonly object Sync = new object();
+
+        public ILockAcquisition AcquireWriteLock()
+        {
+            Monitor.Enter(Sync);
+
+            return new MonitorAcqusition(this);
+        }
+
+        public void Release()
+        {
+            Monitor.Exit(Sync);
+        }
+
+        class MonitorAcqusition : DisposableObject, ILockAcquisition
+        {
+            SyncLock Owner;
+
+            public MonitorAcqusition(SyncLock owner)
+            {
+                Owner = owner;
+            }
+
+            public bool IsLockHeld => true;
+
+            protected override void DisposeManagedResources()
+            {
+                base.DisposeManagedResources();
+
+                Owner.Release();
+            }
+        }
+    }
+
     public partial class AsyncReaderWriterLock : IAsyncLock, IAsyncReadLock
     {
         readonly _CompositeAsyncLock CompositeLock;
@@ -15,7 +52,16 @@ namespace SquaredInfinity.Threading.Locks
         public LockRecursionPolicy RecursionPolicy => _recursionPolicy;
 
         HashSet<int> _readOwnerThreadIds = new HashSet<int>();
-        public IReadOnlyList<int> ReadOwnerThreadIds => _readOwnerThreadIds.ToArray();
+        public IReadOnlyList<int> ReadOwnerThreadIds
+        {
+            get
+            {
+                lock (StateLock)
+                {
+                    return _readOwnerThreadIds.ToArray();
+                }
+            }
+        }
 
         volatile int _writeOwnerThreadId = -1;
         public int WriteOwnerThreadId => _writeOwnerThreadId;
@@ -31,12 +77,12 @@ namespace SquaredInfinity.Threading.Locks
         /// <summary>
         /// True if current thread hold read lock
         /// </summary>
-        public bool IsReadLockHeld => _readOwnerThreadIds.Contains(Environment.CurrentManagedThreadId);
+        public bool IsReadLockHeld => ReadOwnerThreadIds.Contains(Environment.CurrentManagedThreadId);
 
         readonly Queue<_Waiter> _waitingReaders = new Queue<_Waiter>();
         readonly Queue<_Waiter> _waitingWriters = new Queue<_Waiter>();
 
-        readonly IAsyncLock InternalLock;
+        readonly SyncLock InternalLock;
 
         public ReaderWriterLockState State
         {
@@ -84,10 +130,13 @@ namespace SquaredInfinity.Threading.Locks
 
             // there's no need for internal lock to support recursion (implementation of this type will avoid this need)
             // there's no need for internal lock to support composition (no child locks will be added)
-            InternalLock = new AsyncLock(recursionPolicy: LockRecursionPolicy.NoRecursion, supportsComposition: false);
+            //InternalLock = new AsyncLock(recursionPolicy: LockRecursionPolicy.NoRecursion, supportsComposition: false);
+            InternalLock = new SyncLock();
         }
 
         #region ICompositeAsyncLock
+
+        public int ChildrenCount => CompositeLock.ChildrenCount;
 
         public void AddChild(IAsyncLock childLock)
         {
@@ -153,27 +202,46 @@ namespace SquaredInfinity.Threading.Locks
 
         void ReleaseReadLock(int ownerThreadId)
         {
-            using (var l = InternalLock.AcquireWriteLock())
+            lock(StateLock)
             {
                 _readOwnerThreadIds.Remove(ownerThreadId);
                 _currentState--;
 
-                AfterLockReleased(l);
+                ScheduleQueueProcessing();
             }
         }
 
         void ReleaseWriteLock()
         {
-            using (var l = InternalLock.AcquireWriteLock())
+            lock (StateLock)
             {
                 _writeOwnerThreadId = NO_THREAD;
                 _currentState = STATE_NOLOCK;
 
-                AfterLockReleased(l);
+                ScheduleQueueProcessing();
             }
         }
 
-        void AfterLockReleased(ILockAcquisition internalLockAcquisition)
+        readonly object StateLock = new object();
+
+
+        void ScheduleQueueProcessing()
+        {
+            // start queued locks processing on another thread
+            Task.Run(() => ProcessQueuedLocks());
+            //ProcessQueuedLocks()
+        }
+
+        void ProcessQueuedLocks()
+        {
+            //using (var l = await InternalLock.AcquireWriteLockAsync())
+            using(var l = InternalLock.AcquireWriteLock())
+            {
+                AfterLockReleased_NOLOCK(l);
+            }
+        }
+
+        void AfterLockReleased_NOLOCK(ILockAcquisition lockAcquisition)
         {
             if (_currentState == STATE_NOLOCK)
             {
@@ -202,14 +270,17 @@ namespace SquaredInfinity.Threading.Locks
                             if (r.Timeout.HasTimedOut)
                                 continue;
 
-                            // TODO: this will report owner as current thread, not the thread that actually requested the lock :(
-                            var rl = 
+                            var rl =
                                 AcquireLock_NOLOCK(
                                     LockType.Read,
-                                    r.OwnerThreadId,
+                                    r.OwnerThreadId ?? Environment.CurrentManagedThreadId,
                                     new SyncOptions(r.Timeout.MillisecondsLeft, r.CancellationToken));
-                            
-                            // thaw waiting task
+
+                            lockAcquisition.Dispose();
+
+                            ScheduleQueueProcessing();
+
+                            // Task Completion Source might have timed out, so check the result
                             if (r.TaskCompletionSource.TrySetResult(rl))
                             {
                                 // all went ok, try to acquire next read lock
@@ -218,6 +289,8 @@ namespace SquaredInfinity.Threading.Locks
                             {
                                 rl.Dispose();
                             }
+
+                            return;
                         }
                     }
                 }
@@ -225,7 +298,6 @@ namespace SquaredInfinity.Threading.Locks
                 {
                     // there are waiting writers
                     // grant lock to next in queue
-                    
                     while (_waitingWriters.Count > 0)
                     {
                         var r = _waitingWriters.Dequeue();
@@ -236,27 +308,31 @@ namespace SquaredInfinity.Threading.Locks
                         if (r.Timeout.HasTimedOut)
                             continue;
 
-                        var wl = 
-                            AcquireLock_NOLOCK(
-                                LockType.Write,
-                                r.OwnerThreadId,
-                                new SyncOptions(
-                                    r.Timeout.MillisecondsLeft, 
-                                    r.CancellationToken));
+                        var are = new AutoResetEvent(false);
 
-                        // dispose internal lock if a new lock has been granted
-                        if(wl.IsLockHeld)
-                            internalLockAcquisition.Dispose();
+                        var wl =
+                       AcquireLock_NOLOCK(
+                           LockType.Write,
+                           r.OwnerThreadId ?? Environment.CurrentManagedThreadId,
+                           new SyncOptions(
+                               r.Timeout.MillisecondsLeft,
+                               r.CancellationToken));
 
-                        // thaw waiting task
+                        lockAcquisition.Dispose();
+
+                        ScheduleQueueProcessing();
+
+                        // Task Completion Source might have timed out, so check the result
                         if (r.TaskCompletionSource.TrySetResult(wl))
                         {
-                            break;
+                            // all ok
                         }
                         else
                         {
                             wl.Dispose();
                         }
+
+                        return;
                     }
                 }
             }

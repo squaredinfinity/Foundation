@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using SquaredInfinity.Threading.Locks;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Threading.Locks.UnitTests
 {
@@ -144,6 +145,8 @@ namespace Threading.Locks.UnitTests
             {
                 foreach (var rp in GetRecursionPolicies())
                 {
+                    Trace.WriteLine($"TESTING: {lt}, {rp}");
+
                     var l = new AsyncReaderWriterLock(rp);
 
                     var aw = l.AcquireWriteLock();
@@ -244,10 +247,7 @@ namespace Threading.Locks.UnitTests
                             throw new NotImplementedException();
                         }
                     });
-
-                    // wait so that read lock can have time to be queued
-                    Thread.Sleep(25);
-
+                    
                     // release write lock so read lock can be acquired
                     aw.Dispose();
 

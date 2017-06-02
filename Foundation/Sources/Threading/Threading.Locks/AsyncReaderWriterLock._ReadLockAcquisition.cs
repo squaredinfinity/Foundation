@@ -14,7 +14,7 @@ namespace SquaredInfinity.Threading.Locks
         class _ReadLockAcquisition : DisposableObject, IReadLockAcquisition
         {
             AsyncReaderWriterLock Owner;
-            int OwnerThreadId;
+            volatile int OwnerThreadId;
 
             public bool IsLockHeld { get; private set; }
 

@@ -11,6 +11,17 @@ namespace SquaredInfinity.Threading.Locks
 {
     class _CompositeAsyncLock : ICompositeAsyncLock
     {
+        public int ChildrenCount
+        {
+            get
+            {
+                using (ChildrenLock.AcquireWriteLock())
+                {
+                    return ChildLocks.Count;
+                }
+            }
+        }
+
         #region Child Locks
 
         // there's no need for internal lock to support recursion (implementation of this type will avoid this need)

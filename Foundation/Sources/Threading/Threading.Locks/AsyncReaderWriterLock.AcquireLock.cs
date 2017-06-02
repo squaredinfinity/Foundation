@@ -1,6 +1,7 @@
 ﻿using SquaredInfinity.Comparers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -23,11 +24,8 @@ namespace SquaredInfinity.Threading.Locks
             if (IsLockAcquisitionRecursive())
                 return new _DummyLockAcquisition();
 
-            using (var l = InternalLock.AcquireWriteLock(options))
+            using (var l = InternalLock.AcquireWriteLock())
             {
-                if (!l.IsLockHeld)
-                    return _FailedLockAcquisition.Instance;
-
                 return AcquireOrQueueLock_NOLOCK(lockType, l, Environment.CurrentManagedThreadId, options);
             }
         }
@@ -120,11 +118,11 @@ namespace SquaredInfinity.Threading.Locks
             // we are not in write or read lock and there is no waiting writer
             // just acquire another lock
 
-            if (CompositeLock == null)
+            if (CompositeLock == null || CompositeLock.ChildrenCount == 0)
             {
                 if (lockType == LockType.Read)
                 {
-                    // no children to lock, we can just grant reader-lock and return
+                    // no children to lock, we can just grant reader-lock and return                    
                     _readOwnerThreadIds.Add(ownerThreadId);
                     _currentState++;
                     return new _ReadLockAcquisition(this, ownerThreadId, null);

@@ -59,8 +59,10 @@ namespace SquaredInfinity.Threading.Locks
             _writeOwnerThreadId = -1;
             InternalWriteLock.Release();
         }
-        
+
         #region ICompositeAsyncLock
+
+        public int ChildrenCount => CompositeLock.ChildrenCount;
 
         public void AddChild(IAsyncLock childLock)
         {
