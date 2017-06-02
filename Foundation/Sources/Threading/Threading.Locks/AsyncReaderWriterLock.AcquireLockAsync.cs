@@ -22,113 +22,84 @@ namespace SquaredInfinity.Threading.Locks
             if (IsLockAcquisitionRecursive())
                 return new _DummyLockAcquisition();
 
-            var sw = Stopwatch.StartNew();
+            var state_comparison_type = ComparisonType.Equal;
 
-            //using (var l = await InternalLock.AcquireWriteLockAsync(options).ConfigureAwait(options.ContinueOnCapturedContext))
+            switch (lockType)
+            {
+                case LockType.Read:
+                    // for reads, state must be NO LOCK (0) or READ (1+)
+                    state_comparison_type = ComparisonType.GreaterOrEqual;
+                    break;
+                case LockType.Write:
+                    // for writes, state must be NO LOCK (0)
+                    state_comparison_type = ComparisonType.Equal;
+                    break;
+                default:
+                    throw new NotSupportedException($"specified lock type is not supported, {lockType}");
+            }
+
+            var sw = Stopwatch.StartNew();
+            
             using(var l = InternalLock.AcquireWriteLock())
             {
                 Debug.WriteLine("Internal Lock " + sw.ElapsedMilliseconds);
-
-                if (!l.IsLockHeld)
-                    return _FailedLockAcquisition.Instance;
-
-                var state_comparison_type = ComparisonType.Equal;
-
-                if (lockType == LockType.Read)
-                {
-                    // for reads, state must be NO LOCK (0) or READ (1+)
-                    state_comparison_type = ComparisonType.GreaterOrEqual;
-                }
-                else if (lockType == LockType.Write)
-                {
-                    // for writes, state must be NO LOCK (0)
-                    state_comparison_type = ComparisonType.Equal;
-                }
-                else
-                {
-                    throw new NotSupportedException($"specified lock type is not supported, {lockType}");
-                }
 
                 if (StateComparer.Compare(_currentState, STATE_NOLOCK, state_comparison_type) && _waitingWriters.Count == 0)
                 {
                     // we are not in write or read lock and there is no waiting writer
                     // just acquire another read lock
 
-                    if (CompositeLock == null || CompositeLock.ChildrenCount == 0)
+                    if (CompositeLock == null || CompositeLock?.ChildrenCount == 0)
                     {
-                        if (lockType == LockType.Read)
+                        switch (lockType)
                         {
-                            // no children to lock, we can just grant reader-lock and return
-                            _readOwnerThreadIds.Add(Environment.CurrentManagedThreadId);
-                            _currentState++;
-                            return new _ReadLockAcquisition(this, Environment.CurrentManagedThreadId, null);
-                        }
-                        else if(lockType == LockType.Write)
-                        {
-                            // no children to lock, we can just grant writer-lock and return
-                            _writeOwnerThreadId = Environment.CurrentManagedThreadId;
-                            _currentState = STATE_WRITELOCK;
-                            return new _WriteLockAcquisition(this, null);
-                        }
-                        else
-                        {
-                            throw new NotSupportedException($"specified lock type is not supported, {lockType}");
+                            case LockType.Read:
+                                // no children to lock, we can just grant reader-lock and return
+                                _readOwnerThreadIds.Add(Environment.CurrentManagedThreadId);
+                                _currentState++;
+                                return new _ReadLockAcquisition(this, Environment.CurrentManagedThreadId, null);
+                            case LockType.Write:
+                                // no children to lock, we can just grant writer-lock and return
+                                _writeOwnerThreadId = Environment.CurrentManagedThreadId;
+                                _currentState = STATE_WRITELOCK;
+                                return new _WriteLockAcquisition(this, null);
+                            default:
+                                throw new NotSupportedException($"specified lock type is not supported, {lockType}");
                         }
                     }
                     else
                     {
                         // there might be children
                         // try locking them now
-                        
-                        try
+
+                        var children_acquisition =
+                            await
+                            CompositeLock
+                            .LockChildrenAsync(lockType, options)
+                            .ConfigureAwait(options.ContinueOnCapturedContext);
+
+                        if (!children_acquisition.IsLockHeld)
                         {
-                            // try to lock children
-                            var children_acquisition = 
-                                await 
-                                CompositeLock
-                                .LockChildrenAsync(lockType, options)
-                                .ConfigureAwait(options.ContinueOnCapturedContext);
-
-                            if (!children_acquisition.IsLockHeld)
-                            {
-                                // couldn't acquire children, return failure
-                                children_acquisition.Dispose();
-                                return new _FailedLockAcquisition();
-                            }
-
-                            if (lockType == LockType.Read)
-                            {
-                                _readOwnerThreadIds.Add(Environment.CurrentManagedThreadId);
-                                _currentState++;
-                                return new _ReadLockAcquisition(owner: this, ownerThreadId: Environment.CurrentManagedThreadId, disposeWhenDone: children_acquisition);
-                            }
-                            else if(lockType == LockType.Write)
-                            {
-                                _writeOwnerThreadId = Environment.CurrentManagedThreadId;
-                                _currentState = STATE_WRITELOCK;
-                                return new _WriteLockAcquisition(owner: this, disposeWhenDone: children_acquisition);
-                            }
-                            else
-                            {
-                                throw new NotSupportedException($"specified lock type is not supported, {lockType}");
-                            }
+                            // couldn't acquire children, return failure
+                            children_acquisition.Dispose();
+                            return new _FailedLockAcquisition();
                         }
-                        catch
+
+                        if (lockType == LockType.Read)
                         {
-                            if (lockType == LockType.Read)
-                            {
-                                _readOwnerThreadIds.Remove(Environment.CurrentManagedThreadId);
-                                throw;
-                            }
-                            else if (lockType == LockType.Write)
-                            {
-                                _writeOwnerThreadId = NO_THREAD;
-                                throw;
-                            }
-                            else
-                            {
-                                throw new NotSupportedException($"specified lock type is not supported, {lockType}");
-                            }
+                            _readOwnerThreadIds.Add(Environment.CurrentManagedThreadId);
+                            _currentState++;
+                            return new _ReadLockAcquisition(owner: this, ownerThreadId: Environment.CurrentManagedThreadId, disposeWhenDone: children_acquisition);
+                        }
+                        else if (lockType == LockType.Write)
+                        {
+                            _writeOwnerThreadId = Environment.CurrentManagedThreadId;
+                            _currentState = STATE_WRITELOCK;
+                            return new _WriteLockAcquisition(owner: this, disposeWhenDone: children_acquisition);
+                        }
+                        else
+                        {
+                            throw new NotSupportedException($"specified lock type is not supported, {lockType}");
                         }
                     }
                 }
