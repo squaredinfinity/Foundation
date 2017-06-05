@@ -21,31 +21,31 @@ namespace Threading.Locks.UnitTests
         {
             var l = new AsyncReaderWriterLock();
 
-            Assert.AreEqual(ReaderWriterLockState.NoLock, l.State);
+            Assert.AreEqual(LockState.NoLock, l.State);
 
             // write
             using (l.AcquireWriteLock())
-                Assert.AreEqual(ReaderWriterLockState.Write, l.State);
+                Assert.AreEqual(LockState.Write, l.State);
 
-            Assert.AreEqual(ReaderWriterLockState.NoLock, l.State);
+            Assert.AreEqual(LockState.NoLock, l.State);
 
             // write async
             using (await l.AcquireWriteLockAsync())
-                Assert.AreEqual(ReaderWriterLockState.Write, l.State);
+                Assert.AreEqual(LockState.Write, l.State);
 
-            Assert.AreEqual(ReaderWriterLockState.NoLock, l.State);
+            Assert.AreEqual(LockState.NoLock, l.State);
 
             // read
             using (l.AcquireReadLock())
-                Assert.AreEqual(ReaderWriterLockState.Read, l.State);
+                Assert.AreEqual(LockState.Read, l.State);
 
-            Assert.AreEqual(ReaderWriterLockState.NoLock, l.State);
+            Assert.AreEqual(LockState.NoLock, l.State);
 
             // read async
             using (await l.AcquireReadLockAsync())
-                Assert.AreEqual(ReaderWriterLockState.Read, l.State);
+                Assert.AreEqual(LockState.Read, l.State);
 
-            Assert.AreEqual(ReaderWriterLockState.NoLock, l.State);
+            Assert.AreEqual(LockState.NoLock, l.State);
         }
 
         [TestMethod]
@@ -152,19 +152,17 @@ namespace Threading.Locks.UnitTests
                     var aw = l.AcquireWriteLock();
 
                     var task =
-                    Task.Factory.StartNew(() =>
+                    Task.Factory.StartNew((Action)(() =>
                     {
                         if (lt == LockType.Read)
                         {
                             using (var ar = l.AcquireReadLock())
                             {
                                 Assert.IsTrue(ar.IsLockHeld);
-                                Assert.IsTrue(l.IsReadLockHeld);
-                                Assert.IsTrue(l.ReadOwnerThreadIds.Contains(Environment.CurrentManagedThreadId));
-                                Assert.AreEqual(ReaderWriterLockState.Read, l.State);
+                                Assert.IsTrue(l.ReadOwners.Where(x => x.CorrelationToken == ThreadCorrelationToken.FromCurrentThread).Any());
+                                Assert.AreEqual(LockState.Read, l.State);
 
-                                Assert.IsFalse(l.IsWriteLockHeld);
-                                Assert.AreEqual(-1, l.WriteOwnerThreadId);
+                                Assert.AreEqual(-1, l.WriteOwner);
                             }
                         }
                         else
@@ -173,19 +171,17 @@ namespace Threading.Locks.UnitTests
                             using (var ar = l.AcquireWriteLock())
                             {
                                 Assert.IsTrue(ar.IsLockHeld);
-                                Assert.IsTrue(l.IsWriteLockHeld);
-                                Assert.IsTrue(l.WriteOwnerThreadId == Environment.CurrentManagedThreadId);
-                                Assert.AreEqual(ReaderWriterLockState.Write, l.State);
+                                Assert.IsTrue(l.WriteOwner.CorrelationToken == ThreadCorrelationToken.FromCurrentThread);
+                                Assert.AreEqual<SquaredInfinity.Threading.Locks.LockState>((SquaredInfinity.Threading.Locks.LockState)SquaredInfinity.Threading.Locks.LockState.Write, (SquaredInfinity.Threading.Locks.LockState)l.State);
 
-                                Assert.IsFalse(l.IsReadLockHeld);
-                                Assert.AreEqual(0, l.ReadOwnerThreadIds.Count);
+                                Assert.AreEqual(0, l.ReadOwners.Count);
                             }
                         }
                         else
                         {
                             throw new NotImplementedException();
                         }
-                    });
+                    }));
 
                     // wait so that read lock can have time to be queued
                     Thread.Sleep(25);
@@ -213,19 +209,17 @@ namespace Threading.Locks.UnitTests
                     var aw = l.AcquireWriteLock();
 
                     var task =
-                    Task.Factory.StartNew(async () =>
+                    Task.Factory.StartNew((Func<Task>)(async () =>
                     {
                         if (lt == LockType.Read)
                         {
                             using (var ar = await l.AcquireReadLockAsync())
                             {
                                 Assert.IsTrue(ar.IsLockHeld);
-                                Assert.IsTrue(l.IsReadLockHeld);
-                                Assert.IsTrue(l.ReadOwnerThreadIds.Contains(Environment.CurrentManagedThreadId));
-                                Assert.AreEqual(ReaderWriterLockState.Read, l.State);
-
-                                Assert.IsFalse(l.IsWriteLockHeld);
-                                Assert.AreEqual(-1, l.WriteOwnerThreadId);
+                                Assert.IsTrue(l.ReadOwners.Where(x => x.CorrelationToken == ThreadCorrelationToken.FromCurrentThread).Any());
+                                Assert.AreEqual(LockState.Read, l.State);
+                                
+                                Assert.AreEqual(-1, l.WriteOwner);
                             }
                         }
                         else
@@ -234,19 +228,17 @@ namespace Threading.Locks.UnitTests
                             using (var ar = await l.AcquireWriteLockAsync())
                             {
                                 Assert.IsTrue(ar.IsLockHeld);
-                                Assert.IsTrue(l.IsWriteLockHeld);
-                                Assert.IsTrue(l.WriteOwnerThreadId == Environment.CurrentManagedThreadId);
-                                Assert.AreEqual(ReaderWriterLockState.Write, l.State);
-
-                                Assert.IsFalse(l.IsReadLockHeld);
-                                Assert.AreEqual(0, l.ReadOwnerThreadIds.Count);
+                                Assert.IsTrue(l.WriteOwner.CorrelationToken == ThreadCorrelationToken.FromCurrentThread);
+                                Assert.AreEqual(LockState.Write, l.State);
+                                
+                                Assert.AreEqual(0, l.ReadOwners.Count);
                             }
                         }
                         else
                         {
                             throw new NotImplementedException();
                         }
-                    });
+                    }));
                     
                     // release write lock so read lock can be acquired
                     aw.Dispose();
@@ -275,7 +267,7 @@ namespace Threading.Locks.UnitTests
                         // because no other locks are held
                         var a = l1.AcquireReadLock();
                         Assert.IsTrue(a.IsLockHeld);
-                        Assert.IsTrue(l1.ReadOwnerThreadIds.Contains(tid));
+                        Assert.IsTrue(l1.ReadOwners.Where(x => x.CorrelationToken == ThreadCorrelationToken.FromCurrentThread).Any());
                     }
                     else if (lt == LockType.Write)
                     {
@@ -283,7 +275,7 @@ namespace Threading.Locks.UnitTests
                         // because no other locks are held
                         var a = l1.AcquireWriteLock();
                         Assert.IsTrue(a.IsLockHeld);
-                        Assert.AreEqual(tid, l1.WriteOwnerThreadId);
+                        Assert.AreEqual(tid, l1.WriteOwner);
                     }
                     else
                         Assert.Fail();
@@ -308,7 +300,7 @@ namespace Threading.Locks.UnitTests
                         // because no other locks are held
                         var a = await l1.AcquireReadLockAsync();
                         Assert.IsTrue(a.IsLockHeld);
-                        Assert.IsTrue(l1.ReadOwnerThreadIds.Contains(tid));
+                        Assert.IsTrue(l1.ReadOwners.Where(x => x.CorrelationToken == ThreadCorrelationToken.FromCurrentThread).Any());
                     }
                     else if (lt == LockType.Write)
                     {
@@ -316,7 +308,7 @@ namespace Threading.Locks.UnitTests
                         // because no other locks are held
                         var a = await l1.AcquireWriteLockAsync();
                         Assert.IsTrue(a.IsLockHeld);
-                        Assert.AreEqual(tid, l1.WriteOwnerThreadId);
+                        Assert.AreEqual(tid, l1.WriteOwner);
                     }
                     else
                         Assert.Fail();
@@ -352,29 +344,29 @@ namespace Threading.Locks.UnitTests
 
                     Assert.IsTrue(all_acquisitions.IsLockHeld);
 
-                    Assert.AreEqual(-1, l1.WriteOwnerThreadId);
-                    Assert.AreEqual(-1, l2.WriteOwnerThreadId);
-                    Assert.AreEqual(-1, l3.WriteOwnerThreadId);
-                    Assert.AreEqual(-1, l4.WriteOwnerThreadId);
+                    Assert.AreEqual(-1, l1.WriteOwner);
+                    Assert.AreEqual(-1, l2.WriteOwner);
+                    Assert.AreEqual(-1, l3.WriteOwner);
+                    Assert.AreEqual(-1, l4.WriteOwner);
 
-                    Assert.IsTrue(l1.ReadOwnerThreadIds.Contains(System.Environment.CurrentManagedThreadId));
-                    Assert.IsTrue(l2.ReadOwnerThreadIds.Contains(System.Environment.CurrentManagedThreadId));
-                    Assert.IsTrue(l3.ReadOwnerThreadIds.Contains(System.Environment.CurrentManagedThreadId));
-                    Assert.IsTrue(l4.ReadOwnerThreadIds.Contains(System.Environment.CurrentManagedThreadId));
+                    Assert.IsTrue(l1.ReadOwners.Where(x => x.CorrelationToken == ThreadCorrelationToken.FromCurrentThread).Any());
+                    Assert.IsTrue(l2.ReadOwners.Where(x => x.CorrelationToken == ThreadCorrelationToken.FromCurrentThread).Any());
+                    Assert.IsTrue(l3.ReadOwners.Where(x => x.CorrelationToken == ThreadCorrelationToken.FromCurrentThread).Any());
+                    Assert.IsTrue(l4.ReadOwners.Where(x => x.CorrelationToken == ThreadCorrelationToken.FromCurrentThread).Any());
 
                     all_acquisitions.Dispose();
 
                     Assert.IsFalse(all_acquisitions.IsLockHeld);
 
-                    Assert.AreEqual(-1, l1.WriteOwnerThreadId);
-                    Assert.AreEqual(-1, l2.WriteOwnerThreadId);
-                    Assert.AreEqual(-1, l3.WriteOwnerThreadId);
-                    Assert.AreEqual(-1, l4.WriteOwnerThreadId);
+                    Assert.AreEqual(-1, l1.WriteOwner);
+                    Assert.AreEqual(-1, l2.WriteOwner);
+                    Assert.AreEqual(-1, l3.WriteOwner);
+                    Assert.AreEqual(-1, l4.WriteOwner);
 
-                    Assert.AreEqual(0, l1.ReadOwnerThreadIds.Count);
-                    Assert.AreEqual(0, l2.ReadOwnerThreadIds.Count);
-                    Assert.AreEqual(0, l3.ReadOwnerThreadIds.Count);
-                    Assert.AreEqual(0, l4.ReadOwnerThreadIds.Count);
+                    Assert.AreEqual(0, l1.ReadOwners.Count);
+                    Assert.AreEqual(0, l2.ReadOwners.Count);
+                    Assert.AreEqual(0, l3.ReadOwners.Count);
+                    Assert.AreEqual(0, l4.ReadOwners.Count);
                 }
             }
         }
@@ -394,15 +386,15 @@ namespace Threading.Locks.UnitTests
                 Assert.IsTrue(all_acquisitions.IsLockHeld);
 
 
-                Assert.AreEqual(-1, l1.WriteOwnerThreadId);
-                Assert.AreEqual(-1, l2.WriteOwnerThreadId);
-                Assert.AreEqual(-1, l3.WriteOwnerThreadId);
-                Assert.AreEqual(-1, l4.WriteOwnerThreadId);
+                Assert.AreEqual(-1, l1.WriteOwner);
+                Assert.AreEqual(-1, l2.WriteOwner);
+                Assert.AreEqual(-1, l3.WriteOwner);
+                Assert.AreEqual(-1, l4.WriteOwner);
 
-                Assert.IsTrue(l1.ReadOwnerThreadIds.Contains(Environment.CurrentManagedThreadId));
-                Assert.IsTrue(l2.ReadOwnerThreadIds.Contains(Environment.CurrentManagedThreadId));
-                Assert.IsTrue(l3.ReadOwnerThreadIds.Contains(Environment.CurrentManagedThreadId));
-                Assert.IsTrue(l4.ReadOwnerThreadIds.Contains(Environment.CurrentManagedThreadId));
+                Assert.IsTrue(l1.ReadOwners.Where(x => x.CorrelationToken == ThreadCorrelationToken.FromCurrentThread).Any());
+                Assert.IsTrue(l2.ReadOwners.Where(x => x.CorrelationToken == ThreadCorrelationToken.FromCurrentThread).Any());
+                Assert.IsTrue(l3.ReadOwners.Where(x => x.CorrelationToken == ThreadCorrelationToken.FromCurrentThread).Any());
+                Assert.IsTrue(l4.ReadOwners.Where(x => x.CorrelationToken == ThreadCorrelationToken.FromCurrentThread).Any());
 
 
                 all_acquisitions.Dispose();
@@ -410,15 +402,15 @@ namespace Threading.Locks.UnitTests
                 Assert.IsFalse(all_acquisitions.IsLockHeld);
 
 
-                Assert.AreEqual(-1, l1.WriteOwnerThreadId);
-                Assert.AreEqual(-1, l2.WriteOwnerThreadId);
-                Assert.AreEqual(-1, l3.WriteOwnerThreadId);
-                Assert.AreEqual(-1, l4.WriteOwnerThreadId);
+                Assert.AreEqual(-1, l1.WriteOwner);
+                Assert.AreEqual(-1, l2.WriteOwner);
+                Assert.AreEqual(-1, l3.WriteOwner);
+                Assert.AreEqual(-1, l4.WriteOwner);
 
-                Assert.AreEqual(0, l1.ReadOwnerThreadIds.Count);
-                Assert.AreEqual(0, l2.ReadOwnerThreadIds.Count);
-                Assert.AreEqual(0, l3.ReadOwnerThreadIds.Count);
-                Assert.AreEqual(0, l4.ReadOwnerThreadIds.Count);
+                Assert.AreEqual(0, l1.ReadOwners.Count);
+                Assert.AreEqual(0, l2.ReadOwners.Count);
+                Assert.AreEqual(0, l3.ReadOwners.Count);
+                Assert.AreEqual(0, l4.ReadOwners.Count);
 
             }
         }
@@ -440,13 +432,13 @@ namespace Threading.Locks.UnitTests
                     {
                         var a = l1.AcquireReadLock();
                         Assert.IsTrue(a.IsLockHeld);
-                        Assert.IsTrue(l1.ReadOwnerThreadIds.Contains(Environment.CurrentManagedThreadId));
+                        Assert.IsTrue(l1.ReadOwners.Where(x => x.CorrelationToken == ThreadCorrelationToken.FromCurrentThread).Any());
                     }
                     else if (lt == LockType.Write)
                     {
                         var a = l1.AcquireWriteLock();
                         Assert.IsTrue(a.IsLockHeld);
-                        Assert.AreEqual(Environment.CurrentManagedThreadId, l1.WriteOwnerThreadId);
+                        Assert.AreEqual(Environment.CurrentManagedThreadId, l1.WriteOwner);
                     }
                     else
                     {

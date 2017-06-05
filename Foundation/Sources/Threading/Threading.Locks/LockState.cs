@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Threading.Locks
 {
-    public enum ReaderWriterLockState
+    public enum LockState
     {
-        Write = -1,
         NoLock = 0,
-        Read = 1
+        Read = 1,
+        Write = 2
     }
 }

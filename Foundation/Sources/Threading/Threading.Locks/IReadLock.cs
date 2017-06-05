@@ -9,9 +9,7 @@ namespace SquaredInfinity.Threading.Locks
 {
     public interface IReadLock
     {
-        bool IsReadLockHeld { get; }
-
-        IReadOnlyList<int> ReadOwnerThreadIds { get; }
+        IReadOnlyList<LockOwnership> ReadOwners { get; }
 
         ILockAcquisition AcquireReadLock();
         ILockAcquisition AcquireReadLock(CancellationToken ct);

@@ -9,8 +9,7 @@ namespace SquaredInfinity.Threading.Locks
 {
     public interface IWriteLock
     {
-        int WriteOwnerThreadId { get; }
-        bool IsWriteLockHeld { get; }
+        LockOwnership WriteOwner { get; }
 
         ILockAcquisition AcquireWriteLock();
         ILockAcquisition AcquireWriteLock(CancellationToken ct);

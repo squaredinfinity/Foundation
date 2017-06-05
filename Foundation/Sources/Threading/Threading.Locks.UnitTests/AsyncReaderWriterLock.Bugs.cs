@@ -100,13 +100,13 @@ namespace Threading.Locks.UnitTests
                                 switch (lt)
                                 {
                                     case LockType.Read:
-                                        if (!l.ReadOwnerThreadIds.Contains(Environment.CurrentManagedThreadId))
+                                        if(!l.ReadOwners.Where(x => x.CorrelationToken == ThreadCorrelationToken.FromCurrentThread).Any());
                                         {
                                             all_acquired_on_correct_thread = false;
                                         }
                                         break;
                                     case LockType.Write:
-                                        if (l.WriteOwnerThreadId != Environment.CurrentManagedThreadId)
+                                        if (l.WriteOwner.CorrelationToken != ThreadCorrelationToken.FromCurrentThread)
                                             all_acquired_on_correct_thread = false;
                                         break;
                                     default:
@@ -140,10 +140,7 @@ namespace Threading.Locks.UnitTests
                 {
                     using (await l.AcquireWriteLockAsync())
                     {
-                        if(Environment.CurrentManagedThreadId != l.WriteOwnerThreadId)
-                        {
-
-                        }
+                       
                     }
                 });
 
@@ -151,10 +148,7 @@ namespace Threading.Locks.UnitTests
                 {
                     using (var x = await l2.AcquireWriteLockAsync())
                     {
-                        if(Environment.CurrentManagedThreadId != l2.WriteOwnerThreadId)
-                        {
-
-                        }
+                        
                     }
                 });
             }

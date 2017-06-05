@@ -14,16 +14,16 @@ namespace SquaredInfinity.Threading.Locks
         class _ReadLockAcquisition : DisposableObject, IReadLockAcquisition
         {
             AsyncReaderWriterLock Owner;
-            volatile int OwnerThreadId;
+            volatile ICorrelationToken CorrelationToken;
 
             public bool IsLockHeld { get; private set; }
 
-            public _ReadLockAcquisition(AsyncReaderWriterLock owner, int ownerThreadId, IDisposable disposeWhenDone = null)
+            public _ReadLockAcquisition(AsyncReaderWriterLock owner, ICorrelationToken correlationToken, IDisposable disposeWhenDone = null)
             {
                 IsLockHeld = true;
 
                 Owner = owner;
-                OwnerThreadId = ownerThreadId;
+                CorrelationToken = correlationToken;
 
                 Disposables.AddIfNotNull(disposeWhenDone);
             }
@@ -32,7 +32,7 @@ namespace SquaredInfinity.Threading.Locks
             {
                 base.DisposeManagedResources();
 
-                Owner.ReleaseReadLock(OwnerThreadId);
+                Owner.ReleaseReadLock(CorrelationToken);
                 
                 IsLockHeld = false;
             }

@@ -10,13 +10,6 @@ using System.Diagnostics;
 
 namespace SquaredInfinity.Threading.Locks
 {
-    public enum LockState
-    {
-        Read,
-        Write,
-        NoLock
-    }
-
     /// <summary>
     /// Asynchronous mutex.
     /// Supports one single writer thread.
@@ -46,11 +39,14 @@ namespace SquaredInfinity.Threading.Locks
         public long LockId { get; } = _LockIdProvider.GetNextId();
         public string Name { get; private set; }
 
-        volatile int _writeOwnerThreadId;
-        public int WriteOwnerThreadId => _writeOwnerThreadId;
-        public bool IsWriteLockHeld => System.Environment.CurrentManagedThreadId == _writeOwnerThreadId;
-        public bool IsReadLockHeld => IsWriteLockHeld;
-        public IReadOnlyList<int> ReadOwnerThreadIds => new[] { WriteOwnerThreadId };
+        #region Oeners
+
+        volatile LockOwnership _writeOwner;
+        public LockOwnership WriteOwner => _writeOwner;
+        public IReadOnlyList<LockOwnership> ReadOwners => new[] { _writeOwner };
+        public IReadOnlyList<LockOwnership> AllOwners => _writeOwner == null ? new LockOwnership[0] : new[] { _writeOwner };
+
+        #endregion
 
         static readonly string Default__Name = "";
         static readonly LockRecursionPolicy Default__RecursionPolicy = LockRecursionPolicy.NoRecursion;
@@ -87,10 +83,30 @@ namespace SquaredInfinity.Threading.Locks
 
         #endregion
 
+        void _AddWriter(ICorrelationToken correlationToken)
+        {
+            if (_writeOwner != null)
+            {
+                _writeOwner.AcquisitionCount++;
+            }
+            else
+            {
+                _writeOwner = new LockOwnership(correlationToken);
+            }
+        }
+
         void ReleaseLock()
         {
-            _writeOwnerThreadId = -1;
-            InternalWriteLock.Release();
+            if (_writeOwner == null)
+                throw new InvalidOperationException($"Attempt to release lock which isn't held.");
+
+            _writeOwner.AcquisitionCount--;
+
+            if (_writeOwner.AcquisitionCount == 0)
+            {
+                _writeOwner = null;
+                InternalWriteLock.Release();
+            }
         }
 
         #region ICompositeAsyncLock
@@ -135,11 +151,14 @@ namespace SquaredInfinity.Threading.Locks
         /// True if lock acquisition is recursive, false otherwise
         /// </summary>
         /// <returns></returns>
-        bool IsLockAcquisitionRecursive()
+        bool IsLockAcquisitionRecursive(ICorrelationToken correlationToken)
         {
+            if (_writeOwner == null)
+                return false;
+
             if (RecursionPolicy == LockRecursionPolicy.SupportsRecursion)
             {
-                if (_writeOwnerThreadId == System.Environment.CurrentManagedThreadId)
+                if(_writeOwner.CorrelationToken == correlationToken)
                 {
                     // lock support re-entrancy and is already owned by this thread
                     // just return
@@ -150,7 +169,7 @@ namespace SquaredInfinity.Threading.Locks
                     return false;
                 }
             }
-            else if (System.Environment.CurrentManagedThreadId == WriteOwnerThreadId)
+            else if (_writeOwner.CorrelationToken == correlationToken)
             {
                 // cannot acquire non-recursive lock from thread which already owns it.
                 throw new LockRecursionException();
@@ -159,6 +178,6 @@ namespace SquaredInfinity.Threading.Locks
             return false;
         }
 
-        public string DebuggerDisplay => $"AsyncLock {LockId}, name: {Name.ToStringWithNullOrEmpty()}, owner: {WriteOwnerThreadId}";
+        public string DebuggerDisplay => $"AsyncLock {LockId}, name: {Name.ToStringWithNullOrEmpty()}, owner: {WriteOwner}";
     }
 }

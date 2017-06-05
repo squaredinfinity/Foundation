@@ -51,49 +51,57 @@ namespace SquaredInfinity.Threading.Locks
         LockRecursionPolicy _recursionPolicy = LockRecursionPolicy.NoRecursion;
         public LockRecursionPolicy RecursionPolicy => _recursionPolicy;
 
-        HashSet<int> _readOwnerThreadIds = new HashSet<int>();
-        public IReadOnlyList<int> ReadOwnerThreadIds
+        #region Owners
+
+        HashSet<LockOwnership> _readOwners = new HashSet<LockOwnership>();
+        public IReadOnlyList<LockOwnership> ReadOwners
         {
             get
             {
                 using (InternalLock.AcquireWriteLock())
                 {
-                    return _readOwnerThreadIds.ToArray();
+                    return _readOwners.ToArray();
                 }
             }
         }
 
-        volatile int _writeOwnerThreadId = -1;
-        public int WriteOwnerThreadId => _writeOwnerThreadId;
+        volatile LockOwnership _writeOwner;
+        public LockOwnership WriteOwner => _writeOwner;
+
+        public IReadOnlyList<LockOwnership> AllOwners
+        {
+            get
+            {
+                using (InternalLock.AcquireWriteLock())
+                {
+                    if(_writeOwner != null)
+                        return new[] { _writeOwner }.Concat(_readOwners).ToArray();
+                    else
+                        return _readOwners.ToArray();
+                }
+            }
+        }
+
+        #endregion
 
         public long LockId { get; } = _LockIdProvider.GetNextId();
         public string Name { get; private set; }
-
-        /// <summary>
-        /// True if current thread hold write lock
-        /// </summary>
-        public bool IsWriteLockHeld => Environment.CurrentManagedThreadId == _writeOwnerThreadId;
-
-        /// <summary>
-        /// True if current thread hold read lock
-        /// </summary>
-        public bool IsReadLockHeld => ReadOwnerThreadIds.Contains(Environment.CurrentManagedThreadId);
 
         readonly Queue<_Waiter> _waitingReaders = new Queue<_Waiter>();
         readonly Queue<_Waiter> _waitingWriters = new Queue<_Waiter>();
 
         readonly SyncLock InternalLock;
 
-        public ReaderWriterLockState State
+        public LockState State
         {
             get
             {
                 if (_currentState == STATE_NOLOCK)
-                    return ReaderWriterLockState.NoLock;
+                    return LockState.NoLock;
                 else if (_currentState == STATE_WRITELOCK)
-                    return ReaderWriterLockState.Write;
+                    return LockState.Write;
                 else
-                    return ReaderWriterLockState.Read;
+                    return LockState.Read;
             }
         }
 
@@ -104,9 +112,7 @@ namespace SquaredInfinity.Threading.Locks
 
         const int STATE_NOLOCK = 0;
         const int STATE_WRITELOCK = -1;
-
-        const int NO_THREAD = -1;
-
+        
         public AsyncReaderWriterLock(LockRecursionPolicy recursionPolicy)
             : this("", recursionPolicy, supportsComposition: true)
         { }
@@ -173,42 +179,87 @@ namespace SquaredInfinity.Threading.Locks
         #endregion
 
         /// <summary>
-        /// True if lock acquisition is recursive, false otherwise
+        /// True if current lock acquisition attempt is recursive, false otherwise.
+        /// Throws if attempt is recursive but recursion isn't allowed.
         /// </summary>
         /// <returns></returns>
-        bool IsLockAcquisitionRecursive()
+        bool _IsLockAcquisitionAttemptRecursive(LockType lockType, ICorrelationToken correlationToken)
         {
             if (RecursionPolicy == LockRecursionPolicy.SupportsRecursion)
             {
-                if (_writeOwnerThreadId == System.Environment.CurrentManagedThreadId)
+                switch (lockType)
                 {
-                    // lock support re-entrancy and is already owned by this thread
-                    // just return
-                    return true;
-                }
-                else
-                {
-                    return false;
+                    case LockType.Read:
+                        return ReadOwners.Select(x => x.CorrelationToken).Contains(correlationToken); // todo: should this allow in when write held and instead auto-upgrade to write?
+                    case LockType.Write:
+                        return WriteOwner?.CorrelationToken == correlationToken;
+                    case LockType.UpgradeableRead:
+                        throw new NotSupportedException(lockType.ToString());
                 }
             }
-            else if (System.Environment.CurrentManagedThreadId == WriteOwnerThreadId)
+            else 
             {
-                // cannot acquire non-recursive lock from thread which already owns it.
-                throw new LockRecursionException();
+                return AllOwners.Select(x => x.CorrelationToken).Contains(correlationToken);
             }
 
             return false;
         }
 
-        void ReleaseReadLock(int ownerThreadId)
+        void _AddReader(ICorrelationToken correlationToken)
         {
-            using (InternalLock.AcquireWriteLock())
-            {
-                // change state as soon as possible
-                _readOwnerThreadIds.Remove(ownerThreadId);
-                _currentState--;
+            var existing =
+                (from o in _readOwners
+                 where o.CorrelationToken == correlationToken
+                 select o).FirstOrDefault();
 
-                ScheduleQueueProcessing();
+            if (existing == null)
+            {
+                _readOwners.Add(new LockOwnership(correlationToken));
+                _currentState++;
+            }
+            else
+            {
+                existing.AcquisitionCount++;
+            }
+        }
+
+        void _AddWriter(ICorrelationToken correlationToken)
+        {
+            if (_writeOwner == null)
+                _writeOwner = new LockOwnership(correlationToken);
+            else
+                _writeOwner.AcquisitionCount++;
+
+            _currentState = STATE_WRITELOCK;
+        }
+
+        void ReleaseReadLock(ICorrelationToken ownerCorrelationToken)
+        {
+            using (var l = InternalLock.AcquireWriteLock())
+            {
+                var existing =
+                (from o in _readOwners
+                 where o.CorrelationToken == ownerCorrelationToken
+                 select o).FirstOrDefault();
+
+                if(existing == null)
+                {
+                    throw new InvalidOperationException($"Attempt to release lock which isn't held, {ownerCorrelationToken.ToString()}");
+                }
+                else if(existing.AcquisitionCount > 1)
+                {
+                    existing.AcquisitionCount--;
+                    return;
+                }
+                else
+                {
+                    // change state as soon as possible
+                    _readOwners.Remove(existing);
+                    _currentState--;
+                }
+
+                if(_currentState == STATE_NOLOCK)
+                    AfterLockReleased_NOLOCK(l);
             }
         }
 
@@ -216,24 +267,19 @@ namespace SquaredInfinity.Threading.Locks
         {
             using (var l = InternalLock.AcquireWriteLock())
             {
-                _writeOwnerThreadId = NO_THREAD;
-                _currentState = STATE_NOLOCK;
+                _writeOwner.AcquisitionCount--;
 
-                //ScheduleQueueProcessing();
-                AfterLockReleased_NOLOCK(l);
+                if (_writeOwner.AcquisitionCount == 0)
+                {
+                    _currentState = STATE_NOLOCK;
+                    
+                    AfterLockReleased_NOLOCK(l);
+                }
             }
-        }
-
-        void ScheduleQueueProcessing()
-        {
-            // start queued locks processing on another thread
-            Task.Run(() => ProcessQueuedLocks());
-            //ProcessQueuedLocks()
         }
 
         void ProcessQueuedLocks()
         {
-            //using (var l = await InternalLock.AcquireWriteLockAsync())
             using (var l = InternalLock.AcquireWriteLock())
             {
                 AfterLockReleased_NOLOCK(l);
@@ -270,16 +316,14 @@ namespace SquaredInfinity.Threading.Locks
 
                         try
                         {
-                            if (r.OwnerThreadId != NO_THREAD)
-                            {
-                                lock_acquisition =
-                                AcquireLock_NOLOCK(LockType.Write, r.OwnerThreadId, new SyncOptions(r.Timeout.MillisecondsLeft, r.CancellationToken));
-                            }
-                            else
-                            {
-                                lock_acquisition =
-                                await AcquireLockAsync__NOLOCK(LockType.Write, new AsyncOptions(r.Timeout.MillisecondsLeft, r.CancellationToken), lockAcquisition);
-                            }
+                            lock_acquisition =
+                            await AcquireLockAsync__NOLOCK(
+                                LockType.Write, 
+                                new AsyncOptions(
+                                    r.Timeout.MillisecondsLeft, 
+                                    r.CancellationToken,
+                                    r.CorrelationToken),
+                                lockAcquisition);
 
                             // Task Completion Source might have timed out, so check the result
                             if (r.TaskCompletionSource.TrySetResult(lock_acquisition))
@@ -333,17 +377,15 @@ namespace SquaredInfinity.Threading.Locks
 
                             try
                             {
-                                if (r.OwnerThreadId != NO_THREAD)
-                                {
-                                    lock_acquisition =
-                                    AcquireLock_NOLOCK(LockType.Read, r.OwnerThreadId, new SyncOptions(r.Timeout.MillisecondsLeft, r.CancellationToken));
-                                }
-                                else
-                                {
-                                    lock_acquisition = 
-                                    await 
-                                    AcquireLockAsync__NOLOCK(LockType.Read, new AsyncOptions(r.Timeout.MillisecondsLeft, r.CancellationToken), lockAcquisition);
-                                }
+                                lock_acquisition =
+                                await
+                                AcquireLockAsync__NOLOCK(
+                                    LockType.Read,
+                                    new AsyncOptions(
+                                        r.Timeout.MillisecondsLeft, 
+                                        r.CancellationToken,
+                                        r.CorrelationToken),
+                                    lockAcquisition);
 
                                 // Task Completion Source might have timed out, so check the result
                                 if (r.TaskCompletionSource.TrySetResult(lock_acquisition))
@@ -356,7 +398,7 @@ namespace SquaredInfinity.Threading.Locks
                                     ProcessQueuedLocks();
                                 }
                             }
-                            catch(Exception ex)
+                            catch (Exception ex)
                             {
                                 r.TaskCompletionSource.TrySetException(ex);
                                 lock_acquisition?.Dispose();

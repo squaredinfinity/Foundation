@@ -37,7 +37,8 @@ namespace SquaredInfinity.Threading.Locks
             if (!ok)
                 return new _FailedLockAcquisition();
 
-            _writeOwnerThreadId = System.Environment.CurrentManagedThreadId;
+            _AddWriter(options.CorrelationToken);
+
             var dispose_when_done = new CompositeDisposable();
 
             try

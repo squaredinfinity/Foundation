@@ -8,8 +8,8 @@ namespace SquaredInfinity.Threading
 {
     public enum LockType
     {
-        Read,
-        Write,
-        UpgradeableRead
+        Read = 1,
+        Write = 2,
+        UpgradeableRead = 3
     }
 }

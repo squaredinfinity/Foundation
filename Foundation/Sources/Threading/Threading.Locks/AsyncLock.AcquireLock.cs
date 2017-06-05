@@ -26,8 +26,8 @@ namespace SquaredInfinity.Threading.Locks
             if (options.MillisecondsTimeout == 0)
                 return _FailedLockAcquisition.Instance;
 
-            if (IsLockAcquisitionRecursive())
-                return new _DummyLockAcquisition();
+            if (options.CorrelationToken == null)
+                options = options.CorrelateThisThread();
 
             // lock parent first
             var ok =
@@ -39,7 +39,14 @@ namespace SquaredInfinity.Threading.Locks
                 return new _FailedLockAcquisition();
             }
 
-            _writeOwnerThreadId = System.Environment.CurrentManagedThreadId;
+            _AddWriter(options.CorrelationToken);
+
+            if (IsLockAcquisitionRecursive(options.CorrelationToken))
+            {
+                // this lock is already held, nothing to do here
+                return new _WriteLockAcquisition(this); 
+                // disposables should be added to lock owner
+            }
 
             var dispose_when_done = new CompositeDisposable();
 

@@ -14,7 +14,8 @@ namespace SquaredInfinity.Threading.Locks
 {
     public partial class AsyncReaderWriterLock
     {
-        async Task<ILockAcquisition> AcquireLockAsync(LockType lockType, AsyncOptions options)
+        public async Task<ILockAcquisition> AcquireLockAsync(LockType lockType) => await AcquireLockAsync(lockType, AsyncOptions.Default);
+        public async Task<ILockAcquisition> AcquireLockAsync(LockType lockType, AsyncOptions options)
         {
             options.CancellationToken.ThrowIfCancellationRequested();
 
@@ -39,9 +40,7 @@ namespace SquaredInfinity.Threading.Locks
                 default:
                     throw new NotSupportedException($"specified lock type is not supported, {lockType}");
             }
-
-            var sw = Stopwatch.StartNew();
-
+            
             var result = (Task<ILockAcquisition>)null;
 
             using (var l = InternalLock.AcquireWriteLock())
@@ -75,13 +74,11 @@ namespace SquaredInfinity.Threading.Locks
                 {
                     case LockType.Read:
                         // no children to lock, we can just grant reader-lock and return
-                        _readOwnerThreadIds.Add(Environment.CurrentManagedThreadId);
-                        _currentState++;
-                        return new _ReadLockAcquisition(this, Environment.CurrentManagedThreadId, null);
+                        _AddReader(options.CorrelationToken);
+                        return new _ReadLockAcquisition(this, options.CorrelationToken, null);
                     case LockType.Write:
                         // no children to lock, we can just grant writer-lock and return
-                        _writeOwnerThreadId = Environment.CurrentManagedThreadId;
-                        _currentState = STATE_WRITELOCK;
+                        _AddWriter(options.CorrelationToken);
                         return new _WriteLockAcquisition(this, null);
                     default:
                         throw new NotSupportedException($"specified lock type is not supported, {lockType}");
@@ -96,11 +93,11 @@ namespace SquaredInfinity.Threading.Locks
                 switch (lockType)
                 {
                     case LockType.Read:
-                        _currentState++;
-                        provisional_acquisition = new _ReadLockAcquisition(this, NO_THREAD);
+                        _AddReader(options.CorrelationToken);
+                        provisional_acquisition = new _ReadLockAcquisition(this, options.CorrelationToken);
                         break;
                     case LockType.Write:
-                        _currentState = STATE_WRITELOCK;
+                        _AddWriter(options.CorrelationToken);
                         provisional_acquisition = new _WriteLockAcquisition(this);
                         break;
                     default:
@@ -141,10 +138,8 @@ namespace SquaredInfinity.Threading.Locks
                     switch (lockType)
                     {
                         case LockType.Read:
-                            _readOwnerThreadIds.Add(Environment.CurrentManagedThreadId);
-                            return new _ReadLockAcquisition(this, Environment.CurrentManagedThreadId, children_acquisition);
+                            return new _ReadLockAcquisition(this, options.CorrelationToken, children_acquisition);
                         case LockType.Write:
-                            _writeOwnerThreadId = Environment.CurrentManagedThreadId;
                             return new _WriteLockAcquisition(this, children_acquisition);
                         default:
                             throw new NotSupportedException($"specified lock type is not supported, {lockType}");
@@ -181,7 +176,7 @@ namespace SquaredInfinity.Threading.Locks
             waiter_queue.Enqueue(
                 new _Waiter(
                     completion_source,
-                    NO_THREAD, // set owner thread id to NO_THREAD. for async waits it will be assigned when async wait completes
+                    options.CorrelationToken,
                     options.MillisecondsTimeout,
                     options.CancellationToken));
 
