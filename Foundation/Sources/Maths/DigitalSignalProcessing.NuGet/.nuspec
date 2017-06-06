@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
   <metadata>
     <id>SquaredInfinity.Maths.DigitalSignalProcessing</id>
@@ -9,6 +9,34 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Squared Infinity ▪ Maths ▪ Digital Signal Processing</description>
     <copyright>Copyright © Jarek Kardas</copyright>
+    <dependencies>
+      <group targetFramework="portable-net45+win80">
+        <dependency id="SquaredInfinity.BulkUpdates" version="2.1.6" />
+        <dependency id="SquaredInfinity.Collections.Core" version="2.1.11" />
+        <dependency id="SquaredInfinity.Comparers" version="2.0.6" />
+        <dependency id="SquaredInfinity.ComponentModel" version="2.1.0" />
+        <dependency id="SquaredInfinity.Disposables" version="2.0.10" />
+        <dependency id="SquaredInfinity.Extensions" version="2.1.1" />
+        <dependency id="SquaredInfinity.Maths" version="2.0.11" />
+        <dependency id="SquaredInfinity.Maths.Extensions" version="2.0.3" />
+        <dependency id="SquaredInfinity.Primitives" version="2.0.7" />
+        <dependency id="SquaredInfinity.Threading" version="2.0.12" />
+        <dependency id="SquaredInfinity.Threading.Locks" version="2.1.4" />
+      </group>
+      <group targetFramework="net452">
+        <dependency id="SquaredInfinity.BulkUpdates" version="2.1.6" />
+        <dependency id="SquaredInfinity.Collections.Core" version="2.1.11" />
+        <dependency id="SquaredInfinity.Comparers" version="2.0.6" />
+        <dependency id="SquaredInfinity.ComponentModel" version="2.1.0" />
+        <dependency id="SquaredInfinity.Disposables" version="2.0.10" />
+        <dependency id="SquaredInfinity.Extensions" version="2.1.1" />
+        <dependency id="SquaredInfinity.Maths" version="2.0.11" />
+        <dependency id="SquaredInfinity.Maths.Extensions" version="2.0.3" />
+        <dependency id="SquaredInfinity.Primitives" version="2.0.7" />
+        <dependency id="SquaredInfinity.Threading" version="2.0.12" />
+        <dependency id="SquaredInfinity.Threading.Locks" version="2.1.4" />
+      </group>
+    </dependencies>
   </metadata>
   <files>
     <!-- net 452 -->
@@ -16,9 +44,8 @@
     <file src="..\Extensions.DotNet45\bin\$configuration$\SquaredInfinity.Extensions.DotNet45.pdb" target="lib\net452\SquaredInfinity.Extensions.DotNet45.pdb" exclude="" />
     <file src="..\Extensions\bin\$configuration$\SquaredInfinity.Extensions.dll" target="lib\net452\SquaredInfinity.Extensions.dll" exclude="" />
     <file src="..\Extensions\bin\$configuration$\SquaredInfinity.Extensions.pdb" target="lib\net452\SquaredInfinity.Extensions.pdb" exclude="" />-->
-
     <!-- portable-net45+win -->
-    <!--<file src="..\Maths\bin\$configuration$\SquaredInfinity.Maths.dll" target="lib\portable-net45+win\SquaredInfinity.Maths.dll" exclude="" />
-    <file src="..\Maths\bin\$configuration$\SquaredInfinity.Maths.pdb" target="lib\portable-net45+win\SquaredInfinity.Maths.pdb" exclude="" />-->
+    <file src="..\DigitalSignalProcessing\bin\$configuration$\SquaredInfinity.Maths.DigitalSignalProcessing.dll" target="lib\portable-net45+win\SquaredInfinity.Maths.DigitalSignalProcessing.dll" exclude="" />
+    <file src="..\DigitalSignalProcessing\bin\$configuration$\SquaredInfinity.Maths.DigitalSignalProcessing.pdb" target="lib\portable-net45+win\SquaredInfinity.Maths.DigitalSignalProcessing.pdb" exclude="" />
   </files>
 </package>

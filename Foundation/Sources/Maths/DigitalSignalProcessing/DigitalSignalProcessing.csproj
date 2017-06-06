@@ -8,8 +8,8 @@
     <ProjectGuid>{B6015C45-B337-4CC1-8CF4-5DB1DF0049D2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SquaredInfinity.Maths</RootNamespace>
-    <AssemblyName>SquaredInfinity.Maths</AssemblyName>
+    <RootNamespace>SquaredInfinity.Maths.DigitalSignalProcessing</RootNamespace>
+    <AssemblyName>SquaredInfinity.Maths.DigitalSignalProcessing</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -41,8 +41,26 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="SquaredInfinity.BulkUpdates, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.BulkUpdates.2.1.6\lib\portable-net45+win\SquaredInfinity.BulkUpdates.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.Collections.Core, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Collections.Core.2.1.11\lib\portable-net45+win\SquaredInfinity.Collections.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.Comparers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Comparers.2.0.6\lib\portable-net45+win\SquaredInfinity.Comparers.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.ComponentModel, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.ComponentModel.2.1.0\lib\portable-net45+win\SquaredInfinity.ComponentModel.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.Disposables, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Disposables.2.0.10\lib\portable-net45+win\SquaredInfinity.Disposables.dll</HintPath>
+    </Reference>
     <Reference Include="SquaredInfinity.Extensions, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.1.0\lib\portable-net45+win\SquaredInfinity.Extensions.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.1.1\lib\portable-net45+win\SquaredInfinity.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.Maths, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Maths.2.0.11\lib\portable-net45+win\SquaredInfinity.Maths.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Maths.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Maths.Extensions.2.0.3\lib\portable-net45+win\SquaredInfinity.Maths.Extensions.dll</HintPath>
@@ -50,6 +68,18 @@
     <Reference Include="SquaredInfinity.Primitives, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SquaredInfinity.Primitives.2.0.7\lib\portable-net45+win\SquaredInfinity.Primitives.dll</HintPath>
     </Reference>
+    <Reference Include="SquaredInfinity.Threading, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Threading.2.0.12\lib\portable-net45+win\SquaredInfinity.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="SquaredInfinity.Threading.Locks, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SquaredInfinity.Threading.Locks.2.1.4\lib\portable-net45+win\SquaredInfinity.Threading.Locks.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PolygonSimplification\CompositePolygon2DIndexesSimplification.cs" />
+    <Compile Include="PolygonSimplification\IPolygon2DIndexesSimplification.cs" />
+    <Compile Include="PolygonSimplification\Polygon2DIndexesSimplification.cs" />
+    <Compile Include="PolygonSimplification\RadialDistancePolygon2DIndexesSimplification.cs" />
   </ItemGroup>
   <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
