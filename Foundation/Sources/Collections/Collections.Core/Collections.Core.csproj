@@ -33,12 +33,24 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Publish - BETA|AnyCPU' ">
+    <OutputPath>bin\Publish _ BETA\</OutputPath>
+    <DefineConstants>TRACE;COLLECTIONS_CORE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\Collections.Core.NuGet\version.cs">
       <Link>version.cs</Link>
     </Compile>
     <Compile Include="EnumeratorBase.cs" />
     <Compile Include="IBulkUpdatesCollection.cs" />
+    <Compile Include="IIndexFilter.cs" />
+    <Compile Include="IIndexFilter_T.cs" />
+    <Compile Include="IndexFilter.cs" />
     <Compile Include="INotifyCollectionVersionChanged.cs" />
     <Compile Include="DynamicIterator.cs" />
   </ItemGroup>
