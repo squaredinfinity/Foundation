@@ -10,5 +10,7 @@ namespace SquaredInfinity.Threading.Locks
     public interface IAsyncLock : ILock, IAsyncWriteLock, IAsyncReadLock, ICompositeAsyncLock
     {
         Task<ILockAcquisition> AcquireLockAsync(LockType lockType);
+        Task<ILockAcquisition> AcquireLockAsync(LockType lockType, ICorrelationToken correlationToken);
+        Task<ILockAcquisition> AcquireLockAsync(LockType lockType, AsyncOptions asyncOptions);
     }
 }

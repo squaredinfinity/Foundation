@@ -14,6 +14,9 @@ namespace SquaredInfinity.Threading.Locks
         public async Task<ILockAcquisition> AcquireLockAsync(LockType lockType)
             => await AcquireLockAsync(lockType, AsyncOptions.Default);
 
+        public async Task<ILockAcquisition> AcquireLockAsync(LockType lockType, ICorrelationToken correlationToken)
+            => await AcquireLockAsync(lockType, AsyncOptions.Default.Correlate(correlationToken ?? throw new ArgumentNullException(nameof(correlationToken))));
+
         /// <summary>
         /// A common patter of acquiringboth Read and Write async locks. 
         /// </summary>
@@ -22,27 +25,46 @@ namespace SquaredInfinity.Threading.Locks
         public async Task<ILockAcquisition> AcquireLockAsync(LockType lockType, AsyncOptions options)
         {
             if (options.MillisecondsTimeout == 0)
-                return _FailedLockAcquisition.Instance;
+                return new _FailedLockAcquisition(options.CorrelationToken);
 
-            if(RecursionPolicy == LockRecursionPolicy.SupportsRecursion)
-                throw new NotSupportedException("Async acquisitions are not supported by recursive locks");
+            if (options.CorrelationToken == null)
+                options = options.Correlate(new CorrelationToken("__automatic_async__"));
+
+            using (InternalLock.AcquireWriteLock())
+            {
+                if (_IsLockAcquisitionAttemptRecursive__NOLOCK(options.CorrelationToken))
+                {
+                    if (RecursionPolicy == LockRecursionPolicy.NoRecursion)
+                        throw new LockRecursionException();
+
+                    _AddRecursiveWriter__NOLOCK(options.CorrelationToken);
+                    return new _LockAcquisition(this, options.CorrelationToken);
+                }
+            }
 
             // lock parent first
             var ok =
                 await
-                InternalWriteLock
+                InternalSemaphore
                 .WaitAsync(options.MillisecondsTimeout, options.CancellationToken)
                 .ConfigureAwait(options.ContinueOnCapturedContext);
 
             if (!ok)
-                return new _FailedLockAcquisition();
-
-            _AddWriter(options.CorrelationToken);
-
+                return new _FailedLockAcquisition(options.CorrelationToken);
+            
             var dispose_when_done = new CompositeDisposable();
 
             try
             {
+                using (InternalLock.AcquireWriteLock())
+                {
+                    if (_IsLockAcquisitionAttemptRecursive__NOLOCK(options.CorrelationToken))
+                    {
+                        _AddRecursiveWriter__NOLOCK(options.CorrelationToken);
+                        return new _LockAcquisition(this, options.CorrelationToken);
+                    }
+                }
+
                 // then its children
                 if (CompositeLock != null)
                 {
@@ -56,9 +78,9 @@ namespace SquaredInfinity.Threading.Locks
                         children_acquisition.Dispose();
 
                         // couldn't acquire children, release parent lock
-                        InternalWriteLock.Release();
+                        InternalSemaphore.Release();
 
-                        return new _FailedLockAcquisition();
+                        return new _FailedLockAcquisition(options.CorrelationToken);
                     }
 
                     dispose_when_done.Add(children_acquisition);
@@ -67,12 +89,17 @@ namespace SquaredInfinity.Threading.Locks
             catch
             {
                 // some error occured, release parent lock
-                InternalWriteLock.Release();
+                InternalSemaphore.Release();
 
                 throw;
             }
 
-            return new _WriteLockAcquisition(owner: this, disposeWhenDone: dispose_when_done);
+            using (InternalLock.AcquireWriteLock())
+            {
+                _AddWriter__NOLOCK(options.CorrelationToken, dispose_when_done);
+            }
+
+            return new _LockAcquisition(this, options.CorrelationToken);
         }
     }
 }

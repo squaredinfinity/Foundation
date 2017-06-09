@@ -13,5 +13,6 @@ namespace SquaredInfinity.Threading.Locks
         /// False otherwise.
         /// </summary>
         bool IsLockHeld { get; }
+        ICorrelationToken CorrelationToken { get; }
     }
 }

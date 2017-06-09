@@ -23,35 +23,44 @@ namespace SquaredInfinity.Threading.Locks
         /// <returns></returns>
         public ILockAcquisition AcquireLock(LockType lockType, SyncOptions options)
         {
-            if (options.MillisecondsTimeout == 0)
-                return _FailedLockAcquisition.Instance;
-
             if (options.CorrelationToken == null)
                 options = options.CorrelateThisThread();
 
+            if (options.MillisecondsTimeout == 0)
+                return new _FailedLockAcquisition(options.CorrelationToken);
+
+            using (InternalLock.AcquireWriteLock())
+            {
+                if (_IsLockAcquisitionAttemptRecursive__NOLOCK(options.CorrelationToken))
+                {
+                    _AddRecursiveWriter__NOLOCK(options.CorrelationToken);
+                    return new _LockAcquisition(this, options.CorrelationToken);
+                }
+            }
+
             // lock parent first
             var ok =
-                InternalWriteLock
+                InternalSemaphore
                 .Wait(options.MillisecondsTimeout, options.CancellationToken);
 
             if (!ok)
             {
-                return new _FailedLockAcquisition();
-            }
-
-            _AddWriter(options.CorrelationToken);
-
-            if (IsLockAcquisitionRecursive(options.CorrelationToken))
-            {
-                // this lock is already held, nothing to do here
-                return new _WriteLockAcquisition(this); 
-                // disposables should be added to lock owner
+                return new _FailedLockAcquisition(options.CorrelationToken);
             }
 
             var dispose_when_done = new CompositeDisposable();
 
             try
             {
+                using (InternalLock.AcquireWriteLock())
+                {
+                    if (_IsLockAcquisitionAttemptRecursive__NOLOCK(options.CorrelationToken))
+                    {
+                        _AddRecursiveWriter__NOLOCK(options.CorrelationToken);
+                        return new _LockAcquisition(this, options.CorrelationToken);
+                    }
+                }
+
                 // then its children
                 if (CompositeLock != null)
                 {
@@ -62,9 +71,9 @@ namespace SquaredInfinity.Threading.Locks
                         children_acquisition.Dispose();
 
                         // couldn't acquire children, release parent lock
-                        InternalWriteLock.Release();
+                        InternalSemaphore.Release();
 
-                        return new _FailedLockAcquisition();
+                        return new _FailedLockAcquisition(options.CorrelationToken);
                     }
 
                     dispose_when_done.Add(children_acquisition);
@@ -73,12 +82,17 @@ namespace SquaredInfinity.Threading.Locks
             catch
             {
                 // some error occured, release parent lock
-                InternalWriteLock.Release();
+                InternalSemaphore.Release();
 
                 throw;
             }
 
-            return new _WriteLockAcquisition(owner: this, disposeWhenDone: dispose_when_done);
+            using (InternalLock.AcquireWriteLock())
+            {
+                _AddWriter__NOLOCK(options.CorrelationToken, dispose_when_done);
+            }
+
+            return new _LockAcquisition(this, options.CorrelationToken);
         }
     }
 }

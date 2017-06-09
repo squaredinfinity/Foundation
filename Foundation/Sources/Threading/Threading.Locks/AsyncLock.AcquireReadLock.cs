@@ -63,14 +63,14 @@ namespace SquaredInfinity.Threading.Locks
         public static async Task<ILockAcquisition> AcquireReadLockAsync(AsyncOptions options, params IAsyncLock[] locks)
         {
             if (locks == null || locks.Length == 0)
-                return _FailedLockAcquisition.Instance;
+                return new _FailedLockAcquisition(options.CorrelationToken);
 
             var all_acquisitions =
                 await
                 Task.WhenAll<ILockAcquisition>(locks.Select(x => x.AcquireReadLockAsync(options)))
                 .ConfigureAwait(options.ContinueOnCapturedContext);
 
-            return new _CompositeLockAcqusition(all_acquisitions);
+            return new _CompositeLockAcqusition(options.CorrelationToken, all_acquisitions);
         }
 
         public static ILockAcquisition AcquireReadLock(params ILock[] locks)
@@ -79,11 +79,11 @@ namespace SquaredInfinity.Threading.Locks
         public static ILockAcquisition AcquireReadLock(SyncOptions options, params ILock[] locks)
         {
             if (locks == null || locks.Length == 0)
-                return _FailedLockAcquisition.Instance;
+                return new _FailedLockAcquisition(options.CorrelationToken);
 
             var all_acquisitions = locks.Select(x => x.AcquireReadLock(options));
 
-            return new _CompositeLockAcqusition(all_acquisitions);
+            return new _CompositeLockAcqusition(options.CorrelationToken, all_acquisitions);
         }
 
         #endregion

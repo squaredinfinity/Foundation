@@ -45,7 +45,6 @@
     <Compile Include="AsyncReaderWriterLock.AcquireReadLock.cs" />
     <Compile Include="AsyncReaderWriterLock.AcquireLockAsync.cs" />
     <Compile Include="AsyncReaderWriterLock._Waiter.cs" />
-    <Compile Include="AsyncReaderWriterLock._WriteLockAcquisition.cs" />
     <Compile Include="AsyncReaderWriterLock._ReadLockAcquisition.cs" />
     <Compile Include="AsyncReaderWriterLock.AcquireWriteLock.cs" />
     <Compile Include="AsyncReaderWriterLock.cs" />
@@ -66,12 +65,10 @@
     <Compile Include="ILock.cs" />
     <Compile Include="ILockAcquisition.cs" />
     <Compile Include="ILockFactory.cs" />
-    <Compile Include="IReadLockAcquisition.cs" />
-    <Compile Include="IWriteLockAcquisition.cs" />
     <Compile Include="LockFactory.cs" />
     <Compile Include="_LockIdProvider.cs" />
     <Compile Include="LockType.cs" />
-    <Compile Include="AsyncLock._WriteLockAcquisition.cs" />
+    <Compile Include="AsyncLock._LockAcquisition.cs" />
     <Compile Include="AsyncLock.cs" />
     <Compile Include="_CompositeAsyncLock.cs" />
   </ItemGroup>

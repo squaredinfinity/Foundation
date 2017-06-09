@@ -85,7 +85,7 @@ namespace SquaredInfinity.Threading.Locks
             var all_lock_tasks = new List<Task<ILockAcquisition>>();
 
             if (ChildLocks.Count == 0)
-                return new _CompositeLockAcqusition();
+                return new _CompositeLockAcqusition(options.CorrelationToken);
 
             using (var _lock = 
                 await 
@@ -94,7 +94,7 @@ namespace SquaredInfinity.Threading.Locks
             {
                 if (!_lock.IsLockHeld)
                 {
-                    return await Task.FromResult(new _FailedLockAcquisition());
+                    return await Task.FromResult(new _FailedLockAcquisition(options.CorrelationToken));
                 }
 
                 foreach (var child in ChildLocks)
@@ -147,7 +147,7 @@ namespace SquaredInfinity.Threading.Locks
                 // if any failed, it was either cancelled or timed out
                 // if that's the case then release all successful locks and return failure
 
-                var all_locks_acquisition = new _CompositeLockAcqusition(all_lock_tasks.Select(x => x.Result));
+                var all_locks_acquisition = new _CompositeLockAcqusition(options.CorrelationToken, all_lock_tasks.Select(x => x.Result));
 
                 if (all_locks_acquisition.IsLockHeld)
                     return all_locks_acquisition;
@@ -156,7 +156,7 @@ namespace SquaredInfinity.Threading.Locks
                     // free any already held child locks
                     all_locks_acquisition.Dispose();
 
-                    return await Task.FromResult(new _FailedLockAcquisition());
+                    return await Task.FromResult(new _FailedLockAcquisition(options.CorrelationToken));
                 }
             }
         }
@@ -171,14 +171,14 @@ namespace SquaredInfinity.Threading.Locks
         {
             if (ChildLocks.Count == 0)
             {
-                return new _CompositeLockAcqusition();
+                return new _CompositeLockAcqusition(options.CorrelationToken);
             }
 
             using (var _lock = ChildrenLock.AcquireWriteLock(options))
             {
                 if (!_lock.IsLockHeld)
                 {
-                    return new _FailedLockAcquisition();
+                    return new _FailedLockAcquisition(options.CorrelationToken);
                 }
 
                 var all_child_acquisitions = new List<ILockAcquisition>(capacity: ChildLocks.Count);
@@ -217,7 +217,7 @@ namespace SquaredInfinity.Threading.Locks
                 // if any failed, it was either cancelled or timed out
                 // if that's the case then release all successful locks and return failure
 
-                var all_locks_acquisition = new _CompositeLockAcqusition(all_child_acquisitions);
+                var all_locks_acquisition = new _CompositeLockAcqusition(options.CorrelationToken, all_child_acquisitions);
 
                 if (all_locks_acquisition.IsLockHeld)
                 {
@@ -228,7 +228,7 @@ namespace SquaredInfinity.Threading.Locks
                     // free any already held child locks
                     all_locks_acquisition.Dispose();
 
-                    return new _FailedLockAcquisition();
+                    return new _FailedLockAcquisition(options.CorrelationToken);
                 }
             }
         }

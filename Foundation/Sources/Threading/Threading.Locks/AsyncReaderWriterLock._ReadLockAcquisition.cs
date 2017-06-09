@@ -11,29 +11,44 @@ namespace SquaredInfinity.Threading.Locks
 {
     public partial class AsyncReaderWriterLock
     {
-        class _ReadLockAcquisition : DisposableObject, IReadLockAcquisition
+        class _LockAcquisition : DisposableObject, ILockAcquisition
         {
             AsyncReaderWriterLock Owner;
-            volatile ICorrelationToken CorrelationToken;
+            LockType LockType;
+            public ICorrelationToken CorrelationToken { get; private set; }
 
             public bool IsLockHeld { get; private set; }
 
-            public _ReadLockAcquisition(AsyncReaderWriterLock owner, ICorrelationToken correlationToken, IDisposable disposeWhenDone = null)
+            public _LockAcquisition(AsyncReaderWriterLock owner, LockType lockType, ICorrelationToken correlationToken)
             {
+                Owner = owner ?? throw new ArgumentNullException(nameof(owner));
+                CorrelationToken = correlationToken ?? throw new ArgumentNullException(nameof(correlationToken));
+
+                if (lockType != LockType.Read && lockType != LockType.Write)
+                    throw new NotSupportedException(lockType.ToString());
+
+                LockType = lockType;
+
                 IsLockHeld = true;
-
-                Owner = owner;
-                CorrelationToken = correlationToken;
-
-                Disposables.AddIfNotNull(disposeWhenDone);
             }
 
             protected override void DisposeManagedResources()
             {
                 base.DisposeManagedResources();
 
-                Owner.ReleaseReadLock(CorrelationToken);
-                
+                switch (LockType)
+                {
+                    case LockType.Read:
+                        Owner.ReleaseReadLock(CorrelationToken);
+                        break;
+                    case LockType.Write:
+                        Owner.ReleaseWriteLock(CorrelationToken);
+                        break;
+                    case LockType.UpgradeableRead:
+                    default:
+                        throw new NotSupportedException(LockType.ToString());
+                }
+
                 IsLockHeld = false;
             }
         }

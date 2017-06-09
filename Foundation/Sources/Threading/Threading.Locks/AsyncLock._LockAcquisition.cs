@@ -9,29 +9,29 @@ using SquaredInfinity.Extensions;
 
 namespace SquaredInfinity.Threading.Locks
 {
-    public partial class AsyncReaderWriterLock
+    public partial class AsyncLock
     {
-        class _WriteLockAcquisition : DisposableObject, IReadLockAcquisition
+        class _LockAcquisition : DisposableObject, ILockAcquisition
         {
-            AsyncReaderWriterLock Owner;
+            AsyncLock Owner;
+            public ICorrelationToken CorrelationToken { get; private set; }
 
             public bool IsLockHeld { get; private set; }
 
-            public _WriteLockAcquisition(AsyncReaderWriterLock owner, IDisposable disposeWhenDone = null)
+            public _LockAcquisition(AsyncLock owner, ICorrelationToken correlationToken)
             {
                 IsLockHeld = true;
 
-                this.Owner = owner;
-
-                Disposables.AddIfNotNull(disposeWhenDone);
+                Owner = owner;
+                CorrelationToken = correlationToken;
             }
 
             protected override void DisposeManagedResources()
             {
                 base.DisposeManagedResources();
 
-                Owner.ReleaseWriteLock();
-
+                Owner.ReleaseLock(CorrelationToken);
+                
                 IsLockHeld = false;
             }
         }

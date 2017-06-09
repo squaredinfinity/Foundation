@@ -1,6 +1,9 @@
 ﻿using SquaredInfinity.Disposables;
+using SquaredInfinity.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -8,54 +11,66 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Threading.Locks
 {  
-    public class LockOwnership : DisposableObject
+    [DebuggerDisplay("{DebuggerDisplay}")]
+    public class _LockOwnership : DisposableObject
     {
-        public ICorrelationToken CorrelationToken { get; private set; }
+        readonly object Lock = new object();
+        public bool IsOwned => _CorrelationTokenToAcquisitionCount.Count > 0;
+        public bool ContainsAcquisition(ICorrelationToken correlationToken) => _CorrelationTokenToAcquisitionCount.ContainsKey(correlationToken);
 
-        internal int AcquisitionCount { get; set; }
-
-        public LockOwnership(ICorrelationToken correlationToken, IDisposable disposeWhenLockReleased)
+        readonly Dictionary<ICorrelationToken, int> _CorrelationTokenToAcquisitionCount = new Dictionary<ICorrelationToken, int>();
+        public IReadOnlyDictionary<ICorrelationToken, int> CorrelationTokenToAcquisitionCount
         {
-            CorrelationToken = correlationToken ?? throw new ArgumentNullException(nameof(correlationToken));
-            AcquisitionCount = 1;
+            get
+            {
+                lock (Lock)
+                {
+                    return _CorrelationTokenToAcquisitionCount.ToDictionary(x => x.Key, x => x.Value);
+                }
+            }
         }
 
-        protected override void DisposeManagedResources()
+        public void AddAcquisition(ICorrelationToken ct)
         {
-            base.DisposeManagedResources();
-
-
+            lock (Lock)
+            {
+                if (_CorrelationTokenToAcquisitionCount.ContainsKey(ct))
+                {
+                    _CorrelationTokenToAcquisitionCount[ct]++;
+                }
+                else
+                {
+                    _CorrelationTokenToAcquisitionCount[ct] = 1;
+                }
+            }
         }
 
-        #region Equality + Hash Code
-
-        public override int GetHashCode()
+        public void RemoveAcquisition(ICorrelationToken ct)
         {
-            return CorrelationToken.GetHashCode();
+            lock (Lock)
+            {
+                if (_CorrelationTokenToAcquisitionCount.ContainsKey(ct))
+                {
+                    _CorrelationTokenToAcquisitionCount[ct]--;
+
+                    if (_CorrelationTokenToAcquisitionCount[ct] == 0)
+                    {
+                        _CorrelationTokenToAcquisitionCount.Remove(ct);
+                    }
+                }
+                else
+                {
+                    throw new InvalidOperationException("attempt to remove acquisition which isn't held.");
+                }
+            }
         }
 
-        public override bool Equals(object other)
+        public _LockOwnership(IDisposable disposeWhenLockReleased)
         {
-            return Equals(other as LockOwnership);
+            Disposables.AddIfNotNull(disposeWhenLockReleased);
         }
 
-        public bool Equals(LockOwnership other)
-        {
-            if (other == null)
-                return false;
-
-            if (object.ReferenceEquals(this, other))
-                return true;
-
-            return object.Equals(CorrelationToken, other.CorrelationToken);
-        }
-
-        #endregion
-
-        public override string ToString()
-        {
-            return $"{CorrelationToken.ToString()}, acquisition count: {AcquisitionCount}";
-        }
+        public string DebuggerDisplay => $"Owned by {_CorrelationTokenToAcquisitionCount.Count}";
     }
 
     public interface ILock : IWriteLock, IReadLock, ICompositeLock
@@ -72,6 +87,6 @@ namespace SquaredInfinity.Threading.Locks
 
         LockState State { get; }
 
-        ILockAcquisition AcquireLock(LockType lockType);
+        ILockAcquisition  (LockType lockType);
     }
 }

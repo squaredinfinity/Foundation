@@ -35,7 +35,7 @@ namespace SquaredInfinity.Extensions
 
         /// <summary>
         /// Returns Read-Only copy of current collection.
-        /// Unline AsReadonly() this creates a copy of collection, not just a wrapper.
+        /// Unlike AsReadonly() this creates a copy of collection, not just a wrapper.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="collection"></param>

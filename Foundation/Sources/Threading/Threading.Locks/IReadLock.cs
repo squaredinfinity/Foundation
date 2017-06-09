@@ -7,6 +7,18 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Threading.Locks
 {
+    public class LockOwnership
+    {
+        public ICorrelationToken CorrelationToken { get; private set; }
+        public int AcquisitionCount { get; private set; }
+
+        public LockOwnership(ICorrelationToken ct, int acquisitionCount)
+        {
+            CorrelationToken = ct;
+            AcquisitionCount = acquisitionCount;
+        }
+    }
+
     public interface IReadLock
     {
         IReadOnlyList<LockOwnership> ReadOwners { get; }

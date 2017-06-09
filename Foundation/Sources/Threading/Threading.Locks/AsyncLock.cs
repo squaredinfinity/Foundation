@@ -20,7 +20,8 @@ namespace SquaredInfinity.Threading.Locks
     {
         readonly _CompositeAsyncLock CompositeLock;
 
-        readonly internal SemaphoreSlim InternalWriteLock = new SemaphoreSlim(1, 1);
+        readonly SemaphoreSlim InternalSemaphore = new SemaphoreSlim(1, 1);
+        readonly SyncLock InternalLock = new SyncLock();
 
         readonly LockRecursionPolicy _recursionPolicy = LockRecursionPolicy.NoRecursion;
         public LockRecursionPolicy RecursionPolicy => _recursionPolicy;
@@ -29,7 +30,7 @@ namespace SquaredInfinity.Threading.Locks
         {
             get
             {
-                if (InternalWriteLock.CurrentCount == 0)
+                if (InternalSemaphore.CurrentCount == 0)
                     return LockState.Write;
                 else
                     return LockState.NoLock;
@@ -41,10 +42,28 @@ namespace SquaredInfinity.Threading.Locks
 
         #region Oeners
 
-        volatile LockOwnership _writeOwner;
-        public LockOwnership WriteOwner => _writeOwner;
-        public IReadOnlyList<LockOwnership> ReadOwners => new[] { _writeOwner };
-        public IReadOnlyList<LockOwnership> AllOwners => _writeOwner == null ? new LockOwnership[0] : new[] { _writeOwner };
+        volatile _LockOwnership _writeOwner;
+        public LockOwnership WriteOwner => _writeOwner?.CorrelationTokenToAcquisitionCount.Select(x => new LockOwnership(x.Key, x.Value)).FirstOrDefault();
+        public IReadOnlyList<LockOwnership> ReadOwners
+        {
+            get
+            {
+                using (InternalLock.AcquireWriteLock())
+                {
+                    return _writeOwner?.CorrelationTokenToAcquisitionCount.Select(x => new LockOwnership(x.Key, x.Value)).ToArray();
+                }
+            }
+        }
+        public IReadOnlyList<LockOwnership> AllOwners
+        {
+            get
+            {
+                using (InternalLock.AcquireWriteLock())
+                {
+                    return _writeOwner?.CorrelationTokenToAcquisitionCount.Select(x => new LockOwnership(x.Key, x.Value)).ToArray();
+                }
+            }
+        }
 
         #endregion
 
@@ -83,29 +102,41 @@ namespace SquaredInfinity.Threading.Locks
 
         #endregion
 
-        void _AddWriter(ICorrelationToken correlationToken)
+        void _AddRecursiveWriter__NOLOCK(ICorrelationToken correlationToken)
         {
-            if (_writeOwner != null)
+            if (_writeOwner == null) throw new InvalidOperationException($"Attempt to add recursive writer but no writer held.");
+            if (!_writeOwner.ContainsAcquisition(correlationToken)) throw new InvalidOperationException($"Attempt to add recursive writer but different writer held.");
+
+            _writeOwner.AddAcquisition(correlationToken);
+        }
+
+        void _AddWriter__NOLOCK(ICorrelationToken correlationToken, IDisposable disposeWhenReleased)
+        {
+            using (InternalLock.AcquireWriteLock())
             {
-                _writeOwner.AcquisitionCount++;
-            }
-            else
-            {
-                _writeOwner = new LockOwnership(correlationToken);
+                if (_writeOwner != null) throw new InvalidOperationException($"Lock already has a writer.");
+
+                _writeOwner = new _LockOwnership(disposeWhenReleased);
+                _writeOwner.AddAcquisition(correlationToken);
             }
         }
 
-        void ReleaseLock()
+        void ReleaseLock(ICorrelationToken correlationToken)
         {
-            if (_writeOwner == null)
-                throw new InvalidOperationException($"Attempt to release lock which isn't held.");
-
-            _writeOwner.AcquisitionCount--;
-
-            if (_writeOwner.AcquisitionCount == 0)
+            using (InternalLock.AcquireWriteLock())
             {
+                if (_writeOwner == null) throw new InvalidOperationException($"Attempt to release lock which isn't held.");
+                if (!_writeOwner.ContainsAcquisition(correlationToken)) throw new InvalidOperationException($"Attempt to release write lock which isn't held.");
+
+                _writeOwner.RemoveAcquisition(correlationToken);
+
+                if (_writeOwner.IsOwned)
+                    return;
+
+                _writeOwner.Dispose();
                 _writeOwner = null;
-                InternalWriteLock.Release();
+
+                InternalSemaphore.Release();
             }
         }
 
@@ -148,31 +179,24 @@ namespace SquaredInfinity.Threading.Locks
         #endregion
 
         /// <summary>
-        /// True if lock acquisition is recursive, false otherwise
+        /// True if current lock acquisition attempt is recursive, false otherwise.
+        /// Throws if attempt is recursive but recursion isn't allowed.
         /// </summary>
         /// <returns></returns>
-        bool IsLockAcquisitionRecursive(ICorrelationToken correlationToken)
+        bool _IsLockAcquisitionAttemptRecursive__NOLOCK(ICorrelationToken correlationToken)
         {
-            if (_writeOwner == null)
-                return false;
-
             if (RecursionPolicy == LockRecursionPolicy.SupportsRecursion)
             {
-                if(_writeOwner.CorrelationToken == correlationToken)
-                {
-                    // lock support re-entrancy and is already owned by this thread
-                    // just return
-                    return true;
-                }
-                else
-                {
+                if (_writeOwner == null)
                     return false;
-                }
+                return _writeOwner.ContainsAcquisition(correlationToken);
             }
-            else if (_writeOwner.CorrelationToken == correlationToken)
+            else
             {
-                // cannot acquire non-recursive lock from thread which already owns it.
-                throw new LockRecursionException();
+                if (_writeOwner?.ContainsAcquisition(correlationToken) == true)
+                {
+                    throw new LockRecursionException("Recursive locks are not supported by a lock with No Recursion policy.");
+                }
             }
 
             return false;

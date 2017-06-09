@@ -16,10 +16,10 @@ namespace SquaredInfinity.Threading.Locks
         {
             Monitor.Enter(Sync);
 
-            return new MonitorAcqusition(this);
+            return new MonitorAcqusition(this, new CorrelationToken("__automatic_sync__"));
         }
 
-        public void Release()
+        public void Release(ICorrelationToken correlationToken)
         {
             Monitor.Exit(Sync);
         }
@@ -28,9 +28,12 @@ namespace SquaredInfinity.Threading.Locks
         {
             SyncLock Owner;
 
-            public MonitorAcqusition(SyncLock owner)
+            public ICorrelationToken CorrelationToken { get; private set; }
+
+            public MonitorAcqusition(SyncLock owner, ICorrelationToken correlationToken)
             {
-                Owner = owner;
+                Owner = owner ?? throw new ArgumentNullException(nameof(owner));
+                CorrelationToken = correlationToken ?? throw new ArgumentNullException(nameof(correlationToken));
             }
 
             public bool IsLockHeld => true;
@@ -39,7 +42,7 @@ namespace SquaredInfinity.Threading.Locks
             {
                 base.DisposeManagedResources();
 
-                Owner.Release();
+                Owner.Release(CorrelationToken);
             }
         }
     }
@@ -53,20 +56,22 @@ namespace SquaredInfinity.Threading.Locks
 
         #region Owners
 
-        HashSet<LockOwnership> _readOwners = new HashSet<LockOwnership>();
+        _LockOwnership _readOwner;
+
         public IReadOnlyList<LockOwnership> ReadOwners
         {
             get
             {
                 using (InternalLock.AcquireWriteLock())
                 {
-                    return _readOwners.ToArray();
+                    var ro = _readOwner;
+                    return ro?.CorrelationTokenToAcquisitionCount.Select(x => new LockOwnership(x.Key, x.Value)).ToArray();
                 }
             }
         }
 
-        volatile LockOwnership _writeOwner;
-        public LockOwnership WriteOwner => _writeOwner;
+        volatile _LockOwnership _writeOwner;
+        public LockOwnership WriteOwner => _writeOwner?.CorrelationTokenToAcquisitionCount.Select(x => new LockOwnership(x.Key, x.Value)).FirstOrDefault();
 
         public IReadOnlyList<LockOwnership> AllOwners
         {
@@ -74,10 +79,10 @@ namespace SquaredInfinity.Threading.Locks
             {
                 using (InternalLock.AcquireWriteLock())
                 {
-                    if(_writeOwner != null)
-                        return new[] { _writeOwner }.Concat(_readOwners).ToArray();
-                    else
-                        return _readOwners.ToArray();
+                    return
+                    _writeOwner?.CorrelationTokenToAcquisitionCount.Select(x => new LockOwnership(x.Key, x.Value))
+                    .Concat(_readOwner?.CorrelationTokenToAcquisitionCount.Select(x => new LockOwnership(x.Key, x.Value)))
+                    .ToArray();
                 }
             }
         }
@@ -180,101 +185,99 @@ namespace SquaredInfinity.Threading.Locks
 
         /// <summary>
         /// True if current lock acquisition attempt is recursive, false otherwise.
-        /// Throws if attempt is recursive but recursion isn't allowed.
         /// </summary>
         /// <returns></returns>
-        bool _IsLockAcquisitionAttemptRecursive(LockType lockType, ICorrelationToken correlationToken)
+        bool _IsLockAcquisitionAttemptRecursive__NOLOCK(LockType lockType, ICorrelationToken correlationToken)
         {
-            if (RecursionPolicy == LockRecursionPolicy.SupportsRecursion)
+            switch (lockType)
             {
-                switch (lockType)
-                {
-                    case LockType.Read:
-                        return ReadOwners.Select(x => x.CorrelationToken).Contains(correlationToken); // todo: should this allow in when write held and instead auto-upgrade to write?
-                    case LockType.Write:
-                        return WriteOwner?.CorrelationToken == correlationToken;
-                    case LockType.UpgradeableRead:
-                        throw new NotSupportedException(lockType.ToString());
-                }
-            }
-            else 
-            {
-                return AllOwners.Select(x => x.CorrelationToken).Contains(correlationToken);
+                case LockType.Read:
+                    if (_readOwner == null)
+                        return false;
+                    return _readOwner.ContainsAcquisition(correlationToken);// todo: should this allow in when write held and instead auto-upgrade to write?
+                case LockType.Write:
+                    if (_writeOwner == null)
+                        return false;
+                    return _writeOwner.ContainsAcquisition(correlationToken);
+                case LockType.UpgradeableRead:
+                    throw new NotSupportedException(lockType.ToString());
             }
 
             return false;
         }
 
-        void _AddReader(ICorrelationToken correlationToken)
+        void _AddNextReader__NOLOCK(ICorrelationToken correlationToken)
         {
-            var existing =
-                (from o in _readOwners
-                 where o.CorrelationToken == correlationToken
-                 select o).FirstOrDefault();
+            if (_readOwner == null) throw new InvalidOperationException($"Lock does not have any readers. Use {nameof(_AddFirstReader__NOLOCK)} instead.");
 
-            if (existing == null)
+            _readOwner.AddAcquisition(correlationToken);
+
+            _currentState++;
+        }
+
+        void _AddFirstReader__NOLOCK(ICorrelationToken correlationToken, IDisposable disposeWhenReleased)
+        {
+            if(_readOwner != null) throw new InvalidOperationException($"Lock already has a reader. Use {nameof(_AddNextReader__NOLOCK)} instead.");
+
+            _readOwner = new _LockOwnership(disposeWhenReleased);
+            _readOwner.AddAcquisition(correlationToken);
+
+            _currentState++;
+        }
+
+        void ReleaseReadLock(ICorrelationToken correlationToken)
+        {
+            using (var l = InternalLock.AcquireWriteLock())
             {
-                _readOwners.Add(new LockOwnership(correlationToken));
-                _currentState++;
-            }
-            else
-            {
-                existing.AcquisitionCount++;
+                if (_readOwner == null) throw new InvalidOperationException($"Attempt to release read lock which isn't held, {correlationToken.ToString()}");
+
+                _readOwner.RemoveAcquisition(correlationToken);
+                _currentState--;
+
+                if (_currentState == STATE_NOLOCK)
+                {
+                    _readOwner.Dispose();
+                    _readOwner = null;
+                    AfterLockReleased_NOLOCK(l);
+                }
             }
         }
 
-        void _AddWriter(ICorrelationToken correlationToken)
+        void _AddRecursiveWriter(ICorrelationToken correlationToken)
         {
-            if (_writeOwner == null)
-                _writeOwner = new LockOwnership(correlationToken);
-            else
-                _writeOwner.AcquisitionCount++;
+            if (_writeOwner == null) throw new InvalidOperationException($"Attempt to add recursive writer but no writer held.");
+            if (!_writeOwner.ContainsAcquisition(correlationToken)) throw new InvalidOperationException($"Attempt to add recursive writer but different writer held.");
+
+            _writeOwner.AddAcquisition(correlationToken);
+        }
+
+        void _AddWriter(ICorrelationToken correlationToken, IDisposable disposeWhenReleased)
+        {
+            if (_writeOwner != null) throw new InvalidOperationException($"Lock already has a writer.");
+
+            _writeOwner = new _LockOwnership(disposeWhenReleased);
+            _writeOwner.AddAcquisition(correlationToken);
 
             _currentState = STATE_WRITELOCK;
         }
 
-        void ReleaseReadLock(ICorrelationToken ownerCorrelationToken)
+        void ReleaseWriteLock(ICorrelationToken correlationToken)
         {
             using (var l = InternalLock.AcquireWriteLock())
             {
-                var existing =
-                (from o in _readOwners
-                 where o.CorrelationToken == ownerCorrelationToken
-                 select o).FirstOrDefault();
+                if (_writeOwner == null) throw new InvalidOperationException($"Attempt to release write lock which isn't held, {correlationToken.ToString()}");
 
-                if(existing == null)
-                {
-                    throw new InvalidOperationException($"Attempt to release lock which isn't held, {ownerCorrelationToken.ToString()}");
-                }
-                else if(existing.AcquisitionCount > 1)
-                {
-                    existing.AcquisitionCount--;
+                _writeOwner.RemoveAcquisition(correlationToken);
+
+                if (_writeOwner.IsOwned)
                     return;
-                }
-                else
-                {
-                    // change state as soon as possible
-                    _readOwners.Remove(existing);
-                    _currentState--;
-                }
 
-                if(_currentState == STATE_NOLOCK)
-                    AfterLockReleased_NOLOCK(l);
-            }
-        }
+                _writeOwner.Dispose();
+                _writeOwner = null;
 
-        void ReleaseWriteLock()
-        {
-            using (var l = InternalLock.AcquireWriteLock())
-            {
-                _writeOwner.AcquisitionCount--;
+                _currentState = STATE_NOLOCK;
 
-                if (_writeOwner.AcquisitionCount == 0)
-                {
-                    _currentState = STATE_NOLOCK;
-                    
-                    AfterLockReleased_NOLOCK(l);
-                }
+                AfterLockReleased_NOLOCK(l);
             }
         }
 
@@ -317,7 +320,7 @@ namespace SquaredInfinity.Threading.Locks
                         try
                         {
                             lock_acquisition =
-                            await AcquireLockAsync__NOLOCK(
+                            await _AcquireLockAsync__NOLOCK(
                                 LockType.Write, 
                                 new AsyncOptions(
                                     r.Timeout.MillisecondsLeft, 
@@ -379,7 +382,7 @@ namespace SquaredInfinity.Threading.Locks
                             {
                                 lock_acquisition =
                                 await
-                                AcquireLockAsync__NOLOCK(
+                                _AcquireLockAsync__NOLOCK(
                                     LockType.Read,
                                     new AsyncOptions(
                                         r.Timeout.MillisecondsLeft, 

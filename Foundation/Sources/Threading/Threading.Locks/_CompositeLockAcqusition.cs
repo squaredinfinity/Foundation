@@ -10,6 +10,8 @@ namespace SquaredInfinity.Threading.Locks
 {
     class _CompositeLockAcqusition : DisposableObject, ILockAcquisition
     {
+        public ICorrelationToken CorrelationToken { get; private set; }
+
         volatile bool _isLockHeld = true;
         public bool IsLockHeld
         {
@@ -31,16 +33,22 @@ namespace SquaredInfinity.Threading.Locks
             }
         }
 
-        public _CompositeLockAcqusition()
-        { }
-
-        public _CompositeLockAcqusition(IEnumerable<ILockAcquisition> locks)
+        public _CompositeLockAcqusition(ICorrelationToken correlationToken)
         {
+            CorrelationToken = correlationToken ?? throw new ArgumentNullException(nameof(correlationToken));
+        }
+
+        public _CompositeLockAcqusition(ICorrelationToken correlationToken, IEnumerable<ILockAcquisition> locks)
+        {
+            CorrelationToken = correlationToken ?? throw new ArgumentNullException(nameof(correlationToken));
+
             Disposables.AddRange(locks);
         }
 
-        public _CompositeLockAcqusition(IReadOnlyList<ILockAcquisition> locks)
+        public _CompositeLockAcqusition(ICorrelationToken correlationToken, IReadOnlyList<ILockAcquisition> locks)
         {
+            CorrelationToken = correlationToken ?? throw new ArgumentNullException(nameof(correlationToken));
+
             Disposables.AddRange(locks);
         }
 

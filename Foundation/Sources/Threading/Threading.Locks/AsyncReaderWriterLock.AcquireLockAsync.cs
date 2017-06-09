@@ -14,16 +14,20 @@ namespace SquaredInfinity.Threading.Locks
 {
     public partial class AsyncReaderWriterLock
     {
-        public async Task<ILockAcquisition> AcquireLockAsync(LockType lockType) => await AcquireLockAsync(lockType, AsyncOptions.Default);
+        public async Task<ILockAcquisition> AcquireLockAsync(LockType lockType)
+            => await AcquireLockAsync(lockType, AsyncOptions.Default);
+        public async Task<ILockAcquisition> AcquireLockAsync(LockType lockType, ICorrelationToken correlationToken) 
+            => await AcquireLockAsync(lockType, AsyncOptions.Default.Correlate(correlationToken ?? throw new ArgumentNullException(nameof(correlationToken))));
+
         public async Task<ILockAcquisition> AcquireLockAsync(LockType lockType, AsyncOptions options)
         {
             options.CancellationToken.ThrowIfCancellationRequested();
 
-            if (options.MillisecondsTimeout == 0)
-                return _FailedLockAcquisition.Instance;
+            if (options.CorrelationToken == null)
+                options = options.Correlate(new CorrelationToken("__automatic_async__"));
 
-            if (RecursionPolicy == LockRecursionPolicy.SupportsRecursion)
-                throw new NotSupportedException("Async acquisitions are not supported by recursive locks");
+            if (options.MillisecondsTimeout == 0)
+                return new _FailedLockAcquisition(options.CorrelationToken);
 
             var state_comparison_type = ComparisonType.Equal;
 
@@ -45,6 +49,25 @@ namespace SquaredInfinity.Threading.Locks
 
             using (var l = InternalLock.AcquireWriteLock())
             {
+                if (_IsLockAcquisitionAttemptRecursive__NOLOCK(lockType, options.CorrelationToken))
+                {
+                    if (RecursionPolicy == LockRecursionPolicy.NoRecursion)
+                        throw new LockRecursionException();
+
+                    switch (lockType)
+                    {
+                        case LockType.Read:
+                            _AddNextReader__NOLOCK(options.CorrelationToken);
+                            return new _LockAcquisition(this, LockType.Read, options.CorrelationToken);
+                        case LockType.Write:
+                            _AddRecursiveWriter(options.CorrelationToken);
+                            return new _LockAcquisition(this, LockType.Write, options.CorrelationToken);
+                        case LockType.UpgradeableRead:
+                        default:
+                            throw new NotSupportedException(lockType.ToString());
+                    }
+                }
+
                 result = AcquireOrQueueLockAsync__NOLOCK(lockType, options, state_comparison_type, l);
             }
 
@@ -55,7 +78,7 @@ namespace SquaredInfinity.Threading.Locks
         {
             if (StateComparer.Compare(_currentState, STATE_NOLOCK, stateComparisonType) && _waitingWriters.Count == 0)
             {
-                return await AcquireLockAsync__NOLOCK(lockType, options, internalLock).ConfigureAwait(options.ContinueOnCapturedContext);
+                return await _AcquireLockAsync__NOLOCK(lockType, options, internalLock).ConfigureAwait(options.ContinueOnCapturedContext);
             }
             else
             {
@@ -63,7 +86,7 @@ namespace SquaredInfinity.Threading.Locks
             }
         }
 
-        async Task<ILockAcquisition> AcquireLockAsync__NOLOCK(LockType lockType, AsyncOptions options, ILockAcquisition internalLock)
+        async Task<ILockAcquisition> _AcquireLockAsync__NOLOCK(LockType lockType, AsyncOptions options, ILockAcquisition internalLock)
         {
             // we are not in write or read lock and there is no waiting writer
             // just acquire another read lock
@@ -74,76 +97,55 @@ namespace SquaredInfinity.Threading.Locks
                 {
                     case LockType.Read:
                         // no children to lock, we can just grant reader-lock and return
-                        _AddReader(options.CorrelationToken);
-                        return new _ReadLockAcquisition(this, options.CorrelationToken, null);
+                        _AddFirstReader__NOLOCK(options.CorrelationToken, null);
+                        return new _LockAcquisition(this, LockType.Read, options.CorrelationToken);
                     case LockType.Write:
                         // no children to lock, we can just grant writer-lock and return
-                        _AddWriter(options.CorrelationToken);
-                        return new _WriteLockAcquisition(this, null);
+                        _AddWriter(options.CorrelationToken, null);
+                        return new _LockAcquisition(this, LockType.Write, options.CorrelationToken);
                     default:
                         throw new NotSupportedException($"specified lock type is not supported, {lockType}");
                 }
             }
             else
             {
-                var provisional_acquisition = (ILockAcquisition)null;
-
-                // there are children
-                // grant lock and try to acquire children locks
-                switch (lockType)
+                try
                 {
-                    case LockType.Read:
-                        _AddReader(options.CorrelationToken);
-                        provisional_acquisition = new _ReadLockAcquisition(this, options.CorrelationToken);
-                        break;
-                    case LockType.Write:
-                        _AddWriter(options.CorrelationToken);
-                        provisional_acquisition = new _WriteLockAcquisition(this);
-                        break;
-                    default:
-                        throw new NotSupportedException($"specified lock type is not supported, {lockType}");
-                }
+                    var children_acquisition =
+                        await
+                        CompositeLock
+                        .LockChildrenAsync(lockType, options)
+                        .ConfigureAwait(options.ContinueOnCapturedContext);
 
-                // release the internal lock while awaiting children
-                // there's a potential of continuation on another thread
-                // and we don't really need internal lock while waiting
-                // as this state will no longer be modified
-                internalLock.Dispose();
-
-                var children_acquisition =
-                    await
-                    CompositeLock
-                    .LockChildrenAsync(lockType, options)
-                    .ConfigureAwait(options.ContinueOnCapturedContext);
-
-                if (!children_acquisition.IsLockHeld)
-                {
-                    //# couldn't acquire children
-
-                    // release locks on any children that might have been acquired
-                    children_acquisition.Dispose();
-
-                    // release provisional acquisition
-                    provisional_acquisition.Dispose();
-
-                    //return failure
-                    return new _FailedLockAcquisition();
-                }
-
-                using (var l2 = InternalLock.AcquireWriteLock())
-                {
-                    // replace provisional acquisition with actual acquisition with children and thread id
-                    provisional_acquisition = null;
-
-                    switch (lockType)
+                    if (!children_acquisition.IsLockHeld)
                     {
-                        case LockType.Read:
-                            return new _ReadLockAcquisition(this, options.CorrelationToken, children_acquisition);
-                        case LockType.Write:
-                            return new _WriteLockAcquisition(this, children_acquisition);
-                        default:
-                            throw new NotSupportedException($"specified lock type is not supported, {lockType}");
+                        //# couldn't acquire children
+
+                        // release locks on any children that might have been acquired
+                        children_acquisition.Dispose();
+
+                        //return failure
+                        return new _FailedLockAcquisition(options.CorrelationToken);
                     }
+
+                    using (var l2 = InternalLock.AcquireWriteLock())
+                    {
+                        switch (lockType)
+                        {
+                            case LockType.Read:
+                                _AddFirstReader__NOLOCK(options.CorrelationToken, children_acquisition);
+                                return new _LockAcquisition(this, LockType.Read, options.CorrelationToken);
+                            case LockType.Write:
+                                _AddWriter(options.CorrelationToken, children_acquisition);
+                                return new _LockAcquisition(this, LockType.Write, options.CorrelationToken);
+                            default:
+                                throw new NotSupportedException($"specified lock type is not supported, {lockType}");
+                        }
+                    }
+                }
+                finally
+                {
+                    internalLock.Dispose();
                 }
             }
         }
@@ -151,7 +153,7 @@ namespace SquaredInfinity.Threading.Locks
         async Task<ILockAcquisition> QueueLockAsync__NOLOCK(LockType lockType, AsyncOptions options, ILockAcquisition internalLock)
         {
             var completion_source = new TaskCompletionSource<ILockAcquisition>();
-            completion_source.TimeoutAfter(options.MillisecondsTimeout, _ => _.SetResult(_FailedLockAcquisition.Instance));
+            completion_source.TimeoutAfter(options.MillisecondsTimeout, _ => _.SetResult(new _FailedLockAcquisition(options.CorrelationToken)));
 
             var waiter_queue = (Queue<_Waiter>)null;
 
