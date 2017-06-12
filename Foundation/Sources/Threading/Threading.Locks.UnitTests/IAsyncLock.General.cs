@@ -102,14 +102,23 @@ namespace Threading.Locks.UnitTests
                 {
                     if (s.IsAsync)
                     {
-                        // ignored, async recursive throw as per acquire_lock test
+                        var l = s.GetLock();
+                        using (await l.AcquireLockAsync(s.LockType))
+                        {
+                            // async lock creates random correlation token
+                            // we cannot know exactly what it is, but we can check if it's there
+                            Assert.AreEqual(1, l.AllOwners.Single().AcquisitionCount);
+                            Assert.IsNotNull(l.AllOwners.Single().CorrelationToken);
+                        }
+
+                        Assert.AreEqual(0, l.AllOwners.Count);
                     }
                     else
                     {
                         var l = s.GetLock();
                         using (l.AcquireLock(s.LockType))
                         {
-                            Assert.AreEqual(Environment.CurrentManagedThreadId, l.AllOwners.Single());
+                            Assert.AreEqual(ThreadCorrelationToken.FromCurrentThread, l.AllOwners.Single());
                         }
 
                         Assert.AreEqual(0,l.AllOwners.Count);
@@ -122,7 +131,10 @@ namespace Threading.Locks.UnitTests
                         var l = s.GetLock();
                         using (await l.AcquireLockAsync(s.LockType))
                         {
-                            Assert.AreEqual(Environment.CurrentManagedThreadId, l.AllOwners.Single());
+                            // async lock creates random correlation token
+                            // we cannot know exactly what it is, but we can check if it's there
+                            Assert.AreEqual(1, l.AllOwners.Single().AcquisitionCount);
+                            Assert.IsNotNull(l.AllOwners.Single().CorrelationToken);
                         }
 
                         Assert.AreEqual(0, l.AllOwners.Count);
@@ -132,7 +144,7 @@ namespace Threading.Locks.UnitTests
                         var l = s.GetLock();
                         using (l.AcquireLock(s.LockType))
                         {
-                            Assert.AreEqual(Environment.CurrentManagedThreadId, l.AllOwners.Single());
+                            Assert.AreEqual(ThreadCorrelationToken.FromCurrentThread, l.AllOwners.Single());
                         }
 
                         Assert.AreEqual(0, l.AllOwners.Count);
@@ -146,6 +158,8 @@ namespace Threading.Locks.UnitTests
         {
             foreach (var s in _lock_test_setup.AllTestSetups)
             {
+                Trace.WriteLine($"TESTING: {s.ToString()}");
+
                 if (s.RecursionPolicy == LockRecursionPolicy.SupportsRecursion)
                 {
                     if (s.IsAsync)
@@ -153,7 +167,7 @@ namespace Threading.Locks.UnitTests
                         var al = s.GetLock();
                         var l = await al.AcquireLockAsync(s.LockType);
 
-                        Assert.AreEqual(LockState.Write, al.State);
+                        Assert.AreEqual(s.ExpectedLockState, al.State);
 
                         l.Dispose();
 
@@ -163,7 +177,7 @@ namespace Threading.Locks.UnitTests
                     {
                         var al = s.GetLock();
                         var l = al.AcquireLock(s.LockType);
-                        Assert.AreEqual(LockState.Write, al.State);
+                        Assert.AreEqual(s.ExpectedLockState, al.State);
                         l.Dispose();
                         Assert.AreEqual(LockState.NoLock, al.State);
                     }
@@ -174,7 +188,7 @@ namespace Threading.Locks.UnitTests
                     {
                         var al = s.GetLock();
                         var l = await al.AcquireLockAsync(s.LockType);
-                        Assert.AreEqual(LockState.Write, al.State);
+                        Assert.AreEqual(s.ExpectedLockState, al.State);
                         l.Dispose();
                         Assert.AreEqual(LockState.NoLock, al.State);
                     }
@@ -182,7 +196,7 @@ namespace Threading.Locks.UnitTests
                     {
                         var al = s.GetLock();
                         var l = al.AcquireLock(s.LockType);
-                        Assert.AreEqual(LockState.Write, al.State);
+                        Assert.AreEqual(s.ExpectedLockState, al.State);
                         l.Dispose();
                         Assert.AreEqual(LockState.NoLock, al.State);
                     }
@@ -195,13 +209,15 @@ namespace Threading.Locks.UnitTests
         {
             foreach (var s in _lock_test_setup.AllTestSetups)
             {
+                Trace.WriteLine($"TESTING: {s.ToString()}");
+
                 if (s.RecursionPolicy == LockRecursionPolicy.SupportsRecursion)
                 {
                     if (s.IsAsync)
                     {
                         var al = s.GetLock();
                         var l1 = await al.AcquireLockAsync(s.LockType);
-                        Assert.AreEqual(LockState.Write, al.State);
+                        Assert.AreEqual(s.ExpectedLockState, al.State);
 
                         var l2 = Task.Factory.StartNewThread(async () => await al.AcquireWriteLockAsync(new AsyncOptions(50))).Result.Result;
 
@@ -211,7 +227,7 @@ namespace Threading.Locks.UnitTests
                     {
                         var al = s.GetLock();
                         var l = al.AcquireLock(s.LockType);
-                        Assert.AreEqual(LockState.Write, al.State);
+                        Assert.AreEqual(s.ExpectedLockState, al.State);
 
                         var l2 = Task.Factory.StartNewThread(() => al.AcquireWriteLock(new SyncOptions(50))).Result;
                         Assert.IsFalse(l2.IsLockHeld);
@@ -223,7 +239,7 @@ namespace Threading.Locks.UnitTests
                     {
                         var al = s.GetLock();
                         var l = await al.AcquireLockAsync(s.LockType);
-                        Assert.AreEqual(LockState.Write, al.State);
+                        Assert.AreEqual(s.ExpectedLockState, al.State);
 
                         var l2 = Task.Factory.StartNewThread(() => al.AcquireWriteLock(new SyncOptions(50))).Result;
                         Assert.IsFalse(l2.IsLockHeld);
@@ -232,7 +248,7 @@ namespace Threading.Locks.UnitTests
                     {
                         var al = s.GetLock();
                         var l = al.AcquireLock(s.LockType);
-                        Assert.AreEqual(LockState.Write, al.State);
+                        Assert.AreEqual(s.ExpectedLockState, al.State);
 
                         var l2 = Task.Factory.StartNewThread(() => al.AcquireWriteLock(new SyncOptions(50))).Result;
                         Assert.IsFalse(l2.IsLockHeld);
@@ -246,6 +262,11 @@ namespace Threading.Locks.UnitTests
         {
             foreach (var s in _lock_test_setup.AllTestSetups)
             {
+                if (s.IsAsync == false) continue;
+                if (s.RecursionPolicy == LockRecursionPolicy.NoRecursion) continue;
+                
+                Trace.WriteLine($"TESTING: {s.ToString()}");
+
                 if (s.RecursionPolicy == LockRecursionPolicy.SupportsRecursion)
                 {
                     if (s.IsAsync)
@@ -254,11 +275,11 @@ namespace Threading.Locks.UnitTests
 
                         using (await al.AcquireLockAsync(s.LockType))
                         {
-                            Assert.AreEqual(LockState.Write, al.State);
+                            Assert.AreEqual((int)s.ExpectedLockState, (int)al.State);
 
                             await Task.Delay(25);
 
-                            Assert.AreEqual(LockState.Write, al.State);
+                            Assert.AreEqual((int)s.ExpectedLockState, (int)al.State);
                         }                        
                     }
                     else
@@ -266,11 +287,11 @@ namespace Threading.Locks.UnitTests
                         var al = new AsyncLock(s.RecursionPolicy);
                         using (al.AcquireLock(s.LockType))
                         {
-                            Assert.AreEqual(LockState.Write, al.State);
+                            Assert.AreEqual((int)s.ExpectedLockState, (int)al.State);
 
                             await Task.Delay(25);
 
-                            Assert.AreEqual(LockState.Write, al.State);
+                            Assert.AreEqual((int)s.ExpectedLockState, (int)al.State);
                         }
                     }
                 }
@@ -281,11 +302,11 @@ namespace Threading.Locks.UnitTests
                         var al = new AsyncLock(s.RecursionPolicy);
                         using (await al.AcquireLockAsync(s.LockType))
                         {
-                            Assert.AreEqual(LockState.Write, al.State);
+                            Assert.AreEqual((int)s.ExpectedLockState, (int)al.State);
 
                             await Task.Delay(25);
 
-                            Assert.AreEqual(LockState.Write, al.State);
+                            Assert.AreEqual((int)s.ExpectedLockState, (int)al.State);
                         }
                     }
                     else
@@ -293,11 +314,11 @@ namespace Threading.Locks.UnitTests
                         var al = new AsyncLock(s.RecursionPolicy);
                         using (al.AcquireLock(s.LockType))
                         {
-                            Assert.AreEqual(LockState.Write, al.State);
+                            Assert.AreEqual((int)s.ExpectedLockState, (int)al.State);
 
                             await Task.Delay(25);
 
-                            Assert.AreEqual(LockState.Write, al.State);
+                            Assert.AreEqual((int)s.ExpectedLockState, (int)al.State);
                         }
                     }
                 }
@@ -318,12 +339,23 @@ namespace Threading.Locks.UnitTests
                         var al = s.GetLock();
                         using (await al.AcquireLockAsync(s.LockType))
                         {
-                            Assert.AreEqual(LockState.Write, al.State);
+                            Assert.AreEqual((int)s.ExpectedLockState, (int)al.State);
 
                             var l2 = Task.Factory.StartNewThread(() => al.AcquireLock(s.LockType, new SyncOptions(50))).Result;
 
-                            Assert.IsFalse(l2.IsLockHeld, s.ToString());
-                            Assert.AreEqual(LockState.Write, al.State, s.ToString());
+                            if (al is AsyncLock)
+                            {
+                                Assert.IsFalse(l2.IsLockHeld, s.ToString()); // can't hold another write
+                            }
+                            else
+                            {
+                                if (s.LockType == LockType.Read)
+                                    Assert.IsTrue(l2.IsLockHeld, s.ToString()); // can hold another read
+                                else
+                                    Assert.IsFalse(l2.IsLockHeld, s.ToString()); // but can't hold another write
+                            }
+
+                            Assert.AreEqual((int)s.ExpectedLockState, (int)al.State);
                         }
                     }
                     else
@@ -331,12 +363,23 @@ namespace Threading.Locks.UnitTests
                         var al = s.GetLock();
                         using (al.AcquireLock(s.LockType))
                         {
-                            Assert.AreEqual(LockState.Write, al.State);
+                            Assert.AreEqual((int)s.ExpectedLockState, (int)al.State);
 
                             var l2 = Task.Factory.StartNewThread(() => al.AcquireLock(s.LockType, new SyncOptions(50))).Result;
 
-                            Assert.IsFalse(l2.IsLockHeld, s.ToString());
-                            Assert.AreEqual(LockState.Write, al.State, s.ToString());
+                            if (al is AsyncLock)
+                            {
+                                Assert.IsFalse(l2.IsLockHeld, s.ToString()); // can't hold another write
+                            }
+                            else
+                            {
+                                if (s.LockType == LockType.Read)
+                                    Assert.IsTrue(l2.IsLockHeld, s.ToString()); // can hold another read
+                                else
+                                    Assert.IsFalse(l2.IsLockHeld, s.ToString()); // but can't hold another write
+                            }
+
+                            Assert.AreEqual((int)s.ExpectedLockState, (int)al.State);
                         }
                     }
                 }
@@ -347,28 +390,51 @@ namespace Threading.Locks.UnitTests
                         var al = s.GetLock();
                         using (await al.AcquireLockAsync(s.LockType))
                         {
-                            Assert.AreEqual(LockState.Write, al.State);
+                            Assert.AreEqual((int)s.ExpectedLockState, (int)al.State);
 
                             var l2 = await Task.Factory.StartNewThread(async () => await al.AcquireLockAsync(s.LockType, new AsyncOptions(50))).Result;
 
-                            Assert.IsFalse(l2.IsLockHeld, s.ToString());
-                            Assert.AreEqual(LockState.Write, al.State, s.ToString());
+                            if (al is AsyncLock)
+                            {
+                                Assert.IsFalse(l2.IsLockHeld, s.ToString()); // can't hold another write
+                            }
+                            else
+                            {
+                                if (s.LockType == LockType.Read)
+                                    Assert.IsTrue(l2.IsLockHeld, s.ToString()); // can hold another read
+                                else
+                                    Assert.IsFalse(l2.IsLockHeld, s.ToString()); // but can't hold another write
+                            }
+
+                            Assert.AreEqual((int)s.ExpectedLockState, (int)al.State);
+
+                            l2.Dispose();
                         }
+
+                        Assert.AreEqual(LockState.NoLock, al.State);
                     }
                     else
                     {
                         var al = s.GetLock();
                         using (al.AcquireLock(s.LockType))
                         {
-                            Assert.AreEqual(LockState.Write, al.State);
-                            
-                            Trace.WriteLine(Environment.CurrentManagedThreadId);
-
+                            Assert.AreEqual((int)s.ExpectedLockState, (int)al.State);
 
                             var l2 = await Task.Factory.StartNewThread(() => al.AcquireLock(s.LockType, new SyncOptions(50)));
 
-                            Assert.IsFalse(l2.IsLockHeld, s.ToString());
-                            Assert.AreEqual(LockState.Write, al.State, s.ToString());
+                            if (al is AsyncLock)
+                            {
+                                Assert.IsFalse(l2.IsLockHeld, s.ToString()); // can't hold another write
+                            }
+                            else
+                            {
+                                if (s.LockType == LockType.Read)
+                                    Assert.IsTrue(l2.IsLockHeld, s.ToString()); // can hold another read
+                                else
+                                    Assert.IsFalse(l2.IsLockHeld, s.ToString()); // but can't hold another write
+                            }
+
+                            Assert.AreEqual((int)s.ExpectedLockState, (int)al.State);
                         }
                     }
                 }
@@ -386,20 +452,20 @@ namespace Threading.Locks.UnitTests
                 {
                     if (s.IsAsync)
                     {
-                        // ignored, async recursive throw as per acquire_lock test
+                        Assert.Fail();
                     }
                     else
                     {
                         var al = s.GetLock();
                         using (al.AcquireLock(s.LockType))
                         {
-                            Assert.AreEqual(LockState.Write, al.State);
+                            Assert.AreEqual((int)s.ExpectedLockState, (int)al.State);
 
                             var l2 = al.AcquireLock(s.LockType, new SyncOptions(50)); ;
 
                             // recursive lock granted
                             Assert.IsTrue(l2.IsLockHeld, s.ToString());
-                            Assert.AreEqual(LockState.Write, al.State, s.ToString());
+                            Assert.AreEqual((int)s.ExpectedLockState, (int)al.State);
                         }
                     }
                 }
@@ -410,13 +476,13 @@ namespace Threading.Locks.UnitTests
                         var al = s.GetLock();
                         using (await al.AcquireLockAsync(s.LockType))
                         {
-                            Assert.AreEqual(LockState.Write, al.State);
+                            Assert.AreEqual((int)s.ExpectedLockState, (int)al.State);
 
                             var l2 = await al.AcquireLockAsync(s.LockType, new AsyncOptions(50));
 
                             // should time out no not acquire lock
                             Assert.IsFalse(l2.IsLockHeld, s.ToString());
-                            Assert.AreEqual(LockState.Write, al.State, s.ToString());
+                            Assert.AreEqual((int)s.ExpectedLockState, (int)al.State);
                         }
                     }
                     else
@@ -424,7 +490,7 @@ namespace Threading.Locks.UnitTests
                         var al = s.GetLock();
                         using (al.AcquireLock(s.LockType))
                         {
-                            Assert.AreEqual(LockState.Write, al.State);
+                            Assert.AreEqual((int)s.ExpectedLockState, (int)al.State);
 
                             Trace.WriteLine(Environment.CurrentManagedThreadId);
                             

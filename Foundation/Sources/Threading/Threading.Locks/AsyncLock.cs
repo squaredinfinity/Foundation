@@ -60,7 +60,8 @@ namespace SquaredInfinity.Threading.Locks
             {
                 using (InternalLock.AcquireWriteLock())
                 {
-                    return _writeOwner?.CorrelationTokenToAcquisitionCount.Select(x => new LockOwnership(x.Key, x.Value)).ToArray();
+                    return
+                    _writeOwner?.CorrelationTokenToAcquisitionCount.Select(x => new LockOwnership(x.Key, x.Value)).ToArray() ?? new LockOwnership[0];
                 }
             }
         }

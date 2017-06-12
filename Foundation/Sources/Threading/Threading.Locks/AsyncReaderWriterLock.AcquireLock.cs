@@ -21,14 +21,14 @@ namespace SquaredInfinity.Threading.Locks
             if (lockType != LockType.Read && lockType != LockType.Write)
                 throw new NotSupportedException($"specified lock type is not supported, {lockType}");
 
+            if (options.CorrelationToken == null)
+                options = options.CorrelateThisThread();
+
             if (options.MillisecondsTimeout == 0)
                 return new _FailedLockAcquisition(options.CorrelationToken);
 
             if (_IsLockAcquisitionAttemptRecursive__NOLOCK(lockType, options.CorrelationToken))
                 return new _DummyLockAcquisition(options.CorrelationToken);
-
-            if (options.CorrelationToken == null)
-                options = options.CorrelateThisThread();
 
             using (var l = InternalLock.AcquireWriteLock())
             {

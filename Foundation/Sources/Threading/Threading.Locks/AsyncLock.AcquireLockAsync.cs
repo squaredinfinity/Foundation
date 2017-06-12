@@ -24,11 +24,13 @@ namespace SquaredInfinity.Threading.Locks
         /// <returns></returns>
         public async Task<ILockAcquisition> AcquireLockAsync(LockType lockType, AsyncOptions options)
         {
-            if (options.MillisecondsTimeout == 0)
-                return new _FailedLockAcquisition(options.CorrelationToken);
+            options.CancellationToken.ThrowIfCancellationRequested();
 
             if (options.CorrelationToken == null)
                 options = options.Correlate(new CorrelationToken("__automatic_async__"));
+
+            if (options.MillisecondsTimeout == 0)
+                return new _FailedLockAcquisition(options.CorrelationToken);
 
             using (InternalLock.AcquireWriteLock())
             {

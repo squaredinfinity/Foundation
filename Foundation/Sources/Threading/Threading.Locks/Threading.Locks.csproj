@@ -54,6 +54,7 @@
     <Compile Include="ICompositeLock.cs" />
     <Compile Include="IReadLock.cs" />
     <Compile Include="IWriteLock.cs" />
+    <Compile Include="LockOwnership.cs" />
     <Compile Include="NoLockAsyncLock.cs" />
     <Compile Include="LockState.cs" />
     <Compile Include="_CompositeLockAcqusition.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="AsyncLock._LockAcquisition.cs" />
     <Compile Include="AsyncLock.cs" />
     <Compile Include="_CompositeAsyncLock.cs" />
+    <Compile Include="_LockOwnership.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

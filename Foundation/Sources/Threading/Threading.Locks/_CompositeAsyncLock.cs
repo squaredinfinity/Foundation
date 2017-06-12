@@ -24,8 +24,6 @@ namespace SquaredInfinity.Threading.Locks
 
         #region Child Locks
 
-        // there's no need for internal lock to support recursion (implementation of this type will avoid this need)
-        // there's no need for internal lock to support composition (no child locks will be added)
         readonly IAsyncLock ChildrenLock = new AsyncLock("", recursionPolicy: LockRecursionPolicy.NoRecursion, supportsComposition: false);
 
         readonly HashSet<ILock> ChildLocks = new HashSet<ILock>();

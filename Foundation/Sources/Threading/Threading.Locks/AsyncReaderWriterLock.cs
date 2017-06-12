@@ -82,7 +82,7 @@ namespace SquaredInfinity.Threading.Locks
                     return
                     _writeOwner?.CorrelationTokenToAcquisitionCount.Select(x => new LockOwnership(x.Key, x.Value))
                     .Concat(_readOwner?.CorrelationTokenToAcquisitionCount.Select(x => new LockOwnership(x.Key, x.Value)))
-                    .ToArray();
+                    .ToArray() ?? new LockOwnership[0];
                 }
             }
         }
@@ -217,10 +217,18 @@ namespace SquaredInfinity.Threading.Locks
 
         void _AddFirstReader__NOLOCK(ICorrelationToken correlationToken, IDisposable disposeWhenReleased)
         {
-            if(_readOwner != null) throw new InvalidOperationException($"Lock already has a reader. Use {nameof(_AddNextReader__NOLOCK)} instead.");
+            if (_readOwner == null)
+            {
+                _readOwner = new _LockOwnership(disposeWhenReleased);
+                _readOwner.AddAcquisition(correlationToken);
+            }
+            else
+            {
+                if(_readOwner.ContainsAcquisition(correlationToken))
+                    throw new InvalidOperationException($"Lock already has this a reader. Use {nameof(_AddNextReader__NOLOCK)} instead.");
 
-            _readOwner = new _LockOwnership(disposeWhenReleased);
-            _readOwner.AddAcquisition(correlationToken);
+                _readOwner.AddAcquisition(correlationToken);
+            }
 
             _currentState++;
         }

@@ -6,55 +6,48 @@ using System.Threading.Tasks;
 
 namespace SquaredInfinity.Threading
 {
-    public interface ICorrelationToken : IEquatable<ICorrelationToken>
-    { }
-
-    public class ThreadCorrelationToken : ICorrelationToken, IEquatable<ThreadCorrelationToken>
-    {
-        int ThreadId;
-
-        public static ICorrelationToken FromCurrentThread { get { return new ThreadCorrelationToken(Environment.CurrentManagedThreadId); } }
-
-        public ThreadCorrelationToken(int threadId)
-        {
-            ThreadId = threadId;
-        }
-
-        #region Equality + Hash Code
-
-        public override int GetHashCode() => ThreadId.GetHashCode();
-        public override bool Equals(object other) => Equals(other as ThreadCorrelationToken);
-        public bool Equals(ICorrelationToken other) => Equals(other as ThreadCorrelationToken);
-
-        public bool Equals(ThreadCorrelationToken other)
-        {
-            if (other == null)
-                return false;
-
-            if (ReferenceEquals(this, other))
-                return true;
-
-            return int.Equals(ThreadId, other.ThreadId);
-        }
-
-        #endregion
-
-        public override string ToString() => $"{ThreadId} (thread)";
-    }
-
+    /// <summary>
+    /// Generic correlation token with unique Id which can be given a name.
+    /// </summary>
     public class CorrelationToken : ICorrelationToken, IEquatable<CorrelationToken>
     {
         Guid Id;
-        string Name;
+        string DisplayName;
 
+        #region Constructors
+
+        /// <summary>
+        /// Creates new correlation token a with random id.
+        /// </summary>
         public CorrelationToken()
-            : this("") { }
+            : this("__noname__", Guid.NewGuid()) { }
 
-        public CorrelationToken(string name)
+        /// <summary>
+        /// Creates a new correlation token with a given display name and a random id.
+        /// </summary>
+        /// <param name="displayName">Display name of the correlation token</param>
+        public CorrelationToken(string displayName)
+            : this(displayName, Guid.NewGuid()) { }
+
+        /// <summary>
+        /// Creates a new correlation token with a given id.
+        /// </summary>
+        /// <param name="id">id of the correlation token</param>
+        public CorrelationToken(Guid id)
+            : this("__noname__", id) { }
+
+        /// <summary>
+        /// Creates a new correlation token with a given display name and id.
+        /// </summary>
+        /// <param name="displayName">Display name of the correlation token</param>
+        /// <param name="id">id of the correlation token</param>
+        public CorrelationToken(string displayName, Guid id)
         {
-            Name = name;
-            Id = Guid.NewGuid();
+            DisplayName = displayName;
+            Id = id;
         }
+
+        #endregion
 
         #region Equality + Hash Code
 
@@ -75,7 +68,7 @@ namespace SquaredInfinity.Threading
 
         #endregion
 
-        public override string ToString() => $"{Name} {Id}";
+        public override string ToString() => $"{DisplayName} {Id}";
 
         public static implicit operator CorrelationToken (string name) => new CorrelationToken(name);
     }

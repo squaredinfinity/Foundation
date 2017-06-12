@@ -41,10 +41,12 @@
       <Link>Properties\version.cs</Link>
     </Compile>
     <Compile Include="CorrelationToken.cs" />
+    <Compile Include="ICorrelationToken.cs" />
     <Compile Include="SyncOptions.cs" />
     <Compile Include="AsyncOptions.cs" />
     <Compile Include="IAsyncLoop.cs" />
     <Compile Include="IInvocationThrottle.cs" />
+    <Compile Include="ThreadCorrelationToken.cs" />
     <Compile Include="TimeoutExpiry.cs" />
   </ItemGroup>
   <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />

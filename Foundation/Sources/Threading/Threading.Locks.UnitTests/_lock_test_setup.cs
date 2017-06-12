@@ -17,7 +17,12 @@ namespace Threading.Locks.UnitTests
         }
 
         public LockRecursionPolicy RecursionPolicy { get; private set; }
+
         public LockType LockType { get; private set; }
+        
+        // AsyncLock reports all locks as Write
+        public LockState ExpectedLockState => GetLock() is AsyncLock ? LockState.Write : (LockState)(int)LockType;
+
         public bool IsAsync { get; private set; }
 
         Func<IAsyncLock> _getLock;
