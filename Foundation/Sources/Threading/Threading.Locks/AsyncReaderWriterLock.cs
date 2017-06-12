@@ -79,10 +79,19 @@ namespace SquaredInfinity.Threading.Locks
             {
                 using (InternalLock.AcquireWriteLock())
                 {
-                    return
-                    _writeOwner?.CorrelationTokenToAcquisitionCount.Select(x => new LockOwnership(x.Key, x.Value))
-                    .Concat(_readOwner?.CorrelationTokenToAcquisitionCount.Select(x => new LockOwnership(x.Key, x.Value)))
-                    .ToArray() ?? new LockOwnership[0];
+                    var all_owners = new List<LockOwnership>();
+
+                    if(_writeOwner != null)
+                    {
+                        all_owners.Add(_writeOwner.CorrelationTokenToAcquisitionCount.Select(x => new LockOwnership(x.Key, x.Value)).Single());
+                    }
+                    
+                    if(_readOwner != null)
+                    {
+                        all_owners.AddRange(_readOwner?.CorrelationTokenToAcquisitionCount.Select(x => new LockOwnership(x.Key, x.Value)));
+                    }
+
+                    return all_owners;
                 }
             }
         }
@@ -251,7 +260,7 @@ namespace SquaredInfinity.Threading.Locks
             }
         }
 
-        void _AddRecursiveWriter(ICorrelationToken correlationToken)
+        void _AddRecursiveWriter__NOLOCK(ICorrelationToken correlationToken)
         {
             if (_writeOwner == null) throw new InvalidOperationException($"Attempt to add recursive writer but no writer held.");
             if (!_writeOwner.ContainsAcquisition(correlationToken)) throw new InvalidOperationException($"Attempt to add recursive writer but different writer held.");

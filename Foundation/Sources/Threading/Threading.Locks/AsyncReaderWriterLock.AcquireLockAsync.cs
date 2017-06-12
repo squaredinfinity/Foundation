@@ -60,7 +60,7 @@ namespace SquaredInfinity.Threading.Locks
                             _AddNextReader__NOLOCK(options.CorrelationToken);
                             return new _LockAcquisition(this, LockType.Read, options.CorrelationToken);
                         case LockType.Write:
-                            _AddRecursiveWriter(options.CorrelationToken);
+                            _AddRecursiveWriter__NOLOCK(options.CorrelationToken);
                             return new _LockAcquisition(this, LockType.Write, options.CorrelationToken);
                         case LockType.UpgradeableRead:
                         default:

@@ -27,11 +27,27 @@ namespace SquaredInfinity.Threading.Locks
             if (options.MillisecondsTimeout == 0)
                 return new _FailedLockAcquisition(options.CorrelationToken);
 
-            if (_IsLockAcquisitionAttemptRecursive__NOLOCK(lockType, options.CorrelationToken))
-                return new _DummyLockAcquisition(options.CorrelationToken);
-
             using (var l = InternalLock.AcquireWriteLock())
             {
+                if (_IsLockAcquisitionAttemptRecursive__NOLOCK(lockType, options.CorrelationToken))
+                {
+                    if (RecursionPolicy == LockRecursionPolicy.NoRecursion)
+                        throw new LockRecursionException();
+
+                    switch (lockType)
+                    {
+                        case LockType.Read:
+                            _AddNextReader__NOLOCK(options.CorrelationToken);
+                            return new _LockAcquisition(this, lockType, options.CorrelationToken);
+                        case LockType.Write:
+                            _AddRecursiveWriter__NOLOCK(options.CorrelationToken);
+                            return new _LockAcquisition(this, lockType, options.CorrelationToken);
+                        case LockType.UpgradeableRead:
+                        default:
+                            throw new NotSupportedException(lockType.ToString());
+                    }
+                }
+
                 return AcquireOrQueueLock_NOLOCK(lockType, l, options);
             }
         }
@@ -58,7 +74,7 @@ namespace SquaredInfinity.Threading.Locks
                         _AddNextReader__NOLOCK(options.CorrelationToken);
                         return new _LockAcquisition(this, LockType.Read, options.CorrelationToken);
                     case LockType.Write:
-                        _AddRecursiveWriter(options.CorrelationToken);
+                        _AddRecursiveWriter__NOLOCK(options.CorrelationToken);
                         return new _LockAcquisition(this, LockType.Write, options.CorrelationToken);
                     case LockType.UpgradeableRead:
                     default:
