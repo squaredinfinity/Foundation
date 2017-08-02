@@ -12,16 +12,15 @@ namespace SquaredInfinity.Tagging
     {
         public string Key { get; private set; }
         public object Value { get; private set; }
+        public TagType TagType { get; private set; }
 
-        public TagWithValue(string key, object value)
+        public TagWithValue(string key, object value, TagType tagType)
         {
-            Key = key;
+            Key = key ?? throw new ArgumentNullException(nameof(key));
             Value = value;
+            TagType = tagType;
         }
         
-        public string DebuggerDisplay
-        {
-            get { return $"{Key}:{Value}"; }
-        }
+        string DebuggerDisplay => $"{Key}:{Value} ({TagType})";
     }
 }

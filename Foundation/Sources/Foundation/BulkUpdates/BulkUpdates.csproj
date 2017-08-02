@@ -61,13 +61,13 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="SquaredInfinity.Extensions, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.1.0\lib\portable-net45+win\SquaredInfinity.Extensions.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.1.1\lib\portable-net45+win\SquaredInfinity.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Threading, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Threading.2.0.12\lib\portable-net45+win\SquaredInfinity.Threading.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Threading.2.0.16-beta001\lib\portable-net45+win\SquaredInfinity.Threading.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Threading.Locks, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Threading.Locks.2.1.4\lib\portable-net45+win\SquaredInfinity.Threading.Locks.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Threading.Locks.2.1.14-beta001\lib\portable-net45+win\SquaredInfinity.Threading.Locks.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

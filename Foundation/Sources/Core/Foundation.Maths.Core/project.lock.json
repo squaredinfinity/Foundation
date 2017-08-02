@@ -8,9 +8,19 @@
     "": [],
     ".NETPortable,Version=v4.5,Profile=Profile7": []
   },
-  "tools": {},
-  "projectFileToolGroups": {},
   "packageFolders": {
-    "C:\\Users\\jarek.DESKTOP-PQ8J7HS\\.nuget\\packages\\": {}
+    "C:\\Users\\jarek.kardas\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "restore": {
+      "projectUniqueName": "C:\\Users\\jarek.kardas\\Source\\Repos\\Foundation\\Foundation\\Sources\\Core\\Foundation.Maths.Core\\Foundation.Maths.Core.csproj",
+      "projectName": "Foundation.Maths.Core",
+      "projectPath": "C:\\Users\\jarek.kardas\\Source\\Repos\\Foundation\\Foundation\\Sources\\Core\\Foundation.Maths.Core\\Foundation.Maths.Core.csproj",
+      "projectJsonPath": "C:\\Users\\jarek.kardas\\Source\\Repos\\Foundation\\Foundation\\Sources\\Core\\Foundation.Maths.Core\\project.json",
+      "projectStyle": "ProjectJson"
+    },
+    "frameworks": {
+      "portable45-net45+win8": {}
+    }
   }
 }

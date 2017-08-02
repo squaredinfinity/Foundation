@@ -124,7 +124,7 @@ namespace SquaredInfinity.Tagging
 
         #endregion
 
-        IReadOnlyList<TagWithValue> GetAllRawValues();
+        IReadOnlyList<KeyValuePair<Tag, object>> GetAllRawValues();
 
         #region Indexer
 

@@ -14,15 +14,15 @@
     <dependencies>
       <group targetFramework="portable-net45+win80" />
       <group targetFramework="net452">
-        <dependency id="SquaredInfinity.BulkUpdates" version="2.1.4" />
-        <dependency id="SquaredInfinity.Collections.CollectionEx" version="2.1.8" />
-        <dependency id="SquaredInfinity.Collections.Core" version="2.1.7" />
+        <dependency id="SquaredInfinity.BulkUpdates" version="2.1.8-beta001" />
+        <dependency id="SquaredInfinity.Collections.CollectionEx" version="2.1.14-beta001" />
+        <dependency id="SquaredInfinity.Collections.Core" version="2.1.12-beta001" />
         <dependency id="SquaredInfinity.Comparers" version="2.0.6" />
         <dependency id="SquaredInfinity.ComponentModel" version="2.1.0" />
         <dependency id="SquaredInfinity.Disposables" version="2.0.10" />
-        <dependency id="SquaredInfinity.Extensions" version="2.1.0" />
-        <dependency id="SquaredInfinity.Threading" version="2.0.10" />
-        <dependency id="SquaredInfinity.Threading.Locks" version="2.1.3" />
+        <dependency id="SquaredInfinity.Extensions" version="2.1.1" />
+        <dependency id="SquaredInfinity.Threading" version="2.0.16-beta001" />
+        <dependency id="SquaredInfinity.Threading.Locks" version="2.1.14-beta001" />
         <dependency id="SquaredInfinity.Types.Description" version="2.1.0" />
         <dependency id="SquaredInfinity.Types.Description.IL" version="2.1.0" />
         <dependency id="SquaredInfinity.Types.Description.Reflection" version="2.1.0" />

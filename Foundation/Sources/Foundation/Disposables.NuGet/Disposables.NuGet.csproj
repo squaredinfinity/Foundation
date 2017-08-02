@@ -65,11 +65,5 @@
   <ItemGroup>
     <Compile Include="version.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Disposables\Disposables.csproj">
-      <Project>{0eaf4df7-1ffa-4565-a019-eb67f73c59d7}</Project>
-      <Name>Disposables</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

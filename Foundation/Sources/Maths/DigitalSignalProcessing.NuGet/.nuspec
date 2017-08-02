@@ -11,8 +11,8 @@
     <copyright>Copyright © Jarek Kardas</copyright>
     <dependencies>
       <group targetFramework="portable-net45+win80">
-        <dependency id="SquaredInfinity.BulkUpdates" version="2.1.6" />
-        <dependency id="SquaredInfinity.Collections.Core" version="2.1.11" />
+        <dependency id="SquaredInfinity.BulkUpdates" version="2.1.8-beta001" />
+        <dependency id="SquaredInfinity.Collections.Core" version="2.1.12-beta001" />
         <dependency id="SquaredInfinity.Comparers" version="2.0.6" />
         <dependency id="SquaredInfinity.ComponentModel" version="2.1.0" />
         <dependency id="SquaredInfinity.Disposables" version="2.0.10" />
@@ -20,12 +20,12 @@
         <dependency id="SquaredInfinity.Maths" version="2.0.11" />
         <dependency id="SquaredInfinity.Maths.Extensions" version="2.0.3" />
         <dependency id="SquaredInfinity.Primitives" version="2.0.7" />
-        <dependency id="SquaredInfinity.Threading" version="2.0.12" />
-        <dependency id="SquaredInfinity.Threading.Locks" version="2.1.4" />
+        <dependency id="SquaredInfinity.Threading" version="2.0.16-beta001" />
+        <dependency id="SquaredInfinity.Threading.Locks" version="2.1.14-beta001" />
       </group>
       <group targetFramework="net452">
-        <dependency id="SquaredInfinity.BulkUpdates" version="2.1.6" />
-        <dependency id="SquaredInfinity.Collections.Core" version="2.1.11" />
+        <dependency id="SquaredInfinity.BulkUpdates" version="2.1.8-beta001" />
+        <dependency id="SquaredInfinity.Collections.Core" version="2.1.12-beta001" />
         <dependency id="SquaredInfinity.Comparers" version="2.0.6" />
         <dependency id="SquaredInfinity.ComponentModel" version="2.1.0" />
         <dependency id="SquaredInfinity.Disposables" version="2.0.10" />
@@ -33,8 +33,8 @@
         <dependency id="SquaredInfinity.Maths" version="2.0.11" />
         <dependency id="SquaredInfinity.Maths.Extensions" version="2.0.3" />
         <dependency id="SquaredInfinity.Primitives" version="2.0.7" />
-        <dependency id="SquaredInfinity.Threading" version="2.0.12" />
-        <dependency id="SquaredInfinity.Threading.Locks" version="2.1.4" />
+        <dependency id="SquaredInfinity.Threading" version="2.0.16-beta001" />
+        <dependency id="SquaredInfinity.Threading.Locks" version="2.1.14-beta001" />
       </group>
     </dependencies>
   </metadata>

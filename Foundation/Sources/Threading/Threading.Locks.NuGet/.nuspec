@@ -19,13 +19,13 @@ SquaredInfinity.Threading.ReaderWriterLockSlimEx</summary>
         <dependency id="SquaredInfinity.Comparers" version="2.0.6" />
         <dependency id="SquaredInfinity.Disposables" version="2.0.10" />
         <dependency id="SquaredInfinity.Extensions" version="2.1.1" />
-        <dependency id="SquaredInfinity.Threading" version="2.0.15" />
+        <dependency id="SquaredInfinity.Threading" version="2.0.16-beta001" />
       </group>
       <group targetFramework="net452">
         <dependency id="SquaredInfinity.Comparers" version="2.0.6" />
         <dependency id="SquaredInfinity.Disposables" version="2.0.10" />
         <dependency id="SquaredInfinity.Extensions" version="2.1.1" />
-        <dependency id="SquaredInfinity.Threading" version="2.0.15" />
+        <dependency id="SquaredInfinity.Threading" version="2.0.16-beta001" />
       </group>
     </dependencies>
   </metadata>

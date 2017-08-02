@@ -72,7 +72,21 @@ namespace SquaredInfinity.Disposables
                 if (lock_taken)
                     Monitor.Exit(Sync);
             }
-            
+        }
+
+        /// <summary>
+        /// Creates a disposable object which invokes specified action when disposed.
+        /// The action is guaranteed to run no more than once.
+        /// Disposable object will hold a strong reference to the action.
+        /// Newly created disposable will be added to the collection.
+        /// </summary>
+        /// <param name="action"></param>
+        public void Add(Action action)
+        {
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
+
+            Add(new _ActionDisposable(action));
         }
 
         public bool Remove(IDisposable item)

@@ -50,7 +50,7 @@ namespace SquaredInfinity.Tagging
 
         #endregion
 
-        public string DebuggerDisplay
+        string DebuggerDisplay
         {
             get { return Key; }
         }

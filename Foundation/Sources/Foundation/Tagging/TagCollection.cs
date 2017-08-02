@@ -3,13 +3,15 @@ using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SquaredInfinity.Tagging
 {
-    public class TagCollection : ITagCollection
+    [DebuggerDisplay("{DebuggerDisplay}")]
+    public class TagCollection : ITagCollection, IList<TagWithValue>
     {
         readonly ConcurrentDictionary<Tag, object> Storage = new ConcurrentDictionary<Tag, object>();
 
@@ -347,11 +349,11 @@ namespace SquaredInfinity.Tagging
             return (T)Storage.GetOrAdd(tag, (key) => valueFactory());
         }
 
-        public IReadOnlyList<TagWithValue> GetAllRawValues()
+        public IReadOnlyList<KeyValuePair<Tag, object>> GetAllRawValues()
         {
             return 
                 (from kvp in Storage
-                 select new TagWithValue(kvp.Key, kvp.Value))
+                 select new KeyValuePair<Tag, object>(kvp.Key, kvp.Value))
                  .ToArray();
         }
 
@@ -398,16 +400,16 @@ namespace SquaredInfinity.Tagging
             {
                 if (kvp.Value is MarkerValue)
                 {
-                    yield return new TagWithValue(kvp.Key, true);
+                    yield return new TagWithValue(kvp.Key, true, TagType.Marker);
                 }
                 else if (kvp.Value is MultiValue)
                 {
                     foreach (var v in (kvp.Value as MultiValue).GetAll())
-                        yield return new TagWithValue(kvp.Key, v);
+                        yield return new TagWithValue(kvp.Key, v, TagType.MultiValue);
                 }
                 else
                 {
-                    yield return new TagWithValue(kvp.Key, kvp.Value);
+                    yield return new TagWithValue(kvp.Key, kvp.Value, TagType.SingleValue);
                 }
             }
         }
@@ -419,12 +421,38 @@ namespace SquaredInfinity.Tagging
 
         #endregion
 
-        public string DebuggerDisplay
+
+        #region IList<TagWithValue>
+
+        // NOTE:    IList implementation only to support some deserialization models
+        //          Not intended to be used in other scenarios
+
+        int IList<TagWithValue>.IndexOf(TagWithValue item) => throw new NotSupportedException(nameof(IList<TagWithValue>.IndexOf));
+        void IList<TagWithValue>.Insert(int index, TagWithValue item) => throw new NotSupportedException(nameof(IList<TagWithValue>.Insert));
+        void IList<TagWithValue>.RemoveAt(int index) => throw new NotSupportedException(nameof(IList<TagWithValue>.RemoveAt));
+        TagWithValue IList<TagWithValue>.this[int index] { get => throw new NotSupportedException("indexer.get"); set => throw new NotSupportedException("indexer.set"); }
+
+
+        void ICollection<TagWithValue>.Add(TagWithValue item)
         {
-            get
-            {
-                return "Tags: " + string.Join(",", this);
-            }
+            this.Add(item.Key, item.Value, item.TagType);
         }
+
+        void ICollection<TagWithValue>.Clear() => Clear();
+        bool ICollection<TagWithValue>.Contains(TagWithValue item) => Contains(item.Key);
+        void ICollection<TagWithValue>.CopyTo(TagWithValue[] array, int arrayIndex)
+        {
+            var source = this.ToArray();
+            Array.ConstrainedCopy(source, 0, array, arrayIndex, source.Length);
+        }
+        bool ICollection<TagWithValue>.Remove(TagWithValue item) => TryRemove(item.Key, out object _);
+        IEnumerator<TagWithValue> IEnumerable<TagWithValue>.GetEnumerator() => GetEnumerator();
+
+        int ICollection<TagWithValue>.Count => this.Storage.Count;
+        bool ICollection<TagWithValue>.IsReadOnly => false;
+
+        #endregion
+
+        string DebuggerDisplay => "Tags: " + string.Join(",", this);
     }
 }

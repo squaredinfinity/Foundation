@@ -9,12 +9,16 @@ namespace SquaredInfinity.Tagging
     public enum TagType
     {
         /// <summary>
-        /// Tag stores single value
+        /// Tag stores single key-value pair
         /// </summary>
         SingleValue,
         /// <summary>
-        /// Tag stores multiple values
+        /// Tag stores multiple values per key
         /// </summary>
-        MultiValue
+        MultiValue,
+        /// <summary>
+        /// Tag does not store values, just a key
+        /// </summary>
+        Marker
     }
 }

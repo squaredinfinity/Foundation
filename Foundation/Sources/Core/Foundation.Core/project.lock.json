@@ -1,14 +1,46 @@
 {
-  "version": 1,
+  "version": 2,
   "targets": {
-    ".NETPortable,Version=v4.5,Profile=Profile7": {}
+    ".NETPortable,Version=v4.5,Profile=Profile7": {
+      "Foundation.Maths.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETPortable,Version=v4.5,Profile=Profile7"
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Foundation.Maths.Core/1.0.0": {
+      "type": "project",
+      "path": "../Foundation.Maths.Core/project.json",
+      "msbuildProject": "../Foundation.Maths.Core/Foundation.Maths.Core.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
     "": [],
     ".NETPortable,Version=v4.5,Profile=Profile7": []
   },
   "packageFolders": {
-    "C:\\Users\\jarek.DESKTOP-PQ8J7HS\\.nuget\\packages\\": {}
+    "C:\\Users\\jarek.kardas\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "restore": {
+      "projectUniqueName": "C:\\Users\\jarek.kardas\\Source\\Repos\\Foundation\\Foundation\\Sources\\Core\\Foundation.Core\\Foundation.Core.csproj",
+      "projectName": "Foundation.Core",
+      "projectPath": "C:\\Users\\jarek.kardas\\Source\\Repos\\Foundation\\Foundation\\Sources\\Core\\Foundation.Core\\Foundation.Core.csproj",
+      "projectJsonPath": "C:\\Users\\jarek.kardas\\Source\\Repos\\Foundation\\Foundation\\Sources\\Core\\Foundation.Core\\project.json",
+      "projectStyle": "ProjectJson",
+      "frameworks": {
+        "portable45-net45+win8": {
+          "projectReferences": {
+            "C:\\Users\\jarek.kardas\\Source\\Repos\\Foundation\\Foundation\\Sources\\Core\\Foundation.Maths.Core\\Foundation.Maths.Core.csproj": {
+              "projectPath": "C:\\Users\\jarek.kardas\\Source\\Repos\\Foundation\\Foundation\\Sources\\Core\\Foundation.Maths.Core\\Foundation.Maths.Core.csproj"
+            }
+          }
+        }
+      }
+    },
+    "frameworks": {
+      "portable45-net45+win8": {}
+    }
   }
 }

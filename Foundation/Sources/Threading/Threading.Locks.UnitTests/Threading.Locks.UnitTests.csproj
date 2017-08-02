@@ -54,10 +54,10 @@
       <HintPath>..\..\..\packages\SquaredInfinity.Extensions.2.1.1\lib\net452\SquaredInfinity.Extensions.DotNet45.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Threading, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Threading.2.0.15\lib\net452\SquaredInfinity.Threading.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Threading.2.0.16-beta001\lib\net452\SquaredInfinity.Threading.dll</HintPath>
     </Reference>
     <Reference Include="SquaredInfinity.Threading.DotNet45, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b2eb7b1f23e71d09, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SquaredInfinity.Threading.2.0.15\lib\net452\SquaredInfinity.Threading.DotNet45.dll</HintPath>
+      <HintPath>..\..\..\packages\SquaredInfinity.Threading.2.0.16-beta001\lib\net452\SquaredInfinity.Threading.DotNet45.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
