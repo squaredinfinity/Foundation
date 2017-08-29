@@ -63,11 +63,5 @@
   <ItemGroup>
     <Compile Include="version.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Primitives\Primitives.csproj">
-      <Project>{a994b522-9a93-4145-b0e9-4180c71d4337}</Project>
-      <Name>Primitives</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

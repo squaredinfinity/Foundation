@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "targets": {
     ".NETPortable,Version=v4.5,Profile=Profile7": {}
   },
@@ -17,7 +17,20 @@
       "projectName": "Foundation.Maths.Core",
       "projectPath": "C:\\Users\\jarek.kardas\\Source\\Repos\\Foundation\\Foundation\\Sources\\Core\\Foundation.Maths.Core\\Foundation.Maths.Core.csproj",
       "projectJsonPath": "C:\\Users\\jarek.kardas\\Source\\Repos\\Foundation\\Foundation\\Sources\\Core\\Foundation.Maths.Core\\project.json",
-      "projectStyle": "ProjectJson"
+      "packagesPath": "C:\\Users\\jarek.kardas\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jarek.kardas\\Source\\Repos\\Foundation\\Foundation\\Sources\\Core\\Foundation.Maths.Core\\obj\\",
+      "projectStyle": "ProjectJson",
+      "configFilePaths": [
+        "C:\\Users\\jarek.kardas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "c:\\local_nugets": {},
+        "http://rbtnuget:6374/nuget": {},
+        "http://rbtnuget:888/nuget": {},
+        "https://api.nuget.org/v3/index.json": {}
+      }
     },
     "frameworks": {
       "portable45-net45+win8": {}
