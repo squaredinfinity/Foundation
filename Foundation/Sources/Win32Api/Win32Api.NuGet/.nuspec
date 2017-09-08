@@ -10,11 +10,11 @@
     <description>Squared Infinity ▪ Win32Api
 
 Types:
-SquaredInfinity.Win32Api.credui
-SquaredInfinity.Win32Api.dwmapi
-SquaredInfinity.Win32Api.gdi32
-SquaredInfinity.Win32Api.shell32
-SquaredInfinity.Win32Api.user32
+Win32Api.credui
+Win32Api.dwmapi
+Win32Api.gdi32
+Win32Api.shell32
+Win32Api.user32
 </description>
     <summary>Squared Infinity ▪ Win32Api</summary>
     <copyright>Copyright © Squared Infinity</copyright>
