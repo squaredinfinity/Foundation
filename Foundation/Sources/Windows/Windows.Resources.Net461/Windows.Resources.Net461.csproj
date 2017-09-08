@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+    <AssemblyName>SquaredInfinity.Windows.Resources.Net461</AssemblyName>
+    <RootNamespace>SquaredInfinity.Windows.Resources</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>SquaredInfinity.Windows.Resources</PackageId>
+    <Product>Squared Infinity ▪ Windows ▪ Resources</Product>
+    <Company>Squared Infinity</Company>
+    <Authors>Squared Infinity</Authors>
+    <Description>Squared Infinity ▪ Windows ▪ Resources
+
+Types:
+IXamlResourcesProvider
+ResourceDictionaryReference
+ResourcesManager
+SharedResourceDictionary
+XamlResourcesImporter</Description>
+    <FileVersion>2.1.2.0</FileVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <Version>2.1.2</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SquaredInfinity.Extensions" Version="2.1.1" />
+    <PackageReference Include="SquaredInfinity.Primitives" Version="2.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+
+</Project>

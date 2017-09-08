@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+    <AssemblyName>SquaredInfinity.Win32Api.Net461</AssemblyName>
+    <RootNamespace>SquaredInfinity.Win32Api</RootNamespace>
+    <Description>Squared Infinity ▪ Win32Api
+
+Types:
+Win32Api.credui
+Win32Api.dwmapi
+Win32Api.gdi32
+Win32Api.shell32
+Win32Api.user32</Description>
+    <Product>Squared Infinity ▪ Win32Api</Product>
+    <Company>Squared Infinity</Company>
+    <Authors>Squared Infinity</Authors>
+    <PackageId>SquaredInfinity.Win32Api</PackageId>
+    <Version>2.2.1.0</Version>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.2.2.0</FileVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+
+</Project>
