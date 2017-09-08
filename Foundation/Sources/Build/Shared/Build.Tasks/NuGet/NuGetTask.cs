@@ -8,7 +8,7 @@ namespace SquaredInfinity.Build.Tasks.NuGet
 {
     public abstract class NuGetTask : CustomBuildTask
     {
-        protected string NuGetExePath { get; set; }
+        public string NuGetExePath { get; set; }
 
         protected bool TryFindNuGetExePath(out string nugetexePath)
         {

@@ -31,7 +31,7 @@ namespace SquaredInfinity.Build.Tasks.AssemblyInfo
 
             if (PreReleaseName.IsNullOrEmpty())
             {
-                SemanticVersion = $"{ver.Major}.{ver.Minor}.{ver.Build}";
+                SemanticVersion = $"{ver.Major}.{ver.Minor}.{ver.Build}.{ver.Revision}";
             }
             else
             {
