@@ -37,29 +37,40 @@ namespace SquaredInfinity.Serialization.FlexiXml
 
             bool isNewReference = false;
 
-            //# track source reference
-            var id =
-                cx.Objects_InstanceIdTracker.GetOrAdd(
-                instance,
-                (_) =>
-                {
-                    isNewReference = true;
+            var id = (InstanceId)null;
 
-                    return new InstanceId(cx.GetNextUniqueId());
-                });
+            if (instance != null && (instance.GetType().IsPrimitive || instance is string))
+            {
+                // nothing special needs to be done
+                // string references will not be tracked
+            }
+            else
+            {
+                //# track source reference
+                id =
+                    cx.Objects_InstanceIdTracker.GetOrAdd(
+                    instance,
+                    (_) =>
+                    {
+                        isNewReference = true;
+
+                        var _id = new InstanceId(cx.GetNextUniqueId());
+                        return _id;
+                    });
+            }
 
             hasAlreadyBeenSerialized = !isNewReference;
 
-            var strategy = (IFlexiXmlTypeSerializationStrategy) cx.GetTypeSerializationStrategy(instance.GetType());
+            var strategy = (IFlexiXmlTypeSerializationStrategy)cx.GetTypeSerializationStrategy(instance.GetType());
             var result_el = (XElement)null;
 
             //# source has been serialized before
-            if (!isNewReference)
+            if (!isNewReference && id != null)
             {
                 var idAttrib = new XAttribute(cx.Options.UniqueIdReferenceAttributeName, id.Id);
 
                 id.IncrementReferenceCount();
-                
+
                 var result_el_name = strategy.ConstructElementNameForType(instance.GetType());
                 result_el = new XElement(result_el_name);
 
@@ -72,10 +83,10 @@ namespace SquaredInfinity.Serialization.FlexiXml
 
             //# Construct element to which instance content will be serialized
             var el_name = rootElementName;
-            
-            if(el_name == null)
+
+            if (el_name == null)
                 el_name = ConstructElementNameForType(instance_type);
-            
+
             var el = new XElement(el_name);
 
             var item_as_string = (string)null;
@@ -94,7 +105,7 @@ namespace SquaredInfinity.Serialization.FlexiXml
             {
                 cx.TryAddKnownType(el, instance_type);
             }
-            else if(typeInformation == TypeInformation.Detailed)
+            else if (typeInformation == TypeInformation.Detailed)
             {
                 throw new NotSupportedException("TypeInformation.Detailed is not supported");
 
@@ -103,7 +114,7 @@ namespace SquaredInfinity.Serialization.FlexiXml
             }
 
             //# Process all content to be serialized (this may include members but also custom content to be added to serialization output)
-            foreach(var r in ActualMembersSerializationStrategies.Values)
+            foreach (var r in ActualMembersSerializationStrategies.Values)
             {
                 if (r.SerializationOption == MemberSerializationOption.ImplicitIgnore || r.SerializationOption == MemberSerializationOption.ExplicitIgnore)
                     continue;
@@ -116,14 +127,15 @@ namespace SquaredInfinity.Serialization.FlexiXml
             }
 
             //el.Add(new XAttribute(cx.Options.UniqueIdAttributeName, id.Id));
-            el.AddAnnotation(id);
+            if (id != null)
+                el.AddAnnotation(id);
 
             return el;
         }
 
         protected virtual bool TrySerializeMember(
-            IFlexiXmlSerializationContext cx, 
-            XElement parentElement, 
+            IFlexiXmlSerializationContext cx,
+            XElement parentElement,
             object parentInstance,
             IMemberSerializationStrategy strategy,
             out XObject serializedContent)
@@ -144,7 +156,7 @@ namespace SquaredInfinity.Serialization.FlexiXml
 
             //# check if member instance has been serialized before
 
-            var instanceId = (InstanceId) null;
+            var instanceId = (InstanceId)null;
 
             var hasBeenSerializedBefore = false;
 
@@ -155,18 +167,18 @@ namespace SquaredInfinity.Serialization.FlexiXml
                 var isNonPublic = !memberValueType.IsNested && !memberValueType.IsPublic;
                 var isNonPublicNested = memberValueType.IsNested && !memberValueType.IsNestedPublic;
 
-                if((isNonPublic || isNonPublicNested) && !cx.Options.SerializeNonPublicTypes)
+                if ((isNonPublic || isNonPublicNested) && !cx.Options.SerializeNonPublicTypes)
                 {
                     return false;
                 }
 
-                hasBeenSerializedBefore = 
+                hasBeenSerializedBefore =
                     cx.Objects_InstanceIdTracker.TryGetValue(memberValue, out instanceId);
             }
 
             var val_as_string = (string)null;
 
-            if(hasBeenSerializedBefore)
+            if (hasBeenSerializedBefore)
             {
                 // add to parent element as ref attribute
 
@@ -176,25 +188,30 @@ namespace SquaredInfinity.Serialization.FlexiXml
 
                 var instanceIdRef = new InstanceIdRef(instanceId);
 
+                if(instanceIdRef.InstanceId == 49)
+                {
+
+                }
+
                 idrefAttribute.AddAnnotation(instanceIdRef);
 
                 serializedContent = idrefAttribute;
 
                 return true;
             }
-            
-                if(strategy.CustomDeserialize != null && strategy.CustomSerialize != null)
-                {
-                    var xo_str = strategy.CustomSerialize(parentInstance, memberValue);
 
-                    var attributeName = strategy.MemberDescription.Name;
-                    var value = xo_str;
+            if (strategy.CustomDeserialize != null && strategy.CustomSerialize != null)
+            {
+                var xo_str = strategy.CustomSerialize(parentInstance, memberValue);
 
-                    var attributeEl = new XAttribute(attributeName, value);
+                var attributeName = strategy.MemberDescription.Name;
+                var value = xo_str;
 
-                    serializedContent = attributeEl;
-                    return true;
-                }
+                var attributeEl = new XAttribute(attributeName, value);
+
+                serializedContent = attributeEl;
+                return true;
+            }
 
             else if (memberValue == null)
             {
@@ -236,65 +253,65 @@ namespace SquaredInfinity.Serialization.FlexiXml
                 //serializedContent = wrapper;
                 //return true;
             }
-                else if (TryConvertToStringIfTypeSupports(strategy.MemberDescription.MemberType.Type, memberValue, out val_as_string))
+            else if (TryConvertToStringIfTypeSupports(strategy.MemberDescription.MemberType.Type, memberValue, out val_as_string))
+            {
+                // member value supports converting to and from string
+                //
+                // => create attribute which will store member value (if value is a single line)
+                // => create attached property which will store member value (if value is multi-line)
+
+                if (val_as_string.Contains(Environment.NewLine))
                 {
-                    // member value supports converting to and from string
-                    //
-                    // => create attribute which will store member value (if value is a single line)
-                    // => create attached property which will store member value (if value is multi-line)
+                    var wrapperElementName = SanitizeParentElementName(parentElement) + "." + strategy.MemberDescription.Name;
+                    var wrapperElement = new XElement(wrapperElementName);
 
-                    if (val_as_string.Contains(Environment.NewLine))
-                    {
-                        var wrapperElementName = SanitizeParentElementName(parentElement) + "." + strategy.MemberDescription.Name;
-                        var wrapperElement = new XElement(wrapperElementName);
+                    wrapperElement.Add(new XCData(val_as_string));
 
-                        wrapperElement.Add(new XCData(val_as_string));
-
-                        serializedContent = wrapperElement;
-                    }
-                    else
-                    {
-                        var attributeName = strategy.MemberDescription.Name;
-
-                        var attributeEl = new XAttribute(attributeName, val_as_string);
-
-                        serializedContent = attributeEl;
-                    }
-                    return true;
+                    serializedContent = wrapperElement;
                 }
                 else
                 {
-                    // member value must be serialized
-                    //
-                    // => create wrapper element
-                    // => add serialized member data
-                    //
-                    // member wrapper is an attached element with name <parent_element_name.member_name>
+                    var attributeName = strategy.MemberDescription.Name;
 
-                    var wrapperElementName = SanitizeParentElementName(parentElement) + "." + strategy.MemberDescription.Name;
+                    var attributeEl = new XAttribute(attributeName, val_as_string);
 
-                    var memberType = strategy.MemberDescription.MemberType.Type;
-
-                    //bool canCreateInstance = memberType.IsClass && !memberType.IsAbstract; // should probably check for public constructor (?)
-
-                    //if(!strategy.CanSetValue() && !canCreateInstance)
-                    //{
-                    //    var childEl = cx.Serialize(memberValue, wrapperElementName);
-
-                    //    return childEl;
-                    //}
-                    //else
-                    {
-                        var wrapperElement = new XElement(wrapperElementName);
-
-                        var childEl = cx.Serialize(memberValue);
-
-                        wrapperElement.Add(childEl);
-
-                        serializedContent = wrapperElement;
-                        return true;
-                    }
+                    serializedContent = attributeEl;
                 }
+                return true;
+            }
+            else
+            {
+                // member value must be serialized
+                //
+                // => create wrapper element
+                // => add serialized member data
+                //
+                // member wrapper is an attached element with name <parent_element_name.member_name>
+
+                var wrapperElementName = SanitizeParentElementName(parentElement) + "." + strategy.MemberDescription.Name;
+
+                var memberType = strategy.MemberDescription.MemberType.Type;
+
+                //bool canCreateInstance = memberType.IsClass && !memberType.IsAbstract; // should probably check for public constructor (?)
+
+                //if(!strategy.CanSetValue() && !canCreateInstance)
+                //{
+                //    var childEl = cx.Serialize(memberValue, wrapperElementName);
+
+                //    return childEl;
+                //}
+                //else
+                {
+                    var wrapperElement = new XElement(wrapperElementName);
+
+                    var childEl = cx.Serialize(memberValue);
+
+                    wrapperElement.Add(childEl);
+
+                    serializedContent = wrapperElement;
+                    return true;
+                }
+            }
         }
 
         public T1 SerializeMemberAsAttribute<TMember>(
@@ -350,7 +367,7 @@ namespace SquaredInfinity.Serialization.FlexiXml
         }
 
         protected virtual bool TryDeserializeMember(
-            XElement parentElement, 
+            XElement parentElement,
             object parentInstance,
             IMemberSerializationStrategy strategy,
             IFlexiXmlSerializationContext cx,
@@ -369,13 +386,13 @@ namespace SquaredInfinity.Serialization.FlexiXml
             //# Find attached property for member
             var memberAttachedProperty = parentElement.FindAttachedElement(strategy.MemberName, isCaseSensitive: false);
 
-            if(memberAttachedProperty != null)
+            if (memberAttachedProperty != null)
             {
-                if(memberTypeCandidate == typeof(string))
+                if (memberTypeCandidate == typeof(string))
                 {
                     var cdata = memberAttachedProperty.Nodes().OfType<XCData>().FirstOrDefault();
 
-                    if(cdata != null)
+                    if (cdata != null)
                     {
                         memberInstance = cdata.Value;
                         return true;
@@ -395,11 +412,11 @@ namespace SquaredInfinity.Serialization.FlexiXml
                 {
                     // todo: when member instance is already present
 
-                    if (DeserializationOutcome.Success == 
+                    if (DeserializationOutcome.Success ==
                         cx.TryDeserialize(
-                            memberAttachedProperty, 
-                            memberTypeCandidate, 
-                            elementNameMayContainTargetTypeName: false, 
+                            memberAttachedProperty,
+                            memberTypeCandidate,
+                            elementNameMayContainTargetTypeName: false,
                             deserializedInstance: out memberInstance))
                     {
                         return true;
@@ -500,11 +517,11 @@ namespace SquaredInfinity.Serialization.FlexiXml
                     else
                     {
                         //# deserialize the element into a new instance
-                        if(DeserializationOutcome.Success == 
+                        if (DeserializationOutcome.Success ==
                             cx.TryDeserialize(
-                                memberElement, 
-                                memberTypeCandidate, 
-                                elementNameMayContainTargetTypeName: true, 
+                                memberElement,
+                                memberTypeCandidate,
+                                elementNameMayContainTargetTypeName: true,
                                 deserializedInstance: out memberInstance))
                         {
                             return true;
@@ -514,7 +531,7 @@ namespace SquaredInfinity.Serialization.FlexiXml
 
                 return false;
             }
-            
+
             //# look for member reference attribute (membername.ref by default)
 
             var memberReferenceAttributeName = strategy.MemberName + cx.Options.UniqueIdReferenceAttributeSuffix;
@@ -524,7 +541,7 @@ namespace SquaredInfinity.Serialization.FlexiXml
                  where string.Equals(a.Name.LocalName, memberReferenceAttributeName, StringComparison.InvariantCultureIgnoreCase)
                  select a).FirstOrDefault();
 
-            if(memberReferenceAttribute != null)
+            if (memberReferenceAttribute != null)
             {
                 var instanceId = new InstanceId(memberReferenceAttribute.Value);
 
@@ -544,12 +561,12 @@ namespace SquaredInfinity.Serialization.FlexiXml
 
             var memberAttribute =
                 (from a in parentElement.Attributes()
-                 where  a.Name.Namespace == System.Xml.Linq.XNamespace.None 
-                        && 
+                 where a.Name.Namespace == System.Xml.Linq.XNamespace.None
+                        &&
                         string.Equals(a.Name.LocalName, strategy.MemberName, StringComparison.InvariantCultureIgnoreCase)
                  select a).FirstOrDefault();
 
-            if(memberAttribute != null)
+            if (memberAttribute != null)
             {
                 //# deserialize from attribute
 
@@ -562,14 +579,14 @@ namespace SquaredInfinity.Serialization.FlexiXml
 
                 if (cx.Options.IsAttributeValueSerializationExtension(memberAttribute))
                 {
-                    if(memberAttribute.Value == cx.Options.NullAttributeMarkupExtension)
+                    if (memberAttribute.Value == cx.Options.NullAttributeMarkupExtension)
                     {
                         memberInstance = null;
                         return true;
                     }
                 }
 
-                if(TryConvertFromStringIfTypeSupports(memberAttribute.Value, memberTypeCandidate, out memberInstance))
+                if (TryConvertFromStringIfTypeSupports(memberAttribute.Value, memberTypeCandidate, out memberInstance))
                 {
                     return true;
                 }
@@ -622,9 +639,9 @@ namespace SquaredInfinity.Serialization.FlexiXml
                 return type.Name;
             }
         }
-        
+
         public virtual object Deserialize(
-            XElement xml, 
+            XElement xml,
             Type targetType,
             IFlexiXmlSerializationContext cx)
         {
@@ -657,7 +674,7 @@ namespace SquaredInfinity.Serialization.FlexiXml
 
             var innerText = xml.InnerText();
 
-            if(!xml.HasElements && !innerText.IsNullOrEmpty() && TryConvertFromStringIfTypeSupports(innerText, targetType, out target))
+            if (!xml.HasElements && !innerText.IsNullOrEmpty() && TryConvertFromStringIfTypeSupports(innerText, targetType, out target))
             {
                 return target;
             }
@@ -666,7 +683,7 @@ namespace SquaredInfinity.Serialization.FlexiXml
 
             target = cx.CreateInstance(targetType, createinstance_cx);
 
-            if(target == null)
+            if (target == null)
             {
                 // todo: unable to create instance of the type
                 return target;
@@ -694,7 +711,7 @@ namespace SquaredInfinity.Serialization.FlexiXml
         }
 
         public virtual void Deserialize(
-            XElement xml, 
+            XElement xml,
             object target,
             IFlexiXmlSerializationContext cx)
         {
@@ -709,7 +726,7 @@ namespace SquaredInfinity.Serialization.FlexiXml
                     // it will still return true because serialization was succesfull,
                     // but the resulting instance should not be applied
 
-                    if(r.Strategy.CanSetValue())
+                    if (r.Strategy.CanSetValue())
                         r.Strategy.SetValue(target, memberInstance);
                 }
             }
@@ -804,6 +821,6 @@ namespace SquaredInfinity.Serialization.FlexiXml
 
     //        return el;
     //    }
-        
+
     //}
 }
