@@ -70,10 +70,6 @@
       <Project>{5ec68951-2739-4582-a84d-e8b49ffd55f8}</Project>
       <Name>ComponentModel.DotNet45</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ComponentModel\ComponentModel.csproj">
-      <Project>{33e2de1f-6c1e-433b-a67e-3eae47be7109}</Project>
-      <Name>ComponentModel</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

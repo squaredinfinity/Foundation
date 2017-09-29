@@ -48,12 +48,6 @@
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ComponentModel\ComponentModel.csproj">
-      <Project>{33e2de1f-6c1e-433b-a67e-3eae47be7109}</Project>
-      <Name>ComponentModel</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
