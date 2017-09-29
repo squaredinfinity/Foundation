@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Windows.Input;
 using SquaredInfinity.Extensions;
-using System.Windows;
+using SquaredInfinity.Windows.Abstractions;
+using System.Reactive.Linq;
 
 namespace SquaredInfinity.Windows.MarkupExtensions
 {
@@ -57,7 +56,7 @@ namespace SquaredInfinity.Windows.MarkupExtensions
 
                 // first try to find execute method which accepts exactly one parameter
                 // if this fails, find one without any parameters
-                if (!executeMethodName.IsNullOrEmpty())
+                if (!string.IsNullOrWhiteSpace(executeMethodName))
                 {
                     ExecuteMethodInfo_OneParameter =
                         (from m in targetType.GetMethods()
@@ -77,11 +76,11 @@ namespace SquaredInfinity.Windows.MarkupExtensions
 
                 if(ExecuteMethodInfo_OneParameter == null && ExecuteMethodInfo_NoParameters == null)
                 {
-                    InternalTrace.Error("Binding error: Cannot find public method {0} on type {1}. Method should be public and accept single or no parameters.".FormatWith(ExecuteMethodName, targetType.FullName));
+                    //InternalTrace.Error("Binding error: Cannot find public method {0} on type {1}. Method should be public and accept single or no parameters.".FormatWith(ExecuteMethodName, targetType.FullName));
                 }
 
                 //# Find Can Execute Method
-                if (!canExecuteMethodName.IsNullOrEmpty())
+                if (!string.IsNullOrWhiteSpace(canExecuteMethodName))
                 {
                     // first try to find can execute method which accepts exactly one parameter
                     // if this fails, find one without any parameters
@@ -97,7 +96,7 @@ namespace SquaredInfinity.Windows.MarkupExtensions
                 }
 
                 //# Find Can Execute Property
-                if (!canExecutePropertyName.IsNullOrEmpty())
+                if (!string.IsNullOrWhiteSpace(canExecutePropertyName))
                 {
                     CanExecutePropertyInfo =
                         (from p in targetType.GetProperties()
@@ -109,19 +108,17 @@ namespace SquaredInfinity.Windows.MarkupExtensions
                 var inpc = targetObject as INotifyPropertyChanged;
                 if(inpc != null)
                 {
-                    CanExecuteNotifyPropertyChangedSubscription =
-                        (targetObject as INotifyPropertyChanged).CreateWeakEventHandler()
-                        .ForEvent<PropertyChangedEventHandler, PropertyChangedEventArgs>(
-                        (s, h) => s.PropertyChanged += h,
-                        (s, h) => s.PropertyChanged -= h)
-                        .Subscribe((s, args) => 
+                    Observable
+                        .FromEventPattern<PropertyChangedEventArgs>
+                        (inpc, nameof(inpc.PropertyChanged))
+                        .Subscribe((_) =>
+                        {
+                            var args = _.EventArgs;
+                            if (args.PropertyName == canExecuteMethodName || args.PropertyName == canExecuteTriggerPropertyName)
                             {
-                                if (args.PropertyName == canExecuteMethodName
-                                    || args.PropertyName == canExecuteTriggerPropertyName)
-                                {
-                                    RaiseCanExecuteChanged();
-                                }
-                            });
+                                RaiseCanExecuteChanged();
+                            }
+                        });
                 }
             }
 
@@ -132,13 +129,7 @@ namespace SquaredInfinity.Windows.MarkupExtensions
                     // it is required for CanExecuteChanged handlers to run on UI Thread
                     // because most XAML control handlers (e.g. on button control) will try to access UI elements in some way.
 
-                    var dispatcher = UIService.GetMainThreadDispatcher();
-
-                    if(!dispatcher.CheckAccess())
-                    {
-                        dispatcher.Invoke(new Action(() => RaiseCanExecuteChanged()));
-                        return;
-                    }
+                    UIService.Default.Run(RaiseCanExecuteChanged);
 
                     CanExecuteChanged(this, EventArgs.Empty);
                 }
@@ -184,10 +175,10 @@ namespace SquaredInfinity.Windows.MarkupExtensions
                         return (bool)CanExecuteMethodInfo_OneParameter.Invoke(targetObject, new[] { compatibleParameterValue });
                     }
 
-                    // we can get here if xaml specifies command parameter, but can execute does not exept it
+                    // we can get here if xaml specifies command parameter, but can execute does not expect it
                     // todo: log information
 
-                    if(CanExecuteMethodInfo_NoParameters != null)
+                    if (CanExecuteMethodInfo_NoParameters != null)
                         return (bool)CanExecuteMethodInfo_NoParameters.Invoke(targetObject, null);
 
                     if(CanExecutePropertyInfo != null)
@@ -247,12 +238,6 @@ namespace SquaredInfinity.Windows.MarkupExtensions
                         ExecuteMethodInfo_NoParameters.Invoke(targetObject, null); ;
                 }
             }
-
-            ~InvokeMethodCommand()
-            {
-
-            }
         }
     }
-
 }

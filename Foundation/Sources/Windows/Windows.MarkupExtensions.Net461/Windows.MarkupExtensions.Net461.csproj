@@ -4,7 +4,22 @@
     <TargetFramework>net461</TargetFramework>
     <AssemblyName>SquaredInfinity.Windows.MarkupExtensions.Net461</AssemblyName>
     <RootNamespace>SquaredInfinity.Windows.MarkupExtensions</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>SquaredInfinity.Windows.MarkupExtensions</PackageId>
+    <Version>2.0.1.1</Version>
+    <Authors>Squared Infinity</Authors>
+    <Company>Squared Infinity</Company>
+    <Product>Squared Infinity ▪ Windows ▪ Markup Extensions</Product>
+    <Description>Squared Infinity ▪ Windows ▪ Markup Extensions</Description>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SquaredInfinity.Extensions" Version="2.2.1" />
+    <PackageReference Include="SquaredInfinity.Windows.Abstractions" Version="2.0.1" />
+    <PackageReference Include="SquaredInfinity.Windows.Converters.Net461" Version="2.0.5" />
+    <PackageReference Include="System.Reactive.Linq" Version="3.1.1" />
+  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="PresentationCore" />

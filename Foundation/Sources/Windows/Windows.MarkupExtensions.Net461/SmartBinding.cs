@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
-using SquaredInfinity.Extensions;
 
 namespace SquaredInfinity.Windows.MarkupExtensions
 {
@@ -84,7 +80,7 @@ namespace SquaredInfinity.Windows.MarkupExtensions
 
         protected static void UpdateBindingFromSource(Binding binding, string source)
         {
-            if (!source.IsNullOrEmpty())
+            if (!string.IsNullOrWhiteSpace(source))
             {
                 if (source.StartsWith("@"))
                 {

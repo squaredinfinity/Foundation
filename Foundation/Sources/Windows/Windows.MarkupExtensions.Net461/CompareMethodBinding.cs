@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using SquaredInfinity.Extensions;
 
 namespace SquaredInfinity.Windows.MarkupExtensions
 {
@@ -68,7 +63,7 @@ namespace SquaredInfinity.Windows.MarkupExtensions
 
                     if (filterMethodInfo == null)
                     {
-                        Trace.WriteLine("Unable to find filter method '{0}'".FormatWith(MethodName));
+                        _Diagnostics.TraceSource.TraceData(TraceEventType.Warning, 0, "Unable to find filter method '{MethodName}'");
                     }
                     else
                     {
