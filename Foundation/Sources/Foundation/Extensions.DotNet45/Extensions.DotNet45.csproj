@@ -47,7 +47,9 @@
     <Compile Include="System.Diagnostics\ProcessStartInfo.extensions.cs" />
     <Compile Include="System.Linq.Expressions\Expression.extensions.cs" />
     <Compile Include="System.Reflection\MemberInfo.extensions.cs" />
+    <Compile Include="System\Object.extensions.cs" />
     <Compile Include="System\Type.extensions.cs" />
+    <Compile Include="System\_ConverterContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
