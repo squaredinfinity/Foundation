@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+    <AssemblyName>SquaredInfinity.Windows.Abstractions.Net461</AssemblyName>
+    <RootNamespace>SquaredInfinity.Windows.Abstractions</RootNamespace>
+    <PackageId>SquaredInfinity.Windows.Abstractions</PackageId>
+    <Version>2.0.1.0</Version>
+    <Authors>Squared Infinity</Authors>
+    <Company>Squared Infinity</Company>
+    <Product>Squared Infinity</Product>
+    <Description>Squared Infinity ▪ Windows ▪ Abstractions
+
+Types:
+IUIService
+UIService</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <FileVersion>2.0.1.0</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+
+</Project>
