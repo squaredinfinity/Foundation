@@ -1,0 +1,41 @@
+﻿//using System;
+//using System.Collections.Generic;
+//using SquaredInfinity.Extensions;
+//using System.Text;
+//using System.Windows;
+//using System.Windows.Data;
+
+//namespace SquaredInfinity.Windows.Converters
+//{
+//    public class TextFlattenAndTrimConverter : IValueConverter
+//    {
+//        public int? MaxLength { get; set; }
+
+//        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+//        {
+//            string txt = value as string;
+
+//            if (txt == null)
+//                return DependencyProperty.UnsetValue;
+
+//            txt =
+//                txt.TrimEachLine(removeEmptyLines: true)
+//                .Replace(Environment.NewLine, " ");
+
+//            if (MaxLength.HasValue && MaxLength.Value > 0)
+//            {
+//                if (txt.Length > MaxLength.Value)
+//                {
+//                    txt = txt.Substring(0, MaxLength.Value - 4) + " ...";
+//                }
+//            }
+
+//            return txt;
+//        }
+
+//        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+//        {
+//            throw new NotImplementedException();
+//        }
+//    }
+//}

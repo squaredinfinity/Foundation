@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+    <RootNamespace>SquaredInfinity.Windows.Converters</RootNamespace>
+    <AssemblyName>SquaredInfinity.Windows.Converters.Net461</AssemblyName>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>2.0.5.1</Version>
+    <Company>Squared Infinity</Company>
+    <Authors>Squared Infinity</Authors>
+    <Product>Squared Infinity ▪ Windows ▪ Converters</Product>
+    <Description>Squared Infinity ▪ Windows ▪ Converters</Description>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.5.1</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SquaredInfinity.Extensions" Version="2.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+
+</Project>
