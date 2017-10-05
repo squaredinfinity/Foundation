@@ -10,8 +10,12 @@
     <Company>Squared Infinity</Company>
     <Product>Squared Infinity ▪ Disposables</Product>
     <Authors>Squared Infinity</Authors>
-    <Version>2.2.0</Version>
+    <Version>2.4.0</Version>
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard1.0\SquaredInfinity.Disposables.xml</DocumentationFile>
   </PropertyGroup>
 
 </Project>
