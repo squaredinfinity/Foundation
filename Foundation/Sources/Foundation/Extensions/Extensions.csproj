@@ -1,85 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3C546790-47A6-4D56-96A9-4DA42970FE45}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SquaredInfinity.Extensions</RootNamespace>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>SquaredInfinity.Extensions</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>SquaredInfinity.Extensions</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>SquaredInfinity.Extensions</PackageId>
+    <Description>Squared Infinity ▪ Extensions</Description>
+    <Product>Squared Infinity ▪ Extensions</Product>
+    <Authors>Squared Infinity</Authors>
+    <Company>Squared Infinity</Company>
+    <Version>2.3.0.0</Version>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;FOUNDATION_EXTENSIONS</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;FOUNDATION_EXTENSIONS</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <Folder Include="Properties\" />
-    <Folder Include="System.Threading\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\Extensions.NuGet\version.cs">
-      <Link>version.cs</Link>
-    </Compile>
-    <Compile Include="System.Collections.Concurrent\ConcurrentBag.extensions.cs" />
-    <Compile Include="System.Collections\ICollection.Extensions.cs" />
-    <Compile Include="System.Collections\IDictionary.extensions.cs" />
-    <Compile Include="System.Collections\IEnumerable.Extensions.cs" />
-    <Compile Include="System.Collections\IReadOnlyList.extensions.cs" />
-    <Compile Include="System.Diagnostics\Stopwatch.extensions.cs" />
-    <Compile Include="System.IO\Stream.extensions.cs" />
-    <Compile Include="System.Threading.Tasks\Parallel.extensions.cs" />
-    <Compile Include="System.Threading.Tasks\TaskFactory.extensions.cs" />
-    <Compile Include="System.Threading.Tasks\Task.extensions.cs" />
-    <Compile Include="System.Threading.Tasks\TaskCompletionSource.extensions.cs" />
-    <Compile Include="System.Xml.Linq\XAttribute.extensions.cs" />
-    <Compile Include="System.Xml.Linq\XContainer.extensions.cs" />
-    <Compile Include="System.Xml.Linq\XElement.extensions.cs" />
-    <Compile Include="System.Xml.Linq\XNode.extensions.cs" />
-    <Compile Include="System.Xml.Linq\XObject.extensions.cs" />
-    <Compile Include="System\Boolean.extensions.cs" />
-    <Compile Include="System\Char.extensions.cs" />
-    <Compile Include="System\DateTime.extensions.cs" />
-    <Compile Include="System\Enum.extensions.cs" />
-    <Compile Include="System\Exception.extensions.cs" />
-    <Compile Include="System\Int32.extensions.cs" />
-    <Compile Include="System\Int64.extensions.cs" />
-    <Compile Include="System\IObservable.extensions.cs" />
-    <Compile Include="System\IServiceProvider.extensions.cs" />
-    <Compile Include="System\Long.extensions.cs" />
-    <Compile Include="System\Object.extensions.cs" />
-    <Compile Include="System\Random.extensions.cs" />
-    <Compile Include="System\String.extensions.cs" />
-    <Compile Include="System\ULong.extensions.cs" />
-  </ItemGroup>
-  <Import Project="..\..\Internal\Internal.projitems" Label="Shared" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

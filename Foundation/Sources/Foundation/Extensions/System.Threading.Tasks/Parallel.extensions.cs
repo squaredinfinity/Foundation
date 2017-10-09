@@ -83,7 +83,7 @@ namespace SquaredInfinity.Extensions
                 }
                 else
                 {
-                    foreach(var item in source)
+                    foreach (var item in source)
                     {
                         if (options.CancellationToken.IsCancellationRequested)
                             return CompletedResult;

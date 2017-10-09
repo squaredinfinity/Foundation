@@ -59,10 +59,6 @@
       <Project>{52f55dc7-e0e3-473f-ac70-358429fdcda0}</Project>
       <Name>Extensions.DotNet45</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Extensions\Extensions.csproj">
-      <Project>{3c546790-47a6-4d56-96a9-4da42970fe45}</Project>
-      <Name>Extensions</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
