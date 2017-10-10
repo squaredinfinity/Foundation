@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+    <AssemblyName>SquaredInfinity.Extensions.DotNet461</AssemblyName>
+    <RootNamespace>SquaredInfinity.Extensions</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>2.3.0.0</Version>
+    <Authors>Squared Infinity</Authors>
+    <Company>Squared Infinity</Company>
+    <Product>Squared Infinity ▪ Extensions</Product>
+    <Description>Squared Infinity ▪ Extensions</Description>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </PropertyGroup>
+
+</Project>

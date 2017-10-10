@@ -6,7 +6,7 @@
     <RootNamespace>SquaredInfinity.Windows.MarkupExtensions</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>SquaredInfinity.Windows.MarkupExtensions</PackageId>
-    <Version>2.0.1.1</Version>
+    <Version>2.0.2.0</Version>
     <Authors>Squared Infinity</Authors>
     <Company>Squared Infinity</Company>
     <Product>Squared Infinity ▪ Windows ▪ Markup Extensions</Product>
@@ -15,9 +15,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SquaredInfinity.Extensions" Version="2.2.1" />
+    <PackageReference Include="SquaredInfinity.Extensions" Version="2.3.0" />
+    <PackageReference Include="SquaredInfinity.Extensions.DotNet461" Version="2.3.0" />
     <PackageReference Include="SquaredInfinity.Windows.Abstractions" Version="2.0.1" />
-    <PackageReference Include="SquaredInfinity.Windows.Converters.Net461" Version="2.0.5" />
+    <PackageReference Include="SquaredInfinity.Windows.Converters.Net461" Version="2.2.1" />
     <PackageReference Include="System.Reactive.Linq" Version="3.1.1" />
   </ItemGroup>
 

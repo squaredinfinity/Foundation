@@ -58,12 +58,6 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Extensions.DotNet45\Extensions.DotNet45.csproj">
-      <Project>{52f55dc7-e0e3-473f-ac70-358429fdcda0}</Project>
-      <Name>Extensions.DotNet45</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include=".nuspec" />
   </ItemGroup>
   <ItemGroup>
