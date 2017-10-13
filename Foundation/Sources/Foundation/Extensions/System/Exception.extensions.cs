@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,14 +19,16 @@ namespace SquaredInfinity.Extensions
         ///// <param name="ex"></param>
         ///// <param name="key"></param>
         ///// <param name="value"></param>
-        static void AddContextData<T>(this Exception ex, string key, T value)
+        static void AddContextData<T>(this Exception ex, string key, T value, string callerMemberName = "")
         {
             ExceptionContextData additionalExceptionData = new ExceptionContextData();
 
             additionalExceptionData.Key = key;
             additionalExceptionData.Value = value;
+            additionalExceptionData.CallerMember = callerMemberName;
 
-            StackTrace stackTrace = new StackTrace(1);
+            // only ever called from Try Add Context Data
+            StackTrace stackTrace = new StackTrace(2);
 
             if (stackTrace != null)
             {
@@ -55,14 +58,14 @@ namespace SquaredInfinity.Extensions
         /// <param name="ex"></param>
         /// <param name="key"></param>
         /// <param name="getData"></param>
-        public static bool TryAddContextData<T>(this Exception ex, string key, Func<T> getData)
+        public static bool TryAddContextData<T>(this Exception ex, string key, Func<T> getData, [CallerMemberName] string callerMemberName = "")
         {
             try
             {
                 if (ex.Data == null)
                     return false;
 
-                ex.AddContextData(key, getData());
+                ex.AddContextData(key, getData(), callerMemberName);
                 return true;
             }
             catch
@@ -79,14 +82,14 @@ namespace SquaredInfinity.Extensions
         /// <param name="ex"></param>
         /// <param name="key"></param>
         /// <param name="getData"></param>
-        public static bool TryAddContextData<T>(this Exception ex, string key, T data)
+        public static bool TryAddContextData<T>(this Exception ex, string key, T data, [CallerMemberName] string callerMemberName = "")
         {
             try
             {
                 if (ex.Data == null)
                     return false;
 
-                ex.AddContextData(key, data);
+                ex.AddContextData(key, data, callerMemberName);
                 return true;
             }
             catch

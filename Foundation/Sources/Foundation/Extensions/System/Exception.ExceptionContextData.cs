@@ -14,6 +14,7 @@ namespace SquaredInfinity.Extensions
         public string Key { get; internal set; }
         public object Value { get; internal set; }
         public string TargetSite { get; internal set; }
+        public string CallerMember { get; internal set; }
 
         public override string ToString()
         {
