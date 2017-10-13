@@ -51,6 +51,18 @@ namespace SquaredInfinity.Extensions
         }
 
         /// <summary>
+        /// this method included for back-compatibility
+        /// </summary>
+        [Obsolete("Remove in 3.0.0.0")]
+        public static bool TryAddContextData<T>(this Exception ex, string key, Func<T> getData) => ex.TryAddContextData(key, getData, "[unspecified]");
+
+        /// <summary>
+        /// this method included for back-compatibility
+        /// </summary>
+        [Obsolete("Remove in 3.0.0.0")]
+        public static bool TryAddContextData<T>(this Exception ex, string key, T data) => ex.TryAddContextData(key, data, "[unspecified");
+
+        /// <summary>
         /// Adds the specified context data to the exception.
         /// It's is safer to call it than to add data directly to Exception.Data dictionary.
         /// </summary>
