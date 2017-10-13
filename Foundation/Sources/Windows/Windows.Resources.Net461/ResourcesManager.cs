@@ -100,9 +100,18 @@ namespace SquaredInfinity.Windows.Resources
 
         public static void LoadAndMergeCompiledResourceDictionaryFromThisAssembly(string resourceDictionaryRelativeUri)
         {
-            string assemblyName = Assembly.GetCallingAssembly().FullName.Substring(@"[^\s,]*");
+            var assembly_name = "";
 
-            LoadAndMergeCompiledResourceDictionaryFromAssembly(assemblyName, resourceDictionaryRelativeUri);
+            try
+            {
+                assembly_name = Assembly.GetCallingAssembly().FullName.Substring(@"[^\s,]*");
+
+                LoadAndMergeCompiledResourceDictionaryFromAssembly(assembly_name, resourceDictionaryRelativeUri);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Unable to load resource '{resourceDictionaryRelativeUri}' from assembly '{assembly_name}'", ex);
+            }
         }
 
         #endregion
