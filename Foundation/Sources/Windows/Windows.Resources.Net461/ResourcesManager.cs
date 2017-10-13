@@ -37,11 +37,13 @@ namespace SquaredInfinity.Windows.Resources
 
         public static ResourceDictionary LoadCompiledResourceDictionaryFromThisAssembly(string resourceDictionaryRelativeUri)
         {
+            string assembly_name = string.Empty;
+
             try
             {
-                string assemblyName = Assembly.GetCallingAssembly().FullName.Substring(@"[^\s,]*");
+                assembly_name = Assembly.GetCallingAssembly().FullName.Substring(@"[^\s,]*");
 
-                var uri = new Uri($"{assemblyName};component/{resourceDictionaryRelativeUri}", UriKind.Relative);
+                var uri = new Uri($"{assembly_name};component/{resourceDictionaryRelativeUri}", UriKind.Relative);
 
                 var resourceDictionary = LoadCompiledResourceDictionary(uri);
 
@@ -49,7 +51,7 @@ namespace SquaredInfinity.Windows.Resources
             }
             catch(Exception ex)
             {
-                ex.TryAddContextData("Assembly Name", () => Assembly.GetCallingAssembly().FullName);
+                ex.TryAddContextData("Assembly Name", () => assembly_name);
                 ex.TryAddContextData("Uri", () => resourceDictionaryRelativeUri);
 
                 throw ex;
