@@ -92,8 +92,8 @@ namespace SquaredInfinity.Windows.Resources
             }
             catch (Exception ex)
             {
-                //ex.TryAddContextData("assemblyName", () => assemblyName);
-                //ex.TryAddContextData("resourceDictionaryRelativeUri", () => resourceDictionaryRelativeUri);
+                ex.TryAddContextData("assemblyName", () => assemblyName);
+                ex.TryAddContextData("resourceDictionaryRelativeUri", () => resourceDictionaryRelativeUri);
                 throw ex;
             }
         }
@@ -180,8 +180,8 @@ namespace SquaredInfinity.Windows.Resources
             }
             catch (Exception ex)
             {
-                //ex.TryAddContextData("assemblyName", () => assemblyName);
-                //ex.TryAddContextData("resourceDictionaryRelativeUri", () => resourceDictionaryRelativeUri);
+                ex.TryAddContextData("assemblyName", () => assemblyName);
+                ex.TryAddContextData("resourceDictionaryRelativeUri", () => resourceDictionaryRelativeUri);
                 throw ex;
             }
         }
