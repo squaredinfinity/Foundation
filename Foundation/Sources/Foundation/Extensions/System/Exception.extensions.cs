@@ -26,9 +26,21 @@ namespace SquaredInfinity.Extensions
             additionalExceptionData.Value = value;
 
             StackTrace stackTrace = new StackTrace(1);
-            var callerFrame = stackTrace.GetFrame(0);
-            var callingMethod = callerFrame.GetMethod();
-            additionalExceptionData.TargetSite = string.Format("{0}.{1}", callingMethod.DeclaringType.FullName, callingMethod.Name);
+
+            if (stackTrace != null)
+            {
+                var callerFrame = stackTrace.GetFrame(0);
+
+                if (callerFrame != null)
+                {
+                    var callingMethod = callerFrame.GetMethod();
+
+                    if (callingMethod != null)
+                    {
+                        additionalExceptionData.TargetSite = string.Format("{0}.{1}", callingMethod.DeclaringType.FullName, callingMethod.Name);
+                    }
+                }
+            }
 
             // use Guid as a key to avoid duplicates.
             // the orginal key will be later extracted from AdditionalExceptionData

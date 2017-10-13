@@ -14,5 +14,16 @@ namespace SquaredInfinity.Extensions
         public string Key { get; internal set; }
         public object Value { get; internal set; }
         public string TargetSite { get; internal set; }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine("Target Site\t=\t" + TargetSite ?? string.Empty);
+            sb.AppendLine("Key\t=\t" + Key ?? string.Empty);
+            sb.AppendLine("Value\t=\t" + Value ?? string.Empty);
+
+            return sb.ToString();
+        }
     }
 }
