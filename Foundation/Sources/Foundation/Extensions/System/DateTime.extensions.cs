@@ -49,5 +49,18 @@ namespace SquaredInfinity.Extensions
         {
             return dt.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
         }
+
+        /// <summary>
+        /// Returns elapsed time between specified DateTime and Now.
+        /// Takes into account Kind of specified Date Time (e.g. Local vs UTC)
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public static TimeSpan ElapsedToNow(this DateTime dt)
+        {
+            if (dt.Kind == DateTimeKind.Local)
+                return DateTime.Now - dt;
+            else return DateTime.UtcNow - dt;
+        }
     }
 }
