@@ -14,10 +14,18 @@ namespace SquaredInfinity.Disposables
     /// </summary>
     public abstract class DisposableObject : IDisposable
     {
+        /// <summary>
+        /// Collection of disposables which will be disposed when this instance disposes.
+        /// </summary>
         protected CompositeDisposable Disposables { get; } = new CompositeDisposable();
 
         // NOTE: this does not need to be volatile because Interlocked.CompareExchange is used when accessed.
-        int IsDisposed = 0;
+        int _isDisposed = 0;
+        /// <summary>
+        /// True if this instance has been disposed, false otherwise
+        /// </summary>
+        public bool IsDisposed => _isDisposed == 1;
+
 
         public void Dispose()
         {
@@ -28,7 +36,7 @@ namespace SquaredInfinity.Disposables
             // The object must not throw an exception if its Dispose method is called multiple times. 
             // Instance methods other than Dispose can throw an ObjectDisposedException when resources are already disposed.
 
-            if (Interlocked.CompareExchange(ref IsDisposed, 1, 0) == 1)
+            if (Interlocked.CompareExchange(ref _isDisposed, 1, 0) == 1)
                 return;
 
             DisposeManagedResources();
@@ -40,17 +48,21 @@ namespace SquaredInfinity.Disposables
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Disposes managed resources
+        /// </summary>
         protected virtual void DisposeManagedResources()
         { }
 
+        /// <summary>
+        /// Disposes unmanaged resources
+        /// </summary>
         protected virtual void DisposeUnmanagedResources()
         { }
 
         //  NOTE: 
         //  Finalizer not to be added to this type
         //~DisposableObject() { }
-
-
 
         /// <summary>
         /// Creates a disposable object which invokes specified action when disposed.
